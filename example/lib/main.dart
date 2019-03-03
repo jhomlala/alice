@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:alice/alice.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
-import 'package:alice/alice.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -47,32 +48,29 @@ class _MyAppState extends State<MyApp> {
 
   void _onPressed() async {
 
-    //http.Request req;
 
-
-
-    http.Response response =  await http.get('https://google.com');
+    /*http.Response response =  await http.get('https://google.com');
     print(response.request.url.toString());
-    alice.onHttpResponse(response);
+    var body = {"aaa":"bbb"};
+    alice.onHttpResponse(response,body: body);*/
 
 
-    /*HttpClient http = HttpClient();
+    HttpClient http = HttpClient();
     try {
       // Use darts Uri builder
-      var uri = Uri.parse("http://googlfsdkmjfke.com");
+      var uri = Uri.parse("http://google.com");
       var request = await http.getUrl(uri);
-      print("Request???");
-      alice.onRequest(request);
+      alice.onHttpClientRequest(request);
       var response = await request.close();
       var responseBody = await response.transform(utf8.decoder).join();
-      alice.onResponse(response,request, body: responseBody);
+      alice.onHttpClientResponse(response,request, body: responseBody);
 
       // The dog.ceo API returns a JSON object with a property
       // called 'message', which actually is the URL.
     } catch (exception) {
       print(exception);
       print(exception.runtimeType.toString());
-    }*/
+    }
 
 
 

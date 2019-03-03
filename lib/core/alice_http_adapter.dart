@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:alice/alice_core.dart';
+import 'package:alice/core/alice_core.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
@@ -24,9 +24,15 @@ class AliceHttpAdapter{
 
     AliceHttpCall call = AliceHttpCall(response.request.hashCode);
     call.loading = true;
-    call.client = "HttpClient (io package)";
+    call.client = "HttpClient (http package)";
     call.method = request.method;
-    call.endpoint = request.url.path;
+    var path = request.url.path;
+    if (path == null || path.length == 0) {
+      path = "/";
+    }
+    call.endpoint = path;
+
+
     call.server = request.url.host;
     if (request.url.scheme == "https") {
       call.secure = true;

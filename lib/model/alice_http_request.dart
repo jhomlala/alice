@@ -4,7 +4,7 @@ class AliceHttpRequest {
   int size = 0;
   DateTime time = DateTime.now();
   Map<String, dynamic> headers = Map();
-  String body = "";
+  dynamic body = "";
   String contentType = "";
   List<Cookie> cookies = List();
 }

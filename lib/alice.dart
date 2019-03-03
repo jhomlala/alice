@@ -1,9 +1,9 @@
 import 'dart:io';
-import 'package:alice/alice_http_adapter.dart';
+import 'package:alice/core/alice_http_adapter.dart';
 import 'package:http/http.dart' as http;
-import 'package:alice/alice_core.dart';
-import 'package:alice/alice_dio_interceptor.dart';
-import 'package:alice/alice_http_client_adapter.dart';
+import 'package:alice/core/alice_core.dart';
+import 'package:alice/core/alice_dio_interceptor.dart';
+import 'package:alice/core/alice_http_client_adapter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -29,14 +29,12 @@ class Alice {
   }
 
   void onHttpClientRequest(HttpClientRequest request, {dynamic body}) {
-    print("Request: " + request.hashCode.toString());
     _httpClientAdapter.onRequest(request, body: body);
   }
 
   void onHttpClientResponse(
       HttpClientResponse response, HttpClientRequest request,
       {dynamic body}) {
-    print("Response: " + response.hashCode.toString());
     _httpClientAdapter.onResponse(response, request, body: body);
   }
 

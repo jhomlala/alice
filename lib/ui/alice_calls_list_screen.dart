@@ -1,5 +1,5 @@
-import 'package:alice/alice_call_details_screen.dart';
-import 'package:alice/alice_core.dart';
+import 'package:alice/ui/alice_call_details_screen.dart';
+import 'package:alice/core/alice_core.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:flutter/material.dart';

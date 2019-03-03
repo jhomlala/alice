@@ -1,4 +1,4 @@
-import 'package:alice/alice_calls_list_screen.dart';
+import 'package:alice/ui/alice_calls_list_screen.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
