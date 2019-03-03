@@ -19,6 +19,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Scaffold(
             appBar: AppBar(
               title: Text("Alice"),
