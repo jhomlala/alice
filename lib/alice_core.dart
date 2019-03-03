@@ -1,0 +1,99 @@
+import 'package:alice/alice_calls_list_screen.dart';
+import 'package:alice/model/alice_http_call.dart';
+import 'package:alice/model/alice_http_request.dart';
+import 'package:alice/model/alice_http_response.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/navigator.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:rxdart/rxdart.dart';
+
+class AliceCore {
+  FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
+  GlobalKey<NavigatorState> _navigatorKey;
+
+  List<AliceHttpCall> calls;
+  PublishSubject<int> changesSubject;
+  PublishSubject<AliceHttpCall> callUpdateSubject;
+
+  AliceCore(GlobalKey<NavigatorState> navigatorKey) {
+    _navigatorKey = navigatorKey;
+    calls = List();
+    changesSubject = PublishSubject();
+    callUpdateSubject = PublishSubject();
+    _initializeNotificationsPlugin();
+  }
+
+  dispose() {
+    changesSubject.close();
+    callUpdateSubject.close();
+  }
+
+  void _initializeNotificationsPlugin() {
+    _flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    var initializationSettingsAndroid =
+        new AndroidInitializationSettings("@mipmap/ic_launcher");
+    var initializationSettingsIOS = new IOSInitializationSettings();
+    var initializationSettings = new InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOS);
+    _flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: _onSelectedNotification);
+  }
+
+  Future _onSelectedNotification(String payload) {
+    Navigator.push(
+      getContext(),
+      MaterialPageRoute(builder: (context) => AliceCallsListScreen(this)),
+    );
+    return Future.sync(() {});
+  }
+
+  BuildContext getContext() {
+    return _navigatorKey.currentState.overlay.context;
+  }
+
+  void _showNotification() async {
+    print("show notification");
+    var channelId = "Alice";
+    var channelName = "Alice";
+    var channelDescription = "Alice";
+    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+        channelId, channelName, channelDescription,
+        importance: Importance.Default, priority: Priority.Default);
+    var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+    var platformChannelSpecifics = new NotificationDetails(
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+
+    await _flutterLocalNotificationsPlugin.show(
+        0, "Alice", "HTTP Requests: ${calls.length}", platformChannelSpecifics,
+        payload: "");
+  }
+
+  void addCall(AliceHttpCall call) {
+    calls.add(call);
+    _showNotification();
+  }
+
+  void addResponse(AliceHttpResponse response, int requestId) {
+    AliceHttpCall selectedCall;
+    calls.forEach((call) {
+      if (call.id == requestId) {
+        selectedCall = call;
+      }
+    });
+
+    if (selectedCall == null) {
+      print("Selected call is null");
+      return;
+    }
+    selectedCall.loading = false;
+    selectedCall.response = response;
+    selectedCall.duration = response.time.millisecondsSinceEpoch -
+        selectedCall.request.time.millisecondsSinceEpoch;
+
+    changesSubject.sink.add(requestId);
+    callUpdateSubject.sink.add(selectedCall);
+  }
+
+
+}
