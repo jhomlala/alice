@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> {
     alice.onHttpResponse(response,body: body);*/
 
 
-    HttpClient http = HttpClient();
+    /*HttpClient http = HttpClient();
     try {
       // Use darts Uri builder
       var uri = Uri.parse("http://google.com");
@@ -70,14 +70,17 @@ class _MyAppState extends State<MyApp> {
     } catch (exception) {
       print(exception);
       print(exception.runtimeType.toString());
-    }
+    }*/
 
 
 
     //http.get("http://wykop.pl")
-    //dio.get("https://my-json-server.typicode.com/typicode/demo/posts");
+    dio.get("https://my-json-server.typicode.com/typicode/demo/posts");
     //dio.get("https://httpstat.us/404");
-    //dio.get("http://slowwly.robertomurray.co.uk/delay/10000/url/http://www.google.co.uk");
+    dio.get("http://slowwly.robertomurray.co.uk/delay/10000/url/http://www.google.co.uk");
+    dio.get("https://thispersondoesnofsdfsdfdsfsdfsdfdsfsdfsdfsdfsdftexist.com/");
+
+
     //startTimeout();
   }
 

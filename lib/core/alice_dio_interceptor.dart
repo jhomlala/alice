@@ -49,6 +49,7 @@ class AliceDioInterceptor extends InterceptorsWrapper {
   @override
   onResponse(Response response) {
     var httpResponse = AliceHttpResponse();
+
     httpResponse.status = response.statusCode;
     httpResponse.body = response.data;
     httpResponse.size = utf8.encode(response.data.toString()).length;
@@ -64,17 +65,27 @@ class AliceDioInterceptor extends InterceptorsWrapper {
 
   @override
   onError(DioError err) {
+    print("Error  !");
+
     var httpResponse = AliceHttpResponse();
-    httpResponse.status = err.response.statusCode;
-    httpResponse.body = err.response.data;
-    httpResponse.size = utf8.encode(err.response.data.toString()).length;
     httpResponse.time = DateTime.now();
-    Map<String, String> headers = Map();
-    err.response.headers.forEach((header, values) {
-      headers[header] = values.toString();
-    });
-    httpResponse.headers = headers;
-    _aliceCore.addResponse(httpResponse, err.response.request.hashCode);
+    if (err.response == null) {
+      httpResponse.status = 0;
+      _aliceCore.addResponse(httpResponse, err.request.hashCode);
+    } else {
+      httpResponse.status = err.response.statusCode;
+      httpResponse.body = err.response.data;
+      httpResponse.size = utf8.encode(err.response.data.toString()).length;
+      Map<String, String> headers = Map();
+      err.response.headers.forEach((header, values) {
+        headers[header] = values.toString();
+      });
+      httpResponse.headers = headers;
+      _aliceCore.addResponse(httpResponse, err.response.request.hashCode);
+    }
+
+
+
     return super.onError(err);
   }
 }

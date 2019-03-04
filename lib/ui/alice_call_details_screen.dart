@@ -51,7 +51,7 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen> {
                   ]),
                 ],
               ),
-              title: Text('Alice'),
+              title: Text('Alice - HTTP Inspector'),
             ),
             body: _getTabBarView()),
       ),
@@ -158,7 +158,8 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen> {
               child: Text(
                 value,
                 overflow: TextOverflow.clip,
-              ))
+              )),
+          Padding(padding: EdgeInsets.only(bottom: 18),)
         ]);
   }
 
