@@ -16,26 +16,26 @@ class AliceCallsListScreen extends StatefulWidget {
 class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-            appBar: AppBar(
-              title: Text("Alice - HTTP Inspector"),
-              actions: [IconButton(
-                icon: Icon(Icons.restore_from_trash),
-                onPressed: () {
-                  _removeCalls();
-                },
-              )],
-            ),
-            body: getCallsList()));
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Alice - HTTP Inspector"),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.restore_from_trash),
+              onPressed: () {
+                _removeCalls();
+              },
+            )
+          ],
+        ),
+        body: getCallsList());
   }
 
   Widget getCallsList() {
     return StreamBuilder(
         stream: widget._aliceCore.changesSubject.stream,
         builder: (context, AsyncSnapshot<int> snapshot) {
-          if (widget._aliceCore.calls.length == 0){
+          if (widget._aliceCore.calls.length == 0) {
             return Center(child: Text("There is no calls to show"));
           } else {
             return ListView(
@@ -64,9 +64,10 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Flexible(child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                    Flexible(
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
                           Row(children: [
                             Text(call.method,
                                 style: TextStyle(
@@ -88,8 +89,10 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
                           Text(call.server,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
-                              style:
-                                  TextStyle(fontSize: 14, color: Colors.black, )),
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.black,
+                              )),
                           Padding(
                             padding: EdgeInsets.only(top: 5),
                           ),
@@ -123,7 +126,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   }
 
   String getStatus(AliceHttpResponse response) {
-    if (response.status == -1){
+    if (response.status == -1) {
       return "ERR";
     } else if (response.status == 0) {
       return "???";
@@ -157,7 +160,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   }
 
   Color _getStatusTextColor(int status) {
-    if (status == -1){
+    if (status == -1) {
       return Colors.red;
     } else if (status < 200) {
       return Colors.black;
