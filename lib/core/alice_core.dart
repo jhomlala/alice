@@ -83,12 +83,7 @@ class AliceCore {
   }
 
   void addError(AliceHttpError error, int requestId) {
-    AliceHttpCall selectedCall;
-    calls.forEach((call) {
-      if (call.id == requestId) {
-        selectedCall = call;
-      }
-    });
+    AliceHttpCall selectedCall = _selectCall(requestId);
 
     if (selectedCall == null) {
       print("Selected call is null");
@@ -101,12 +96,7 @@ class AliceCore {
   }
 
   void addResponse(AliceHttpResponse response, int requestId) {
-    AliceHttpCall selectedCall;
-    calls.forEach((call) {
-      if (call.id == requestId) {
-        selectedCall = call;
-      }
-    });
+    AliceHttpCall selectedCall = _selectCall(requestId);
 
     if (selectedCall == null) {
       print("Selected call is null");
@@ -124,6 +114,16 @@ class AliceCore {
   void removeCalls() {
     calls = List();
     changesSubject.sink.add(0);
+  }
+
+  AliceHttpCall _selectCall(int requestId){
+    AliceHttpCall requestedCall;
+    calls.forEach((call) {
+      if (call.id == requestId) {
+        requestedCall = call;
+      }
+    });
+    return requestedCall;
   }
 
 }
