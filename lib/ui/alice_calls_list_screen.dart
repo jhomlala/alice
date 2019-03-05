@@ -5,11 +5,9 @@ import 'package:alice/model/alice_http_response.dart';
 import 'package:flutter/material.dart';
 
 class AliceCallsListScreen extends StatefulWidget {
-  AliceCore _aliceCore;
+  final AliceCore _aliceCore;
 
-  AliceCallsListScreen(AliceCore aliceCore) {
-    _aliceCore = aliceCore;
-  }
+  AliceCallsListScreen(this._aliceCore);
 
   @override
   _AliceCallsListScreenState createState() => _AliceCallsListScreenState();
@@ -23,6 +21,12 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
         home: Scaffold(
             appBar: AppBar(
               title: Text("Alice - HTTP Inspector"),
+              actions: [IconButton(
+                icon: Icon(Icons.restore_from_trash),
+                onPressed: () {
+                  _removeCalls();
+                },
+              )],
             ),
             body: getCallsList()));
   }
@@ -31,11 +35,13 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
     return StreamBuilder(
         stream: widget._aliceCore.changesSubject.stream,
         builder: (context, AsyncSnapshot<int> snapshot) {
-          print("Refreshing list... " +
-              widget._aliceCore.calls.length.toString());
-          return ListView(
-            children: _getListElements(),
-          );
+          if (widget._aliceCore.calls.length == 0){
+            return Center(child: Text("There is no calls to show"));
+          } else {
+            return ListView(
+              children: _getListElements(),
+            );
+          }
         });
   }
 
@@ -164,5 +170,10 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
     } else {
       return Colors.black;
     }
+  }
+
+  void _removeCalls() {
+    print("Remove calls");
+    widget._aliceCore.removeCalls();
   }
 }

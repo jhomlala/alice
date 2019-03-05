@@ -114,5 +114,10 @@ class AliceCore {
     callUpdateSubject.sink.add(selectedCall);
   }
 
+  void removeCalls(){
+    calls = List();
+    changesSubject.sink.add(0);
+  }
+
 
 }
