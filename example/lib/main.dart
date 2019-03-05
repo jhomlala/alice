@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
   Dio dio;
   @override
   void initState() {
-    alice = Alice();
+    alice = Alice(showNotification: true);
     dio = Dio();
     dio.interceptors.add(alice.getDioInterceptor());
     super.initState();

@@ -1,28 +1,28 @@
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/ui/alice_calls_list_screen.dart';
 import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/navigator.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:rxdart/rxdart.dart';
 
 class AliceCore {
   FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
   GlobalKey<NavigatorState> _navigatorKey;
+  bool _showNotification = false;
 
   List<AliceHttpCall> calls;
   PublishSubject<int> changesSubject;
   PublishSubject<AliceHttpCall> callUpdateSubject;
 
-  AliceCore(GlobalKey<NavigatorState> navigatorKey) {
+
+  AliceCore(GlobalKey<NavigatorState> navigatorKey, bool showNotification) {
     _navigatorKey = navigatorKey;
     calls = List();
     changesSubject = PublishSubject();
     callUpdateSubject = PublishSubject();
     _initializeNotificationsPlugin();
+    _showNotification = showNotification;
   }
 
   dispose() {
@@ -53,14 +53,15 @@ class AliceCore {
     return _navigatorKey.currentState.overlay.context;
   }
 
-  void _showNotification() async {
-    print("show notification");
+  void _showLocalNotification() async {
     var channelId = "Alice";
     var channelName = "Alice";
     var channelDescription = "Alice";
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
         channelId, channelName, channelDescription,
-        importance: Importance.Default, priority: Priority.Default);
+        enableVibration: false,
+        importance: Importance.Default,
+        priority: Priority.Default);
     var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
     var platformChannelSpecifics = new NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
@@ -72,10 +73,12 @@ class AliceCore {
 
   void addCall(AliceHttpCall call) {
     calls.add(call);
-    _showNotification();
+    if (_showNotification) {
+      _showLocalNotification();
+    }
   }
 
-  void addError(AliceHttpError error, int requestId){
+  void addError(AliceHttpError error, int requestId) {
     AliceHttpCall selectedCall;
     calls.forEach((call) {
       if (call.id == requestId) {
@@ -114,10 +117,9 @@ class AliceCore {
     callUpdateSubject.sink.add(selectedCall);
   }
 
-  void removeCalls(){
+  void removeCalls() {
     calls = List();
     changesSubject.sink.add(0);
   }
-
 
 }
