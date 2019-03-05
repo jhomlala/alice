@@ -42,4 +42,8 @@ class Alice {
   void onHttpResponse(http.Response response, {dynamic body}) {
     _httpAdapter.onResponse(response, body: body);
   }
+
+  void showInspector(){
+    _core.navigateToCallListScreen();
+  }
 }

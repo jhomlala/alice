@@ -17,7 +17,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
+
   Alice alice;
   Dio dio;
   @override
@@ -59,8 +59,9 @@ class _MyAppState extends State<MyApp> {
     /*HttpClient http = HttpClient();
     try {
       // Use darts Uri builder
-      var uri = Uri.parse("http://google.com");
+      var uri = Uri.parse("http://gosfdsfdogle.com");
       var request = await http.getUrl(uri);
+
       alice.onHttpClientRequest(request);
       var response = await request.close();
       var responseBody = await response.transform(utf8.decoder).join();
@@ -82,10 +83,11 @@ class _MyAppState extends State<MyApp> {
     dio.get("https://thispersondoesnofsdfsdfdsfsdfsdfdsfsdfsdfsdfsdftexist.com/sdfsdfdsf/sdfsdfdsfs/fsdfsdfsdfsf/sdfsdfsdfsdf/sdfsdfsdfdsf/sdfsdf");
 
 
-    //startTimeout();
+    startTimeout();
   }
 
   startTimeout() {
+    print("Start timeout");
     var duration = Duration(seconds: 5);
     return new Timer(duration, handleTimeout);
   }

@@ -42,11 +42,15 @@ class AliceCore {
   }
 
   Future _onSelectedNotification(String payload) {
+    navigateToCallListScreen();
+    return Future.sync(() {});
+  }
+
+  void navigateToCallListScreen(){
     Navigator.push(
       getContext(),
       MaterialPageRoute(builder: (context) => AliceCallsListScreen(this)),
     );
-    return Future.sync(() {});
   }
 
   BuildContext getContext() {

@@ -90,8 +90,6 @@ class AliceDioInterceptor extends InterceptorsWrapper {
       _aliceCore.addResponse(httpResponse, err.response.request.hashCode);
     }
 
-
-
     return super.onError(err);
   }
 }
