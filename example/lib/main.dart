@@ -78,7 +78,7 @@ class _MyAppState extends State<MyApp> {
     dio.get("https://my-json-server.typicode.com/typicode/demo/posts");
     //dio.get("https://httpstat.us/404");
     dio.get("http://slowwly.robertomurray.co.uk/delay/10000/url/http://www.google.co.uk");
-    dio.get("https://thispersondoesnofsdfsdfdsfsdfsdfdsfsdfsdfsdfsdftexist.com/");
+    dio.get("https://thispersondoesnofsdfsdfdsfsdfsdfdsfsdfsdfsdfsdftexist.com/sdfsdfdsf/sdfsdfdsfs/fsdfsdfsdfsf/sdfsdfsdfsdf/sdfsdfsdfdsf/sdfsdf");
 
 
     //startTimeout();

@@ -1,3 +1,4 @@
+import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
 
@@ -13,6 +14,7 @@ class AliceHttpCall{
 
   AliceHttpRequest request;
   AliceHttpResponse response;
+  AliceHttpError error;
 
   AliceHttpCall(this.id){
     loading = true;

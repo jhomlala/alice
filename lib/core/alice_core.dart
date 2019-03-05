@@ -1,3 +1,4 @@
+import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/ui/alice_calls_list_screen.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_request.dart';
@@ -72,6 +73,24 @@ class AliceCore {
   void addCall(AliceHttpCall call) {
     calls.add(call);
     _showNotification();
+  }
+
+  void addError(AliceHttpError error, int requestId){
+    AliceHttpCall selectedCall;
+    calls.forEach((call) {
+      if (call.id == requestId) {
+        selectedCall = call;
+      }
+    });
+
+    if (selectedCall == null) {
+      print("Selected call is null");
+      return;
+    }
+
+    selectedCall.error = error;
+    changesSubject.sink.add(requestId);
+    callUpdateSubject.sink.add(selectedCall);
   }
 
   void addResponse(AliceHttpResponse response, int requestId) {

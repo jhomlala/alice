@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/model/alice_http_call.dart';
+import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:dio/dio.dart';
@@ -24,6 +25,7 @@ class AliceDioInterceptor extends InterceptorsWrapper {
     if (uri.scheme == "https") {
       call.secure = true;
     }
+
 
     AliceHttpRequest request = AliceHttpRequest();
 
@@ -65,12 +67,16 @@ class AliceDioInterceptor extends InterceptorsWrapper {
 
   @override
   onError(DioError err) {
-    print("Error  !");
+    var httpError = AliceHttpError();
+    httpError.error = err.error;
+    httpError.stackTrace = err.stackTrace;
+    _aliceCore.addError(httpError, err.request.hashCode);
 
     var httpResponse = AliceHttpResponse();
     httpResponse.time = DateTime.now();
     if (err.response == null) {
-      httpResponse.status = 0;
+      print("Error response is null");
+      httpResponse.status = -1;
       _aliceCore.addResponse(httpResponse, err.request.hashCode);
     } else {
       httpResponse.status = err.response.statusCode;

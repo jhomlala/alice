@@ -80,8 +80,10 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
                             padding: EdgeInsets.only(top: 5),
                           ),
                           Text(call.server,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
                               style:
-                                  TextStyle(fontSize: 14, color: Colors.black)),
+                                  TextStyle(fontSize: 14, color: Colors.black, )),
                           Padding(
                             padding: EdgeInsets.only(top: 5),
                           ),
@@ -115,7 +117,9 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   }
 
   String getStatus(AliceHttpResponse response) {
-    if (response.status == 0) {
+    if (response.status == -1){
+      return "ERR";
+    } else if (response.status == 0) {
       return "???";
     } else {
       return "${response.status}";
@@ -147,7 +151,9 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   }
 
   Color _getStatusTextColor(int status) {
-    if (status < 200) {
+    if (status == -1){
+      return Colors.red;
+    } else if (status < 200) {
       return Colors.black;
     } else if (status >= 200 && status < 300) {
       return Colors.green;
