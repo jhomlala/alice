@@ -5,8 +5,6 @@ import 'package:http/http.dart' as http;
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'package:flutter/services.dart';
 
 void main() => runApp(MyApp());
 
@@ -55,84 +53,103 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _runHttpRequests() async {
-    Map<String,dynamic> body = {"title": "foo", "body": "bar", "userId": "1"};
-    http.Response response =
-        await http.post('https://jsonplaceholder.typicode.com/posts', body: body);
-    alice.onHttpResponse(response, body: body);
+    Map<String, dynamic> body = {"title": "foo", "body": "bar", "userId": "1"};
+    http
+        .post('https://jsonplaceholder.typicode.com/posts', body: body)
+        .then((response) {
+      alice.onHttpResponse(response, body: body);
+    });
 
+    http.get('https://jsonplaceholder.typicode.com/posts').then((response) {
+      alice.onHttpResponse(response);
+    });
 
-    response =
-    await http.get('https://jsonplaceholder.typicode.com/posts');
-    alice.onHttpResponse(response);
+    http
+        .put('https://jsonplaceholder.typicode.com/posts/1', body: body)
+        .then((response) {
+      alice.onHttpResponse(response, body: body);
+    });
 
-    response =
-    await http.put('https://jsonplaceholder.typicode.com/posts/1',body:body);
-    alice.onHttpResponse(response,body:body);
+    http
+        .patch('https://jsonplaceholder.typicode.com/posts/1', body: body)
+        .then((response) {
+      alice.onHttpResponse(response, body: body);
+    });
 
-    response =
-    await http.patch('https://jsonplaceholder.typicode.com/posts/1',body:body);
-    alice.onHttpResponse(response, body: body);
+    http
+        .delete('https://jsonplaceholder.typicode.com/posts/1')
+        .then((response) {
+      alice.onHttpResponse(response);
+    });
 
-    response =
-    await http.delete('https://jsonplaceholder.typicode.com/posts/1');
-    alice.onHttpResponse(response);
+    http.get('https://jsonplaceholder.typicode.com/test/test').then((response) {
+      alice.onHttpResponse(response);
+    });
 
-    response =
-    await http.get('https://jsonplaceholder.typicode.com/test/test');
-    alice.onHttpResponse(response);
+    httpClient
+        .postUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts"))
+        .then((request) async {
+      alice.onHttpClientRequest(request, body: body);
+      request.write(body);
+      var httpResponse = await request.close();
+      var responseBody = await httpResponse.transform(utf8.decoder).join();
+      alice.onHttpClientResponse(httpResponse, request, body: responseBody);
+    });
 
+    httpClient
+        .getUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts"))
+        .then((request) async {
+      alice.onHttpClientRequest(request);
+      var httpResponse = await request.close();
+      var responseBody = await httpResponse.transform(utf8.decoder).join();
+      alice.onHttpClientResponse(httpResponse, request, body: responseBody);
+    });
 
+    httpClient
+        .putUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts/1"))
+        .then((request) async {
+      alice.onHttpClientRequest(request, body: body);
+      request.write(body);
+      var httpResponse = await request.close();
+      var responseBody = await httpResponse.transform(utf8.decoder).join();
+      alice.onHttpClientResponse(httpResponse, request, body: responseBody);
+    });
 
-    var request = await httpClient.postUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts"));
-    request.write(body);
-    alice.onHttpClientRequest(request,body:body);
-    var httpResponse = await request.close();
-    var responseBody = await httpResponse.transform(utf8.decoder).join();
-    alice.onHttpClientResponse(httpResponse,request, body: responseBody);
+    httpClient
+        .patchUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts/1"))
+        .then((request) async {
+      alice.onHttpClientRequest(request, body: body);
+      request.write(body);
+      var httpResponse = await request.close();
+      var responseBody = await httpResponse.transform(utf8.decoder).join();
+      alice.onHttpClientResponse(httpResponse, request, body: responseBody);
+    });
 
-    request = await httpClient.getUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts"));
-    alice.onHttpClientRequest(request);
-    httpResponse = await request.close();
-    responseBody = await httpResponse.transform(utf8.decoder).join();
-    alice.onHttpClientResponse(httpResponse,request, body: responseBody);
+    httpClient
+        .deleteUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts/1"))
+        .then((request) async {
+      alice.onHttpClientRequest(request);
+      var httpResponse = await request.close();
+      var responseBody = await httpResponse.transform(utf8.decoder).join();
+      alice.onHttpClientResponse(httpResponse, request, body: responseBody);
+    });
 
-    request = await httpClient.putUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts/1"));
-    request.write(body);
-    alice.onHttpClientRequest(request,body:body);
-    httpResponse = await request.close();
-    responseBody = await httpResponse.transform(utf8.decoder).join();
-    alice.onHttpClientResponse(httpResponse,request, body: responseBody);
+    httpClient
+        .getUrl(Uri.parse("https://jsonplaceholder.typicode.com/test/test/"))
+        .then((request) async {
+      alice.onHttpClientRequest(request);
+      var httpResponse = await request.close();
+      var responseBody = await httpResponse.transform(utf8.decoder).join();
+      alice.onHttpClientResponse(httpResponse, request, body: responseBody);
+    });
 
-
-    request = await httpClient.patchUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts/1"));
-    request.write(body);
-    alice.onHttpClientRequest(request,body:body);
-    httpResponse = await request.close();
-    responseBody = await httpResponse.transform(utf8.decoder).join();
-    alice.onHttpClientResponse(httpResponse,request, body: responseBody);
-
-
-    request = await httpClient.deleteUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts/1"));
-    alice.onHttpClientRequest(request);
-    httpResponse = await request.close();
-    responseBody = await httpResponse.transform(utf8.decoder).join();
-    alice.onHttpClientResponse(httpResponse,request, body: responseBody);
-
-    request = await httpClient.getUrl(Uri.parse("https://jsonplaceholder.typicode.com/test/test"));
-    alice.onHttpClientRequest(request);
-    httpResponse = await request.close();
-    responseBody = await httpResponse.transform(utf8.decoder).join();
-    alice.onHttpClientResponse(httpResponse,request, body: responseBody);
-
-    dio.post("https://jsonplaceholder.typicode.com/posts",data:body);
+    dio.post("https://jsonplaceholder.typicode.com/posts", data: body);
     dio.get("https://jsonplaceholder.typicode.com/posts");
-    dio.put("https://jsonplaceholder.typicode.com/posts/1",data:body);
-    dio.put("https://jsonplaceholder.typicode.com/posts/1",data:body);
+    dio.put("https://jsonplaceholder.typicode.com/posts/1", data: body);
+    dio.put("https://jsonplaceholder.typicode.com/posts/1", data: body);
     dio.delete("https://jsonplaceholder.typicode.com/posts/1");
     dio.get("https://jsonplaceholder.typicode.com/test/test");
-
   }
-  
 
   void _runHttpInspector() {
     alice.showInspector();
