@@ -17,15 +17,20 @@ class AliceDioInterceptor extends InterceptorsWrapper {
   @override
   onRequest(RequestOptions options) {
     AliceHttpCall call = new AliceHttpCall(options.hashCode);
+
     Uri uri = options.uri;
     call.method = options.method;
-    call.endpoint = uri.path;
+    var path = options.uri.path;
+    if (path == null || path.length == 0) {
+      path = "/";
+    }
+    call.endpoint = path;
     call.server = uri.host;
     call.client = "Dio";
+
     if (uri.scheme == "https") {
       call.secure = true;
     }
-
 
     AliceHttpRequest request = AliceHttpRequest();
 
@@ -51,16 +56,25 @@ class AliceDioInterceptor extends InterceptorsWrapper {
   @override
   onResponse(Response response) {
     var httpResponse = AliceHttpResponse();
-
     httpResponse.status = response.statusCode;
-    httpResponse.body = response.data;
-    httpResponse.size = utf8.encode(response.data.toString()).length;
+
+    if (response.data == null) {
+      httpResponse.body = "";
+      httpResponse.size = 0;
+    } else {
+      httpResponse.body = response.data;
+      httpResponse.size = utf8.encode(response.data.toString()).length;
+    }
+
     httpResponse.time = DateTime.now();
     Map<String, String> headers = Map();
-    response.headers.forEach((header, values) {
-      headers[header] = values.toString();
-    });
+    if (response.headers != null) {
+      response.headers.forEach((header, values) {
+        headers[header] = values.toString();
+      });
+    }
     httpResponse.headers = headers;
+
     _aliceCore.addResponse(httpResponse, response.request.hashCode);
     return super.onResponse(response);
   }
@@ -75,17 +89,24 @@ class AliceDioInterceptor extends InterceptorsWrapper {
     var httpResponse = AliceHttpResponse();
     httpResponse.time = DateTime.now();
     if (err.response == null) {
-      print("Error response is null");
       httpResponse.status = -1;
       _aliceCore.addResponse(httpResponse, err.request.hashCode);
     } else {
       httpResponse.status = err.response.statusCode;
-      httpResponse.body = err.response.data;
-      httpResponse.size = utf8.encode(err.response.data.toString()).length;
+
+      if (err.response.data == null) {
+        httpResponse.body = "";
+        httpResponse.size = 0;
+      } else {
+        httpResponse.body = err.response.data;
+        httpResponse.size = utf8.encode(err.response.data.toString()).length;
+      }
       Map<String, String> headers = Map();
-      err.response.headers.forEach((header, values) {
-        headers[header] = values.toString();
-      });
+      if (err.response.headers != null) {
+        err.response.headers.forEach((header, values) {
+          headers[header] = values.toString();
+        });
+      }
       httpResponse.headers = headers;
       _aliceCore.addResponse(httpResponse, err.response.request.hashCode);
     }

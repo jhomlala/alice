@@ -13,7 +13,6 @@ class AliceHttpClientAdapter {
 
   void onRequest(HttpClientRequest request, {dynamic body}) {
     if (request == null) {
-      print("Can't prcess null HttpClientRequest");
       return;
     }
     AliceHttpCall call = AliceHttpCall(request.hashCode);
@@ -22,7 +21,7 @@ class AliceHttpClientAdapter {
     call.method = request.method;
 
     var path = request.uri.path;
-    if (path == null || path.length == 0){
+    if (path == null || path.length == 0) {
       path = "/";
     }
 
@@ -62,11 +61,9 @@ class AliceHttpClientAdapter {
   void onResponse(HttpClientResponse response, HttpClientRequest request,
       {dynamic body}) async {
     if (response == null) {
-      print("Can't process null HttpClientResponse");
       return;
     }
     if (request == null) {
-      print("Can't prcess null HttpClientRequest");
       return;
     }
     AliceHttpResponse httpResponse = AliceHttpResponse();

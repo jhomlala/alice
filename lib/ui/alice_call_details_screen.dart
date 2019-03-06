@@ -126,15 +126,9 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
       }
 
       rows.add(_getListRow("Status:", statusText));
-
-      var body = widget.call.response.body;
-      var bodyContent = "Body is empty";
-      if (body != null && body.length > 0) {
-        bodyContent = _encoder.convert(widget.call.response.body);
-      }
-      rows.add(_getListRow("Body:", bodyContent));
-
       var headers = widget.call.response.headers;
+      var bodyContent = formatBody(widget.call.response.body, getContentType(headers));
+      rows.add(_getListRow("Body:", bodyContent));
       var headersContent = "Headers are empty";
       if (headers != null && headers.length > 0) {
         headersContent = "";
@@ -212,4 +206,36 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
   String formatDuration(int duration) {
     return "$duration ms";
   }
+
+  String formatBody(dynamic body, String contentType){
+    var bodyContent = "Body is empty";
+    if (body != null) {
+      if (contentType == null ||
+          !contentType.toLowerCase().contains("application/json")) {
+        return body.toString();
+      } else {
+        if (body is String && body.contains("\n")) {
+          bodyContent = body;
+        } else {
+          bodyContent = _encoder.convert(widget.call.response.body);
+        }
+      }
+    }
+    return bodyContent;
+  }
+
+  String getContentType(Map<String,dynamic> headers){
+    if (headers.containsKey("content-type")){
+      return headers["content-type"];
+    }
+    if (headers.containsKey("Content-Type")){
+      return headers["Content-Type"];
+    }
+    return "application/json";
+  }
+
+
 }
+
+
+

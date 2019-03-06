@@ -21,7 +21,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
           title: Text("Alice - HTTP Inspector"),
           actions: [
             IconButton(
-              icon: Icon(Icons.restore_from_trash),
+              icon: Icon(Icons.delete),
               onPressed: () {
                 _removeCalls();
               },

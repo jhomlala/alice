@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
 
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -17,14 +16,16 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   Alice alice;
   Dio dio;
+  HttpClient httpClient;
+
   @override
   void initState() {
     alice = Alice(showNotification: true);
     dio = Dio();
     dio.interceptors.add(alice.getDioInterceptor());
+    httpClient = HttpClient();
     super.initState();
   }
 
@@ -35,66 +36,105 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          title: const Text('Alice HTTP Inspector example'),
         ),
         body: Center(
-            child: FlatButton(
-          child: Text("Run"),
-          onPressed: _onPressed,
-        )),
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          RaisedButton(
+            child: Text("Run HTTP Requests"),
+            onPressed: _runHttpRequests,
+          ),
+          RaisedButton(
+            child: Text("Run HTTP Insepctor"),
+            onPressed: _runHttpInspector,
+          )
+        ])),
       ),
     );
   }
 
-
-  void _onPressed() async {
-
-
-    /*http.Response response =  await http.get('https://google.com');
-    print(response.request.url.toString());
-    var body = {"aaa":"bbb"};
-    alice.onHttpResponse(response,body: body);*/
+  void _runHttpRequests() async {
+    Map<String,dynamic> body = {"title": "foo", "body": "bar", "userId": "1"};
+    http.Response response =
+        await http.post('https://jsonplaceholder.typicode.com/posts', body: body);
+    alice.onHttpResponse(response, body: body);
 
 
-    /*HttpClient http = HttpClient();
-    try {
-      // Use darts Uri builder
-      var uri = Uri.parse("http://gosfdsfdogle.com");
-      var request = await http.getUrl(uri);
+    response =
+    await http.get('https://jsonplaceholder.typicode.com/posts');
+    alice.onHttpResponse(response);
 
-      alice.onHttpClientRequest(request);
-      var response = await request.close();
-      var responseBody = await response.transform(utf8.decoder).join();
-      alice.onHttpClientResponse(response,request, body: responseBody);
+    response =
+    await http.put('https://jsonplaceholder.typicode.com/posts/1',body:body);
+    alice.onHttpResponse(response,body:body);
 
-      // The dog.ceo API returns a JSON object with a property
-      // called 'message', which actually is the URL.
-    } catch (exception) {
-      print(exception);
-      print(exception.runtimeType.toString());
-    }*/
+    response =
+    await http.patch('https://jsonplaceholder.typicode.com/posts/1',body:body);
+    alice.onHttpResponse(response, body: body);
 
+    response =
+    await http.delete('https://jsonplaceholder.typicode.com/posts/1');
+    alice.onHttpResponse(response);
 
-
-    //http.get("http://wykop.pl")
-    dio.get("https://my-json-server.typicode.com/typicode/demo/posts");
-    //dio.get("https://httpstat.us/404");
-    dio.get("http://slowwly.robertomurray.co.uk/delay/10000/url/http://www.google.co.uk");
-    dio.get("https://thispersondoesnofsdfsdfdsfsdfsdfdsfsdfsdfsdfsdftexist.com/sdfsdfdsf/sdfsdfdsfs/fsdfsdfsdfsf/sdfsdfsdfsdf/sdfsdfsdfdsf/sdfsdf");
+    response =
+    await http.get('https://jsonplaceholder.typicode.com/test/test');
+    alice.onHttpResponse(response);
 
 
-    startTimeout();
+
+    var request = await httpClient.postUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts"));
+    request.write(body);
+    alice.onHttpClientRequest(request,body:body);
+    var httpResponse = await request.close();
+    var responseBody = await httpResponse.transform(utf8.decoder).join();
+    alice.onHttpClientResponse(httpResponse,request, body: responseBody);
+
+    request = await httpClient.getUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts"));
+    alice.onHttpClientRequest(request);
+    httpResponse = await request.close();
+    responseBody = await httpResponse.transform(utf8.decoder).join();
+    alice.onHttpClientResponse(httpResponse,request, body: responseBody);
+
+    request = await httpClient.putUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts/1"));
+    request.write(body);
+    alice.onHttpClientRequest(request,body:body);
+    httpResponse = await request.close();
+    responseBody = await httpResponse.transform(utf8.decoder).join();
+    alice.onHttpClientResponse(httpResponse,request, body: responseBody);
+
+
+    request = await httpClient.patchUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts/1"));
+    request.write(body);
+    alice.onHttpClientRequest(request,body:body);
+    httpResponse = await request.close();
+    responseBody = await httpResponse.transform(utf8.decoder).join();
+    alice.onHttpClientResponse(httpResponse,request, body: responseBody);
+
+
+    request = await httpClient.deleteUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts/1"));
+    alice.onHttpClientRequest(request);
+    httpResponse = await request.close();
+    responseBody = await httpResponse.transform(utf8.decoder).join();
+    alice.onHttpClientResponse(httpResponse,request, body: responseBody);
+
+    request = await httpClient.getUrl(Uri.parse("https://jsonplaceholder.typicode.com/test/test"));
+    alice.onHttpClientRequest(request);
+    httpResponse = await request.close();
+    responseBody = await httpResponse.transform(utf8.decoder).join();
+    alice.onHttpClientResponse(httpResponse,request, body: responseBody);
+
+    dio.post("https://jsonplaceholder.typicode.com/posts",data:body);
+    dio.get("https://jsonplaceholder.typicode.com/posts");
+    dio.put("https://jsonplaceholder.typicode.com/posts/1",data:body);
+    dio.put("https://jsonplaceholder.typicode.com/posts/1",data:body);
+    dio.delete("https://jsonplaceholder.typicode.com/posts/1");
+    dio.get("https://jsonplaceholder.typicode.com/test/test");
+
   }
+  
 
-  startTimeout() {
-    print("Start timeout");
-    var duration = Duration(seconds: 5);
-    return new Timer(duration, handleTimeout);
-  }
-
-  void handleTimeout() {
-    // callback function
-    startTimeout();
-    dio.get("https://my-json-server.typicode.com/typicode/demo/posts");
+  void _runHttpInspector() {
+    alice.showInspector();
   }
 }

@@ -13,11 +13,9 @@ class AliceHttpAdapter{
 
   onResponse(http.Response response, {dynamic body}){
     if (response == null){
-      print("Cant process null http.Response");
       return;
     }
     if (response.request == null){
-      print("Cant process null http.Request");
       return;
     }
     var request = response.request;
@@ -45,6 +43,7 @@ class AliceHttpAdapter{
     } else {
       httpRequest.size = utf8.encode(body.toString()).length;
       httpRequest.body = body;
+
     }
     httpRequest.time = DateTime.now();
     Map<String, dynamic> headers = Map();
@@ -70,8 +69,6 @@ class AliceHttpAdapter{
       responseHeaders[header] = values.toString();
     });
     httpResponse.headers = responseHeaders;
-
-
 
     call.request = httpRequest;
     call.response = httpResponse;
