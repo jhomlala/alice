@@ -1,8 +1,8 @@
 name: alice
-description: A new Flutter plugin.
+description: HTTP Inspector
 version: 0.0.1
-author:
-homepage:
+author: Jakub Homlala (jhomlala@gmail.com)
+homepage: https://github.com/jhomlala/alice
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
