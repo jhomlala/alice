@@ -43,7 +43,7 @@ class Alice {
     _httpAdapter.onResponse(response, body: body);
   }
 
-  void showInspector(){
+  void showInspector() {
     _core.navigateToCallListScreen();
   }
 }

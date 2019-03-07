@@ -26,22 +26,22 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
 
   @override
   Widget build(BuildContext context) {
-    return  StreamBuilder<AliceHttpCall>(
-            stream: widget.core.callUpdateSubject,
-            initialData: widget.call,
-            builder: (context, callSnapshot) {
-              if (widget.call.id == callSnapshot.data.id) {
-                _previousState = DefaultTabController(
-                    length: 4,
-                    child: Scaffold(
-                        appBar: AppBar(
-                          bottom: TabBar(tabs: _getTabBars()),
-                          title: Text('Alice - HTTP Inspector'),
-                        ),
-                        body: TabBarView(children: _getTabBarViewList())));
-              }
-              return _previousState;
-            });
+    return StreamBuilder<AliceHttpCall>(
+        stream: widget.core.callUpdateSubject,
+        initialData: widget.call,
+        builder: (context, callSnapshot) {
+          if (widget.call.id == callSnapshot.data.id) {
+            _previousState = DefaultTabController(
+                length: 4,
+                child: Scaffold(
+                    appBar: AppBar(
+                      bottom: TabBar(tabs: _getTabBars()),
+                      title: Text('Alice - HTTP Inspector'),
+                    ),
+                    body: TabBarView(children: _getTabBarViewList())));
+          }
+          return _previousState;
+        });
   }
 
   List<Widget> _getTabBars() {
@@ -127,7 +127,8 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
 
       rows.add(_getListRow("Status:", statusText));
       var headers = widget.call.response.headers;
-      var bodyContent = formatBody(widget.call.response.body, getContentType(headers));
+      var bodyContent =
+          formatBody(widget.call.response.body, getContentType(headers));
       rows.add(_getListRow("Body:", bodyContent));
       var headersContent = "Headers are empty";
       if (headers != null && headers.length > 0) {
@@ -159,19 +160,11 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
       List<Widget> rows = List();
       var error = widget.call.error.error;
       var errorText = "Error is empty";
-      if (error != null){
+      if (error != null) {
         errorText = error.toString();
       }
       rows.add(_getListRow("Error:", errorText));
 
-      var stackTrace = widget.call.error.stackTrace;
-      var stackTraceText = "Stack Trace is empty";
-      if (stackTrace != null){
-        stackTraceText = stackTrace.toString();
-      }
-
-      rows.add(_getListRow(
-          "Stack Trace: ", stackTraceText));
       return Container(
           padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
           child: ListView(children: rows));
@@ -207,7 +200,7 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
     return "$duration ms";
   }
 
-  String formatBody(dynamic body, String contentType){
+  String formatBody(dynamic body, String contentType) {
     var bodyContent = "Body is empty";
     if (body != null) {
       if (contentType == null ||
@@ -224,18 +217,13 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
     return bodyContent;
   }
 
-  String getContentType(Map<String,dynamic> headers){
-    if (headers.containsKey("content-type")){
+  String getContentType(Map<String, dynamic> headers) {
+    if (headers.containsKey("content-type")) {
       return headers["content-type"];
     }
-    if (headers.containsKey("Content-Type")){
+    if (headers.containsKey("Content-Type")) {
       return headers["Content-Type"];
     }
     return "application/json";
   }
-
-
 }
-
-
-

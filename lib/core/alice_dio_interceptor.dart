@@ -82,10 +82,10 @@ class AliceDioInterceptor extends InterceptorsWrapper {
   @override
   onError(DioError err) {
     var httpError = AliceHttpError();
-    httpError.error = err.error;
+    httpError.error = err.toString();
     httpError.stackTrace = err.stackTrace;
-    _aliceCore.addError(httpError, err.request.hashCode);
 
+    _aliceCore.addError(httpError, err.request.hashCode);
     var httpResponse = AliceHttpResponse();
     httpResponse.time = DateTime.now();
     if (err.response == null) {

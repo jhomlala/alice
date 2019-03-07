@@ -15,7 +15,6 @@ class AliceCore {
   PublishSubject<int> changesSubject;
   PublishSubject<AliceHttpCall> callUpdateSubject;
 
-
   AliceCore(GlobalKey<NavigatorState> navigatorKey, bool showNotification) {
     _navigatorKey = navigatorKey;
     calls = List();
@@ -46,7 +45,7 @@ class AliceCore {
     return Future.sync(() {});
   }
 
-  void navigateToCallListScreen(){
+  void navigateToCallListScreen() {
     Navigator.push(
       getContext(),
       MaterialPageRoute(builder: (context) => AliceCallsListScreen(this)),
@@ -116,7 +115,7 @@ class AliceCore {
     changesSubject.sink.add(0);
   }
 
-  AliceHttpCall _selectCall(int requestId){
+  AliceHttpCall _selectCall(int requestId) {
     AliceHttpCall requestedCall;
     calls.forEach((call) {
       if (call.id == requestId) {
@@ -125,5 +124,4 @@ class AliceCore {
     });
     return requestedCall;
   }
-
 }

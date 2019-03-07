@@ -1,4 +1,4 @@
-class AliceHttpError{
+class AliceHttpError {
   dynamic error;
   StackTrace stackTrace;
 }

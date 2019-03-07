@@ -6,16 +6,16 @@ import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:http/http.dart' as http;
 
-class AliceHttpAdapter{
+class AliceHttpAdapter {
   final AliceCore core;
 
   AliceHttpAdapter(this.core);
 
-  onResponse(http.Response response, {dynamic body}){
-    if (response == null){
+  onResponse(http.Response response, {dynamic body}) {
+    if (response == null) {
       return;
     }
-    if (response.request == null){
+    if (response.request == null) {
       return;
     }
     var request = response.request;
@@ -30,7 +30,6 @@ class AliceHttpAdapter{
     }
     call.endpoint = path;
 
-
     call.server = request.url.host;
     if (request.url.scheme == "https") {
       call.secure = true;
@@ -43,7 +42,6 @@ class AliceHttpAdapter{
     } else {
       httpRequest.size = utf8.encode(body.toString()).length;
       httpRequest.body = body;
-
     }
     httpRequest.time = DateTime.now();
     Map<String, dynamic> headers = Map();
@@ -77,5 +75,4 @@ class AliceHttpAdapter{
     call.duration = 0;
     core.addCall(call);
   }
-
 }

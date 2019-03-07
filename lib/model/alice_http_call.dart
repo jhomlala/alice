@@ -2,7 +2,7 @@ import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
 
-class AliceHttpCall{
+class AliceHttpCall {
   final int id;
   String client = "";
   bool loading = true;
@@ -16,11 +16,11 @@ class AliceHttpCall{
   AliceHttpResponse response;
   AliceHttpError error;
 
-  AliceHttpCall(this.id){
+  AliceHttpCall(this.id) {
     loading = true;
   }
 
-  setResponse(AliceHttpResponse response){
+  setResponse(AliceHttpResponse response) {
     this.response = response;
     loading = false;
   }
