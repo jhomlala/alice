@@ -1,8 +1,8 @@
 # Alice
 
-A HTTP inspector plugin for Flutter.
+A HTTP inspector plugin for Flutter. Inspired from Chuck.
 <p align="center">
-<img src="https://github.com/jhomlala/alice/blob/master/media/alice.gif">
+<img height="500" src="https://github.com/jhomlala/alice/blob/master/media/alice.gif">
 </p>
 
 ## Install
