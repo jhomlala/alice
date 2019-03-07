@@ -1,14 +1,41 @@
-# alice
+# Alice
 
-A new Flutter plugin.
+A HTTP inspector plugin for Flutter.
 
-## Getting Started
+## Install
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.io/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+## How to use
+Create Alice instance:
+```dart
+Alice alice = Alice(showNotification: true);
+```
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+Add navigator key to your application:
+```dart
+MaterialApp( navigatorKey: alice.getNavigatorKey(), home: ...)
+```
+
+If you're using Dio, you just need to add interceptor.
+```dart
+Dio dio = Dio();
+dio.interceptors.add(alice.getDioInterceptor());
+```
+
+If you're using HttpClient
+```dart
+httpClient
+        .getUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts"))
+        .then((request) async {
+      alice.onHttpClientRequest(request);
+      var httpResponse = await request.close();
+      var responseBody = await httpResponse.transform(utf8.decoder).join();
+      alice.onHttpClientResponse(httpResponse, request, body: responseBody);
+    });
+```
+
+If you're using http:
+```dart
+  http.get('https://jsonplaceholder.typicode.com/posts').then((response) {
+      alice.onHttpResponse(response);
+    });
+```
