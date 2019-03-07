@@ -46,14 +46,22 @@ class AliceCore {
   }
 
   void navigateToCallListScreen() {
+    var context = getContext();
+    if (context == null){
+      print("Cant start Alice HTTP Inspector. Please add NavigatorKey to your application");
+    }
     Navigator.push(
-      getContext(),
+      context,
       MaterialPageRoute(builder: (context) => AliceCallsListScreen(this)),
     );
   }
 
   BuildContext getContext() {
-    return _navigatorKey.currentState.overlay.context;
+    if (_navigatorKey != null && _navigatorKey.currentState != null && _navigatorKey.currentState.overlay != null) {
+      return _navigatorKey.currentState.overlay.context;
+    } else {
+      return null;
+    }
   }
 
   void _showLocalNotification() async {
