@@ -1,8 +1,13 @@
 # Alice
 
 A HTTP inspector plugin for Flutter.
+<p align="center">
+<img src="https://github.com/jhomlala/alice/blob/master/media/alice.gif">
+</p>
 
 ## Install
+
+
 
 ## How to use
 Create Alice instance:
