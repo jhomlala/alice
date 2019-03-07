@@ -1,4 +1,7 @@
 # Alice
+[![pub package](https://img.shields.io/pub/v/catcher.svg)](https://pub.dartlang.org/packages/alice)
+[![pub package](https://img.shields.io/github/license/jhomlala/catcher.svg?style=flat)](https://github.com/jhomlala/alice)
+[![pub package](https://img.shields.io/badge/platform-flutter-blue.svg)](https://github.com/jhomlala/alice)
 
 Alice is an HTTP Inspector tool for FLutter which helps debugging http requests. It catches and stores http requests and responses, which can be viewed via simple UI. It is inspired from Chuck (https://github.com/jgilfelt/chuck).
 <p align="center">
@@ -24,23 +27,23 @@ import 'package:alice/alice.dart';
 ## How to use
 Create Alice instance:
 ```dart
-Alice alice = Alice(showNotification: true);
+  Alice alice = Alice(showNotification: true);
 ```
 
 Add navigator key to your application:
 ```dart
-MaterialApp( navigatorKey: alice.getNavigatorKey(), home: ...)
+  MaterialApp( navigatorKey: alice.getNavigatorKey(), home: ...)
 ```
 
 If you're using Dio, you just need to add interceptor.
 ```dart
-Dio dio = Dio();
-dio.interceptors.add(alice.getDioInterceptor());
+  Dio dio = Dio();
+  dio.interceptors.add(alice.getDioInterceptor());
 ```
 
-If you're using HttpClient
+If you're using HttpClient from dart:io package:
 ```dart
-httpClient
+    httpClient
         .getUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts"))
         .then((request) async {
       alice.onHttpClientRequest(request);
@@ -50,9 +53,9 @@ httpClient
     });
 ```
 
-If you're using http:
+If you're using http from http/http package:
 ```dart
-  http.get('https://jsonplaceholder.typicode.com/posts').then((response) {
+    http.get('https://jsonplaceholder.typicode.com/posts').then((response) {
       alice.onHttpResponse(response);
     });
 ```
