@@ -3,7 +3,7 @@
 [![pub package](https://img.shields.io/github/license/jhomlala/alice.svg?style=flat)](https://github.com/jhomlala/alice)
 [![pub package](https://img.shields.io/badge/platform-flutter-blue.svg)](https://github.com/jhomlala/alice)
 
-Alice is an HTTP Inspector tool for FLutter which helps debugging http requests. It catches and stores http requests and responses, which can be viewed via simple UI. It is inspired from Chuck (https://github.com/jgilfelt/chuck).
+Alice is an HTTP Inspector tool for Flutter which helps debugging http requests. It catches and stores http requests and responses, which can be viewed via simple UI. It is inspired from Chuck (https://github.com/jgilfelt/chuck).
 <p align="center">
 <img height="500" src="https://github.com/jhomlala/alice/blob/master/media/alice.gif">
 </p>
@@ -34,11 +34,14 @@ Create Alice instance:
 ```dart
   Alice alice = Alice(showNotification: true);
 ```
+Alice default behaviour is to show notification with http requests. You can disable it `Alice` constructor.
 
 Add navigator key to your application:
 ```dart
   MaterialApp( navigatorKey: alice.getNavigatorKey(), home: ...)
 ```
+You need to add this navigator key in order to show inspector UI.
+
 
 If you're using Dio, you just need to add interceptor.
 ```dart
@@ -64,3 +67,11 @@ If you're using http from http/http package:
       alice.onHttpResponse(response);
     });
 ```
+
+To show inspector manually:
+```dart
+  alice.showInspector();
+```
+
+See complete example here: https://github.com/jhomlala/alice/blob/master/example/lib/main.dart
+
