@@ -1,6 +1,6 @@
 # Alice
-[![pub package](https://img.shields.io/pub/v/catcher.svg)](https://pub.dartlang.org/packages/alice)
-[![pub package](https://img.shields.io/github/license/jhomlala/catcher.svg?style=flat)](https://github.com/jhomlala/alice)
+[![pub package](https://img.shields.io/pub/v/alice.svg)](https://pub.dartlang.org/packages/alice)
+[![pub package](https://img.shields.io/github/license/jhomlala/alice.svg?style=flat)](https://github.com/jhomlala/alice)
 [![pub package](https://img.shields.io/badge/platform-flutter-blue.svg)](https://github.com/jhomlala/alice)
 
 Alice is an HTTP Inspector tool for FLutter which helps debugging http requests. It catches and stores http requests and responses, which can be viewed via simple UI. It is inspired from Chuck (https://github.com/jgilfelt/chuck).
@@ -8,11 +8,16 @@ Alice is an HTTP Inspector tool for FLutter which helps debugging http requests.
 <img height="500" src="https://github.com/jhomlala/alice/blob/master/media/alice.gif">
 </p>
 
+Alice supports http clients:
+* Dio
+* HttpClient from dart:io package
+* Http from http/http package 
+
 ## Install
 1. Add this to your package's pubspec.yaml file:
 ```dart
 dependencies:
-  alice: ^0.0.1
+  alice: ^0.0.2
 ```
 2. Install it
 ```bash
