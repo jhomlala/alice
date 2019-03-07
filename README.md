@@ -1,13 +1,25 @@
 # Alice
 
-A HTTP inspector plugin for Flutter. Inspired from Chuck.
+Alice is an HTTP Inspector tool for FLutter which helps debugging http requests. It catches and stores http requests and responses, which can be viewed via simple UI. It is inspired from Chuck (https://github.com/jgilfelt/chuck).
 <p align="center">
 <img height="500" src="https://github.com/jhomlala/alice/blob/master/media/alice.gif">
 </p>
 
 ## Install
+1. Add this to your package's pubspec.yaml file:
+```dart
+dependencies:
+  alice: ^0.0.1
+```
+2. Install it
+```bash
+$ flutter packages get
+```
 
-
+3. Import it
+```dash
+import 'package:alice/alice.dart';
+```
 
 ## How to use
 Create Alice instance:
