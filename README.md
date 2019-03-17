@@ -5,8 +5,31 @@
 
 Alice is an HTTP Inspector tool for Flutter which helps debugging http requests. It catches and stores http requests and responses, which can be viewed via simple UI. It is inspired from Chuck (https://github.com/jgilfelt/chuck).
 <p align="center">
-<img height="500" src="https://github.com/jhomlala/alice/blob/master/media/alice.gif">
+<img height="500" src="https://media.giphy.com/media/2aSpSGWDxmyEwKnvmM/giphy.gif">
 </p>
+<table>
+  <tr>
+    <td>
+  <img width="250px" src="https://github.com/jhomlala/alice/blob/master/media/1.png">
+    </td>
+    <td>
+       <img width="250px" src="https://github.com/jhomlala/alice/blob/master/media/2.png">
+    </td>
+    <td>
+       <img width="250px" src="https://github.com/jhomlala/alice/blob/master/media/3.png">
+    </td>
+    <td>
+       <img width="250px" src="https://github.com/jhomlala/alice/blob/master/media/4.png">
+    </td>
+     <td>
+       <img width="250px" src="https://github.com/jhomlala/alice/blob/master/media/5.png">
+    </td>
+    <td>
+       <img width="250px" src="https://github.com/jhomlala/alice/blob/master/media/6.png">
+    </td>
+  </tr>
+  <tr>
+</table>
 
 Alice supports http clients:
 * Dio
