@@ -47,8 +47,9 @@ class AliceCore {
 
   void navigateToCallListScreen() {
     var context = getContext();
-    if (context == null){
-      print("Cant start Alice HTTP Inspector. Please add NavigatorKey to your application");
+    if (context == null) {
+      print(
+          "Cant start Alice HTTP Inspector. Please add NavigatorKey to your application");
     }
     Navigator.push(
       context,
@@ -57,7 +58,9 @@ class AliceCore {
   }
 
   BuildContext getContext() {
-    if (_navigatorKey != null && _navigatorKey.currentState != null && _navigatorKey.currentState.overlay != null) {
+    if (_navigatorKey != null &&
+        _navigatorKey.currentState != null &&
+        _navigatorKey.currentState.overlay != null) {
       return _navigatorKey.currentState.overlay.context;
     } else {
       return null;

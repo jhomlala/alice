@@ -2,7 +2,7 @@
 * Updated Kotlin version
 
 ## 0.0.3
-* Bug fixes
+* Removed gif from package
 
 ## 0.0.2
 * Bug fixes
