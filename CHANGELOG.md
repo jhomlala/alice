@@ -1,3 +1,7 @@
+## 0.0.5
+* Updated dependencies
+* Navigator key can be provided now from application (instead of using Alice's navigator key)
+
 ## 0.0.4
 * Updated Kotlin version
 

@@ -40,7 +40,7 @@ Alice supports http clients:
 1. Add this to your package's pubspec.yaml file:
 ```dart
 dependencies:
-  alice: ^0.0.4
+  alice: ^0.0.5
 ```
 2. Install it
 ```bash
@@ -64,6 +64,10 @@ Add navigator key to your application:
   MaterialApp( navigatorKey: alice.getNavigatorKey(), home: ...)
 ```
 You need to add this navigator key in order to show inspector UI.
+You can use also your navigator key in Alice:
+```dart
+    Alice alice = Alice(showNotification: true, navigatorKey: yourNavigatorKeyHere);
+```
 
 
 If you're using Dio, you just need to add interceptor.
