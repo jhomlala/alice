@@ -40,7 +40,7 @@ Alice supports http clients:
 1. Add this to your package's pubspec.yaml file:
 ```dart
 dependencies:
-  alice: ^0.0.5
+  alice: ^0.0.6
 ```
 2. Install it
 ```bash

@@ -1,3 +1,6 @@
+## 0.0.6
+* Fixed http/http package requests
+
 ## 0.0.5
 * Updated dependencies
 * Navigator key can be provided now from application (instead of using Alice's navigator key)
