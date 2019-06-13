@@ -36,23 +36,25 @@ class AliceHttpAdapter {
     }
 
     AliceHttpRequest httpRequest = AliceHttpRequest();
-    if (body == null) {
+
+    if (response.request is http.Request) {
+        // we are guranteed the existence of body and headers
+        httpRequest.body = body ?? (response.request as http.Request).body ?? "";
+        httpRequest.size = utf8.encode(httpRequest.body.toString()).length;
+        httpRequest.headers = Map.from(response.request.headers);
+    } else if (body == null) {
       httpRequest.size = 0;
       httpRequest.body = "";
     } else {
       httpRequest.size = utf8.encode(body.toString()).length;
       httpRequest.body = body;
     }
-    httpRequest.time = DateTime.now();
-    Map<String, dynamic> headers = Map();
-    httpRequest.headers.forEach((header, value) {
-      headers[header] = value;
-    });
 
-    httpRequest.headers = headers;
+    httpRequest.time = DateTime.now();
+
     String contentType = "unknown";
-    if (headers.containsKey("Content-Type")) {
-      contentType = headers["Content-Type"];
+    if (httpRequest.headers.containsKey("Content-Type")) {
+      contentType = httpRequest.headers["Content-Type"];
     }
 
     httpRequest.contentType = contentType;
