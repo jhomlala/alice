@@ -1,8 +1,11 @@
+import 'package:alice/model/alice_menu_item.dart';
 import 'package:alice/ui/alice_call_details_screen.dart';
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:flutter/material.dart';
+
+import 'alice_stats_screen.dart';
 
 class AliceCallsListScreen extends StatefulWidget {
   final AliceCore _aliceCore;
@@ -14,21 +17,54 @@ class AliceCallsListScreen extends StatefulWidget {
 }
 
 class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
+  List<AliceMenuItem> _menuItems = List();
+
+  _AliceCallsListScreenState() {
+    _menuItems.add(AliceMenuItem("Delete", Icons.delete));
+    _menuItems.add(AliceMenuItem("Stats", Icons.insert_chart));
+    _menuItems.add(AliceMenuItem("Save", Icons.save));
+  }
+
   @override
   Widget build(BuildContext context) {
+    print("Menu items: " + _menuItems.toString());
     return Scaffold(
         appBar: AppBar(
           title: Text("Alice - HTTP Inspector"),
           actions: [
-            IconButton(
-              icon: Icon(Icons.delete),
-              onPressed: () {
-                _removeCalls();
+            PopupMenuButton<AliceMenuItem>(
+              onSelected: (AliceMenuItem item) => {_onMenuItemSelected(item)},
+              itemBuilder: (BuildContext context) {
+                return _menuItems.map((AliceMenuItem item) {
+                  return PopupMenuItem<AliceMenuItem>(
+                      value: item,
+                      child: Row(children: [
+                        Icon(
+                          item.iconData,
+                          color: Colors.lightBlue,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 10),
+                        ),
+                        Text(item.title)
+                      ]));
+                }).toList();
               },
-            )
+            ),
           ],
         ),
         body: getCallsList());
+  }
+
+  void _onMenuItemSelected(AliceMenuItem menuItem) {
+    if (menuItem.title == "Delete"){
+      _removeCalls();
+    }
+    if (menuItem.title == "Stats"){
+      _showStatsScreen();
+    }
+
+
   }
 
   Widget getCallsList() {
@@ -178,5 +214,10 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   void _removeCalls() {
     print("Remove calls");
     widget._aliceCore.removeCalls();
+  }
+
+  void _showStatsScreen() {
+    Navigator.push(widget._aliceCore.getContext(),
+        MaterialPageRoute(builder: (context) => AliceStatsScreen(widget._aliceCore.calls)));
   }
 }
