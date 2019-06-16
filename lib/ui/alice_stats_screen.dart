@@ -36,8 +36,8 @@ class AliceStatsScreen extends StatelessWidget {
               _getRow("Delete requests:", "${_getRequests("DELETE")} "),
               _getRow("Put requests:", "${_getRequests("PUT")} "),
               _getRow("Patch requests:", "${_getRequests("PATCH")} "),
-              _getRow("Secure requests:", "${_getSecureRequests()}"),
-              _getRow("Unsecure requests:", "${_getUnsecureRequests()}"),
+              _getRow("Secured requests:", "${_getSecuredRequests()}"),
+              _getRow("Unsecured requests:", "${_getUnsecuredRequests()}"),
             ],
           ))),
     );
@@ -190,7 +190,7 @@ class AliceStatsScreen extends StatelessWidget {
     return requests;
   }
 
-  int _getSecureRequests(){
+  int _getSecuredRequests(){
     int requests = 0;
     calls.forEach((AliceHttpCall call) {
       if (call.secure) {
@@ -200,7 +200,7 @@ class AliceStatsScreen extends StatelessWidget {
     return requests;
   }
 
-  int _getUnsecureRequests(){
+  int _getUnsecuredRequests(){
     int requests = 0;
     calls.forEach((AliceHttpCall call) {
       if (!call.secure) {
