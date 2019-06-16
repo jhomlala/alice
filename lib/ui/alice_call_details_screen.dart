@@ -218,12 +218,14 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
   }
 
   String getContentType(Map<String, dynamic> headers) {
-    if (headers.containsKey("content-type")) {
-      return headers["content-type"];
+    if (headers != null) {
+      if (headers.containsKey("content-type")) {
+        return headers["content-type"];
+      }
+      if (headers.containsKey("Content-Type")) {
+        return headers["Content-Type"];
+      }
     }
-    if (headers.containsKey("Content-Type")) {
-      return headers["Content-Type"];
-    }
-    return "application/json";
+    return "???";
   }
 }
