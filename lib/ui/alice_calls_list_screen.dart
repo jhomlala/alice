@@ -57,14 +57,12 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   }
 
   void _onMenuItemSelected(AliceMenuItem menuItem) {
-    if (menuItem.title == "Delete"){
-      _removeCalls();
+    if (menuItem.title == "Delete") {
+      _showRemoveDialog();
     }
-    if (menuItem.title == "Stats"){
+    if (menuItem.title == "Stats") {
       _showStatsScreen();
     }
-
-
   }
 
   Widget getCallsList() {
@@ -211,13 +209,40 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
     }
   }
 
+  void _showRemoveDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext buildContext) {
+          return AlertDialog(
+            title: Text("Delete calls"),
+            content: Text("Do you want to delete http calls?"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Yes"),
+                onPressed: () {
+                  _removeCalls();
+                  Navigator.of(buildContext).pop();
+                },
+              ),
+              FlatButton(
+                child: Text("No"),
+                onPressed: () {
+                  Navigator.of(buildContext).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
+
   void _removeCalls() {
-    print("Remove calls");
     widget._aliceCore.removeCalls();
   }
 
   void _showStatsScreen() {
-    Navigator.push(widget._aliceCore.getContext(),
-        MaterialPageRoute(builder: (context) => AliceStatsScreen(widget._aliceCore.calls)));
+    Navigator.push(
+        widget._aliceCore.getContext(),
+        MaterialPageRoute(
+            builder: (context) => AliceStatsScreen(widget._aliceCore.calls)));
   }
 }
