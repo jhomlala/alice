@@ -96,6 +96,18 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
     }
     rows.add(_getListRow("Body:", bodyContent));
 
+    var queryParameters = widget.call.request.queryParameters;
+    var queryParametersContent = "Query parameters are empty";
+    if (queryParameters != null && queryParameters.length > 0) {
+      queryParametersContent = "";
+    }
+    rows.add(_getListRow("Query Parameters: ", queryParametersContent));
+    if (widget.call.request.queryParameters != null) {
+      widget.call.request.queryParameters.forEach((k, value) {
+        rows.add(_getListRow("   • $k:", value.toString()));
+      });
+    }
+
     var headers = widget.call.request.headers;
     var headersContent = "Headers are empty";
     if (headers != null && headers.length > 0) {

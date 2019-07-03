@@ -7,4 +7,5 @@ class AliceHttpRequest {
   dynamic body = "";
   String contentType = "";
   List<Cookie> cookies = List();
+  Map<String, dynamic> queryParameters = Map();
 }
