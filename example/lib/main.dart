@@ -92,7 +92,7 @@ class _MyAppState extends State<MyApp> {
       alice.onHttpClientRequest(request, body: body);
       request.write(body);
       var httpResponse = await request.close();
-      var responseBody = await httpResponse.transform(utf8.decoder).join();
+      var responseBody = await utf8.decoder.bind(httpResponse).join();
       alice.onHttpClientResponse(httpResponse, request, body: responseBody);
     });
 
@@ -101,7 +101,7 @@ class _MyAppState extends State<MyApp> {
         .then((request) async {
       alice.onHttpClientRequest(request);
       var httpResponse = await request.close();
-      var responseBody = await httpResponse.transform(utf8.decoder).join();
+      var responseBody = await utf8.decoder.bind(httpResponse).join();
       alice.onHttpClientResponse(httpResponse, request, body: responseBody);
     });
 
@@ -111,7 +111,7 @@ class _MyAppState extends State<MyApp> {
       alice.onHttpClientRequest(request, body: body);
       request.write(body);
       var httpResponse = await request.close();
-      var responseBody = await httpResponse.transform(utf8.decoder).join();
+      var responseBody = await utf8.decoder.bind(httpResponse).join();
       alice.onHttpClientResponse(httpResponse, request, body: responseBody);
     });
 
@@ -121,7 +121,7 @@ class _MyAppState extends State<MyApp> {
       alice.onHttpClientRequest(request, body: body);
       request.write(body);
       var httpResponse = await request.close();
-      var responseBody = await httpResponse.transform(utf8.decoder).join();
+      var responseBody = await utf8.decoder.bind(httpResponse).join();
       alice.onHttpClientResponse(httpResponse, request, body: responseBody);
     });
 
@@ -130,7 +130,7 @@ class _MyAppState extends State<MyApp> {
         .then((request) async {
       alice.onHttpClientRequest(request);
       var httpResponse = await request.close();
-      var responseBody = await httpResponse.transform(utf8.decoder).join();
+      var responseBody = await utf8.decoder.bind(httpResponse).join();
       alice.onHttpClientResponse(httpResponse, request, body: responseBody);
     });
 
@@ -139,7 +139,7 @@ class _MyAppState extends State<MyApp> {
         .then((request) async {
       alice.onHttpClientRequest(request);
       var httpResponse = await request.close();
-      var responseBody = await httpResponse.transform(utf8.decoder).join();
+      var responseBody = await utf8.decoder.bind(httpResponse).join();
       alice.onHttpClientResponse(httpResponse, request, body: responseBody);
     });
 
