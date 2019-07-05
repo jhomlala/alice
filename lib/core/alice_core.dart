@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/ui/alice_calls_list_screen.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class AliceCore {
   FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
@@ -14,6 +18,7 @@ class AliceCore {
   List<AliceHttpCall> calls;
   PublishSubject<int> changesSubject;
   PublishSubject<AliceHttpCall> callUpdateSubject;
+  IOSink _sink;
 
   AliceCore(GlobalKey<NavigatorState> navigatorKey, bool showNotification) {
     _navigatorKey = navigatorKey;
@@ -134,5 +139,76 @@ class AliceCore {
       }
     });
     return requestedCall;
+  }
+
+  void saveHttpRequests(BuildContext context) {
+    _checkPermissions(context);
+  }
+
+  void _checkPermissions(BuildContext context) async {
+    PermissionStatus permission = await PermissionHandler()
+        .checkPermissionStatus(PermissionGroup.storage);
+    if (permission == PermissionStatus.granted) {
+      _saveToFile(context);
+    } else {
+      Map<PermissionGroup, PermissionStatus> permissions =
+          await PermissionHandler()
+              .requestPermissions([PermissionGroup.storage]);
+      if (permissions.containsKey(PermissionGroup.storage) &&
+          permissions[PermissionGroup.storage] == PermissionStatus.granted) {
+        _saveToFile(context);
+      } else {
+        _showAlert(context, "Permission error",
+            "Permission not granted. Couldn't save logs.");
+      }
+    }
+  }
+
+  Future<String> _saveToFile(BuildContext context) async {
+    try {
+      if (calls.length == 0){
+        _showAlert(context,"Error","There are no logs to save");
+      }
+
+      Directory externalDir = await getExternalStorageDirectory();
+      String fileName =
+          "alice_log_${DateTime.now().millisecondsSinceEpoch}.txt";
+      File file = File(externalDir.path.toString() + "/" + fileName);
+      file.createSync();
+      IOSink sink = file.openWrite(mode: FileMode.append);
+      calls.forEach((AliceHttpCall call) {
+        sink.write(call.server);
+        sink.write("\n");
+      });
+
+      sink.write("");
+      await sink.flush();
+      await sink.close();
+      _showAlert(context, "Success", "Sucessfully saved logs in " + file.path);
+      return file.path;
+    } catch (exception) {
+      print(exception);
+    }
+
+    return "";
+  }
+
+  void _showAlert(BuildContext context, String title, String description) {
+    showDialog(
+        context: context,
+        builder: (BuildContext buildContext) {
+          return AlertDialog(
+            title: Text(title),
+            content: Text(description),
+            actions: [
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
   }
 }

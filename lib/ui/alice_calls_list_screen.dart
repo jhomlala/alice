@@ -63,6 +63,9 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
     if (menuItem.title == "Stats") {
       _showStatsScreen();
     }
+    if (menuItem.title == "Save"){
+      _saveToFile();
+    }
   }
 
   Widget getCallsList() {
@@ -244,5 +247,9 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
         widget._aliceCore.getContext(),
         MaterialPageRoute(
             builder: (context) => AliceStatsScreen(widget._aliceCore.calls)));
+  }
+
+  void _saveToFile() async{
+    widget._aliceCore.saveHttpRequests(context);
   }
 }
