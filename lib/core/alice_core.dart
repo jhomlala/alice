@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:alice/model/alice_http_error.dart';
@@ -9,11 +10,14 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:package_info/package_info.dart';
+import 'package:open_file/open_file.dart';
 
 class AliceCore {
   FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
   GlobalKey<NavigatorState> _navigatorKey;
   bool _showNotification = false;
+  JsonEncoder _encoder = new JsonEncoder.withIndent('  ');
 
   List<AliceHttpCall> calls;
   PublishSubject<int> changesSubject;
@@ -166,8 +170,8 @@ class AliceCore {
 
   Future<String> _saveToFile(BuildContext context) async {
     try {
-      if (calls.length == 0){
-        _showAlert(context,"Error","There are no logs to save");
+      if (calls.length == 0) {
+        _showAlert(context, "Error", "There are no logs to save");
       }
 
       Directory externalDir = await getExternalStorageDirectory();
@@ -176,15 +180,55 @@ class AliceCore {
       File file = File(externalDir.path.toString() + "/" + fileName);
       file.createSync();
       IOSink sink = file.openWrite(mode: FileMode.append);
+
+      var packageInfo = await PackageInfo.fromPlatform();
+      sink.write("Alice inspector logs\n");
+      sink.write("App name:  ${packageInfo.appName}\n");
+      sink.write("Package: ${packageInfo.packageName}\n");
+      sink.write("Version: ${packageInfo.version}\n");
+      sink.write("Build number: ${packageInfo.buildNumber}\n");
+      sink.write("Generated: " + DateTime.now().toIso8601String() + "\n");
       calls.forEach((AliceHttpCall call) {
-        sink.write(call.server);
+        sink.write("\n");
+        sink.write("==============================================\n");
+        sink.write("Id: ${call.id}\n");
+        sink.write("==============================================\n");
+        sink.write("Server: ${call.server} \n");
+        sink.write("Method: ${call.method} \n");
+        sink.write("Endpoint: ${call.endpoint} \n");
+        sink.write("Client: ${call.client} \n");
+        sink.write("Duration ${call.duration} ms\n");
+        sink.write("Secured connection: ${call.duration}\n");
+        sink.write("Completed: ${!call.loading} \n");
+        sink.write("Request time: ${call.request.time}\n");
+        sink.write("Request content type: ${call.request.contentType}\n");
+        sink.write(
+            "Request cookies: ${_encoder.convert(call.request.cookies)}\n");
+        sink.write(
+            "Request headers: ${_encoder.convert(call.request.headers)}\n");
+        sink.write("Request size: ${call.request.size} bytes\n");
+        sink.write("Request body: ${_encoder.convert(call.request.body)}\n");
+        sink.write("Response time: ${call.response.time}\n");
+        sink.write("Response status: ${call.response.status}\n");
+        sink.write("Response size: ${call.response.size} bytes\n");
+        sink.write(
+            "Response headers: ${_encoder.convert(call.response.headers)}\n");
+        sink.write("Response body: ${_encoder.convert(call.response.body)}\n");
+        if (call.error != null){
+          sink.write("Error: ${call.error.error}\n");
+          if (call.error.stackTrace != null) {
+            sink.write("Error stacktrace: ${call.error.stackTrace}\n");
+          }
+        }
+        sink.write("==============================================\n");
         sink.write("\n");
       });
 
       sink.write("");
       await sink.flush();
       await sink.close();
-      _showAlert(context, "Success", "Sucessfully saved logs in " + file.path);
+      _showAlert(context, "Success", "Sucessfully saved logs in " + file.path,
+          fileUrl: file.path);
       return file.path;
     } catch (exception) {
       print(exception);
@@ -193,22 +237,29 @@ class AliceCore {
     return "";
   }
 
-  void _showAlert(BuildContext context, String title, String description) {
+  void _showAlert(BuildContext context, String title, String description,
+      {String fileUrl}) {
+    List<Widget> actions = List();
+    actions.add(FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    ));
+    if (fileUrl != null) {
+      actions.add(FlatButton(
+        child: Text("View file"),
+        onPressed: () {
+          OpenFile.open(fileUrl);
+        },
+      ));
+    }
+
     showDialog(
         context: context,
         builder: (BuildContext buildContext) {
           return AlertDialog(
-            title: Text(title),
-            content: Text(description),
-            actions: [
-              FlatButton(
-                child: Text("OK"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
+              title: Text(title), content: Text(description), actions: actions);
         });
   }
 }
