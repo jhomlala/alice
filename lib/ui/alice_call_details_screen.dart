@@ -4,6 +4,10 @@ import 'package:alice/core/alice_core.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:flutter/material.dart';
 
+import 'alice_call_overview_widget.dart';
+import 'alice_call_request_widget.dart';
+import 'alice_call_response_widget.dart';
+
 class AliceCallDetailsScreen extends StatefulWidget {
   final AliceHttpCall call;
   final AliceCore core;
@@ -58,102 +62,13 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
 
   List<Widget> _getTabBarViewList() {
     List<Widget> widgets = List();
-    widgets.add(_getOverviewWidget());
-    widgets.add(_getRequestWidget());
-    widgets.add(_getResponseWidget());
+    widgets.add(AliceCallOverviewWidget(widget.call));
+    widgets.add(AliceCallRequestWidget(widget.call));
+    widgets.add(AliceCallResponseWidget(widget.call));
     widgets.add(_getErrorWidget());
     return widgets;
   }
 
-  Widget _getOverviewWidget() {
-    List<Widget> rows = List();
-    rows.add(_getListRow("Method: ", widget.call.method));
-    rows.add(_getListRow("Server: ", widget.call.server));
-    rows.add(_getListRow("Endpoint: ", widget.call.endpoint));
-    rows.add(_getListRow("Started:", widget.call.request.time.toString()));
-    rows.add(_getListRow("Finished:", widget.call.response.time.toString()));
-    rows.add(_getListRow("Duration:", formatDuration(widget.call.duration)));
-    rows.add(_getListRow("Bytes sent:", formatBytes(widget.call.request.size)));
-    rows.add(
-        _getListRow("Bytes received:", formatBytes(widget.call.response.size)));
-    rows.add(_getListRow("Client:", widget.call.client));
-    rows.add(_getListRow("Secure:", widget.call.secure.toString()));
-    return Container(
-        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-        child: ListView(children: rows));
-  }
-
-  Widget _getRequestWidget() {
-    List<Widget> rows = List();
-    rows.add(_getListRow("Started:", widget.call.request.time.toString()));
-    rows.add(_getListRow("Bytes sent:", formatBytes(widget.call.request.size)));
-    rows.add(_getListRow("Content type:", widget.call.request.contentType));
-
-    var body = widget.call.request.body;
-    var bodyContent = "Body is empty";
-    if (body != null && body.length > 0) {
-      bodyContent = _encoder.convert(widget.call.request.body);
-    }
-    rows.add(_getListRow("Body:", bodyContent));
-
-    var headers = widget.call.request.headers;
-    var headersContent = "Headers are empty";
-    if (headers != null && headers.length > 0) {
-      headersContent = "";
-    }
-    rows.add(_getListRow("Headers: ", headersContent));
-    if (widget.call.request.headers != null) {
-      widget.call.request.headers.forEach((header, value) {
-        rows.add(_getListRow("   • $header:", value.toString()));
-      });
-    }
-    return Container(
-        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-        child: ListView(children: rows));
-  }
-
-  Widget _getResponseWidget() {
-    List<Widget> rows = List();
-    if (!widget.call.loading) {
-      rows.add(_getListRow("Received:", widget.call.response.time.toString()));
-      rows.add(_getListRow(
-          "Bytes received:", formatBytes(widget.call.response.size)));
-
-      var status = widget.call.response.status;
-      var statusText = "$status";
-      if (status == -1) {
-        statusText = "Error";
-      }
-
-      rows.add(_getListRow("Status:", statusText));
-      var headers = widget.call.response.headers;
-      var bodyContent =
-          formatBody(widget.call.response.body, getContentType(headers));
-      rows.add(_getListRow("Body:", bodyContent));
-      var headersContent = "Headers are empty";
-      if (headers != null && headers.length > 0) {
-        headersContent = "";
-      }
-      rows.add(_getListRow("Headers: ", headersContent));
-      if (widget.call.response.headers != null) {
-        widget.call.response.headers.forEach((header, value) {
-          rows.add(_getListRow("   • $header:", value.toString()));
-        });
-      }
-      return Container(
-          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-          child: ListView(children: rows));
-    } else {
-      return Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          new CircularProgressIndicator(),
-          Text("Awaiting response...")
-        ],
-      ));
-    }
-  }
 
   Widget _getErrorWidget() {
     if (widget.call.error != null) {
