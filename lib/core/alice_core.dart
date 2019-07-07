@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:alice/model/alice_http_error.dart';
+import 'package:alice/ui/alert_helper.dart';
 import 'package:alice/ui/alice_calls_list_screen.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_response.dart';
@@ -22,7 +23,6 @@ class AliceCore {
   List<AliceHttpCall> calls;
   PublishSubject<int> changesSubject;
   PublishSubject<AliceHttpCall> callUpdateSubject;
-
 
   AliceCore(GlobalKey<NavigatorState> navigatorKey, bool showNotification) {
     _navigatorKey = navigatorKey;
@@ -162,7 +162,7 @@ class AliceCore {
           permissions[PermissionGroup.storage] == PermissionStatus.granted) {
         _saveToFile(context);
       } else {
-        _showAlert(context, "Permission error",
+        AlertHelper.showAlert(context, "Permission error",
             "Permission not granted. Couldn't save logs.");
       }
     }
@@ -171,7 +171,8 @@ class AliceCore {
   Future<String> _saveToFile(BuildContext context) async {
     try {
       if (calls.length == 0) {
-        _showAlert(context, "Error", "There are no logs to save");
+        AlertHelper.showAlert(context, "Error", "There are no logs to save");
+        return "";
       }
 
       Directory externalDir = await getExternalStorageDirectory();
@@ -226,11 +227,14 @@ class AliceCore {
 
       await sink.flush();
       await sink.close();
-      _showAlert(context, "Success", "Sucessfully saved logs in ${file.path}",
-          fileUrl: file.path);
+      AlertHelper.showAlert(
+          context, "Success", "Sucessfully saved logs in ${file.path}",
+          secondButtonTitle: "View file",
+          secondButtonAction: () => OpenFile.open(file.path));
       return file.path;
     } catch (exception) {
-      _showAlert(context, "Error", "Failed to save http calls to file");
+      AlertHelper.showAlert(
+          context, "Error", "Failed to save http calls to file");
       print(exception);
     }
 

@@ -5,6 +5,7 @@ import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:flutter/material.dart';
 
+import 'alert_helper.dart';
 import 'alice_stats_screen.dart';
 
 class AliceCallsListScreen extends StatefulWidget {
@@ -73,7 +74,32 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
         stream: widget._aliceCore.changesSubject.stream,
         builder: (context, AsyncSnapshot<int> snapshot) {
           if (widget._aliceCore.calls.length == 0) {
-            return Center(child: Text("There is no calls to show"));
+            return Container(
+                margin: EdgeInsets.all(5),
+                child: Center(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.error_outline,
+                          color: Colors.orange,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 5),
+                        ),
+                        Text(
+                          "There are no calls to show",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 5),
+                        ),
+                        Text(
+                          "You have not send any http call or your Alice configuration is invalid.",
+                          style: TextStyle(fontSize: 12),
+                        )
+                      ]),
+                ));
           } else {
             return ListView(
               children: _getListElements(),
@@ -84,9 +110,9 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
 
   _getListElements() {
     List<Widget> widgets = List();
-    print("Get list elements: " + widget._aliceCore.calls.length.toString());
-    widget._aliceCore.calls
-        .forEach((call) => {widgets.add(_getListItem(call))});
+    widget._aliceCore.calls.forEach((AliceHttpCall call) {
+      widgets.add(_getListItem(call));
+    });
     return widgets;
   }
 
@@ -216,29 +242,12 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   }
 
   void _showRemoveDialog() {
-    showDialog(
-        context: context,
-        builder: (BuildContext buildContext) {
-          return AlertDialog(
-            title: Text("Delete calls"),
-            content: Text("Do you want to delete http calls?"),
-            actions: <Widget>[
-              FlatButton(
-                child: Text("Yes"),
-                onPressed: () {
-                  _removeCalls();
-                  Navigator.of(buildContext).pop();
-                },
-              ),
-              FlatButton(
-                child: Text("No"),
-                onPressed: () {
-                  Navigator.of(buildContext).pop();
-                },
-              )
-            ],
-          );
-        });
+    AlertHelper.showAlert(
+        context, "Delete calls", "Do you want to delete http calls?",
+        firstButtonTitle: "No",
+        firstButtonAction: () => {},
+        secondButtonTitle: "Yes",
+        secondButtonAction: () => _removeCalls());
   }
 
   void _removeCalls() {
