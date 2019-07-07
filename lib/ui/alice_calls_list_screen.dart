@@ -63,7 +63,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
     if (menuItem.title == "Stats") {
       _showStatsScreen();
     }
-    if (menuItem.title == "Save"){
+    if (menuItem.title == "Save") {
       _saveToFile();
     }
   }
@@ -123,13 +123,16 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
                           Padding(
                             padding: EdgeInsets.only(top: 5),
                           ),
-                          Text(call.server,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.black,
-                              )),
+                          Row(children: [
+                            _getSecuredConnectionIcon(call.secure),
+                            Text(call.server,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black,
+                                )),
+                          ]),
                           Padding(
                             padding: EdgeInsets.only(top: 5),
                           ),
@@ -249,7 +252,26 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
             builder: (context) => AliceStatsScreen(widget._aliceCore.calls)));
   }
 
-  void _saveToFile() async{
+  void _saveToFile() async {
     widget._aliceCore.saveHttpRequests(context);
+  }
+
+  Widget _getSecuredConnectionIcon(bool secure) {
+    IconData iconData;
+    Color iconColor;
+    if (secure) {
+      iconData = Icons.lock_outline;
+      iconColor = Colors.green;
+    } else {
+      iconData = Icons.lock_open;
+      iconColor = Colors.red;
+    }
+    return Padding(
+        padding: EdgeInsets.only(right: 3),
+        child: Icon(
+          iconData,
+          color: iconColor,
+          size: 12,
+        ));
   }
 }

@@ -22,7 +22,7 @@ class AliceCore {
   List<AliceHttpCall> calls;
   PublishSubject<int> changesSubject;
   PublishSubject<AliceHttpCall> callUpdateSubject;
-  IOSink _sink;
+
 
   AliceCore(GlobalKey<NavigatorState> navigatorKey, bool showNotification) {
     _navigatorKey = navigatorKey;
@@ -214,7 +214,7 @@ class AliceCore {
         sink.write(
             "Response headers: ${_encoder.convert(call.response.headers)}\n");
         sink.write("Response body: ${_encoder.convert(call.response.body)}\n");
-        if (call.error != null){
+        if (call.error != null) {
           sink.write("Error: ${call.error.error}\n");
           if (call.error.stackTrace != null) {
             sink.write("Error stacktrace: ${call.error.stackTrace}\n");
@@ -224,13 +224,13 @@ class AliceCore {
         sink.write("\n");
       });
 
-      sink.write("");
       await sink.flush();
       await sink.close();
-      _showAlert(context, "Success", "Sucessfully saved logs in " + file.path,
+      _showAlert(context, "Success", "Sucessfully saved logs in ${file.path}",
           fileUrl: file.path);
       return file.path;
     } catch (exception) {
+      _showAlert(context, "Error", "Failed to save http calls to file");
       print(exception);
     }
 
@@ -240,17 +240,18 @@ class AliceCore {
   void _showAlert(BuildContext context, String title, String description,
       {String fileUrl}) {
     List<Widget> actions = List();
-    actions.add(FlatButton(
-      child: Text("OK"),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    ));
     if (fileUrl != null) {
       actions.add(FlatButton(
         child: Text("View file"),
         onPressed: () {
+          Navigator.of(context).pop();
           OpenFile.open(fileUrl);
+        },
+      ));
+      actions.add(FlatButton(
+        child: Text("OK"),
+        onPressed: () {
+          Navigator.of(context).pop();
         },
       ));
     }
