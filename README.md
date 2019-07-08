@@ -1,3 +1,8 @@
+<p align="center">
+<img src="https://raw.githubusercontent.com/jhomlala/alice/master/media/logo.png">
+</p>
+
+
 # Alice
 [![pub package](https://img.shields.io/pub/v/alice.svg)](https://pub.dartlang.org/packages/alice)
 [![pub package](https://img.shields.io/github/license/jhomlala/alice.svg?style=flat)](https://github.com/jhomlala/alice)
