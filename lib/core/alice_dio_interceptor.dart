@@ -45,6 +45,7 @@ class AliceDioInterceptor extends InterceptorsWrapper {
     request.headers = options.headers;
     request.contentType = options.contentType.toString();
     request.cookies = options.cookies;
+    request.queryParameters = options.queryParameters;
 
     call.request = request;
     call.response = AliceHttpResponse();

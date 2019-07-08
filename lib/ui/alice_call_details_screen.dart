@@ -66,4 +66,5 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
     widgets.add(AliceCallErrorWidget(widget.call));
     return widgets;
   }
+
 }
