@@ -53,7 +53,7 @@ $ flutter packages get
 ```
 
 3. Import it
-```dash
+```dart
 import 'package:alice/alice.dart';
 ```
 
@@ -104,6 +104,13 @@ To show inspector manually:
 ```dart
 alice.showInspector();
 ```
+## Saving calls
+Alice supports saving logs to your mobile device storage. In order to make save feature works, you need to add in your Android application manifest:
 
+```xml
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+```
+
+## Example
 See complete example here: https://github.com/jhomlala/alice/blob/master/example/lib/main.dart
 
