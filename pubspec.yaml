@@ -14,6 +14,10 @@ dependencies:
   dio: ^2.1.7
   flutter_local_notifications: ^0.7.1+1
   rxdart: ^0.22.0
+  path_provider: ^1.1.0
+  permission_handler: ^3.1.0
+  package_info: ^0.4.0+4
+  open_file: ^2.0.3
 
 dev_dependencies:
   flutter_test:

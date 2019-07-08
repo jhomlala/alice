@@ -1,8 +1,11 @@
-import 'dart:convert';
-
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:flutter/material.dart';
+
+import 'alice_call_error_widger.dart';
+import 'alice_call_overview_widget.dart';
+import 'alice_call_request_widget.dart';
+import 'alice_call_response_widget.dart';
 
 class AliceCallDetailsScreen extends StatefulWidget {
   final AliceHttpCall call;
@@ -16,7 +19,6 @@ class AliceCallDetailsScreen extends StatefulWidget {
 
 class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
     with SingleTickerProviderStateMixin {
-  JsonEncoder _encoder = new JsonEncoder.withIndent('  ');
   Widget _previousState;
 
   @override
@@ -36,7 +38,7 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
                 child: Scaffold(
                     appBar: AppBar(
                       bottom: TabBar(tabs: _getTabBars()),
-                      title: Text('Alice - HTTP Inspector'),
+                      title: Text('Alice - HTTP Inspector - Details'),
                     ),
                     body: TabBarView(children: _getTabBarViewList())));
           }
@@ -58,186 +60,11 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
 
   List<Widget> _getTabBarViewList() {
     List<Widget> widgets = List();
-    widgets.add(_getOverviewWidget());
-    widgets.add(_getRequestWidget());
-    widgets.add(_getResponseWidget());
-    widgets.add(_getErrorWidget());
+    widgets.add(AliceCallOverviewWidget(widget.call));
+    widgets.add(AliceCallRequestWidget(widget.call));
+    widgets.add(AliceCallResponseWidget(widget.call));
+    widgets.add(AliceCallErrorWidget(widget.call));
     return widgets;
   }
 
-  Widget _getOverviewWidget() {
-    List<Widget> rows = List();
-    rows.add(_getListRow("Method: ", widget.call.method));
-    rows.add(_getListRow("Server: ", widget.call.server));
-    rows.add(_getListRow("Endpoint: ", widget.call.endpoint));
-    rows.add(_getListRow("Started:", widget.call.request.time.toString()));
-    rows.add(_getListRow("Finished:", widget.call.response.time.toString()));
-    rows.add(_getListRow("Duration:", formatDuration(widget.call.duration)));
-    rows.add(_getListRow("Bytes sent:", formatBytes(widget.call.request.size)));
-    rows.add(
-        _getListRow("Bytes received:", formatBytes(widget.call.response.size)));
-    rows.add(_getListRow("Client:", widget.call.client));
-    rows.add(_getListRow("Secure:", widget.call.secure.toString()));
-    return Container(
-        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-        child: ListView(children: rows));
-  }
-
-  Widget _getRequestWidget() {
-    List<Widget> rows = List();
-    rows.add(_getListRow("Started:", widget.call.request.time.toString()));
-    rows.add(_getListRow("Bytes sent:", formatBytes(widget.call.request.size)));
-    rows.add(_getListRow("Content type:", widget.call.request.contentType));
-
-    var body = widget.call.request.body;
-    var bodyContent = "Body is empty";
-    if (body != null && body.length > 0) {
-      bodyContent = _encoder.convert(widget.call.request.body);
-    }
-    rows.add(_getListRow("Body:", bodyContent));
-
-    var queryParameters = widget.call.request.queryParameters;
-    var queryParametersContent = "Query parameters are empty";
-    if (queryParameters != null && queryParameters.length > 0) {
-      queryParametersContent = "";
-    }
-    rows.add(_getListRow("Query Parameters: ", queryParametersContent));
-    if (widget.call.request.queryParameters != null) {
-      widget.call.request.queryParameters.forEach((k, value) {
-        rows.add(_getListRow("   • $k:", value.toString()));
-      });
-    }
-
-    var headers = widget.call.request.headers;
-    var headersContent = "Headers are empty";
-    if (headers != null && headers.length > 0) {
-      headersContent = "";
-    }
-    rows.add(_getListRow("Headers: ", headersContent));
-    if (widget.call.request.headers != null) {
-      widget.call.request.headers.forEach((header, value) {
-        rows.add(_getListRow("   • $header:", value.toString()));
-      });
-    }
-    return Container(
-        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-        child: ListView(children: rows));
-  }
-
-  Widget _getResponseWidget() {
-    List<Widget> rows = List();
-    if (!widget.call.loading) {
-      rows.add(_getListRow("Received:", widget.call.response.time.toString()));
-      rows.add(_getListRow(
-          "Bytes received:", formatBytes(widget.call.response.size)));
-
-      var status = widget.call.response.status;
-      var statusText = "$status";
-      if (status == -1) {
-        statusText = "Error";
-      }
-
-      rows.add(_getListRow("Status:", statusText));
-      var headers = widget.call.response.headers;
-      var bodyContent =
-          formatBody(widget.call.response.body, getContentType(headers));
-      rows.add(_getListRow("Body:", bodyContent));
-      var headersContent = "Headers are empty";
-      if (headers != null && headers.length > 0) {
-        headersContent = "";
-      }
-      rows.add(_getListRow("Headers: ", headersContent));
-      if (widget.call.response.headers != null) {
-        widget.call.response.headers.forEach((header, value) {
-          rows.add(_getListRow("   • $header:", value.toString()));
-        });
-      }
-      return Container(
-          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-          child: ListView(children: rows));
-    } else {
-      return Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          new CircularProgressIndicator(),
-          Text("Awaiting response...")
-        ],
-      ));
-    }
-  }
-
-  Widget _getErrorWidget() {
-    if (widget.call.error != null) {
-      List<Widget> rows = List();
-      var error = widget.call.error.error;
-      var errorText = "Error is empty";
-      if (error != null) {
-        errorText = error.toString();
-      }
-      rows.add(_getListRow("Error:", errorText));
-
-      return Container(
-          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-          child: ListView(children: rows));
-    } else {
-      return Center(child: Text("No error to display"));
-    }
-  }
-
-  Widget _getListRow(String name, String value) {
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
-          Padding(padding: EdgeInsets.only(left: 5)),
-          Flexible(
-              fit: FlexFit.loose,
-              child: Text(
-                value,
-                overflow: TextOverflow.clip,
-              )),
-          Padding(
-            padding: EdgeInsets.only(bottom: 18),
-          )
-        ]);
-  }
-
-  String formatBytes(int bytes) {
-    return "$bytes B";
-  }
-
-  String formatDuration(int duration) {
-    return "$duration ms";
-  }
-
-  String formatBody(dynamic body, String contentType) {
-    var bodyContent = "Body is empty";
-    if (body != null) {
-      if (contentType == null ||
-          !contentType.toLowerCase().contains("application/json")) {
-        return body.toString();
-      } else {
-        if (body is String && body.contains("\n")) {
-          bodyContent = body;
-        } else {
-          bodyContent = _encoder.convert(widget.call.response.body);
-        }
-      }
-    }
-    return bodyContent;
-  }
-
-  String getContentType(Map<String, dynamic> headers) {
-    if (headers != null) {
-      if (headers.containsKey("content-type")) {
-        return headers["content-type"];
-      }
-      if (headers.containsKey("Content-Type")) {
-        return headers["Content-Type"];
-      }
-    }
-    return "???";
-  }
 }
