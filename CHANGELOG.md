@@ -1,3 +1,12 @@
+## 0.0.10
+* Added stats feature
+* Added save feature
+* Added secured/not secured connection indicator in call list item
+* Query parameters feature (Dio only)
+* Fix for Uint8List SDK breaking change
+* Updated dependencies
+* Refactored code
+
 ## 0.0.6
 * Fixed http/http package requests
 
