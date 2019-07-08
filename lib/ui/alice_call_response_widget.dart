@@ -1,10 +1,9 @@
 import 'package:alice/model/alice_http_call.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 import 'alice_base_call_details_widget.dart';
 
-class AliceCallResponseWidget extends AliceBaseCallDetailsWidget{
+class AliceCallResponseWidget extends AliceBaseCallDetailsWidget {
   final AliceHttpCall call;
 
   AliceCallResponseWidget(this.call);
@@ -14,8 +13,7 @@ class AliceCallResponseWidget extends AliceBaseCallDetailsWidget{
     List<Widget> rows = List();
     if (!call.loading) {
       rows.add(getListRow("Received:", call.response.time.toString()));
-      rows.add(getListRow(
-          "Bytes received:", formatBytes(call.response.size)));
+      rows.add(getListRow("Bytes received:", formatBytes(call.response.size)));
 
       var status = call.response.status;
       var statusText = "$status";
@@ -25,8 +23,7 @@ class AliceCallResponseWidget extends AliceBaseCallDetailsWidget{
 
       rows.add(getListRow("Status:", statusText));
       var headers = call.response.headers;
-      var bodyContent =
-      formatBody(call.response.body, getContentType(headers));
+      var bodyContent = formatBody(call.response.body, getContentType(headers));
       rows.add(getListRow("Body:", bodyContent));
       var headersContent = "Headers are empty";
       if (headers != null && headers.length > 0) {
@@ -44,13 +41,12 @@ class AliceCallResponseWidget extends AliceBaseCallDetailsWidget{
     } else {
       return Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              new CircularProgressIndicator(),
-              Text("Awaiting response...")
-            ],
-          ));
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          new CircularProgressIndicator(),
+          Text("Awaiting response...")
+        ],
+      ));
     }
   }
-
 }

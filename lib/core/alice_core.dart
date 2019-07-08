@@ -183,7 +183,7 @@ class AliceCore {
       IOSink sink = file.openWrite(mode: FileMode.append);
 
       var packageInfo = await PackageInfo.fromPlatform();
-      sink.write("Alice inspector logs\n");
+      sink.write("Alice - HTTP Inspector\n");
       sink.write("App name:  ${packageInfo.appName}\n");
       sink.write("Package: ${packageInfo.packageName}\n");
       sink.write("Version: ${packageInfo.version}\n");
@@ -241,30 +241,4 @@ class AliceCore {
     return "";
   }
 
-  void _showAlert(BuildContext context, String title, String description,
-      {String fileUrl}) {
-    List<Widget> actions = List();
-    if (fileUrl != null) {
-      actions.add(FlatButton(
-        child: Text("View file"),
-        onPressed: () {
-          Navigator.of(context).pop();
-          OpenFile.open(fileUrl);
-        },
-      ));
-      actions.add(FlatButton(
-        child: Text("OK"),
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-      ));
-    }
-
-    showDialog(
-        context: context,
-        builder: (BuildContext buildContext) {
-          return AlertDialog(
-              title: Text(title), content: Text(description), actions: actions);
-        });
-  }
 }

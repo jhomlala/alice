@@ -4,6 +4,7 @@ import 'package:alice/core/alice_core.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:flutter/material.dart';
 
+import 'alice_call_error_widger.dart';
 import 'alice_call_overview_widget.dart';
 import 'alice_call_request_widget.dart';
 import 'alice_call_response_widget.dart';
@@ -20,7 +21,6 @@ class AliceCallDetailsScreen extends StatefulWidget {
 
 class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
     with SingleTickerProviderStateMixin {
-  JsonEncoder _encoder = new JsonEncoder.withIndent('  ');
   Widget _previousState;
 
   @override
@@ -40,7 +40,7 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
                 child: Scaffold(
                     appBar: AppBar(
                       bottom: TabBar(tabs: _getTabBars()),
-                      title: Text('Alice - HTTP Inspector'),
+                      title: Text('Alice - HTTP Inspector - Details'),
                     ),
                     body: TabBarView(children: _getTabBarViewList())));
           }
@@ -65,82 +65,7 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
     widgets.add(AliceCallOverviewWidget(widget.call));
     widgets.add(AliceCallRequestWidget(widget.call));
     widgets.add(AliceCallResponseWidget(widget.call));
-    widgets.add(_getErrorWidget());
+    widgets.add(AliceCallErrorWidget(widget.call));
     return widgets;
-  }
-
-
-  Widget _getErrorWidget() {
-    if (widget.call.error != null) {
-      List<Widget> rows = List();
-      var error = widget.call.error.error;
-      var errorText = "Error is empty";
-      if (error != null) {
-        errorText = error.toString();
-      }
-      rows.add(_getListRow("Error:", errorText));
-
-      return Container(
-          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-          child: ListView(children: rows));
-    } else {
-      return Center(child: Text("No error to display"));
-    }
-  }
-
-  Widget _getListRow(String name, String value) {
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
-          Padding(padding: EdgeInsets.only(left: 5)),
-          Flexible(
-              fit: FlexFit.loose,
-              child: Text(
-                value,
-                overflow: TextOverflow.clip,
-              )),
-          Padding(
-            padding: EdgeInsets.only(bottom: 18),
-          )
-        ]);
-  }
-
-  String formatBytes(int bytes) {
-    return "$bytes B";
-  }
-
-  String formatDuration(int duration) {
-    return "$duration ms";
-  }
-
-  String formatBody(dynamic body, String contentType) {
-    var bodyContent = "Body is empty";
-    if (body != null) {
-      if (contentType == null ||
-          !contentType.toLowerCase().contains("application/json")) {
-        return body.toString();
-      } else {
-        if (body is String && body.contains("\n")) {
-          bodyContent = body;
-        } else {
-          bodyContent = _encoder.convert(widget.call.response.body);
-        }
-      }
-    }
-    return bodyContent;
-  }
-
-  String getContentType(Map<String, dynamic> headers) {
-    if (headers != null) {
-      if (headers.containsKey("content-type")) {
-        return headers["content-type"];
-      }
-      if (headers.containsKey("Content-Type")) {
-        return headers["Content-Type"];
-      }
-    }
-    return "???";
   }
 }

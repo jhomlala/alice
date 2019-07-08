@@ -12,7 +12,7 @@ class AliceStatsScreen extends StatelessWidget {
     int bytesReceived = _getBytesReceived();
     return Scaffold(
       appBar: AppBar(
-        title: Text("Alice - HTTP stats"),
+        title: Text("Alice - HTTP Inspector - Stats"),
       ),
       body: Container(
           padding: EdgeInsets.all(10),
