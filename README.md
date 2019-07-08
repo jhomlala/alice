@@ -42,8 +42,8 @@ Alice supports http clients:
 * Http from http/http package 
 
 ## Install
-1. Add this to your package's pubspec.yaml file:
-```dart
+1. Add this to your **pubspec.yaml** file:
+```yaml
 dependencies:
   alice: ^0.0.10
 ```
@@ -57,52 +57,52 @@ $ flutter packages get
 import 'package:alice/alice.dart';
 ```
 
-## How to use
+## Usage
 Create Alice instance:
 ```dart
-  Alice alice = Alice(showNotification: true);
+Alice alice = Alice(showNotification: true);
 ```
-Alice default behaviour is to show notification with http requests. You can disable it `Alice` constructor.
+Alice default behaviour is to show notification with http requests. You can disable it in `Alice` constructor.
 
 Add navigator key to your application:
 ```dart
-  MaterialApp( navigatorKey: alice.getNavigatorKey(), home: ...)
+MaterialApp( navigatorKey: alice.getNavigatorKey(), home: ...)
 ```
 You need to add this navigator key in order to show inspector UI.
 You can use also your navigator key in Alice:
 ```dart
-    Alice alice = Alice(showNotification: true, navigatorKey: yourNavigatorKeyHere);
+Alice alice = Alice(showNotification: true, navigatorKey: yourNavigatorKeyHere);
 ```
 
 
 If you're using Dio, you just need to add interceptor.
 ```dart
-  Dio dio = Dio();
-  dio.interceptors.add(alice.getDioInterceptor());
+Dio dio = Dio();
+dio.interceptors.add(alice.getDioInterceptor());
 ```
 
 If you're using HttpClient from dart:io package:
 ```dart
-    httpClient
-        .getUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts"))
-        .then((request) async {
-      alice.onHttpClientRequest(request);
-      var httpResponse = await request.close();
-      var responseBody = await httpResponse.transform(utf8.decoder).join();
-      alice.onHttpClientResponse(httpResponse, request, body: responseBody);
-    });
+httpClient
+	.getUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts"))
+	.then((request) async {
+		alice.onHttpClientRequest(request);
+		var httpResponse = await request.close();
+		var responseBody = await httpResponse.transform(utf8.decoder).join();
+		alice.onHttpClientResponse(httpResponse, request, body: responseBody);
+ });
 ```
 
 If you're using http from http/http package:
 ```dart
-    http.get('https://jsonplaceholder.typicode.com/posts').then((response) {
-      alice.onHttpResponse(response);
-    });
+http.get('https://jsonplaceholder.typicode.com/posts').then((response) {
+    alice.onHttpResponse(response);
+});
 ```
 
 To show inspector manually:
 ```dart
-  alice.showInspector();
+alice.showInspector();
 ```
 
 See complete example here: https://github.com/jhomlala/alice/blob/master/example/lib/main.dart
