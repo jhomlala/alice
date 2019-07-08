@@ -33,6 +33,18 @@ class AliceCallRequestWidget extends AliceBaseCallDetailsWidget {
         rows.add(getListRow("   • $header:", value.toString()));
       });
     }
+    var queryParameters = call.request.queryParameters;
+    var queryParametersContent = "Query parameters are empty";
+    if (queryParameters != null && queryParameters.length > 0) {
+      queryParametersContent = "";
+    }
+    rows.add(getListRow("Query Parameters: ", queryParametersContent));
+    if (call.request.queryParameters != null) {
+      call.request.queryParameters.forEach((query, value) {
+        rows.add(getListRow("   • $query:", value.toString()));
+      });
+    }
+
     return Container(
         padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
         child: ListView(children: rows));
