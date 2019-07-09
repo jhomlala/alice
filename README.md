@@ -15,7 +15,7 @@ Alice is an HTTP Inspector tool for Flutter which helps debugging http requests.
 <table>
   <tr>
     <td>
-  <img width="250px" src="https://github.com/jhomlala/alice/blob/master/media/1.png">
+		<img width="250px" src="https://github.com/jhomlala/alice/blob/master/media/1.png">
     </td>
     <td>
        <img width="250px" src="https://github.com/jhomlala/alice/blob/master/media/2.png">
@@ -34,6 +34,17 @@ Alice is an HTTP Inspector tool for Flutter which helps debugging http requests.
     </td>
   </tr>
   <tr>
+    <td>
+	<img width="250px" src="https://github.com/jhomlala/alice/blob/master/media/7.png">
+    </td>
+    <td>
+       <img width="250px" src="https://github.com/jhomlala/alice/blob/master/media/8.png">
+    </td>
+    <td>
+       <img width="250px" src="https://github.com/jhomlala/alice/blob/master/media/9.png">
+    </td>
+  </tr>
+
 </table>
 
 Alice supports http clients:
