@@ -240,5 +240,4 @@ class AliceCore {
 
     return "";
   }
-
 }

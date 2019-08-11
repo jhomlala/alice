@@ -1,3 +1,7 @@
+## 0.0.12
+* Updated flutter local notification dependency version
+* Refactor
+
 ## 0.0.11
 * Fixed iOS version issues (fixed by https://github.com/britannio Britannio Jarrett)
 

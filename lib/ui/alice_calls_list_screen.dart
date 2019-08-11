@@ -110,12 +110,10 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   _getListElements() {
     List<Widget> widgets = List();
     widget._aliceCore.calls.forEach((AliceHttpCall call) {
-      widgets.add(AliceCallListItem(call,_onListItemClicked));
+      widgets.add(AliceCallListItem(call, _onListItemClicked));
     });
     return widgets;
   }
-
-
 
   void _onListItemClicked(AliceHttpCall call) {
     Navigator.push(
@@ -149,5 +147,4 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   void _saveToFile() async {
     widget._aliceCore.saveHttpRequests(context);
   }
-
 }

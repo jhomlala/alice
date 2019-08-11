@@ -28,7 +28,8 @@ class AliceStatsScreen extends StatelessWidget {
                   "$bytesSent bytes (${_getKilobytes(bytesSent)} KB)"),
               _getRow("Bytes received:",
                   "$bytesReceived bytes (${_getKilobytes(bytesReceived)} KB)"),
-              _getRow("Average request time:", "${_getAverageRequestTime()} ms"),
+              _getRow(
+                  "Average request time:", "${_getAverageRequestTime()} ms"),
               _getRow("Max request time:", "${_getMaxRequestTime()} ms"),
               _getRow("Min request time:", "${_getMinRequestTime()} ms"),
               _getRow("Get requests:", "${_getRequests("GET")} "),
@@ -150,7 +151,7 @@ class AliceStatsScreen extends StatelessWidget {
         requestsWithDurationCount++;
       }
     });
-    if (requestTimeSum == 0){
+    if (requestTimeSum == 0) {
       return 0;
     }
     return requestTimeSum ~/ requestsWithDurationCount;
@@ -168,7 +169,7 @@ class AliceStatsScreen extends StatelessWidget {
 
   int _getMinRequestTime() {
     int minRequestTime = 10000000;
-    if (calls.length == 0){
+    if (calls.length == 0) {
       minRequestTime = 0;
     } else {
       calls.forEach((AliceHttpCall call) {
@@ -180,7 +181,7 @@ class AliceStatsScreen extends StatelessWidget {
     return minRequestTime;
   }
 
-  int _getRequests(String requestType){
+  int _getRequests(String requestType) {
     int requests = 0;
     calls.forEach((AliceHttpCall call) {
       if (call.method == requestType) {
@@ -190,7 +191,7 @@ class AliceStatsScreen extends StatelessWidget {
     return requests;
   }
 
-  int _getSecuredRequests(){
+  int _getSecuredRequests() {
     int requests = 0;
     calls.forEach((AliceHttpCall call) {
       if (call.secure) {
@@ -200,7 +201,7 @@ class AliceStatsScreen extends StatelessWidget {
     return requests;
   }
 
-  int _getUnsecuredRequests(){
+  int _getUnsecuredRequests() {
     int requests = 0;
     calls.forEach((AliceHttpCall call) {
       if (!call.secure) {

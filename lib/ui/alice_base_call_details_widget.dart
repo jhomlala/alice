@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
-abstract class AliceBaseCallDetailsWidget extends StatelessWidget{
+abstract class AliceBaseCallDetailsWidget extends StatelessWidget {
   final JsonEncoder encoder = new JsonEncoder.withIndent('  ');
 
   Widget getListRow(String name, String value) {
@@ -60,5 +60,4 @@ abstract class AliceBaseCallDetailsWidget extends StatelessWidget{
     }
     return "???";
   }
-
 }

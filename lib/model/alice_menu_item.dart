@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AliceMenuItem{
+class AliceMenuItem {
   final String title;
   final IconData iconData;
 
