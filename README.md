@@ -62,7 +62,6 @@ Alice is an HTTP Inspector tool for Flutter which helps debugging http requests.
 ✔️ Error handling  
   
 
-
 ## Install
 1. Add this to your **pubspec.yaml** file:
 ```yaml
