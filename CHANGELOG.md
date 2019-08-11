@@ -1,3 +1,6 @@
+## 0.0.11
+* Fixed iOS version issues (fixed by https://github.com/britannio Britannio Jarrett)
+
 ## 0.0.10
 * Added stats feature
 * Added save feature
