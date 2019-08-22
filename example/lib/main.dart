@@ -151,6 +151,7 @@ class _MyAppState extends State<MyApp> {
     dio.put("https://jsonplaceholder.typicode.com/posts/1", data: body);
     dio.delete("https://jsonplaceholder.typicode.com/posts/1");
     dio.get("http://jsonplaceholder.typicode.com/test/test");
+
   }
 
   void _runHttpInspector() {
