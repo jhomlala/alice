@@ -29,8 +29,10 @@ class AliceCore {
     calls = List();
     changesSubject = PublishSubject();
     callUpdateSubject = PublishSubject();
-    _initializeNotificationsPlugin();
     _showNotification = showNotification;
+    if (showNotification) {
+      _initializeNotificationsPlugin();
+    }
   }
 
   dispose() {
