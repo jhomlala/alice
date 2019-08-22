@@ -1,3 +1,7 @@
+## 0.0.13
+* Updated dependencies
+* Notification won't init when showNotification is off
+
 ## 0.0.12
 * Updated flutter local notification dependency version
 * Refactor
