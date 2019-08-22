@@ -4,7 +4,7 @@ import 'package:alice/core/alice_core.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:flutter/material.dart';
 
-import 'alert_helper.dart';
+import 'alice_alert_helper.dart';
 import 'alice_call_list_item.dart';
 import 'alice_stats_screen.dart';
 
@@ -125,7 +125,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   }
 
   void _showRemoveDialog() {
-    AlertHelper.showAlert(
+    AliceAlertHelper.showAlert(
         context, "Delete calls", "Do you want to delete http calls?",
         firstButtonTitle: "No",
         firstButtonAction: () => {},

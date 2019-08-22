@@ -6,9 +6,9 @@ import 'package:open_file/open_file.dart';
 import 'package:package_info/package_info.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'alert_helper.dart';
+import 'alice_alert_helper.dart';
 
-class SaveHelper {
+class AliceSaveHelper {
   static JsonEncoder _encoder = new JsonEncoder.withIndent('  ');
 
   static void saveCalls(BuildContext context, List<AliceHttpCall> calls) {
@@ -29,7 +29,7 @@ class SaveHelper {
           permissions[PermissionGroup.storage] == PermissionStatus.granted) {
         _saveToFile(context, calls);
       } else {
-        AlertHelper.showAlert(context, "Permission error",
+        AliceAlertHelper.showAlert(context, "Permission error",
             "Permission not granted. Couldn't save logs.");
       }
     }
@@ -39,7 +39,8 @@ class SaveHelper {
       BuildContext context, List<AliceHttpCall> calls) async {
     try {
       if (calls.length == 0) {
-        AlertHelper.showAlert(context, "Error", "There are no logs to save");
+        AliceAlertHelper.showAlert(
+            context, "Error", "There are no logs to save");
         return "";
       }
 
@@ -95,13 +96,13 @@ class SaveHelper {
 
       await sink.flush();
       await sink.close();
-      AlertHelper.showAlert(
+      AliceAlertHelper.showAlert(
           context, "Success", "Sucessfully saved logs in ${file.path}",
           secondButtonTitle: "View file",
           secondButtonAction: () => OpenFile.open(file.path));
       return file.path;
     } catch (exception) {
-      AlertHelper.showAlert(
+      AliceAlertHelper.showAlert(
           context, "Error", "Failed to save http calls to file");
       print(exception);
     }
