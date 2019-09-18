@@ -1,3 +1,6 @@
+## 0.0.14
+* Fixed Dio API breaking change
+
 ## 0.0.13
 * Updated dependencies
 * Notification won't init when showNotification is off

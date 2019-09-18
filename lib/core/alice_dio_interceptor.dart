@@ -44,7 +44,6 @@ class AliceDioInterceptor extends InterceptorsWrapper {
     request.time = DateTime.now();
     request.headers = options.headers;
     request.contentType = options.contentType.toString();
-    request.cookies = options.cookies;
     request.queryParameters = options.queryParameters;
 
     call.request = request;
@@ -84,7 +83,10 @@ class AliceDioInterceptor extends InterceptorsWrapper {
   onError(DioError err) {
     var httpError = AliceHttpError();
     httpError.error = err.toString();
-    httpError.stackTrace = err.stackTrace;
+    if (err is Error){
+      var error = err as Error;
+      httpError.stackTrace = error.stackTrace;
+    }
 
     _aliceCore.addError(httpError, err.request.hashCode);
     var httpResponse = AliceHttpResponse();
