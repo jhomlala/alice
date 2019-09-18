@@ -59,6 +59,8 @@ class AliceHttpAdapter {
 
     httpRequest.contentType = contentType;
 
+    httpRequest.queryParameters = response.request.url.queryParameters;
+
     AliceHttpResponse httpResponse = AliceHttpResponse();
     httpResponse.status = response.statusCode;
     httpResponse.body = response.body;
