@@ -83,7 +83,7 @@ class AliceDioInterceptor extends InterceptorsWrapper {
   onError(DioError err) {
     var httpError = AliceHttpError();
     httpError.error = err.toString();
-    if (err is Error){
+    if (err is Error) {
       var error = err as Error;
       httpError.stackTrace = error.stackTrace;
     }

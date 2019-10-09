@@ -6,7 +6,6 @@ class AliceAlertHelper {
       String secondButtonTitle,
       Function firstButtonAction,
       Function secondButtonAction}) {
-
     List<Widget> actions = List();
     if (firstButtonTitle != null) {
       actions.add(FlatButton(
