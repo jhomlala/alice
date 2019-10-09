@@ -1,3 +1,6 @@
+## 0.0.15
+* Updated dependencies
+
 ## 0.0.14
 * Fixed Dio API breaking change
 
