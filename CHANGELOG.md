@@ -1,3 +1,6 @@
+## 0.0.16
+* Fixed server text overflow
+
 ## 0.0.15
 * Updated dependencies
 
