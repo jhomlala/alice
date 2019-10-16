@@ -44,13 +44,14 @@ class AliceCallListItem extends StatelessWidget {
                           ),
                           Row(children: [
                             _getSecuredConnectionIcon(call.secure),
-                            Text(call.server,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                )),
+                            Expanded(
+                                child: Text(call.server,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.black,
+                                    ))),
                           ]),
                           Padding(
                             padding: EdgeInsets.only(top: 5),
