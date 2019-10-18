@@ -20,7 +20,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    alice = Alice(showNotification: true);
+    alice = Alice(showNotification: true, showInspectorOnShake: true);
     dio = Dio();
     dio.interceptors.add(alice.getDioInterceptor());
     httpClient = HttpClient();
@@ -144,9 +144,8 @@ class _MyAppState extends State<MyApp> {
     });
 
     dio.post("https://jsonplaceholder.typicode.com/posts", data: body);
-    dio.get("https://jsonplaceholder.typicode.com/posts", queryParameters: {
-      "test":1
-    });
+    dio.get("https://jsonplaceholder.typicode.com/posts",
+        queryParameters: {"test": 1});
     dio.put("https://jsonplaceholder.typicode.com/posts/1", data: body);
     dio.put("https://jsonplaceholder.typicode.com/posts/1", data: body);
     dio.delete("https://jsonplaceholder.typicode.com/posts/1");
