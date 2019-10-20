@@ -1,3 +1,6 @@
+## 0.0.17
+* Added shake option to open inspector from everywhere
+
 ## 0.0.16
 * Fixed server text overflow
 

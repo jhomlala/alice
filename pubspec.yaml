@@ -18,9 +18,9 @@ dependencies:
   permission_handler: ^3.2.2
   package_info: ^0.4.0+6
   open_file: ^2.0.3
+  shake: ^0.1.0
 
 dev_dependencies:
-
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
@@ -34,7 +34,6 @@ flutter:
   plugin:
     androidPackage: com.jhomlala.alice
     pluginClass: AlicePlugin
-
   # To add assets to your plugin package, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg
@@ -45,7 +44,6 @@ flutter:
   #
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
-
   # To add custom fonts to your plugin package, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
