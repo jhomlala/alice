@@ -34,7 +34,7 @@ class AliceCore {
       _initializeNotificationsPlugin();
     }
     _showInspectorOnShake = showInspectorOnShake;
-    if (showInspectorOnShake) {
+    if (_showInspectorOnShake) {
       shakeDetector = ShakeDetector.autoStart(
         onPhoneShake: () => navigateToCallListScreen(),
         shakeThresholdGravity: 5,
