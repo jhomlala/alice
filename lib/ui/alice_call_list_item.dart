@@ -11,70 +11,100 @@ class AliceCallListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () {
-          itemClickAction(call);
-        },
-        child: Column(children: [
+      onTap: () {
+        itemClickAction(call);
+      },
+      child: Column(
+        children: [
           Container(
-              padding: EdgeInsets.all(10),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Flexible(
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                          Row(children: [
-                            Text(call.method,
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.black)),
-                            Padding(
-                              padding: EdgeInsets.only(left: 10),
+            padding: EdgeInsets.all(10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            call.method,
+                            style: TextStyle(
+                              fontSize: 16,
                             ),
-                            Flexible(
-                                child: Container(
-                                    child: Text(call.endpoint,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.black))))
-                          ]),
-                          Padding(
-                            padding: EdgeInsets.only(top: 5),
                           ),
-                          Row(children: [
-                            _getSecuredConnectionIcon(call.secure),
-                            Expanded(
-                                child: Text(call.server,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.black,
-                                    ))),
-                          ]),
                           Padding(
-                            padding: EdgeInsets.only(top: 5),
+                            padding: EdgeInsets.only(left: 10),
                           ),
-                          Row(children: [
-                            Text(_formatTime(call.request.time),
+                          Flexible(
+                            child: Container(
+                              child: Text(
+                                call.endpoint,
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
-                                    fontSize: 12, color: Colors.black)),
-                            Padding(padding: EdgeInsets.only(left: 10)),
-                            Text("${call.duration} ms",
-                                style: TextStyle(
-                                    fontSize: 12, color: Colors.black)),
-                            Padding(padding: EdgeInsets.only(left: 10)),
-                            Text(
-                                "${call.request.size}B / ${call.response.size}B",
-                                style: TextStyle(
-                                    fontSize: 12, color: Colors.black))
-                          ]),
-                        ])),
-                    _getResponseColumn(call)
-                  ])),
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 5),
+                      ),
+                      Row(
+                        children: [
+                          _getSecuredConnectionIcon(call.secure),
+                          Expanded(
+                            child: Text(
+                              call.server,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: TextStyle(
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 5),
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            _formatTime(call.request.time),
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                          Padding(padding: EdgeInsets.only(left: 10)),
+                          Text(
+                            "${call.duration} ms",
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                          Padding(padding: EdgeInsets.only(left: 10)),
+                          Text(
+                            "${call.request.size}B / ${call.response.size}B",
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                _getResponseColumn(call)
+              ],
+            ),
+          ),
           Container(height: 1, color: Colors.grey)
-        ]));
+        ],
+      ),
+    );
   }
 
   String _formatTime(DateTime time) {
@@ -88,15 +118,25 @@ class AliceCallListItem extends StatelessWidget {
   Column _getResponseColumn(AliceHttpCall call) {
     List<Widget> widgets = List();
     if (call.loading) {
-      widgets.add(SizedBox(
-        child: new CircularProgressIndicator(),
-        width: 20,
-        height: 20,
-      ));
+      widgets.add(
+        SizedBox(
+          child: new CircularProgressIndicator(),
+          width: 20,
+          height: 20,
+        ),
+      );
     }
-    widgets.add(Text(getStatus(call.response),
+    widgets.add(
+      Text(
+        getStatus(call.response),
         style: TextStyle(
-            fontSize: 16, color: _getStatusTextColor(call.response.status))));
+          fontSize: 16,
+          color: _getStatusTextColor(
+            call.response.status,
+          ),
+        ),
+      ),
+    );
     return Column(children: widgets);
   }
 
@@ -104,7 +144,7 @@ class AliceCallListItem extends StatelessWidget {
     if (status == -1) {
       return Colors.red;
     } else if (status < 200) {
-      return Colors.black;
+      return Colors.blue;
     } else if (status >= 200 && status < 300) {
       return Colors.green;
     } else if (status >= 300 && status < 400) {
@@ -112,7 +152,7 @@ class AliceCallListItem extends StatelessWidget {
     } else if (status >= 400 && status < 600) {
       return Colors.red;
     } else {
-      return Colors.black;
+      return Colors.purple;
     }
   }
 
@@ -137,11 +177,12 @@ class AliceCallListItem extends StatelessWidget {
       iconColor = Colors.red;
     }
     return Padding(
-        padding: EdgeInsets.only(right: 3),
-        child: Icon(
-          iconData,
-          color: iconColor,
-          size: 12,
-        ));
+      padding: EdgeInsets.only(right: 3),
+      child: Icon(
+        iconData,
+        color: iconColor,
+        size: 12,
+      ),
+    );
   }
 }
