@@ -1,5 +1,5 @@
 ## 0.0.17
-* Added shake option to open inspector from everywhere (MattisBrizard)
+* Added shake option to open inspector from everywhere (by https://github.com/MattisBrizard MattisBrizard)
 
 ## 0.0.16
 * Fixed server text overflow
