@@ -1,16 +1,16 @@
+import 'package:alice/core/alice_core.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:flutter/material.dart';
 
 class AliceStatsScreen extends StatelessWidget {
-  final List<AliceHttpCall> calls;
-
-  const AliceStatsScreen(this.calls);
+  final AliceCore aliceCore;
+  const AliceStatsScreen(this.aliceCore);
 
   @override
   Widget build(BuildContext context) {
     int bytesSent = _getBytesSent();
     int bytesReceived = _getBytesReceived();
-    return Scaffold(
+    return Theme(data: ThemeData(brightness: aliceCore.brightness), child: Scaffold(
       appBar: AppBar(
         title: Text("Alice - HTTP Inspector - Stats"),
       ),
@@ -41,7 +41,7 @@ class AliceStatsScreen extends StatelessWidget {
               _getRow("Unsecured requests:", "${_getUnsecuredRequests()}"),
             ],
           ))),
-    );
+    ));
   }
 
   Row _getRow(String label, String value) {
@@ -210,4 +210,7 @@ class AliceStatsScreen extends StatelessWidget {
     });
     return requests;
   }
+
+  List<AliceHttpCall> get calls => aliceCore.calls;
+
 }

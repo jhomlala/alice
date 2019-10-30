@@ -25,9 +25,7 @@ class AliceCallListItem extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                           Row(children: [
-                            Text(call.method,
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.black)),
+                            Text(call.method, style: TextStyle(fontSize: 16)),
                             Padding(
                               padding: EdgeInsets.only(left: 10),
                             ),
@@ -35,9 +33,7 @@ class AliceCallListItem extends StatelessWidget {
                                 child: Container(
                                     child: Text(call.endpoint,
                                         overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.black))))
+                                        style: TextStyle(fontSize: 16))))
                           ]),
                           Padding(
                             padding: EdgeInsets.only(top: 5),
@@ -50,7 +46,6 @@ class AliceCallListItem extends StatelessWidget {
                                     maxLines: 1,
                                     style: TextStyle(
                                       fontSize: 14,
-                                      color: Colors.black,
                                     ))),
                           ]),
                           Padding(
@@ -59,16 +54,16 @@ class AliceCallListItem extends StatelessWidget {
                           Row(children: [
                             Text(_formatTime(call.request.time),
                                 style: TextStyle(
-                                    fontSize: 12, color: Colors.black)),
+                                  fontSize: 12,
+                                )),
                             Padding(padding: EdgeInsets.only(left: 10)),
                             Text("${call.duration} ms",
-                                style: TextStyle(
-                                    fontSize: 12, color: Colors.black)),
+                                style: TextStyle(fontSize: 12)),
                             Padding(padding: EdgeInsets.only(left: 10)),
                             Text(
                                 "${call.request.size}B / ${call.response.size}B",
                                 style: TextStyle(
-                                    fontSize: 12, color: Colors.black))
+                                    fontSize: 12))
                           ]),
                         ])),
                     _getResponseColumn(call)

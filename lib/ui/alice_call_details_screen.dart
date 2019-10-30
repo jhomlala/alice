@@ -28,7 +28,8 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<AliceHttpCall>(
+
+    return Theme(data: ThemeData(brightness: widget.core.brightness), child: StreamBuilder<AliceHttpCall>(
         stream: widget.core.callUpdateSubject,
         initialData: widget.call,
         builder: (context, callSnapshot) {
@@ -43,7 +44,7 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
                     body: TabBarView(children: _getTabBarViewList())));
           }
           return _previousState;
-        });
+        }));
   }
 
   List<Widget> _getTabBars() {
