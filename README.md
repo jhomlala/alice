@@ -44,6 +44,15 @@ Alice is an HTTP Inspector tool for Flutter which helps debugging http requests.
     <td>
        <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/media/9.png">
     </td>
+    <td>
+       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/media/darktheme_1.png">
+    </td>
+    <td>
+       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/media/darktheme_2.png">
+    </td>
+     <td>
+       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/media/darktheme_3.png">
+    </td>
   </tr>
 
 </table>
@@ -86,7 +95,7 @@ import 'package:alice/alice.dart';
 ```
 
 ## Usage
-
+### Alice configuration
 Create Alice instance:
 
 ```dart
@@ -114,12 +123,20 @@ You can set `showInspectorOnShake` in Alice constructor to open inspector by sha
 Alice alice = Alice(showNotification: true, showInspectorOnShake: true, navigatorKey: yourNavigatorKeyHere);
 ```
 
+If you want to use dark mode just add `darkTheme` flag:
+
+```dart
+Alice alice = Alice(..., darkTheme: true);
+```
+
+### HTTP Client configuration
 If you're using Dio, you just need to add interceptor.
 
 ```dart
 Dio dio = Dio();
 dio.interceptors.add(alice.getDioInterceptor());
 ```
+
 
 If you're using HttpClient from dart:io package:
 
