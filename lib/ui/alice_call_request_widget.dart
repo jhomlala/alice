@@ -13,12 +13,12 @@ class AliceCallRequestWidget extends AliceBaseCallDetailsWidget {
     List<Widget> rows = List();
     rows.add(getListRow("Started:", call.request.time.toString()));
     rows.add(getListRow("Bytes sent:", formatBytes(call.request.size)));
-    rows.add(getListRow("Content type:", call.request.contentType));
+    rows.add(getListRow("Content type:", getContentType(call.request.headers)));
 
     var body = call.request.body;
     var bodyContent = "Body is empty";
     if (body != null && body.length > 0) {
-      bodyContent = encoder.convert(call.request.body);
+      bodyContent = formatBody(body, getContentType(call.request.headers));
     }
     rows.add(getListRow("Body:", bodyContent));
 
