@@ -66,7 +66,7 @@ class AliceCallListItem extends StatelessWidget {
                                     fontSize: 12))
                           ]),
                         ])),
-                    _getResponseColumn(call)
+                    _getResponseColumn(context, call)
                   ])),
           Container(height: 1, color: Colors.grey)
         ]));
@@ -80,7 +80,7 @@ class AliceCallListItem extends StatelessWidget {
     return (timeUnit < 10) ? "0$timeUnit" : "$timeUnit";
   }
 
-  Column _getResponseColumn(AliceHttpCall call) {
+  Column _getResponseColumn(BuildContext context, AliceHttpCall call) {
     List<Widget> widgets = List();
     if (call.loading) {
       widgets.add(SizedBox(
@@ -91,15 +91,15 @@ class AliceCallListItem extends StatelessWidget {
     }
     widgets.add(Text(getStatus(call.response),
         style: TextStyle(
-            fontSize: 16, color: _getStatusTextColor(call.response.status))));
+            fontSize: 16, color: _getStatusTextColor(context, call.response.status))));
     return Column(children: widgets);
   }
 
-  Color _getStatusTextColor(int status) {
+  Color _getStatusTextColor(BuildContext context, int status) {
     if (status == -1) {
       return Colors.red;
     } else if (status < 200) {
-      return Colors.black;
+      return Theme.of(context).textTheme.body1.color;
     } else if (status >= 200 && status < 300) {
       return Colors.green;
     } else if (status >= 300 && status < 400) {
@@ -107,7 +107,7 @@ class AliceCallListItem extends StatelessWidget {
     } else if (status >= 400 && status < 600) {
       return Colors.red;
     } else {
-      return Colors.black;
+      return Theme.of(context).textTheme.body1.color;
     }
   }
 
