@@ -6,17 +6,25 @@ import 'package:alice/ui/alice_save_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shake/shake.dart';
 
 class AliceCore {
   FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
   GlobalKey<NavigatorState> _navigatorKey;
   bool _showNotification = false;
+  bool _showInspectorOnShake = false;
+  bool _isInspectorOpened = false;
 
   List<AliceHttpCall> calls;
   PublishSubject<int> changesSubject;
   PublishSubject<AliceHttpCall> callUpdateSubject;
+  ShakeDetector shakeDetector;
 
-  AliceCore(GlobalKey<NavigatorState> navigatorKey, bool showNotification) {
+  AliceCore(
+    GlobalKey<NavigatorState> navigatorKey,
+    bool showNotification,
+    bool showInspectorOnShake,
+  ) {
     _navigatorKey = navigatorKey;
     calls = List();
     changesSubject = PublishSubject();
@@ -25,11 +33,19 @@ class AliceCore {
     if (showNotification) {
       _initializeNotificationsPlugin();
     }
+    _showInspectorOnShake = showInspectorOnShake;
+    if (_showInspectorOnShake) {
+      shakeDetector = ShakeDetector.autoStart(
+        onPhoneShake: () => navigateToCallListScreen(),
+        shakeThresholdGravity: 5,
+      );
+    }
   }
 
   dispose() {
     changesSubject.close();
     callUpdateSubject.close();
+    shakeDetector?.stopListening();
   }
 
   void _initializeNotificationsPlugin() {
@@ -54,10 +70,13 @@ class AliceCore {
       print(
           "Cant start Alice HTTP Inspector. Please add NavigatorKey to your application");
     }
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => AliceCallsListScreen(this)),
-    );
+    if (!_isInspectorOpened) {
+      _isInspectorOpened = true;
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => AliceCallsListScreen(this)),
+      ).then((onValue) => _isInspectorOpened = false);
+    }
   }
 
   BuildContext getContext() {
