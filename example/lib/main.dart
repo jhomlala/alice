@@ -20,7 +20,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    alice = Alice(showNotification: true, showInspectorOnShake: true);
+    alice = Alice(showNotification: true, showInspectorOnShake: true, darkTheme: true);
     dio = Dio();
     dio.interceptors.add(alice.getDioInterceptor());
     httpClient = HttpClient();

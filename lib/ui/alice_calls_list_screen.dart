@@ -28,32 +28,34 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("Alice - HTTP Inspector - Calls"),
-          actions: [
-            PopupMenuButton<AliceMenuItem>(
-              onSelected: (AliceMenuItem item) => _onMenuItemSelected(item),
-              itemBuilder: (BuildContext context) {
-                return _menuItems.map((AliceMenuItem item) {
-                  return PopupMenuItem<AliceMenuItem>(
-                      value: item,
-                      child: Row(children: [
-                        Icon(
-                          item.iconData,
-                          color: Colors.lightBlue,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 10),
-                        ),
-                        Text(item.title)
-                      ]));
-                }).toList();
-              },
+    return Theme(
+        data: ThemeData(brightness: widget._aliceCore.brightness),
+        child: Scaffold(
+            appBar: AppBar(
+              title: Text("Alice - HTTP Inspector - Calls"),
+              actions: [
+                PopupMenuButton<AliceMenuItem>(
+                  onSelected: (AliceMenuItem item) => _onMenuItemSelected(item),
+                  itemBuilder: (BuildContext context) {
+                    return _menuItems.map((AliceMenuItem item) {
+                      return PopupMenuItem<AliceMenuItem>(
+                          value: item,
+                          child: Row(children: [
+                            Icon(
+                              item.iconData,
+                              color: Colors.lightBlue,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 10),
+                            ),
+                            Text(item.title)
+                          ]));
+                    }).toList();
+                  },
+                ),
+              ],
             ),
-          ],
-        ),
-        body: _getCallsList());
+            body: _getCallsList()));
   }
 
   void _onMenuItemSelected(AliceMenuItem menuItem) {
@@ -141,7 +143,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
     Navigator.push(
         widget._aliceCore.getContext(),
         MaterialPageRoute(
-            builder: (context) => AliceStatsScreen(widget._aliceCore.calls)));
+            builder: (context) => AliceStatsScreen(widget._aliceCore)));
   }
 
   void _saveToFile() async {

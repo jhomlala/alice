@@ -1,6 +1,7 @@
 ## 0.0.17
 * Added shake option to open inspector from everywhere (by https://github.com/MattisBrizard MattisBrizard)
 * Fixed double-encoding of request body if request body is a minified json (by https://github.com/knaeckeKami knaeckeKami)
+* Added dark theme (idea by: https://github.com/Agondev Agondev)
 
 ## 0.0.16
 * Fixed server text overflow

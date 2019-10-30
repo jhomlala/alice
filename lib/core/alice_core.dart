@@ -14,17 +14,15 @@ class AliceCore {
   bool _showNotification = false;
   bool _showInspectorOnShake = false;
   bool _isInspectorOpened = false;
+  Brightness _brightness = Brightness.light;
 
   List<AliceHttpCall> calls;
   PublishSubject<int> changesSubject;
   PublishSubject<AliceHttpCall> callUpdateSubject;
   ShakeDetector shakeDetector;
 
-  AliceCore(
-    GlobalKey<NavigatorState> navigatorKey,
-    bool showNotification,
-    bool showInspectorOnShake,
-  ) {
+  AliceCore(GlobalKey<NavigatorState> navigatorKey, bool showNotification,
+      bool showInspectorOnShake, bool darkTheme) {
     _navigatorKey = navigatorKey;
     calls = List();
     changesSubject = PublishSubject();
@@ -40,6 +38,7 @@ class AliceCore {
         shakeThresholdGravity: 5,
       );
     }
+    _brightness = darkTheme ? Brightness.dark : Brightness.light;
   }
 
   dispose() {
@@ -69,6 +68,7 @@ class AliceCore {
     if (context == null) {
       print(
           "Cant start Alice HTTP Inspector. Please add NavigatorKey to your application");
+      return;
     }
     if (!_isInspectorOpened) {
       _isInspectorOpened = true;
@@ -161,4 +161,8 @@ class AliceCore {
   void saveHttpRequests(BuildContext context) {
     AliceSaveHelper.saveCalls(context, calls);
   }
+
+  Brightness get brightness => _brightness;
+
+
 }
