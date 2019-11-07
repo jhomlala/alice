@@ -58,7 +58,7 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
   }
 
   String _getSharableResponseString() {
-    return '${widget.call.getCallLog()}\n\n${widget.call.getCurlCommand()}}';
+    return '${widget.call.getCallLog()}\n\n${widget.call.getCurlCommand()}';
   }
 
   List<Widget> _getTabBars() {
