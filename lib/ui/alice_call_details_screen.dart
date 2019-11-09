@@ -1,6 +1,7 @@
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 
 import 'alice_call_error_widger.dart';
 import 'alice_call_overview_widget.dart';
@@ -28,23 +29,36 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
 
   @override
   Widget build(BuildContext context) {
+    return Theme(
+        data: ThemeData(brightness: widget.core.brightness),
+        child: StreamBuilder<AliceHttpCall>(
+            stream: widget.core.callUpdateSubject,
+            initialData: widget.call,
+            builder: (context, callSnapshot) {
+              if (widget.call.id == callSnapshot.data.id) {
+                _previousState = DefaultTabController(
+                    length: 4,
+                    child: Scaffold(
+                        floatingActionButton: FloatingActionButton(
+                          key: Key('share_key'),
+                          onPressed: () {
+                            Share.share(_getSharableResponseString(),
+                                subject: 'Request Details');
+                          },
+                          child: Icon(Icons.share),
+                        ),
+                        appBar: AppBar(
+                          bottom: TabBar(tabs: _getTabBars()),
+                          title: Text('Alice - HTTP Inspector - Details'),
+                        ),
+                        body: TabBarView(children: _getTabBarViewList())));
+              }
+              return _previousState;
+            }));
+  }
 
-    return Theme(data: ThemeData(brightness: widget.core.brightness), child: StreamBuilder<AliceHttpCall>(
-        stream: widget.core.callUpdateSubject,
-        initialData: widget.call,
-        builder: (context, callSnapshot) {
-          if (widget.call.id == callSnapshot.data.id) {
-            _previousState = DefaultTabController(
-                length: 4,
-                child: Scaffold(
-                    appBar: AppBar(
-                      bottom: TabBar(tabs: _getTabBars()),
-                      title: Text('Alice - HTTP Inspector - Details'),
-                    ),
-                    body: TabBarView(children: _getTabBarViewList())));
-          }
-          return _previousState;
-        }));
+  String _getSharableResponseString() {
+    return '${widget.call.getCallLog()}\n\n${widget.call.getCurlCommand()}';
   }
 
   List<Widget> _getTabBars() {
