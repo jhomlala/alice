@@ -41,10 +41,10 @@ abstract class AliceBaseCallDetailsWidget extends StatelessWidget {
       } else {
         if (body is String && body.contains("\n")) {
           bodyContent = body;
-        } else if(body is String){
+        } else if (body is String) {
           //body is minified json, so decode it to a map and let the encoder pretty print this map
           bodyContent = encoder.convert(json.decode(body));
-        } else{
+        } else {
           bodyContent = encoder.convert(body);
         }
       }

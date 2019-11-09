@@ -1,3 +1,6 @@
+## 0.0.18
+* Added share option in call details. Share allows user to share curl of the request. (by: Praveenkumar Ramasamy https://github.com/pravinarr)
+
 ## 0.0.17
 * Added shake option to open inspector from everywhere (by https://github.com/MattisBrizard MattisBrizard)
 * Fixed double-encoding of request body if request body is a minified json (by https://github.com/knaeckeKami knaeckeKami)

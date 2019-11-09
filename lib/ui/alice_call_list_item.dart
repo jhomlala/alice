@@ -62,8 +62,7 @@ class AliceCallListItem extends StatelessWidget {
                             Padding(padding: EdgeInsets.only(left: 10)),
                             Text(
                                 "${call.request.size}B / ${call.response.size}B",
-                                style: TextStyle(
-                                    fontSize: 12))
+                                style: TextStyle(fontSize: 12))
                           ]),
                         ])),
                     _getResponseColumn(context, call)
@@ -91,7 +90,8 @@ class AliceCallListItem extends StatelessWidget {
     }
     widgets.add(Text(getStatus(call.response),
         style: TextStyle(
-            fontSize: 16, color: _getStatusTextColor(context, call.response.status))));
+            fontSize: 16,
+            color: _getStatusTextColor(context, call.response.status))));
     return Column(children: widgets);
   }
 

@@ -4,44 +4,48 @@ import 'package:flutter/material.dart';
 
 class AliceStatsScreen extends StatelessWidget {
   final AliceCore aliceCore;
+
   const AliceStatsScreen(this.aliceCore);
 
   @override
   Widget build(BuildContext context) {
     int bytesSent = _getBytesSent();
     int bytesReceived = _getBytesReceived();
-    return Theme(data: ThemeData(brightness: aliceCore.brightness), child: Scaffold(
-      appBar: AppBar(
-        title: Text("Alice - HTTP Inspector - Stats"),
-      ),
-      body: Container(
-          padding: EdgeInsets.all(10),
-          child: SingleChildScrollView(
-              child: Column(
-            children: <Widget>[
-              _getRow("Total requests:", "${_getTotalRequests()}"),
-              _getRow("Pending requests:", "${_getPendingRequests()}"),
-              _getRow("Success requests:", "${_getSuccessRequests()}"),
-              _getRow("Redirection requests:", "${_getRedirectionRequests()}"),
-              _getRow("Error requests:", "${_getErrorRequests()}"),
-              _getRow("Bytes send:",
-                  "$bytesSent bytes (${_getKilobytes(bytesSent)} KB)"),
-              _getRow("Bytes received:",
-                  "$bytesReceived bytes (${_getKilobytes(bytesReceived)} KB)"),
-              _getRow(
-                  "Average request time:", "${_getAverageRequestTime()} ms"),
-              _getRow("Max request time:", "${_getMaxRequestTime()} ms"),
-              _getRow("Min request time:", "${_getMinRequestTime()} ms"),
-              _getRow("Get requests:", "${_getRequests("GET")} "),
-              _getRow("Post requests:", "${_getRequests("POST")} "),
-              _getRow("Delete requests:", "${_getRequests("DELETE")} "),
-              _getRow("Put requests:", "${_getRequests("PUT")} "),
-              _getRow("Patch requests:", "${_getRequests("PATCH")} "),
-              _getRow("Secured requests:", "${_getSecuredRequests()}"),
-              _getRow("Unsecured requests:", "${_getUnsecuredRequests()}"),
-            ],
-          ))),
-    ));
+    return Theme(
+        data: ThemeData(brightness: aliceCore.brightness),
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text("Alice - HTTP Inspector - Stats"),
+          ),
+          body: Container(
+              padding: EdgeInsets.all(10),
+              child: SingleChildScrollView(
+                  child: Column(
+                children: <Widget>[
+                  _getRow("Total requests:", "${_getTotalRequests()}"),
+                  _getRow("Pending requests:", "${_getPendingRequests()}"),
+                  _getRow("Success requests:", "${_getSuccessRequests()}"),
+                  _getRow(
+                      "Redirection requests:", "${_getRedirectionRequests()}"),
+                  _getRow("Error requests:", "${_getErrorRequests()}"),
+                  _getRow("Bytes send:",
+                      "$bytesSent bytes (${_getKilobytes(bytesSent)} KB)"),
+                  _getRow("Bytes received:",
+                      "$bytesReceived bytes (${_getKilobytes(bytesReceived)} KB)"),
+                  _getRow("Average request time:",
+                      "${_getAverageRequestTime()} ms"),
+                  _getRow("Max request time:", "${_getMaxRequestTime()} ms"),
+                  _getRow("Min request time:", "${_getMinRequestTime()} ms"),
+                  _getRow("Get requests:", "${_getRequests("GET")} "),
+                  _getRow("Post requests:", "${_getRequests("POST")} "),
+                  _getRow("Delete requests:", "${_getRequests("DELETE")} "),
+                  _getRow("Put requests:", "${_getRequests("PUT")} "),
+                  _getRow("Patch requests:", "${_getRequests("PATCH")} "),
+                  _getRow("Secured requests:", "${_getSecuredRequests()}"),
+                  _getRow("Unsecured requests:", "${_getUnsecuredRequests()}"),
+                ],
+              ))),
+        ));
   }
 
   Row _getRow(String label, String value) {
@@ -212,5 +216,4 @@ class AliceStatsScreen extends StatelessWidget {
   }
 
   List<AliceHttpCall> get calls => aliceCore.calls;
-
 }

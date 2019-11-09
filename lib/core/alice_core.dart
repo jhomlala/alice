@@ -163,6 +163,4 @@ class AliceCore {
   }
 
   Brightness get brightness => _brightness;
-
-
 }

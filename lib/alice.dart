@@ -16,14 +16,14 @@ class Alice {
   bool showInspectorOnShake;
   bool darkTheme;
 
-  Alice({
-    this.showNotification = true,
-    GlobalKey<NavigatorState> navigatorKey,
-    this.showInspectorOnShake = false,
-    this.darkTheme = false
-  }) {
+  Alice(
+      {this.showNotification = true,
+      GlobalKey<NavigatorState> navigatorKey,
+      this.showInspectorOnShake = false,
+      this.darkTheme = false}) {
     _navigatorKey = navigatorKey ?? GlobalKey<NavigatorState>();
-    _core = AliceCore(_navigatorKey, showNotification, showInspectorOnShake, darkTheme);
+    _core = AliceCore(
+        _navigatorKey, showNotification, showInspectorOnShake, darkTheme);
     _httpClientAdapter = AliceHttpClientAdapter(_core);
     _httpAdapter = AliceHttpAdapter(_core);
   }
