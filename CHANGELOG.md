@@ -1,3 +1,6 @@
+## 0.0.20
+* Updated dependencies
+
 ## 0.0.19
 * Updated dependencies
 
