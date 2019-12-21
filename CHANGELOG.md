@@ -1,3 +1,6 @@
+## 0.0.19
+* Updated dependencies
+
 ## 0.0.18
 * Added share option in call details. Share allows user to share curl of the request. (by: Praveenkumar Ramasamy https://github.com/pravinarr)
 
