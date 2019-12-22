@@ -20,7 +20,7 @@ dependencies:
   open_file: ^2.1.1
   shake: ^0.1.0
   share: ^0.6.3+5
-  chopper: 3.0.1+1
+  chopper: ^3.0.1+1
 
 # dev_dependencies:
 
