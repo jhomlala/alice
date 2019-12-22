@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:alice/alice.dart';
+import 'package:alice_example/posts_service.dart';
+import 'package:chopper/chopper.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:dio/dio.dart';
@@ -17,13 +19,21 @@ class _MyAppState extends State<MyApp> {
   Alice alice;
   Dio dio;
   HttpClient httpClient;
+  ChopperClient chopper;
+  PostsService postsService;
 
   @override
   void initState() {
-    alice = Alice(showNotification: true, showInspectorOnShake: true, darkTheme: true);
+    alice = Alice(
+        showNotification: true, showInspectorOnShake: true, darkTheme: true);
     dio = Dio();
     dio.interceptors.add(alice.getDioInterceptor());
     httpClient = HttpClient();
+    chopper = ChopperClient(
+      interceptors: alice.getChopperInterceptor(),
+    );
+    postsService = PostsService.create(chopper);
+
     super.initState();
   }
 
@@ -52,7 +62,19 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
+  void _runChopperHttpRequests() async {
+    Map<String, dynamic> body = {"title": "foo", "body": "bar", "userId": "1"};
+    postsService.getPost("1");
+    postsService.postPost(body);
+    postsService.putPost("1", body);
+    postsService.putPost("1231923", body);
+    postsService.putPost("1", null);
+    postsService.postPost(null);
+    postsService.getPost("123456");
+  }
+
   void _runHttpRequests() async {
+    _runChopperHttpRequests();
     Map<String, dynamic> body = {"title": "foo", "body": "bar", "userId": "1"};
     http
         .post('https://jsonplaceholder.typicode.com/posts', body: body)

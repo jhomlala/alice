@@ -1,3 +1,7 @@
+## 0.0.21
+* Added Chopper support
+* Added AndroidX support
+
 ## 0.0.20
 * Updated dependencies
 

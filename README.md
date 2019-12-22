@@ -79,7 +79,7 @@ Alice is an HTTP Inspector tool for Flutter which helps debugging http requests.
 
 ```yaml
 dependencies:
-  alice: ^0.0.20
+  alice: ^0.0.21
 ```
 
 2. Install it
@@ -157,6 +157,14 @@ If you're using http from http/http package:
 http.get('https://jsonplaceholder.typicode.com/posts').then((response) {
     alice.onHttpResponse(response);
 });
+```
+
+If you're using Chopper. you need to add interceptor:
+
+```dart
+chopper = ChopperClient(
+    interceptors: alice.getChopperInterceptor(),
+);
 ```
 
 To show inspector manually:

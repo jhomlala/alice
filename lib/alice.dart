@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:alice/core/alice_chopper_response_interceptor.dart';
 import 'package:alice/core/alice_http_adapter.dart';
 import 'package:http/http.dart' as http;
 import 'package:alice/core/alice_core.dart';
@@ -56,5 +57,9 @@ class Alice {
 
   void showInspector() {
     _core.navigateToCallListScreen();
+  }
+
+  List getChopperInterceptor() {
+    return new List()..add(AliceChopperInterceptor(_core));
   }
 }
