@@ -62,6 +62,7 @@ Alice is an HTTP Inspector tool for Flutter which helps debugging http requests.
 - Dio
 - HttpClient from dart:io package
 - Http from http/http package
+- Chopper
 
 **Features:**  
 ✔️ Detailed logs for each HTTP calls (HTTP Request, HTTP Response)  
