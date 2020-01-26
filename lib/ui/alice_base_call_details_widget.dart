@@ -13,12 +13,12 @@ abstract class AliceBaseCallDetailsWidget extends StatelessWidget {
           Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
           Padding(padding: EdgeInsets.only(left: 5)),
           Flexible(
-              fit: FlexFit.loose,
-              child: SelectableText(
-                value,
-                overflow: TextOverflow.clip,
-                scrollPhysics: ClampingScrollPhysics(),
-              )),
+            fit: FlexFit.loose,
+            child: Text(
+              value,
+              overflow: TextOverflow.clip,
+            ),
+          ),
           Padding(
             padding: EdgeInsets.only(bottom: 18),
           )
