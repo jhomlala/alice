@@ -10,7 +10,7 @@ class AliceCallErrorWidget extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-   return _AliceCallErrorWidgetState();
+    return _AliceCallErrorWidgetState();
   }
 }
 

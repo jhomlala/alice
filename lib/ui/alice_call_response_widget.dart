@@ -171,8 +171,7 @@ class _AliceCallResponseWidgetState
   }
 
   List<Widget> _buildVideoBodyRows() {
-    final videoPlayerController =
-        VideoPlayerController.network(_call.uri);
+    final videoPlayerController = VideoPlayerController.network(_call.uri);
 
     final chewieController = ChewieController(
       videoPlayerController: videoPlayerController,
