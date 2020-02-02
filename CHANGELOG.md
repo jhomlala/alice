@@ -1,5 +1,7 @@
 ## 0.0.22
 * Updated dependencies
+* Refactored response page. If response is image or video, Alice will show it in response page. Large
+body outputs will be not shown by default. There is a "Show body" button to show large output.
 
 ## 0.0.21
 * Added Chopper support

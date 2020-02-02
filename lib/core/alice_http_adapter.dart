@@ -23,6 +23,7 @@ class AliceHttpAdapter {
     AliceHttpCall call = AliceHttpCall(response.request.hashCode);
     call.loading = true;
     call.client = "HttpClient (http package)";
+    call.uri = request.url.toString();
     call.method = request.method;
     var path = request.url.path;
     if (path == null || path.length == 0) {

@@ -3,24 +3,34 @@ import 'package:flutter/material.dart';
 
 import 'alice_base_call_details_widget.dart';
 
-class AliceCallOverviewWidget extends AliceBaseCallDetailsWidget {
+class AliceCallOverviewWidget extends StatefulWidget {
   final AliceHttpCall call;
 
   AliceCallOverviewWidget(this.call);
 
   @override
+  State<StatefulWidget> createState() {
+    return _AliceCallOverviewWidget();
+  }
+}
+
+class _AliceCallOverviewWidget
+    extends AliceBaseCallDetailsWidgetState<AliceCallOverviewWidget> {
+  AliceHttpCall get _call => widget.call;
+
+  @override
   Widget build(BuildContext context) {
     List<Widget> rows = List();
-    rows.add(getListRow("Method: ", call.method));
-    rows.add(getListRow("Server: ", call.server));
-    rows.add(getListRow("Endpoint: ", call.endpoint));
-    rows.add(getListRow("Started:", call.request.time.toString()));
-    rows.add(getListRow("Finished:", call.response.time.toString()));
-    rows.add(getListRow("Duration:", formatDuration(call.duration)));
-    rows.add(getListRow("Bytes sent:", formatBytes(call.request.size)));
-    rows.add(getListRow("Bytes received:", formatBytes(call.response.size)));
-    rows.add(getListRow("Client:", call.client));
-    rows.add(getListRow("Secure:", call.secure.toString()));
+    rows.add(getListRow("Method: ", _call.method));
+    rows.add(getListRow("Server: ", _call.server));
+    rows.add(getListRow("Endpoint: ", _call.endpoint));
+    rows.add(getListRow("Started:", _call.request.time.toString()));
+    rows.add(getListRow("Finished:", _call.response.time.toString()));
+    rows.add(getListRow("Duration:", formatDuration(_call.duration)));
+    rows.add(getListRow("Bytes sent:", formatBytes(_call.request.size)));
+    rows.add(getListRow("Bytes received:", formatBytes(_call.response.size)));
+    rows.add(getListRow("Client:", _call.client));
+    rows.add(getListRow("Secure:", _call.secure.toString()));
     return Container(
         padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
         child: ListView(children: rows));

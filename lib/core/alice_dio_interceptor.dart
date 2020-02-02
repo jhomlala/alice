@@ -27,6 +27,7 @@ class AliceDioInterceptor extends InterceptorsWrapper {
     call.endpoint = path;
     call.server = uri.host;
     call.client = "Dio";
+    call.uri = options.uri.toString();
 
     if (uri.scheme == "https") {
       call.secure = true;

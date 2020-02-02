@@ -172,6 +172,17 @@ class _MyAppState extends State<MyApp> {
     dio.put("https://jsonplaceholder.typicode.com/posts/1", data: body);
     dio.delete("https://jsonplaceholder.typicode.com/posts/1");
     dio.get("http://jsonplaceholder.typicode.com/test/test");
+
+    dio.get("https://jsonplaceholder.typicode.com/photos");
+    dio.get(
+        "https://icons.iconarchive.com/icons/paomedia/small-n-flat/256/sign-info-icon.png");
+    dio.get(
+        "https://images.unsplash.com/photo-1542736705-53f0131d1e98?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80");
+    dio.get(
+        "https://findicons.com/files/icons/1322/world_of_aqua_5/128/bluetooth.png");
+    dio.get(
+        "https://upload.wikimedia.org/wikipedia/commons/4/4e/Pleiades_large.jpg");
+    dio.get("http://techslides.com/demos/sample-videos/small.mp4");
   }
 
   void _runHttpInspector() {

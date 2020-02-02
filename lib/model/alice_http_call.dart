@@ -10,6 +10,7 @@ class AliceHttpCall {
   String method = "";
   String endpoint = "";
   String server = "";
+  String uri = "";
   int duration = 0;
 
   AliceHttpRequest request;

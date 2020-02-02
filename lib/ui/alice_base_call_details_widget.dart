@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
-abstract class AliceBaseCallDetailsWidget extends StatelessWidget {
+abstract class AliceBaseCallDetailsWidgetState<T extends StatefulWidget>
+    extends State<T> {
   final JsonEncoder encoder = new JsonEncoder.withIndent('  ');
 
   Widget getListRow(String name, String value) {
