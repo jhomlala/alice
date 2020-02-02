@@ -80,7 +80,7 @@ Alice is an HTTP Inspector tool for Flutter which helps debugging http requests.
 
 ```yaml
 dependencies:
-  alice: ^0.0.22
+  alice: ^0.0.23
 ```
 
 2. Install it
@@ -181,6 +181,29 @@ Alice supports saving logs to your mobile device storage. In order to make save 
 ```xml
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 ```
+
+## Extensions
+You can use extensions to shorten your http and http client code. This is optional, but may improve your codebase.
+Example:
+1. Import:
+```dart
+import 'package:alice/core/alice_http_client_extensions.dart';
+import 'package:alice/core/alice_http_extensions.dart';
+```
+
+2. Use extensions:
+```dart
+http
+    .post('https://jsonplaceholder.typicode.com/posts', body: body)
+    .interceptWithAlice(alice, body: body);
+```
+
+```dart
+httpClient
+    .postUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts"))
+    .interceptWithAlice(alice, body: body, headers: Map());
+```
+
 
 ## Example
 

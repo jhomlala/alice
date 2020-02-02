@@ -1,3 +1,7 @@
+## 0.0.23
+* Updated to dart 2.6.0
+* Added AliceHttpExtensions, AliceHttpClientExtensions
+
 ## 0.0.22
 * Updated dependencies
 * Refactored response page. If response is image or video, Alice will show it in response page. Large
