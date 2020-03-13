@@ -1,3 +1,7 @@
+## 0.0.24
+
+* Prepare for 1.0.0 version of sensors and package_info. ([dart_lsc](http://github.com/amirh/dart_lsc))
+
 ## 0.0.23
 * Updated to dart 2.6.0
 * Added AliceHttpExtensions, AliceHttpClientExtensions
