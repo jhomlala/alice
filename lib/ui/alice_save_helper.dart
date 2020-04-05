@@ -17,16 +17,13 @@ class AliceSaveHelper {
 
   static void checkPermissions(
       BuildContext context, List<AliceHttpCall> calls) async {
-    PermissionStatus permission = await PermissionHandler()
-        .checkPermissionStatus(PermissionGroup.storage);
-    if (permission == PermissionStatus.granted) {
+    var status = await Permission.storage.status;
+    if (status.isGranted) {
       _saveToFile(context, calls);
     } else {
-      Map<PermissionGroup, PermissionStatus> permissions =
-          await PermissionHandler()
-              .requestPermissions([PermissionGroup.storage]);
-      if (permissions.containsKey(PermissionGroup.storage) &&
-          permissions[PermissionGroup.storage] == PermissionStatus.granted) {
+      var status = await Permission.storage.request();
+
+      if (status.isGranted) {
         _saveToFile(context, calls);
       } else {
         AliceAlertHelper.showAlert(context, "Permission error",
