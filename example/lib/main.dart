@@ -8,6 +8,7 @@ import 'package:alice/core/alice_http_client_extensions.dart';
 import 'package:alice/core/alice_http_extensions.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() => runApp(MyApp());
 
@@ -75,7 +76,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _runHttpRequests() async {
-    _runChopperHttpRequests();
+    //_runChopperHttpRequests();
     Map<String, dynamic> body = {"title": "foo", "body": "bar", "userId": "1"};
 
     http
@@ -216,6 +217,20 @@ class _MyAppState extends State<MyApp> {
     dio.get(
         "https://upload.wikimedia.org/wikipedia/commons/4/4e/Pleiades_large.jpg");
     dio.get("http://techslides.com/demos/sample-videos/small.mp4");*/
+
+    //dio.get("https://www.cse.wustl.edu/~jain/cis677-97/ftp/e_3dlc2.pdf");
+
+    final directory = await getApplicationDocumentsDirectory();
+    File file = File("${directory.path}/test.txt");
+    file.create();
+    file.writeAsStringSync("123456789");
+
+    String fileName = file.path.split('/').last;
+    FormData formData = FormData.fromMap({
+      "file": await MultipartFile.fromFile(file.path, filename: fileName),
+    });
+    var response = await dio.post("https://jsonplaceholder.typicode.com/photos",
+        data: formData);
   }
 
   void _runHttpInspector() {

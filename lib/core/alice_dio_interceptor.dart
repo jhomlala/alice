@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:alice/core/alice_core.dart';
+import 'package:alice/model/alice_form_data_file.dart';
+import 'package:alice/model/alice_from_data_field.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_request.dart';
@@ -35,13 +37,36 @@ class AliceDioInterceptor extends InterceptorsWrapper {
 
     AliceHttpRequest request = AliceHttpRequest();
 
-    if (options.data == null) {
+    var data = options.data;
+    if (data == null) {
       request.size = 0;
       request.body = "";
     } else {
-      request.size = utf8.encode(options.data.toString()).length;
-      request.body = options.data;
+      if (data is FormData) {
+        request.body += "Form data";
+
+        if (data.fields?.isNotEmpty == true) {
+          List<AliceFormDataField> fields = List();
+          data.fields.forEach((entry) {
+            fields.add(AliceFormDataField(entry.key, entry.value));
+          });
+          request.formDataFields = fields;
+        }
+        if (data.files?.isNotEmpty == true) {
+          List<AliceFormDataFile> files = List();
+          data.files.forEach((entry) {
+            files.add(AliceFormDataFile(entry.value.filename,
+                entry.value.contentType.toString(), entry.value.length));
+          });
+
+          request.formDataFiles = files;
+        }
+      } else {
+        request.size = utf8.encode(data.toString()).length;
+        request.body = data;
+      }
     }
+
     request.time = DateTime.now();
     request.headers = options.headers;
     request.contentType = options.contentType.toString();
