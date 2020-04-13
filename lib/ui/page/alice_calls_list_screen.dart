@@ -1,11 +1,11 @@
 import 'package:alice/model/alice_menu_item.dart';
-import 'package:alice/ui/alice_call_details_screen.dart';
+import 'package:alice/helper/alice_alert_helper.dart';
+import 'package:alice/ui/page/alice_call_details_screen.dart';
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/model/alice_http_call.dart';
+import 'package:alice/ui/widget/alice_call_list_item_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'alice_alert_helper.dart';
-import 'alice_call_list_item.dart';
 import 'alice_stats_screen.dart';
 
 class AliceCallsListScreen extends StatefulWidget {
@@ -34,7 +34,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
       data: ThemeData(brightness: widget._aliceCore.brightness),
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Alice - HTTP Inspector - Calls"),
+          title: Text("Alice - Inspector"),
           actions: [_buildMenuButton()],
         ),
         body: _buildCallsListWrapper(),
@@ -118,7 +118,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
     return ListView.builder(
       itemCount: calls.length,
       itemBuilder: (context, index) {
-        return AliceCallListItem(calls[index], _onListItemClicked);
+        return AliceCallListItemWidget(calls[index], _onListItemClicked);
       },
     );
   }

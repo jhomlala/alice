@@ -2,11 +2,11 @@ import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:flutter/material.dart';
 
-class AliceCallListItem extends StatelessWidget {
+class AliceCallListItemWidget extends StatelessWidget {
   final AliceHttpCall call;
   final Function itemClickAction;
 
-  const AliceCallListItem(this.call, this.itemClickAction)
+  const AliceCallListItemWidget(this.call, this.itemClickAction)
       : assert(call != null, "call can't be null"),
         assert(itemClickAction != null, "itemClickAction can't be null");
 
