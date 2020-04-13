@@ -153,6 +153,7 @@ class AliceCore {
       .firstWhere((call) => call.id == requestId, orElse: null);
 
   void saveHttpRequests(BuildContext context) {
+    assert(context != null, "context can't be null");
     AliceSaveHelper.saveCalls(context, callsSubject.value);
   }
 
