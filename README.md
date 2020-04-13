@@ -136,6 +136,11 @@ If you want to use dark mode just add `darkTheme` flag:
 Alice alice = Alice(..., darkTheme: true);
 ```
 
+If you want to pass another notification icon, you can use `notificationIcon` parameter. Default value is @mipmap/ic_launcher.
+```dart
+Alice alice = Alice(..., notificationIcon: "myNotificationIconResourceName");
+```
+
 ### HTTP Client configuration
 If you're using Dio, you just need to add interceptor.
 
