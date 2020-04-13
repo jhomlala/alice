@@ -76,7 +76,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _runHttpRequests() async {
-    //_runChopperHttpRequests();
+    _runChopperHttpRequests();
     Map<String, dynamic> body = {"title": "foo", "body": "bar", "userId": "1"};
 
     http
