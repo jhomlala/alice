@@ -12,7 +12,9 @@ class AliceCallDetailsScreen extends StatefulWidget {
   final AliceHttpCall call;
   final AliceCore core;
 
-  AliceCallDetailsScreen(this.call, this.core);
+  AliceCallDetailsScreen(this.call, this.core)
+      : assert(call != null, "call can't be null"),
+        assert(core != null, "core can't be null");
 
   @override
   _AliceCallDetailsScreenState createState() => _AliceCallDetailsScreenState();
@@ -20,7 +22,7 @@ class AliceCallDetailsScreen extends StatefulWidget {
 
 class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
     with SingleTickerProviderStateMixin {
-  Widget _previousState;
+  AliceHttpCall get call => widget.call;
 
   @override
   void initState() {
@@ -30,31 +32,53 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
   @override
   Widget build(BuildContext context) {
     return Theme(
-        data: ThemeData(brightness: widget.core.brightness),
-        child: StreamBuilder<AliceHttpCall>(
-            stream: widget.core.callUpdateSubject,
-            initialData: widget.call,
-            builder: (context, callSnapshot) {
-              if (widget.call.id == callSnapshot.data.id) {
-                _previousState = DefaultTabController(
-                    length: 4,
-                    child: Scaffold(
-                        floatingActionButton: FloatingActionButton(
-                          key: Key('share_key'),
-                          onPressed: () {
-                            Share.share(_getSharableResponseString(),
-                                subject: 'Request Details');
-                          },
-                          child: Icon(Icons.share),
-                        ),
-                        appBar: AppBar(
-                          bottom: TabBar(tabs: _getTabBars()),
-                          title: Text('Alice - HTTP Inspector - Details'),
-                        ),
-                        body: TabBarView(children: _getTabBarViewList())));
-              }
-              return _previousState;
-            }));
+      data: ThemeData(brightness: widget.core.brightness),
+      child: StreamBuilder<List<AliceHttpCall>>(
+        stream: widget.core.callsSubject,
+        initialData: [widget.call],
+        builder: (context, callsSnapshot) {
+          if (callsSnapshot.hasData) {
+            AliceHttpCall call = callsSnapshot.data.firstWhere(
+                (snapshotCall) => snapshotCall.id == widget.call.id,
+                orElse: null);
+            if (call != null) {
+              return _buildMainWidget();
+            } else {
+              return _buildErrorWidget();
+            }
+          } else {
+            return _buildErrorWidget();
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _buildMainWidget() {
+    return DefaultTabController(
+      length: 4,
+      child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          key: Key('share_key'),
+          onPressed: () {
+            Share.share(_getSharableResponseString(),
+                subject: 'Request Details');
+          },
+          child: Icon(Icons.share),
+        ),
+        appBar: AppBar(
+          bottom: TabBar(tabs: _getTabBars()),
+          title: Text('Alice - HTTP Inspector - Details'),
+        ),
+        body: TabBarView(
+          children: _getTabBarViewList(),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildErrorWidget() {
+    return Center(child: Text("Failed to load data"));
   }
 
   String _getSharableResponseString() {

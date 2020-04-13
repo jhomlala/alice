@@ -229,8 +229,10 @@ class _MyAppState extends State<MyApp> {
     FormData formData = FormData.fromMap({
       "file": await MultipartFile.fromFile(file.path, filename: fileName),
     });
-    var response = await dio.post("https://jsonplaceholder.typicode.com/photos",
+   dio.post("https://jsonplaceholder.typicode.com/photos",
         data: formData);
+
+   dio.get("http://dummy.restapiexample.com/api/v1/employees");
   }
 
   void _runHttpInspector() {

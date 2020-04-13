@@ -12,7 +12,7 @@ class AliceChopperInterceptor extends chopper.ResponseInterceptor
     with chopper.RequestInterceptor {
   final AliceCore aliceCore;
 
-  AliceChopperInterceptor(this.aliceCore);
+  AliceChopperInterceptor(this.aliceCore) : assert(aliceCore != null);
 
   int getRequestHashCode(BaseRequest baseRequest) {
     int hashCodeSum = 0;

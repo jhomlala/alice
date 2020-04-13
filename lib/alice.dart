@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:alice/core/alice_chopper_response_interceptor.dart';
 import 'package:alice/core/alice_http_adapter.dart';
+import 'package:chopper/chopper.dart';
 import 'package:http/http.dart' as http;
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/core/alice_dio_interceptor.dart';
@@ -9,24 +10,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class Alice {
+  final bool showNotification;
+  final bool showInspectorOnShake;
+  final bool darkTheme;
+  final String notificationIcon;
   GlobalKey<NavigatorState> _navigatorKey;
-  AliceCore _core;
+  AliceCore _aliceCore;
   AliceHttpClientAdapter _httpClientAdapter;
   AliceHttpAdapter _httpAdapter;
-  bool showNotification;
-  bool showInspectorOnShake;
-  bool darkTheme;
 
   Alice(
-      {this.showNotification = true,
-      GlobalKey<NavigatorState> navigatorKey,
+      {GlobalKey<NavigatorState> navigatorKey,
+      this.showNotification = true,
       this.showInspectorOnShake = false,
-      this.darkTheme = false}) {
+      this.darkTheme = false,
+      this.notificationIcon = "@mipmap/ic_launcher"})
+      : assert(showNotification != null, "showNotification can't be null"),
+        assert(
+            showInspectorOnShake != null, "showInspectorOnShake can't be null"),
+        assert(darkTheme != null, "darkTheme can't be null"),
+        assert(notificationIcon != null, "notificationIcon can't be null") {
     _navigatorKey = navigatorKey ?? GlobalKey<NavigatorState>();
-    _core = AliceCore(
-        _navigatorKey, showNotification, showInspectorOnShake, darkTheme);
-    _httpClientAdapter = AliceHttpClientAdapter(_core);
-    _httpAdapter = AliceHttpAdapter(_core);
+    _aliceCore = AliceCore(_navigatorKey, showNotification,
+        showInspectorOnShake, darkTheme, notificationIcon);
+    _httpClientAdapter = AliceHttpClientAdapter(_aliceCore);
+    _httpAdapter = AliceHttpAdapter(_aliceCore);
+  }
+
+  void setNavigatorKey(GlobalKey<NavigatorState> navigatorKey) {
+    assert(navigatorKey != null, "navigatorKey can't be null");
+    _aliceCore.setNavigatorKey(navigatorKey);
   }
 
   GlobalKey<NavigatorState> getNavigatorKey() {
@@ -34,32 +47,32 @@ class Alice {
   }
 
   AliceDioInterceptor getDioInterceptor() {
-    return AliceDioInterceptor(_core);
+    return AliceDioInterceptor(_aliceCore);
   }
 
   void onHttpClientRequest(HttpClientRequest request, {dynamic body}) {
-    assert(request != null, "HttpClientRequest can't be null");
+    assert(request != null, "httpClientRequest can't be null");
     _httpClientAdapter.onRequest(request, body: body);
   }
 
   void onHttpClientResponse(
       HttpClientResponse response, HttpClientRequest request,
       {dynamic body}) {
-    assert(response != null, "HttpClientResponse can't be null");
-    assert(request != null, "HttpClientRequest can't be null");
+    assert(response != null, "httpClientResponse can't be null");
+    assert(request != null, "httpClientRequest can't be null");
     _httpClientAdapter.onResponse(response, request, body: body);
   }
 
   void onHttpResponse(http.Response response, {dynamic body}) {
-    assert(response != null, "Response can't be null");
+    assert(response != null, "response can't be null");
     _httpAdapter.onResponse(response, body: body);
   }
 
   void showInspector() {
-    _core.navigateToCallListScreen();
+    _aliceCore.navigateToCallListScreen();
   }
 
-  List getChopperInterceptor() {
-    return new List()..add(AliceChopperInterceptor(_core));
+  List<ResponseInterceptor> getChopperInterceptor() {
+    return [AliceChopperInterceptor(_aliceCore)];
   }
 }

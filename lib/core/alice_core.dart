@@ -9,31 +9,31 @@ import 'package:rxdart/rxdart.dart';
 import 'package:shake/shake.dart';
 
 class AliceCore {
+  final bool showNotification;
+  final bool showInspectorOnShake;
+  final bool darkTheme;
+  final BehaviorSubject<List<AliceHttpCall>> callsSubject =
+      BehaviorSubject.seeded(List());
+  final String notificationIcon;
+
   FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
   GlobalKey<NavigatorState> _navigatorKey;
-  bool _showNotification = false;
-  bool _showInspectorOnShake = false;
-  bool _isInspectorOpened = false;
   Brightness _brightness = Brightness.light;
+  bool _isInspectorOpened = false;
+  ShakeDetector _shakeDetector;
 
-  List<AliceHttpCall> calls;
-  PublishSubject<int> changesSubject;
-  PublishSubject<AliceHttpCall> callUpdateSubject;
-  ShakeDetector shakeDetector;
-
-  AliceCore(GlobalKey<NavigatorState> navigatorKey, bool showNotification,
-      bool showInspectorOnShake, bool darkTheme) {
-    _navigatorKey = navigatorKey;
-    calls = List();
-    changesSubject = PublishSubject();
-    callUpdateSubject = PublishSubject();
-    _showNotification = showNotification;
+  AliceCore(this._navigatorKey, this.showNotification,
+      this.showInspectorOnShake, this.darkTheme, this.notificationIcon)
+      : assert(showNotification != null, "showNotification can't be null"),
+        assert(
+            showInspectorOnShake != null, "showInspectorOnShake can't be null"),
+        assert(darkTheme != null, "darkTheme can't be null"),
+        assert(notificationIcon != null, "notificationIcon can't be null") {
     if (showNotification) {
       _initializeNotificationsPlugin();
     }
-    _showInspectorOnShake = showInspectorOnShake;
-    if (_showInspectorOnShake) {
-      shakeDetector = ShakeDetector.autoStart(
+    if (showInspectorOnShake) {
+      _shakeDetector = ShakeDetector.autoStart(
         onPhoneShake: () => navigateToCallListScreen(),
         shakeThresholdGravity: 5,
       );
@@ -41,16 +41,15 @@ class AliceCore {
     _brightness = darkTheme ? Brightness.dark : Brightness.light;
   }
 
-  dispose() {
-    changesSubject.close();
-    callUpdateSubject.close();
-    shakeDetector?.stopListening();
+  void dispose() {
+    callsSubject.close();
+    _shakeDetector?.stopListening();
   }
 
   void _initializeNotificationsPlugin() {
     _flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
     var initializationSettingsAndroid =
-        new AndroidInitializationSettings("@mipmap/ic_launcher");
+        new AndroidInitializationSettings(notificationIcon);
     var initializationSettingsIOS = new IOSInitializationSettings();
     var initializationSettings = new InitializationSettings(
         initializationSettingsAndroid, initializationSettingsIOS);
@@ -58,7 +57,13 @@ class AliceCore {
         onSelectNotification: _onSelectedNotification);
   }
 
+  void setNavigatorKey(GlobalKey<NavigatorState> navigatorKey) {
+    assert(navigatorKey != null, "navigatorKey can't be null");
+    this._navigatorKey = navigatorKey;
+  }
+
   Future _onSelectedNotification(String payload) {
+    assert(payload != null, "payload can't be null");
     navigateToCallListScreen();
     return Future.sync(() {});
   }
@@ -74,20 +79,14 @@ class AliceCore {
       _isInspectorOpened = true;
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => AliceCallsListScreen(this)),
+        MaterialPageRoute(
+          builder: (context) => AliceCallsListScreen(this),
+        ),
       ).then((onValue) => _isInspectorOpened = false);
     }
   }
 
-  BuildContext getContext() {
-    if (_navigatorKey != null &&
-        _navigatorKey.currentState != null &&
-        _navigatorKey.currentState.overlay != null) {
-      return _navigatorKey.currentState.overlay.context;
-    } else {
-      return null;
-    }
-  }
+  BuildContext getContext() => _navigatorKey?.currentState?.overlay?.context;
 
   void _showLocalNotification() async {
     var channelId = "Alice";
@@ -102,19 +101,22 @@ class AliceCore {
     var platformChannelSpecifics = new NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
 
-    await _flutterLocalNotificationsPlugin.show(
-        0, "Alice", "HTTP Requests: ${calls.length}", platformChannelSpecifics,
+    await _flutterLocalNotificationsPlugin.show(0, "Alice",
+        "HTTP Requests: ${callsSubject.value.length}", platformChannelSpecifics,
         payload: "");
   }
 
   void addCall(AliceHttpCall call) {
-    calls.add(call);
-    if (_showNotification) {
+    assert(call != null, "call can't be null");
+    callsSubject.add(callsSubject.value..add(call));
+    if (showNotification) {
       _showLocalNotification();
     }
   }
 
   void addError(AliceHttpError error, int requestId) {
+    assert(error != null, "error can't be null");
+    assert(requestId != null, "requestId can't be null");
     AliceHttpCall selectedCall = _selectCall(requestId);
 
     if (selectedCall == null) {
@@ -123,11 +125,12 @@ class AliceCore {
     }
 
     selectedCall.error = error;
-    changesSubject.sink.add(requestId);
-    callUpdateSubject.sink.add(selectedCall);
+    callsSubject.add(callsSubject.value);
   }
 
   void addResponse(AliceHttpResponse response, int requestId) {
+    assert(response != null, "response can't be null");
+    assert(requestId != null, "requestId can't be null");
     AliceHttpCall selectedCall = _selectCall(requestId);
 
     if (selectedCall == null) {
@@ -139,27 +142,18 @@ class AliceCore {
     selectedCall.duration = response.time.millisecondsSinceEpoch -
         selectedCall.request.time.millisecondsSinceEpoch;
 
-    changesSubject.sink.add(requestId);
-    callUpdateSubject.sink.add(selectedCall);
+    callsSubject.add(callsSubject.value);
   }
 
   void removeCalls() {
-    calls = List();
-    changesSubject.sink.add(0);
+    callsSubject.add(List());
   }
 
-  AliceHttpCall _selectCall(int requestId) {
-    AliceHttpCall requestedCall;
-    calls.forEach((call) {
-      if (call.id == requestId) {
-        requestedCall = call;
-      }
-    });
-    return requestedCall;
-  }
+  AliceHttpCall _selectCall(int requestId) => callsSubject.value
+      .firstWhere((call) => call.id == requestId, orElse: null);
 
   void saveHttpRequests(BuildContext context) {
-    AliceSaveHelper.saveCalls(context, calls);
+    AliceSaveHelper.saveCalls(context, callsSubject.value);
   }
 
   Brightness get brightness => _brightness;

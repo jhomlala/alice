@@ -215,5 +215,5 @@ class AliceStatsScreen extends StatelessWidget {
     return requests;
   }
 
-  List<AliceHttpCall> get calls => aliceCore.calls;
+  List<AliceHttpCall> get calls => aliceCore.callsSubject.value;
 }
