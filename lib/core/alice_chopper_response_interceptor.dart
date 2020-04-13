@@ -60,7 +60,7 @@ class AliceChopperInterceptor extends chopper.ResponseInterceptor
       endpoint = request.url;
       server = request.baseUrl;
     }
-    
+
     call.method = request.method;
     call.endpoint = endpoint;
     call.server = server;
