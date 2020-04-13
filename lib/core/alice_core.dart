@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/ui/alice_calls_list_screen.dart';
 import 'package:alice/model/alice_http_call.dart';
@@ -21,6 +23,10 @@ class AliceCore {
   Brightness _brightness = Brightness.light;
   bool _isInspectorOpened = false;
   ShakeDetector _shakeDetector;
+  StreamSubscription _callsSubscription;
+  String _notificationMessage;
+  String _notificationMessageShown;
+  bool _notificationProcessing = false;
 
   AliceCore(this._navigatorKey, this.showNotification,
       this.showInspectorOnShake, this.darkTheme, this.notificationIcon)
@@ -31,6 +37,7 @@ class AliceCore {
         assert(notificationIcon != null, "notificationIcon can't be null") {
     if (showNotification) {
       _initializeNotificationsPlugin();
+      _callsSubscription = callsSubject.listen((_) => _onCallsChanged());
     }
     if (showInspectorOnShake) {
       _shakeDetector = ShakeDetector.autoStart(
@@ -44,17 +51,31 @@ class AliceCore {
   void dispose() {
     callsSubject.close();
     _shakeDetector?.stopListening();
+    _callsSubscription?.cancel();
   }
 
+  Brightness get brightness => _brightness;
+
   void _initializeNotificationsPlugin() {
-    _flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     var initializationSettingsAndroid =
         new AndroidInitializationSettings(notificationIcon);
-    var initializationSettingsIOS = new IOSInitializationSettings();
-    var initializationSettings = new InitializationSettings(
+    var initializationSettingsIOS = IOSInitializationSettings();
+    var initializationSettings = InitializationSettings(
         initializationSettingsAndroid, initializationSettingsIOS);
     _flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: _onSelectedNotification);
+  }
+
+  void _onCallsChanged() async {
+    if (callsSubject.value.length > 0) {
+      _notificationMessage = _getNotificationMessage();
+      if (_notificationMessage != _notificationMessageShown &&
+          !_notificationProcessing) {
+        await _showLocalNotification();
+        _onCallsChanged();
+      }
+    }
   }
 
   void setNavigatorKey(GlobalKey<NavigatorState> navigatorKey) {
@@ -88,7 +109,55 @@ class AliceCore {
 
   BuildContext getContext() => _navigatorKey?.currentState?.overlay?.context;
 
-  void _showLocalNotification() async {
+  String _getNotificationMessage() {
+    List<AliceHttpCall> calls = callsSubject.value;
+    int successCalls = calls
+        .where((call) =>
+            call.response != null &&
+            call.response.status >= 200 &&
+            call.response.status < 300)
+        .toList()
+        .length;
+
+    int redirectCalls = calls
+        .where((call) =>
+            call.response != null &&
+            call.response.status >= 300 &&
+            call.response.status < 400)
+        .toList()
+        .length;
+
+    int errorCalls = calls
+        .where((call) =>
+            call.response != null &&
+            call.response.status >= 400 &&
+            call.response.status < 600)
+        .toList()
+        .length;
+
+    int loadingCalls = calls.where((call) => call.loading).toList().length;
+
+    StringBuffer notificationsMessage = StringBuffer();
+    if (loadingCalls > 0) {
+      notificationsMessage.write("Loading: $loadingCalls");
+      notificationsMessage.write(" | ");
+    }
+    if (successCalls > 0) {
+      notificationsMessage.write("Success: $successCalls");
+      notificationsMessage.write(" | ");
+    }
+    if (redirectCalls > 0) {
+      notificationsMessage.write("Error: $redirectCalls");
+      notificationsMessage.write(" | ");
+    }
+    if (errorCalls > 0) {
+      notificationsMessage.write("Error: $errorCalls");
+    }
+    return notificationsMessage.toString();
+  }
+
+  Future _showLocalNotification() async {
+    _notificationProcessing = true;
     var channelId = "Alice";
     var channelName = "Alice";
     var channelDescription = "Alice";
@@ -100,18 +169,21 @@ class AliceCore {
     var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
     var platformChannelSpecifics = new NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-
-    await _flutterLocalNotificationsPlugin.show(0, "Alice",
-        "HTTP Requests: ${callsSubject.value.length}", platformChannelSpecifics,
+    String message = _notificationMessage;
+    await _flutterLocalNotificationsPlugin.show(
+        0,
+        "Alice (total: ${callsSubject.value.length} requests)",
+        message,
+        platformChannelSpecifics,
         payload: "");
+    _notificationMessageShown = message;
+    _notificationProcessing = false;
+    return;
   }
 
   void addCall(AliceHttpCall call) {
     assert(call != null, "call can't be null");
     callsSubject.add(callsSubject.value..add(call));
-    if (showNotification) {
-      _showLocalNotification();
-    }
   }
 
   void addError(AliceHttpError error, int requestId) {
@@ -125,7 +197,7 @@ class AliceCore {
     }
 
     selectedCall.error = error;
-    callsSubject.add(callsSubject.value);
+    callsSubject.add(List()..addAll(callsSubject.value));
   }
 
   void addResponse(AliceHttpResponse response, int requestId) {
@@ -142,7 +214,7 @@ class AliceCore {
     selectedCall.duration = response.time.millisecondsSinceEpoch -
         selectedCall.request.time.millisecondsSinceEpoch;
 
-    callsSubject.add(callsSubject.value);
+    callsSubject.add(List()..addAll(callsSubject.value));
   }
 
   void removeCalls() {
@@ -156,6 +228,4 @@ class AliceCore {
     assert(context != null, "context can't be null");
     AliceSaveHelper.saveCalls(context, callsSubject.value);
   }
-
-  Brightness get brightness => _brightness;
 }
