@@ -1,3 +1,10 @@
+## 0.0.25
+* Added notificationIcon parameter
+* Added better notification handling
+* Refactored codebase
+* Added setNavigatorKey method
+* Added FormData support for Dio requests
+
 ## 0.0.24
 * Updated dependencies
 * Prepare for 1.0.0 version of sensors and package_info. ([dart_lsc](http://github.com/amirh/dart_lsc))

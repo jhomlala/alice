@@ -12,9 +12,11 @@ class AliceChopperInterceptor extends chopper.ResponseInterceptor
     with chopper.RequestInterceptor {
   final AliceCore aliceCore;
 
-  AliceChopperInterceptor(this.aliceCore);
+  AliceChopperInterceptor(this.aliceCore)
+      : assert(aliceCore != null, "aliceCore can't be null");
 
   int getRequestHashCode(BaseRequest baseRequest) {
+    assert(baseRequest != null, "baseReqeust can't be null");
     int hashCodeSum = 0;
     if (baseRequest.url != null) {
       hashCodeSum += baseRequest.url.hashCode;
@@ -37,6 +39,7 @@ class AliceChopperInterceptor extends chopper.ResponseInterceptor
 
   @override
   FutureOr<chopper.Request> onRequest(chopper.Request request) async {
+    assert(request != null,"request can't be null");
     var baseRequest = await request.toBaseRequest();
     AliceHttpCall call = AliceHttpCall(getRequestHashCode(baseRequest));
     String endpoint = "";
@@ -92,6 +95,7 @@ class AliceChopperInterceptor extends chopper.ResponseInterceptor
   }
 
   FutureOr<chopper.Response> onResponse(chopper.Response response) {
+    assert(response != null, "response can't be null");
     var httpResponse = AliceHttpResponse();
     httpResponse.status = response.statusCode;
     if (response.body == null) {

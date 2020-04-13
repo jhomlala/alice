@@ -8,7 +8,8 @@ import 'alice_base_call_details_widget.dart';
 class AliceCallResponseWidget extends StatefulWidget {
   final AliceHttpCall call;
 
-  AliceCallResponseWidget(this.call);
+  AliceCallResponseWidget(this.call)
+      : assert(call != null, "call can't be null");
 
   @override
   State<StatefulWidget> createState() {
@@ -36,17 +37,19 @@ class _AliceCallResponseWidgetState
       rows.addAll(_buildBodyRows());
 
       return Container(
-          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-          child: ListView(children: rows));
+        padding: const EdgeInsets.all(6),
+        child: ListView(children: rows),
+      );
     } else {
       return Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          new CircularProgressIndicator(),
-          Text("Awaiting response...")
-        ],
-      ));
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            new CircularProgressIndicator(),
+            Text("Awaiting response...")
+          ],
+        ),
+      );
     }
   }
 
@@ -119,9 +122,7 @@ class _AliceCallResponseWidgetState
               )
             ],
           ),
-          SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 8),
           Image.network(
             _call.uri,
             fit: BoxFit.fill,
@@ -139,9 +140,7 @@ class _AliceCallResponseWidgetState
               );
             },
           ),
-          SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 8),
         ],
       ),
     );
@@ -191,21 +190,13 @@ class _AliceCallResponseWidgetState
         ],
       ),
     );
-    rows.add(
-      SizedBox(
-        height: 10,
-      ),
-    );
+    rows.add(const SizedBox(height: 8));
     rows.add(
       Chewie(
         controller: chewieController,
       ),
     );
-    rows.add(
-      SizedBox(
-        height: 10,
-      ),
-    );
+    rows.add(const SizedBox(height: 8));
     return rows;
   }
 

@@ -6,7 +6,7 @@ import 'alice_base_call_details_widget.dart';
 class AliceCallErrorWidget extends StatefulWidget {
   final AliceHttpCall call;
 
-  AliceCallErrorWidget(this.call);
+  AliceCallErrorWidget(this.call) : assert(call != null, "call can't be null");
 
   @override
   State<StatefulWidget> createState() {
@@ -30,8 +30,9 @@ class _AliceCallErrorWidgetState
       rows.add(getListRow("Error:", errorText));
 
       return Container(
-          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-          child: ListView(children: rows));
+        padding: EdgeInsets.all(6),
+        child: ListView(children: rows),
+      );
     } else {
       return Center(child: Text("Nothing to display here"));
     }

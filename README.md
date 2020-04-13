@@ -80,7 +80,7 @@ Alice is an HTTP Inspector tool for Flutter which helps debugging http requests.
 
 ```yaml
 dependencies:
-  alice: ^0.0.23
+  alice: ^0.0.25
 ```
 
 2. Install it
@@ -118,6 +118,12 @@ You can use also your navigator key in Alice:
 Alice alice = Alice(showNotification: true, navigatorKey: yourNavigatorKeyHere);
 ```
 
+If you need to pass navigatorKey lazily, you can use:
+```dart
+alice.setNavigatorKey(yourNavigatorKeyHere);
+```
+
+
 You can set `showInspectorOnShake` in Alice constructor to open inspector by shaking your device (default disabled):
 
 ```dart
@@ -128,6 +134,11 @@ If you want to use dark mode just add `darkTheme` flag:
 
 ```dart
 Alice alice = Alice(..., darkTheme: true);
+```
+
+If you want to pass another notification icon, you can use `notificationIcon` parameter. Default value is @mipmap/ic_launcher.
+```dart
+Alice alice = Alice(..., notificationIcon: "myNotificationIconResourceName");
 ```
 
 ### HTTP Client configuration

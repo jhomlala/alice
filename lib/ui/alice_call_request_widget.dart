@@ -6,7 +6,8 @@ import 'alice_base_call_details_widget.dart';
 class AliceCallRequestWidget extends StatefulWidget {
   final AliceHttpCall call;
 
-  AliceCallRequestWidget(this.call);
+  AliceCallRequestWidget(this.call)
+      : assert(call != null, "call can't be null");
 
   @override
   State<StatefulWidget> createState() {
@@ -32,6 +33,25 @@ class _AliceCallRequestWidget
       bodyContent = formatBody(body, getContentType(_call.request.headers));
     }
     rows.add(getListRow("Body:", bodyContent));
+    var formDataFields = _call.request.formDataFields;
+    if (formDataFields?.isNotEmpty == true) {
+      rows.add(getListRow("Form data fields: ", ""));
+      formDataFields.forEach(
+        (field) {
+          rows.add(getListRow("   • ${field.name}:", "${field.value}"));
+        },
+      );
+    }
+    var formDataFiles = _call.request.formDataFiles;
+    if (formDataFiles?.isNotEmpty == true) {
+      rows.add(getListRow("Form data files: ", ""));
+      formDataFiles.forEach(
+        (field) {
+          rows.add(getListRow("   • ${field.fileName}:",
+              "${field.contentType} / ${field.length} B"));
+        },
+      );
+    }
 
     var headers = _call.request.headers;
     var headersContent = "Headers are empty";
@@ -57,7 +77,8 @@ class _AliceCallRequestWidget
     }
 
     return Container(
-        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-        child: ListView(children: rows));
+      padding: const EdgeInsets.all(6),
+      child: ListView(children: rows),
+    );
   }
 }
