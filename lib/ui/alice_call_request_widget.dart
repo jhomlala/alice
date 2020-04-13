@@ -6,7 +6,8 @@ import 'alice_base_call_details_widget.dart';
 class AliceCallRequestWidget extends StatefulWidget {
   final AliceHttpCall call;
 
-  AliceCallRequestWidget(this.call);
+  AliceCallRequestWidget(this.call)
+      : assert(call != null, "call can't be null");
 
   @override
   State<StatefulWidget> createState() {
@@ -45,8 +46,9 @@ class _AliceCallRequestWidget
     if (formDataFiles?.isNotEmpty == true) {
       rows.add(getListRow("Form data files: ", ""));
       formDataFiles.forEach(
-            (field) {
-          rows.add(getListRow("   • ${field.fileName}:", "${field.contentType} / ${field.length} B" ));
+        (field) {
+          rows.add(getListRow("   • ${field.fileName}:",
+              "${field.contentType} / ${field.length} B"));
         },
       );
     }
@@ -75,7 +77,8 @@ class _AliceCallRequestWidget
     }
 
     return Container(
-        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-        child: ListView(children: rows));
+      padding: const EdgeInsets.all(6),
+      child: ListView(children: rows),
+    );
   }
 }

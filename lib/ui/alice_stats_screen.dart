@@ -5,50 +5,56 @@ import 'package:flutter/material.dart';
 class AliceStatsScreen extends StatelessWidget {
   final AliceCore aliceCore;
 
-  const AliceStatsScreen(this.aliceCore);
+  const AliceStatsScreen(this.aliceCore)
+      : assert(aliceCore != null, "aliceCore can't be null");
 
   @override
   Widget build(BuildContext context) {
-    int bytesSent = _getBytesSent();
-    int bytesReceived = _getBytesReceived();
     return Theme(
-        data: ThemeData(brightness: aliceCore.brightness),
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text("Alice - HTTP Inspector - Stats"),
+      data: ThemeData(brightness: aliceCore.brightness),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Alice - HTTP Inspector - Stats"),
+        ),
+        body: Container(
+          padding: const EdgeInsets.all(8),
+          child: ListView(
+            children: _buildMainListWidgets(),
           ),
-          body: Container(
-              padding: EdgeInsets.all(10),
-              child: SingleChildScrollView(
-                  child: Column(
-                children: <Widget>[
-                  _getRow("Total requests:", "${_getTotalRequests()}"),
-                  _getRow("Pending requests:", "${_getPendingRequests()}"),
-                  _getRow("Success requests:", "${_getSuccessRequests()}"),
-                  _getRow(
-                      "Redirection requests:", "${_getRedirectionRequests()}"),
-                  _getRow("Error requests:", "${_getErrorRequests()}"),
-                  _getRow("Bytes send:",
-                      "$bytesSent bytes (${_getKilobytes(bytesSent)} KB)"),
-                  _getRow("Bytes received:",
-                      "$bytesReceived bytes (${_getKilobytes(bytesReceived)} KB)"),
-                  _getRow("Average request time:",
-                      "${_getAverageRequestTime()} ms"),
-                  _getRow("Max request time:", "${_getMaxRequestTime()} ms"),
-                  _getRow("Min request time:", "${_getMinRequestTime()} ms"),
-                  _getRow("Get requests:", "${_getRequests("GET")} "),
-                  _getRow("Post requests:", "${_getRequests("POST")} "),
-                  _getRow("Delete requests:", "${_getRequests("DELETE")} "),
-                  _getRow("Put requests:", "${_getRequests("PUT")} "),
-                  _getRow("Patch requests:", "${_getRequests("PATCH")} "),
-                  _getRow("Secured requests:", "${_getSecuredRequests()}"),
-                  _getRow("Unsecured requests:", "${_getUnsecuredRequests()}"),
-                ],
-              ))),
-        ));
+        ),
+      ),
+    );
   }
 
-  Row _getRow(String label, String value) {
+  List<Widget> _buildMainListWidgets() {
+    int bytesSent = _getBytesSent();
+    int bytesReceived = _getBytesReceived();
+    return [
+      _getRow("Total requests:", "${_getTotalRequests()}"),
+      _getRow("Pending requests:", "${_getPendingRequests()}"),
+      _getRow("Success requests:", "${_getSuccessRequests()}"),
+      _getRow("Redirection requests:", "${_getRedirectionRequests()}"),
+      _getRow("Error requests:", "${_getErrorRequests()}"),
+      _getRow(
+          "Bytes send:", "$bytesSent bytes (${_getKilobytes(bytesSent)} KB)"),
+      _getRow("Bytes received:",
+          "$bytesReceived bytes (${_getKilobytes(bytesReceived)} KB)"),
+      _getRow("Average request time:", "${_getAverageRequestTime()} ms"),
+      _getRow("Max request time:", "${_getMaxRequestTime()} ms"),
+      _getRow("Min request time:", "${_getMinRequestTime()} ms"),
+      _getRow("Get requests:", "${_getRequests("GET")} "),
+      _getRow("Post requests:", "${_getRequests("POST")} "),
+      _getRow("Delete requests:", "${_getRequests("DELETE")} "),
+      _getRow("Put requests:", "${_getRequests("PUT")} "),
+      _getRow("Patch requests:", "${_getRequests("PATCH")} "),
+      _getRow("Secured requests:", "${_getSecuredRequests()}"),
+      _getRow("Unsecured requests:", "${_getUnsecuredRequests()}"),
+    ];
+  }
+
+  Widget _getRow(String label, String value) {
+    assert(label != null, "label can't be null");
+    assert(value != null, "value can't be null");
     return Row(
       children: <Widget>[
         Text(
@@ -78,51 +84,32 @@ class AliceStatsScreen extends StatelessWidget {
     return calls.length;
   }
 
-  int _getSuccessRequests() {
-    int requests = 0;
-    calls.forEach((AliceHttpCall call) {
-      if (call.response != null &&
+  int _getSuccessRequests() => calls
+      .where((call) =>
+          call.response != null &&
           call.response.status >= 200 &&
-          call.response.status < 300) {
-        requests++;
-      }
-    });
-    return requests;
-  }
+          call.response.status < 300)
+      .toList()
+      .length;
 
-  int _getRedirectionRequests() {
-    int requests = 0;
-    calls.forEach((AliceHttpCall call) {
-      if (call.response != null &&
+  int _getRedirectionRequests() => calls
+      .where((call) =>
+          call.response != null &&
           call.response.status >= 300 &&
-          call.response.status < 400) {
-        requests++;
-      }
-    });
-    return requests;
-  }
+          call.response.status < 400)
+      .toList()
+      .length;
 
-  int _getErrorRequests() {
-    int requests = 0;
-    calls.forEach((AliceHttpCall call) {
-      if (call.response != null &&
+  int _getErrorRequests() => calls
+      .where((call) =>
+          call.response != null &&
           call.response.status >= 400 &&
-          call.response.status < 600) {
-        requests++;
-      }
-    });
-    return requests;
-  }
+          call.response.status < 600)
+      .toList()
+      .length;
 
-  int _getPendingRequests() {
-    int requests = 0;
-    calls.forEach((AliceHttpCall call) {
-      if (call.loading) {
-        requests++;
-      }
-    });
-    return requests;
-  }
+  int _getPendingRequests() =>
+      calls.where((call) => call.loading).toList().length;
 
   int _getBytesSent() {
     int bytes = 0;
@@ -185,35 +172,14 @@ class AliceStatsScreen extends StatelessWidget {
     return minRequestTime;
   }
 
-  int _getRequests(String requestType) {
-    int requests = 0;
-    calls.forEach((AliceHttpCall call) {
-      if (call.method == requestType) {
-        requests++;
-      }
-    });
-    return requests;
-  }
+  int _getRequests(String requestType) =>
+      calls.where((call) => call.method == requestType).toList().length;
 
-  int _getSecuredRequests() {
-    int requests = 0;
-    calls.forEach((AliceHttpCall call) {
-      if (call.secure) {
-        requests++;
-      }
-    });
-    return requests;
-  }
+  int _getSecuredRequests() =>
+      calls.where((call) => call.secure).toList().length;
 
-  int _getUnsecuredRequests() {
-    int requests = 0;
-    calls.forEach((AliceHttpCall call) {
-      if (!call.secure) {
-        requests++;
-      }
-    });
-    return requests;
-  }
+  int _getUnsecuredRequests() =>
+      calls.where((call) => !call.secure).toList().length;
 
   List<AliceHttpCall> get calls => aliceCore.callsSubject.value;
 }

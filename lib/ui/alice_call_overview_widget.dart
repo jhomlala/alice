@@ -6,7 +6,8 @@ import 'alice_base_call_details_widget.dart';
 class AliceCallOverviewWidget extends StatefulWidget {
   final AliceHttpCall call;
 
-  AliceCallOverviewWidget(this.call);
+  AliceCallOverviewWidget(this.call)
+      : assert(call != null, "call can't be null");
 
   @override
   State<StatefulWidget> createState() {
@@ -32,7 +33,8 @@ class _AliceCallOverviewWidget
     rows.add(getListRow("Client:", _call.client));
     rows.add(getListRow("Secure:", _call.secure.toString()));
     return Container(
-        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-        child: ListView(children: rows));
+      padding: const EdgeInsets.all(6),
+      child: ListView(children: rows),
+    );
   }
 }

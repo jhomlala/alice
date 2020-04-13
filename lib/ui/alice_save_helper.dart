@@ -12,11 +12,15 @@ class AliceSaveHelper {
   static JsonEncoder _encoder = new JsonEncoder.withIndent('  ');
 
   static void saveCalls(BuildContext context, List<AliceHttpCall> calls) {
+    assert(context != null, "context can't be null");
+    assert(calls != null, "calls can't be null");
     checkPermissions(context, calls);
   }
 
   static void checkPermissions(
       BuildContext context, List<AliceHttpCall> calls) async {
+    assert(context != null, "context can't be null");
+    assert(calls != null, "calls can't be null");
     var status = await Permission.storage.status;
     if (status.isGranted) {
       _saveToFile(context, calls);
@@ -34,6 +38,8 @@ class AliceSaveHelper {
 
   static Future<String> _saveToFile(
       BuildContext context, List<AliceHttpCall> calls) async {
+    assert(context != null, "context can't be null");
+    assert(calls != null, "calls can't be null");
     try {
       if (calls.length == 0) {
         AliceAlertHelper.showAlert(
