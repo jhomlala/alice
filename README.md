@@ -218,5 +218,10 @@ httpClient
 
 
 ## Example
-
 See complete example here: https://github.com/jhomlala/alice/blob/master/example/lib/main.dart
+To run project, you need to call this command in your terminal
+```bash
+flutter pub run build_runner build --delete-conflicting-outputs
+```
+You need to run this command to build Chopper generated classes. You should run this command only once,
+you don't need to run this command each time before running project (unless you modify something in Chopper endpoints).
