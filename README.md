@@ -218,7 +218,7 @@ httpClient
 
 
 ## Example
-See complete example here: https://github.com/jhomlala/alice/blob/master/example/lib/main.dart
+See complete example here: https://github.com/jhomlala/alice/blob/master/example/lib/main.dart  
 To run project, you need to call this command in your terminal
 ```bash
 flutter pub run build_runner build --delete-conflicting-outputs
