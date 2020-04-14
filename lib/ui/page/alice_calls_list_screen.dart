@@ -56,16 +56,17 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   Widget _buildSearchButton() {
     return IconButton(
       icon: Icon(Icons.search),
-      onPressed: () {
-        setState(() {
-          _searchEnabled = !_searchEnabled;
-          if (!_searchEnabled) {
-            _queryTextEditingController.text = "";
-          }
-        });
-        print("Search: $_searchEnabled");
-      },
+      onPressed: _onSearchClicked,
     );
+  }
+
+  void _onSearchClicked() {
+    setState(() {
+      _searchEnabled = !_searchEnabled;
+      if (!_searchEnabled) {
+        _queryTextEditingController.text = "";
+      }
+    });
   }
 
   Widget _buildMenuButton() {
@@ -100,7 +101,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
       controller: _queryTextEditingController,
       autofocus: true,
       decoration: InputDecoration(
-        hintText: "Search http call...",
+        hintText: "Search http request...",
         border: InputBorder.none,
       ),
       style: TextStyle(fontSize: 14.0),
@@ -155,22 +156,24 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
             "There are no calls to show",
             style: TextStyle(fontSize: 18),
           ),
-          const SizedBox(height: 6),
-          Text(
-            "1. Check if you send any http request",
-            style: TextStyle(fontSize: 12),
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            "2. Check your Alice configuration",
-            style: TextStyle(fontSize: 12),
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            "3. Check search filters",
-            style: TextStyle(fontSize: 12),
-            textAlign: TextAlign.center,
-          )
+          const SizedBox(height: 12),
+          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(
+              "• Check if you send any http request",
+              style: TextStyle(fontSize: 12),
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              "• Check your Alice configuration",
+              style: TextStyle(fontSize: 12),
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              "• Check search filters",
+              style: TextStyle(fontSize: 12),
+              textAlign: TextAlign.center,
+            )
+          ])
         ]),
       ),
     );
@@ -224,7 +227,6 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   }
 
   void _updateSearchQuery(String query) {
-    print("Changed to $query");
     setState(() {});
   }
 }
