@@ -25,7 +25,7 @@ class AliceCallListItemWidget extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildMethodAndEndpointRow(),
+                      _buildMethodAndEndpointRow(context),
                       const SizedBox(height: 4),
                       _buildServerRow(),
                       const SizedBox(height: 4),
@@ -33,7 +33,7 @@ class AliceCallListItemWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                _buildResponseColumn(context, call)
+                _buildResponseColumn(context)
               ],
             ),
           ),
@@ -43,9 +43,13 @@ class AliceCallListItemWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildMethodAndEndpointRow() {
+  Widget _buildMethodAndEndpointRow(BuildContext context) {
+    Color textColor = _getEndpointTextColor(context);
     return Row(children: [
-      Text(call.method, style: TextStyle(fontSize: 16)),
+      Text(
+        call.method,
+        style: TextStyle(fontSize: 16, color: textColor),
+      ),
       Padding(
         padding: EdgeInsets.only(left: 10),
       ),
@@ -54,7 +58,10 @@ class AliceCallListItemWidget extends StatelessWidget {
           child: Text(
             call.endpoint,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: 16),
+            style: TextStyle(
+              fontSize: 16,
+              color: textColor,
+            ),
           ),
         ),
       )
@@ -78,14 +85,15 @@ class AliceCallListItemWidget extends StatelessWidget {
   }
 
   Widget _buildStatsRow() {
-    return Row(children: [
-      Text(_formatTime(call.request.time), style: TextStyle(fontSize: 12)),
-      Padding(padding: EdgeInsets.only(left: 10)),
-      Text("${call.duration} ms", style: TextStyle(fontSize: 12)),
-      Padding(padding: EdgeInsets.only(left: 10)),
-      Text("${call.request.size}B / ${call.response.size}B",
-          style: TextStyle(fontSize: 12))
-    ]);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(_formatTime(call.request.time), style: TextStyle(fontSize: 12)),
+        Text("${call.duration} ms", style: TextStyle(fontSize: 12)),
+        Text("${call.request.size}B / ${call.response.size}B",
+            style: TextStyle(fontSize: 12))
+      ],
+    );
   }
 
   Widget _buildDivider() {
@@ -105,9 +113,8 @@ class AliceCallListItemWidget extends StatelessWidget {
     return (timeUnit < 10) ? "0$timeUnit" : "$timeUnit";
   }
 
-  Column _buildResponseColumn(BuildContext context, AliceHttpCall call) {
+  Widget _buildResponseColumn(BuildContext context) {
     assert(context != null, "context can't be null");
-    assert(call != null, "call can't be null");
     List<Widget> widgets = List();
     if (call.loading) {
       widgets.add(
@@ -123,16 +130,22 @@ class AliceCallListItemWidget extends StatelessWidget {
         _getStatus(call.response),
         style: TextStyle(
           fontSize: 16,
-          color: _getStatusTextColor(context, call.response.status),
+          color: _getStatusTextColor(context),
         ),
       ),
     );
-    return Column(children: widgets);
+    return Container(
+      width: 40,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: widgets,
+      ),
+    );
   }
 
-  Color _getStatusTextColor(BuildContext context, int status) {
+  Color _getStatusTextColor(BuildContext context) {
     assert(context != null, "context can't be null");
-    assert(status != null, "status can't be null");
+    int status = call.response.status;
     if (status == -1) {
       return Colors.red;
     } else if (status < 200) {
@@ -145,6 +158,14 @@ class AliceCallListItemWidget extends StatelessWidget {
       return Colors.red;
     } else {
       return Theme.of(context).textTheme.body1.color;
+    }
+  }
+
+  Color _getEndpointTextColor(BuildContext context) {
+    if (call.loading) {
+      return Colors.grey;
+    } else {
+      return _getStatusTextColor(context);
     }
   }
 
