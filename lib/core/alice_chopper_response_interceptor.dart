@@ -39,7 +39,7 @@ class AliceChopperInterceptor extends chopper.ResponseInterceptor
 
   @override
   FutureOr<chopper.Request> onRequest(chopper.Request request) async {
-    assert(request != null,"request can't be null");
+    assert(request != null, "request can't be null");
     var baseRequest = await request.toBaseRequest();
     AliceHttpCall call = AliceHttpCall(getRequestHashCode(baseRequest));
     String endpoint = "";
@@ -47,7 +47,7 @@ class AliceChopperInterceptor extends chopper.ResponseInterceptor
     if (request.baseUrl == null || request.baseUrl.isEmpty) {
       List<String> split = request.url.split("/");
       if (split.length > 2) {
-        server = split[0] + "//" + split[1] + split[2];
+        server = split[1] + split[2];
       }
       if (split.length > 4) {
         endpoint = "/";
@@ -60,6 +60,7 @@ class AliceChopperInterceptor extends chopper.ResponseInterceptor
       endpoint = request.url;
       server = request.baseUrl;
     }
+
     call.method = request.method;
     call.endpoint = endpoint;
     call.server = server;

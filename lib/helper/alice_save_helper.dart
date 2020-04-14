@@ -6,7 +6,7 @@ import 'package:open_file/open_file.dart';
 import 'package:package_info/package_info.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'alice_alert_helper.dart';
+import '../helper/alice_alert_helper.dart';
 
 class AliceSaveHelper {
   static JsonEncoder _encoder = new JsonEncoder.withIndent('  ');

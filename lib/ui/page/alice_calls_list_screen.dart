@@ -1,11 +1,11 @@
 import 'package:alice/model/alice_menu_item.dart';
-import 'package:alice/ui/alice_call_details_screen.dart';
+import 'package:alice/helper/alice_alert_helper.dart';
+import 'package:alice/ui/page/alice_call_details_screen.dart';
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/model/alice_http_call.dart';
+import 'package:alice/ui/widget/alice_call_list_item_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'alice_alert_helper.dart';
-import 'alice_call_list_item.dart';
 import 'alice_stats_screen.dart';
 
 class AliceCallsListScreen extends StatefulWidget {
@@ -19,7 +19,9 @@ class AliceCallsListScreen extends StatefulWidget {
 
 class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   AliceCore get aliceCore => widget._aliceCore;
-
+  bool _searchEnabled = false;
+  final TextEditingController _queryTextEditingController =
+      TextEditingController();
   List<AliceMenuItem> _menuItems = List();
 
   _AliceCallsListScreenState() {
@@ -34,12 +36,37 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
       data: ThemeData(brightness: widget._aliceCore.brightness),
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Alice - HTTP Inspector - Calls"),
-          actions: [_buildMenuButton()],
+          title: _searchEnabled ? _buildSearchField() : _buildTitleWidget(),
+          actions: [
+            _buildSearchButton(),
+            _buildMenuButton(),
+          ],
         ),
         body: _buildCallsListWrapper(),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _queryTextEditingController.dispose();
+  }
+
+  Widget _buildSearchButton() {
+    return IconButton(
+      icon: Icon(Icons.search),
+      onPressed: _onSearchClicked,
+    );
+  }
+
+  void _onSearchClicked() {
+    setState(() {
+      _searchEnabled = !_searchEnabled;
+      if (!_searchEnabled) {
+        _queryTextEditingController.text = "";
+      }
+    });
   }
 
   Widget _buildMenuButton() {
@@ -65,6 +92,23 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
     );
   }
 
+  Widget _buildTitleWidget() {
+    return Text("Alice - Inspector");
+  }
+
+  Widget _buildSearchField() {
+    return TextField(
+      controller: _queryTextEditingController,
+      autofocus: true,
+      decoration: InputDecoration(
+        hintText: "Search http request...",
+        border: InputBorder.none,
+      ),
+      style: TextStyle(fontSize: 14.0),
+      onChanged: _updateSearchQuery,
+    );
+  }
+
   void _onMenuItemSelected(AliceMenuItem menuItem) {
     if (menuItem.title == "Delete") {
       _showRemoveDialog();
@@ -81,8 +125,16 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
     return StreamBuilder<List<AliceHttpCall>>(
       stream: aliceCore.callsSubject,
       builder: (context, snapshot) {
-        if (snapshot.hasData && snapshot.data.isNotEmpty) {
-          return _buildCallsListWidget(snapshot.data);
+        List<AliceHttpCall> calls = snapshot.data ?? List();
+        String query = _queryTextEditingController.text.trim();
+        if (query.isNotEmpty) {
+          calls = calls
+              .where((call) =>
+                  call.endpoint.toLowerCase().contains(query.toLowerCase()))
+              .toList();
+        }
+        if (calls.isNotEmpty) {
+          return _buildCallsListWidget(calls);
         } else {
           return _buildEmptyWidget();
         }
@@ -92,7 +144,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
 
   Widget _buildEmptyWidget() {
     return Container(
-      margin: EdgeInsets.all(5),
+      margin: EdgeInsets.symmetric(horizontal: 32),
       child: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Icon(
@@ -104,11 +156,24 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
             "There are no calls to show",
             style: TextStyle(fontSize: 18),
           ),
-          const SizedBox(height: 6),
-          Text(
-            "You have not send any http call or your Alice configuration is invalid.",
-            style: TextStyle(fontSize: 12),
-          )
+          const SizedBox(height: 12),
+          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(
+              "• Check if you send any http request",
+              style: TextStyle(fontSize: 12),
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              "• Check your Alice configuration",
+              style: TextStyle(fontSize: 12),
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              "• Check search filters",
+              style: TextStyle(fontSize: 12),
+              textAlign: TextAlign.center,
+            )
+          ])
         ]),
       ),
     );
@@ -118,7 +183,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
     return ListView.builder(
       itemCount: calls.length,
       itemBuilder: (context, index) {
-        return AliceCallListItem(calls[index], _onListItemClicked);
+        return AliceCallListItemWidget(calls[index], _onListItemClicked);
       },
     );
   }
@@ -159,5 +224,9 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
 
   void _saveToFile() async {
     aliceCore.saveHttpRequests(context);
+  }
+
+  void _updateSearchQuery(String query) {
+    setState(() {});
   }
 }
