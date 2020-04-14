@@ -18,207 +18,121 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Alice alice;
-  Dio dio;
-  HttpClient httpClient;
-  ChopperClient chopper;
-  PostsService postsService;
+  Alice _alice;
+  Dio _dio;
+  HttpClient _httpClient;
+  ChopperClient _chopper;
+  PostsService _postsService;
 
   @override
   void initState() {
-    alice = Alice(
+    _alice = Alice(
         showNotification: true, showInspectorOnShake: true, darkTheme: true);
-    dio = Dio();
-    dio.interceptors.add(alice.getDioInterceptor());
-    httpClient = HttpClient();
-    chopper = ChopperClient(
-      interceptors: alice.getChopperInterceptor(),
+    _dio = Dio();
+    _dio.interceptors.add(_alice.getDioInterceptor());
+    _httpClient = HttpClient();
+    _chopper = ChopperClient(
+      interceptors: _alice.getChopperInterceptor(),
     );
-    postsService = PostsService.create(chopper);
+    _postsService = PostsService.create(_chopper);
 
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      navigatorKey: alice.getNavigatorKey(),
+        theme: ThemeData(
+          primaryColor: Color(0xffff5e57),
+          accentColor: Color(0xffff3f34)
+        ),
+      navigatorKey: _alice.getNavigatorKey(),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Alice HTTP Inspector example'),
+          title: const Text('Alice HTTP Inspector - Example'),
         ),
-        body: Center(
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          RaisedButton(
-            child: Text("Run HTTP Requests"),
-            onPressed: _runHttpRequests,
+        body: Container(
+          padding: EdgeInsets.all(16),
+          child: ListView(
+            children: [
+              const SizedBox(height: 8),
+              _getTextWidget(
+                  "Welcome to example of Alice Http Inspector. Click buttons below to generate sample data."),
+              RaisedButton(
+                child: Text("Run Dio HTTP Requests"),
+                onPressed: _runDioRequests,
+              ),
+              RaisedButton(
+                child: Text("Run http/http HTTP Requests"),
+                onPressed: _runHttpHttpRequests,
+              ),
+              RaisedButton(
+                child: Text("Run HttpClient Requests"),
+                onPressed: _runHttpHttpClientRequests,
+              ),
+              RaisedButton(
+                child: Text("Run Chopper HTTP Requests"),
+                onPressed: _runChopperHttpRequests,
+              ),
+
+              const SizedBox(height: 24),
+              _getTextWidget(
+                  "After clicking on buttons above, you should receive notification."
+                  " Click on it to show inspector. You can also shake your device or click button below."),
+              RaisedButton(
+                child: Text("Run HTTP Insepctor"),
+                onPressed: _runHttpInspector,
+              )
+            ],
           ),
-          RaisedButton(
-            child: Text("Run HTTP Insepctor"),
-            onPressed: _runHttpInspector,
-          )
-        ])),
+        ),
       ),
+    );
+  }
+
+  Widget _getTextWidget(String text) {
+    return Text(
+      text,
+      style: TextStyle(fontSize: 14),
+      textAlign: TextAlign.center,
     );
   }
 
   void _runChopperHttpRequests() async {
     Map<String, dynamic> body = {"title": "foo", "body": "bar", "userId": "1"};
-    postsService.getPost("1");
-    postsService.postPost(body);
-    postsService.putPost("1", body);
-    postsService.putPost("1231923", body);
-    postsService.putPost("1", null);
-    postsService.postPost(null);
-    postsService.getPost("123456");
+    _postsService.getPost("1");
+    _postsService.postPost(body);
+    _postsService.putPost("1", body);
+    _postsService.putPost("1231923", body);
+    _postsService.putPost("1", null);
+    _postsService.postPost(null);
+    _postsService.getPost("123456");
   }
 
-  void _runHttpRequests() async {
-    _runChopperHttpRequests();
+  void _runDioRequests() async {
     Map<String, dynamic> body = {"title": "foo", "body": "bar", "userId": "1"};
-
-    http
-        .post('https://jsonplaceholder.typicode.com/posts', body: body)
-        .interceptWithAlice(alice, body: body);
-
-    http
-        .get('https://jsonplaceholder.typicode.com/posts')
-        .interceptWithAlice(alice);
-
-    http
-        .put('https://jsonplaceholder.typicode.com/posts/1', body: body)
-        .interceptWithAlice(alice, body: body);
-
-    http
-        .patch('https://jsonplaceholder.typicode.com/posts/1', body: body)
-        .interceptWithAlice(alice, body: body);
-
-    http
-        .delete('https://jsonplaceholder.typicode.com/posts/1')
-        .interceptWithAlice(alice, body: body);
-
-    http
-        .get('https://jsonplaceholder.typicode.com/test/test')
-        .interceptWithAlice(alice);
-
-    http
-        .post('https://jsonplaceholder.typicode.com/posts', body: body)
-        .then((response) {
-      alice.onHttpResponse(response, body: body);
-    });
-
-    http.get('https://jsonplaceholder.typicode.com/posts').then((response) {
-      alice.onHttpResponse(response);
-    });
-
-    http
-        .put('https://jsonplaceholder.typicode.com/posts/1', body: body)
-        .then((response) {
-      alice.onHttpResponse(response, body: body);
-    });
-
-    http
-        .patch('https://jsonplaceholder.typicode.com/posts/1', body: body)
-        .then((response) {
-      alice.onHttpResponse(response, body: body);
-    });
-
-    http
-        .delete('https://jsonplaceholder.typicode.com/posts/1')
-        .then((response) {
-      alice.onHttpResponse(response);
-    });
-
-    http.get('https://jsonplaceholder.typicode.com/test/test').then((response) {
-      alice.onHttpResponse(response);
-    });
-
-    httpClient
-        .getUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts"))
-        .interceptWithAlice(alice);
-
-    httpClient
-        .postUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts"))
-        .interceptWithAlice(alice, body: body, headers: Map());
-
-    httpClient
-        .putUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts/1"))
-        .interceptWithAlice(alice, body: body);
-
-    httpClient
-        .getUrl(Uri.parse("https://jsonplaceholder.typicode.com/test/test/"))
-        .interceptWithAlice(alice);
-
-    httpClient
-        .postUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts"))
-        .then((request) async {
-      alice.onHttpClientRequest(request, body: body);
-      request.write(body);
-      var httpResponse = await request.close();
-      var responseBody = await utf8.decoder.bind(httpResponse).join();
-      alice.onHttpClientResponse(httpResponse, request, body: responseBody);
-    });
-
-    httpClient
-        .putUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts/1"))
-        .then((request) async {
-      alice.onHttpClientRequest(request, body: body);
-      request.write(body);
-      var httpResponse = await request.close();
-      var responseBody = await utf8.decoder.bind(httpResponse).join();
-      alice.onHttpClientResponse(httpResponse, request, body: responseBody);
-    });
-
-    httpClient
-        .patchUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts/1"))
-        .then((request) async {
-      alice.onHttpClientRequest(request, body: body);
-      request.write(body);
-      var httpResponse = await request.close();
-      var responseBody = await utf8.decoder.bind(httpResponse).join();
-      alice.onHttpClientResponse(httpResponse, request, body: responseBody);
-    });
-
-    httpClient
-        .deleteUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts/1"))
-        .then((request) async {
-      alice.onHttpClientRequest(request);
-      var httpResponse = await request.close();
-      var responseBody = await utf8.decoder.bind(httpResponse).join();
-      alice.onHttpClientResponse(httpResponse, request, body: responseBody);
-    });
-
-    httpClient
-        .getUrl(Uri.parse("https://jsonplaceholder.typicode.com/test/test/"))
-        .then((request) async {
-      alice.onHttpClientRequest(request);
-      var httpResponse = await request.close();
-      var responseBody = await utf8.decoder.bind(httpResponse).join();
-      alice.onHttpClientResponse(httpResponse, request, body: responseBody);
-    });
-
-    /*dio.post("https://jsonplaceholder.typicode.com/posts", data: body);
-    dio.get("https://jsonplaceholder.typicode.com/posts",
+    _dio.post("https://jsonplaceholder.typicode.com/posts", data: body);
+    _dio.get("https://jsonplaceholder.typicode.com/posts",
         queryParameters: {"test": 1});
-    dio.put("https://jsonplaceholder.typicode.com/posts/1", data: body);
-    dio.put("https://jsonplaceholder.typicode.com/posts/1", data: body);
-    dio.delete("https://jsonplaceholder.typicode.com/posts/1");
-    dio.get("http://jsonplaceholder.typicode.com/test/test");
+    _dio.put("https://jsonplaceholder.typicode.com/posts/1", data: body);
+    _dio.put("https://jsonplaceholder.typicode.com/posts/1", data: body);
+    _dio.delete("https://jsonplaceholder.typicode.com/posts/1");
+    _dio.get("http://jsonplaceholder.typicode.com/test/test");
 
-    dio.get("https://jsonplaceholder.typicode.com/photos");
-    dio.get(
+    _dio.get("https://jsonplaceholder.typicode.com/photos");
+    _dio.get(
         "https://icons.iconarchive.com/icons/paomedia/small-n-flat/256/sign-info-icon.png");
-    dio.get(
+    _dio.get(
         "https://images.unsplash.com/photo-1542736705-53f0131d1e98?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80");
-    dio.get(
+    _dio.get(
         "https://findicons.com/files/icons/1322/world_of_aqua_5/128/bluetooth.png");
-    dio.get(
+    _dio.get(
         "https://upload.wikimedia.org/wikipedia/commons/4/4e/Pleiades_large.jpg");
-    dio.get("http://techslides.com/demos/sample-videos/small.mp4");*/
+    _dio.get("http://techslides.com/demos/sample-videos/small.mp4");
 
-    //dio.get("https://www.cse.wustl.edu/~jain/cis677-97/ftp/e_3dlc2.pdf");
+    _dio.get("https://www.cse.wustl.edu/~jain/cis677-97/ftp/e_3dlc2.pdf");
 
     final directory = await getApplicationDocumentsDirectory();
     File file = File("${directory.path}/test.txt");
@@ -229,13 +143,138 @@ class _MyAppState extends State<MyApp> {
     FormData formData = FormData.fromMap({
       "file": await MultipartFile.fromFile(file.path, filename: fileName),
     });
-   dio.post("https://jsonplaceholder.typicode.com/photos",
-        data: formData);
+    _dio.post("https://jsonplaceholder.typicode.com/photos", data: formData);
 
-   dio.get("http://dummy.restapiexample.com/api/v1/employees");
+    _dio.get("http://dummy.restapiexample.com/api/v1/employees");
+  }
+
+  void _runHttpHttpRequests() async {
+    Map<String, dynamic> body = {"title": "foo", "body": "bar", "userId": "1"};
+    http
+        .post('https://jsonplaceholder.typicode.com/posts', body: body)
+        .interceptWithAlice(_alice, body: body);
+
+    http
+        .get('https://jsonplaceholder.typicode.com/posts')
+        .interceptWithAlice(_alice);
+
+    http
+        .put('https://jsonplaceholder.typicode.com/posts/1', body: body)
+        .interceptWithAlice(_alice, body: body);
+
+    http
+        .patch('https://jsonplaceholder.typicode.com/posts/1', body: body)
+        .interceptWithAlice(_alice, body: body);
+
+    http
+        .delete('https://jsonplaceholder.typicode.com/posts/1')
+        .interceptWithAlice(_alice, body: body);
+
+    http
+        .get('https://jsonplaceholder.typicode.com/test/test')
+        .interceptWithAlice(_alice);
+
+    http
+        .post('https://jsonplaceholder.typicode.com/posts', body: body)
+        .then((response) {
+      _alice.onHttpResponse(response, body: body);
+    });
+
+    http.get('https://jsonplaceholder.typicode.com/posts').then((response) {
+      _alice.onHttpResponse(response);
+    });
+
+    http
+        .put('https://jsonplaceholder.typicode.com/posts/1', body: body)
+        .then((response) {
+      _alice.onHttpResponse(response, body: body);
+    });
+
+    http
+        .patch('https://jsonplaceholder.typicode.com/posts/1', body: body)
+        .then((response) {
+      _alice.onHttpResponse(response, body: body);
+    });
+
+    http
+        .delete('https://jsonplaceholder.typicode.com/posts/1')
+        .then((response) {
+      _alice.onHttpResponse(response);
+    });
+
+    http.get('https://jsonplaceholder.typicode.com/test/test').then((response) {
+      _alice.onHttpResponse(response);
+    });
+  }
+
+  void _runHttpHttpClientRequests() {
+    Map<String, dynamic> body = {"title": "foo", "body": "bar", "userId": "1"};
+    _httpClient
+        .getUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts"))
+        .interceptWithAlice(_alice);
+
+    _httpClient
+        .postUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts"))
+        .interceptWithAlice(_alice, body: body, headers: Map());
+
+    _httpClient
+        .putUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts/1"))
+        .interceptWithAlice(_alice, body: body);
+
+    _httpClient
+        .getUrl(Uri.parse("https://jsonplaceholder.typicode.com/test/test/"))
+        .interceptWithAlice(_alice);
+
+    _httpClient
+        .postUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts"))
+        .then((request) async {
+      _alice.onHttpClientRequest(request, body: body);
+      request.write(body);
+      var httpResponse = await request.close();
+      var responseBody = await utf8.decoder.bind(httpResponse).join();
+      _alice.onHttpClientResponse(httpResponse, request, body: responseBody);
+    });
+
+    _httpClient
+        .putUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts/1"))
+        .then((request) async {
+      _alice.onHttpClientRequest(request, body: body);
+      request.write(body);
+      var httpResponse = await request.close();
+      var responseBody = await utf8.decoder.bind(httpResponse).join();
+      _alice.onHttpClientResponse(httpResponse, request, body: responseBody);
+    });
+
+    _httpClient
+        .patchUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts/1"))
+        .then((request) async {
+      _alice.onHttpClientRequest(request, body: body);
+      request.write(body);
+      var httpResponse = await request.close();
+      var responseBody = await utf8.decoder.bind(httpResponse).join();
+      _alice.onHttpClientResponse(httpResponse, request, body: responseBody);
+    });
+
+    _httpClient
+        .deleteUrl(Uri.parse("https://jsonplaceholder.typicode.com/posts/1"))
+        .then((request) async {
+      _alice.onHttpClientRequest(request);
+      var httpResponse = await request.close();
+      var responseBody = await utf8.decoder.bind(httpResponse).join();
+      _alice.onHttpClientResponse(httpResponse, request, body: responseBody);
+    });
+
+    _httpClient
+        .getUrl(Uri.parse("https://jsonplaceholder.typicode.com/test/test/"))
+        .then((request) async {
+      _alice.onHttpClientRequest(request);
+      var httpResponse = await request.close();
+      var responseBody = await utf8.decoder.bind(httpResponse).join();
+      _alice.onHttpClientResponse(httpResponse, request, body: responseBody);
+    });
   }
 
   void _runHttpInspector() {
-    alice.showInspector();
+    _alice.showInspector();
   }
 }
