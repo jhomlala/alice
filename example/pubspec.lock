@@ -7,7 +7,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.0.25"
+    version: "0.0.26"
   analyzer:
     dependency: transitive
     description:
@@ -105,14 +105,14 @@ packages:
       name: chewie
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.8+1"
+    version: "0.9.10"
   chopper:
     dependency: "direct main"
     description:
       name: chopper
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1+1"
+    version: "3.0.2"
   chopper_generator:
     dependency: "direct dev"
     description:
@@ -175,7 +175,7 @@ packages:
       name: dio
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.8"
+    version: "3.0.9"
   ffi:
     dependency: transitive
     description:
@@ -201,7 +201,7 @@ packages:
       name: flutter_local_notifications
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.5+1"
+    version: "1.4.1"
   flutter_local_notifications_platform_interface:
     dependency: transitive
     description:
@@ -360,7 +360,7 @@ packages:
       name: package_info
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.0+13"
+    version: "0.4.0+16"
   package_resolver:
     dependency: transitive
     description:
@@ -465,14 +465,7 @@ packages:
       name: rxdart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.23.1"
-  screen:
-    dependency: transitive
-    description:
-      name: screen
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.5"
+    version: "0.24.0"
   sensors:
     dependency: transitive
     description:
@@ -493,7 +486,7 @@ packages:
       name: share
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.3+5"
+    version: "0.6.3+6"
   shelf:
     dependency: transitive
     description:
@@ -589,7 +582,7 @@ packages:
       name: video_player
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.10.6"
+    version: "0.10.8+1"
   video_player_platform_interface:
     dependency: transitive
     description:
@@ -604,6 +597,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.2"
+  wakelock:
+    dependency: transitive
+    description:
+      name: wakelock
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.4+1"
   watcher:
     dependency: transitive
     description:

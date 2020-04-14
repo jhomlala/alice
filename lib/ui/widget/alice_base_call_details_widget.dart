@@ -30,14 +30,14 @@ abstract class AliceBaseCallDetailsWidgetState<T extends StatefulWidget>
   }
 
   String formatBytes(int bytes) {
-    if (bytes == null){
+    if (bytes == null) {
       bytes = 0;
     }
     return "$bytes B";
   }
 
   String formatDuration(int duration) {
-    if (duration == null){
+    if (duration == null) {
       duration = 0;
     }
     return "$duration ms";

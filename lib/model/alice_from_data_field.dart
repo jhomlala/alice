@@ -1,4 +1,4 @@
-class AliceFormDataField{
+class AliceFormDataField {
   final String name;
   final String value;
 
