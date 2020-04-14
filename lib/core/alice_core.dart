@@ -164,7 +164,8 @@ class AliceCore {
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
         channelId, channelName, channelDescription,
         enableVibration: false,
-        importance: Importance.Default,
+        playSound: false,
+        importance: Importance.Low,
         priority: Priority.Default);
     var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
     var platformChannelSpecifics = new NotificationDetails(
