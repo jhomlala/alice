@@ -1,5 +1,6 @@
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/model/alice_http_call.dart';
+import 'package:alice/ui/utils/alice_constants.dart';
 import 'package:alice/ui/widget/alice_call_error_widget.dart';
 import 'package:alice/ui/widget/alice_call_overview_widget.dart';
 import 'package:alice/ui/widget/alice_call_request_widget.dart';
@@ -31,7 +32,9 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: ThemeData(brightness: widget.core.brightness),
+      data: ThemeData(
+          brightness: widget.core.brightness,
+          accentColor: AliceConstants.lightRed),
       child: StreamBuilder<List<AliceHttpCall>>(
         stream: widget.core.callsSubject,
         initialData: [widget.call],
@@ -58,6 +61,7 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
       length: 4,
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
+          backgroundColor: AliceConstants.lightRed,
           key: Key('share_key'),
           onPressed: () {
             Share.share(_getSharableResponseString(),
@@ -66,7 +70,8 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
           child: Icon(Icons.share),
         ),
         appBar: AppBar(
-          bottom: TabBar(tabs: _getTabBars()),
+          bottom: TabBar(
+              indicatorColor: AliceConstants.lightRed, tabs: _getTabBars()),
           title: Text('Alice - HTTP Call Details'),
         ),
         body: TabBarView(

@@ -3,6 +3,7 @@ import 'package:alice/helper/alice_alert_helper.dart';
 import 'package:alice/ui/page/alice_call_details_screen.dart';
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/model/alice_http_call.dart';
+import 'package:alice/ui/utils/alice_constants.dart';
 import 'package:alice/ui/widget/alice_call_list_item_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +34,9 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: ThemeData(brightness: widget._aliceCore.brightness),
+      data: ThemeData(
+          brightness: widget._aliceCore.brightness,
+          accentColor: AliceConstants.lightRed),
       child: Scaffold(
         appBar: AppBar(
           title: _searchEnabled ? _buildSearchField() : _buildTitleWidget(),
@@ -79,7 +82,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
             child: Row(children: [
               Icon(
                 item.iconData,
-                color: Colors.lightBlue,
+                color: AliceConstants.lightRed,
               ),
               Padding(
                 padding: EdgeInsets.only(left: 10),
@@ -102,9 +105,10 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
       autofocus: true,
       decoration: InputDecoration(
         hintText: "Search http request...",
+        hintStyle: TextStyle(fontSize: 16.0, color: AliceConstants.grey),
         border: InputBorder.none,
       ),
-      style: TextStyle(fontSize: 14.0),
+      style: TextStyle(fontSize: 16.0),
       onChanged: _updateSearchQuery,
     );
   }
@@ -149,7 +153,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Icon(
             Icons.error_outline,
-            color: Colors.orange,
+            color: AliceConstants.orange,
           ),
           const SizedBox(height: 6),
           Text(
