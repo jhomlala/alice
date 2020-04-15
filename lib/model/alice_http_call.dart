@@ -1,7 +1,6 @@
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
-import 'package:package_info/package_info.dart';
 
 class AliceHttpCall {
   final int id;
@@ -48,5 +47,4 @@ class AliceHttpCall {
         "\'${secure ? 'https://' : 'http://'}$server$endpoint\'";
     return curlCmd;
   }
-
 }
