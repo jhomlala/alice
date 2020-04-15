@@ -1,7 +1,10 @@
+## 0.0.27
+* UI polishing
+* File & email content polishing
+
 ## 0.0.26
 * Added search support in calls screen
 * Disabled notifications sound (by https://github.com/itsJoKr Josip Krnjic)
-
 
 ## 0.0.25
 * Added notificationIcon parameter
