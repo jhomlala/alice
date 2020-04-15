@@ -153,7 +153,7 @@ class AliceSaveHelper {
   }
 
   static Future<String> buildCallLog(AliceHttpCall call) async {
-    assert(call != null,"call can't be null");
+    assert(call != null, "call can't be null");
     return await _buildAliceLog() + _buildCallLog(call);
   }
 }
