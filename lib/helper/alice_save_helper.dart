@@ -59,50 +59,10 @@ class AliceSaveHelper {
       File file = File(externalDir.path.toString() + "/" + fileName);
       file.createSync();
       IOSink sink = file.openWrite(mode: FileMode.append);
-
-      var packageInfo = await PackageInfo.fromPlatform();
-      sink.write("Alice - HTTP Inspector\n");
-      sink.write("App name:  ${packageInfo.appName}\n");
-      sink.write("Package: ${packageInfo.packageName}\n");
-      sink.write("Version: ${packageInfo.version}\n");
-      sink.write("Build number: ${packageInfo.buildNumber}\n");
-      sink.write("Generated: " + DateTime.now().toIso8601String() + "\n");
+      sink.write(await _buildAliceLog());
       calls.forEach((AliceHttpCall call) {
-        sink.write("\n");
-        sink.write("==============================================\n");
-        sink.write("Id: ${call.id}\n");
-        sink.write("==============================================\n");
-        sink.write("Server: ${call.server} \n");
-        sink.write("Method: ${call.method} \n");
-        sink.write("Endpoint: ${call.endpoint} \n");
-        sink.write("Client: ${call.client} \n");
-        sink.write("Duration ${call.duration} ms\n");
-        sink.write("Secured connection: ${call.duration}\n");
-        sink.write("Completed: ${!call.loading} \n");
-        sink.write("Request time: ${call.request.time}\n");
-        sink.write("Request content type: ${call.request.contentType}\n");
-        sink.write(
-            "Request cookies: ${_encoder.convert(call.request.cookies)}\n");
-        sink.write(
-            "Request headers: ${_encoder.convert(call.request.headers)}\n");
-        sink.write("Request size: ${call.request.size} bytes\n");
-        sink.write("Request body: ${_encoder.convert(call.request.body)}\n");
-        sink.write("Response time: ${call.response.time}\n");
-        sink.write("Response status: ${call.response.status}\n");
-        sink.write("Response size: ${call.response.size} bytes\n");
-        sink.write(
-            "Response headers: ${_encoder.convert(call.response.headers)}\n");
-        sink.write("Response body: ${_encoder.convert(call.response.body)}\n");
-        if (call.error != null) {
-          sink.write("Error: ${call.error.error}\n");
-          if (call.error.stackTrace != null) {
-            sink.write("Error stacktrace: ${call.error.stackTrace}\n");
-          }
-        }
-        sink.write("==============================================\n");
-        sink.write("\n");
+        sink.write(_buildCallLog(call));
       });
-
       await sink.flush();
       await sink.close();
       AliceAlertHelper.showAlert(
@@ -119,5 +79,81 @@ class AliceSaveHelper {
     }
 
     return "";
+  }
+
+  static Future<String> _buildAliceLog() async {
+    StringBuffer stringBuffer = StringBuffer();
+    var packageInfo = await PackageInfo.fromPlatform();
+    stringBuffer.write("Alice - HTTP Inspector\n");
+    stringBuffer.write("App name:  ${packageInfo.appName}\n");
+    stringBuffer.write("Package: ${packageInfo.packageName}\n");
+    stringBuffer.write("Version: ${packageInfo.version}\n");
+    stringBuffer.write("Build number: ${packageInfo.buildNumber}\n");
+    stringBuffer.write("Generated: " + DateTime.now().toIso8601String() + "\n");
+    stringBuffer.write("\n");
+    return stringBuffer.toString();
+  }
+
+  static String _buildCallLog(AliceHttpCall call) {
+    assert(call != null, "call can't be null");
+    StringBuffer stringBuffer = StringBuffer();
+    stringBuffer.write("===========================================\n");
+    stringBuffer.write("Id: ${call.id}\n");
+    stringBuffer.write("============================================\n");
+    stringBuffer.write("--------------------------------------------\n");
+    stringBuffer.write("General data\n");
+    stringBuffer.write("--------------------------------------------\n");
+    stringBuffer.write("Server: ${call.server} \n");
+    stringBuffer.write("Method: ${call.method} \n");
+    stringBuffer.write("Endpoint: ${call.endpoint} \n");
+    stringBuffer.write("Client: ${call.client} \n");
+    stringBuffer.write("Duration ${call.duration} ms\n");
+    stringBuffer.write("Secured connection: ${call.secure}\n");
+    stringBuffer.write("Completed: ${!call.loading} \n");
+    stringBuffer.write("--------------------------------------------\n");
+    stringBuffer.write("Request\n");
+    stringBuffer.write("--------------------------------------------\n");
+    stringBuffer.write("Request time: ${call.request.time}\n");
+    stringBuffer.write("Request content type: ${call.request.contentType}\n");
+    stringBuffer
+        .write("Request cookies: ${_encoder.convert(call.request.cookies)}\n");
+    stringBuffer
+        .write("Request headers: ${_encoder.convert(call.request.headers)}\n");
+    stringBuffer.write("Request size: ${call.request.size} bytes\n");
+    stringBuffer
+        .write("Request body: ${_encoder.convert(call.request.body)}\n");
+    stringBuffer.write("--------------------------------------------\n");
+    stringBuffer.write("Response\n");
+    stringBuffer.write("--------------------------------------------\n");
+    stringBuffer.write("Response time: ${call.response.time}\n");
+    stringBuffer.write("Response status: ${call.response.status}\n");
+    stringBuffer.write("Response size: ${call.response.size} bytes\n");
+    stringBuffer.write(
+        "Response headers: ${_encoder.convert(call.response.headers)}\n");
+    stringBuffer
+        .write("Response body: ${_encoder.convert(call.response.body)}\n");
+    if (call.error != null) {
+      stringBuffer.write("--------------------------------------------\n");
+      stringBuffer.write("Error\n");
+      stringBuffer.write("--------------------------------------------\n");
+      stringBuffer.write("Error: ${call.error.error}\n");
+      if (call.error.stackTrace != null) {
+        stringBuffer.write("Error stacktrace: ${call.error.stackTrace}\n");
+      }
+    }
+    stringBuffer.write("--------------------------------------------\n");
+    stringBuffer.write("Curl\n");
+    stringBuffer.write("--------------------------------------------\n");
+    stringBuffer.write("${call.getCurlCommand()}");
+    stringBuffer.write("\n");
+    stringBuffer.write("==============================================\n");
+    stringBuffer.write("\n");
+
+    return stringBuffer.toString();
+  }
+
+  static Future<String> buildCallLog(AliceHttpCall call) async {
+    assert(call != null,"call can't be null");
+    return await _buildAliceLog() + _buildCallLog(call);
   }
 }

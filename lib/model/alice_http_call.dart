@@ -1,6 +1,7 @@
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
+import 'package:package_info/package_info.dart';
 
 class AliceHttpCall {
   final int id;
@@ -48,10 +49,4 @@ class AliceHttpCall {
     return curlCmd;
   }
 
-  String getCallLog() {
-    return '${request.time.toString()}\n' +
-        '$endpoint\n$method' +
-        '\n${request.body}\n${response.status}' +
-        '\n${response.body}\n';
-  }
 }
