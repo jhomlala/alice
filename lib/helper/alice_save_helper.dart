@@ -11,39 +11,45 @@ import '../helper/alice_alert_helper.dart';
 class AliceSaveHelper {
   static JsonEncoder _encoder = new JsonEncoder.withIndent('  ');
 
-  static void saveCalls(BuildContext context, List<AliceHttpCall> calls) {
+  static void saveCalls(
+      BuildContext context, List<AliceHttpCall> calls, Brightness brightness) {
     assert(context != null, "context can't be null");
     assert(calls != null, "calls can't be null");
-    checkPermissions(context, calls);
+    assert(brightness != null, "brightness can't be null");
+    checkPermissions(context, calls, brightness);
   }
 
-  static void checkPermissions(
-      BuildContext context, List<AliceHttpCall> calls) async {
+  static void checkPermissions(BuildContext context, List<AliceHttpCall> calls,
+      Brightness brightness) async {
     assert(context != null, "context can't be null");
     assert(calls != null, "calls can't be null");
+    assert(brightness != null, "brightness can't be null");
     var status = await Permission.storage.status;
     if (status.isGranted) {
-      _saveToFile(context, calls);
+      _saveToFile(context, calls, brightness);
     } else {
       var status = await Permission.storage.request();
 
       if (status.isGranted) {
-        _saveToFile(context, calls);
+        _saveToFile(context, calls, brightness);
       } else {
         AliceAlertHelper.showAlert(context, "Permission error",
-            "Permission not granted. Couldn't save logs.");
+            "Permission not granted. Couldn't save logs.",
+            brightness: brightness);
       }
     }
   }
 
-  static Future<String> _saveToFile(
-      BuildContext context, List<AliceHttpCall> calls) async {
+  static Future<String> _saveToFile(BuildContext context,
+      List<AliceHttpCall> calls, Brightness brightness) async {
     assert(context != null, "context can't be null");
     assert(calls != null, "calls can't be null");
+    assert(brightness != null, "brightness can't be null");
     try {
       if (calls.length == 0) {
         AliceAlertHelper.showAlert(
-            context, "Error", "There are no logs to save");
+            context, "Error", "There are no logs to save",
+            brightness: brightness);
         return "";
       }
 
@@ -102,11 +108,13 @@ class AliceSaveHelper {
       AliceAlertHelper.showAlert(
           context, "Success", "Sucessfully saved logs in ${file.path}",
           secondButtonTitle: "View file",
-          secondButtonAction: () => OpenFile.open(file.path));
+          secondButtonAction: () => OpenFile.open(file.path),
+          brightness: brightness);
       return file.path;
     } catch (exception) {
       AliceAlertHelper.showAlert(
-          context, "Error", "Failed to save http calls to file");
+          context, "Error", "Failed to save http calls to file",
+          brightness: brightness);
       print(exception);
     }
 

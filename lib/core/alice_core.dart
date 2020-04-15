@@ -228,6 +228,6 @@ class AliceCore {
 
   void saveHttpRequests(BuildContext context) {
     assert(context != null, "context can't be null");
-    AliceSaveHelper.saveCalls(context, callsSubject.value);
+    AliceSaveHelper.saveCalls(context, callsSubject.value, _brightness);
   }
 }

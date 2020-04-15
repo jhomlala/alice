@@ -5,7 +5,8 @@ class AliceAlertHelper {
       {String firstButtonTitle = "Accept",
       String secondButtonTitle,
       Function firstButtonAction,
-      Function secondButtonAction}) {
+      Function secondButtonAction,
+      Brightness brightness}) {
     assert(context != null, "context can't be null");
     assert(title != null, "title can't be null");
     assert(description != null, "description can't be null");
@@ -39,10 +40,15 @@ class AliceAlertHelper {
     showDialog(
       context: context,
       builder: (BuildContext buildContext) {
-        return AlertDialog(
-          title: Text(title),
-          content: Text(description),
-          actions: actions,
+        return Theme(
+          data: ThemeData(
+            brightness: brightness ?? Brightness.light,
+          ),
+          child: AlertDialog(
+            title: Text(title),
+            content: Text(description),
+            actions: actions,
+          ),
         );
       },
     );

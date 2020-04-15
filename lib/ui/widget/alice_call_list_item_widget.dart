@@ -128,6 +128,11 @@ class AliceCallListItemWidget extends StatelessWidget {
           height: 20,
         ),
       );
+      widgets.add(
+        const SizedBox(
+          height: 4,
+        ),
+      );
     }
     widgets.add(
       Text(
