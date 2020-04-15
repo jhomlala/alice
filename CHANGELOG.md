@@ -1,3 +1,6 @@
+## 0.0.28
+* Fixed rendering body responses of unknown content-type
+
 ## 0.0.27
 * UI polishing
 * File & email content polishing

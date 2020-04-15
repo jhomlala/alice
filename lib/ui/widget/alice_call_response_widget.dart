@@ -1,4 +1,5 @@
 import 'package:alice/model/alice_http_call.dart';
+import 'package:alice/ui/utils/alice_constants.dart';
 import 'package:alice/ui/widget/alice_base_call_details_widget.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
@@ -18,12 +19,17 @@ class AliceCallResponseWidget extends StatefulWidget {
 
 class _AliceCallResponseWidgetState
     extends AliceBaseCallDetailsWidgetState<AliceCallResponseWidget> {
-  static const _kImageContentType = "image";
-  static const _kVideoContentType = "video";
+  static const _imageContentType = "image";
+  static const _videoContentType = "video";
+  static const _jsonContentType = "json";
+  static const _xmlContentType = "xml";
+  static const _textContentType = "text";
+
   static const _kLargeOutputSize = 100000;
   VideoPlayerController _videoPlayerController;
   ChewieController _chewieController;
   bool _showLargeBody = false;
+  bool _showUnsupportedBody = false;
 
   AliceHttpCall get _call => widget.call;
 
@@ -100,11 +106,16 @@ class _AliceCallResponseWidgetState
       rows.addAll(_buildImageBodyRows());
     } else if (_isVideoResponse()) {
       rows.addAll(_buildVideoBodyRows());
-    } else if (_isLargeResponseBody()) {
-      rows.addAll(_buildLargeBodyTextRows());
+    } else if (_isTextResponse()) {
+      if (_isLargeResponseBody()) {
+        rows.addAll(_buildLargeBodyTextRows());
+      } else {
+        rows.addAll(_buildTextBodyRows());
+      }
     } else {
-      rows.addAll(_buildTextBodyRows());
+      rows.addAll(_buildUnknownBodyRows());
     }
+
     return rows;
   }
 
@@ -155,6 +166,7 @@ class _AliceCallResponseWidgetState
           "Too large to show (${_call.response.body.toString().length} Bytes)"));
       rows.add(
         RaisedButton(
+          color: AliceConstants.lightRed,
           child: Text("Show body"),
           onPressed: () {
             setState(() {
@@ -165,6 +177,14 @@ class _AliceCallResponseWidgetState
       );
       rows.add(Text("Warning! It will take some time to render output."));
     }
+    return rows;
+  }
+
+  List<Widget> _buildTextBodyRows() {
+    List<Widget> rows = List();
+    var headers = _call.response.headers;
+    var bodyContent = formatBody(_call.response.body, getContentType(headers));
+    rows.add(getListRow("Body:", bodyContent));
     return rows;
   }
 
@@ -199,11 +219,34 @@ class _AliceCallResponseWidgetState
     return rows;
   }
 
-  List<Widget> _buildTextBodyRows() {
+  List<Widget> _buildUnknownBodyRows() {
     List<Widget> rows = List();
     var headers = _call.response.headers;
-    var bodyContent = formatBody(_call.response.body, getContentType(headers));
-    rows.add(getListRow("Body:", bodyContent));
+    var contentType = getContentType(headers) ?? "<unknown>";
+
+    if (_showUnsupportedBody) {
+      var bodyContent =
+          formatBody(_call.response.body, getContentType(headers));
+      rows.add(getListRow("Body:", bodyContent));
+    } else {
+      rows.add(getListRow(
+          "Body:",
+          "Unsupported body. Alice can render video/image/text body. "
+              "Response has Content-Type: $contentType which can't be handled. "
+              "If you're feeling lucky you can try button below to try render body"
+              "as text, but it may fail."));
+      rows.add(
+        RaisedButton(
+          child: Text("Show unsupported body"),
+          color: AliceConstants.lightRed,
+          onPressed: () {
+            setState(() {
+              _showUnsupportedBody = true;
+            });
+          },
+        ),
+      );
+    }
     return rows;
   }
 
@@ -224,13 +267,22 @@ class _AliceCallResponseWidgetState
   bool _isImageResponse() {
     return _getContentTypeOfResponse()
         .toLowerCase()
-        .contains(_kImageContentType);
+        .contains(_imageContentType);
   }
 
   bool _isVideoResponse() {
     return _getContentTypeOfResponse()
         .toLowerCase()
-        .contains(_kVideoContentType);
+        .contains(_videoContentType);
+  }
+
+  bool _isTextResponse() {
+    String responseContentTypeLowerCase =
+        _getContentTypeOfResponse().toLowerCase();
+
+    return responseContentTypeLowerCase.contains(_jsonContentType) ||
+        responseContentTypeLowerCase.contains(_xmlContentType) ||
+        responseContentTypeLowerCase.contains(_textContentType);
   }
 
   String _getContentTypeOfResponse() {
