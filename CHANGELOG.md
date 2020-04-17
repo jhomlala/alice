@@ -1,3 +1,7 @@
+## 0.0.29
+* Added possibility to add generic http call
+* Refactored rendering of invalid body in application/json response
+
 ## 0.0.28
 * Fixed rendering body responses of unknown content-type
 
