@@ -1,3 +1,6 @@
+## 0.0.30
+* Added better duration and bytes formatting
+
 ## 0.0.29
 * Added possibility to add generic http call
 * Refactored rendering of invalid body in application/json response
