@@ -28,7 +28,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     _alice = Alice(
         showNotification: true, showInspectorOnShake: true, darkTheme: true);
-    _dio = Dio();
+    _dio = Dio(BaseOptions(followRedirects: false));
     _dio.interceptors.add(_alice.getDioInterceptor());
     _httpClient = HttpClient();
     _chopper = ChopperClient(
@@ -39,14 +39,11 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(
-          primaryColor: Color(0xffff5e57),
-          accentColor: Color(0xffff3f34)
-        ),
+      theme: ThemeData(
+          primaryColor: Color(0xffff5e57), accentColor: Color(0xffff3f34)),
       navigatorKey: _alice.getNavigatorKey(),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -76,7 +73,6 @@ class _MyAppState extends State<MyApp> {
                 child: Text("Run Chopper HTTP Requests"),
                 onPressed: _runChopperHttpRequests,
               ),
-
               const SizedBox(height: 24),
               _getTextWidget(
                   "After clicking on buttons above, you should receive notification."
@@ -113,6 +109,12 @@ class _MyAppState extends State<MyApp> {
 
   void _runDioRequests() async {
     Map<String, dynamic> body = {"title": "foo", "body": "bar", "userId": "1"};
+    _dio.get("https://httpbin.org/redirect-to?url=https%3A%2F%2Fhttpbin.org");
+    _dio.delete("https://httpbin.org/status/500");
+    _dio.delete("https://httpbin.org/status/400");
+    _dio.delete("https://httpbin.org/status/300");
+    _dio.delete("https://httpbin.org/status/200");
+    _dio.delete("https://httpbin.org/status/100");
     _dio.post("https://jsonplaceholder.typicode.com/posts", data: body);
     _dio.get("https://jsonplaceholder.typicode.com/posts",
         queryParameters: {"test": 1});
