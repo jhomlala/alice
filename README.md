@@ -10,9 +10,6 @@
 
 Alice is an HTTP Inspector tool for Flutter which helps debugging http requests. It catches and stores http requests and responses, which can be viewed via simple UI. It is inspired from Chuck ( https://github.com/jgilfelt/chuck ).
 
-<p align="center">
-<img height="500" src="https://github.com/jhomlala/comptf2/blob/master/media/appsmaller.gif">
-</p>
 <table>
   <tr>
     <td>
@@ -45,13 +42,13 @@ Alice is an HTTP Inspector tool for Flutter which helps debugging http requests.
        <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/media/9.png">
     </td>
     <td>
-       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/media/darktheme_1.png">
+       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/media/10.png">
     </td>
     <td>
-       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/media/darktheme_2.png">
+       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/media/11.png">
     </td>
      <td>
-       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/media/darktheme_3.png">
+       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/media/12.png">
     </td>
   </tr>
 
@@ -239,3 +236,5 @@ flutter pub run build_runner build --delete-conflicting-outputs
 ```
 You need to run this command to build Chopper generated classes. You should run this command only once,
 you don't need to run this command each time before running project (unless you modify something in Chopper endpoints).
+
+ <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/media/12.png">
