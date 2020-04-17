@@ -56,15 +56,31 @@ abstract class AliceBaseCallDetailsWidgetState<T extends StatefulWidget>
           if (body is String) {
             if (body.length != 0) {
               //body is minified json, so decode it to a map and let the encoder pretty print this map
-              bodyContent = encoder.convert(json.decode(body));
+              bodyContent = _parseJson(_decodeJson(body));
             }
           } else {
-            bodyContent = encoder.convert(body);
+            bodyContent = _parseJson(body);
           }
         }
       }
     }
     return bodyContent;
+  }
+
+  String _decodeJson(dynamic body) {
+    try {
+      return json.decode(body);
+    } catch (exception) {
+      return body;
+    }
+  }
+
+  String _parseJson(dynamic json) {
+    try {
+      return encoder.convert(json);
+    } catch (exception) {
+      return json;
+    }
   }
 
   String getContentType(Map<String, dynamic> headers) {

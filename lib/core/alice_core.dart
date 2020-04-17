@@ -185,7 +185,7 @@ class AliceCore {
 
   void addCall(AliceHttpCall call) {
     assert(call != null, "call can't be null");
-    callsSubject.add(callsSubject.value..add(call));
+    callsSubject.add([...callsSubject.value, call]);
   }
 
   void addError(AliceHttpError error, int requestId) {
@@ -199,7 +199,7 @@ class AliceCore {
     }
 
     selectedCall.error = error;
-    callsSubject.add(List()..addAll(callsSubject.value));
+    callsSubject.add([...callsSubject.value]);
   }
 
   void addResponse(AliceHttpResponse response, int requestId) {
@@ -216,7 +216,17 @@ class AliceCore {
     selectedCall.duration = response.time.millisecondsSinceEpoch -
         selectedCall.request.time.millisecondsSinceEpoch;
 
-    callsSubject.add(List()..addAll(callsSubject.value));
+    callsSubject.add([...callsSubject.value]);
+  }
+
+  void addHttpCall(AliceHttpCall aliceHttpCall) {
+    assert(aliceHttpCall != null, "Http call can't be null");
+    assert(aliceHttpCall.id != null,"Http call id can't be null");
+    assert(aliceHttpCall.request != null, "Http call request can't be null");
+    assert(aliceHttpCall.response != null, "Http call response can't be null");
+    assert(aliceHttpCall.endpoint != null, "Http call endpoint can't be null");
+    assert(aliceHttpCall.server != null,"Http call server can't be null");
+    callsSubject.add([...callsSubject.value,aliceHttpCall]);
   }
 
   void removeCalls() {

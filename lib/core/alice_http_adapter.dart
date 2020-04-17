@@ -66,6 +66,7 @@ class AliceHttpAdapter {
     AliceHttpResponse httpResponse = AliceHttpResponse();
     httpResponse.status = response.statusCode;
     httpResponse.body = response.body;
+
     httpResponse.size = utf8.encode(response.body.toString()).length;
     httpResponse.time = DateTime.now();
     Map<String, String> responseHeaders = Map();

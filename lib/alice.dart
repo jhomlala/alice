@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:alice/core/alice_chopper_response_interceptor.dart';
 import 'package:alice/core/alice_http_adapter.dart';
+import 'package:alice/model/alice_http_call.dart';
+import 'package:alice/model/alice_http_request.dart';
 import 'package:chopper/chopper.dart';
 import 'package:http/http.dart' as http;
 import 'package:alice/core/alice_core.dart';
@@ -74,5 +76,15 @@ class Alice {
 
   List<ResponseInterceptor> getChopperInterceptor() {
     return [AliceChopperInterceptor(_aliceCore)];
+  }
+
+  void addHttpCall(AliceHttpCall aliceHttpCall) {
+    assert(aliceHttpCall != null, "Http call can't be null");
+    assert(aliceHttpCall.id != null, "Http call id can't be null");
+    assert(aliceHttpCall.request != null, "Http call request can't be null");
+    assert(aliceHttpCall.response != null, "Http call response can't be null");
+    assert(aliceHttpCall.endpoint != null, "Http call endpoint can't be null");
+    assert(aliceHttpCall.server != null, "Http call server can't be null");
+    _aliceCore.addCall(aliceHttpCall);
   }
 }
