@@ -27,7 +27,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     _alice = Alice(
-        showNotification: true, showInspectorOnShake: true, darkTheme: true);
+        showNotification: true, showInspectorOnShake: true, darkTheme: false);
     _dio = Dio(BaseOptions(followRedirects: false));
     _dio.interceptors.add(_alice.getDioInterceptor());
     _httpClient = HttpClient();
