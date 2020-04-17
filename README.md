@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/jhomlala/alice/master/media/logo.png">
+<img src="https://raw.githubusercontent.com/jhomlala/alice/master/media/logo.png" width="250px">
 </p>
 
 # Alice
