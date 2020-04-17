@@ -1,3 +1,4 @@
+import 'package:alice/helper/alice_conversion_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice/ui/utils/alice_constants.dart';
@@ -89,10 +90,13 @@ class AliceCallListItemWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(_formatTime(call.request.time), style: TextStyle(fontSize: 12)),
-        Text("${call.duration} ms", style: TextStyle(fontSize: 12)),
-        Text("${call.request.size}B / ${call.response.size}B",
-            style: TextStyle(fontSize: 12))
+        Flexible(flex:1, child: Text(_formatTime(call.request.time), style: TextStyle(fontSize: 12))),
+    Flexible(flex:1,child:Text("${AliceConversionHelper.formatTime(call.duration)}",
+            style: TextStyle(fontSize: 12))),
+    Flexible(flex:1,child:Text(
+            "${AliceConversionHelper.formatBytes(call.request.size)} / "
+            "${AliceConversionHelper.formatBytes(call.response.size)}",
+            style: TextStyle(fontSize: 12),))
       ],
     );
   }

@@ -164,6 +164,7 @@ class _AliceCallResponseWidgetState
     } else {
       rows.add(getListRow("Body:",
           "Too large to show (${_call.response.body.toString().length} Bytes)"));
+      rows.add(const SizedBox(height: 8));
       rows.add(
         RaisedButton(
           color: AliceConstants.lightRed,
@@ -175,6 +176,7 @@ class _AliceCallResponseWidgetState
           },
         ),
       );
+      rows.add(const SizedBox(height: 8));
       rows.add(Text("Warning! It will take some time to render output."));
     }
     return rows;

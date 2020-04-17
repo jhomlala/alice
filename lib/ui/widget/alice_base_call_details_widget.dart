@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:alice/helper/alice_conversion_helper.dart';
 import 'package:flutter/material.dart';
 
 abstract class AliceBaseCallDetailsWidgetState<T extends StatefulWidget>
@@ -29,19 +30,10 @@ abstract class AliceBaseCallDetailsWidgetState<T extends StatefulWidget>
     );
   }
 
-  String formatBytes(int bytes) {
-    if (bytes == null) {
-      bytes = 0;
-    }
-    return "$bytes B";
-  }
+  String formatBytes(int bytes) => AliceConversionHelper.formatBytes(bytes);
 
-  String formatDuration(int duration) {
-    if (duration == null) {
-      duration = 0;
-    }
-    return "$duration ms";
-  }
+  String formatDuration(int duration) =>
+      AliceConversionHelper.formatTime(duration);
 
   String formatBody(dynamic body, String contentType) {
     var bodyContent = "Body is empty";

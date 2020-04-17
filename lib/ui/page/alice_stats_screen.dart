@@ -1,4 +1,5 @@
 import 'package:alice/core/alice_core.dart';
+import 'package:alice/helper/alice_conversion_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/ui/utils/alice_constants.dart';
 import 'package:flutter/material.dart';
@@ -30,8 +31,6 @@ class AliceStatsScreen extends StatelessWidget {
   }
 
   List<Widget> _buildMainListWidgets() {
-    int bytesSent = _getBytesSent();
-    int bytesReceived = _getBytesReceived();
     return [
       _getRow("Total requests:", "${_getTotalRequests()}"),
       _getRow("Pending requests:", "${_getPendingRequests()}"),
@@ -39,12 +38,15 @@ class AliceStatsScreen extends StatelessWidget {
       _getRow("Redirection requests:", "${_getRedirectionRequests()}"),
       _getRow("Error requests:", "${_getErrorRequests()}"),
       _getRow(
-          "Bytes send:", "$bytesSent bytes (${_getKilobytes(bytesSent)} KB)"),
+          "Bytes send:", AliceConversionHelper.formatBytes(_getBytesSent())),
       _getRow("Bytes received:",
-          "$bytesReceived bytes (${_getKilobytes(bytesReceived)} KB)"),
-      _getRow("Average request time:", "${_getAverageRequestTime()} ms"),
-      _getRow("Max request time:", "${_getMaxRequestTime()} ms"),
-      _getRow("Min request time:", "${_getMinRequestTime()} ms"),
+          AliceConversionHelper.formatBytes(_getBytesReceived())),
+      _getRow("Average request time:",
+          "${AliceConversionHelper.formatTime(_getAverageRequestTime())}"),
+      _getRow("Max request time:",
+          "${AliceConversionHelper.formatTime(_getMaxRequestTime())}"),
+      _getRow("Min request time:",
+          "${AliceConversionHelper.formatTime(_getMinRequestTime())}"),
       _getRow("Get requests:", "${_getRequests("GET")} "),
       _getRow("Post requests:", "${_getRequests("POST")} "),
       _getRow("Delete requests:", "${_getRequests("DELETE")} "),
@@ -130,10 +132,6 @@ class AliceStatsScreen extends StatelessWidget {
       }
     });
     return bytes;
-  }
-
-  int _getKilobytes(int bytes) {
-    return bytes ~/ 1000;
   }
 
   int _getAverageRequestTime() {

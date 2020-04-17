@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:alice/helper/alice_conversion_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
@@ -107,7 +108,8 @@ class AliceSaveHelper {
     stringBuffer.write("Method: ${call.method} \n");
     stringBuffer.write("Endpoint: ${call.endpoint} \n");
     stringBuffer.write("Client: ${call.client} \n");
-    stringBuffer.write("Duration ${call.duration} ms\n");
+    stringBuffer
+        .write("Duration ${AliceConversionHelper.formatTime(call.duration)}\n");
     stringBuffer.write("Secured connection: ${call.secure}\n");
     stringBuffer.write("Completed: ${!call.loading} \n");
     stringBuffer.write("--------------------------------------------\n");
@@ -119,7 +121,8 @@ class AliceSaveHelper {
         .write("Request cookies: ${_encoder.convert(call.request.cookies)}\n");
     stringBuffer
         .write("Request headers: ${_encoder.convert(call.request.headers)}\n");
-    stringBuffer.write("Request size: ${call.request.size} bytes\n");
+    stringBuffer.write(
+        "Request size: ${AliceConversionHelper.formatBytes(call.request.size)}\n");
     stringBuffer
         .write("Request body: ${_encoder.convert(call.request.body)}\n");
     stringBuffer.write("--------------------------------------------\n");
@@ -127,7 +130,8 @@ class AliceSaveHelper {
     stringBuffer.write("--------------------------------------------\n");
     stringBuffer.write("Response time: ${call.response.time}\n");
     stringBuffer.write("Response status: ${call.response.status}\n");
-    stringBuffer.write("Response size: ${call.response.size} bytes\n");
+    stringBuffer.write(
+        "Response size: ${AliceConversionHelper.formatBytes(call.response.size)}\n");
     stringBuffer.write(
         "Response headers: ${_encoder.convert(call.response.headers)}\n");
     stringBuffer
