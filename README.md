@@ -99,15 +99,13 @@ import 'package:alice/alice.dart';
 
 ## Usage
 ### Alice configuration
-Create Alice instance:
+1. Create Alice instance:
 
 ```dart
-Alice alice = Alice(showNotification: true);
+Alice alice = Alice();
 ```
 
-Alice default behaviour is to show notification with http requests. You can disable it in `Alice` constructor.
-
-Add navigator key to your application:
+2. Add navigator key to your application:
 
 ```dart
 MaterialApp( navigatorKey: alice.getNavigatorKey(), home: ...)
@@ -124,12 +122,18 @@ If you need to pass navigatorKey lazily, you can use:
 ```dart
 alice.setNavigatorKey(yourNavigatorKeyHere);
 ```
+This is minimal configuration required to run Alice. Can set optional settings in Alice constructor, which are presented below. If you don't want to change anything, you can move to Http clients configuration.
 
+
+You can set `showNotification` in Alice constructor to show notification. Clicking on this notification will open inspector.
+```dart
+Alice alice = Alice(..., showNotification: true);
+```
 
 You can set `showInspectorOnShake` in Alice constructor to open inspector by shaking your device (default disabled):
 
 ```dart
-Alice alice = Alice(showNotification: true, showInspectorOnShake: true, navigatorKey: yourNavigatorKeyHere);
+Alice alice = Alice(..., showInspectorOnShake: true);
 ```
 
 If you want to use dark mode just add `darkTheme` flag:
@@ -181,7 +185,15 @@ chopper = ChopperClient(
 );
 ```
 
-To show inspector manually:
+If you have other HTTP client you can use generic http call interface:
+```dart
+AliceHttpCall aliceHttpCall = AliceHttpCall(id);
+alice.addHttpCall(aliceHttpCall);
+```
+
+## Show inspector manually
+
+You may need that if you won't use shake or notification:
 
 ```dart
 alice.showInspector();
