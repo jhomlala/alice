@@ -124,6 +124,7 @@ alice.setNavigatorKey(yourNavigatorKeyHere);
 ```
 This is minimal configuration required to run Alice. Can set optional settings in Alice constructor, which are presented below. If you don't want to change anything, you can move to Http clients configuration.
 
+### Additional settings
 
 You can set `showNotification` in Alice constructor to show notification. Clicking on this notification will open inspector.
 ```dart
