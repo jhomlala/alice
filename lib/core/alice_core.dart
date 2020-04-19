@@ -147,7 +147,7 @@ class AliceCore {
       notificationsMessage.write(" | ");
     }
     if (redirectCalls > 0) {
-      notificationsMessage.write("Error: $redirectCalls");
+      notificationsMessage.write("Redirect: $redirectCalls");
       notificationsMessage.write(" | ");
     }
     if (errorCalls > 0) {
