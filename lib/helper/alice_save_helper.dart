@@ -54,7 +54,9 @@ class AliceSaveHelper {
         return "";
       }
 
-      Directory externalDir = await getExternalStorageDirectory();
+      Directory externalDir = await (Platform.isAndroid
+          ? getExternalStorageDirectory()
+          : getApplicationDocumentsDirectory());
       String fileName =
           "alice_log_${DateTime.now().millisecondsSinceEpoch}.txt";
       File file = File(externalDir.path.toString() + "/" + fileName);
