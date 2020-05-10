@@ -1,5 +1,6 @@
 ## 0.0.31
 * Fixed file save path of iOS
+* Fixed Stream request body
 
 ## 0.0.30
 * Added better duration and bytes formatting
