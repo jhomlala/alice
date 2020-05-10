@@ -162,6 +162,10 @@ class AliceSaveHelper {
 
   static Future<String> buildCallLog(AliceHttpCall call) async {
     assert(call != null, "call can't be null");
-    return await _buildAliceLog() + _buildCallLog(call);
+    try {
+      return await _buildAliceLog() + _buildCallLog(call);
+    } catch (exception) {
+      return "Failed to generate call log";
+    }
   }
 }

@@ -1,3 +1,6 @@
+## 0.0.33
+* Fixed share issue
+
 ## 0.0.32
 * Code style refactor
 
