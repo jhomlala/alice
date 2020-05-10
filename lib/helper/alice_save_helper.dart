@@ -128,8 +128,7 @@ class AliceSaveHelper {
     stringBuffer.write(
         "Request size: ${AliceConversionHelper.formatBytes(call.request.size)}\n");
     stringBuffer.write(
-        "Request body: ${AliceParser.formatBody(call.request.body,
-            AliceParser.getContentType(call.request.headers))}\n");
+        "Request body: ${AliceParser.formatBody(call.request.body, AliceParser.getContentType(call.request.headers))}\n");
     stringBuffer.write("--------------------------------------------\n");
     stringBuffer.write("Response\n");
     stringBuffer.write("--------------------------------------------\n");
@@ -140,8 +139,7 @@ class AliceSaveHelper {
     stringBuffer.write(
         "Response headers: ${_encoder.convert(call.response.headers)}\n");
     stringBuffer.write(
-        "Response body: ${AliceParser.formatBody(call.response.body,
-            AliceParser.getContentType(call.response.headers))}\n");
+        "Response body: ${AliceParser.formatBody(call.response.body, AliceParser.getContentType(call.response.headers))}\n");
     if (call.error != null) {
       stringBuffer.write("--------------------------------------------\n");
       stringBuffer.write("Error\n");

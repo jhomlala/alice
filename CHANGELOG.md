@@ -1,3 +1,6 @@
+## 0.0.32
+* Code style refactor
+
 ## 0.0.31
 * Fixed file save path of iOS
 * Fixed Stream request body

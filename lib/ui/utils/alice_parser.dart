@@ -52,7 +52,6 @@ class AliceParser {
             }
           } else if (body is Stream) {
             bodyContent = _stream;
-            ;
           } else {
             bodyContent = _parseJson(body);
           }
