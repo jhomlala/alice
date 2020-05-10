@@ -108,7 +108,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _runDioRequests() async {
-    Map<String, dynamic> body = {"title": "foo", "body": "bar", "userId": "1"};
+    /*Map<String, dynamic> body = {"title": "foo", "body": "bar", "userId": "1"};
     _dio.get("https://httpbin.org/redirect-to?url=https%3A%2F%2Fhttpbin.org");
     _dio.delete("https://httpbin.org/status/500");
     _dio.delete("https://httpbin.org/status/400");
@@ -147,8 +147,19 @@ class _MyAppState extends State<MyApp> {
     });
     _dio.post("https://jsonplaceholder.typicode.com/photos", data: formData);
 
-    _dio.get("http://dummy.restapiexample.com/api/v1/employees");
-  }
+    _dio.get("http://dummy.restapiexample.com/api/v1/employees");*/
+
+
+    final directory = await getApplicationDocumentsDirectory();
+    File file = File("${directory.path}/test.txt");
+    file.create();
+    file.writeAsStringSync("123456789");
+
+      final _data = Stream.fromIterable(file.readAsLinesSync().map((i)=>i));
+      var response = await _dio.post("https://httbin.org/status/200",data: _data);
+
+
+    }
 
   void _runHttpHttpRequests() async {
     Map<String, dynamic> body = {"title": "foo", "body": "bar", "userId": "1"};

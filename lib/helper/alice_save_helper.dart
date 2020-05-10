@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:alice/helper/alice_conversion_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
+import 'package:alice/ui/utils/alice_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
 import 'package:package_info/package_info.dart';
@@ -53,8 +54,9 @@ class AliceSaveHelper {
             brightness: brightness);
         return "";
       }
+      bool isAndroid = Platform.isAndroid;
 
-      Directory externalDir = await (Platform.isAndroid
+      Directory externalDir = await (isAndroid
           ? getExternalStorageDirectory()
           : getApplicationDocumentsDirectory());
       String fileName =
@@ -70,8 +72,8 @@ class AliceSaveHelper {
       await sink.close();
       AliceAlertHelper.showAlert(
           context, "Success", "Sucessfully saved logs in ${file.path}",
-          secondButtonTitle: "View file",
-          secondButtonAction: () => OpenFile.open(file.path),
+          secondButtonTitle: isAndroid ? "View file" : null,
+          secondButtonAction: () => isAndroid ? OpenFile.open(file.path) : null,
           brightness: brightness);
       return file.path;
     } catch (exception) {
@@ -125,8 +127,9 @@ class AliceSaveHelper {
         .write("Request headers: ${_encoder.convert(call.request.headers)}\n");
     stringBuffer.write(
         "Request size: ${AliceConversionHelper.formatBytes(call.request.size)}\n");
-    stringBuffer
-        .write("Request body: ${_encoder.convert(call.request.body)}\n");
+    stringBuffer.write(
+        "Request body: ${AliceParser.formatBody(call.request.body,
+            AliceParser.getContentType(call.request.headers))}\n");
     stringBuffer.write("--------------------------------------------\n");
     stringBuffer.write("Response\n");
     stringBuffer.write("--------------------------------------------\n");
@@ -136,8 +139,9 @@ class AliceSaveHelper {
         "Response size: ${AliceConversionHelper.formatBytes(call.response.size)}\n");
     stringBuffer.write(
         "Response headers: ${_encoder.convert(call.response.headers)}\n");
-    stringBuffer
-        .write("Response body: ${_encoder.convert(call.response.body)}\n");
+    stringBuffer.write(
+        "Response body: ${AliceParser.formatBody(call.response.body,
+            AliceParser.getContentType(call.response.headers))}\n");
     if (call.error != null) {
       stringBuffer.write("--------------------------------------------\n");
       stringBuffer.write("Error\n");

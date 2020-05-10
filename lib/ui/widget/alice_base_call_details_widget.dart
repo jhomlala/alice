@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:alice/helper/alice_conversion_helper.dart';
+import 'package:alice/ui/utils/alice_parser.dart';
 import 'package:flutter/material.dart';
 
 abstract class AliceBaseCallDetailsWidgetState<T extends StatefulWidget>
@@ -35,55 +36,9 @@ abstract class AliceBaseCallDetailsWidgetState<T extends StatefulWidget>
   String formatDuration(int duration) =>
       AliceConversionHelper.formatTime(duration);
 
-  String formatBody(dynamic body, String contentType) {
-    var bodyContent = "Body is empty";
-    if (body != null) {
-      if (contentType == null ||
-          !contentType.toLowerCase().contains("application/json")) {
-        return body.toString();
-      } else {
-        if (body is String && body.contains("\n")) {
-          bodyContent = body;
-        } else {
-          if (body is String) {
-            if (body.length != 0) {
-              //body is minified json, so decode it to a map and let the encoder pretty print this map
-              bodyContent = _parseJson(_decodeJson(body));
-            }
-          } else {
-            bodyContent = _parseJson(body);
-          }
-        }
-      }
-    }
-    return bodyContent;
-  }
+  String formatBody(dynamic body, String contentType) =>
+      AliceParser.formatBody(body, contentType);
 
-  String _decodeJson(dynamic body) {
-    try {
-      return json.decode(body);
-    } catch (exception) {
-      return body;
-    }
-  }
-
-  String _parseJson(dynamic json) {
-    try {
-      return encoder.convert(json);
-    } catch (exception) {
-      return json;
-    }
-  }
-
-  String getContentType(Map<String, dynamic> headers) {
-    if (headers != null) {
-      if (headers.containsKey("content-type")) {
-        return headers["content-type"];
-      }
-      if (headers.containsKey("Content-Type")) {
-        return headers["Content-Type"];
-      }
-    }
-    return "???";
-  }
+  String getContentType(Map<String, dynamic> headers) =>
+      AliceParser.getContentType(headers);
 }
