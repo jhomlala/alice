@@ -236,7 +236,7 @@ class _AliceCallResponseWidgetState
           "Unsupported body. Alice can render video/image/text body. "
               "Response has Content-Type: $contentType which can't be handled. "
               "If you're feeling lucky you can try button below to try render body"
-              "as text, but it may fail."));
+              " as text, but it may fail."));
       rows.add(
         RaisedButton(
           child: Text("Show unsupported body"),
