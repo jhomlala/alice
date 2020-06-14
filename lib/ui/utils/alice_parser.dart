@@ -18,7 +18,7 @@ class AliceParser {
     }
   }
 
-  static String _decodeJson(dynamic body) {
+  static dynamic _decodeJson(dynamic body) {
     try {
       return json.decode(body);
     } catch (exception) {
