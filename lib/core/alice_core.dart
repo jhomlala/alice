@@ -168,7 +168,7 @@ class AliceCore {
         largeIcon: DrawableResourceAndroidBitmap(notificationIcon),
         importance: Importance.Default,
         priority: Priority.Default);
-    var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+    var iOSPlatformChannelSpecifics = new IOSNotificationDetails(presentSound: false);
     var platformChannelSpecifics = new NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     String message = _notificationMessage;
