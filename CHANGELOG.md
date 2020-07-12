@@ -1,3 +1,7 @@
+## 0.1.1
+* Removed sound in ios notification
+* Upgraded local notification library
+
 ## 0.1.0
 * Promoted to 0.1.0
 * Added Android/iOS dummy classes for pubdev score fix
