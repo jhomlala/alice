@@ -50,6 +50,7 @@ class Alice {
     return _navigatorKey;
   }
 
+  /// Get Dio interceptor which should be applied to Dio instance.
   AliceDioInterceptor getDioInterceptor() {
     return AliceDioInterceptor(_aliceCore);
   }
