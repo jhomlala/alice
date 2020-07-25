@@ -39,11 +39,13 @@ class Alice {
     _httpAdapter = AliceHttpAdapter(_aliceCore);
   }
 
+  /// Set custom navigation key. This will help if there's route library.
   void setNavigatorKey(GlobalKey<NavigatorState> navigatorKey) {
     assert(navigatorKey != null, "navigatorKey can't be null");
     _aliceCore.setNavigatorKey(navigatorKey);
   }
 
+  /// Get currently used navigation key
   GlobalKey<NavigatorState> getNavigatorKey() {
     return _navigatorKey;
   }

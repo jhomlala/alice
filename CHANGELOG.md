@@ -1,3 +1,8 @@
+## 0.1.2
+* Updated dependencies
+* Added documentation
+* General refactor
+
 ## 0.1.1
 * Removed sound in ios notification
 * Upgraded local notification library
@@ -43,7 +48,7 @@
 
 ## 0.0.24
 * Updated dependencies
-* Prepare for 1.0.0 version of sensors and package_info. ([dart_lsc](http://github.com/amirh/dart_lsc))
+* Prepare for 1.0.0 version of sensors and package_info. ([dart_lsc](https://github.com/amirh/dart_lsc))
 
 ## 0.0.23
 * Updated to dart 2.6.0
