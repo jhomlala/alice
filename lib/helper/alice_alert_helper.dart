@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 
 class AliceAlertHelper {
-  static void showAlert(BuildContext context, String title, String description,
-      {String firstButtonTitle = "Accept",
-      String secondButtonTitle,
-      Function firstButtonAction,
-      Function secondButtonAction,
-      Brightness brightness}) {
+  ///Helper method used to open alarm with given title and description.
+  static void showAlert(
+    BuildContext context,
+    String title,
+    String description, {
+    String firstButtonTitle = "Accept",
+    String secondButtonTitle,
+    Function firstButtonAction,
+    Function secondButtonAction,
+    Brightness brightness,
+  }) {
     assert(context != null, "context can't be null");
     assert(title != null, "title can't be null");
     assert(description != null, "description can't be null");

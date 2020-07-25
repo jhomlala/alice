@@ -13,15 +13,16 @@ import '../helper/alice_alert_helper.dart';
 class AliceSaveHelper {
   static JsonEncoder _encoder = new JsonEncoder.withIndent('  ');
 
+  /// Top level method used to save calls to file
   static void saveCalls(
       BuildContext context, List<AliceHttpCall> calls, Brightness brightness) {
     assert(context != null, "context can't be null");
     assert(calls != null, "calls can't be null");
     assert(brightness != null, "brightness can't be null");
-    checkPermissions(context, calls, brightness);
+    _checkPermissions(context, calls, brightness);
   }
 
-  static void checkPermissions(BuildContext context, List<AliceHttpCall> calls,
+  static void _checkPermissions(BuildContext context, List<AliceHttpCall> calls,
       Brightness brightness) async {
     assert(context != null, "context can't be null");
     assert(calls != null, "calls can't be null");

@@ -4,6 +4,7 @@ class AliceConversionHelper {
   static int _secondAsMillisecond = 1000;
   static int _minuteAsMillisecond = 60000;
 
+  /// Format bytes text
   static String formatBytes(int bytes) {
     if (bytes == null || bytes < 0) {
       return "-1 B";
@@ -20,6 +21,7 @@ class AliceConversionHelper {
 
   static String _formatDouble(double value) => value.toStringAsFixed(2);
 
+  /// Format time in milliseconds
   static String formatTime(int timeInMillis) {
     if (timeInMillis == null || timeInMillis < 0) {
       return "-1 ms";

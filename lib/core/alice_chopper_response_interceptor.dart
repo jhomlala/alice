@@ -10,11 +10,14 @@ import 'alice_core.dart';
 
 class AliceChopperInterceptor extends chopper.ResponseInterceptor
     with chopper.RequestInterceptor {
+  /// AliceCore instance
   final AliceCore aliceCore;
 
+  /// Creates instance of chopper interceptor
   AliceChopperInterceptor(this.aliceCore)
       : assert(aliceCore != null, "aliceCore can't be null");
 
+  /// Creates hashcode based on request
   int getRequestHashCode(BaseRequest baseRequest) {
     assert(baseRequest != null, "baseReqeust can't be null");
     int hashCodeSum = 0;
@@ -37,6 +40,7 @@ class AliceChopperInterceptor extends chopper.ResponseInterceptor
     return hashCodeSum.hashCode;
   }
 
+  /// Handles chopper request and creates alice http call
   @override
   FutureOr<chopper.Request> onRequest(chopper.Request request) async {
     assert(request != null, "request can't be null");
@@ -95,6 +99,7 @@ class AliceChopperInterceptor extends chopper.ResponseInterceptor
     return request;
   }
 
+  /// Handles chopper response and adds data to existing alice http call
   FutureOr<chopper.Response> onResponse(chopper.Response response) {
     assert(response != null, "response can't be null");
     var httpResponse = AliceHttpResponse();

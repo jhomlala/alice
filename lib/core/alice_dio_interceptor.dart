@@ -10,11 +10,14 @@ import 'package:alice/model/alice_http_response.dart';
 import 'package:dio/dio.dart';
 
 class AliceDioInterceptor extends InterceptorsWrapper {
+  /// AliceCore instance
   final AliceCore aliceCore;
 
+  /// Creates dio interceptor
   AliceDioInterceptor(this.aliceCore)
       : assert(aliceCore != null, "aliceCore can't be null");
 
+  /// Handles dio request and creates alice http call based on it
   @override
   Future onRequest(RequestOptions options) {
     assert(options != null, "options can't be null");
@@ -79,6 +82,7 @@ class AliceDioInterceptor extends InterceptorsWrapper {
     return super.onRequest(options);
   }
 
+  /// Handles dio response and adds data to alice http call
   @override
   Future onResponse(Response response) {
     assert(response != null, "response can't be null");
@@ -106,6 +110,7 @@ class AliceDioInterceptor extends InterceptorsWrapper {
     return super.onResponse(response);
   }
 
+  /// Handles error and adds data to alice http call
   @override
   Future onError(DioError error) {
     assert(error != null, "error can't be null");

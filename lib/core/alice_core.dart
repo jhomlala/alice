@@ -11,11 +11,22 @@ import 'package:rxdart/rxdart.dart';
 import 'package:shake/shake.dart';
 
 class AliceCore {
+  /// Should user be notified with notification if there's new request catched
+  /// by Alice
   final bool showNotification;
+
+  /// Should inspector be opened on device shake (works only with physical
+  /// with sensors)
   final bool showInspectorOnShake;
+
+  /// Should inspector use dark theme
   final bool darkTheme;
+
+  /// Rx subject which contains all intercepted http calls
   final BehaviorSubject<List<AliceHttpCall>> callsSubject =
       BehaviorSubject.seeded(List());
+
+  /// Icon url for notification
   final String notificationIcon;
 
   FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
@@ -28,6 +39,7 @@ class AliceCore {
   String _notificationMessageShown;
   bool _notificationProcessing = false;
 
+  /// Creates alice core instance
   AliceCore(this._navigatorKey, this.showNotification,
       this.showInspectorOnShake, this.darkTheme, this.notificationIcon)
       : assert(showNotification != null, "showNotification can't be null"),
@@ -48,12 +60,14 @@ class AliceCore {
     _brightness = darkTheme ? Brightness.dark : Brightness.light;
   }
 
+  /// Dispose subjects and subscriptions
   void dispose() {
     callsSubject.close();
     _shakeDetector?.stopListening();
     _callsSubscription?.cancel();
   }
 
+  /// Get currently used brightness
   Brightness get brightness => _brightness;
 
   void _initializeNotificationsPlugin() {
@@ -78,6 +92,7 @@ class AliceCore {
     }
   }
 
+  /// Set custom navigation key. This will help if there's route library.
   void setNavigatorKey(GlobalKey<NavigatorState> navigatorKey) {
     assert(navigatorKey != null, "navigatorKey can't be null");
     this._navigatorKey = navigatorKey;
@@ -89,6 +104,8 @@ class AliceCore {
     return Future.sync(() {});
   }
 
+  /// Opens Http calls inspector. This will navigate user to the new fullscreen
+  /// page where all listened http calls can be viewed.
   void navigateToCallListScreen() {
     var context = getContext();
     if (context == null) {
@@ -107,6 +124,7 @@ class AliceCore {
     }
   }
 
+  /// Get context from navigator key. Used to open inspector route.
   BuildContext getContext() => _navigatorKey?.currentState?.overlay?.context;
 
   String _getNotificationMessage() {
@@ -168,7 +186,8 @@ class AliceCore {
         largeIcon: DrawableResourceAndroidBitmap(notificationIcon),
         importance: Importance.Default,
         priority: Priority.Default);
-    var iOSPlatformChannelSpecifics = new IOSNotificationDetails(presentSound: false);
+    var iOSPlatformChannelSpecifics =
+        new IOSNotificationDetails(presentSound: false);
     var platformChannelSpecifics = new NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     String message = _notificationMessage;
@@ -183,11 +202,13 @@ class AliceCore {
     return;
   }
 
+  /// Add alice http call to calls subject
   void addCall(AliceHttpCall call) {
     assert(call != null, "call can't be null");
     callsSubject.add([...callsSubject.value, call]);
   }
 
+  /// Add error to exisng alice http call
   void addError(AliceHttpError error, int requestId) {
     assert(error != null, "error can't be null");
     assert(requestId != null, "requestId can't be null");
@@ -202,6 +223,7 @@ class AliceCore {
     callsSubject.add([...callsSubject.value]);
   }
 
+  /// Add response to existing alice http call
   void addResponse(AliceHttpResponse response, int requestId) {
     assert(response != null, "response can't be null");
     assert(requestId != null, "requestId can't be null");
@@ -219,6 +241,7 @@ class AliceCore {
     callsSubject.add([...callsSubject.value]);
   }
 
+  /// Add alice http call to calls subject
   void addHttpCall(AliceHttpCall aliceHttpCall) {
     assert(aliceHttpCall != null, "Http call can't be null");
     assert(aliceHttpCall.id != null, "Http call id can't be null");
@@ -229,6 +252,7 @@ class AliceCore {
     callsSubject.add([...callsSubject.value, aliceHttpCall]);
   }
 
+  /// Remove all calls from calls subject
   void removeCalls() {
     callsSubject.add(List());
   }
@@ -236,6 +260,7 @@ class AliceCore {
   AliceHttpCall _selectCall(int requestId) => callsSubject.value
       .firstWhere((call) => call.id == requestId, orElse: null);
 
+  /// Save all calls to file
   void saveHttpRequests(BuildContext context) {
     assert(context != null, "context can't be null");
     AliceSaveHelper.saveCalls(context, callsSubject.value, _brightness);

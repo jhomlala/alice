@@ -7,11 +7,14 @@ import 'package:alice/model/alice_http_response.dart';
 import 'package:http/http.dart' as http;
 
 class AliceHttpAdapter {
+  /// AliceCore instance
   final AliceCore aliceCore;
 
+  /// Creates alice http adapter
   AliceHttpAdapter(this.aliceCore)
       : assert(aliceCore != null, "aliceCore can't be null");
 
+  /// Handles http response. It creates both request and response from http call
   void onResponse(http.Response response, {dynamic body}) {
     if (response == null) {
       return;

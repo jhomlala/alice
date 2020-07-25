@@ -12,15 +12,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class Alice {
+  /// Should user be notified with notification if there's new request catched
+  /// by Alice
   final bool showNotification;
+
+  /// Should inspector be opened on device shake (works only with physical
+  /// with sensors)
   final bool showInspectorOnShake;
+
+  /// Should inspector use dark theme
   final bool darkTheme;
+
+  /// Icon url for notification
   final String notificationIcon;
+
   GlobalKey<NavigatorState> _navigatorKey;
   AliceCore _aliceCore;
   AliceHttpClientAdapter _httpClientAdapter;
   AliceHttpAdapter _httpAdapter;
 
+  /// Creates alice instance.
   Alice(
       {GlobalKey<NavigatorState> navigatorKey,
       this.showNotification = true,
@@ -55,11 +66,13 @@ class Alice {
     return AliceDioInterceptor(_aliceCore);
   }
 
+  /// Handle request from HttpClient
   void onHttpClientRequest(HttpClientRequest request, {dynamic body}) {
     assert(request != null, "httpClientRequest can't be null");
     _httpClientAdapter.onRequest(request, body: body);
   }
 
+  /// Handle response from HttpClient
   void onHttpClientResponse(
       HttpClientResponse response, HttpClientRequest request,
       {dynamic body}) {
@@ -68,19 +81,24 @@ class Alice {
     _httpClientAdapter.onResponse(response, request, body: body);
   }
 
+  /// Handle both request and response from http package
   void onHttpResponse(http.Response response, {dynamic body}) {
     assert(response != null, "response can't be null");
     _httpAdapter.onResponse(response, body: body);
   }
 
+  /// Opens Http calls inspector. This will navigate user to the new fullscreen
+  /// page where all listened http calls can be viewed.
   void showInspector() {
     _aliceCore.navigateToCallListScreen();
   }
 
+  /// Get chopper interceptor. This should be added to Chopper instance.
   List<ResponseInterceptor> getChopperInterceptor() {
     return [AliceChopperInterceptor(_aliceCore)];
   }
 
+  /// Handle generic http call. Can be used to any http client.
   void addHttpCall(AliceHttpCall aliceHttpCall) {
     assert(aliceHttpCall != null, "Http call can't be null");
     assert(aliceHttpCall.id != null, "Http call id can't be null");

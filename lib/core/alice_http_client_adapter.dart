@@ -7,11 +7,14 @@ import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
 
 class AliceHttpClientAdapter {
+  /// AliceCore instance
   final AliceCore aliceCore;
 
+  /// Creates alice http client adapter
   AliceHttpClientAdapter(this.aliceCore)
       : assert(aliceCore != null, "aliceCore can't be null");
 
+  /// Handles httpClientRequest and creates http alice call from it
   void onRequest(HttpClientRequest request, {dynamic body}) {
     if (request == null) {
       return;
@@ -60,6 +63,7 @@ class AliceHttpClientAdapter {
     aliceCore.addCall(call);
   }
 
+  /// Handles httpClientRequest and adds response to http alice call
   void onResponse(HttpClientResponse response, HttpClientRequest request,
       {dynamic body}) async {
     if (response == null) {

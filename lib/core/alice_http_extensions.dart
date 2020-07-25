@@ -2,6 +2,8 @@ import 'package:alice/alice.dart';
 import 'package:http/http.dart';
 
 extension AliceHttpExtensions on Future<Response> {
+  /// Intercept http request with alice. This extension method provides additional
+  /// helpful method to intercept https' response.
   Future<Response> interceptWithAlice(Alice alice, {dynamic body}) async {
     assert(alice != null, "alice can't be null");
     Response response = await this;
