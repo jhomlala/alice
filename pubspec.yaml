@@ -14,13 +14,3 @@ dependencies:
   dio: ^3.0.9
   rxdart: ^0.24.1
   share: ^0.6.4+3
-
-#Dummy classes
-flutter:
-  plugin:
-    platforms:
-      android:
-        package: com.jhomlala.alice
-        pluginClass: Alice
-      ios:
-        pluginClass: Alice
