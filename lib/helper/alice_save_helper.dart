@@ -1,100 +1,14 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:alice/helper/alice_conversion_helper.dart';
-import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/ui/utils/alice_parser.dart';
-import 'package:flutter/material.dart';
-import 'package:open_file/open_file.dart';
-import 'package:package_info/package_info.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
-import '../helper/alice_alert_helper.dart';
+import 'package:alice_lightweight/helper/alice_conversion_helper.dart';
+import 'package:alice_lightweight/model/alice_http_call.dart';
+import 'package:alice_lightweight/ui/utils/alice_parser.dart';
 
 class AliceSaveHelper {
   static JsonEncoder _encoder = new JsonEncoder.withIndent('  ');
 
-  /// Top level method used to save calls to file
-  static void saveCalls(
-      BuildContext context, List<AliceHttpCall> calls, Brightness brightness) {
-    assert(context != null, "context can't be null");
-    assert(calls != null, "calls can't be null");
-    assert(brightness != null, "brightness can't be null");
-    _checkPermissions(context, calls, brightness);
-  }
-
-  static void _checkPermissions(BuildContext context, List<AliceHttpCall> calls,
-      Brightness brightness) async {
-    assert(context != null, "context can't be null");
-    assert(calls != null, "calls can't be null");
-    assert(brightness != null, "brightness can't be null");
-    var status = await Permission.storage.status;
-    if (status.isGranted) {
-      _saveToFile(context, calls, brightness);
-    } else {
-      var status = await Permission.storage.request();
-
-      if (status.isGranted) {
-        _saveToFile(context, calls, brightness);
-      } else {
-        AliceAlertHelper.showAlert(context, "Permission error",
-            "Permission not granted. Couldn't save logs.",
-            brightness: brightness);
-      }
-    }
-  }
-
-  static Future<String> _saveToFile(BuildContext context,
-      List<AliceHttpCall> calls, Brightness brightness) async {
-    assert(context != null, "context can't be null");
-    assert(calls != null, "calls can't be null");
-    assert(brightness != null, "brightness can't be null");
-    try {
-      if (calls.length == 0) {
-        AliceAlertHelper.showAlert(
-            context, "Error", "There are no logs to save",
-            brightness: brightness);
-        return "";
-      }
-      bool isAndroid = Platform.isAndroid;
-
-      Directory externalDir = await (isAndroid
-          ? getExternalStorageDirectory()
-          : getApplicationDocumentsDirectory());
-      String fileName =
-          "alice_log_${DateTime.now().millisecondsSinceEpoch}.txt";
-      File file = File(externalDir.path.toString() + "/" + fileName);
-      file.createSync();
-      IOSink sink = file.openWrite(mode: FileMode.append);
-      sink.write(await _buildAliceLog());
-      calls.forEach((AliceHttpCall call) {
-        sink.write(_buildCallLog(call));
-      });
-      await sink.flush();
-      await sink.close();
-      AliceAlertHelper.showAlert(
-          context, "Success", "Sucessfully saved logs in ${file.path}",
-          secondButtonTitle: isAndroid ? "View file" : null,
-          secondButtonAction: () => isAndroid ? OpenFile.open(file.path) : null,
-          brightness: brightness);
-      return file.path;
-    } catch (exception) {
-      AliceAlertHelper.showAlert(
-          context, "Error", "Failed to save http calls to file",
-          brightness: brightness);
-      print(exception);
-    }
-
-    return "";
-  }
-
   static Future<String> _buildAliceLog() async {
     StringBuffer stringBuffer = StringBuffer();
-    var packageInfo = await PackageInfo.fromPlatform();
     stringBuffer.write("Alice - HTTP Inspector\n");
-    stringBuffer.write("App name:  ${packageInfo.appName}\n");
-    stringBuffer.write("Package: ${packageInfo.packageName}\n");
-    stringBuffer.write("Version: ${packageInfo.version}\n");
-    stringBuffer.write("Build number: ${packageInfo.buildNumber}\n");
     stringBuffer.write("Generated: " + DateTime.now().toIso8601String() + "\n");
     stringBuffer.write("\n");
     return stringBuffer.toString();

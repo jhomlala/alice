@@ -1,10 +1,10 @@
-import 'package:alice/model/alice_menu_item.dart';
-import 'package:alice/helper/alice_alert_helper.dart';
-import 'package:alice/ui/page/alice_call_details_screen.dart';
-import 'package:alice/core/alice_core.dart';
-import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/ui/utils/alice_constants.dart';
-import 'package:alice/ui/widget/alice_call_list_item_widget.dart';
+import 'package:alice_lightweight/model/alice_menu_item.dart';
+import 'package:alice_lightweight/helper/alice_alert_helper.dart';
+import 'package:alice_lightweight/ui/page/alice_call_details_screen.dart';
+import 'package:alice_lightweight/core/alice_core.dart';
+import 'package:alice_lightweight/model/alice_http_call.dart';
+import 'package:alice_lightweight/ui/utils/alice_constants.dart';
+import 'package:alice_lightweight/ui/widget/alice_call_list_item_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'alice_stats_screen.dart';
@@ -120,9 +120,6 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
     if (menuItem.title == "Stats") {
       _showStatsScreen();
     }
-    if (menuItem.title == "Save") {
-      _saveToFile();
-    }
   }
 
   Widget _buildCallsListWrapper() {
@@ -224,10 +221,6 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
         builder: (context) => AliceStatsScreen(widget._aliceCore),
       ),
     );
-  }
-
-  void _saveToFile() async {
-    aliceCore.saveHttpRequests(context);
   }
 
   void _updateSearchQuery(String query) {

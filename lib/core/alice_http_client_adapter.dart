@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:alice/core/alice_core.dart';
-import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/model/alice_http_request.dart';
-import 'package:alice/model/alice_http_response.dart';
+import 'package:alice_lightweight/core/alice_core.dart';
+import 'package:alice_lightweight/model/alice_http_call.dart';
+import 'package:alice_lightweight/model/alice_http_request.dart';
+import 'package:alice_lightweight/model/alice_http_response.dart';
 
 class AliceHttpClientAdapter {
   /// AliceCore instance

@@ -1,6 +1,6 @@
-import 'package:alice/model/alice_http_error.dart';
-import 'package:alice/model/alice_http_request.dart';
-import 'package:alice/model/alice_http_response.dart';
+import 'package:alice_lightweight/model/alice_http_error.dart';
+import 'package:alice_lightweight/model/alice_http_request.dart';
+import 'package:alice_lightweight/model/alice_http_response.dart';
 
 class AliceHttpCall {
   final int id;
