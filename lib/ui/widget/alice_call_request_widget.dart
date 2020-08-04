@@ -1,5 +1,5 @@
-import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/ui/widget/alice_base_call_details_widget.dart';
+import 'package:alice_lightweight/model/alice_http_call.dart';
+import 'package:alice_lightweight/ui/widget/alice_base_call_details_widget.dart';
 import 'package:flutter/material.dart';
 
 class AliceCallRequestWidget extends StatefulWidget {

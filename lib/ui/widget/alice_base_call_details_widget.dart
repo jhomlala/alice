@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:alice/helper/alice_conversion_helper.dart';
-import 'package:alice/ui/utils/alice_parser.dart';
+import 'package:alice_lightweight/helper/alice_conversion_helper.dart';
+import 'package:alice_lightweight/ui/utils/alice_parser.dart';
 import 'package:flutter/material.dart';
 
 abstract class AliceBaseCallDetailsWidgetState<T extends StatefulWidget>

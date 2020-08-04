@@ -1,9 +1,7 @@
-import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/ui/utils/alice_constants.dart';
-import 'package:alice/ui/widget/alice_base_call_details_widget.dart';
-import 'package:chewie/chewie.dart';
+import 'package:alice_lightweight/model/alice_http_call.dart';
+import 'package:alice_lightweight/ui/utils/alice_constants.dart';
+import 'package:alice_lightweight/ui/widget/alice_base_call_details_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
 
 class AliceCallResponseWidget extends StatefulWidget {
   final AliceHttpCall call;
@@ -20,14 +18,11 @@ class AliceCallResponseWidget extends StatefulWidget {
 class _AliceCallResponseWidgetState
     extends AliceBaseCallDetailsWidgetState<AliceCallResponseWidget> {
   static const _imageContentType = "image";
-  static const _videoContentType = "video";
   static const _jsonContentType = "json";
   static const _xmlContentType = "xml";
   static const _textContentType = "text";
 
   static const _kLargeOutputSize = 100000;
-  VideoPlayerController _videoPlayerController;
-  ChewieController _chewieController;
   bool _showLargeBody = false;
   bool _showUnsupportedBody = false;
 
@@ -55,17 +50,6 @@ class _AliceCallResponseWidgetState
           ],
         ),
       );
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    if (_videoPlayerController != null) {
-      _videoPlayerController.dispose();
-    }
-    if (_chewieController != null) {
-      _chewieController.dispose();
     }
   }
 
@@ -104,8 +88,6 @@ class _AliceCallResponseWidgetState
     List<Widget> rows = List();
     if (_isImageResponse()) {
       rows.addAll(_buildImageBodyRows());
-    } else if (_isVideoResponse()) {
-      rows.addAll(_buildVideoBodyRows());
     } else if (_isTextResponse()) {
       if (_isLargeResponseBody()) {
         rows.addAll(_buildLargeBodyTextRows());
@@ -190,37 +172,6 @@ class _AliceCallResponseWidgetState
     return rows;
   }
 
-  List<Widget> _buildVideoBodyRows() {
-    final videoPlayerController = VideoPlayerController.network(_call.uri);
-
-    final chewieController = ChewieController(
-      videoPlayerController: videoPlayerController,
-      aspectRatio: 3 / 2,
-      autoPlay: true,
-      looping: true,
-    );
-
-    List<Widget> rows = List();
-    rows.add(
-      Row(
-        children: [
-          Text(
-            "Body: Video",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          )
-        ],
-      ),
-    );
-    rows.add(const SizedBox(height: 8));
-    rows.add(
-      Chewie(
-        controller: chewieController,
-      ),
-    );
-    rows.add(const SizedBox(height: 8));
-    return rows;
-  }
-
   List<Widget> _buildUnknownBodyRows() {
     List<Widget> rows = List();
     var headers = _call.response.headers;
@@ -270,12 +221,6 @@ class _AliceCallResponseWidgetState
     return _getContentTypeOfResponse()
         .toLowerCase()
         .contains(_imageContentType);
-  }
-
-  bool _isVideoResponse() {
-    return _getContentTypeOfResponse()
-        .toLowerCase()
-        .contains(_videoContentType);
   }
 
   bool _isTextResponse() {
