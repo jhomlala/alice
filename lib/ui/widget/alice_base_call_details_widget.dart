@@ -15,13 +15,12 @@ abstract class AliceBaseCallDetailsWidgetState<T extends StatefulWidget>
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
+        SelectableText(name, style: TextStyle(fontWeight: FontWeight.bold)),
         Padding(padding: EdgeInsets.only(left: 5)),
         Flexible(
           fit: FlexFit.loose,
-          child: Text(
+          child: SelectableText(
             value,
-            overflow: TextOverflow.clip,
           ),
         ),
         Padding(

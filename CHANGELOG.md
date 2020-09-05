@@ -1,3 +1,6 @@
+## 0.1.4
+* Updated texts in call details to be selectable
+
 ## 0.1.3
 * Updated documentation
 
