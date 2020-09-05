@@ -258,7 +258,7 @@ class AliceCore {
   }
 
   AliceHttpCall _selectCall(int requestId) => callsSubject.value
-      .firstWhere((call) => call.id == requestId, orElse: null);
+      .firstWhere((call) => call.id == requestId, orElse: () => null);
 
   /// Save all calls to file
   void saveHttpRequests(BuildContext context) {

@@ -1,5 +1,6 @@
 ## 0.1.4
 * Updated texts in call details to be selectable
+* Fixed general bugs
 
 ## 0.1.3
 * Updated documentation
