@@ -1,6 +1,7 @@
 ## 0.1.4
 * Updated texts in call details to be selectable
 * Fixed general bugs
+* Fixed video not disposed properly
 
 ## 0.1.3
 * Updated documentation

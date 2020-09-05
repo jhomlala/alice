@@ -191,10 +191,10 @@ class _AliceCallResponseWidgetState
   }
 
   List<Widget> _buildVideoBodyRows() {
-    final videoPlayerController = VideoPlayerController.network(_call.uri);
+    _videoPlayerController = VideoPlayerController.network(_call.uri);
 
-    final chewieController = ChewieController(
-      videoPlayerController: videoPlayerController,
+    _chewieController = ChewieController(
+      videoPlayerController: _videoPlayerController,
       aspectRatio: 3 / 2,
       autoPlay: true,
       looping: true,
@@ -214,7 +214,7 @@ class _AliceCallResponseWidgetState
     rows.add(const SizedBox(height: 8));
     rows.add(
       Chewie(
-        controller: chewieController,
+        controller: _chewieController,
       ),
     );
     rows.add(const SizedBox(height: 8));
