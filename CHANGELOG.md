@@ -1,3 +1,6 @@
+## 0.1.5
+* Changed video_player and Chewie to Better Player. Better Player will be used to display videos.
+
 ## 0.1.4
 * Updated texts in call details to be selectable
 * Fixed general bugs

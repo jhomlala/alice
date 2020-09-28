@@ -1,9 +1,8 @@
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/ui/utils/alice_constants.dart';
 import 'package:alice/ui/widget/alice_base_call_details_widget.dart';
-import 'package:chewie/chewie.dart';
+import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
 
 class AliceCallResponseWidget extends StatefulWidget {
   final AliceHttpCall call;
@@ -26,8 +25,7 @@ class _AliceCallResponseWidgetState
   static const _textContentType = "text";
 
   static const _kLargeOutputSize = 100000;
-  VideoPlayerController _videoPlayerController;
-  ChewieController _chewieController;
+  BetterPlayerController _betterPlayerController;
   bool _showLargeBody = false;
   bool _showUnsupportedBody = false;
 
@@ -60,13 +58,8 @@ class _AliceCallResponseWidgetState
 
   @override
   void dispose() {
+    _betterPlayerController?.dispose();
     super.dispose();
-    if (_videoPlayerController != null) {
-      _videoPlayerController.dispose();
-    }
-    if (_chewieController != null) {
-      _chewieController.dispose();
-    }
   }
 
   List<Widget> _buildGeneralDataRows() {
@@ -191,13 +184,12 @@ class _AliceCallResponseWidgetState
   }
 
   List<Widget> _buildVideoBodyRows() {
-    _videoPlayerController = VideoPlayerController.network(_call.uri);
-
-    _chewieController = ChewieController(
-      videoPlayerController: _videoPlayerController,
-      aspectRatio: 3 / 2,
-      autoPlay: true,
-      looping: true,
+    _betterPlayerController = BetterPlayerController(
+      BetterPlayerConfiguration(aspectRatio: 16 / 9, fit: BoxFit.cover),
+      betterPlayerDataSource: BetterPlayerDataSource(
+        BetterPlayerDataSourceType.NETWORK,
+        _call.uri,
+      ),
     );
 
     List<Widget> rows = List();
@@ -213,9 +205,7 @@ class _AliceCallResponseWidgetState
     );
     rows.add(const SizedBox(height: 8));
     rows.add(
-      Chewie(
-        controller: _chewieController,
-      ),
+      BetterPlayer(controller: _betterPlayerController),
     );
     rows.add(const SizedBox(height: 8));
     return rows;
