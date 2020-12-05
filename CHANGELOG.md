@@ -1,3 +1,8 @@
+## 0.1.6
+* Updated dependencies
+* Removed unused android/ios native code
+* Migrated example to v2 android
+
 ## 0.1.5
 * Changed video_player and Chewie to Better Player. Better Player will be used to display videos.
 

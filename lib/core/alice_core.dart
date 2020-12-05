@@ -76,7 +76,7 @@ class AliceCore {
         new AndroidInitializationSettings(notificationIcon);
     var initializationSettingsIOS = IOSInitializationSettings();
     var initializationSettings = InitializationSettings(
-        initializationSettingsAndroid, initializationSettingsIOS);
+        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
     _flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: _onSelectedNotification);
   }
@@ -184,12 +184,13 @@ class AliceCore {
         enableVibration: false,
         playSound: false,
         largeIcon: DrawableResourceAndroidBitmap(notificationIcon),
-        importance: Importance.Default,
-        priority: Priority.Default);
+        importance: Importance.defaultImportance,
+        priority: Priority.defaultPriority);
     var iOSPlatformChannelSpecifics =
         new IOSNotificationDetails(presentSound: false);
     var platformChannelSpecifics = new NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
     String message = _notificationMessage;
     await _flutterLocalNotificationsPlugin.show(
         0,
