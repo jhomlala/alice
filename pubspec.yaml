@@ -24,13 +24,3 @@ dependencies:
   share: ^0.6.3+6
   chopper: ^3.0.2
   better_player: ^0.0.22
-
-#Dummy classes
-flutter:
-  plugin:
-    platforms:
-      android:
-        package: com.jhomlala.alice
-        pluginClass: Alice
-      ios:
-        pluginClass: Alice
