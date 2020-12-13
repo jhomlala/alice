@@ -1,3 +1,6 @@
+## 0.1.7
+* Updated dependencies
+
 ## 0.1.6
 * Updated dependencies
 * Removed unused android/ios native code
