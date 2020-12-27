@@ -207,7 +207,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
       "Delete calls",
       "Do you want to delete http calls?",
       firstButtonTitle: "No",
-      firstButtonAction: () => <String,dynamic>{},
+      firstButtonAction: () => <String, dynamic>{},
       secondButtonTitle: "Yes",
       secondButtonAction: () => _removeCalls(),
     );
