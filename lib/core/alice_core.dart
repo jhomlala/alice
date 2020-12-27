@@ -98,9 +98,10 @@ class AliceCore {
     this._navigatorKey = navigatorKey;
   }
 
-  void _onSelectedNotification(String payload) {
+  Future<void> _onSelectedNotification(String payload) {
     assert(payload != null, "payload can't be null");
     navigateToCallListScreen();
+    return null;
   }
 
   /// Opens Http calls inspector. This will navigate user to the new fullscreen
