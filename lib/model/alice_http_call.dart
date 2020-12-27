@@ -21,7 +21,7 @@ class AliceHttpCall {
     loading = true;
   }
 
-  setResponse(AliceHttpResponse response) {
+  void setResponse(AliceHttpResponse response) {
     this.response = response;
     loading = false;
   }
@@ -31,7 +31,7 @@ class AliceHttpCall {
     var curlCmd = "curl";
     curlCmd += " -X " + method;
     var headers = request.headers;
-    headers.forEach((key, value) {
+    headers.forEach((key, dynamic value) {
       if ("Accept-Encoding" == key && "gzip" == value) {
         compressed = true;
       }

@@ -40,7 +40,7 @@ class AliceDioInterceptor extends InterceptorsWrapper {
 
     AliceHttpRequest request = AliceHttpRequest();
 
-    var data = options.data;
+    dynamic data = options.data;
     if (data == null) {
       request.size = 0;
       request.body = "";

@@ -187,7 +187,7 @@ class _AliceCallResponseWidgetState
     _betterPlayerController = BetterPlayerController(
       BetterPlayerConfiguration(aspectRatio: 16 / 9, fit: BoxFit.cover),
       betterPlayerDataSource: BetterPlayerDataSource(
-        BetterPlayerDataSourceType.NETWORK,
+        BetterPlayerDataSourceType.network,
         _call.uri,
       ),
     );

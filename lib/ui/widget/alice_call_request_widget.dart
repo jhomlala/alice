@@ -26,7 +26,7 @@ class _AliceCallRequestWidget
     rows.add(
         getListRow("Content type:", getContentType(_call.request.headers)));
 
-    var body = _call.request.body;
+    dynamic body = _call.request.body;
     var bodyContent = "Body is empty";
     if (body != null) {
       bodyContent = formatBody(body, getContentType(_call.request.headers));
@@ -59,7 +59,7 @@ class _AliceCallRequestWidget
     }
     rows.add(getListRow("Headers: ", headersContent));
     if (_call.request.headers != null) {
-      _call.request.headers.forEach((header, value) {
+      _call.request.headers.forEach((header, dynamic value) {
         rows.add(getListRow("   • $header:", value.toString()));
       });
     }
@@ -70,7 +70,7 @@ class _AliceCallRequestWidget
     }
     rows.add(getListRow("Query Parameters: ", queryParametersContent));
     if (_call.request.queryParameters != null) {
-      _call.request.queryParameters.forEach((query, value) {
+      _call.request.queryParameters.forEach((query, dynamic value) {
         rows.add(getListRow("   • $query:", value.toString()));
       });
     }

@@ -98,10 +98,9 @@ class AliceCore {
     this._navigatorKey = navigatorKey;
   }
 
-  Future _onSelectedNotification(String payload) {
+  void _onSelectedNotification(String payload) {
     assert(payload != null, "payload can't be null");
     navigateToCallListScreen();
-    return Future.sync(() {});
   }
 
   /// Opens Http calls inspector. This will navigate user to the new fullscreen
@@ -115,7 +114,7 @@ class AliceCore {
     }
     if (!_isInspectorOpened) {
       _isInspectorOpened = true;
-      Navigator.push(
+      Navigator.push<void>(
         context,
         MaterialPageRoute(
           builder: (context) => AliceCallsListScreen(this),

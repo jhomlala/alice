@@ -21,7 +21,7 @@ class _AliceCallErrorWidgetState
   Widget build(BuildContext context) {
     if (_call.error != null) {
       List<Widget> rows = List();
-      var error = _call.error.error;
+      dynamic error = _call.error.error;
       var errorText = "Error is empty";
       if (error != null) {
         errorText = error.toString();

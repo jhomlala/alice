@@ -1,6 +1,6 @@
 name: alice
 description: Alice is an HTTP Inspector tool which helps debugging http requests. It catches and stores http requests and responses, which can be viewed via simple UI.
-version: 0.1.7
+version: 0.1.8
 author: Jakub Homlala <jhomlala@gmail.com>
 homepage: https://github.com/jhomlala/alice
 
@@ -23,4 +23,4 @@ dependencies:
   shake: ^0.1.0
   share: ^0.6.5+4
   chopper: ^3.0.2
-  better_player: ^0.0.36
+  better_player: ^0.0.39

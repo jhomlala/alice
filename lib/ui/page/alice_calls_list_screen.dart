@@ -193,7 +193,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   }
 
   void _onListItemClicked(AliceHttpCall call) {
-    Navigator.push(
+    Navigator.push<void>(
       widget._aliceCore.getContext(),
       MaterialPageRoute(
         builder: (context) => AliceCallDetailsScreen(call, widget._aliceCore),
@@ -207,7 +207,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
       "Delete calls",
       "Do you want to delete http calls?",
       firstButtonTitle: "No",
-      firstButtonAction: () => {},
+      firstButtonAction: () => <String,dynamic>{},
       secondButtonTitle: "Yes",
       secondButtonAction: () => _removeCalls(),
     );
@@ -218,7 +218,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   }
 
   void _showStatsScreen() {
-    Navigator.push(
+    Navigator.push<void>(
       aliceCore.getContext(),
       MaterialPageRoute(
         builder: (context) => AliceStatsScreen(widget._aliceCore),

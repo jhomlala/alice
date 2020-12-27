@@ -42,7 +42,7 @@ class AliceAlertHelper {
         ),
       );
     }
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (BuildContext buildContext) {
         return Theme(
