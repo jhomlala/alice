@@ -79,7 +79,7 @@ class AliceChopperInterceptor extends chopper.ResponseInterceptor
       aliceHttpRequest.size = 0;
       aliceHttpRequest.body = "";
     } else {
-      aliceHttpRequest.size = utf8.encode(request.body).length;
+      aliceHttpRequest.size = utf8.encode(request.body as String).length;
       aliceHttpRequest.body = request.body;
     }
     aliceHttpRequest.time = DateTime.now();
@@ -113,7 +113,7 @@ class AliceChopperInterceptor extends chopper.ResponseInterceptor
     }
 
     httpResponse.time = DateTime.now();
-    Map<String, String> headers = Map();
+    final Map<String, String> headers = {};
     if (response.headers != null) {
       response.headers.forEach((header, values) {
         headers[header] = values.toString();

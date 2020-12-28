@@ -23,7 +23,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   bool _searchEnabled = false;
   final TextEditingController _queryTextEditingController =
       TextEditingController();
-  List<AliceMenuItem> _menuItems = List();
+  final List<AliceMenuItem> _menuItems = [];
 
   _AliceCallsListScreenState() {
     _menuItems.add(AliceMenuItem("Delete", Icons.delete));
@@ -129,7 +129,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
     return StreamBuilder<List<AliceHttpCall>>(
       stream: aliceCore.callsSubject,
       builder: (context, snapshot) {
-        List<AliceHttpCall> calls = snapshot.data ?? List();
+        List<AliceHttpCall> calls = snapshot.data ?? [];
         String query = _queryTextEditingController.text.trim();
         if (query.isNotEmpty) {
           calls = calls

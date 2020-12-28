@@ -20,7 +20,7 @@ class _AliceCallRequestWidget
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> rows = List();
+    final List<Widget> rows = [];
     rows.add(getListRow("Started:", _call.request.time.toString()));
     rows.add(getListRow("Bytes sent:", formatBytes(_call.request.size)));
     rows.add(

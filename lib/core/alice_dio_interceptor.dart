@@ -49,14 +49,14 @@ class AliceDioInterceptor extends InterceptorsWrapper {
         request.body += "Form data";
 
         if (data.fields?.isNotEmpty == true) {
-          List<AliceFormDataField> fields = List();
+          final List<AliceFormDataField> fields = [];
           data.fields.forEach((entry) {
             fields.add(AliceFormDataField(entry.key, entry.value));
           });
           request.formDataFields = fields;
         }
         if (data.files?.isNotEmpty == true) {
-          List<AliceFormDataFile> files = List();
+          final List<AliceFormDataFile> files = [];
           data.files.forEach((entry) {
             files.add(AliceFormDataFile(entry.value.filename,
                 entry.value.contentType.toString(), entry.value.length));
@@ -137,7 +137,7 @@ class AliceDioInterceptor extends InterceptorsWrapper {
         httpResponse.body = error.response.data;
         httpResponse.size = utf8.encode(error.response.data.toString()).length;
       }
-      Map<String, String> headers = Map();
+      final Map<String, String> headers = {};
       if (error.response.headers != null) {
         error.response.headers.forEach((header, values) {
           headers[header] = values.toString();

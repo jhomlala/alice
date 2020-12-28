@@ -9,7 +9,7 @@ class AliceHttpRequest {
   Map<String, dynamic> headers = <String, dynamic>{};
   dynamic body = "";
   String contentType = "";
-  List<Cookie> cookies = List();
+  List<Cookie> cookies = [];
   Map<String, dynamic> queryParameters = <String, dynamic>{};
   List<AliceFormDataFile> formDataFiles;
   List<AliceFormDataField> formDataFields;

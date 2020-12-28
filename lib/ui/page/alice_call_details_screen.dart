@@ -93,7 +93,7 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
   }
 
   List<Widget> _getTabBars() {
-    List<Widget> widgets = List();
+    final List<Widget> widgets = [];
     widgets.add(Tab(icon: Icon(Icons.info_outline), text: "Overview"));
     widgets.add(Tab(icon: Icon(Icons.arrow_upward), text: "Request"));
     widgets.add(Tab(icon: Icon(Icons.arrow_downward), text: "Response"));
@@ -107,7 +107,7 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
   }
 
   List<Widget> _getTabBarViewList() {
-    List<Widget> widgets = List();
+    final List<Widget> widgets = [];
     widgets.add(AliceCallOverviewWidget(widget.call));
     widgets.add(AliceCallRequestWidget(widget.call));
     widgets.add(AliceCallResponseWidget(widget.call));

@@ -14,13 +14,13 @@ class AliceParser {
     try {
       return encoder.convert(json);
     } catch (exception) {
-      return json;
+      return json.toString();
     }
   }
 
   static dynamic _decodeJson(dynamic body) {
     try {
-      return json.decode(body);
+      return json.decode(body as String);
     } catch (exception) {
       return body;
     }
@@ -67,10 +67,10 @@ class AliceParser {
   static String getContentType(Map<String, dynamic> headers) {
     if (headers != null) {
       if (headers.containsKey(_jsonContentTypeSmall)) {
-        return headers[_jsonContentTypeSmall];
+        return headers[_jsonContentTypeSmall] as String;
       }
       if (headers.containsKey(_jsonContentTypeBig)) {
-        return headers[_jsonContentTypeBig];
+        return headers[_jsonContentTypeBig] as String;
       }
     }
     return _unknownContentType;

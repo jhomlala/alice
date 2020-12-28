@@ -1,3 +1,6 @@
+## 0.1.9
+* Lint update
+
 ## 0.1.8
 * Lint update
 

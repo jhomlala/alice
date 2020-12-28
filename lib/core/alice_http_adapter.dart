@@ -59,7 +59,7 @@ class AliceHttpAdapter {
 
     String contentType = "unknown";
     if (httpRequest.headers.containsKey("Content-Type")) {
-      contentType = httpRequest.headers["Content-Type"];
+      contentType = httpRequest.headers["Content-Type"] as String;
     }
 
     httpRequest.contentType = contentType;
@@ -72,7 +72,7 @@ class AliceHttpAdapter {
 
     httpResponse.size = utf8.encode(response.body.toString()).length;
     httpResponse.time = DateTime.now();
-    Map<String, String> responseHeaders = Map();
+    final Map<String, String> responseHeaders = {};
     response.headers.forEach((header, values) {
       responseHeaders[header] = values.toString();
     });

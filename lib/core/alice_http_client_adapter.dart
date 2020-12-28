@@ -53,7 +53,7 @@ class AliceHttpClientAdapter {
     httpRequest.headers = headers;
     String contentType = "unknown";
     if (headers.containsKey("Content-Type")) {
-      contentType = headers["Content-Type"];
+      contentType = headers["Content-Type"] as String;
     }
 
     httpRequest.contentType = contentType;
@@ -84,7 +84,7 @@ class AliceHttpClientAdapter {
       httpResponse.size = 0;
     }
     httpResponse.time = DateTime.now();
-    Map<String, String> headers = Map();
+    final Map<String, String> headers = {};
     response.headers.forEach((header, values) {
       headers[header] = values.toString();
     });

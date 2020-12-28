@@ -20,7 +20,7 @@ class _AliceCallOverviewWidget
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> rows = List();
+    final List<Widget> rows = [];
     rows.add(getListRow("Method: ", _call.method));
     rows.add(getListRow("Server: ", _call.server));
     rows.add(getListRow("Endpoint: ", _call.endpoint));

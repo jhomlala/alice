@@ -255,7 +255,7 @@ class AliceCore {
 
   /// Remove all calls from calls subject
   void removeCalls() {
-    callsSubject.add(List());
+    callsSubject.add([]);
   }
 
   AliceHttpCall _selectCall(int requestId) => callsSubject.value

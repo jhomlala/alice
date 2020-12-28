@@ -20,7 +20,7 @@ class _AliceCallErrorWidgetState
   @override
   Widget build(BuildContext context) {
     if (_call.error != null) {
-      List<Widget> rows = List();
+      final List<Widget> rows = [];
       dynamic error = _call.error.error;
       var errorText = "Error is empty";
       if (error != null) {
