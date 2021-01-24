@@ -18,6 +18,5 @@ abstract class PostsService extends ChopperService {
   Future<Response> postPost(@Body() String body);
 
   @Put(path: '/{id}')
-  Future<Response> putPost(
-      @Path() String id, @Body() String body);
+  Future<Response> putPost(@Path() String id, @Body() String body);
 }
