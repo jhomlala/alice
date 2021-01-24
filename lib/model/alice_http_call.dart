@@ -29,22 +29,23 @@ class AliceHttpCall {
   String getCurlCommand() {
     var compressed = false;
     var curlCmd = "curl";
-    curlCmd += " -X " + method;
-    var headers = request.headers;
+    curlCmd += " -X $method";
+    final headers = request.headers;
     headers.forEach((key, dynamic value) {
       if ("Accept-Encoding" == key && "gzip" == value) {
         compressed = true;
       }
-      curlCmd += " -H \'$key: $value\'";
+      curlCmd += " -H '$key: $value'";
     });
 
-    String requestBody = request.body.toString();
+    final String requestBody = request.body.toString();
     if (requestBody != null && requestBody != '') {
       // try to keep to a single line and use a subshell to preserve any line breaks
-      curlCmd += " --data \$'" + requestBody.replaceAll("\n", "\\n") + "'";
+      curlCmd += " --data \$'${requestBody.replaceAll("\n", "\\n")}'";
     }
-    curlCmd += ((compressed) ? " --compressed " : " ") +
-        "\'${secure ? 'https://' : 'http://'}$server$endpoint\'";
+    // ignore: join_return_with_assignment
+    curlCmd +=
+        "${compressed ? " --compressed " : " "}${"'${secure ? 'https://' : 'http://'}$server$endpoint'"}";
     return curlCmd;
   }
 }

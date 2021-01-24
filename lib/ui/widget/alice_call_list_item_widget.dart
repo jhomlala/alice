@@ -46,16 +46,17 @@ class AliceCallListItemWidget extends StatelessWidget {
   }
 
   Widget _buildMethodAndEndpointRow(BuildContext context) {
-    Color textColor = _getEndpointTextColor(context);
+    final Color textColor = _getEndpointTextColor(context);
     return Row(children: [
       Text(
         call.method,
         style: TextStyle(fontSize: 16, color: textColor),
       ),
-      Padding(
+      const Padding(
         padding: EdgeInsets.only(left: 10),
       ),
       Flexible(
+        // ignore: avoid_unnecessary_containers
         child: Container(
           child: Text(
             call.endpoint,
@@ -78,7 +79,7 @@ class AliceCallListItemWidget extends StatelessWidget {
           call.server,
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 14,
           ),
         ),
@@ -91,19 +92,16 @@ class AliceCallListItemWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Flexible(
-            flex: 1,
             child: Text(_formatTime(call.request.time),
-                style: TextStyle(fontSize: 12))),
+                style: const TextStyle(fontSize: 12))),
         Flexible(
-            flex: 1,
-            child: Text("${AliceConversionHelper.formatTime(call.duration)}",
-                style: TextStyle(fontSize: 12))),
+            child: Text(AliceConversionHelper.formatTime(call.duration),
+                style: const TextStyle(fontSize: 12))),
         Flexible(
-          flex: 1,
           child: Text(
             "${AliceConversionHelper.formatBytes(call.request.size)} / "
             "${AliceConversionHelper.formatBytes(call.response.size)}",
-            style: TextStyle(fontSize: 12),
+            style: const TextStyle(fontSize: 12),
           ),
         )
       ],
@@ -129,16 +127,15 @@ class AliceCallListItemWidget extends StatelessWidget {
 
   Widget _buildResponseColumn(BuildContext context) {
     assert(context != null, "context can't be null");
-    List<Widget> widgets = List();
+    final List<Widget> widgets = [];
     if (call.loading) {
       widgets.add(
         SizedBox(
-          child: new CircularProgressIndicator(
-            valueColor:
-                new AlwaysStoppedAnimation<Color>(AliceConstants.lightRed),
-          ),
           width: 20,
           height: 20,
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(AliceConstants.lightRed),
+          ),
         ),
       );
       widgets.add(
@@ -159,7 +156,6 @@ class AliceCallListItemWidget extends StatelessWidget {
     return Container(
       width: 50,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: widgets,
       ),
     );
@@ -167,7 +163,7 @@ class AliceCallListItemWidget extends StatelessWidget {
 
   Color _getStatusTextColor(BuildContext context) {
     assert(context != null, "context can't be null");
-    int status = call.response.status;
+    final int status = call.response.status;
     if (status == -1) {
       return AliceConstants.red;
     } else if (status < 200) {
@@ -213,7 +209,7 @@ class AliceCallListItemWidget extends StatelessWidget {
       iconColor = AliceConstants.red;
     }
     return Padding(
-      padding: EdgeInsets.only(right: 3),
+      padding: const EdgeInsets.only(right: 3),
       child: Icon(
         iconData,
         color: iconColor,

@@ -18,7 +18,7 @@ class AliceStatsScreen extends StatelessWidget {
           accentColor: AliceConstants.lightRed),
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Alice - HTTP Inspector - Stats"),
+          title: const Text("Alice - HTTP Inspector - Stats"),
         ),
         body: Container(
           padding: const EdgeInsets.all(8),
@@ -42,11 +42,11 @@ class AliceStatsScreen extends StatelessWidget {
       _getRow("Bytes received:",
           AliceConversionHelper.formatBytes(_getBytesReceived())),
       _getRow("Average request time:",
-          "${AliceConversionHelper.formatTime(_getAverageRequestTime())}"),
+          AliceConversionHelper.formatTime(_getAverageRequestTime())),
       _getRow("Max request time:",
-          "${AliceConversionHelper.formatTime(_getMaxRequestTime())}"),
+          AliceConversionHelper.formatTime(_getMaxRequestTime())),
       _getRow("Min request time:",
-          "${AliceConversionHelper.formatTime(_getMinRequestTime())}"),
+          AliceConversionHelper.formatTime(_getMinRequestTime())),
       _getRow("Get requests:", "${_getRequests("GET")} "),
       _getRow("Post requests:", "${_getRequests("POST")} "),
       _getRow("Delete requests:", "${_getRequests("DELETE")} "),
@@ -66,7 +66,7 @@ class AliceStatsScreen extends StatelessWidget {
           label,
           style: _getLabelTextStyle(),
         ),
-        Padding(
+        const Padding(
           padding: EdgeInsets.only(left: 10),
         ),
         Text(
@@ -78,11 +78,11 @@ class AliceStatsScreen extends StatelessWidget {
   }
 
   TextStyle _getLabelTextStyle() {
-    return TextStyle(fontSize: 16);
+    return const TextStyle(fontSize: 16);
   }
 
   TextStyle _getValueTextStyle() {
-    return TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
+    return const TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
   }
 
   int _getTotalRequests() {
@@ -161,7 +161,7 @@ class AliceStatsScreen extends StatelessWidget {
 
   int _getMinRequestTime() {
     int minRequestTime = 10000000;
-    if (calls.length == 0) {
+    if (calls.isEmpty) {
       minRequestTime = 0;
     } else {
       calls.forEach((AliceHttpCall call) {

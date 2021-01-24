@@ -1,8 +1,8 @@
 class AliceConversionHelper {
-  static int _kilobyteAsByte = 1000;
-  static int _megabyteAsByte = 1000000;
-  static int _secondAsMillisecond = 1000;
-  static int _minuteAsMillisecond = 60000;
+  static const int _kilobyteAsByte = 1000;
+  static const int _megabyteAsByte = 1000000;
+  static const int _secondAsMillisecond = 1000;
+  static const int _minuteAsMillisecond = 60000;
 
   /// Format bytes text
   static String formatBytes(int bytes) {
@@ -33,9 +33,9 @@ class AliceConversionHelper {
       return "${_formatDouble(timeInMillis / _secondAsMillisecond)} s";
     }
 
-    Duration duration = Duration(milliseconds: timeInMillis);
+    final Duration duration = Duration(milliseconds: timeInMillis);
 
-    return "${duration.inMinutes} min ${(duration.inSeconds.remainder(60))} s "
+    return "${duration.inMinutes} min ${duration.inSeconds.remainder(60)} s "
         "${duration.inMilliseconds.remainder(1000)} ms";
   }
 }

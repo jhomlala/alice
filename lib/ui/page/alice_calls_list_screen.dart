@@ -12,7 +12,7 @@ import 'alice_stats_screen.dart';
 class AliceCallsListScreen extends StatefulWidget {
   final AliceCore _aliceCore;
 
-  AliceCallsListScreen(this._aliceCore);
+  const AliceCallsListScreen(this._aliceCore);
 
   @override
   _AliceCallsListScreenState createState() => _AliceCallsListScreenState();
@@ -58,7 +58,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
 
   Widget _buildSearchButton() {
     return IconButton(
-      icon: Icon(Icons.search),
+      icon: const Icon(Icons.search),
       onPressed: _onSearchClicked,
     );
   }
@@ -84,7 +84,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
                 item.iconData,
                 color: AliceConstants.lightRed,
               ),
-              Padding(
+              const Padding(
                 padding: EdgeInsets.only(left: 10),
               ),
               Text(item.title)
@@ -96,7 +96,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   }
 
   Widget _buildTitleWidget() {
-    return Text("Alice - Inspector");
+    return const Text("Alice - Inspector");
   }
 
   Widget _buildSearchField() {
@@ -108,7 +108,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
         hintStyle: TextStyle(fontSize: 16.0, color: AliceConstants.grey),
         border: InputBorder.none,
       ),
-      style: TextStyle(fontSize: 16.0),
+      style: const TextStyle(fontSize: 16.0),
       onChanged: _updateSearchQuery,
     );
   }
@@ -130,7 +130,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
       stream: aliceCore.callsSubject,
       builder: (context, snapshot) {
         List<AliceHttpCall> calls = snapshot.data ?? [];
-        String query = _queryTextEditingController.text.trim();
+        final String query = _queryTextEditingController.text.trim();
         if (query.isNotEmpty) {
           calls = calls
               .where((call) =>
@@ -148,7 +148,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
 
   Widget _buildEmptyWidget() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 32),
+      margin: const EdgeInsets.symmetric(horizontal: 32),
       child: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Icon(
@@ -156,12 +156,12 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
             color: AliceConstants.orange,
           ),
           const SizedBox(height: 6),
-          Text(
+          const Text(
             "There are no calls to show",
             style: TextStyle(fontSize: 18),
           ),
           const SizedBox(height: 12),
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Column(crossAxisAlignment: CrossAxisAlignment.start, children: const [
             Text(
               "• Check if you send any http request",
               style: TextStyle(fontSize: 12),

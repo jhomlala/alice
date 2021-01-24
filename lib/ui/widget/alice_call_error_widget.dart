@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 class AliceCallErrorWidget extends StatefulWidget {
   final AliceHttpCall call;
 
-  AliceCallErrorWidget(this.call) : assert(call != null, "call can't be null");
+  const AliceCallErrorWidget(this.call)
+      : assert(call != null, "Call can't be null");
 
   @override
   State<StatefulWidget> createState() {
@@ -21,7 +22,7 @@ class _AliceCallErrorWidgetState
   Widget build(BuildContext context) {
     if (_call.error != null) {
       final List<Widget> rows = [];
-      dynamic error = _call.error.error;
+      final dynamic error = _call.error.error;
       var errorText = "Error is empty";
       if (error != null) {
         errorText = error.toString();
@@ -29,11 +30,11 @@ class _AliceCallErrorWidgetState
       rows.add(getListRow("Error:", errorText));
 
       return Container(
-        padding: EdgeInsets.all(6),
+        padding: const EdgeInsets.all(6),
         child: ListView(children: rows),
       );
     } else {
-      return Center(child: Text("Nothing to display here"));
+      return const Center(child: Text("Nothing to display here"));
     }
   }
 }

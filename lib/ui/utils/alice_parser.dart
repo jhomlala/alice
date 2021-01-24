@@ -8,7 +8,7 @@ class AliceParser {
   static const String _stream = "Stream";
   static const String _applicationJson = "application/json";
   static const String _parseFailedText = "Failed to parse ";
-  static final JsonEncoder encoder = new JsonEncoder.withIndent('  ');
+  static const JsonEncoder encoder = JsonEncoder.withIndent('  ');
 
   static String _parseJson(dynamic json) {
     try {
@@ -36,9 +36,9 @@ class AliceParser {
 
       if (contentType == null ||
           !contentType.toLowerCase().contains(_applicationJson)) {
-        var bodyTemp = body.toString();
+        final bodyTemp = body.toString();
 
-        if (bodyTemp != null && bodyTemp.length > 0) {
+        if (bodyTemp != null && bodyTemp.isNotEmpty) {
           bodyContent = bodyTemp;
         }
       } else {
@@ -46,7 +46,7 @@ class AliceParser {
           bodyContent = body;
         } else {
           if (body is String) {
-            if (body.length != 0) {
+            if (body.isNotEmpty) {
               //body is minified json, so decode it to a map and let the encoder pretty print this map
               bodyContent = _parseJson(_decodeJson(body));
             }

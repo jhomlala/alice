@@ -44,19 +44,20 @@ class AliceChopperInterceptor extends chopper.ResponseInterceptor
   @override
   FutureOr<chopper.Request> onRequest(chopper.Request request) async {
     assert(request != null, "request can't be null");
-    var baseRequest = await request.toBaseRequest();
-    AliceHttpCall call = AliceHttpCall(getRequestHashCode(baseRequest));
+    final baseRequest = await request.toBaseRequest();
+    final AliceHttpCall call = AliceHttpCall(getRequestHashCode(baseRequest));
     String endpoint = "";
     String server = "";
     if (request.baseUrl == null || request.baseUrl.isEmpty) {
-      List<String> split = request.url.split("/");
+      final List<String> split = request.url.split("/");
       if (split.length > 2) {
         server = split[1] + split[2];
       }
       if (split.length > 4) {
         endpoint = "/";
         for (int splitIndex = 3; splitIndex < split.length; splitIndex++) {
-          endpoint += split[splitIndex] + "/";
+          // ignore: use_string_buffers
+          endpoint += "${split[splitIndex]}/";
         }
         endpoint = endpoint.substring(0, endpoint.length - 1);
       }
@@ -73,7 +74,7 @@ class AliceChopperInterceptor extends chopper.ResponseInterceptor
       call.secure = true;
     }
 
-    AliceHttpRequest aliceHttpRequest = AliceHttpRequest();
+    final AliceHttpRequest aliceHttpRequest = AliceHttpRequest();
 
     if (request.body == null) {
       aliceHttpRequest.size = 0;
@@ -100,9 +101,10 @@ class AliceChopperInterceptor extends chopper.ResponseInterceptor
   }
 
   /// Handles chopper response and adds data to existing alice http call
+  @override
   FutureOr<chopper.Response> onResponse(chopper.Response response) {
     assert(response != null, "response can't be null");
-    var httpResponse = AliceHttpResponse();
+    final httpResponse = AliceHttpResponse();
     httpResponse.status = response.statusCode;
     if (response.body == null) {
       httpResponse.body = "";

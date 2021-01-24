@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class AliceCallResponseWidget extends StatefulWidget {
   final AliceHttpCall call;
 
-  AliceCallResponseWidget(this.call)
+  const AliceCallResponseWidget(this.call)
       : assert(call != null, "call can't be null");
 
   @override
@@ -33,7 +33,7 @@ class _AliceCallResponseWidgetState
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> rows = List();
+    final List<Widget> rows = [];
     if (!_call.loading) {
       rows.addAll(_buildGeneralDataRows());
       rows.addAll(_buildHeadersRows());
@@ -47,8 +47,8 @@ class _AliceCallResponseWidgetState
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            new CircularProgressIndicator(),
+          children: const [
+            CircularProgressIndicator(),
             Text("Awaiting response...")
           ],
         ),
@@ -67,7 +67,7 @@ class _AliceCallResponseWidgetState
     rows.add(getListRow("Received:", _call.response.time.toString()));
     rows.add(getListRow("Bytes received:", formatBytes(_call.response.size)));
 
-    var status = _call.response.status;
+    final status = _call.response.status;
     var statusText = "$status";
     if (status == -1) {
       statusText = "Error";
@@ -79,9 +79,9 @@ class _AliceCallResponseWidgetState
 
   List<Widget> _buildHeadersRows() {
     final List<Widget> rows = [];
-    var headers = _call.response.headers;
+    final headers = _call.response.headers;
     var headersContent = "Headers are empty";
-    if (headers != null && headers.length > 0) {
+    if (headers != null && headers.isNotEmpty) {
       headersContent = "";
     }
     rows.add(getListRow("Headers: ", headersContent));
@@ -94,7 +94,7 @@ class _AliceCallResponseWidgetState
   }
 
   List<Widget> _buildBodyRows() {
-    List<Widget> rows = List();
+    final List<Widget> rows = [];
     if (_isImageResponse()) {
       rows.addAll(_buildImageBodyRows());
     } else if (_isVideoResponse()) {
@@ -118,7 +118,7 @@ class _AliceCallResponseWidgetState
       Column(
         children: [
           Row(
-            children: [
+            children: const [
               Text(
                 "Body: Image",
                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -161,31 +161,32 @@ class _AliceCallResponseWidgetState
       rows.add(
         RaisedButton(
           color: AliceConstants.lightRed,
-          child: Text("Show body"),
           onPressed: () {
             setState(() {
               _showLargeBody = true;
             });
           },
+          child: const Text("Show body"),
         ),
       );
       rows.add(const SizedBox(height: 8));
-      rows.add(Text("Warning! It will take some time to render output."));
+      rows.add(const Text("Warning! It will take some time to render output."));
     }
     return rows;
   }
 
   List<Widget> _buildTextBodyRows() {
-    List<Widget> rows = List();
-    var headers = _call.response.headers;
-    var bodyContent = formatBody(_call.response.body, getContentType(headers));
+    final List<Widget> rows = [];
+    final headers = _call.response.headers;
+    final bodyContent =
+        formatBody(_call.response.body, getContentType(headers));
     rows.add(getListRow("Body:", bodyContent));
     return rows;
   }
 
   List<Widget> _buildVideoBodyRows() {
     _betterPlayerController = BetterPlayerController(
-      BetterPlayerConfiguration(aspectRatio: 16 / 9, fit: BoxFit.cover),
+      const BetterPlayerConfiguration(aspectRatio: 16 / 9, fit: BoxFit.cover),
       betterPlayerDataSource: BetterPlayerDataSource(
         BetterPlayerDataSourceType.network,
         _call.uri,
@@ -195,7 +196,7 @@ class _AliceCallResponseWidgetState
     final List<Widget> rows = [];
     rows.add(
       Row(
-        children: [
+        children: const [
           Text(
             "Body: Video",
             style: TextStyle(fontWeight: FontWeight.bold),
@@ -213,11 +214,11 @@ class _AliceCallResponseWidgetState
 
   List<Widget> _buildUnknownBodyRows() {
     final List<Widget> rows = [];
-    var headers = _call.response.headers;
-    var contentType = getContentType(headers) ?? "<unknown>";
+    final headers = _call.response.headers;
+    final contentType = getContentType(headers) ?? "<unknown>";
 
     if (_showUnsupportedBody) {
-      var bodyContent =
+      final bodyContent =
           formatBody(_call.response.body, getContentType(headers));
       rows.add(getListRow("Body:", bodyContent));
     } else {
@@ -229,13 +230,13 @@ class _AliceCallResponseWidgetState
               " as text, but it may fail."));
       rows.add(
         RaisedButton(
-          child: Text("Show unsupported body"),
           color: AliceConstants.lightRed,
           onPressed: () {
             setState(() {
               _showUnsupportedBody = true;
             });
           },
+          child: const Text("Show unsupported body"),
         ),
       );
     }
@@ -269,7 +270,7 @@ class _AliceCallResponseWidgetState
   }
 
   bool _isTextResponse() {
-    String responseContentTypeLowerCase =
+    final String responseContentTypeLowerCase =
         _getContentTypeOfResponse().toLowerCase();
 
     return responseContentTypeLowerCase.contains(_jsonContentType) ||

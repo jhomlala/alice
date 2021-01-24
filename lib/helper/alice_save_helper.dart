@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:alice/core/alice_utils.dart';
 import 'package:alice/helper/alice_conversion_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/ui/utils/alice_parser.dart';
@@ -11,7 +12,7 @@ import 'package:permission_handler/permission_handler.dart';
 import '../helper/alice_alert_helper.dart';
 
 class AliceSaveHelper {
-  static JsonEncoder _encoder = new JsonEncoder.withIndent('  ');
+  static const JsonEncoder _encoder = JsonEncoder.withIndent('  ');
 
   /// Top level method used to save calls to file
   static void saveCalls(
@@ -27,11 +28,11 @@ class AliceSaveHelper {
     assert(context != null, "context can't be null");
     assert(calls != null, "calls can't be null");
     assert(brightness != null, "brightness can't be null");
-    var status = await Permission.storage.status;
+    final status = await Permission.storage.status;
     if (status.isGranted) {
       _saveToFile(context, calls, brightness);
     } else {
-      var status = await Permission.storage.request();
+      final status = await Permission.storage.request();
 
       if (status.isGranted) {
         _saveToFile(context, calls, brightness);
@@ -49,22 +50,22 @@ class AliceSaveHelper {
     assert(calls != null, "calls can't be null");
     assert(brightness != null, "brightness can't be null");
     try {
-      if (calls.length == 0) {
+      if (calls.isEmpty) {
         AliceAlertHelper.showAlert(
             context, "Error", "There are no logs to save",
             brightness: brightness);
         return "";
       }
-      bool isAndroid = Platform.isAndroid;
+      final bool isAndroid = Platform.isAndroid;
 
-      Directory externalDir = await (isAndroid
+      final Directory externalDir = await (isAndroid
           ? getExternalStorageDirectory()
           : getApplicationDocumentsDirectory());
-      String fileName =
+      final String fileName =
           "alice_log_${DateTime.now().millisecondsSinceEpoch}.txt";
-      File file = File(externalDir.path.toString() + "/" + fileName);
+      final File file = File("${externalDir.path}/$fileName");
       file.createSync();
-      IOSink sink = file.openWrite(mode: FileMode.append);
+      final IOSink sink = file.openWrite(mode: FileMode.append);
       sink.write(await _buildAliceLog());
       calls.forEach((AliceHttpCall call) {
         sink.write(_buildCallLog(call));
@@ -81,28 +82,28 @@ class AliceSaveHelper {
       AliceAlertHelper.showAlert(
           context, "Error", "Failed to save http calls to file",
           brightness: brightness);
-      print(exception);
+      AliceUtils.log(exception.toString());
     }
 
     return "";
   }
 
   static Future<String> _buildAliceLog() async {
-    StringBuffer stringBuffer = StringBuffer();
-    var packageInfo = await PackageInfo.fromPlatform();
+    final StringBuffer stringBuffer = StringBuffer();
+    final packageInfo = await PackageInfo.fromPlatform();
     stringBuffer.write("Alice - HTTP Inspector\n");
     stringBuffer.write("App name:  ${packageInfo.appName}\n");
     stringBuffer.write("Package: ${packageInfo.packageName}\n");
     stringBuffer.write("Version: ${packageInfo.version}\n");
     stringBuffer.write("Build number: ${packageInfo.buildNumber}\n");
-    stringBuffer.write("Generated: " + DateTime.now().toIso8601String() + "\n");
+    stringBuffer.write("Generated: ${DateTime.now().toIso8601String()}\n");
     stringBuffer.write("\n");
     return stringBuffer.toString();
   }
 
   static String _buildCallLog(AliceHttpCall call) {
     assert(call != null, "call can't be null");
-    StringBuffer stringBuffer = StringBuffer();
+    final StringBuffer stringBuffer = StringBuffer();
     stringBuffer.write("===========================================\n");
     stringBuffer.write("Id: ${call.id}\n");
     stringBuffer.write("============================================\n");
@@ -153,7 +154,7 @@ class AliceSaveHelper {
     stringBuffer.write("--------------------------------------------\n");
     stringBuffer.write("Curl\n");
     stringBuffer.write("--------------------------------------------\n");
-    stringBuffer.write("${call.getCurlCommand()}");
+    stringBuffer.write(call.getCurlCommand());
     stringBuffer.write("\n");
     stringBuffer.write("==============================================\n");
     stringBuffer.write("\n");

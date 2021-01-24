@@ -19,14 +19,14 @@ class AliceHttpClientAdapter {
     if (request == null) {
       return;
     }
-    AliceHttpCall call = AliceHttpCall(request.hashCode);
+    final AliceHttpCall call = AliceHttpCall(request.hashCode);
     call.loading = true;
     call.client = "HttpClient (io package)";
     call.method = request.method;
     call.uri = request.uri.toString();
 
     var path = request.uri.path;
-    if (path == null || path.length == 0) {
+    if (path == null || path.isEmpty) {
       path = "/";
     }
 
@@ -35,7 +35,7 @@ class AliceHttpClientAdapter {
     if (request.uri.scheme == "https") {
       call.secure = true;
     }
-    AliceHttpRequest httpRequest = AliceHttpRequest();
+    final AliceHttpRequest httpRequest = AliceHttpRequest();
     if (body == null) {
       httpRequest.size = 0;
       httpRequest.body = "";
@@ -44,7 +44,7 @@ class AliceHttpClientAdapter {
       httpRequest.body = body;
     }
     httpRequest.time = DateTime.now();
-    Map<String, dynamic> headers = Map<String, dynamic>();
+    final Map<String, dynamic> headers = <String, dynamic>{};
 
     httpRequest.headers.forEach((header, dynamic value) {
       headers[header] = value;
@@ -73,7 +73,7 @@ class AliceHttpClientAdapter {
     if (request == null) {
       return;
     }
-    AliceHttpResponse httpResponse = AliceHttpResponse();
+    final AliceHttpResponse httpResponse = AliceHttpResponse();
     httpResponse.status = response.statusCode;
 
     if (body != null) {

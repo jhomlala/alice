@@ -19,26 +19,26 @@ class AliceAlertHelper {
     if (firstButtonTitle != null) {
       actions.add(
         FlatButton(
-          child: Text(firstButtonTitle),
           onPressed: () {
             if (firstButtonAction != null) {
               firstButtonAction();
             }
             Navigator.of(context).pop();
           },
+          child: Text(firstButtonTitle),
         ),
       );
     }
     if (secondButtonTitle != null) {
       actions.add(
         FlatButton(
-          child: Text(secondButtonTitle),
           onPressed: () {
             if (secondButtonAction != null) {
               secondButtonAction();
             }
             Navigator.of(context).pop();
           },
+          child: Text(secondButtonTitle),
         ),
       );
     }

@@ -21,12 +21,12 @@ class AliceDioInterceptor extends InterceptorsWrapper {
   @override
   Future onRequest(RequestOptions options) {
     assert(options != null, "options can't be null");
-    AliceHttpCall call = new AliceHttpCall(options.hashCode);
+    final AliceHttpCall call = AliceHttpCall(options.hashCode);
 
-    Uri uri = options.uri;
+    final Uri uri = options.uri;
     call.method = options.method;
     var path = options.uri.path;
-    if (path == null || path.length == 0) {
+    if (path == null || path.isEmpty) {
       path = "/";
     }
     call.endpoint = path;
@@ -38,9 +38,9 @@ class AliceDioInterceptor extends InterceptorsWrapper {
       call.secure = true;
     }
 
-    AliceHttpRequest request = AliceHttpRequest();
+    final AliceHttpRequest request = AliceHttpRequest();
 
-    dynamic data = options.data;
+    final dynamic data = options.data;
     if (data == null) {
       request.size = 0;
       request.body = "";
@@ -86,7 +86,7 @@ class AliceDioInterceptor extends InterceptorsWrapper {
   @override
   Future onResponse(Response response) {
     assert(response != null, "response can't be null");
-    var httpResponse = AliceHttpResponse();
+    final httpResponse = AliceHttpResponse();
     httpResponse.status = response.statusCode;
 
     if (response.data == null) {
@@ -98,7 +98,7 @@ class AliceDioInterceptor extends InterceptorsWrapper {
     }
 
     httpResponse.time = DateTime.now();
-    Map<String, String> headers = Map();
+    final Map<String, String> headers = {};
     if (response.headers != null) {
       response.headers.forEach((header, values) {
         headers[header] = values.toString();
@@ -114,15 +114,15 @@ class AliceDioInterceptor extends InterceptorsWrapper {
   @override
   Future onError(DioError error) {
     assert(error != null, "error can't be null");
-    var httpError = AliceHttpError();
+    final httpError = AliceHttpError();
     httpError.error = error.toString();
     if (error is Error) {
-      var basicError = error as Error;
+      final basicError = error as Error;
       httpError.stackTrace = basicError.stackTrace;
     }
 
     aliceCore.addError(httpError, error.request.hashCode);
-    var httpResponse = AliceHttpResponse();
+    final httpResponse = AliceHttpResponse();
     httpResponse.time = DateTime.now();
     if (error.response == null) {
       httpResponse.status = -1;

@@ -6,24 +6,25 @@ import 'package:flutter/material.dart';
 
 abstract class AliceBaseCallDetailsWidgetState<T extends StatefulWidget>
     extends State<T> {
-  final JsonEncoder encoder = new JsonEncoder.withIndent('  ');
+  final JsonEncoder encoder = const JsonEncoder.withIndent('  ');
 
   Widget getListRow(String name, String value) {
     assert(name != null, "name can't be null");
     assert(value != null, "value can't be null");
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SelectableText(name, style: TextStyle(fontWeight: FontWeight.bold)),
-        Padding(padding: EdgeInsets.only(left: 5)),
+        SelectableText(name,
+            style: const TextStyle(fontWeight: FontWeight.bold)),
+        const Padding(
+          padding: EdgeInsets.only(left: 5),
+        ),
         Flexible(
-          fit: FlexFit.loose,
           child: SelectableText(
             value,
           ),
         ),
-        Padding(
+        const Padding(
           padding: EdgeInsets.only(bottom: 18),
         )
       ],

@@ -6,7 +6,7 @@ extension AliceHttpExtensions on Future<Response> {
   /// helpful method to intercept https' response.
   Future<Response> interceptWithAlice(Alice alice, {dynamic body}) async {
     assert(alice != null, "alice can't be null");
-    Response response = await this;
+    final Response response = await this;
     alice.onHttpResponse(response, body: body);
     return response;
   }

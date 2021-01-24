@@ -97,11 +97,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _runChopperHttpRequests() async {
-    Map<String, dynamic> body = <String, dynamic>{
-      "title": "foo",
-      "body": "bar",
-      "userId": "1"
-    };
+    String body = jsonEncode(
+        <String, dynamic>{"title": "foo", "body": "bar", "userId": "1"});
     _postsService.getPost("1");
     _postsService.postPost(body);
     _postsService.putPost("1", body);
@@ -161,7 +158,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _runHttpHttpRequests() async {
-    Map<String, dynamic> body = <String, dynamic>{
+    Map<String, String> body = <String, String>{
       "title": "foo",
       "body": "bar",
       "userId": "1"

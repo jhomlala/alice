@@ -1,3 +1,8 @@
+## 0.1.10
+* Lint update
+* General refactor
+* Dart format
+
 ## 0.1.9
 * Lint update
 

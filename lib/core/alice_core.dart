@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:alice/core/alice_utils.dart';
 import 'package:alice/helper/alice_save_helper.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_call.dart';
@@ -24,7 +25,7 @@ class AliceCore {
 
   /// Rx subject which contains all intercepted http calls
   final BehaviorSubject<List<AliceHttpCall>> callsSubject =
-      BehaviorSubject.seeded(List());
+      BehaviorSubject.seeded([]);
 
   /// Icon url for notification
   final String notificationIcon;
@@ -72,17 +73,17 @@ class AliceCore {
 
   void _initializeNotificationsPlugin() {
     _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    var initializationSettingsAndroid =
-        new AndroidInitializationSettings(notificationIcon);
-    var initializationSettingsIOS = IOSInitializationSettings();
-    var initializationSettings = InitializationSettings(
+    final initializationSettingsAndroid =
+        AndroidInitializationSettings(notificationIcon);
+    const initializationSettingsIOS = IOSInitializationSettings();
+    final initializationSettings = InitializationSettings(
         android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
     _flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: _onSelectedNotification);
   }
 
   void _onCallsChanged() async {
-    if (callsSubject.value.length > 0) {
+    if (callsSubject.value.isNotEmpty) {
       _notificationMessage = _getNotificationMessage();
       if (_notificationMessage != _notificationMessageShown &&
           !_notificationProcessing) {
@@ -95,21 +96,21 @@ class AliceCore {
   /// Set custom navigation key. This will help if there's route library.
   void setNavigatorKey(GlobalKey<NavigatorState> navigatorKey) {
     assert(navigatorKey != null, "navigatorKey can't be null");
-    this._navigatorKey = navigatorKey;
+    _navigatorKey = navigatorKey;
   }
 
-  Future<void> _onSelectedNotification(String payload) {
+  Future<void> _onSelectedNotification(String payload) async {
     assert(payload != null, "payload can't be null");
     navigateToCallListScreen();
-    return null;
+    return;
   }
 
   /// Opens Http calls inspector. This will navigate user to the new fullscreen
   /// page where all listened http calls can be viewed.
   void navigateToCallListScreen() {
-    var context = getContext();
+    final context = getContext();
     if (context == null) {
-      print(
+      AliceUtils.log(
           "Cant start Alice HTTP Inspector. Please add NavigatorKey to your application");
       return;
     }
@@ -128,8 +129,8 @@ class AliceCore {
   BuildContext getContext() => _navigatorKey?.currentState?.overlay?.context;
 
   String _getNotificationMessage() {
-    List<AliceHttpCall> calls = callsSubject.value;
-    int successCalls = calls
+    final List<AliceHttpCall> calls = callsSubject.value;
+    final int successCalls = calls
         .where((call) =>
             call.response != null &&
             call.response.status >= 200 &&
@@ -137,7 +138,7 @@ class AliceCore {
         .toList()
         .length;
 
-    int redirectCalls = calls
+    final int redirectCalls = calls
         .where((call) =>
             call.response != null &&
             call.response.status >= 300 &&
@@ -145,7 +146,7 @@ class AliceCore {
         .toList()
         .length;
 
-    int errorCalls = calls
+    final int errorCalls = calls
         .where((call) =>
             call.response != null &&
             call.response.status >= 400 &&
@@ -153,9 +154,10 @@ class AliceCore {
         .toList()
         .length;
 
-    int loadingCalls = calls.where((call) => call.loading).toList().length;
+    final int loadingCalls =
+        calls.where((call) => call.loading).toList().length;
 
-    StringBuffer notificationsMessage = StringBuffer();
+    final StringBuffer notificationsMessage = StringBuffer();
     if (loadingCalls > 0) {
       notificationsMessage.write("Loading: $loadingCalls");
       notificationsMessage.write(" | ");
@@ -176,22 +178,20 @@ class AliceCore {
 
   Future _showLocalNotification() async {
     _notificationProcessing = true;
-    var channelId = "Alice";
-    var channelName = "Alice";
-    var channelDescription = "Alice";
-    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+    const channelId = "Alice";
+    const channelName = "Alice";
+    const channelDescription = "Alice";
+    final androidPlatformChannelSpecifics = AndroidNotificationDetails(
         channelId, channelName, channelDescription,
         enableVibration: false,
         playSound: false,
-        largeIcon: DrawableResourceAndroidBitmap(notificationIcon),
-        importance: Importance.defaultImportance,
-        priority: Priority.defaultPriority);
-    var iOSPlatformChannelSpecifics =
-        new IOSNotificationDetails(presentSound: false);
-    var platformChannelSpecifics = new NotificationDetails(
+        largeIcon: DrawableResourceAndroidBitmap(notificationIcon));
+    const iOSPlatformChannelSpecifics =
+        IOSNotificationDetails(presentSound: false);
+    final platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics,
         iOS: iOSPlatformChannelSpecifics);
-    String message = _notificationMessage;
+    final String message = _notificationMessage;
     await _flutterLocalNotificationsPlugin.show(
         0,
         "Alice (total: ${callsSubject.value.length} requests)",
@@ -213,10 +213,10 @@ class AliceCore {
   void addError(AliceHttpError error, int requestId) {
     assert(error != null, "error can't be null");
     assert(requestId != null, "requestId can't be null");
-    AliceHttpCall selectedCall = _selectCall(requestId);
+    final AliceHttpCall selectedCall = _selectCall(requestId);
 
     if (selectedCall == null) {
-      print("Selected call is null");
+      AliceUtils.log("Selected call is null");
       return;
     }
 
@@ -228,10 +228,10 @@ class AliceCore {
   void addResponse(AliceHttpResponse response, int requestId) {
     assert(response != null, "response can't be null");
     assert(requestId != null, "requestId can't be null");
-    AliceHttpCall selectedCall = _selectCall(requestId);
+    final AliceHttpCall selectedCall = _selectCall(requestId);
 
     if (selectedCall == null) {
-      print("Selected call is null");
+      AliceUtils.log("Selected call is null");
       return;
     }
     selectedCall.loading = false;
