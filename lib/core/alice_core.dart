@@ -30,6 +30,9 @@ class AliceCore {
   /// Icon url for notification
   final String notificationIcon;
 
+  /// Notification payload
+  final String payload;
+
   FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
   GlobalKey<NavigatorState> _navigatorKey;
   Brightness _brightness = Brightness.light;
@@ -41,9 +44,14 @@ class AliceCore {
   bool _notificationProcessing = false;
 
   /// Creates alice core instance
-  AliceCore(this._navigatorKey, this.showNotification,
-      this.showInspectorOnShake, this.darkTheme, this.notificationIcon)
-      : assert(showNotification != null, "showNotification can't be null"),
+  AliceCore(
+    this._navigatorKey,
+    this.showNotification,
+    this.showInspectorOnShake,
+    this.darkTheme,
+    this.notificationIcon,
+    this.payload,
+  )   : assert(showNotification != null, "showNotification can't be null"),
         assert(
             showInspectorOnShake != null, "showInspectorOnShake can't be null"),
         assert(darkTheme != null, "darkTheme can't be null"),
@@ -197,7 +205,7 @@ class AliceCore {
         "Alice (total: ${callsSubject.value.length} requests)",
         message,
         platformChannelSpecifics,
-        payload: "");
+        payload: payload);
     _notificationMessageShown = message;
     _notificationProcessing = false;
     return;
