@@ -1,3 +1,7 @@
+## 0.1.11
+* Updated dependencies
+* Lint fixes
+
 ## 0.1.10
 * Lint update
 * General refactor

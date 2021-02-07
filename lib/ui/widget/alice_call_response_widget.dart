@@ -159,8 +159,11 @@ class _AliceCallResponseWidgetState
           "Too large to show (${_call.response.body.toString().length} Bytes)"));
       rows.add(const SizedBox(height: 8));
       rows.add(
-        RaisedButton(
-          color: AliceConstants.lightRed,
+        ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor:
+                MaterialStateProperty.all<Color>(AliceConstants.lightRed),
+          ),
           onPressed: () {
             setState(() {
               _showLargeBody = true;
@@ -229,8 +232,11 @@ class _AliceCallResponseWidgetState
               "If you're feeling lucky you can try button below to try render body"
               " as text, but it may fail."));
       rows.add(
-        RaisedButton(
-          color: AliceConstants.lightRed,
+        ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor:
+                MaterialStateProperty.all<Color>(AliceConstants.lightRed),
+          ),
           onPressed: () {
             setState(() {
               _showUnsupportedBody = true;

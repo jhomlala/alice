@@ -23,6 +23,9 @@ class _MyAppState extends State<MyApp> {
   HttpClient _httpClient;
   ChopperClient _chopper;
   PostsService _postsService;
+  Color _primaryColor = Color(0xffff5e57);
+  Color _accentColor = Color(0xffff3f34);
+  Color _buttonColor = Color(0xff008000);
 
   @override
   void initState() {
@@ -41,9 +44,13 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    ButtonStyle _buttonStyle = ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(_buttonColor));
     return MaterialApp(
       theme: ThemeData(
-          primaryColor: Color(0xffff5e57), accentColor: Color(0xffff3f34)),
+        primaryColor: _primaryColor,
+        accentColor: _accentColor,
+      ),
       navigatorKey: _alice.getNavigatorKey(),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -57,29 +64,34 @@ class _MyAppState extends State<MyApp> {
               const SizedBox(height: 8),
               _getTextWidget(
                   "Welcome to example of Alice Http Inspector. Click buttons below to generate sample data."),
-              RaisedButton(
+              ElevatedButton(
                 child: Text("Run Dio HTTP Requests"),
                 onPressed: _runDioRequests,
+                style: _buttonStyle,
               ),
-              RaisedButton(
+              ElevatedButton(
                 child: Text("Run http/http HTTP Requests"),
                 onPressed: _runHttpHttpRequests,
+                style: _buttonStyle,
               ),
-              RaisedButton(
+              ElevatedButton(
                 child: Text("Run HttpClient Requests"),
                 onPressed: _runHttpHttpClientRequests,
+                style: _buttonStyle,
               ),
-              RaisedButton(
+              ElevatedButton(
                 child: Text("Run Chopper HTTP Requests"),
                 onPressed: _runChopperHttpRequests,
+                style: _buttonStyle,
               ),
               const SizedBox(height: 24),
               _getTextWidget(
                   "After clicking on buttons above, you should receive notification."
                   " Click on it to show inspector. You can also shake your device or click button below."),
-              RaisedButton(
-                child: Text("Run HTTP Insepctor"),
+              ElevatedButton(
+                child: Text("Run HTTP Inspector"),
                 onPressed: _runHttpInspector,
+                style: _buttonStyle,
               )
             ],
           ),

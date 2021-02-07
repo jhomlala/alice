@@ -18,7 +18,7 @@ class AliceAlertHelper {
     final List<Widget> actions = [];
     if (firstButtonTitle != null) {
       actions.add(
-        FlatButton(
+        TextButton(
           onPressed: () {
             if (firstButtonAction != null) {
               firstButtonAction();
@@ -31,7 +31,7 @@ class AliceAlertHelper {
     }
     if (secondButtonTitle != null) {
       actions.add(
-        FlatButton(
+        TextButton(
           onPressed: () {
             if (secondButtonAction != null) {
               secondButtonAction();
