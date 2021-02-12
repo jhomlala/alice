@@ -43,9 +43,32 @@ class AliceHttpCall {
       // try to keep to a single line and use a subshell to preserve any line breaks
       curlCmd += " --data \$'${requestBody.replaceAll("\n", "\\n")}'";
     }
-    // ignore: join_return_with_assignment
-    curlCmd +=
-        "${compressed ? " --compressed " : " "}${"'${secure ? 'https://' : 'http://'}$server$endpoint'"}";
+
+    var queryParamMap = request.queryParameters;
+    int paramCount = queryParamMap.keys.length;
+    var queryParams = "";
+    if (paramCount > 0) {
+      queryParams += "?";
+      queryParamMap.forEach((key, dynamic value) {
+        queryParams += '${key}=${value}';
+        paramCount -= 1;
+        if (paramCount > 0) {
+          queryParams += "&";
+        }
+      });
+    }
+    
+    // If server already has http(s) don't add it again
+    if (server.contains("http://") || server.contains("https://")) {
+      // ignore: join_return_with_assignment
+      curlCmd +=
+      "${compressed ? " --compressed " : " "}${"'$server$endpoint$queryParams'"}";
+    } else {
+      // ignore: join_return_with_assignment
+      curlCmd +=
+      "${compressed ? " --compressed " : " "}${"'${secure ? 'https://' : 'http://'}$server$endpoint$queryParams'"}";
+    }
+    
     return curlCmd;
   }
 }
