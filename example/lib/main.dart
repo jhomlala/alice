@@ -220,14 +220,20 @@ class _MyAppState extends State<MyApp> {
     });
 
     http
-        .post('https://jsonplaceholder.typicode.com/posts?key1=value1', body: body)
+        .post('https://jsonplaceholder.typicode.com/posts?key1=value1',
+            body: body)
         .interceptWithAlice(_alice, body: body);
 
     http
-        .post('https://jsonplaceholder.typicode.com/posts?key1=value1&key2=value2&key3=value3', body: body)
+        .post(
+            'https://jsonplaceholder.typicode.com/posts?key1=value1&key2=value2&key3=value3',
+            body: body)
         .interceptWithAlice(_alice, body: body);
 
-    http.get('https://jsonplaceholder.typicode.com/test/test?key1=value1&key2=value2&key3=value3').then((response) {
+    http
+        .get(
+            'https://jsonplaceholder.typicode.com/test/test?key1=value1&key2=value2&key3=value3')
+        .then((response) {
       _alice.onHttpResponse(response);
     });
   }

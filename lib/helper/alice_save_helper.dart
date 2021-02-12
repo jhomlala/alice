@@ -128,8 +128,8 @@ class AliceSaveHelper {
     stringBuffer
         .write("Request headers: ${_encoder.convert(call.request.headers)}\n");
     if (call.request.queryParameters.length > 0) {
-      stringBuffer
-          .write("Request query params: ${_encoder.convert(call.request.queryParameters)}\n");
+      stringBuffer.write(
+          "Request query params: ${_encoder.convert(call.request.queryParameters)}\n");
     }
     stringBuffer.write(
         "Request size: ${AliceConversionHelper.formatBytes(call.request.size)}\n");

@@ -57,18 +57,18 @@ class AliceHttpCall {
         }
       });
     }
-    
+
     // If server already has http(s) don't add it again
     if (server.contains("http://") || server.contains("https://")) {
       // ignore: join_return_with_assignment
       curlCmd +=
-      "${compressed ? " --compressed " : " "}${"'$server$endpoint$queryParams'"}";
+          "${compressed ? " --compressed " : " "}${"'$server$endpoint$queryParams'"}";
     } else {
       // ignore: join_return_with_assignment
       curlCmd +=
-      "${compressed ? " --compressed " : " "}${"'${secure ? 'https://' : 'http://'}$server$endpoint$queryParams'"}";
+          "${compressed ? " --compressed " : " "}${"'${secure ? 'https://' : 'http://'}$server$endpoint$queryParams'"}";
     }
-    
+
     return curlCmd;
   }
 }
