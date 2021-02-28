@@ -30,11 +30,10 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     _alice = Alice(
-      showNotification: true,
-      showInspectorOnShake: true,
-      darkTheme: false,
-      maxCallsCount: 1000
-    );
+        showNotification: true,
+        showInspectorOnShake: true,
+        darkTheme: false,
+        maxCallsCount: 1000);
     _dio = Dio(BaseOptions(
       followRedirects: false,
     ));
