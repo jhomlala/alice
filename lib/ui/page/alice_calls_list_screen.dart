@@ -191,7 +191,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   }
 
   Widget _buildCallsListWidget(List<AliceHttpCall> calls) {
-    List<AliceHttpCall> callsSorted = List.of(calls);
+    final List<AliceHttpCall> callsSorted = List.of(calls);
     if (_sortOption != null) {
       switch (_sortOption) {
         case AliceSortOption.time:
@@ -301,7 +301,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
             brightness: Brightness.light,
           ),
           child: AlertDialog(
-            title: Text("Select filter"),
+            title: const Text("Select filter"),
             content: StatefulBuilder(builder: (context, setState) {
               return Wrap(
                 children: [
@@ -321,7 +321,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Descending"),
+                      const Text("Descending"),
                       Switch(
                           value: _sortAscending,
                           onChanged: (value) {
@@ -331,7 +331,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
                           },
                           activeTrackColor: Colors.grey,
                           activeColor: Colors.white),
-                      Text("Ascending")
+                      const Text("Ascending")
                     ],
                   )
                 ],
@@ -339,16 +339,17 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
             }),
             actions: [
               TextButton(
-                  child: Text("Cancel"),
                   onPressed: () {
                     Navigator.of(context).pop();
-                  }),
+                  },
+                  child: const Text("Cancel")),
               TextButton(
-                  child: Text("Use filter"),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    sortCalls();
-                  }),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  sortCalls();
+                },
+                child: const Text("Use filter"),
+              ),
             ],
           ),
         );

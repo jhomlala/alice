@@ -47,11 +47,11 @@ class AliceCore {
   /// Creates alice core instance
   AliceCore(
     this._navigatorKey, {
-    this.showNotification,
-    this.showInspectorOnShake,
-    this.darkTheme,
-    this.notificationIcon,
-    this.maxCallsCount,
+    @required this.showNotification,
+    @required this.showInspectorOnShake,
+    @required this.darkTheme,
+    @required this.notificationIcon,
+    @required this.maxCallsCount,
   })  : assert(showNotification != null, "showNotification can't be null"),
         assert(
             showInspectorOnShake != null, "showInspectorOnShake can't be null"),

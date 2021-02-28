@@ -1,10 +1,11 @@
 ## 0.1.12
-* Fixed query parameter issue not handled properly (by https://github.com/shreyas18jan)
+* Fixed query parameter issue not handled properly (by https://github.com/shreyas18jan).
 * Removed shake dependency and added sensors dependency. Shake will be detected with sensors.
 * Updated other dependencies.
 * Added maxCallsCount which handles max number of calls stored in memory.
 * Refactored notification text.
 * Added sorting in inspector UI.
+* Added additional chopper request error handling.
 
 ## 0.1.11
 * Updated dependencies

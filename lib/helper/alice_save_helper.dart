@@ -11,7 +11,6 @@ import 'package:package_info/package_info.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-
 class AliceSaveHelper {
   static const JsonEncoder _encoder = JsonEncoder.withIndent('  ');
 
@@ -128,7 +127,7 @@ class AliceSaveHelper {
         .write("Request cookies: ${_encoder.convert(call.request.cookies)}\n");
     stringBuffer
         .write("Request headers: ${_encoder.convert(call.request.headers)}\n");
-    if (call.request.queryParameters.length > 0) {
+    if (call.request.queryParameters.isNotEmpty) {
       stringBuffer.write(
           "Request query params: ${_encoder.convert(call.request.queryParameters)}\n");
     }

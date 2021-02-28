@@ -18,8 +18,6 @@ class AliceHttpCall {
   AliceHttpResponse response;
   AliceHttpError error;
 
-
-
   AliceHttpCall(this.id) {
     loading = true;
     createdTime = DateTime.now();
@@ -48,13 +46,13 @@ class AliceHttpCall {
       curlCmd += " --data \$'${requestBody.replaceAll("\n", "\\n")}'";
     }
 
-    var queryParamMap = request.queryParameters;
+    final queryParamMap = request.queryParameters;
     int paramCount = queryParamMap.keys.length;
     var queryParams = "";
     if (paramCount > 0) {
       queryParams += "?";
       queryParamMap.forEach((key, dynamic value) {
-        queryParams += '${key}=${value}';
+        queryParams += '$key=$value';
         paramCount -= 1;
         if (paramCount > 0) {
           queryParams += "&";
