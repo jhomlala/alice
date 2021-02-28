@@ -2,6 +2,8 @@
 * Fixed query parameter issue not handled properly (by https://github.com/shreyas18jan)
 * Removed shake dependency and added sensors dependency. Shake will be detected with sensors.
 * Updated other dependencies.
+* Added maxCallsCount which handles max number of calls stored in memory.
+* Refactored notification text.
 
 ## 0.1.11
 * Updated dependencies

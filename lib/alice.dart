@@ -26,26 +26,37 @@ class Alice {
   /// Icon url for notification
   final String notificationIcon;
 
+  ///Max number of calls that are stored in memory. When count is reached, FIFO
+  ///method queue will be used to remove elements.
+  final int maxCallsCount;
+
   GlobalKey<NavigatorState> _navigatorKey;
   AliceCore _aliceCore;
   AliceHttpClientAdapter _httpClientAdapter;
   AliceHttpAdapter _httpAdapter;
 
   /// Creates alice instance.
-  Alice(
-      {GlobalKey<NavigatorState> navigatorKey,
-      this.showNotification = true,
-      this.showInspectorOnShake = false,
-      this.darkTheme = false,
-      this.notificationIcon = "@mipmap/ic_launcher"})
-      : assert(showNotification != null, "showNotification can't be null"),
+  Alice({
+    GlobalKey<NavigatorState> navigatorKey,
+    this.showNotification = true,
+    this.showInspectorOnShake = false,
+    this.darkTheme = false,
+    this.notificationIcon = "@mipmap/ic_launcher",
+    this.maxCallsCount = 1000,
+  })  : assert(showNotification != null, "showNotification can't be null"),
         assert(
             showInspectorOnShake != null, "showInspectorOnShake can't be null"),
         assert(darkTheme != null, "darkTheme can't be null"),
         assert(notificationIcon != null, "notificationIcon can't be null") {
     _navigatorKey = navigatorKey ?? GlobalKey<NavigatorState>();
-    _aliceCore = AliceCore(_navigatorKey, showNotification,
-        showInspectorOnShake, darkTheme, notificationIcon);
+    _aliceCore = AliceCore(
+      _navigatorKey,
+      showNotification: showNotification,
+      showInspectorOnShake: showInspectorOnShake,
+      darkTheme: darkTheme,
+      notificationIcon: notificationIcon,
+      maxCallsCount: maxCallsCount,
+    );
     _httpClientAdapter = AliceHttpClientAdapter(_aliceCore);
     _httpAdapter = AliceHttpAdapter(_aliceCore);
   }

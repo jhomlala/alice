@@ -4,6 +4,7 @@ import 'package:alice/model/alice_http_response.dart';
 
 class AliceHttpCall {
   final int id;
+  DateTime createdTime;
   String client = "";
   bool loading = true;
   bool secure = false;
@@ -17,8 +18,11 @@ class AliceHttpCall {
   AliceHttpResponse response;
   AliceHttpError error;
 
+
+
   AliceHttpCall(this.id) {
     loading = true;
+    createdTime = DateTime.now();
   }
 
   void setResponse(AliceHttpResponse response) {
