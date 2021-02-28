@@ -74,7 +74,7 @@ class AliceSaveHelper {
       await sink.flush();
       await sink.close();
       AliceAlertHelper.showAlert(
-          context, "Success", "Sucessfully saved logs in ${file.path}",
+          context, "Success", "Successfully saved logs in ${file.path}",
           secondButtonTitle: isAndroid ? "View file" : null,
           secondButtonAction: () => isAndroid ? OpenFile.open(file.path) : null,
           brightness: brightness);
