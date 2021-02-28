@@ -3,7 +3,7 @@ import 'package:alice/helper/alice_alert_helper.dart';
 import 'package:alice/ui/page/alice_call_details_screen.dart';
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/ui/utils/alice_constants.dart';
+import 'package:alice/utils/alice_constants.dart';
 import 'package:alice/ui/widget/alice_call_list_item_widget.dart';
 import 'package:flutter/material.dart';
 

@@ -521,14 +521,7 @@ packages:
       name: sensors
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.2+2"
-  shake:
-    dependency: transitive
-    description:
-      name: shake
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.0"
+    version: "0.4.2+6"
   share:
     dependency: transitive
     description:

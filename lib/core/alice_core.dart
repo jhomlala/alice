@@ -6,10 +6,10 @@ import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice/ui/page/alice_calls_list_screen.dart';
+import 'package:alice/utils/shake_detector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:shake/shake.dart';
 
 class AliceCore {
   /// Should user be notified with notification if there's new request catched
