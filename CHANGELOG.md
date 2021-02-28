@@ -4,6 +4,7 @@
 * Updated other dependencies.
 * Added maxCallsCount which handles max number of calls stored in memory.
 * Refactored notification text.
+* Added sorting in inspector UI.
 
 ## 0.1.11
 * Updated dependencies

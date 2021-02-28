@@ -1,5 +1,6 @@
 import 'package:alice/model/alice_menu_item.dart';
 import 'package:alice/helper/alice_alert_helper.dart';
+import 'package:alice/model/alice_sort_option.dart';
 import 'package:alice/ui/page/alice_call_details_screen.dart';
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/model/alice_http_call.dart';
@@ -24,8 +25,11 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   final TextEditingController _queryTextEditingController =
       TextEditingController();
   final List<AliceMenuItem> _menuItems = [];
+  AliceSortOption _sortOption;
+  bool _sortAscending = true;
 
   _AliceCallsListScreenState() {
+    _menuItems.add(AliceMenuItem("Sort", Icons.sort));
     _menuItems.add(AliceMenuItem("Delete", Icons.delete));
     _menuItems.add(AliceMenuItem("Stats", Icons.insert_chart));
     _menuItems.add(AliceMenuItem("Save", Icons.save));
@@ -114,6 +118,9 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   }
 
   void _onMenuItemSelected(AliceMenuItem menuItem) {
+    if (menuItem.title == "Sort") {
+      _showSortDialog();
+    }
     if (menuItem.title == "Delete") {
       _showRemoveDialog();
     }
@@ -184,10 +191,61 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   }
 
   Widget _buildCallsListWidget(List<AliceHttpCall> calls) {
+    List<AliceHttpCall> callsSorted = List.of(calls);
+    if (_sortOption != null) {
+      switch (_sortOption) {
+        case AliceSortOption.time:
+          if (_sortAscending) {
+            callsSorted.sort((call1, call2) =>
+                call1.createdTime.compareTo(call2.createdTime));
+          } else {
+            callsSorted.sort((call1, call2) =>
+                call2.createdTime.compareTo(call1.createdTime));
+          }
+          break;
+        case AliceSortOption.responseTime:
+          if (_sortAscending) {
+            callsSorted.sort((call1, call2) =>
+                call1?.response?.time?.compareTo(call2?.response?.time));
+          } else {
+            callsSorted.sort((call1, call2) =>
+                call2?.response?.time?.compareTo(call1?.response?.time));
+          }
+          break;
+        case AliceSortOption.responseCode:
+          if (_sortAscending) {
+            callsSorted.sort((call1, call2) =>
+                call1?.response?.status?.compareTo(call2?.response?.status));
+          } else {
+            callsSorted.sort((call1, call2) =>
+                call2?.response?.status?.compareTo(call1?.response?.status));
+          }
+          break;
+        case AliceSortOption.responseSize:
+          if (_sortAscending) {
+            callsSorted.sort((call1, call2) =>
+                call1?.response?.size?.compareTo(call2?.response?.size));
+          } else {
+            callsSorted.sort((call1, call2) =>
+                call2?.response?.size?.compareTo(call1?.response?.size));
+          }
+          break;
+        case AliceSortOption.endpoint:
+          if (_sortAscending) {
+            callsSorted.sort(
+                (call1, call2) => call1.endpoint.compareTo(call2.endpoint));
+          } else {
+            callsSorted.sort(
+                (call1, call2) => call2.endpoint.compareTo(call1.endpoint));
+          }
+          break;
+      }
+    }
+
     return ListView.builder(
-      itemCount: calls.length,
+      itemCount: callsSorted.length,
       itemBuilder: (context, index) {
-        return AliceCallListItemWidget(calls[index], _onListItemClicked);
+        return AliceCallListItemWidget(callsSorted[index], _onListItemClicked);
       },
     );
   }
@@ -231,6 +289,74 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   }
 
   void _updateSearchQuery(String query) {
+    setState(() {});
+  }
+
+  void _showSortDialog() {
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext buildContext) {
+        return Theme(
+          data: ThemeData(
+            brightness: Brightness.light,
+          ),
+          child: AlertDialog(
+            title: Text("Select filter"),
+            content: StatefulBuilder(builder: (context, setState) {
+              return Wrap(
+                children: [
+                  ...AliceSortOption.values
+                      .map((AliceSortOption sortOption) =>
+                          RadioListTile<AliceSortOption>(
+                            title: Text(sortOption.name),
+                            value: sortOption,
+                            groupValue: _sortOption,
+                            onChanged: (AliceSortOption value) {
+                              setState(() {
+                                _sortOption = value;
+                              });
+                            },
+                          ))
+                      .toList(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Descending"),
+                      Switch(
+                          value: _sortAscending,
+                          onChanged: (value) {
+                            setState(() {
+                              _sortAscending = value;
+                            });
+                          },
+                          activeTrackColor: Colors.grey,
+                          activeColor: Colors.white),
+                      Text("Ascending")
+                    ],
+                  )
+                ],
+              );
+            }),
+            actions: [
+              TextButton(
+                  child: Text("Cancel"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  }),
+              TextButton(
+                  child: Text("Use filter"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    sortCalls();
+                  }),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void sortCalls() {
     setState(() {});
   }
 }
