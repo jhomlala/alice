@@ -145,6 +145,12 @@ If you want to pass another notification icon, you can use `notificationIcon` pa
 Alice alice = Alice(..., notificationIcon: "myNotificationIconResourceName");
 ```
 
+If you want to limit max numbers of HTTP calls saved in memory, you may use `maxCallsCount` parameter.
+
+```dart
+Alice alice = Alice(..., maxCallsCount: 1000));
+```
+
 ### HTTP Client configuration
 If you're using Dio, you just need to add interceptor.
 
