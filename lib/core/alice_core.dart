@@ -6,10 +6,10 @@ import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice/ui/page/alice_calls_list_screen.dart';
+import 'package:alice/utils/shake_detector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:shake/shake.dart';
 
 class AliceCore {
   /// Should user be notified with notification if there's new request catched
@@ -30,6 +30,10 @@ class AliceCore {
   /// Icon url for notification
   final String notificationIcon;
 
+  ///Max number of calls that are stored in memory. When count is reached, FIFO
+  ///method queue will be used to remove elements.
+  final int maxCallsCount;
+
   FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
   GlobalKey<NavigatorState> _navigatorKey;
   Brightness _brightness = Brightness.light;
@@ -41,13 +45,19 @@ class AliceCore {
   bool _notificationProcessing = false;
 
   /// Creates alice core instance
-  AliceCore(this._navigatorKey, this.showNotification,
-      this.showInspectorOnShake, this.darkTheme, this.notificationIcon)
-      : assert(showNotification != null, "showNotification can't be null"),
+  AliceCore(
+    this._navigatorKey, {
+    @required this.showNotification,
+    @required this.showInspectorOnShake,
+    @required this.darkTheme,
+    @required this.notificationIcon,
+    @required this.maxCallsCount,
+  })  : assert(showNotification != null, "showNotification can't be null"),
         assert(
             showInspectorOnShake != null, "showInspectorOnShake can't be null"),
         assert(darkTheme != null, "darkTheme can't be null"),
-        assert(notificationIcon != null, "notificationIcon can't be null") {
+        assert(notificationIcon != null, "notificationIcon can't be null"),
+        assert(maxCallsCount != null, "MaxCallsCount can't be null") {
     if (showNotification) {
       _initializeNotificationsPlugin();
       _callsSubscription = callsSubject.listen((_) => _onCallsChanged());
@@ -173,7 +183,13 @@ class AliceCore {
     if (errorCalls > 0) {
       notificationsMessage.write("Error: $errorCalls");
     }
-    return notificationsMessage.toString();
+    String notificationMessageString = notificationsMessage.toString();
+    if (notificationMessageString.endsWith(" | ")) {
+      notificationMessageString = notificationMessageString.substring(
+          0, notificationMessageString.length - 3);
+    }
+
+    return notificationMessageString;
   }
 
   Future _showLocalNotification() async {
@@ -206,10 +222,22 @@ class AliceCore {
   /// Add alice http call to calls subject
   void addCall(AliceHttpCall call) {
     assert(call != null, "call can't be null");
-    callsSubject.add([...callsSubject.value, call]);
+    final callsCount = callsSubject.value?.length ?? 0;
+    if (callsCount >= maxCallsCount) {
+      final originalCalls = callsSubject.value;
+      final calls = List<AliceHttpCall>.from(originalCalls);
+      calls.sort(
+          (call1, call2) => call1.createdTime.compareTo(call2.createdTime));
+      final indexToReplace = originalCalls.indexOf(calls.first);
+      originalCalls[indexToReplace] = call;
+
+      callsSubject.add(originalCalls);
+    } else {
+      callsSubject.add([...callsSubject.value, call]);
+    }
   }
 
-  /// Add error to exisng alice http call
+  /// Add error to existing alice http call
   void addError(AliceHttpError error, int requestId) {
     assert(error != null, "error can't be null");
     assert(requestId != null, "requestId can't be null");

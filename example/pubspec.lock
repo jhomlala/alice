@@ -14,7 +14,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.1.10"
+    version: "0.1.11"
   analyzer:
     dependency: transitive
     description:
@@ -42,7 +42,7 @@ packages:
       name: better_player
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.48"
+    version: "0.0.60"
   build:
     dependency: transitive
     description:
@@ -223,20 +223,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_hls_parser:
-    dependency: transitive
-    description:
-      name: flutter_hls_parser
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
   flutter_local_notifications:
     dependency: transitive
     description:
       name: flutter_local_notifications
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0"
+    version: "4.0.1+1"
   flutter_local_notifications_platform_interface:
     dependency: transitive
     description:
@@ -521,14 +514,7 @@ packages:
       name: sensors
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.2+2"
-  shake:
-    dependency: transitive
-    description:
-      name: shake
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.0"
+    version: "0.4.2+6"
   share:
     dependency: transitive
     description:

@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:alice/core/alice_utils.dart';
+import 'package:alice/helper/alice_alert_helper.dart';
 import 'package:alice/helper/alice_conversion_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/ui/utils/alice_parser.dart';
+import 'package:alice/utils/alice_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
 import 'package:package_info/package_info.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../helper/alice_alert_helper.dart';
 
 class AliceSaveHelper {
   static const JsonEncoder _encoder = JsonEncoder.withIndent('  ');
@@ -73,7 +73,7 @@ class AliceSaveHelper {
       await sink.flush();
       await sink.close();
       AliceAlertHelper.showAlert(
-          context, "Success", "Sucessfully saved logs in ${file.path}",
+          context, "Success", "Successfully saved logs in ${file.path}",
           secondButtonTitle: isAndroid ? "View file" : null,
           secondButtonAction: () => isAndroid ? OpenFile.open(file.path) : null,
           brightness: brightness);
@@ -127,7 +127,7 @@ class AliceSaveHelper {
         .write("Request cookies: ${_encoder.convert(call.request.cookies)}\n");
     stringBuffer
         .write("Request headers: ${_encoder.convert(call.request.headers)}\n");
-    if (call.request.queryParameters.length > 0) {
+    if (call.request.queryParameters.isNotEmpty) {
       stringBuffer.write(
           "Request query params: ${_encoder.convert(call.request.queryParameters)}\n");
     }

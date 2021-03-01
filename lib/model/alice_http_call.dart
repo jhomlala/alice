@@ -4,6 +4,7 @@ import 'package:alice/model/alice_http_response.dart';
 
 class AliceHttpCall {
   final int id;
+  DateTime createdTime;
   String client = "";
   bool loading = true;
   bool secure = false;
@@ -19,6 +20,7 @@ class AliceHttpCall {
 
   AliceHttpCall(this.id) {
     loading = true;
+    createdTime = DateTime.now();
   }
 
   void setResponse(AliceHttpResponse response) {
@@ -44,13 +46,13 @@ class AliceHttpCall {
       curlCmd += " --data \$'${requestBody.replaceAll("\n", "\\n")}'";
     }
 
-    var queryParamMap = request.queryParameters;
+    final queryParamMap = request.queryParameters;
     int paramCount = queryParamMap.keys.length;
     var queryParams = "";
     if (paramCount > 0) {
       queryParams += "?";
       queryParamMap.forEach((key, dynamic value) {
-        queryParams += '${key}=${value}';
+        queryParams += '$key=$value';
         paramCount -= 1;
         if (paramCount > 0) {
           queryParams += "&";
