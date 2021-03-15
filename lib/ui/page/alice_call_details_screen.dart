@@ -14,9 +14,7 @@ class AliceCallDetailsScreen extends StatefulWidget {
   final AliceHttpCall call;
   final AliceCore core;
 
-  const AliceCallDetailsScreen(this.call, this.core)
-      : assert(call != null, "call can't be null"),
-        assert(core != null, "core can't be null");
+  const AliceCallDetailsScreen(this.call, this.core);
 
   @override
   _AliceCallDetailsScreenState createState() => _AliceCallDetailsScreenState();

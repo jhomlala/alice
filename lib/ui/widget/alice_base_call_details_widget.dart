@@ -9,8 +9,6 @@ abstract class AliceBaseCallDetailsWidgetState<T extends StatefulWidget>
   final JsonEncoder encoder = const JsonEncoder.withIndent('  ');
 
   Widget getListRow(String name, String value) {
-    assert(name != null, "name can't be null");
-    assert(value != null, "value can't be null");
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

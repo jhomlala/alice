@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 class AliceCallOverviewWidget extends StatefulWidget {
   final AliceHttpCall call;
 
-  const AliceCallOverviewWidget(this.call)
-      : assert(call != null, "call can't be null");
+  const AliceCallOverviewWidget(this.call);
 
   @override
   State<StatefulWidget> createState() {

@@ -7,8 +7,7 @@ import 'package:flutter/material.dart';
 class AliceStatsScreen extends StatelessWidget {
   final AliceCore aliceCore;
 
-  const AliceStatsScreen(this.aliceCore)
-      : assert(aliceCore != null, "aliceCore can't be null");
+  const AliceStatsScreen(this.aliceCore);
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +57,6 @@ class AliceStatsScreen extends StatelessWidget {
   }
 
   Widget _getRow(String label, String value) {
-    assert(label != null, "label can't be null");
-    assert(value != null, "value can't be null");
     return Row(
       children: <Widget>[
         Text(

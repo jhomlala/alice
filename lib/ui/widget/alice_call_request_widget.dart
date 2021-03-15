@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 class AliceCallRequestWidget extends StatefulWidget {
   final AliceHttpCall call;
 
-  const AliceCallRequestWidget(this.call)
-      : assert(call != null, "call can't be null");
+  const AliceCallRequestWidget(this.call);
 
   @override
   State<StatefulWidget> createState() {
@@ -54,26 +53,22 @@ class _AliceCallRequestWidget
 
     final headers = _call.request!.headers;
     var headersContent = "Headers are empty";
-    if (headers != null && headers.isNotEmpty) {
+    if (headers.isNotEmpty) {
       headersContent = "";
     }
     rows.add(getListRow("Headers: ", headersContent));
-    if (_call.request!.headers != null) {
-      _call.request!.headers.forEach((header, dynamic value) {
-        rows.add(getListRow("   • $header:", value.toString()));
-      });
-    }
+    _call.request!.headers.forEach((header, dynamic value) {
+      rows.add(getListRow("   • $header:", value.toString()));
+    });
     final queryParameters = _call.request!.queryParameters;
     var queryParametersContent = "Query parameters are empty";
-    if (queryParameters != null && queryParameters.isNotEmpty) {
+    if (queryParameters.isNotEmpty) {
       queryParametersContent = "";
     }
     rows.add(getListRow("Query Parameters: ", queryParametersContent));
-    if (_call.request!.queryParameters != null) {
-      _call.request!.queryParameters.forEach((query, dynamic value) {
-        rows.add(getListRow("   • $query:", value.toString()));
-      });
-    }
+    _call.request!.queryParameters.forEach((query, dynamic value) {
+      rows.add(getListRow("   • $query:", value.toString()));
+    });
 
     return Container(
       padding: const EdgeInsets.all(6),

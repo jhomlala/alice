@@ -38,7 +38,7 @@ class AliceParser {
           !contentType.toLowerCase().contains(_applicationJson)) {
         final bodyTemp = body.toString();
 
-        if (bodyTemp != null && bodyTemp.isNotEmpty) {
+        if (bodyTemp.isNotEmpty) {
           bodyContent = bodyTemp;
         }
       } else {

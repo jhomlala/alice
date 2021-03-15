@@ -53,12 +53,7 @@ class AliceCore {
     required this.darkTheme,
     required this.notificationIcon,
     required this.maxCallsCount,
-  })  : assert(showNotification != null, "showNotification can't be null"),
-        assert(
-            showInspectorOnShake != null, "showInspectorOnShake can't be null"),
-        assert(darkTheme != null, "darkTheme can't be null"),
-        assert(notificationIcon != null, "notificationIcon can't be null"),
-        assert(maxCallsCount != null, "MaxCallsCount can't be null") {
+  }) {
     if (showNotification) {
       _initializeNotificationsPlugin();
       _callsSubscription = callsSubject.listen((_) => _onCallsChanged());
@@ -106,7 +101,6 @@ class AliceCore {
 
   /// Set custom navigation key. This will help if there's route library.
   void setNavigatorKey(GlobalKey<NavigatorState> navigatorKey) {
-    assert(navigatorKey != null, "navigatorKey can't be null");
     _navigatorKey = navigatorKey;
   }
 
@@ -222,7 +216,6 @@ class AliceCore {
 
   /// Add alice http call to calls subject
   void addCall(AliceHttpCall call) {
-    assert(call != null, "call can't be null");
     final callsCount = callsSubject.value?.length ?? 0;
     if (callsCount >= maxCallsCount) {
       final originalCalls = callsSubject.value!;
@@ -240,8 +233,6 @@ class AliceCore {
 
   /// Add error to existing alice http call
   void addError(AliceHttpError error, int requestId) {
-    assert(error != null, "error can't be null");
-    assert(requestId != null, "requestId can't be null");
     final AliceHttpCall? selectedCall = _selectCall(requestId);
 
     if (selectedCall == null) {
@@ -255,8 +246,6 @@ class AliceCore {
 
   /// Add response to existing alice http call
   void addResponse(AliceHttpResponse response, int requestId) {
-    assert(response != null, "response can't be null");
-    assert(requestId != null, "requestId can't be null");
     final AliceHttpCall? selectedCall = _selectCall(requestId);
 
     if (selectedCall == null) {
@@ -273,12 +262,8 @@ class AliceCore {
 
   /// Add alice http call to calls subject
   void addHttpCall(AliceHttpCall aliceHttpCall) {
-    assert(aliceHttpCall != null, "Http call can't be null");
-    assert(aliceHttpCall.id != null, "Http call id can't be null");
     assert(aliceHttpCall.request != null, "Http call request can't be null");
     assert(aliceHttpCall.response != null, "Http call response can't be null");
-    assert(aliceHttpCall.endpoint != null, "Http call endpoint can't be null");
-    assert(aliceHttpCall.server != null, "Http call server can't be null");
     callsSubject.add([...callsSubject.value!, aliceHttpCall]);
   }
 
@@ -287,12 +272,11 @@ class AliceCore {
     callsSubject.add([]);
   }
 
-  AliceHttpCall? _selectCall(int requestId) => callsSubject.value!
-      .firstWhereOrNull((call) => call.id == requestId);
+  AliceHttpCall? _selectCall(int requestId) =>
+      callsSubject.value!.firstWhereOrNull((call) => call.id == requestId);
 
   /// Save all calls to file
   void saveHttpRequests(BuildContext context) {
-    assert(context != null, "context can't be null");
     AliceSaveHelper.saveCalls(context, callsSubject.value!, _brightness);
   }
 }

@@ -8,9 +8,7 @@ class AliceCallListItemWidget extends StatelessWidget {
   final AliceHttpCall call;
   final Function itemClickAction;
 
-  const AliceCallListItemWidget(this.call, this.itemClickAction)
-      : assert(call != null, "call can't be null"),
-        assert(itemClickAction != null, "itemClickAction can't be null");
+  const AliceCallListItemWidget(this.call, this.itemClickAction);
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +111,6 @@ class AliceCallListItemWidget extends StatelessWidget {
   }
 
   String _formatTime(DateTime time) {
-    assert(time != null, "time can't be null");
     return "${formatTimeUnit(time.hour)}:"
         "${formatTimeUnit(time.minute)}:"
         "${formatTimeUnit(time.second)}:"
@@ -121,12 +118,10 @@ class AliceCallListItemWidget extends StatelessWidget {
   }
 
   String formatTimeUnit(int timeUnit) {
-    assert(timeUnit != null, "timeUnit  can't be null");
     return (timeUnit < 10) ? "0$timeUnit" : "$timeUnit";
   }
 
   Widget _buildResponseColumn(BuildContext context) {
-    assert(context != null, "context can't be null");
     final List<Widget> widgets = [];
     if (call.loading) {
       widgets.add(
@@ -162,7 +157,6 @@ class AliceCallListItemWidget extends StatelessWidget {
   }
 
   Color? _getStatusTextColor(BuildContext context) {
-    assert(context != null, "context can't be null");
     final int? status = call.response!.status;
     if (status == -1) {
       return AliceConstants.red;
@@ -188,7 +182,6 @@ class AliceCallListItemWidget extends StatelessWidget {
   }
 
   String _getStatus(AliceHttpResponse response) {
-    assert(response != null, "response can't be null");
     if (response.status == -1) {
       return "ERR";
     } else if (response.status == 0) {

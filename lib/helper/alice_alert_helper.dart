@@ -12,23 +12,18 @@ class AliceAlertHelper {
     Function? secondButtonAction,
     Brightness? brightness,
   }) {
-    assert(context != null, "context can't be null");
-    assert(title != null, "title can't be null");
-    assert(description != null, "description can't be null");
     final List<Widget> actions = [];
-    if (firstButtonTitle != null) {
-      actions.add(
-        TextButton(
-          onPressed: () {
-            if (firstButtonAction != null) {
-              firstButtonAction();
-            }
-            Navigator.of(context).pop();
-          },
-          child: Text(firstButtonTitle),
-        ),
-      );
-    }
+    actions.add(
+      TextButton(
+        onPressed: () {
+          if (firstButtonAction != null) {
+            firstButtonAction();
+          }
+          Navigator.of(context).pop();
+        },
+        child: Text(firstButtonTitle),
+      ),
+    );
     if (secondButtonTitle != null) {
       actions.add(
         TextButton(
