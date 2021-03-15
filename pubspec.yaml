@@ -11,14 +11,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: ^0.12.2
-  dio: ^3.0.10
+  http: ^0.13.0
+  dio: ^4.0.0-beta7
   flutter_local_notifications: ^4.0.1+1
   rxdart: ^0.25.0
 
   path_provider: ^1.6.27
   permission_handler: ^5.0.1+1
-  package_info: ^0.4.3+4
+  package_info: ^2.0.0
   open_file: ^3.0.3
   sensors: ^0.4.2+6
   share: ^0.6.5+4
