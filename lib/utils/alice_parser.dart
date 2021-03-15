@@ -26,7 +26,7 @@ class AliceParser {
     }
   }
 
-  static String formatBody(dynamic body, String contentType) {
+  static String formatBody(dynamic body, String? contentType) {
     try {
       if (body == null) {
         return _emptyBody;
@@ -64,13 +64,13 @@ class AliceParser {
     }
   }
 
-  static String getContentType(Map<String, dynamic> headers) {
+  static String? getContentType(Map<String, dynamic>? headers) {
     if (headers != null) {
       if (headers.containsKey(_jsonContentTypeSmall)) {
-        return headers[_jsonContentTypeSmall] as String;
+        return headers[_jsonContentTypeSmall] as String?;
       }
       if (headers.containsKey(_jsonContentTypeBig)) {
-        return headers[_jsonContentTypeBig] as String;
+        return headers[_jsonContentTypeBig] as String?;
       }
     }
     return _unknownContentType;

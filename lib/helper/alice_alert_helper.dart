@@ -7,10 +7,10 @@ class AliceAlertHelper {
     String title,
     String description, {
     String firstButtonTitle = "Accept",
-    String secondButtonTitle,
-    Function firstButtonAction,
-    Function secondButtonAction,
-    Brightness brightness,
+    String? secondButtonTitle,
+    Function? firstButtonAction,
+    Function? secondButtonAction,
+    Brightness? brightness,
   }) {
     assert(context != null, "context can't be null");
     assert(title != null, "title can't be null");

@@ -30,14 +30,14 @@ class Alice {
   ///method queue will be used to remove elements.
   final int maxCallsCount;
 
-  GlobalKey<NavigatorState> _navigatorKey;
-  AliceCore _aliceCore;
-  AliceHttpClientAdapter _httpClientAdapter;
-  AliceHttpAdapter _httpAdapter;
+  GlobalKey<NavigatorState>? _navigatorKey;
+  late AliceCore _aliceCore;
+  late AliceHttpClientAdapter _httpClientAdapter;
+  late AliceHttpAdapter _httpAdapter;
 
   /// Creates alice instance.
   Alice({
-    GlobalKey<NavigatorState> navigatorKey,
+    GlobalKey<NavigatorState>? navigatorKey,
     this.showNotification = true,
     this.showInspectorOnShake = false,
     this.darkTheme = false,
@@ -68,7 +68,7 @@ class Alice {
   }
 
   /// Get currently used navigation key
-  GlobalKey<NavigatorState> getNavigatorKey() {
+  GlobalKey<NavigatorState>? getNavigatorKey() {
     return _navigatorKey;
   }
 

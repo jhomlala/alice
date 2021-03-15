@@ -6,6 +6,7 @@ import 'package:alice/ui/widget/alice_call_error_widget.dart';
 import 'package:alice/ui/widget/alice_call_overview_widget.dart';
 import 'package:alice/ui/widget/alice_call_request_widget.dart';
 import 'package:alice/ui/widget/alice_call_response_widget.dart';
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 
@@ -41,9 +42,8 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
         initialData: [widget.call],
         builder: (context, callsSnapshot) {
           if (callsSnapshot.hasData) {
-            final AliceHttpCall call = callsSnapshot.data.firstWhere(
-                (snapshotCall) => snapshotCall.id == widget.call.id,
-                orElse: () => null);
+            final AliceHttpCall? call = callsSnapshot.data!.firstWhereOrNull(
+                (snapshotCall) => snapshotCall.id == widget.call.id);
             if (call != null) {
               return _buildMainWidget();
             } else {

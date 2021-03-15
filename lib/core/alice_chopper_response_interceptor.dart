@@ -88,7 +88,7 @@ class AliceChopperInterceptor extends chopper.ResponseInterceptor
       aliceHttpRequest.time = DateTime.now();
       aliceHttpRequest.headers = request.headers;
 
-      String contentType = "unknown";
+      String? contentType = "unknown";
       if (request.headers.containsKey("Content-Type")) {
         contentType = request.headers["Content-Type"];
       }
@@ -129,7 +129,7 @@ class AliceChopperInterceptor extends chopper.ResponseInterceptor
     httpResponse.headers = headers;
 
     aliceCore.addResponse(
-        httpResponse, getRequestHashCode(response.base.request));
+        httpResponse, getRequestHashCode(response.base.request!));
     return response;
   }
 }

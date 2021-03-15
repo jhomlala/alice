@@ -36,9 +36,9 @@ abstract class AliceBaseCallDetailsWidgetState<T extends StatefulWidget>
   String formatDuration(int duration) =>
       AliceConversionHelper.formatTime(duration);
 
-  String formatBody(dynamic body, String contentType) =>
+  String formatBody(dynamic body, String? contentType) =>
       AliceParser.formatBody(body, contentType);
 
-  String getContentType(Map<String, dynamic> headers) =>
+  String? getContentType(Map<String, dynamic>? headers) =>
       AliceParser.getContentType(headers);
 }

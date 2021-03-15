@@ -8,7 +8,7 @@ extension AliceHttpClientExtensions on Future<HttpClientRequest> {
   /// Intercept http client with alice. This extension method provides additional
   /// helpful method to intercept httpClientResponse.
   Future<HttpClientResponse> interceptWithAlice(Alice alice,
-      {dynamic body, Map<String, dynamic> headers}) async {
+      {dynamic body, Map<String, dynamic>? headers}) async {
     assert(alice != null, "alice can't be null");
     final HttpClientRequest request = await this;
     if (body != null) {

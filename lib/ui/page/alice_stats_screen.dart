@@ -92,24 +92,24 @@ class AliceStatsScreen extends StatelessWidget {
   int _getSuccessRequests() => calls
       .where((call) =>
           call.response != null &&
-          call.response.status >= 200 &&
-          call.response.status < 300)
+          call.response!.status! >= 200 &&
+          call.response!.status! < 300)
       .toList()
       .length;
 
   int _getRedirectionRequests() => calls
       .where((call) =>
           call.response != null &&
-          call.response.status >= 300 &&
-          call.response.status < 400)
+          call.response!.status! >= 300 &&
+          call.response!.status! < 400)
       .toList()
       .length;
 
   int _getErrorRequests() => calls
       .where((call) =>
           call.response != null &&
-          call.response.status >= 400 &&
-          call.response.status < 600)
+          call.response!.status! >= 400 &&
+          call.response!.status! < 600)
       .toList()
       .length;
 
@@ -119,7 +119,7 @@ class AliceStatsScreen extends StatelessWidget {
   int _getBytesSent() {
     int bytes = 0;
     calls.forEach((AliceHttpCall call) {
-      bytes += call.request.size;
+      bytes += call.request!.size;
     });
     return bytes;
   }
@@ -128,7 +128,7 @@ class AliceStatsScreen extends StatelessWidget {
     int bytes = 0;
     calls.forEach((AliceHttpCall call) {
       if (call.response != null) {
-        bytes += call.response.size;
+        bytes += call.response!.size;
       }
     });
     return bytes;
@@ -182,5 +182,5 @@ class AliceStatsScreen extends StatelessWidget {
   int _getUnsecuredRequests() =>
       calls.where((call) => !call.secure).toList().length;
 
-  List<AliceHttpCall> get calls => aliceCore.callsSubject.valueWrapper.value;
+  List<AliceHttpCall> get calls => aliceCore.callsSubject.valueWrapper!.value;
 }

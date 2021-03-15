@@ -51,9 +51,9 @@ class AliceHttpClientAdapter {
     });
 
     httpRequest.headers = headers;
-    String contentType = "unknown";
+    String? contentType = "unknown";
     if (headers.containsKey("Content-Type")) {
-      contentType = headers["Content-Type"] as String;
+      contentType = headers["Content-Type"] as String?;
     }
 
     httpRequest.contentType = contentType;

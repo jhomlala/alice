@@ -46,7 +46,7 @@ class AliceCallListItemWidget extends StatelessWidget {
   }
 
   Widget _buildMethodAndEndpointRow(BuildContext context) {
-    final Color textColor = _getEndpointTextColor(context);
+    final Color? textColor = _getEndpointTextColor(context);
     return Row(children: [
       Text(
         call.method,
@@ -92,15 +92,15 @@ class AliceCallListItemWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Flexible(
-            child: Text(_formatTime(call.request.time),
+            child: Text(_formatTime(call.request!.time),
                 style: const TextStyle(fontSize: 12))),
         Flexible(
             child: Text(AliceConversionHelper.formatTime(call.duration),
                 style: const TextStyle(fontSize: 12))),
         Flexible(
           child: Text(
-            "${AliceConversionHelper.formatBytes(call.request.size)} / "
-            "${AliceConversionHelper.formatBytes(call.response.size)}",
+            "${AliceConversionHelper.formatBytes(call.request!.size)} / "
+            "${AliceConversionHelper.formatBytes(call.response!.size)}",
             style: const TextStyle(fontSize: 12),
           ),
         )
@@ -146,7 +146,7 @@ class AliceCallListItemWidget extends StatelessWidget {
     }
     widgets.add(
       Text(
-        _getStatus(call.response),
+        _getStatus(call.response!),
         style: TextStyle(
           fontSize: 16,
           color: _getStatusTextColor(context),
@@ -161,13 +161,13 @@ class AliceCallListItemWidget extends StatelessWidget {
     );
   }
 
-  Color _getStatusTextColor(BuildContext context) {
+  Color? _getStatusTextColor(BuildContext context) {
     assert(context != null, "context can't be null");
-    final int status = call.response.status;
+    final int? status = call.response!.status;
     if (status == -1) {
       return AliceConstants.red;
-    } else if (status < 200) {
-      return Theme.of(context).textTheme.bodyText1.color;
+    } else if (status! < 200) {
+      return Theme.of(context).textTheme.bodyText1!.color;
     } else if (status >= 200 && status < 300) {
       return AliceConstants.green;
     } else if (status >= 300 && status < 400) {
@@ -175,11 +175,11 @@ class AliceCallListItemWidget extends StatelessWidget {
     } else if (status >= 400 && status < 600) {
       return AliceConstants.red;
     } else {
-      return Theme.of(context).textTheme.bodyText1.color;
+      return Theme.of(context).textTheme.bodyText1!.color;
     }
   }
 
-  Color _getEndpointTextColor(BuildContext context) {
+  Color? _getEndpointTextColor(BuildContext context) {
     if (call.loading) {
       return AliceConstants.grey;
     } else {

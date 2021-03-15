@@ -4,7 +4,7 @@ import 'package:alice/model/alice_http_response.dart';
 
 class AliceHttpCall {
   final int id;
-  DateTime createdTime;
+  late DateTime createdTime;
   String client = "";
   bool loading = true;
   bool secure = false;
@@ -14,9 +14,9 @@ class AliceHttpCall {
   String uri = "";
   int duration = 0;
 
-  AliceHttpRequest request;
-  AliceHttpResponse response;
-  AliceHttpError error;
+  AliceHttpRequest? request;
+  AliceHttpResponse? response;
+  AliceHttpError? error;
 
   AliceHttpCall(this.id) {
     loading = true;
@@ -32,7 +32,7 @@ class AliceHttpCall {
     var compressed = false;
     var curlCmd = "curl";
     curlCmd += " -X $method";
-    final headers = request.headers;
+    final headers = request!.headers;
     headers.forEach((key, dynamic value) {
       if ("Accept-Encoding" == key && "gzip" == value) {
         compressed = true;
@@ -40,13 +40,13 @@ class AliceHttpCall {
       curlCmd += " -H '$key: $value'";
     });
 
-    final String requestBody = request.body.toString();
-    if (requestBody != null && requestBody != '') {
+    final String requestBody = request!.body.toString();
+    if (requestBody != '') {
       // try to keep to a single line and use a subshell to preserve any line breaks
       curlCmd += " --data \$'${requestBody.replaceAll("\n", "\\n")}'";
     }
 
-    final queryParamMap = request.queryParameters;
+    final queryParamMap = request!.queryParameters;
     int paramCount = queryParamMap.keys.length;
     var queryParams = "";
     if (paramCount > 0) {
