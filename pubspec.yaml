@@ -16,7 +16,7 @@ dependencies:
   flutter_local_notifications: ^4.0.1+1
   rxdart: ^0.25.0
 
-  path_provider: ^1.6.27
+  path_provider: ^2.0.1
   permission_handler: ^5.0.1+1
   package_info: ^2.0.0
   open_file: ^3.0.3
