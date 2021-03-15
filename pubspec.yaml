@@ -14,7 +14,7 @@ dependencies:
   http: ^0.13.0
   dio: ^4.0.0-beta7
   flutter_local_notifications: ^4.0.1+1
-  rxdart: ^0.25.0
+  rxdart: ^0.26.0
 
   path_provider: ^2.0.1
   permission_handler: ^5.0.1+1
