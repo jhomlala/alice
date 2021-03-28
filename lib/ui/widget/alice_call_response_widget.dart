@@ -7,8 +7,7 @@ import 'package:flutter/material.dart';
 class AliceCallResponseWidget extends StatefulWidget {
   final AliceHttpCall call;
 
-  const AliceCallResponseWidget(this.call)
-      : assert(call != null, "call can't be null");
+  const AliceCallResponseWidget(this.call);
 
   @override
   State<StatefulWidget> createState() {
@@ -25,7 +24,7 @@ class _AliceCallResponseWidgetState
   static const _textContentType = "text";
 
   static const _kLargeOutputSize = 100000;
-  BetterPlayerController _betterPlayerController;
+  BetterPlayerController? _betterPlayerController;
   bool _showLargeBody = false;
   bool _showUnsupportedBody = false;
 
@@ -64,10 +63,10 @@ class _AliceCallResponseWidgetState
 
   List<Widget> _buildGeneralDataRows() {
     final List<Widget> rows = [];
-    rows.add(getListRow("Received:", _call.response.time.toString()));
-    rows.add(getListRow("Bytes received:", formatBytes(_call.response.size)));
+    rows.add(getListRow("Received:", _call.response!.time.toString()));
+    rows.add(getListRow("Bytes received:", formatBytes(_call.response!.size)));
 
-    final status = _call.response.status;
+    final status = _call.response!.status;
     var statusText = "$status";
     if (status == -1) {
       statusText = "Error";
@@ -79,14 +78,14 @@ class _AliceCallResponseWidgetState
 
   List<Widget> _buildHeadersRows() {
     final List<Widget> rows = [];
-    final headers = _call.response.headers;
+    final headers = _call.response!.headers;
     var headersContent = "Headers are empty";
     if (headers != null && headers.isNotEmpty) {
       headersContent = "";
     }
     rows.add(getListRow("Headers: ", headersContent));
-    if (_call.response.headers != null) {
-      _call.response.headers.forEach((header, value) {
+    if (_call.response!.headers != null) {
+      _call.response!.headers!.forEach((header, value) {
         rows.add(getListRow("   • $header:", value.toString()));
       });
     }
@@ -131,13 +130,13 @@ class _AliceCallResponseWidgetState
             fit: BoxFit.fill,
             headers: _buildRequestHeaders(),
             loadingBuilder: (BuildContext context, Widget child,
-                ImageChunkEvent loadingProgress) {
+                ImageChunkEvent? loadingProgress) {
               if (loadingProgress == null) return child;
               return Center(
                 child: CircularProgressIndicator(
                   value: loadingProgress.expectedTotalBytes != null
                       ? loadingProgress.cumulativeBytesLoaded /
-                          loadingProgress.expectedTotalBytes
+                          loadingProgress.expectedTotalBytes!
                       : null,
                 ),
               );
@@ -156,7 +155,7 @@ class _AliceCallResponseWidgetState
       return _buildTextBodyRows();
     } else {
       rows.add(getListRow("Body:",
-          "Too large to show (${_call.response.body.toString().length} Bytes)"));
+          "Too large to show (${_call.response!.body.toString().length} Bytes)"));
       rows.add(const SizedBox(height: 8));
       rows.add(
         ElevatedButton(
@@ -180,9 +179,9 @@ class _AliceCallResponseWidgetState
 
   List<Widget> _buildTextBodyRows() {
     final List<Widget> rows = [];
-    final headers = _call.response.headers;
+    final headers = _call.response!.headers;
     final bodyContent =
-        formatBody(_call.response.body, getContentType(headers));
+        formatBody(_call.response!.body, getContentType(headers));
     rows.add(getListRow("Body:", bodyContent));
     return rows;
   }
@@ -209,7 +208,7 @@ class _AliceCallResponseWidgetState
     );
     rows.add(const SizedBox(height: 8));
     rows.add(
-      BetterPlayer(controller: _betterPlayerController),
+      BetterPlayer(controller: _betterPlayerController!),
     );
     rows.add(const SizedBox(height: 8));
     return rows;
@@ -217,12 +216,12 @@ class _AliceCallResponseWidgetState
 
   List<Widget> _buildUnknownBodyRows() {
     final List<Widget> rows = [];
-    final headers = _call.response.headers;
+    final headers = _call.response!.headers;
     final contentType = getContentType(headers) ?? "<unknown>";
 
     if (_showUnsupportedBody) {
       final bodyContent =
-          formatBody(_call.response.body, getContentType(headers));
+          formatBody(_call.response!.body, getContentType(headers));
       rows.add(getListRow("Body:", bodyContent));
     } else {
       rows.add(getListRow(
@@ -251,9 +250,9 @@ class _AliceCallResponseWidgetState
 
   Map<String, String> _buildRequestHeaders() {
     final Map<String, String> requestHeaders = {};
-    if (_call?.request?.headers != null) {
+    if (_call.request?.headers != null) {
       requestHeaders.addAll(
-        _call.request.headers.map(
+        _call.request!.headers.map(
           (String key, dynamic value) {
             return MapEntry(key, value.toString());
           },
@@ -264,32 +263,32 @@ class _AliceCallResponseWidgetState
   }
 
   bool _isImageResponse() {
-    return _getContentTypeOfResponse()
+    return _getContentTypeOfResponse()!
         .toLowerCase()
         .contains(_imageContentType);
   }
 
   bool _isVideoResponse() {
-    return _getContentTypeOfResponse()
+    return _getContentTypeOfResponse()!
         .toLowerCase()
         .contains(_videoContentType);
   }
 
   bool _isTextResponse() {
     final String responseContentTypeLowerCase =
-        _getContentTypeOfResponse().toLowerCase();
+        _getContentTypeOfResponse()!.toLowerCase();
 
     return responseContentTypeLowerCase.contains(_jsonContentType) ||
         responseContentTypeLowerCase.contains(_xmlContentType) ||
         responseContentTypeLowerCase.contains(_textContentType);
   }
 
-  String _getContentTypeOfResponse() {
-    return getContentType(_call.response.headers);
+  String? _getContentTypeOfResponse() {
+    return getContentType(_call.response!.headers);
   }
 
   bool _isLargeResponseBody() {
-    return _call.response.body != null &&
-        _call.response.body.toString().length > _kLargeOutputSize;
+    return _call.response!.body != null &&
+        _call.response!.body.toString().length > _kLargeOutputSize;
   }
 }

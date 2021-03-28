@@ -1,3 +1,6 @@
+## 0.1.13
+* Migrate to null safety
+
 ## 0.1.12
 * Fixed query parameter issue not handled properly (by https://github.com/shreyas18jan).
 * Removed shake dependency and added sensors dependency. Shake will be detected with sensors.

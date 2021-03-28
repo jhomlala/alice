@@ -11,14 +11,10 @@ class AliceHttpClientAdapter {
   final AliceCore aliceCore;
 
   /// Creates alice http client adapter
-  AliceHttpClientAdapter(this.aliceCore)
-      : assert(aliceCore != null, "aliceCore can't be null");
+  AliceHttpClientAdapter(this.aliceCore);
 
   /// Handles httpClientRequest and creates http alice call from it
   void onRequest(HttpClientRequest request, {dynamic body}) {
-    if (request == null) {
-      return;
-    }
     final AliceHttpCall call = AliceHttpCall(request.hashCode);
     call.loading = true;
     call.client = "HttpClient (io package)";
@@ -26,7 +22,7 @@ class AliceHttpClientAdapter {
     call.uri = request.uri.toString();
 
     var path = request.uri.path;
-    if (path == null || path.isEmpty) {
+    if (path.isEmpty) {
       path = "/";
     }
 
@@ -51,9 +47,9 @@ class AliceHttpClientAdapter {
     });
 
     httpRequest.headers = headers;
-    String contentType = "unknown";
+    String? contentType = "unknown";
     if (headers.containsKey("Content-Type")) {
-      contentType = headers["Content-Type"] as String;
+      contentType = headers["Content-Type"] as String?;
     }
 
     httpRequest.contentType = contentType;
@@ -67,12 +63,6 @@ class AliceHttpClientAdapter {
   /// Handles httpClientRequest and adds response to http alice call
   void onResponse(HttpClientResponse response, HttpClientRequest request,
       {dynamic body}) async {
-    if (response == null) {
-      return;
-    }
-    if (request == null) {
-      return;
-    }
     final AliceHttpResponse httpResponse = AliceHttpResponse();
     httpResponse.status = response.statusCode;
 

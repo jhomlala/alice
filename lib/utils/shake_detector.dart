@@ -10,7 +10,7 @@ typedef PhoneShakeCallback = Null Function();
 /// ShakeDetector class for phone shake functionality
 class ShakeDetector {
   /// User callback for phone shake
-  final PhoneShakeCallback onPhoneShake;
+  final PhoneShakeCallback? onPhoneShake;
 
   /// Shake detection threshold
   final double shakeThresholdGravity;
@@ -25,7 +25,7 @@ class ShakeDetector {
   int mShakeCount = 0;
 
   /// StreamSubscription for Accelerometer events
-  StreamSubscription streamSubscription;
+  StreamSubscription? streamSubscription;
 
   /// This constructor waits until [startListening] is called
   ShakeDetector.waitForStart(
@@ -72,7 +72,7 @@ class ShakeDetector {
         mShakeTimestamp = now;
         mShakeCount++;
 
-        onPhoneShake();
+        onPhoneShake!();
       }
     });
   }
@@ -80,7 +80,7 @@ class ShakeDetector {
   /// Stops listening to accelerometer events
   void stopListening() {
     if (streamSubscription != null) {
-      streamSubscription.cancel();
+      streamSubscription!.cancel();
     }
   }
 }

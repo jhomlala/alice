@@ -1,5 +1,5 @@
 class AliceFormDataFile {
-  final String fileName;
+  final String? fileName;
   final String contentType;
   final int length;
 

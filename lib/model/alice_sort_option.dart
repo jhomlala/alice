@@ -21,6 +21,5 @@ extension AliceSortOptionsExtension on AliceSortOption {
       case AliceSortOption.endpoint:
         return "Endpoint";
     }
-    return "";
   }
 }

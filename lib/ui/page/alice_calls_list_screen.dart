@@ -25,7 +25,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   final TextEditingController _queryTextEditingController =
       TextEditingController();
   final List<AliceMenuItem> _menuItems = [];
-  AliceSortOption _sortOption;
+  AliceSortOption? _sortOption;
   bool _sortAscending = true;
 
   _AliceCallsListScreenState() {
@@ -192,54 +192,55 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
 
   Widget _buildCallsListWidget(List<AliceHttpCall> calls) {
     final List<AliceHttpCall> callsSorted = List.of(calls);
-    if (_sortOption != null) {
-      switch (_sortOption) {
-        case AliceSortOption.time:
-          if (_sortAscending) {
-            callsSorted.sort((call1, call2) =>
-                call1.createdTime.compareTo(call2.createdTime));
-          } else {
-            callsSorted.sort((call1, call2) =>
-                call2.createdTime.compareTo(call1.createdTime));
-          }
-          break;
-        case AliceSortOption.responseTime:
-          if (_sortAscending) {
-            callsSorted.sort((call1, call2) =>
-                call1?.response?.time?.compareTo(call2?.response?.time));
-          } else {
-            callsSorted.sort((call1, call2) =>
-                call2?.response?.time?.compareTo(call1?.response?.time));
-          }
-          break;
-        case AliceSortOption.responseCode:
-          if (_sortAscending) {
-            callsSorted.sort((call1, call2) =>
-                call1?.response?.status?.compareTo(call2?.response?.status));
-          } else {
-            callsSorted.sort((call1, call2) =>
-                call2?.response?.status?.compareTo(call1?.response?.status));
-          }
-          break;
-        case AliceSortOption.responseSize:
-          if (_sortAscending) {
-            callsSorted.sort((call1, call2) =>
-                call1?.response?.size?.compareTo(call2?.response?.size));
-          } else {
-            callsSorted.sort((call1, call2) =>
-                call2?.response?.size?.compareTo(call1?.response?.size));
-          }
-          break;
-        case AliceSortOption.endpoint:
-          if (_sortAscending) {
-            callsSorted.sort(
-                (call1, call2) => call1.endpoint.compareTo(call2.endpoint));
-          } else {
-            callsSorted.sort(
-                (call1, call2) => call2.endpoint.compareTo(call1.endpoint));
-          }
-          break;
-      }
+    switch (_sortOption) {
+      case AliceSortOption.time:
+        if (_sortAscending) {
+          callsSorted.sort(
+              (call1, call2) => call1.createdTime.compareTo(call2.createdTime));
+        } else {
+          callsSorted.sort(
+              (call1, call2) => call2.createdTime.compareTo(call1.createdTime));
+        }
+        break;
+      case AliceSortOption.responseTime:
+        if (_sortAscending) {
+          callsSorted.sort();
+          callsSorted.sort((call1, call2) =>
+              call1.response?.time.compareTo(call2.response!.time) ?? -1);
+        } else {
+          callsSorted.sort((call1, call2) =>
+              call2.response?.time.compareTo(call1.response!.time) ?? -1);
+        }
+        break;
+      case AliceSortOption.responseCode:
+        if (_sortAscending) {
+          callsSorted.sort((call1, call2) =>
+              call1.response?.status?.compareTo(call2.response!.status!) ?? -1);
+        } else {
+          callsSorted.sort((call1, call2) =>
+              call2.response?.status?.compareTo(call1.response!.status!) ?? -1);
+        }
+        break;
+      case AliceSortOption.responseSize:
+        if (_sortAscending) {
+          callsSorted.sort((call1, call2) =>
+              call1.response?.size.compareTo(call2.response!.size) ?? -1);
+        } else {
+          callsSorted.sort((call1, call2) =>
+              call2.response?.size.compareTo(call1.response!.size) ?? -1);
+        }
+        break;
+      case AliceSortOption.endpoint:
+        if (_sortAscending) {
+          callsSorted
+              .sort((call1, call2) => call1.endpoint.compareTo(call2.endpoint));
+        } else {
+          callsSorted
+              .sort((call1, call2) => call2.endpoint.compareTo(call1.endpoint));
+        }
+        break;
+      default:
+        break;
     }
 
     return ListView.builder(
@@ -252,7 +253,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
 
   void _onListItemClicked(AliceHttpCall call) {
     Navigator.push<void>(
-      widget._aliceCore.getContext(),
+      widget._aliceCore.getContext()!,
       MaterialPageRoute(
         builder: (context) => AliceCallDetailsScreen(call, widget._aliceCore),
       ),
@@ -277,7 +278,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
 
   void _showStatsScreen() {
     Navigator.push<void>(
-      aliceCore.getContext(),
+      aliceCore.getContext()!,
       MaterialPageRoute(
         builder: (context) => AliceStatsScreen(widget._aliceCore),
       ),
@@ -311,7 +312,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
                             title: Text(sortOption.name),
                             value: sortOption,
                             groupValue: _sortOption,
-                            onChanged: (AliceSortOption value) {
+                            onChanged: (AliceSortOption? value) {
                               setState(() {
                                 _sortOption = value;
                               });

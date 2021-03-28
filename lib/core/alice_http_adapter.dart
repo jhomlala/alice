@@ -11,18 +11,14 @@ class AliceHttpAdapter {
   final AliceCore aliceCore;
 
   /// Creates alice http adapter
-  AliceHttpAdapter(this.aliceCore)
-      : assert(aliceCore != null, "aliceCore can't be null");
+  AliceHttpAdapter(this.aliceCore);
 
   /// Handles http response. It creates both request and response from http call
   void onResponse(http.Response response, {dynamic body}) {
-    if (response == null) {
-      return;
-    }
     if (response.request == null) {
       return;
     }
-    final request = response.request;
+    final request = response.request!;
 
     final AliceHttpCall call = AliceHttpCall(response.request.hashCode);
     call.loading = true;
@@ -30,7 +26,7 @@ class AliceHttpAdapter {
     call.uri = request.url.toString();
     call.method = request.method;
     var path = request.url.path;
-    if (path == null || path.isEmpty) {
+    if (path.isEmpty) {
       path = "/";
     }
     call.endpoint = path;
@@ -46,7 +42,8 @@ class AliceHttpAdapter {
       // we are guaranteed` the existence of body and headers
       httpRequest.body = body ?? (response.request as http.Request).body ?? "";
       httpRequest.size = utf8.encode(httpRequest.body.toString()).length;
-      httpRequest.headers = Map<String, dynamic>.from(response.request.headers);
+      httpRequest.headers =
+          Map<String, dynamic>.from(response.request!.headers);
     } else if (body == null) {
       httpRequest.size = 0;
       httpRequest.body = "";
@@ -57,14 +54,14 @@ class AliceHttpAdapter {
 
     httpRequest.time = DateTime.now();
 
-    String contentType = "unknown";
+    String? contentType = "unknown";
     if (httpRequest.headers.containsKey("Content-Type")) {
-      contentType = httpRequest.headers["Content-Type"] as String;
+      contentType = httpRequest.headers["Content-Type"] as String?;
     }
 
     httpRequest.contentType = contentType;
 
-    httpRequest.queryParameters = response.request.url.queryParameters;
+    httpRequest.queryParameters = response.request!.url.queryParameters;
 
     final AliceHttpResponse httpResponse = AliceHttpResponse();
     httpResponse.status = response.statusCode;

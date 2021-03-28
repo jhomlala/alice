@@ -6,7 +6,7 @@ class AliceConversionHelper {
 
   /// Format bytes text
   static String formatBytes(int bytes) {
-    if (bytes == null || bytes < 0) {
+    if (bytes < 0) {
       return "-1 B";
     }
     if (bytes <= _kilobyteAsByte) {
@@ -23,7 +23,7 @@ class AliceConversionHelper {
 
   /// Format time in milliseconds
   static String formatTime(int timeInMillis) {
-    if (timeInMillis == null || timeInMillis < 0) {
+    if (timeInMillis < 0) {
       return "-1 ms";
     }
     if (timeInMillis <= _secondAsMillisecond) {
