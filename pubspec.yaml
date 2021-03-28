@@ -6,7 +6,7 @@ homepage: https://github.com/jhomlala/alice
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
-  flutter: ">=1.12.0 <2.0.0"
+  flutter: ">=1.12.0"
 
 dependencies:
   flutter:
