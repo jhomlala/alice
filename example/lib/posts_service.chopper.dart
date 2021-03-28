@@ -8,7 +8,7 @@ part of 'posts_service.dart';
 
 // ignore_for_file: always_put_control_body_on_new_line, always_specify_types, prefer_const_declarations
 class _$PostsService extends PostsService {
-  _$PostsService([ChopperClient client]) {
+  _$PostsService([ChopperClient? client]) {
     if (client == null) return;
     this.client = client;
   }
@@ -24,7 +24,7 @@ class _$PostsService extends PostsService {
   }
 
   @override
-  Future<Response<dynamic>> postPost(String body) {
+  Future<Response<dynamic>> postPost(String? body) {
     final $url = 'https://jsonplaceholder.typicode.com/posts/';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
@@ -32,7 +32,7 @@ class _$PostsService extends PostsService {
   }
 
   @override
-  Future<Response<dynamic>> putPost(String id, String body) {
+  Future<Response<dynamic>> putPost(String id, String? body) {
     final $url = 'https://jsonplaceholder.typicode.com/posts/$id';
     final $body = body;
     final $request = Request('PUT', $url, client.baseUrl, body: $body);

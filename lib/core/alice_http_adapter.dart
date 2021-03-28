@@ -40,6 +40,10 @@ class AliceHttpAdapter {
 
     if (response.request is http.Request) {
       // we are guaranteed` the existence of body and headers
+      if (body != null) {
+        httpRequest.body = body;
+      }
+      // ignore: cast_nullable_to_non_nullable
       httpRequest.body = body ?? (response.request as http.Request).body ?? "";
       httpRequest.size = utf8.encode(httpRequest.body.toString()).length;
       httpRequest.headers =

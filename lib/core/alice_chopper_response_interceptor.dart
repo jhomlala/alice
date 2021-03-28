@@ -43,7 +43,7 @@ class AliceChopperInterceptor extends chopper.ResponseInterceptor
       final AliceHttpCall call = AliceHttpCall(getRequestHashCode(baseRequest));
       String endpoint = "";
       String server = "";
-      if (request.baseUrl == null || request.baseUrl.isEmpty) {
+      if (request.baseUrl.isEmpty) {
         final List<String> split = request.url.split("/");
         if (split.length > 2) {
           server = split[1] + split[2];
@@ -113,11 +113,9 @@ class AliceChopperInterceptor extends chopper.ResponseInterceptor
 
     httpResponse.time = DateTime.now();
     final Map<String, String> headers = {};
-    if (response.headers != null) {
-      response.headers.forEach((header, values) {
-        headers[header] = values.toString();
-      });
-    }
+    response.headers.forEach((header, values) {
+      headers[header] = values.toString();
+    });
     httpResponse.headers = headers;
 
     aliceCore.addResponse(

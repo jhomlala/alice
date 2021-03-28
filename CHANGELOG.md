@@ -1,5 +1,7 @@
-## 0.1.13
-* Migrate to null safety
+## 0.2.0
+* Migrate to null safety (by https://github.com/ARIFCSE10)
+* Updated Dio interceptor
+* Updated dependencies
 
 ## 0.1.12
 * Fixed query parameter issue not handled properly (by https://github.com/shreyas18jan).

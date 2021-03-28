@@ -36,7 +36,7 @@ class AliceCore {
   final int maxCallsCount;
 
   late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
-  GlobalKey<NavigatorState>? _navigatorKey;
+  GlobalKey<NavigatorState>? navigatorKey;
   Brightness _brightness = Brightness.light;
   bool _isInspectorOpened = false;
   ShakeDetector? _shakeDetector;
@@ -47,7 +47,7 @@ class AliceCore {
 
   /// Creates alice core instance
   AliceCore(
-    this._navigatorKey, {
+    this.navigatorKey, {
     required this.showNotification,
     required this.showInspectorOnShake,
     required this.darkTheme,
@@ -60,7 +60,9 @@ class AliceCore {
     }
     if (showInspectorOnShake) {
       _shakeDetector = ShakeDetector.autoStart(
-        onPhoneShake: () => navigateToCallListScreen() as Null,
+        onPhoneShake: () {
+          navigateToCallListScreen();
+        },
         shakeThresholdGravity: 5,
       );
     }
@@ -99,11 +101,6 @@ class AliceCore {
     }
   }
 
-  /// Set custom navigation key. This will help if there's route library.
-  void setNavigatorKey(GlobalKey<NavigatorState> navigatorKey) {
-    _navigatorKey = navigatorKey;
-  }
-
   Future<void> _onSelectedNotification(String? payload) async {
     assert(payload != null, "payload can't be null");
     navigateToCallListScreen();
@@ -131,7 +128,7 @@ class AliceCore {
   }
 
   /// Get context from navigator key. Used to open inspector route.
-  BuildContext? getContext() => _navigatorKey?.currentState?.overlay?.context;
+  BuildContext? getContext() => navigatorKey?.currentState?.overlay?.context;
 
   String _getNotificationMessage() {
     final List<AliceHttpCall> calls = callsSubject.value!;

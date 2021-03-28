@@ -18,7 +18,7 @@ class AliceDioInterceptor extends InterceptorsWrapper {
 
   /// Handles dio request and creates alice http call based on it
   @override
-  Future onRequest(RequestOptions options) {
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     final AliceHttpCall call = AliceHttpCall(options.hashCode);
 
     final Uri uri = options.uri;
@@ -77,12 +77,12 @@ class AliceDioInterceptor extends InterceptorsWrapper {
     call.response = AliceHttpResponse();
 
     aliceCore.addCall(call);
-    return super.onRequest(options);
+    handler.next(options);
   }
 
   /// Handles dio response and adds data to alice http call
   @override
-  Future onResponse(Response response) {
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
     final httpResponse = AliceHttpResponse();
     httpResponse.status = response.statusCode;
 
@@ -101,13 +101,13 @@ class AliceDioInterceptor extends InterceptorsWrapper {
     });
     httpResponse.headers = headers;
 
-    aliceCore.addResponse(httpResponse, response.request.hashCode);
-    return super.onResponse(response);
+    aliceCore.addResponse(httpResponse, response.requestOptions.hashCode);
+    handler.next(response);
   }
 
   /// Handles error and adds data to alice http call
   @override
-  Future onError(DioError error) {
+  void onError(DioError error, ErrorInterceptorHandler handler) {
     final httpError = AliceHttpError();
     httpError.error = error.toString();
     if (error is Error) {
@@ -115,12 +115,12 @@ class AliceDioInterceptor extends InterceptorsWrapper {
       httpError.stackTrace = basicError.stackTrace;
     }
 
-    aliceCore.addError(httpError, error.request.hashCode);
+    aliceCore.addError(httpError, error.requestOptions.hashCode);
     final httpResponse = AliceHttpResponse();
     httpResponse.time = DateTime.now();
     if (error.response == null) {
       httpResponse.status = -1;
-      aliceCore.addResponse(httpResponse, error.request.hashCode);
+      aliceCore.addResponse(httpResponse, error.requestOptions.hashCode);
     } else {
       httpResponse.status = error.response!.statusCode;
 
@@ -136,9 +136,9 @@ class AliceDioInterceptor extends InterceptorsWrapper {
         headers[header] = values.toString();
       });
       httpResponse.headers = headers;
-      aliceCore.addResponse(httpResponse, error.response!.request.hashCode);
+      aliceCore.addResponse(
+          httpResponse, error.response!.requestOptions.hashCode);
     }
-
-    return super.onError(error);
+    handler.next(error);
   }
 }

@@ -59,7 +59,8 @@ class Alice {
 
   /// Set custom navigation key. This will help if there's route library.
   void setNavigatorKey(GlobalKey<NavigatorState> navigatorKey) {
-    _aliceCore.setNavigatorKey(navigatorKey);
+    _navigatorKey = navigatorKey;
+    _aliceCore.navigatorKey = navigatorKey;
   }
 
   /// Get currently used navigation key

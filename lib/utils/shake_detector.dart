@@ -83,4 +83,8 @@ class ShakeDetector {
       streamSubscription!.cancel();
     }
   }
+
+  void dispose() {
+    streamSubscription?.cancel();
+  }
 }

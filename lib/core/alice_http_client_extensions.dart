@@ -16,7 +16,7 @@ extension AliceHttpClientExtensions on Future<HttpClientRequest> {
     if (headers != null) {
       headers.forEach(
         (String key, dynamic value) {
-          request.headers.add(key, value);
+          request.headers.add(key, value as Object);
         },
       );
     }
