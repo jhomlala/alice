@@ -151,6 +151,11 @@ If you want to limit max numbers of HTTP calls saved in memory, you may use `max
 Alice alice = Alice(..., maxCallsCount: 1000));
 ```
 
+
+If you want to change the Directionality of Alice, you can use the `directionality` parameter. If the parameter is set to null, the Directionality of the app will be used.
+```dart
+Alice alice = Alice(..., directionality: TextDirection.ltr);
+```
 ### HTTP Client configuration
 If you're using Dio, you just need to add interceptor.
 

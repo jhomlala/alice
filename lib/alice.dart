@@ -30,6 +30,9 @@ class Alice {
   ///method queue will be used to remove elements.
   final int maxCallsCount;
 
+  ///Directionality of app. Directionality of the app will be used if set to null.
+  final TextDirection? directionality;
+
   GlobalKey<NavigatorState>? _navigatorKey;
   late AliceCore _aliceCore;
   late AliceHttpClientAdapter _httpClientAdapter;
@@ -43,6 +46,7 @@ class Alice {
     this.darkTheme = false,
     this.notificationIcon = "@mipmap/ic_launcher",
     this.maxCallsCount = 1000,
+    this.directionality,
   }) {
     _navigatorKey = navigatorKey ?? GlobalKey<NavigatorState>();
     _aliceCore = AliceCore(
@@ -52,6 +56,7 @@ class Alice {
       darkTheme: darkTheme,
       notificationIcon: notificationIcon,
       maxCallsCount: maxCallsCount,
+      directionality: directionality,
     );
     _httpClientAdapter = AliceHttpClientAdapter(_aliceCore);
     _httpAdapter = AliceHttpAdapter(_aliceCore);

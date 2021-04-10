@@ -11,18 +11,21 @@ class AliceStatsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: ThemeData(
-          brightness: aliceCore.brightness,
-          accentColor: AliceConstants.lightRed),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Alice - HTTP Inspector - Stats"),
-        ),
-        body: Container(
-          padding: const EdgeInsets.all(8),
-          child: ListView(
-            children: _buildMainListWidgets(),
+    return Directionality(
+      textDirection: aliceCore.directionality ?? Directionality.of(context),
+      child: Theme(
+        data: ThemeData(
+            brightness: aliceCore.brightness,
+            accentColor: AliceConstants.lightRed),
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text("Alice - HTTP Inspector - Stats"),
+          ),
+          body: Container(
+            padding: const EdgeInsets.all(8),
+            child: ListView(
+              children: _buildMainListWidgets(),
+            ),
           ),
         ),
       ),

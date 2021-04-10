@@ -37,19 +37,23 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: ThemeData(
-          brightness: widget._aliceCore.brightness,
-          accentColor: AliceConstants.lightRed),
-      child: Scaffold(
-        appBar: AppBar(
-          title: _searchEnabled ? _buildSearchField() : _buildTitleWidget(),
-          actions: [
-            _buildSearchButton(),
-            _buildMenuButton(),
-          ],
+    return Directionality(
+      textDirection:
+          widget._aliceCore.directionality ?? Directionality.of(context),
+      child: Theme(
+        data: ThemeData(
+            brightness: widget._aliceCore.brightness,
+            accentColor: AliceConstants.lightRed),
+        child: Scaffold(
+          appBar: AppBar(
+            title: _searchEnabled ? _buildSearchField() : _buildTitleWidget(),
+            actions: [
+              _buildSearchButton(),
+              _buildMenuButton(),
+            ],
+          ),
+          body: _buildCallsListWrapper(),
         ),
-        body: _buildCallsListWrapper(),
       ),
     );
   }

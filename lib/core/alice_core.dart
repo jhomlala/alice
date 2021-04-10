@@ -35,6 +35,9 @@ class AliceCore {
   ///method queue will be used to remove elements.
   final int maxCallsCount;
 
+  ///Directionality of app. Directionality of the app will be used if set to null.
+  final TextDirection? directionality;
+
   late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
   GlobalKey<NavigatorState>? navigatorKey;
   Brightness _brightness = Brightness.light;
@@ -53,6 +56,7 @@ class AliceCore {
     required this.darkTheme,
     required this.notificationIcon,
     required this.maxCallsCount,
+    this.directionality,
   }) {
     if (showNotification) {
       _initializeNotificationsPlugin();
