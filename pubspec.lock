@@ -7,7 +7,7 @@ packages:
       name: better_player
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.63"
+    version: "0.0.64"
   characters:
     dependency: transitive
     description:
@@ -28,7 +28,7 @@ packages:
       name: chopper
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0-nullsafety.0"
+    version: "4.0.0-nullsafety.1"
   collection:
     dependency: "direct main"
     description:
@@ -56,7 +56,7 @@ packages:
       name: dio
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0-prev3"
+    version: "4.0.0"
   ffi:
     dependency: transitive
     description:
@@ -82,7 +82,7 @@ packages:
       name: flutter_local_notifications
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.0"
+    version: "5.0.0+1"
   flutter_local_notifications_platform_interface:
     dependency: transitive
     description:
@@ -164,7 +164,7 @@ packages:
       name: open_file
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.0"
+    version: "3.2.0"
   package_info:
     dependency: "direct main"
     description:
@@ -227,14 +227,14 @@ packages:
       name: permission_handler
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.1.1"
+    version: "7.0.0"
   permission_handler_platform_interface:
     dependency: transitive
     description:
       name: permission_handler_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.1"
+    version: "3.3.0"
   platform:
     dependency: transitive
     description:
@@ -309,7 +309,7 @@ packages:
       name: timezone
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.0-nullsafety.0"
+    version: "0.7.0"
   typed_data:
     dependency: transitive
     description:
@@ -337,7 +337,7 @@ packages:
       name: wakelock
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.0"
+    version: "0.5.1"
   wakelock_macos:
     dependency: transitive
     description:
@@ -359,6 +359,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.0"
+  wakelock_windows:
+    dependency: transitive
+    description:
+      name: wakelock_windows
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   win32:
     dependency: transitive
     description:
