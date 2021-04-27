@@ -1,3 +1,7 @@
+## 0.2.1
+* Added directionality support (by Abdol Hussain Mozaffari https://github.com/mozaffari)
+* Updated dependencies (by https://github.com/Nyan274)
+
 ## 0.2.0
 * Migrate to null safety (by https://github.com/ARIFCSE10)
 * Updated Dio interceptor

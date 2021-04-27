@@ -35,7 +35,7 @@ class AliceCore {
   ///method queue will be used to remove elements.
   final int maxCallsCount;
 
-  ///Directionality of app. Directionality of the app will be used if set to null.
+  ///Directionality of app. If null then directionality of context will be used.
   final TextDirection? directionality;
 
   late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
