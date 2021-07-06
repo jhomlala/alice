@@ -25,8 +25,8 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   final TextEditingController _queryTextEditingController =
       TextEditingController();
   final List<AliceMenuItem> _menuItems = [];
-  AliceSortOption? _sortOption;
-  bool _sortAscending = true;
+  AliceSortOption? _sortOption = AliceSortOption.time;
+  bool _sortAscending = false;
 
   _AliceCallsListScreenState() {
     _menuItems.add(AliceMenuItem("Sort", Icons.sort));

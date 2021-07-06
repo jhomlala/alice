@@ -1,3 +1,7 @@
+## 0.2.2
+* Updated dependencies
+* Changed default sort filter of create time from ascending to descending. This will show latest HTTP calls on top of the list.
+
 ## 0.2.1
 * Added directionality support (by Abdol Hussain Mozaffari https://github.com/mozaffari)
 * Updated dependencies (by https://github.com/Nyan274)

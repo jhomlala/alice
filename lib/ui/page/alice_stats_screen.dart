@@ -182,5 +182,5 @@ class AliceStatsScreen extends StatelessWidget {
   int _getUnsecuredRequests() =>
       calls.where((call) => !call.secure).toList().length;
 
-  List<AliceHttpCall> get calls => aliceCore.callsSubject.valueWrapper!.value;
+  List<AliceHttpCall> get calls => aliceCore.callsSubject.value;
 }

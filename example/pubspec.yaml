@@ -8,7 +8,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  chopper: ^4.0.0-nullsafety.0
+  chopper: ^4.0.1
   path_provider:
 
 dev_dependencies:
