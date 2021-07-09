@@ -1,3 +1,6 @@
+## 0.2.3
+* Updated dependencies
+
 ## 0.2.2
 * Updated dependencies
 * Changed default sort filter of create time from ascending to descending. This will show latest HTTP calls on top of the list.
