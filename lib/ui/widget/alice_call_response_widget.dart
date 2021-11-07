@@ -129,8 +129,11 @@ class _AliceCallResponseWidgetState
             _call.uri,
             fit: BoxFit.fill,
             headers: _buildRequestHeaders(),
-            loadingBuilder: (BuildContext context, Widget child,
-                ImageChunkEvent? loadingProgress) {
+            loadingBuilder: (
+              BuildContext context,
+              Widget child,
+              ImageChunkEvent? loadingProgress,
+            ) {
               if (loadingProgress == null) return child;
               return Center(
                 child: CircularProgressIndicator(
@@ -154,8 +157,12 @@ class _AliceCallResponseWidgetState
     if (_showLargeBody) {
       return _buildTextBodyRows();
     } else {
-      rows.add(getListRow("Body:",
-          "Too large to show (${_call.response!.body.toString().length} Bytes)"));
+      rows.add(
+        getListRow(
+          "Body:",
+          "Too large to show (${_call.response!.body.toString().length} Bytes)",
+        ),
+      );
       rows.add(const SizedBox(height: 8));
       rows.add(
         ElevatedButton(
@@ -224,12 +231,15 @@ class _AliceCallResponseWidgetState
           formatBody(_call.response!.body, getContentType(headers));
       rows.add(getListRow("Body:", bodyContent));
     } else {
-      rows.add(getListRow(
+      rows.add(
+        getListRow(
           "Body:",
           "Unsupported body. Alice can render video/image/text body. "
               "Response has Content-Type: $contentType which can't be handled. "
               "If you're feeling lucky you can try button below to try render body"
-              " as text, but it may fail."));
+              " as text, but it may fail.",
+        ),
+      );
       rows.add(
         ElevatedButton(
           style: ButtonStyle(

@@ -17,35 +17,54 @@ class AliceSaveHelper {
 
   /// Top level method used to save calls to file
   static void saveCalls(
-      BuildContext context, List<AliceHttpCall> calls, Brightness brightness) {
+    BuildContext context,
+    List<AliceHttpCall> calls,
+    Brightness brightness,
+  ) {
     _checkPermissions(context, calls, brightness);
   }
 
-  static void _checkPermissions(BuildContext context, List<AliceHttpCall> calls,
-      Brightness brightness) async {
+  static void _checkPermissions(
+    BuildContext context,
+    List<AliceHttpCall> calls,
+    Brightness brightness,
+  ) async {
     final status = await Permission.storage.status;
     if (status.isGranted) {
-      _saveToFile(context, calls, brightness);
+      _saveToFile(
+        context,
+        calls,
+        brightness,
+      );
     } else {
       final status = await Permission.storage.request();
 
       if (status.isGranted) {
         _saveToFile(context, calls, brightness);
       } else {
-        AliceAlertHelper.showAlert(context, "Permission error",
-            "Permission not granted. Couldn't save logs.",
-            brightness: brightness);
+        AliceAlertHelper.showAlert(
+          context,
+          "Permission error",
+          "Permission not granted. Couldn't save logs.",
+          brightness: brightness,
+        );
       }
     }
   }
 
-  static Future<String> _saveToFile(BuildContext context,
-      List<AliceHttpCall> calls, Brightness brightness) async {
+  static Future<String> _saveToFile(
+    BuildContext context,
+    List<AliceHttpCall> calls,
+    Brightness brightness,
+  ) async {
     try {
       if (calls.isEmpty) {
         AliceAlertHelper.showAlert(
-            context, "Error", "There are no logs to save",
-            brightness: brightness);
+          context,
+          "Error",
+          "There are no logs to save",
+          brightness: brightness,
+        );
         return "";
       }
       final bool isAndroid = Platform.isAndroid;
@@ -69,21 +88,28 @@ class AliceSaveHelper {
         await sink.flush();
         await sink.close();
         AliceAlertHelper.showAlert(
-            context, "Success", "Successfully saved logs in ${file.path}",
-            secondButtonTitle: isAndroid ? "View file" : null,
-            secondButtonAction: () =>
-                isAndroid ? OpenFile.open(file.path) : null,
-            brightness: brightness);
+          context,
+          "Success",
+          "Successfully saved logs in ${file.path}",
+          secondButtonTitle: isAndroid ? "View file" : null,
+          secondButtonAction: () => isAndroid ? OpenFile.open(file.path) : null,
+          brightness: brightness,
+        );
         return file.path;
       } else {
         AliceAlertHelper.showAlert(
-            context, "Error", "Failed to save http calls to file");
+          context,
+          "Error",
+          "Failed to save http calls to file",
+        );
       }
-    } catch (exception, stacktrace) {
-      print(stacktrace);
+    } catch (exception) {
       AliceAlertHelper.showAlert(
-          context, "Error", "Failed to save http calls to file",
-          brightness: brightness);
+        context,
+        "Error",
+        "Failed to save http calls to file",
+        brightness: brightness,
+      );
       AliceUtils.log(exception.toString());
     }
 
@@ -130,23 +156,29 @@ class AliceSaveHelper {
         .write("Request headers: ${_encoder.convert(call.request!.headers)}\n");
     if (call.request!.queryParameters.isNotEmpty) {
       stringBuffer.write(
-          "Request query params: ${_encoder.convert(call.request!.queryParameters)}\n");
+        "Request query params: ${_encoder.convert(call.request!.queryParameters)}\n",
+      );
     }
     stringBuffer.write(
-        "Request size: ${AliceConversionHelper.formatBytes(call.request!.size)}\n");
+      "Request size: ${AliceConversionHelper.formatBytes(call.request!.size)}\n",
+    );
     stringBuffer.write(
-        "Request body: ${AliceParser.formatBody(call.request!.body, AliceParser.getContentType(call.request!.headers))}\n");
+      "Request body: ${AliceParser.formatBody(call.request!.body, AliceParser.getContentType(call.request!.headers))}\n",
+    );
     stringBuffer.write("--------------------------------------------\n");
     stringBuffer.write("Response\n");
     stringBuffer.write("--------------------------------------------\n");
     stringBuffer.write("Response time: ${call.response!.time}\n");
     stringBuffer.write("Response status: ${call.response!.status}\n");
     stringBuffer.write(
-        "Response size: ${AliceConversionHelper.formatBytes(call.response!.size)}\n");
+      "Response size: ${AliceConversionHelper.formatBytes(call.response!.size)}\n",
+    );
     stringBuffer.write(
-        "Response headers: ${_encoder.convert(call.response!.headers)}\n");
+      "Response headers: ${_encoder.convert(call.response!.headers)}\n",
+    );
     stringBuffer.write(
-        "Response body: ${AliceParser.formatBody(call.response!.body, AliceParser.getContentType(call.response!.headers))}\n");
+      "Response body: ${AliceParser.formatBody(call.response!.body, AliceParser.getContentType(call.response!.headers))}\n",
+    );
     if (call.error != null) {
       stringBuffer.write("--------------------------------------------\n");
       stringBuffer.write("Error\n");

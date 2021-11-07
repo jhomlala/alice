@@ -119,7 +119,9 @@ class AliceChopperInterceptor extends chopper.ResponseInterceptor
     httpResponse.headers = headers;
 
     aliceCore.addResponse(
-        httpResponse, getRequestHashCode(response.base.request!));
+      httpResponse,
+      getRequestHashCode(response.base.request!),
+    );
     return response;
   }
 }

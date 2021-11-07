@@ -61,7 +61,7 @@ class Alice {
       notificationIcon: notificationIcon,
       maxCallsCount: maxCallsCount,
       directionality: directionality,
-      showShareButton: showShareButton
+      showShareButton: showShareButton,
     );
     _httpClientAdapter = AliceHttpClientAdapter(_aliceCore);
     _httpAdapter = AliceHttpAdapter(_aliceCore);
@@ -90,8 +90,10 @@ class Alice {
 
   /// Handle response from HttpClient
   void onHttpClientResponse(
-      HttpClientResponse response, HttpClientRequest request,
-      {dynamic body}) {
+    HttpClientResponse response,
+    HttpClientRequest request, {
+    dynamic body,
+  }) {
     _httpClientAdapter.onResponse(response, request, body: body);
   }
 

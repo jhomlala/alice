@@ -4,6 +4,7 @@
 * Updated dependencies.
 * Updated color scheme of Alice widgets.
 * Fixed issue with saving logs to file on Android.
+* Fixed lint
 
 ## 0.2.4
 * Updated dependencies

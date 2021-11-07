@@ -44,7 +44,8 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
           builder: (context, callsSnapshot) {
             if (callsSnapshot.hasData) {
               final AliceHttpCall? call = callsSnapshot.data!.firstWhereOrNull(
-                  (snapshotCall) => snapshotCall.id == widget.call.id);
+                (snapshotCall) => snapshotCall.id == widget.call.id,
+              );
               if (call != null) {
                 return _buildMainWidget();
               } else {
@@ -68,8 +69,10 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
                 backgroundColor: AliceConstants.lightRed,
                 key: const Key('share_key'),
                 onPressed: () async {
-                  Share.share(await _getSharableResponseString(),
-                      subject: 'Request Details');
+                  Share.share(
+                    await _getSharableResponseString(),
+                    subject: 'Request Details',
+                  );
                 },
                 child: Icon(
                   Icons.share,
