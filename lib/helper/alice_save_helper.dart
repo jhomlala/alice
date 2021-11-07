@@ -50,27 +50,37 @@ class AliceSaveHelper {
       }
       final bool isAndroid = Platform.isAndroid;
 
-      final Directory externalDir = await (isAndroid
-          ? getExternalStorageDirectory() as FutureOr<Directory>
-          : getApplicationDocumentsDirectory());
-      final String fileName =
-          "alice_log_${DateTime.now().millisecondsSinceEpoch}.txt";
-      final File file = File("${externalDir.path}/$fileName");
-      file.createSync();
-      final IOSink sink = file.openWrite(mode: FileMode.append);
-      sink.write(await _buildAliceLog());
-      calls.forEach((AliceHttpCall call) {
-        sink.write(_buildCallLog(call));
-      });
-      await sink.flush();
-      await sink.close();
-      AliceAlertHelper.showAlert(
-          context, "Success", "Successfully saved logs in ${file.path}",
-          secondButtonTitle: isAndroid ? "View file" : null,
-          secondButtonAction: () => isAndroid ? OpenFile.open(file.path) : null,
-          brightness: brightness);
-      return file.path;
-    } catch (exception) {
+      Directory? externalDir;
+      if (isAndroid) {
+        externalDir = await getExternalStorageDirectory();
+      } else {
+        externalDir = await getApplicationDocumentsDirectory();
+      }
+      if (externalDir != null) {
+        final String fileName =
+            "alice_log_${DateTime.now().millisecondsSinceEpoch}.txt";
+        final File file = File("${externalDir.path}/$fileName");
+        file.createSync();
+        final IOSink sink = file.openWrite(mode: FileMode.append);
+        sink.write(await _buildAliceLog());
+        calls.forEach((AliceHttpCall call) {
+          sink.write(_buildCallLog(call));
+        });
+        await sink.flush();
+        await sink.close();
+        AliceAlertHelper.showAlert(
+            context, "Success", "Successfully saved logs in ${file.path}",
+            secondButtonTitle: isAndroid ? "View file" : null,
+            secondButtonAction: () =>
+                isAndroid ? OpenFile.open(file.path) : null,
+            brightness: brightness);
+        return file.path;
+      } else {
+        AliceAlertHelper.showAlert(
+            context, "Error", "Failed to save http calls to file");
+      }
+    } catch (exception, stacktrace) {
+      print(stacktrace);
       AliceAlertHelper.showAlert(
           context, "Error", "Failed to save http calls to file",
           brightness: brightness);

@@ -1,7 +1,9 @@
 # 0.2.5
 * Added showShareButton in Alice constructor.
-* Updated dependencies.
 * Added support for Android 12 (by Igor Kurek https://github.com/ikurek )
+* Updated dependencies.
+* Updated color scheme of Alice widgets.
+* Fixed issue with saving logs to file on Android.
 
 ## 0.2.4
 * Updated dependencies
