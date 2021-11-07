@@ -15,8 +15,9 @@ class AliceStatsScreen extends StatelessWidget {
       textDirection: aliceCore.directionality ?? Directionality.of(context),
       child: Theme(
         data: ThemeData(
-            brightness: aliceCore.brightness,
-            accentColor: AliceConstants.lightRed),
+          brightness: aliceCore.brightness,
+          colorScheme: ColorScheme.light(secondary: AliceConstants.lightRed),
+        ),
         child: Scaffold(
           appBar: AppBar(
             title: const Text("Alice - HTTP Inspector - Stats"),
