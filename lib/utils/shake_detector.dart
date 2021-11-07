@@ -28,18 +28,20 @@ class ShakeDetector {
   StreamSubscription? streamSubscription;
 
   /// This constructor waits until [startListening] is called
-  ShakeDetector.waitForStart(
-      {this.onPhoneShake,
-      this.shakeThresholdGravity = 2.7,
-      this.shakeSlopTimeMS = 500,
-      this.shakeCountResetTime = 3000});
+  ShakeDetector.waitForStart({
+    this.onPhoneShake,
+    this.shakeThresholdGravity = 2.7,
+    this.shakeSlopTimeMS = 500,
+    this.shakeCountResetTime = 3000,
+  });
 
   /// This constructor automatically calls [startListening] and starts detection and callbacks.\
-  ShakeDetector.autoStart(
-      {this.onPhoneShake,
-      this.shakeThresholdGravity = 2.7,
-      this.shakeSlopTimeMS = 500,
-      this.shakeCountResetTime = 3000}) {
+  ShakeDetector.autoStart({
+    this.onPhoneShake,
+    this.shakeThresholdGravity = 2.7,
+    this.shakeSlopTimeMS = 500,
+    this.shakeCountResetTime = 3000,
+  }) {
     startListening();
   }
 

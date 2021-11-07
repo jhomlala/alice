@@ -56,8 +56,13 @@ class AliceDioInterceptor extends InterceptorsWrapper {
         if (data.files.isNotEmpty == true) {
           final List<AliceFormDataFile> files = [];
           data.files.forEach((entry) {
-            files.add(AliceFormDataFile(entry.value.filename,
-                entry.value.contentType.toString(), entry.value.length));
+            files.add(
+              AliceFormDataFile(
+                entry.value.filename,
+                entry.value.contentType.toString(),
+                entry.value.length,
+              ),
+            );
           });
 
           request.formDataFiles = files;
@@ -137,7 +142,9 @@ class AliceDioInterceptor extends InterceptorsWrapper {
       });
       httpResponse.headers = headers;
       aliceCore.addResponse(
-          httpResponse, error.response!.requestOptions.hashCode);
+        httpResponse,
+        error.response!.requestOptions.hashCode,
+      );
     }
     handler.next(error);
   }

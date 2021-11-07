@@ -12,8 +12,10 @@ abstract class AliceBaseCallDetailsWidgetState<T extends StatefulWidget>
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SelectableText(name,
-            style: const TextStyle(fontWeight: FontWeight.bold)),
+        SelectableText(
+          name,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
         const Padding(
           padding: EdgeInsets.only(left: 5),
         ),

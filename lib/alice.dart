@@ -33,6 +33,9 @@ class Alice {
   ///Directionality of app. Directionality of the app will be used if set to null.
   final TextDirection? directionality;
 
+  ///Flag used to show/hide share button
+  final bool? showShareButton;
+
   GlobalKey<NavigatorState>? _navigatorKey;
   late AliceCore _aliceCore;
   late AliceHttpClientAdapter _httpClientAdapter;
@@ -47,6 +50,7 @@ class Alice {
     this.notificationIcon = "@mipmap/ic_launcher",
     this.maxCallsCount = 1000,
     this.directionality,
+    this.showShareButton = true,
   }) {
     _navigatorKey = navigatorKey ?? GlobalKey<NavigatorState>();
     _aliceCore = AliceCore(
@@ -57,6 +61,7 @@ class Alice {
       notificationIcon: notificationIcon,
       maxCallsCount: maxCallsCount,
       directionality: directionality,
+      showShareButton: showShareButton,
     );
     _httpClientAdapter = AliceHttpClientAdapter(_aliceCore);
     _httpAdapter = AliceHttpAdapter(_aliceCore);
@@ -85,8 +90,10 @@ class Alice {
 
   /// Handle response from HttpClient
   void onHttpClientResponse(
-      HttpClientResponse response, HttpClientRequest request,
-      {dynamic body}) {
+    HttpClientResponse response,
+    HttpClientRequest request, {
+    dynamic body,
+  }) {
     _httpClientAdapter.onResponse(response, request, body: body);
   }
 

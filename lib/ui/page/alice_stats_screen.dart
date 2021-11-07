@@ -15,8 +15,9 @@ class AliceStatsScreen extends StatelessWidget {
       textDirection: aliceCore.directionality ?? Directionality.of(context),
       child: Theme(
         data: ThemeData(
-            brightness: aliceCore.brightness,
-            accentColor: AliceConstants.lightRed),
+          brightness: aliceCore.brightness,
+          colorScheme: ColorScheme.light(secondary: AliceConstants.lightRed),
+        ),
         child: Scaffold(
           appBar: AppBar(
             title: const Text("Alice - HTTP Inspector - Stats"),
@@ -40,15 +41,25 @@ class AliceStatsScreen extends StatelessWidget {
       _getRow("Redirection requests:", "${_getRedirectionRequests()}"),
       _getRow("Error requests:", "${_getErrorRequests()}"),
       _getRow(
-          "Bytes send:", AliceConversionHelper.formatBytes(_getBytesSent())),
-      _getRow("Bytes received:",
-          AliceConversionHelper.formatBytes(_getBytesReceived())),
-      _getRow("Average request time:",
-          AliceConversionHelper.formatTime(_getAverageRequestTime())),
-      _getRow("Max request time:",
-          AliceConversionHelper.formatTime(_getMaxRequestTime())),
-      _getRow("Min request time:",
-          AliceConversionHelper.formatTime(_getMinRequestTime())),
+        "Bytes send:",
+        AliceConversionHelper.formatBytes(_getBytesSent()),
+      ),
+      _getRow(
+        "Bytes received:",
+        AliceConversionHelper.formatBytes(_getBytesReceived()),
+      ),
+      _getRow(
+        "Average request time:",
+        AliceConversionHelper.formatTime(_getAverageRequestTime()),
+      ),
+      _getRow(
+        "Max request time:",
+        AliceConversionHelper.formatTime(_getMaxRequestTime()),
+      ),
+      _getRow(
+        "Min request time:",
+        AliceConversionHelper.formatTime(_getMinRequestTime()),
+      ),
       _getRow("Get requests:", "${_getRequests("GET")} "),
       _getRow("Post requests:", "${_getRequests("POST")} "),
       _getRow("Delete requests:", "${_getRequests("DELETE")} "),
@@ -90,26 +101,32 @@ class AliceStatsScreen extends StatelessWidget {
   }
 
   int _getSuccessRequests() => calls
-      .where((call) =>
-          call.response != null &&
-          call.response!.status! >= 200 &&
-          call.response!.status! < 300)
+      .where(
+        (call) =>
+            call.response != null &&
+            call.response!.status! >= 200 &&
+            call.response!.status! < 300,
+      )
       .toList()
       .length;
 
   int _getRedirectionRequests() => calls
-      .where((call) =>
-          call.response != null &&
-          call.response!.status! >= 300 &&
-          call.response!.status! < 400)
+      .where(
+        (call) =>
+            call.response != null &&
+            call.response!.status! >= 300 &&
+            call.response!.status! < 400,
+      )
       .toList()
       .length;
 
   int _getErrorRequests() => calls
-      .where((call) =>
-          call.response != null &&
-          call.response!.status! >= 400 &&
-          call.response!.status! < 600)
+      .where(
+        (call) =>
+            call.response != null &&
+            call.response!.status! >= 400 &&
+            call.response!.status! < 600,
+      )
       .toList()
       .length;
 

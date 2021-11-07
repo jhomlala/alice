@@ -35,15 +35,17 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
       textDirection: widget.core.directionality ?? Directionality.of(context),
       child: Theme(
         data: ThemeData(
-            brightness: widget.core.brightness,
-            accentColor: AliceConstants.lightRed),
+          brightness: widget.core.brightness,
+          colorScheme: ColorScheme.light(secondary: AliceConstants.lightRed),
+        ),
         child: StreamBuilder<List<AliceHttpCall>>(
           stream: widget.core.callsSubject,
           initialData: [widget.call],
           builder: (context, callsSnapshot) {
             if (callsSnapshot.hasData) {
               final AliceHttpCall? call = callsSnapshot.data!.firstWhereOrNull(
-                  (snapshotCall) => snapshotCall.id == widget.call.id);
+                (snapshotCall) => snapshotCall.id == widget.call.id,
+              );
               if (call != null) {
                 return _buildMainWidget();
               } else {
@@ -62,15 +64,22 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: AliceConstants.lightRed,
-          key: const Key('share_key'),
-          onPressed: () async {
-            Share.share(await _getSharableResponseString(),
-                subject: 'Request Details');
-          },
-          child: const Icon(Icons.share),
-        ),
+        floatingActionButton: widget.core.showShareButton == true
+            ? FloatingActionButton(
+                backgroundColor: AliceConstants.lightRed,
+                key: const Key('share_key'),
+                onPressed: () async {
+                  Share.share(
+                    await _getSharableResponseString(),
+                    subject: 'Request Details',
+                  );
+                },
+                child: Icon(
+                  Icons.share,
+                  color: AliceConstants.white,
+                ),
+              )
+            : null,
         appBar: AppBar(
           bottom: TabBar(
             indicatorColor: AliceConstants.lightRed,

@@ -42,8 +42,9 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
           widget._aliceCore.directionality ?? Directionality.of(context),
       child: Theme(
         data: ThemeData(
-            brightness: widget._aliceCore.brightness,
-            accentColor: AliceConstants.lightRed),
+          brightness: widget._aliceCore.brightness,
+          colorScheme: ColorScheme.light(secondary: AliceConstants.lightRed),
+        ),
         child: Scaffold(
           appBar: AppBar(
             title: _searchEnabled ? _buildSearchField() : _buildTitleWidget(),
@@ -87,16 +88,18 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
         return _menuItems.map((AliceMenuItem item) {
           return PopupMenuItem<AliceMenuItem>(
             value: item,
-            child: Row(children: [
-              Icon(
-                item.iconData,
-                color: AliceConstants.lightRed,
-              ),
-              const Padding(
-                padding: EdgeInsets.only(left: 10),
-              ),
-              Text(item.title)
-            ]),
+            child: Row(
+              children: [
+                Icon(
+                  item.iconData,
+                  color: AliceConstants.lightRed,
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(left: 10),
+                ),
+                Text(item.title)
+              ],
+            ),
           );
         }).toList();
       },
@@ -144,8 +147,10 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
         final String query = _queryTextEditingController.text.trim();
         if (query.isNotEmpty) {
           calls = calls
-              .where((call) =>
-                  call.endpoint.toLowerCase().contains(query.toLowerCase()))
+              .where(
+                (call) =>
+                    call.endpoint.toLowerCase().contains(query.toLowerCase()),
+              )
               .toList();
         }
         if (calls.isNotEmpty) {
@@ -161,35 +166,41 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 32),
       child: Center(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Icon(
-            Icons.error_outline,
-            color: AliceConstants.orange,
-          ),
-          const SizedBox(height: 6),
-          const Text(
-            "There are no calls to show",
-            style: TextStyle(fontSize: 18),
-          ),
-          const SizedBox(height: 12),
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: const [
-            Text(
-              "• Check if you send any http request",
-              style: TextStyle(fontSize: 12),
-              textAlign: TextAlign.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.error_outline,
+              color: AliceConstants.orange,
             ),
-            Text(
-              "• Check your Alice configuration",
-              style: TextStyle(fontSize: 12),
-              textAlign: TextAlign.center,
+            const SizedBox(height: 6),
+            const Text(
+              "There are no calls to show",
+              style: TextStyle(fontSize: 18),
             ),
-            Text(
-              "• Check search filters",
-              style: TextStyle(fontSize: 12),
-              textAlign: TextAlign.center,
+            const SizedBox(height: 12),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text(
+                  "• Check if you send any http request",
+                  style: TextStyle(fontSize: 12),
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  "• Check your Alice configuration",
+                  style: TextStyle(fontSize: 12),
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  "• Check search filters",
+                  style: TextStyle(fontSize: 12),
+                  textAlign: TextAlign.center,
+                )
+              ],
             )
-          ])
-        ]),
+          ],
+        ),
       ),
     );
   }
@@ -200,38 +211,54 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
       case AliceSortOption.time:
         if (_sortAscending) {
           callsSorted.sort(
-              (call1, call2) => call1.createdTime.compareTo(call2.createdTime));
+            (call1, call2) => call1.createdTime.compareTo(call2.createdTime),
+          );
         } else {
           callsSorted.sort(
-              (call1, call2) => call2.createdTime.compareTo(call1.createdTime));
+            (call1, call2) => call2.createdTime.compareTo(call1.createdTime),
+          );
         }
         break;
       case AliceSortOption.responseTime:
         if (_sortAscending) {
           callsSorted.sort();
-          callsSorted.sort((call1, call2) =>
-              call1.response?.time.compareTo(call2.response!.time) ?? -1);
+          callsSorted.sort(
+            (call1, call2) =>
+                call1.response?.time.compareTo(call2.response!.time) ?? -1,
+          );
         } else {
-          callsSorted.sort((call1, call2) =>
-              call2.response?.time.compareTo(call1.response!.time) ?? -1);
+          callsSorted.sort(
+            (call1, call2) =>
+                call2.response?.time.compareTo(call1.response!.time) ?? -1,
+          );
         }
         break;
       case AliceSortOption.responseCode:
         if (_sortAscending) {
-          callsSorted.sort((call1, call2) =>
-              call1.response?.status?.compareTo(call2.response!.status!) ?? -1);
+          callsSorted.sort(
+            (call1, call2) =>
+                call1.response?.status?.compareTo(call2.response!.status!) ??
+                -1,
+          );
         } else {
-          callsSorted.sort((call1, call2) =>
-              call2.response?.status?.compareTo(call1.response!.status!) ?? -1);
+          callsSorted.sort(
+            (call1, call2) =>
+                call2.response?.status?.compareTo(call1.response!.status!) ??
+                -1,
+          );
         }
         break;
       case AliceSortOption.responseSize:
         if (_sortAscending) {
-          callsSorted.sort((call1, call2) =>
-              call1.response?.size.compareTo(call2.response!.size) ?? -1);
+          callsSorted.sort(
+            (call1, call2) =>
+                call1.response?.size.compareTo(call2.response!.size) ?? -1,
+          );
         } else {
-          callsSorted.sort((call1, call2) =>
-              call2.response?.size.compareTo(call1.response!.size) ?? -1);
+          callsSorted.sort(
+            (call1, call2) =>
+                call2.response?.size.compareTo(call1.response!.size) ?? -1,
+          );
         }
         break;
       case AliceSortOption.endpoint:
@@ -307,12 +334,14 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
           ),
           child: AlertDialog(
             title: const Text("Select filter"),
-            content: StatefulBuilder(builder: (context, setState) {
-              return Wrap(
-                children: [
-                  ...AliceSortOption.values
-                      .map((AliceSortOption sortOption) =>
-                          RadioListTile<AliceSortOption>(
+            content: StatefulBuilder(
+              builder: (context, setState) {
+                return Wrap(
+                  children: [
+                    ...AliceSortOption.values
+                        .map(
+                          (AliceSortOption sortOption) =>
+                              RadioListTile<AliceSortOption>(
                             title: Text(sortOption.name),
                             value: sortOption,
                             groupValue: _sortOption,
@@ -321,13 +350,14 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
                                 _sortOption = value;
                               });
                             },
-                          ))
-                      .toList(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text("Descending"),
-                      Switch(
+                          ),
+                        )
+                        .toList(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text("Descending"),
+                        Switch(
                           value: _sortAscending,
                           onChanged: (value) {
                             setState(() {
@@ -335,19 +365,22 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
                             });
                           },
                           activeTrackColor: Colors.grey,
-                          activeColor: Colors.white),
-                      const Text("Ascending")
-                    ],
-                  )
-                ],
-              );
-            }),
+                          activeColor: Colors.white,
+                        ),
+                        const Text("Ascending")
+                      ],
+                    )
+                  ],
+                );
+              },
+            ),
             actions: [
               TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text("Cancel")),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("Cancel"),
+              ),
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();

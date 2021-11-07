@@ -45,44 +45,48 @@ class AliceCallListItemWidget extends StatelessWidget {
 
   Widget _buildMethodAndEndpointRow(BuildContext context) {
     final Color? textColor = _getEndpointTextColor(context);
-    return Row(children: [
-      Text(
-        call.method,
-        style: TextStyle(fontSize: 16, color: textColor),
-      ),
-      const Padding(
-        padding: EdgeInsets.only(left: 10),
-      ),
-      Flexible(
-        // ignore: avoid_unnecessary_containers
-        child: Container(
-          child: Text(
-            call.endpoint,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 16,
-              color: textColor,
+    return Row(
+      children: [
+        Text(
+          call.method,
+          style: TextStyle(fontSize: 16, color: textColor),
+        ),
+        const Padding(
+          padding: EdgeInsets.only(left: 10),
+        ),
+        Flexible(
+          // ignore: avoid_unnecessary_containers
+          child: Container(
+            child: Text(
+              call.endpoint,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 16,
+                color: textColor,
+              ),
             ),
           ),
-        ),
-      )
-    ]);
+        )
+      ],
+    );
   }
 
   Widget _buildServerRow() {
-    return Row(children: [
-      _getSecuredConnectionIcon(call.secure),
-      Expanded(
-        child: Text(
-          call.server,
-          overflow: TextOverflow.ellipsis,
-          maxLines: 1,
-          style: const TextStyle(
-            fontSize: 14,
+    return Row(
+      children: [
+        _getSecuredConnectionIcon(call.secure),
+        Expanded(
+          child: Text(
+            call.server,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            style: const TextStyle(
+              fontSize: 14,
+            ),
           ),
         ),
-      ),
-    ]);
+      ],
+    );
   }
 
   Widget _buildStatsRow() {
@@ -90,11 +94,17 @@ class AliceCallListItemWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Flexible(
-            child: Text(_formatTime(call.request!.time),
-                style: const TextStyle(fontSize: 12))),
+          child: Text(
+            _formatTime(call.request!.time),
+            style: const TextStyle(fontSize: 12),
+          ),
+        ),
         Flexible(
-            child: Text(AliceConversionHelper.formatTime(call.duration),
-                style: const TextStyle(fontSize: 12))),
+          child: Text(
+            AliceConversionHelper.formatTime(call.duration),
+            style: const TextStyle(fontSize: 12),
+          ),
+        ),
         Flexible(
           child: Text(
             "${AliceConversionHelper.formatBytes(call.request!.size)} / "

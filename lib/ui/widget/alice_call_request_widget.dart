@@ -23,7 +23,8 @@ class _AliceCallRequestWidget
     rows.add(getListRow("Started:", _call.request!.time.toString()));
     rows.add(getListRow("Bytes sent:", formatBytes(_call.request!.size)));
     rows.add(
-        getListRow("Content type:", getContentType(_call.request!.headers)!));
+      getListRow("Content type:", getContentType(_call.request!.headers)!),
+    );
 
     final dynamic body = _call.request!.body;
     var bodyContent = "Body is empty";
@@ -45,8 +46,12 @@ class _AliceCallRequestWidget
       rows.add(getListRow("Form data files: ", ""));
       formDataFiles!.forEach(
         (field) {
-          rows.add(getListRow("   • ${field.fileName}:",
-              "${field.contentType} / ${field.length} B"));
+          rows.add(
+            getListRow(
+              "   • ${field.fileName}:",
+              "${field.contentType} / ${field.length} B",
+            ),
+          );
         },
       );
     }
