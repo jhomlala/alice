@@ -38,6 +38,9 @@ class AliceCore {
   ///Directionality of app. If null then directionality of context will be used.
   final TextDirection? directionality;
 
+  ///Flag used to show/hide share button
+  final bool? showShareButton;
+
   late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
   GlobalKey<NavigatorState>? navigatorKey;
   Brightness _brightness = Brightness.light;
@@ -57,6 +60,7 @@ class AliceCore {
     required this.notificationIcon,
     required this.maxCallsCount,
     this.directionality,
+    this.showShareButton,
   }) {
     if (showNotification) {
       _initializeNotificationsPlugin();
