@@ -198,7 +198,8 @@ class AliceCore {
     const channelName = "Alice";
     const channelDescription = "Alice";
     final androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        channelId, channelName, channelDescription,
+        channelId, channelName,
+        channelDescription: channelDescription,
         enableVibration: false,
         playSound: false,
         largeIcon: DrawableResourceAndroidBitmap(notificationIcon));
