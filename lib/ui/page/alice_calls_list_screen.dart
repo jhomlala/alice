@@ -42,8 +42,9 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
           widget._aliceCore.directionality ?? Directionality.of(context),
       child: Theme(
         data: ThemeData(
-            brightness: widget._aliceCore.brightness,
-            accentColor: AliceConstants.lightRed),
+          brightness: widget._aliceCore.brightness,
+          colorScheme: ColorScheme.light(secondary: AliceConstants.lightRed),
+        ),
         child: Scaffold(
           appBar: AppBar(
             title: _searchEnabled ? _buildSearchField() : _buildTitleWidget(),

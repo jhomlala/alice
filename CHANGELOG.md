@@ -1,3 +1,6 @@
+# 0.2.5
+* Added showShareButton in Alice constructor.
+
 ## 0.2.4
 * Updated dependencies
 

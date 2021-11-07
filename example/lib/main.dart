@@ -30,10 +30,11 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     _alice = Alice(
-        showNotification: true,
-        showInspectorOnShake: true,
-        darkTheme: false,
-        maxCallsCount: 1000);
+      showNotification: true,
+      showInspectorOnShake: true,
+      darkTheme: false,
+      maxCallsCount: 1000,
+    );
     _dio = Dio(BaseOptions(
       followRedirects: false,
     ));
@@ -54,7 +55,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       theme: ThemeData(
         primaryColor: _primaryColor,
-        accentColor: _accentColor,
+        colorScheme: ColorScheme.light(secondary: _accentColor),
       ),
       navigatorKey: _alice.getNavigatorKey(),
       debugShowCheckedModeBanner: false,
