@@ -16,15 +16,18 @@ class AliceStatsScreen extends StatelessWidget {
       child: Theme(
         data: ThemeData(
           brightness: aliceCore.brightness,
-          colorScheme: ColorScheme.light(secondary: AliceConstants.lightRed),
+          colorScheme: aliceCore.brightness == Brightness.light
+              ? ColorScheme.light(secondary: AliceConstants.lightRed)
+              : ColorScheme.dark(secondary: AliceConstants.lightRed),
+          splashColor: AliceConstants.red,
         ),
         child: Scaffold(
           appBar: AppBar(
             title: const Text("Alice - HTTP Inspector - Stats"),
           ),
           body: Container(
-            padding: const EdgeInsets.all(8),
             child: ListView(
+              padding: const EdgeInsets.all(8),
               children: _buildMainListWidgets(),
             ),
           ),

@@ -1,11 +1,11 @@
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/helper/alice_save_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/utils/alice_constants.dart';
 import 'package:alice/ui/widget/alice_call_error_widget.dart';
 import 'package:alice/ui/widget/alice_call_overview_widget.dart';
 import 'package:alice/ui/widget/alice_call_request_widget.dart';
 import 'package:alice/ui/widget/alice_call_response_widget.dart';
+import 'package:alice/utils/alice_constants.dart';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
@@ -36,7 +36,10 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
       child: Theme(
         data: ThemeData(
           brightness: widget.core.brightness,
-          colorScheme: ColorScheme.light(secondary: AliceConstants.lightRed),
+          colorScheme: widget.core.brightness == Brightness.light
+              ? ColorScheme.light(secondary: AliceConstants.lightRed)
+              : ColorScheme.dark(secondary: AliceConstants.lightRed),
+          splashColor: AliceConstants.red,
         ),
         child: StreamBuilder<List<AliceHttpCall>>(
           stream: widget.core.callsSubject,

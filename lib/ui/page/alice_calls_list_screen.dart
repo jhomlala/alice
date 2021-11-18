@@ -1,11 +1,11 @@
-import 'package:alice/model/alice_menu_item.dart';
+import 'package:alice/core/alice_core.dart';
 import 'package:alice/helper/alice_alert_helper.dart';
+import 'package:alice/model/alice_http_call.dart';
+import 'package:alice/model/alice_menu_item.dart';
 import 'package:alice/model/alice_sort_option.dart';
 import 'package:alice/ui/page/alice_call_details_screen.dart';
-import 'package:alice/core/alice_core.dart';
-import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/utils/alice_constants.dart';
 import 'package:alice/ui/widget/alice_call_list_item_widget.dart';
+import 'package:alice/utils/alice_constants.dart';
 import 'package:flutter/material.dart';
 
 import 'alice_stats_screen.dart';
@@ -43,7 +43,10 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
       child: Theme(
         data: ThemeData(
           brightness: widget._aliceCore.brightness,
-          colorScheme: ColorScheme.light(secondary: AliceConstants.lightRed),
+          colorScheme: widget._aliceCore.brightness == Brightness.light
+              ? ColorScheme.light(secondary: AliceConstants.lightRed)
+              : ColorScheme.dark(secondary: AliceConstants.red),
+          splashColor: AliceConstants.red,
         ),
         child: Scaffold(
           appBar: AppBar(
@@ -277,7 +280,10 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
     return ListView.builder(
       itemCount: callsSorted.length,
       itemBuilder: (context, index) {
-        return AliceCallListItemWidget(callsSorted[index], _onListItemClicked);
+        return AliceCallListItemWidget(
+          callsSorted[index],
+          _onListItemClicked,
+        );
       },
     );
   }
@@ -330,7 +336,11 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
       builder: (BuildContext buildContext) {
         return Theme(
           data: ThemeData(
-            brightness: Brightness.light,
+            brightness: widget._aliceCore.brightness,
+            colorScheme: widget._aliceCore.brightness == Brightness.light
+                ? ColorScheme.light(secondary: AliceConstants.lightRed)
+                : ColorScheme.dark(secondary: AliceConstants.red),
+            hoverColor: AliceConstants.lightRed,
           ),
           child: AlertDialog(
             title: const Text("Select filter"),

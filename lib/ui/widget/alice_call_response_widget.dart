@@ -1,6 +1,6 @@
 import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/utils/alice_constants.dart';
 import 'package:alice/ui/widget/alice_base_call_details_widget.dart';
+import 'package:alice/utils/alice_constants.dart';
 import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 
@@ -38,9 +38,9 @@ class _AliceCallResponseWidgetState
       rows.addAll(_buildHeadersRows());
       rows.addAll(_buildBodyRows());
 
-      return Container(
+      return ListView(
         padding: const EdgeInsets.all(6),
-        child: ListView(children: rows),
+        children: rows,
       );
     } else {
       return Center(

@@ -75,9 +75,9 @@ class _AliceCallRequestWidget
       rows.add(getListRow("   • $query:", value.toString()));
     });
 
-    return Container(
+    return ListView(
       padding: const EdgeInsets.all(6),
-      child: ListView(children: rows),
+      children: rows,
     );
   }
 }

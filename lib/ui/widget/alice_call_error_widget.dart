@@ -28,9 +28,9 @@ class _AliceCallErrorWidgetState
       }
       rows.add(getListRow("Error:", errorText));
 
-      return Container(
+      return ListView(
         padding: const EdgeInsets.all(6),
-        child: ListView(children: rows),
+        children: rows,
       );
     } else {
       return const Center(child: Text("Nothing to display here"));
