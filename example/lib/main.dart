@@ -65,44 +65,44 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Alice HTTP Inspector - Example'),
         ),
-        body: Container(
+        body: ListView(
           padding: EdgeInsets.all(16),
-          child: ListView(
-            children: [
-              const SizedBox(height: 8),
-              _getTextWidget(
-                  "Welcome to example of Alice Http Inspector. Click buttons below to generate sample data."),
-              ElevatedButton(
-                child: Text("Run Dio HTTP Requests"),
-                onPressed: _runDioRequests,
-                style: _buttonStyle,
-              ),
-              ElevatedButton(
-                child: Text("Run http/http HTTP Requests"),
-                onPressed: _runHttpHttpRequests,
-                style: _buttonStyle,
-              ),
-              ElevatedButton(
-                child: Text("Run HttpClient Requests"),
-                onPressed: _runHttpHttpClientRequests,
-                style: _buttonStyle,
-              ),
-              ElevatedButton(
-                child: Text("Run Chopper HTTP Requests"),
-                onPressed: _runChopperHttpRequests,
-                style: _buttonStyle,
-              ),
-              const SizedBox(height: 24),
-              _getTextWidget(
-                  "After clicking on buttons above, you should receive notification."
-                  " Click on it to show inspector. You can also shake your device or click button below."),
-              ElevatedButton(
-                child: Text("Run HTTP Inspector"),
-                onPressed: _runHttpInspector,
-                style: _buttonStyle,
-              )
-            ],
-          ),
+          children: [
+            const SizedBox(height: 8),
+            _getTextWidget(
+              "Welcome to example of Alice Http Inspector. Click buttons below to generate sample data.",
+            ),
+            ElevatedButton(
+              child: Text("Run Dio HTTP Requests"),
+              onPressed: _runDioRequests,
+              style: _buttonStyle,
+            ),
+            ElevatedButton(
+              child: Text("Run http/http HTTP Requests"),
+              onPressed: _runHttpHttpRequests,
+              style: _buttonStyle,
+            ),
+            ElevatedButton(
+              child: Text("Run HttpClient Requests"),
+              onPressed: _runHttpHttpClientRequests,
+              style: _buttonStyle,
+            ),
+            ElevatedButton(
+              child: Text("Run Chopper HTTP Requests"),
+              onPressed: _runChopperHttpRequests,
+              style: _buttonStyle,
+            ),
+            const SizedBox(height: 24),
+            _getTextWidget(
+              "After clicking on buttons above, you should receive notification."
+              " Click on it to show inspector. You can also shake your device or click button below.",
+            ),
+            ElevatedButton(
+              child: Text("Run HTTP Inspector"),
+              onPressed: _runHttpInspector,
+              style: _buttonStyle,
+            )
+          ],
         ),
       ),
     );
@@ -117,8 +117,11 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _runChopperHttpRequests() async {
-    String body = jsonEncode(
-        <String, dynamic>{"title": "foo", "body": "bar", "userId": "1"});
+    String body = jsonEncode(<String, dynamic>{
+      "title": "foo",
+      "body": "bar",
+      "userId": "1",
+    });
     _postsService.getPost("1");
     _postsService.postPost(body);
     _postsService.putPost("1", body);
@@ -135,32 +138,66 @@ class _MyAppState extends State<MyApp> {
       "userId": "1"
     };
     _dio.get<void>(
-        "https://httpbin.org/redirect-to?url=https%3A%2F%2Fhttpbin.org");
-    _dio.delete<void>("https://httpbin.org/status/500");
-    _dio.delete<void>("https://httpbin.org/status/400");
-    _dio.delete<void>("https://httpbin.org/status/300");
-    _dio.delete<void>("https://httpbin.org/status/200");
-    _dio.delete<void>("https://httpbin.org/status/100");
-    _dio.post<void>("https://jsonplaceholder.typicode.com/posts", data: body);
+      "https://httpbin.org/redirect-to?url=https%3A%2F%2Fhttpbin.org",
+    );
+    _dio.delete<void>(
+      "https://httpbin.org/status/500",
+    );
+    _dio.delete<void>(
+      "https://httpbin.org/status/400",
+    );
+    _dio.delete<void>(
+      "https://httpbin.org/status/300",
+    );
+    _dio.delete<void>(
+      "https://httpbin.org/status/200",
+    );
+    _dio.delete<void>(
+      "https://httpbin.org/status/100",
+    );
+    _dio.post<void>(
+      "https://jsonplaceholder.typicode.com/posts",
+      data: body,
+    );
     _dio.get<void>("https://jsonplaceholder.typicode.com/posts",
         queryParameters: <String, dynamic>{"test": 1});
-    _dio.put<void>("https://jsonplaceholder.typicode.com/posts/1", data: body);
-    _dio.put<void>("https://jsonplaceholder.typicode.com/posts/1", data: body);
-    _dio.delete<void>("https://jsonplaceholder.typicode.com/posts/1");
-    _dio.get<void>("http://jsonplaceholder.typicode.com/test/test");
+    _dio.put<void>(
+      "https://jsonplaceholder.typicode.com/posts/1",
+      data: body,
+    );
+    _dio.put<void>(
+      "https://jsonplaceholder.typicode.com/posts/1",
+      data: body,
+    );
+    _dio.delete<void>(
+      "https://jsonplaceholder.typicode.com/posts/1",
+    );
+    _dio.get<void>(
+      "http://jsonplaceholder.typicode.com/test/test",
+    );
 
-    _dio.get<void>("https://jsonplaceholder.typicode.com/photos");
     _dio.get<void>(
-        "https://icons.iconarchive.com/icons/paomedia/small-n-flat/256/sign-info-icon.png");
+      "https://jsonplaceholder.typicode.com/photos",
+    );
     _dio.get<void>(
-        "https://images.unsplash.com/photo-1542736705-53f0131d1e98?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80");
+      "https://icons.iconarchive.com/icons/paomedia/small-n-flat/256/sign-info-icon.png",
+    );
     _dio.get<void>(
-        "https://findicons.com/files/icons/1322/world_of_aqua_5/128/bluetooth.png");
+      "https://images.unsplash.com/photo-1542736705-53f0131d1e98?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    );
     _dio.get<void>(
-        "https://upload.wikimedia.org/wikipedia/commons/4/4e/Pleiades_large.jpg");
-    _dio.get<void>("http://techslides.com/demos/sample-videos/small.mp4");
+      "https://findicons.com/files/icons/1322/world_of_aqua_5/128/bluetooth.png",
+    );
+    _dio.get<void>(
+      "https://upload.wikimedia.org/wikipedia/commons/4/4e/Pleiades_large.jpg",
+    );
+    _dio.get<void>(
+      "http://techslides.com/demos/sample-videos/small.mp4",
+    );
 
-    _dio.get<void>("https://www.cse.wustl.edu/~jain/cis677-97/ftp/e_3dlc2.pdf");
+    _dio.get<void>(
+      "https://www.cse.wustl.edu/~jain/cis677-97/ftp/e_3dlc2.pdf",
+    );
 
     final directory = await getApplicationDocumentsDirectory();
     File file = File("${directory.path}/test.txt");
@@ -171,10 +208,14 @@ class _MyAppState extends State<MyApp> {
     FormData formData = FormData.fromMap(<String, dynamic>{
       "file": await MultipartFile.fromFile(file.path, filename: fileName),
     });
-    _dio.post<void>("https://jsonplaceholder.typicode.com/photos",
-        data: formData);
+    _dio.post<void>(
+      "https://jsonplaceholder.typicode.com/photos",
+      data: formData,
+    );
 
-    _dio.get<void>("http://dummy.restapiexample.com/api/v1/employees");
+    _dio.get<void>(
+      "http://dummy.restapiexample.com/api/v1/employees",
+    );
   }
 
   void _runHttpHttpRequests() async {
@@ -184,50 +225,72 @@ class _MyAppState extends State<MyApp> {
       "userId": "1"
     };
     http
-        .post(Uri.tryParse('https://jsonplaceholder.typicode.com/posts')!,
-            body: body)
-        .interceptWithAlice(_alice, body: body);
+        .post(
+          Uri.tryParse('https://jsonplaceholder.typicode.com/posts')!,
+          body: body,
+        )
+        .interceptWithAlice(
+          _alice,
+          body: body,
+        );
 
     http
         .get(Uri.tryParse('https://jsonplaceholder.typicode.com/posts')!)
         .interceptWithAlice(_alice);
 
     http
-        .put(Uri.tryParse('https://jsonplaceholder.typicode.com/posts/1')!,
-            body: body)
+        .put(
+          Uri.tryParse('https://jsonplaceholder.typicode.com/posts/1')!,
+          body: body,
+        )
         .interceptWithAlice(_alice, body: body);
 
     http
-        .patch(Uri.tryParse('https://jsonplaceholder.typicode.com/posts/1')!,
-            body: body)
+        .patch(
+          Uri.tryParse('https://jsonplaceholder.typicode.com/posts/1')!,
+          body: body,
+        )
         .interceptWithAlice(_alice, body: body);
 
     http
-        .delete(Uri.tryParse('https://jsonplaceholder.typicode.com/posts/1')!)
+        .delete(
+          Uri.tryParse('https://jsonplaceholder.typicode.com/posts/1')!,
+        )
         .interceptWithAlice(_alice, body: body);
 
     http
-        .get(Uri.tryParse('https://jsonplaceholder.typicode.com/test/test')!)
+        .get(
+          Uri.tryParse('https://jsonplaceholder.typicode.com/test/test')!,
+        )
         .interceptWithAlice(_alice);
 
     http
-        .post(Uri.tryParse('https://jsonplaceholder.typicode.com/posts')!,
-            body: body)
+        .post(
+      Uri.tryParse('https://jsonplaceholder.typicode.com/posts')!,
+      body: body,
+    )
         .then((response) {
       _alice.onHttpResponse(response, body: body);
     });
 
     http
-        .get(Uri.tryParse('https://jsonplaceholder.typicode.com/posts')!)
+        .get(
+      Uri.tryParse('https://jsonplaceholder.typicode.com/posts')!,
+    )
         .then((response) {
       _alice.onHttpResponse(response);
     });
 
     http
-        .put(Uri.tryParse('https://jsonplaceholder.typicode.com/posts/1')!,
-            body: body)
+        .put(
+      Uri.tryParse('https://jsonplaceholder.typicode.com/posts/1')!,
+      body: body,
+    )
         .then((response) {
-      _alice.onHttpResponse(response, body: body);
+      _alice.onHttpResponse(
+        response,
+        body: body,
+      );
     });
 
     http
@@ -251,16 +314,18 @@ class _MyAppState extends State<MyApp> {
 
     http
         .post(
-            Uri.tryParse(
-                'https://jsonplaceholder.typicode.com/posts?key1=value1')!,
-            body: body)
+          Uri.tryParse(
+              'https://jsonplaceholder.typicode.com/posts?key1=value1')!,
+          body: body,
+        )
         .interceptWithAlice(_alice, body: body);
 
     http
         .post(
-            Uri.tryParse(
-                'https://jsonplaceholder.typicode.com/posts?key1=value1&key2=value2&key3=value3')!,
-            body: body)
+          Uri.tryParse(
+              'https://jsonplaceholder.typicode.com/posts?key1=value1&key2=value2&key3=value3')!,
+          body: body,
+        )
         .interceptWithAlice(_alice, body: body);
 
     http
