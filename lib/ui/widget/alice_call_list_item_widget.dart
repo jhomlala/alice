@@ -46,6 +46,7 @@ class AliceCallListItemWidget extends StatelessWidget {
   Widget _buildMethodAndEndpointRow(BuildContext context) {
     final Color? textColor = _getEndpointTextColor(context);
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           call.method,
@@ -60,6 +61,7 @@ class AliceCallListItemWidget extends StatelessWidget {
             child: Text(
               call.endpoint,
               overflow: TextOverflow.ellipsis,
+              maxLines: 4,
               style: TextStyle(
                 fontSize: 16,
                 color: textColor,
