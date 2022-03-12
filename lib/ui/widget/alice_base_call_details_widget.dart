@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 abstract class AliceBaseCallDetailsWidgetState<T extends StatefulWidget>
-    extends State<T> {
+    extends State<T> with AutomaticKeepAliveClientMixin {
   final JsonEncoder encoder = const JsonEncoder.withIndent('  ');
 
   Widget getListRow(String name, String value) {

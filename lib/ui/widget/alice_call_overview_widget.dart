@@ -19,6 +19,7 @@ class _AliceCallOverviewWidget
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final List<Widget> rows = [];
     rows.add(getListRow("Method: ", _call.method));
     rows.add(getListRow("Server: ", _call.server));
@@ -39,4 +40,7 @@ class _AliceCallOverviewWidget
       child: ListView(children: rows),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -19,6 +19,7 @@ class _AliceCallErrorWidgetState
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     if (_call.error != null) {
       final List<Widget> rows = [];
       final dynamic error = _call.error!.error;
@@ -36,4 +37,7 @@ class _AliceCallErrorWidgetState
       return const Center(child: Text("Nothing to display here"));
     }
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
