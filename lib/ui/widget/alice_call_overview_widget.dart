@@ -30,6 +30,10 @@ class _AliceCallOverviewWidget
     rows.add(getListRow("Bytes received:", formatBytes(_call.response!.size)));
     rows.add(getListRow("Client:", _call.client));
     rows.add(getListRow("Secure:", _call.secure.toString()));
+    rows.add(getListRow('curl', _call.getCurlCommand().toString()));
+    rows.add(SizedBox(
+      height: 56,
+    ));
     return Container(
       padding: const EdgeInsets.all(6),
       child: ListView(children: rows),

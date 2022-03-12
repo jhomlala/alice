@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
+import 'package:alice/utils/alice_parser.dart';
 
 class AliceHttpCall {
   final int id;
@@ -40,10 +43,15 @@ class AliceHttpCall {
       curlCmd += " -H '$key: $value'";
     });
 
-    final String requestBody = request!.body.toString();
-    if (requestBody != '') {
+    final Map requestBody = request?.body;
+    if (requestBody.isEmpty) {
+      final formattedRequestBody = AliceParser.formatBody(
+          requestBody, AliceParser.getContentType(headers),
+          parseJson: (dynamic data) {
+        return jsonEncode(data);
+      });
       // try to keep to a single line and use a subshell to preserve any line breaks
-      curlCmd += " --data \$'${requestBody.replaceAll("\n", "\\n")}'";
+      curlCmd += " --data \$'${formattedRequestBody.replaceAll("\n", "\\n")}'";
     }
 
     final queryParamMap = request!.queryParameters;
