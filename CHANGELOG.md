@@ -1,3 +1,8 @@
+# 0.2.6
+* Updated dependencies.
+* Set minimum Flutter version to 2.2.3
+* Set minimumSDKVersion to 23 in example
+
 # 0.2.5
 * Added showShareButton in Alice constructor.
 * Added support for Android 12 (by Igor Kurek https://github.com/ikurek )
