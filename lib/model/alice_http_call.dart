@@ -43,8 +43,8 @@ class AliceHttpCall {
       curlCmd += " -H '$key: $value'";
     });
 
-    final Map requestBody = request?.body;
-    if (requestBody.isEmpty) {
+    final dynamic requestBody = request?.body;
+    if (requestBody is Map && requestBody.isEmpty) {
       final formattedRequestBody = AliceParser.formatBody(
           requestBody, AliceParser.getContentType(headers),
           parseJson: (dynamic data) {
@@ -52,6 +52,8 @@ class AliceHttpCall {
       });
       // try to keep to a single line and use a subshell to preserve any line breaks
       curlCmd += " --data \$'${formattedRequestBody.replaceAll("\n", "\\n")}'";
+    } else if (requestBody is String) {
+      curlCmd += " --data \$'${requestBody.replaceAll("\n", "\\n")}'";
     }
 
     final queryParamMap = request!.queryParameters;
