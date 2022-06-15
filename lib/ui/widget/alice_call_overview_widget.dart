@@ -31,7 +31,7 @@ class _AliceCallOverviewWidget
     rows.add(getListRow("Bytes received:", formatBytes(_call.response!.size)));
     rows.add(getListRow("Client:", _call.client));
     rows.add(getListRow("Secure:", _call.secure.toString()));
-    rows.add(getListRow('curl', _call.getCurlCommand().toString()));
+    rows.add(getListRow('curl Postman', _call.getCurlCommand().toString()));
     rows.add(SizedBox(
       height: 56,
     ));

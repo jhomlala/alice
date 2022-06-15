@@ -58,9 +58,10 @@ class AliceDioInterceptor extends InterceptorsWrapper {
           data.files.forEach((entry) {
             files.add(
               AliceFormDataFile(
-                entry.value.filename,
-                entry.value.contentType.toString(),
-                entry.value.length,
+                key: entry.key,
+                fileName: entry.value.filename,
+                contentType: entry.value.contentType.toString(),
+                length: entry.value.length,
               ),
             );
           });
