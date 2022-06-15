@@ -74,9 +74,10 @@ class AliceDioInterceptor extends InterceptorsWrapper {
         request.body = data;
       }
     }
-    final parentCall = options.extra['parent_call'] as AliceHttpCall?;
-    if (parentCall != null) {
-      aliceCore.removeCall(parentCall);
+    final parentCallId = options.extra['parent_call_id'] as int?;
+    if (parentCallId != null) {
+      aliceCore.removeCallId(parentCallId);
+      call.parentCallId = parentCallId;
     }
     request.time = DateTime.now();
     request.headers = options.headers;
@@ -102,7 +103,7 @@ class AliceDioInterceptor extends InterceptorsWrapper {
                     receiveTimeout: options.receiveTimeout,
                     extra: <String, dynamic>{
                       ...options.extra,
-                      'parent_call': call
+                      'parent_call_id': call.id
                     },
                     headers: options.headers,
                     responseType: options.responseType,

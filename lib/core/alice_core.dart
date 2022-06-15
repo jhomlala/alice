@@ -296,11 +296,14 @@ class AliceCore {
   }
 
   /// Remove call item
-  void removeCall(AliceHttpCall _call) {
+  void removeCallId(int callId) {
     if (callsSubject.value.isNotEmpty) {
       final calls = List<AliceHttpCall>.from(callsSubject.value);
-      calls.remove(_call);
-      callsSubject.add(calls);
+      final int index = calls.indexWhere((element) => element.id == callId);
+      if (index >= 0) {
+        calls.removeAt(index);
+        callsSubject.add(calls);
+      }
     }
   }
 

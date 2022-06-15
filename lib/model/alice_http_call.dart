@@ -18,14 +18,16 @@ class AliceHttpCall {
   String server = "";
   String uri = "";
   int duration = 0;
+  //When using retry call
+  int? parentCallId;
   VoidCallback? retryCallBack;
   AliceHttpRequest? request;
   AliceHttpResponse? response;
   AliceHttpError? error;
   static const kDefaultFormDataValue = 'replace-with-your-value';
-  static const kBreakNewLine = '\n';
-  bool get shouldShowRetryButton => retryCallBack != null;
 
+  bool get shouldShowRetryButton => retryCallBack != null;
+  bool get hasParentCall => parentCallId != null;
   AliceHttpCall(this.id) {
     loading = true;
     createdTime = DateTime.now();
