@@ -1,15 +1,16 @@
 import 'dart:io';
-import 'package:alice/core/alice_chopper_response_interceptor.dart';
-import 'package:alice/core/alice_http_adapter.dart';
-import 'package:alice/model/alice_http_call.dart';
 
-import 'package:chopper/chopper.dart';
-import 'package:http/http.dart' as http;
+import 'package:alice/core/alice_chopper_response_interceptor.dart';
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/core/alice_dio_interceptor.dart';
+import 'package:alice/core/alice_http_adapter.dart';
 import 'package:alice/core/alice_http_client_adapter.dart';
+import 'package:alice/model/alice_http_call.dart';
+import 'package:chopper/chopper.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:http/http.dart' as http;
 
 class Alice {
   /// Should user be notified with notification if there's new request catched
@@ -79,8 +80,9 @@ class Alice {
   }
 
   /// Get Dio interceptor which should be applied to Dio instance.
-  AliceDioInterceptor getDioInterceptor() {
-    return AliceDioInterceptor(_aliceCore);
+  /// [retryDio] support retry request
+  AliceDioInterceptor getDioInterceptor({Dio? retryDio}) {
+    return AliceDioInterceptor(_aliceCore, retryDio: retryDio);
   }
 
   /// Handle request from HttpClient

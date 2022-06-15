@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/helper/alice_save_helper.dart';
-import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_call.dart';
+import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice/ui/page/alice_calls_list_screen.dart';
 import 'package:alice/utils/shake_detector.dart';
@@ -248,7 +248,6 @@ class AliceCore {
       );
       final indexToReplace = originalCalls.indexOf(calls.first);
       originalCalls[indexToReplace] = call;
-
       callsSubject.add(originalCalls);
     } else {
       callsSubject.add([...callsSubject.value, call]);
@@ -294,6 +293,15 @@ class AliceCore {
   /// Remove all calls from calls subject
   void removeCalls() {
     callsSubject.add([]);
+  }
+
+  /// Remove call item
+  void removeCall(AliceHttpCall _call) {
+    if (callsSubject.value.isNotEmpty) {
+      final calls = List<AliceHttpCall>.from(callsSubject.value);
+      calls.remove(_call);
+      callsSubject.add(calls);
+    }
   }
 
   AliceHttpCall? _selectCall(int requestId) =>

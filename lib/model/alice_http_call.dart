@@ -5,6 +5,7 @@ import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice/utils/alice_parser.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 class AliceHttpCall {
   final int id;
@@ -17,12 +18,13 @@ class AliceHttpCall {
   String server = "";
   String uri = "";
   int duration = 0;
-
+  VoidCallback? retryCallBack;
   AliceHttpRequest? request;
   AliceHttpResponse? response;
   AliceHttpError? error;
   static const kDefaultFormDataValue = 'replace-with-your-value';
   static const kBreakNewLine = '\n';
+  bool get shouldShowRetryButton => retryCallBack != null;
 
   AliceHttpCall(this.id) {
     loading = true;
