@@ -16,11 +16,11 @@ dependencies:
   rxdart: ^0.27.3
 
   path_provider: ^2.0.9
-  permission_handler: ^10.0.0
+  permission_handler: ^9.2.0
   package_info_plus: ^1.4.0
   open_file: ^3.2.1
   sensors: ^2.0.3
-  share_plus: ^4.0.10+1
+  share_plus: ^3.1.0
   chopper: ^4.0.5
   better_player: ^0.0.81
   collection: ^1.15.0
