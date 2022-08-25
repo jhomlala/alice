@@ -2,7 +2,8 @@
 ///Seems to be not maintained for almost 2 years... (01.03.2021).
 import 'dart:async';
 import 'dart:math';
-import 'package:sensors/sensors.dart';
+
+import 'package:sensors_plus/sensors_plus.dart';
 
 /// Callback for phone shakes
 typedef PhoneShakeCallback = Null Function();
