@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:alice/core/alice_logger.dart';
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/helper/alice_save_helper.dart';
 import 'package:alice/model/alice_http_error.dart';
@@ -134,7 +135,7 @@ class AliceCore {
       Navigator.push<void>(
         context,
         MaterialPageRoute(
-          builder: (context) => AliceCallsListScreen(this),
+          builder: (context) => AliceCallsListScreen(this, AliceLogger()),
         ),
       ).then((onValue) => _isInspectorOpened = false);
     }

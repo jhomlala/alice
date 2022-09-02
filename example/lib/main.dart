@@ -90,6 +90,11 @@ class _MyAppState extends State<MyApp> {
                 onPressed: _runChopperHttpRequests,
                 style: _buttonStyle,
               ),
+              ElevatedButton(
+                child: Text("Log dummy data"),
+                onPressed: () => print('Dummy DATA'),
+                style: _buttonStyle,
+              ),
               const SizedBox(height: 24),
               _getTextWidget(
                   "After clicking on buttons above, you should receive notification."
