@@ -12,6 +12,7 @@ import 'package:alice/ui/page/alice_call_details_screen.dart';
 import 'package:alice/ui/widget/alice_call_list_item_widget.dart';
 import 'package:alice/utils/alice_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'alice_stats_screen.dart';
 
@@ -536,9 +537,12 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
               controller: _scrollController,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  snapshot.data ?? '',
-                  style: TextStyle(fontSize: 10),
+                child: InkWell(
+                  onLongPress: () => _copyToClipboard(snapshot.data!),
+                  child: Text(
+                    snapshot.data ?? '',
+                    style: TextStyle(fontSize: 10),
+                  ),
                 ),
               ),
             );
@@ -548,6 +552,12 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
         return Center(child: CircularProgressIndicator());
       },
     );
+  }
+
+  Future<void> _copyToClipboard(String text) async {
+    await Clipboard.setData(ClipboardData(text: text));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text('Copied!')));
   }
 
   Widget _buildEmptyLogsWidget() {

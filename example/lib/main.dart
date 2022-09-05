@@ -145,13 +145,20 @@ class _MyAppState extends State<MyApp> {
         message: 'Warning log',
       ),
     );
-    logs.add(
-      Log(
-        level: DiagnosticLevel.error,
-        timestamp: DateTime.now(),
-        message: 'Error log',
-      ),
-    );
+    final notNumber = 'afs';
+    try {
+      int.parse(notNumber);
+    } catch (e, stacktrace) {
+      logs.add(
+        Log(
+          level: DiagnosticLevel.error,
+          timestamp: DateTime.now(),
+          message: 'Error log',
+          error: e,
+          stackTrace: stacktrace,
+        ),
+      );
+    }
   }
 
   void _runChopperHttpRequests() async {
