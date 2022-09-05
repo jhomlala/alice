@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
+
 class AliceLogger {
   factory AliceLogger() {
     return _aliceLogger;
@@ -10,13 +12,12 @@ class AliceLogger {
   static final AliceLogger _aliceLogger = AliceLogger._internal();
 
   Future<String> getLogs() async {
-    print('getLogs');
-    final process = await Process.run('logcat', ['-d']);
-    final result = process.stdout as String;
-    return result;
-  }
-
-  Future<String> getLogs2() async {
-    return '';
+    debugPrint('getLogs');
+    if (Platform.isAndroid) {
+      final process = await Process.run('logcat', ['-d']);
+      final result = process.stdout as String;
+      return result;
+    }
+    return 'Unsupported platform';
   }
 }

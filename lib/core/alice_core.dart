@@ -42,6 +42,8 @@ class AliceCore {
   ///Flag used to show/hide share button
   final bool? showShareButton;
 
+  final AliceLogger _aliceLogger = AliceLogger();
+
   late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
   GlobalKey<NavigatorState>? navigatorKey;
   Brightness _brightness = Brightness.light;
@@ -135,7 +137,7 @@ class AliceCore {
       Navigator.push<void>(
         context,
         MaterialPageRoute(
-          builder: (context) => AliceCallsListScreen(this, AliceLogger()),
+          builder: (context) => AliceCallsListScreen(this, _aliceLogger),
         ),
       ).then((onValue) => _isInspectorOpened = false);
     }
