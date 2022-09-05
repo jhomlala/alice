@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:alice/alice.dart';
-import 'package:alice_example/posts_service.dart';
-import 'package:chopper/chopper.dart';
-import 'package:http/http.dart' as http;
 import 'package:alice/core/alice_http_client_extensions.dart';
 import 'package:alice/core/alice_http_extensions.dart';
+import 'package:alice_example/posts_service.dart';
+import 'package:chopper/chopper.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
 void main() => runApp(MyApp());
@@ -23,6 +24,7 @@ class _MyAppState extends State<MyApp> {
   late HttpClient _httpClient;
   ChopperClient? _chopper;
   late PostsService _postsService;
+  final logs = LogCollection();
   Color _primaryColor = Color(0xffff5e57);
   Color _accentColor = Color(0xffff3f34);
   Color _buttonColor = Color(0xff008000);
@@ -34,6 +36,7 @@ class _MyAppState extends State<MyApp> {
       showInspectorOnShake: true,
       darkTheme: false,
       maxCallsCount: 1000,
+      logCollection: logs,
     );
     _dio = Dio(BaseOptions(
       followRedirects: false,
@@ -90,6 +93,11 @@ class _MyAppState extends State<MyApp> {
                 onPressed: _runChopperHttpRequests,
                 style: _buttonStyle,
               ),
+              ElevatedButton(
+                child: Text("Log example data"),
+                onPressed: _logExampleData,
+                style: _buttonStyle,
+              ),
               const SizedBox(height: 24),
               _getTextWidget(
                   "After clicking on buttons above, you should receive notification."
@@ -112,6 +120,45 @@ class _MyAppState extends State<MyApp> {
       style: TextStyle(fontSize: 14),
       textAlign: TextAlign.center,
     );
+  }
+
+  void _logExampleData() {
+    print("Raw log");
+    logs.add(
+      Log(
+        level: DiagnosticLevel.info,
+        timestamp: DateTime.now(),
+        message: 'Info log',
+      ),
+    );
+    logs.add(
+      Log(
+        level: DiagnosticLevel.debug,
+        timestamp: DateTime.now(),
+        message: 'Debug log',
+      ),
+    );
+    logs.add(
+      Log(
+        level: DiagnosticLevel.warning,
+        timestamp: DateTime.now(),
+        message: 'Warning log',
+      ),
+    );
+    final notNumber = 'afs';
+    try {
+      int.parse(notNumber);
+    } catch (e, stacktrace) {
+      logs.add(
+        Log(
+          level: DiagnosticLevel.error,
+          timestamp: DateTime.now(),
+          message: 'Error log',
+          error: e,
+          stackTrace: stacktrace,
+        ),
+      );
+    }
   }
 
   void _runChopperHttpRequests() async {

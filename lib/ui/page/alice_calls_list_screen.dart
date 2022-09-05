@@ -1,25 +1,33 @@
-import 'package:alice/model/alice_menu_item.dart';
-import 'package:alice/helper/alice_alert_helper.dart';
-import 'package:alice/model/alice_sort_option.dart';
-import 'package:alice/ui/page/alice_call_details_screen.dart';
+import 'dart:io';
+
 import 'package:alice/core/alice_core.dart';
+import 'package:alice/logger/alice_logger.dart';
+import 'package:alice/helper/alice_alert_helper.dart';
+import 'package:alice/logger/logs/widgets.dart';
 import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/utils/alice_constants.dart';
+import 'package:alice/model/alice_menu_item.dart';
+import 'package:alice/model/alice_sort_option.dart';
+import 'package:alice/model/alice_tab_item.dart';
+import 'package:alice/ui/page/alice_call_details_screen.dart';
 import 'package:alice/ui/widget/alice_call_list_item_widget.dart';
+import 'package:alice/utils/alice_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'alice_stats_screen.dart';
 
 class AliceCallsListScreen extends StatefulWidget {
   final AliceCore _aliceCore;
+  final AliceLogger? _aliceLogger;
 
-  const AliceCallsListScreen(this._aliceCore);
+  const AliceCallsListScreen(this._aliceCore, this._aliceLogger);
 
   @override
   _AliceCallsListScreenState createState() => _AliceCallsListScreenState();
 }
 
-class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
+class _AliceCallsListScreenState extends State<AliceCallsListScreen>
+    with SingleTickerProviderStateMixin {
   AliceCore get aliceCore => widget._aliceCore;
   bool _searchEnabled = false;
   final TextEditingController _queryTextEditingController =
@@ -27,6 +35,12 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   final List<AliceMenuItem> _menuItems = [];
   AliceSortOption? _sortOption = AliceSortOption.time;
   bool _sortAscending = false;
+
+  int? _selectedIndex;
+  final _tabItems = AliceTabItem.values;
+  final ScrollController _scrollController = ScrollController();
+  TabController? _tabController;
+  bool isAndroidRawLogsEnabled = false;
 
   _AliceCallsListScreenState() {
     _menuItems.add(AliceMenuItem("Sort", Icons.sort));
@@ -37,6 +51,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isLoggerTab = _selectedIndex == 1;
     return Directionality(
       textDirection:
           widget._aliceCore.directionality ?? Directionality.of(context),
@@ -48,28 +63,97 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
         child: Scaffold(
           appBar: AppBar(
             title: _searchEnabled ? _buildSearchField() : _buildTitleWidget(),
-            actions: [
-              _buildSearchButton(),
-              _buildMenuButton(),
+            actions: isLoggerTab
+                ? [_buildLogsChangeButton()]
+                : [
+                    _buildSearchButton(),
+                    _buildMenuButton(),
+                  ],
+            bottom: TabBar(
+              controller: _tabController,
+              indicatorColor: AliceConstants.orange,
+              tabs: [
+                for (final item in _tabItems)
+                  Tab(text: item.title.toUpperCase())
+              ],
+            ),
+          ),
+          body: TabBarView(
+            controller: _tabController,
+            children: [
+              _buildCallsListWrapper(),
+              _buildLogsWidget(),
             ],
           ),
-          body: _buildCallsListWrapper(),
+          floatingActionButton: isLoggerTab
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    FloatingActionButton(
+                      heroTag: 'h1',
+                      child:
+                          Icon(Icons.arrow_upward, color: AliceConstants.white),
+                      backgroundColor: AliceConstants.orange,
+                      onPressed: _onScrollToTopTap,
+                    ),
+                    const SizedBox(height: 8),
+                    FloatingActionButton(
+                      heroTag: 'h2',
+                      child: Icon(Icons.arrow_downward,
+                          color: AliceConstants.white),
+                      backgroundColor: AliceConstants.orange,
+                      onPressed: _onScrollToBottomTap,
+                    ),
+                  ],
+                )
+              : const SizedBox(),
         ),
       ),
     );
   }
 
   @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(
+      vsync: this,
+      length: _tabItems.length,
+      initialIndex: _tabItems.first.index,
+    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _tabController?.addListener(() {
+        _onTabChanged(_tabController!.index);
+      });
+    });
+  }
+
+  @override
   void dispose() {
     super.dispose();
     _queryTextEditingController.dispose();
+    _tabController?.dispose();
+    _scrollController.dispose();
   }
+
 
   Widget _buildSearchButton() {
     return IconButton(
       icon: const Icon(Icons.search),
       onPressed: _onSearchClicked,
     );
+  }
+
+  Widget _buildLogsChangeButton() {
+    return IconButton(
+      icon: const Icon(Icons.terminal),
+      onPressed: _onLogsChangeClicked,
+    );
+  }
+
+  void _onLogsChangeClicked() {
+    setState(() {
+      isAndroidRawLogsEnabled = !isAndroidRawLogsEnabled;
+    });
   }
 
   void _onSearchClicked() {
@@ -79,6 +163,38 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
         _queryTextEditingController.text = "";
       }
     });
+  }
+
+  void _onTabChanged(int index) {
+    setState(() {
+      _selectedIndex = index;
+      if (_selectedIndex == 1) {
+        _searchEnabled = false;
+        _queryTextEditingController.text = "";
+      }
+    });
+  }
+
+  void _onScrollToTopTap() {
+    switch (_selectedIndex) {
+      case 0:
+        // TODO
+        break;
+      case 1:
+        _scrollToTop();
+        break;
+    }
+  }
+
+  void _onScrollToBottomTap() {
+    switch (_selectedIndex) {
+      case 0:
+        // TODO
+        break;
+      case 1:
+        _scrollToBottom();
+        break;
+    }
   }
 
   Widget _buildMenuButton() {
@@ -107,7 +223,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   }
 
   Widget _buildTitleWidget() {
-    return const Text("Alice - Inspector");
+    return const Text("Alice");
   }
 
   Widget _buildSearchField() {
@@ -397,5 +513,88 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
 
   void sortCalls() {
     setState(() {});
+  }
+
+  Widget _buildLogsWidget() {
+    final aliceLogger = widget._aliceLogger;
+    if (aliceLogger != null) {
+      if (isAndroidRawLogsEnabled) {
+        return _buildAndroidRawLogsWidget();
+      }
+      return LogsDebugHelper(aliceLogger.logCollection, scrollController: _scrollController,);
+    } else {
+      return _buildEmptyLogsWidget();
+    }
+  }
+
+  Widget _buildAndroidRawLogsWidget() {
+    return FutureBuilder<String>(
+      future: widget._aliceLogger!.getAndroidRawLogs(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data?.isNotEmpty == true) {
+            return SingleChildScrollView(
+              controller: _scrollController,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: InkWell(
+                  onLongPress: () => _copyToClipboard(snapshot.data!),
+                  child: Text(
+                    snapshot.data ?? '',
+                    style: TextStyle(fontSize: 10),
+                  ),
+                ),
+              ),
+            );
+          }
+          return _buildEmptyLogsWidget();
+        }
+        return Center(child: CircularProgressIndicator());
+      },
+    );
+  }
+
+  Future<void> _copyToClipboard(String text) async {
+    await Clipboard.setData(ClipboardData(text: text));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text('Copied!')));
+  }
+
+  Widget _buildEmptyLogsWidget() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 32),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.error_outline,
+              color: AliceConstants.orange,
+            ),
+            const SizedBox(height: 6),
+            const Text(
+              "There are no logs to show",
+              style: TextStyle(fontSize: 18),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _scrollToTop() {
+    _scrollController.animateTo(
+      _scrollController.position.minScrollExtent,
+      duration: const Duration(microseconds: 500),
+      curve: Curves.ease,
+    );
+  }
+
+  void _scrollToBottom() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: const Duration(microseconds: 500),
+      curve: Curves.ease,
+    );
   }
 }
