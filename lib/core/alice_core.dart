@@ -1,10 +1,11 @@
 import 'dart:async';
 
-import 'package:alice/core/alice_logger.dart';
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/helper/alice_save_helper.dart';
-import 'package:alice/model/alice_http_error.dart';
+import 'package:alice/logger/alice_logger.dart';
+import 'package:alice/logger/logs/data.dart';
 import 'package:alice/model/alice_http_call.dart';
+import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice/ui/page/alice_calls_list_screen.dart';
 import 'package:alice/utils/shake_detector.dart';
@@ -42,7 +43,9 @@ class AliceCore {
   ///Flag used to show/hide share button
   final bool? showShareButton;
 
-  final AliceLogger _aliceLogger = AliceLogger();
+  final LogCollection? logCollection;
+
+  late final AliceLogger _aliceLogger;
 
   late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
   GlobalKey<NavigatorState>? navigatorKey;
@@ -64,6 +67,7 @@ class AliceCore {
     required this.maxCallsCount,
     this.directionality,
     this.showShareButton,
+    this.logCollection,
   }) {
     if (showNotification) {
       _initializeNotificationsPlugin();
@@ -76,6 +80,9 @@ class AliceCore {
         },
         shakeThresholdGravity: 5,
       );
+    }
+    if (logCollection != null) {
+      _aliceLogger = AliceLogger(logCollection: logCollection!);
     }
     _brightness = darkTheme ? Brightness.dark : Brightness.light;
   }

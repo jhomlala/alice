@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:alice/core/alice_core.dart';
-import 'package:alice/core/alice_logger.dart';
+import 'package:alice/logger/alice_logger.dart';
 import 'package:alice/helper/alice_alert_helper.dart';
+import 'package:alice/logger/logs/widgets.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_menu_item.dart';
 import 'package:alice/model/alice_sort_option.dart';
@@ -14,7 +17,7 @@ import 'alice_stats_screen.dart';
 
 class AliceCallsListScreen extends StatefulWidget {
   final AliceCore _aliceCore;
-  final AliceLogger _aliceLogger;
+  final AliceLogger? _aliceLogger;
 
   const AliceCallsListScreen(this._aliceCore, this._aliceLogger);
 
@@ -36,6 +39,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
   final _tabItems = AliceTabItem.values;
   final ScrollController _scrollController = ScrollController();
   TabController? _tabController;
+  bool isAndroidRawLogsEnabled = false;
 
   _AliceCallsListScreenState() {
     _menuItems.add(AliceMenuItem("Sort", Icons.sort));
@@ -59,7 +63,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
           appBar: AppBar(
             title: _searchEnabled ? _buildSearchField() : _buildTitleWidget(),
             actions: isLoggerTab
-                ? []
+                ? [_buildLogsChangeButton()]
                 : [
                     _buildSearchButton(),
                     _buildMenuButton(),
@@ -77,7 +81,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
             controller: _tabController,
             children: [
               _buildCallsListWrapper(),
-              _buildLoggerWidget(),
+              _buildLogsWidget(),
             ],
           ),
           floatingActionButton: isLoggerTab
@@ -130,11 +134,25 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
     _scrollController.dispose();
   }
 
+
   Widget _buildSearchButton() {
     return IconButton(
       icon: const Icon(Icons.search),
       onPressed: _onSearchClicked,
     );
+  }
+
+  Widget _buildLogsChangeButton() {
+    return IconButton(
+      icon: const Icon(Icons.terminal),
+      onPressed: _onLogsChangeClicked,
+    );
+  }
+
+  void _onLogsChangeClicked() {
+    setState(() {
+      isAndroidRawLogsEnabled = !isAndroidRawLogsEnabled;
+    });
   }
 
   void _onSearchClicked() {
@@ -496,28 +514,43 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
     setState(() {});
   }
 
-  Widget _buildLoggerWidget() {
+  Widget _buildLogsWidget() {
+    final aliceLogger = widget._aliceLogger;
+    if (aliceLogger != null) {
+      if (isAndroidRawLogsEnabled) {
+        return _buildAndroidRawLogsWidget();
+      }
+      return LogsDebugHelper(aliceLogger.logCollection, scrollController: _scrollController,);
+    } else {
+      return _buildEmptyLogsWidget();
+    }
+  }
+
+  Widget _buildAndroidRawLogsWidget() {
     return FutureBuilder<String>(
-      future: widget._aliceLogger.getLogs(),
+      future: widget._aliceLogger!.getAndroidRawLogs(),
       builder: (context, snapshot) {
-        if (snapshot.hasData && snapshot.data?.isNotEmpty == true) {
-          return SingleChildScrollView(
-            controller: _scrollController,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                snapshot.data ?? '',
-                style: TextStyle(fontSize: 10),
+        if (snapshot.hasData) {
+          if (snapshot.data?.isNotEmpty == true) {
+            return SingleChildScrollView(
+              controller: _scrollController,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  snapshot.data ?? '',
+                  style: TextStyle(fontSize: 10),
+                ),
               ),
-            ),
-          );
+            );
+          }
+          return _buildEmptyLogsWidget();
         }
-        return _buildEmptyLoggerWidget();
+        return Center(child: CircularProgressIndicator());
       },
     );
   }
 
-  Widget _buildEmptyLoggerWidget() {
+  Widget _buildEmptyLogsWidget() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 32),
       child: Center(

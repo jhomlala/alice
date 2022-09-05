@@ -1,23 +1,20 @@
 import 'dart:io';
 
+import 'package:alice/logger/logs/data.dart';
 import 'package:flutter/foundation.dart';
 
 class AliceLogger {
-  factory AliceLogger() {
-    return _aliceLogger;
-  }
+  final LogCollection logCollection;
 
-  AliceLogger._internal();
+  AliceLogger({required this.logCollection});
 
-  static final AliceLogger _aliceLogger = AliceLogger._internal();
-
-  Future<String> getLogs() async {
+  Future<String> getAndroidRawLogs() async {
     debugPrint('getLogs');
     if (Platform.isAndroid) {
       final process = await Process.run('logcat', ['-d']);
       final result = process.stdout as String;
       return result;
     }
-    return 'Unsupported platform';
+    return '';
   }
 }
