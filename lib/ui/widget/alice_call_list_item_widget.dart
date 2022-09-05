@@ -59,6 +59,7 @@ class AliceCallListItemWidget extends StatelessWidget {
           child: Container(
             child: Text(
               call.endpoint,
+              maxLines: 3,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: 16,
