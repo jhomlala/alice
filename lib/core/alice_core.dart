@@ -45,7 +45,7 @@ class AliceCore {
 
   final LogCollection? logCollection;
 
-  late final AliceLogger _aliceLogger;
+  late final AliceLogger? _aliceLogger;
 
   late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
   GlobalKey<NavigatorState>? navigatorKey;
@@ -83,6 +83,8 @@ class AliceCore {
     }
     if (logCollection != null) {
       _aliceLogger = AliceLogger(logCollection: logCollection!);
+    } else {
+      _aliceLogger = null;
     }
     _brightness = darkTheme ? Brightness.dark : Brightness.light;
   }
