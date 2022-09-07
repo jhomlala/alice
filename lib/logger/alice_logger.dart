@@ -17,4 +17,14 @@ class AliceLogger {
     }
     return '';
   }
+
+  Future<void> clearAndroidRawLogs() async {
+    if (Platform.isAndroid) {
+      await Process.run('logcat', ['-c']);
+    }
+  }
+
+  void clearLogs() {
+    logCollection.clear();
+  }
 }
