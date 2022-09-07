@@ -78,7 +78,7 @@ class AliceCore {
         onPhoneShake: () {
           navigateToCallListScreen();
         },
-        shakeThresholdGravity: 5,
+        shakeThresholdGravity: 4,
       );
     }
     if (logCollection != null) {
