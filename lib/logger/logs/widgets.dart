@@ -50,12 +50,19 @@ class _LogsDebugHelperState extends State<LogsDebugHelper> {
               final filteredLogs = logs
                   .where((it) => it.level.index >= _minLevel.index)
                   .toList();
-              return ListView.builder(
+              return Scrollbar(
+                thickness: 8,
                 controller: widget.scrollController,
-                shrinkWrap: true,
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                itemCount: filteredLogs.length,
-                itemBuilder: (context, i) => LogEntryWidget(filteredLogs[i]),
+                // Fix related to [https://github.com/flutter/flutter/issues/25652]
+                child: SingleChildScrollView(
+                  child: ListView.builder(
+                    controller: widget.scrollController,
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    itemCount: filteredLogs.length,
+                    itemBuilder: (context, i) => LogEntryWidget(filteredLogs[i]),
+                  ),
+                ),
               );
             },
           ),

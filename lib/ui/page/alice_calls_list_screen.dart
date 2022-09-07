@@ -564,15 +564,19 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data?.isNotEmpty == true) {
-            return SingleChildScrollView(
+            return Scrollbar(
+              thickness: 8,
               controller: _scrollController,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: InkWell(
-                  onLongPress: () => _copyToClipboard(snapshot.data!),
-                  child: Text(
-                    snapshot.data ?? '',
-                    style: TextStyle(fontSize: 10),
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkWell(
+                    onLongPress: () => _copyToClipboard(snapshot.data!),
+                    child: Text(
+                      snapshot.data ?? '',
+                      style: TextStyle(fontSize: 10),
+                    ),
                   ),
                 ),
               ),
