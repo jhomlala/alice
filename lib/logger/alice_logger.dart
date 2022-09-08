@@ -11,7 +11,7 @@ class AliceLogger {
   Future<String> getAndroidRawLogs() async {
     debugPrint('getLogs');
     if (Platform.isAndroid) {
-      final process = await Process.run('logcat', ['-d']);
+      final process = await Process.run('logcat', ['-v', 'raw', '-d']);
       final result = process.stdout as String;
       return result;
     }
