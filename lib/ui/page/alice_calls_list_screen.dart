@@ -1,8 +1,6 @@
-import 'dart:io';
-
 import 'package:alice/core/alice_core.dart';
-import 'package:alice/logger/alice_logger.dart';
 import 'package:alice/helper/alice_alert_helper.dart';
+import 'package:alice/logger/alice_logger.dart';
 import 'package:alice/logger/logs/widgets.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_menu_item.dart';
@@ -64,7 +62,10 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
           appBar: AppBar(
             title: _searchEnabled ? _buildSearchField() : _buildTitleWidget(),
             actions: isLoggerTab
-                ? [_buildLogsChangeButton()]
+                ? [
+                    _buildLogsChangeButton(),
+                    _buildLogsClearButton(),
+                  ]
                 : [
                     _buildSearchButton(),
                     _buildMenuButton(),
@@ -135,7 +136,6 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
     _scrollController.dispose();
   }
 
-
   Widget _buildSearchButton() {
     return IconButton(
       icon: const Icon(Icons.search),
@@ -150,9 +150,37 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
     );
   }
 
+  Widget _buildLogsClearButton() {
+    return IconButton(
+      icon: const Icon(Icons.delete),
+      onPressed: _showClearLogsDialog,
+    );
+  }
+
+  void _showClearLogsDialog() {
+    AliceAlertHelper.showAlert(
+      context,
+      "Delete logs",
+      "Do you want to clear logs?",
+      firstButtonTitle: "No",
+      secondButtonTitle: "Yes",
+      secondButtonAction: _onLogsClearClicked,
+    );
+  }
+
   void _onLogsChangeClicked() {
     setState(() {
       isAndroidRawLogsEnabled = !isAndroidRawLogsEnabled;
+    });
+  }
+
+  void _onLogsClearClicked() {
+    setState(() {
+      if (isAndroidRawLogsEnabled) {
+        widget._aliceLogger?.clearAndroidRawLogs();
+      } else {
+        widget._aliceLogger?.clearLogs();
+      }
     });
   }
 
@@ -521,7 +549,10 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
       if (isAndroidRawLogsEnabled) {
         return _buildAndroidRawLogsWidget();
       }
-      return LogsDebugHelper(aliceLogger.logCollection, scrollController: _scrollController,);
+      return LogsDebugHelper(
+        aliceLogger.logCollection,
+        scrollController: _scrollController,
+      );
     } else {
       return _buildEmptyLogsWidget();
     }
@@ -533,15 +564,19 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data?.isNotEmpty == true) {
-            return SingleChildScrollView(
+            return Scrollbar(
+              thickness: 8,
               controller: _scrollController,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: InkWell(
-                  onLongPress: () => _copyToClipboard(snapshot.data!),
-                  child: Text(
-                    snapshot.data ?? '',
-                    style: TextStyle(fontSize: 10),
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkWell(
+                    onLongPress: () => _copyToClipboard(snapshot.data!),
+                    child: Text(
+                      snapshot.data ?? '',
+                      style: TextStyle(fontSize: 10),
+                    ),
                   ),
                 ),
               ),
