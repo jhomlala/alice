@@ -5,26 +5,26 @@ version: 0.2.6
 homepage: https://github.com/jhomlala/alice
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.18.0 <3.0.0"
   flutter: ">=1.12.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  http: ^0.13.4
-  dio: ^4.0.6
-  flutter_local_notifications: ^9.6.1
-  rxdart: ^0.27.4
 
+  chopper: ^5.0.0
+  collection: ^1.16.0
+  dio: ^4.0.6
+  flutter_local_notifications: ^11.0.0
+  http: ^0.13.5
+  package_info_plus: ^1.4.3+1
   path_provider: ^2.0.11
-  permission_handler: ^10.0.0
-  package_info_plus: ^1.4.2
-#  open_file: ^3.2.1
+  permission_handler: ^10.0.1
+  rxdart: ^0.27.5
   sensors: ^2.0.3
   share: ^2.0.4
-  chopper: ^4.0.6
-  better_player: ^0.0.83
-  collection: ^1.16.0
+#  better_player: ^0.0.83
+#  open_file: ^3.2.1
 
 dev_dependencies:
-  lint: ^1.8.2
+  lint: ^1.10.0
