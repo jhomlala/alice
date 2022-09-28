@@ -1,5 +1,5 @@
 # This is a generated file; do not edit or check into version control.
-flutter_local_notifications=/Users/uzukip/project/sdk/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-11.0.0/
+flutter_local_notifications=/Users/uzukip/project/sdk/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-11.0.1/
 package_info_plus=/Users/uzukip/project/sdk/flutter/.pub-cache/hosted/pub.dartlang.org/package_info_plus-1.4.3+1/
 package_info_plus_linux=/Users/uzukip/project/sdk/flutter/.pub-cache/hosted/pub.dartlang.org/package_info_plus_linux-1.0.5/
 package_info_plus_macos=/Users/uzukip/project/sdk/flutter/.pub-cache/hosted/pub.dartlang.org/package_info_plus_macos-1.3.0/
@@ -11,7 +11,7 @@ path_provider_ios=/Users/uzukip/project/sdk/flutter/.pub-cache/hosted/pub.dartla
 path_provider_linux=/Users/uzukip/project/sdk/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_linux-2.1.7/
 path_provider_macos=/Users/uzukip/project/sdk/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_macos-2.0.6/
 path_provider_windows=/Users/uzukip/project/sdk/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-2.1.3/
-permission_handler=/Users/uzukip/project/sdk/flutter/.pub-cache/hosted/pub.dartlang.org/permission_handler-10.0.1/
+permission_handler=/Users/uzukip/project/sdk/flutter/.pub-cache/hosted/pub.dartlang.org/permission_handler-10.0.2/
 permission_handler_android=/Users/uzukip/project/sdk/flutter/.pub-cache/hosted/pub.dartlang.org/permission_handler_android-10.0.0/
 permission_handler_apple=/Users/uzukip/project/sdk/flutter/.pub-cache/hosted/pub.dartlang.org/permission_handler_apple-9.0.4/
 permission_handler_windows=/Users/uzukip/project/sdk/flutter/.pub-cache/hosted/pub.dartlang.org/permission_handler_windows-0.1.0/

@@ -15,7 +15,7 @@ dependencies:
   chopper: ^5.0.0
   collection: ^1.16.0
   dio: ^4.0.6
-  flutter_local_notifications: ^11.0.0
+  flutter_local_notifications: ^11.0.1
   http: ^0.13.5
   package_info_plus: ^1.4.3+1
   path_provider: ^2.0.11

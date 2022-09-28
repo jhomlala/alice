@@ -99,7 +99,7 @@ class AliceCore {
     _flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: _onSelectedNotification,
-      onDidReceiveBackgroundNotificationResponse: _onSelectedNotification,
+      onDidReceiveBackgroundNotificationResponse: callOnBackground,
     );
   }
 
@@ -118,6 +118,11 @@ class AliceCore {
     assert(payload != null, "payload can't be null");
     navigateToCallListScreen();
     return;
+  }
+
+  @pragma('vm:entry-point')
+  static Future<void> callOnBackground(NotificationResponse details) async {
+    print(details);
   }
 
   /// Opens Http calls inspector. This will navigate user to the new fullscreen
