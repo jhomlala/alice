@@ -10,20 +10,23 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: ^0.13.4
-  dio: ^4.0.4
-  flutter_local_notifications: ^9.3.3
-  rxdart: ^0.27.3
+  http: ^0.13.5
+  dio: ^4.0.6
+  flutter_local_notifications: ^9.8.0+1
+  rxdart: ^0.27.5
 
-  path_provider: ^2.0.9
-  permission_handler: ^9.2.0
-  package_info_plus: ^1.4.0
-  open_file: ^3.2.1
+  path_provider: ^2.0.11
+  permission_handler: ^10.0.0
+  package_info_plus: ^1.4.3
+  # open_file: ^3.2.1
+  open_file:
+    git:
+      url: https://github.com/shubhamhackz/open_file.git
   sensors: ^2.0.3
-  share_plus: ^3.1.0
-  chopper: ^4.0.5
-  better_player: ^0.0.81
-  collection: ^1.15.0
+  share_plus: ^4.0.10+1
+  chopper: ^4.0.6
+  better_player: ^0.0.83
+  collection: ^1.16.0
 
 dev_dependencies:
-  lint: ^1.7.2
+  lint: ^1.10.0
