@@ -12,14 +12,14 @@ dependencies:
   flutter:
     sdk: flutter
 
-  chopper: ^5.0.0
+  chopper: ^5.0.1
   collection: ^1.16.0
   dio: ^4.0.6
-  flutter_local_notifications: ^11.0.1
+  flutter_local_notifications: ^12.0.2
   http: ^0.13.5
-  package_info_plus: ^1.4.3+1
+  package_info_plus: ^2.0.0
   path_provider: ^2.0.11
-  permission_handler: ^10.0.1
+  permission_handler: ^10.1.0
   rxdart: ^0.27.5
   sensors: ^2.0.3
   share: ^2.0.4
