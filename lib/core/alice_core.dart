@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:alice/core/alice_utils.dart';
-import 'package:alice/helper/alice_save_helper.dart';
+import 'package:alice/helper/alice_save_helper.dart.bak';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_response.dart';
@@ -306,6 +306,6 @@ class AliceCore {
 
   /// Save all calls to file
   void saveHttpRequests(BuildContext context) {
-    AliceSaveHelper.saveCalls(context, callsSubject.value, _brightness);
+    // AliceSaveHelper.saveCalls(context, callsSubject.value, _brightness);
   }
 }
