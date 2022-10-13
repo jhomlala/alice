@@ -19,7 +19,7 @@ class AliceCallResponseWidget extends StatefulWidget {
 class _AliceCallResponseWidgetState
     extends AliceBaseCallDetailsWidgetState<AliceCallResponseWidget> {
   static const _imageContentType = "image";
-  static const _videoContentType = "video";
+  // static const _videoContentType = "video";
   static const _jsonContentType = "json";
   static const _xmlContentType = "xml";
   static const _textContentType = "text";
@@ -280,11 +280,11 @@ class _AliceCallResponseWidgetState
         .contains(_imageContentType);
   }
 
-  bool _isVideoResponse() {
-    return _getContentTypeOfResponse()!
-        .toLowerCase()
-        .contains(_videoContentType);
-  }
+  // bool _isVideoResponse() {
+  //   return _getContentTypeOfResponse()!
+  //       .toLowerCase()
+  //       .contains(_videoContentType);
+  // }
 
   bool _isTextResponse() {
     final String responseContentTypeLowerCase =
