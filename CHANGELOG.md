@@ -1,3 +1,6 @@
+# 0.3.1
+* Fixed flutter version upper bound
+
 # 0.3.0
 * Added logger feature (by Bartosz Gasztych https://github.com/bgasztych)
 * Updated Android configuration (by Bartosz Gasztych https://github.com/bgasztych)
