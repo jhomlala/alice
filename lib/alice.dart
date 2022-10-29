@@ -1,15 +1,18 @@
 import 'dart:io';
-import 'package:alice/core/alice_chopper_response_interceptor.dart';
-import 'package:alice/core/alice_http_adapter.dart';
-import 'package:alice/model/alice_http_call.dart';
 
-import 'package:chopper/chopper.dart';
-import 'package:http/http.dart' as http;
+import 'package:alice/core/alice_chopper_response_interceptor.dart';
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/core/alice_dio_interceptor.dart';
+import 'package:alice/core/alice_http_adapter.dart';
 import 'package:alice/core/alice_http_client_adapter.dart';
+import 'package:alice/model/alice_http_call.dart';
+import 'package:alice/model/alice_log.dart';
+import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:http/http.dart' as http;
+
+export 'package:alice/model/alice_log.dart';
 
 class Alice {
   /// Should user be notified with notification if there's new request catched
@@ -118,5 +121,15 @@ class Alice {
     assert(aliceHttpCall.request != null, "Http call request can't be null");
     assert(aliceHttpCall.response != null, "Http call response can't be null");
     _aliceCore.addCall(aliceHttpCall);
+  }
+
+  /// Adds new log to Alice logger.
+  void addLog(AliceLog log) {
+    _aliceCore.addLog(log);
+  }
+
+  /// Adds list of logs to Alice logger
+  void addLogs(List<AliceLog> logs) {
+    _aliceCore.addLogs(logs);
   }
 }

@@ -4,6 +4,9 @@ import 'package:alice/model/alice_http_response.dart';
 import 'package:alice/utils/alice_constants.dart';
 import 'package:flutter/material.dart';
 
+const _endpointMaxLines = 10;
+const _serverMaxLines = 5;
+
 class AliceCallListItemWidget extends StatelessWidget {
   final AliceHttpCall call;
   final Function itemClickAction;
@@ -59,6 +62,7 @@ class AliceCallListItemWidget extends StatelessWidget {
           child: Container(
             child: Text(
               call.endpoint,
+              maxLines: _endpointMaxLines,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: 16,
@@ -79,7 +83,7 @@ class AliceCallListItemWidget extends StatelessWidget {
           child: Text(
             call.server,
             overflow: TextOverflow.ellipsis,
-            maxLines: 1,
+            maxLines: _serverMaxLines,
             style: const TextStyle(
               fontSize: 14,
             ),

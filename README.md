@@ -72,6 +72,7 @@ Alice is an HTTP Inspector tool for Flutter which helps debugging http requests.
 ✔️ Error handling  
 ✔️ Shake to open inspector  
 ✔️ HTTP calls search
+✔️ Flutter/Android logs
 
 ## Install
 
@@ -79,7 +80,7 @@ Alice is an HTTP Inspector tool for Flutter which helps debugging http requests.
 
 ```yaml
 dependencies:
-  alice: ^0.2.5
+  alice: ^0.3.0
 ```
 
 2. Install it
@@ -220,6 +221,18 @@ Alice supports saving logs to your mobile device storage. In order to make save 
 ```xml
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 ```
+
+## Flutter logs
+
+If you want to log Flutter logs in Alice, you may use these methods:
+
+```dart
+alice.addLog(log);
+
+alice.addLogs(logList);
+```
+
+
 
 ## Extensions
 You can use extensions to shorten your http and http client code. This is optional, but may improve your codebase.

@@ -7,6 +7,7 @@ import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:http/http.dart';
+
 import 'alice_core.dart';
 
 class AliceChopperInterceptor extends chopper.ResponseInterceptor
@@ -43,29 +44,25 @@ class AliceChopperInterceptor extends chopper.ResponseInterceptor
       final AliceHttpCall call = AliceHttpCall(getRequestHashCode(baseRequest));
       String endpoint = "";
       String server = "";
-      if (request.baseUrl.isEmpty) {
-        final List<String> split = request.url.split("/");
-        if (split.length > 2) {
-          server = split[1] + split[2];
+
+      final List<String> split = request.url.toString().split("/");
+      if (split.length > 2) {
+        server = split[1] + split[2];
+      }
+      if (split.length > 4) {
+        endpoint = "/";
+        for (int splitIndex = 3; splitIndex < split.length; splitIndex++) {
+          // ignore: use_string_buffers
+          endpoint += "${split[splitIndex]}/";
         }
-        if (split.length > 4) {
-          endpoint = "/";
-          for (int splitIndex = 3; splitIndex < split.length; splitIndex++) {
-            // ignore: use_string_buffers
-            endpoint += "${split[splitIndex]}/";
-          }
-          endpoint = endpoint.substring(0, endpoint.length - 1);
-        }
-      } else {
-        endpoint = request.url;
-        server = request.baseUrl;
+        endpoint = endpoint.substring(0, endpoint.length - 1);
       }
 
       call.method = request.method;
       call.endpoint = endpoint;
       call.server = server;
       call.client = "Chopper";
-      if (request.baseUrl.contains("https") || request.url.contains("https")) {
+      if (request.url.toString().contains("https")) {
         call.secure = true;
       }
 

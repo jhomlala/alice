@@ -1,32 +1,46 @@
-import 'package:alice/model/alice_menu_item.dart';
-import 'package:alice/helper/alice_alert_helper.dart';
-import 'package:alice/model/alice_sort_option.dart';
-import 'package:alice/ui/page/alice_call_details_screen.dart';
 import 'package:alice/core/alice_core.dart';
+import 'package:alice/core/alice_logger.dart';
+import 'package:alice/helper/alice_alert_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/utils/alice_constants.dart';
+import 'package:alice/model/alice_menu_item.dart';
+import 'package:alice/model/alice_sort_option.dart';
+import 'package:alice/model/alice_tab_item.dart';
+import 'package:alice/ui/page/alice_call_details_screen.dart';
 import 'package:alice/ui/widget/alice_call_list_item_widget.dart';
+import 'package:alice/ui/widget/alice_log_list_widget.dart';
+import 'package:alice/ui/widget/alice_raw_log_list_widger.dart';
+import 'package:alice/utils/alice_constants.dart';
 import 'package:flutter/material.dart';
 
 import 'alice_stats_screen.dart';
 
 class AliceCallsListScreen extends StatefulWidget {
   final AliceCore _aliceCore;
+  final AliceLogger? _aliceLogger;
 
-  const AliceCallsListScreen(this._aliceCore);
+  const AliceCallsListScreen(this._aliceCore, this._aliceLogger);
 
   @override
   _AliceCallsListScreenState createState() => _AliceCallsListScreenState();
 }
 
-class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
-  AliceCore get aliceCore => widget._aliceCore;
-  bool _searchEnabled = false;
+class _AliceCallsListScreenState extends State<AliceCallsListScreen>
+    with SingleTickerProviderStateMixin {
   final TextEditingController _queryTextEditingController =
       TextEditingController();
   final List<AliceMenuItem> _menuItems = [];
+  final _tabItems = AliceTabItem.values;
+  final ScrollController _scrollController = ScrollController();
+
   AliceSortOption? _sortOption = AliceSortOption.time;
   bool _sortAscending = false;
+  bool _searchEnabled = false;
+  bool isAndroidRawLogsEnabled = false;
+  int _selectedIndex = 0;
+
+  TabController? _tabController;
+
+  AliceCore get aliceCore => widget._aliceCore;
 
   _AliceCallsListScreenState() {
     _menuItems.add(AliceMenuItem("Sort", Icons.sort));
@@ -36,7 +50,31 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(
+      vsync: this,
+      length: _tabItems.length,
+      initialIndex: _tabItems.first.index,
+    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _tabController?.addListener(() {
+        _onTabChanged(_tabController!.index);
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _queryTextEditingController.dispose();
+    _tabController?.dispose();
+    _scrollController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final isLoggerTab = _selectedIndex == 1;
     return Directionality(
       textDirection:
           widget._aliceCore.directionality ?? Directionality.of(context),
@@ -48,21 +86,65 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
         child: Scaffold(
           appBar: AppBar(
             title: _searchEnabled ? _buildSearchField() : _buildTitleWidget(),
-            actions: [
-              _buildSearchButton(),
-              _buildMenuButton(),
+            actions: _buildActionWidgets(isLoggerTab),
+            bottom: TabBar(
+              controller: _tabController,
+              indicatorColor: AliceConstants.orange,
+              tabs: [
+                for (final item in _tabItems)
+                  Tab(text: item.title.toUpperCase())
+              ],
+            ),
+          ),
+          body: TabBarView(
+            controller: _tabController,
+            children: [
+              _buildCallsListWrapper(),
+              _buildLogsWidget(),
             ],
           ),
-          body: _buildCallsListWrapper(),
+          floatingActionButton: _buildFloatingActionButton(isLoggerTab),
         ),
       ),
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _queryTextEditingController.dispose();
+  List<Widget> _buildActionWidgets(bool isLoggerTab) {
+    return isLoggerTab
+        ? [
+            _buildLogsChangeButton(),
+            _buildLogsClearButton(),
+          ]
+        : [
+            _buildSearchButton(),
+            _buildMenuButton(),
+          ];
+  }
+
+  Widget _buildFloatingActionButton(bool isLoggerTab) {
+    return isLoggerTab
+        ? Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              FloatingActionButton(
+                  heroTag: 'h1',
+                  child: Icon(Icons.arrow_upward, color: AliceConstants.white),
+                  backgroundColor: AliceConstants.orange,
+                  onPressed: () {
+                    _scrollLogsList(true);
+                  }),
+              const SizedBox(height: 8),
+              FloatingActionButton(
+                  heroTag: 'h2',
+                  child:
+                      Icon(Icons.arrow_downward, color: AliceConstants.white),
+                  backgroundColor: AliceConstants.orange,
+                  onPressed: () {
+                    _scrollLogsList(false);
+                  }),
+            ],
+          )
+        : const SizedBox();
   }
 
   Widget _buildSearchButton() {
@@ -72,10 +154,61 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
     );
   }
 
+  Widget _buildLogsChangeButton() {
+    return IconButton(
+      icon: const Icon(Icons.terminal),
+      onPressed: _onLogsChangeClicked,
+    );
+  }
+
+  Widget _buildLogsClearButton() {
+    return IconButton(
+      icon: const Icon(Icons.delete),
+      onPressed: _showClearLogsDialog,
+    );
+  }
+
+  void _showClearLogsDialog() {
+    AliceAlertHelper.showAlert(
+      context,
+      "Delete logs",
+      "Do you want to clear logs?",
+      firstButtonTitle: "No",
+      secondButtonTitle: "Yes",
+      secondButtonAction: _onLogsClearClicked,
+    );
+  }
+
+  void _onLogsChangeClicked() {
+    setState(() {
+      isAndroidRawLogsEnabled = !isAndroidRawLogsEnabled;
+    });
+  }
+
+  void _onLogsClearClicked() {
+    setState(() {
+      if (isAndroidRawLogsEnabled) {
+        widget._aliceLogger?.clearAndroidRawLogs();
+      } else {
+        widget._aliceLogger?.clearLogs();
+      }
+    });
+  }
+
   void _onSearchClicked() {
     setState(() {
       _searchEnabled = !_searchEnabled;
       if (!_searchEnabled) {
+        _queryTextEditingController.text = "";
+      }
+    });
+  }
+
+  void _onTabChanged(int index) {
+    setState(() {
+      _selectedIndex = index;
+      if (_selectedIndex == 1) {
+        _searchEnabled = false;
         _queryTextEditingController.text = "";
       }
     });
@@ -107,7 +240,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
   }
 
   Widget _buildTitleWidget() {
-    return const Text("Alice - Inspector");
+    return const Text("Alice");
   }
 
   Widget _buildSearchField() {
@@ -395,7 +528,74 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
     );
   }
 
+  Widget _buildLogsWidget() {
+    final aliceLogger = widget._aliceLogger;
+    final emptyWidget = _buildEmptyLogsWidget();
+    if (aliceLogger != null) {
+      if (isAndroidRawLogsEnabled) {
+        return AliceRawLogListWidget(
+          scrollController: _scrollController,
+          getRawLogs: aliceLogger.getAndroidRawLogs(),
+          emptyWidget: emptyWidget,
+        );
+      }
+      return AliceLogListWidget(
+        logsListenable: aliceLogger.listenable,
+        scrollController: _scrollController,
+        emptyWidget: emptyWidget,
+      );
+    } else {
+      return _buildEmptyLogsWidget();
+    }
+  }
+
   void sortCalls() {
     setState(() {});
+  }
+
+  Widget _buildEmptyLogsWidget() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 32),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.error_outline,
+              color: AliceConstants.orange,
+            ),
+            const SizedBox(height: 6),
+            const Text(
+              "There are no logs to show",
+              style: TextStyle(fontSize: 18),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _scrollLogsList(bool top) {
+    if (top) {
+      _scrollToTop();
+    } else {
+      _scrollToBottom();
+    }
+  }
+
+  void _scrollToTop() {
+    _scrollController.animateTo(
+      _scrollController.position.minScrollExtent,
+      duration: const Duration(microseconds: 500),
+      curve: Curves.ease,
+    );
+  }
+
+  void _scrollToBottom() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: const Duration(microseconds: 500),
+      curve: Curves.ease,
+    );
   }
 }
