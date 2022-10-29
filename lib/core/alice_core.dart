@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:alice/core/alice_raw_android_logger.dart';
+import 'package:alice/core/alice_logger.dart';
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/helper/alice_save_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
@@ -43,9 +43,7 @@ class AliceCore {
   ///Flag used to show/hide share button
   final bool? showShareButton;
 
-  final AliceLogCollection? logCollection;
-
-  late final AliceRawAndroidLogger? _aliceLogger;
+  final AliceLogger _aliceLogger = AliceLogger();
 
   late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
   GlobalKey<NavigatorState>? navigatorKey;
@@ -67,7 +65,6 @@ class AliceCore {
     required this.maxCallsCount,
     this.directionality,
     this.showShareButton,
-    this.logCollection,
   }) {
     if (showNotification) {
       _initializeNotificationsPlugin();
@@ -80,11 +77,6 @@ class AliceCore {
         },
         shakeThresholdGravity: 4,
       );
-    }
-    if (logCollection != null) {
-      _aliceLogger = AliceRawAndroidLogger(logCollection: logCollection!);
-    } else {
-      _aliceLogger = null;
     }
     _brightness = darkTheme ? Brightness.dark : Brightness.light;
   }
@@ -315,5 +307,15 @@ class AliceCore {
   /// Save all calls to file
   void saveHttpRequests(BuildContext context) {
     AliceSaveHelper.saveCalls(context, callsSubject.value, _brightness);
+  }
+
+  /// Adds new log to Alice logger.
+  void addLog(AliceLog log) {
+    _aliceLogger.logs.add(log);
+  }
+
+  /// Adds list of logs to Alice logger
+  void addLogs(List<AliceLog> logs) {
+    _aliceLogger.logs.addAll(logs);
   }
 }

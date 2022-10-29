@@ -1,5 +1,5 @@
 import 'package:alice/core/alice_core.dart';
-import 'package:alice/core/alice_raw_android_logger.dart';
+import 'package:alice/core/alice_logger.dart';
 import 'package:alice/helper/alice_alert_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_menu_item.dart';
@@ -7,7 +7,7 @@ import 'package:alice/model/alice_sort_option.dart';
 import 'package:alice/model/alice_tab_item.dart';
 import 'package:alice/ui/page/alice_call_details_screen.dart';
 import 'package:alice/ui/widget/alice_call_list_item_widget.dart';
-import 'package:alice/ui/widget/alice_log_widget.dart';
+import 'package:alice/ui/widget/alice_log_list_widget.dart';
 import 'package:alice/utils/alice_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,7 +16,7 @@ import 'alice_stats_screen.dart';
 
 class AliceCallsListScreen extends StatefulWidget {
   final AliceCore _aliceCore;
-  final AliceRawAndroidLogger? _aliceLogger;
+  final AliceLogger? _aliceLogger;
 
   const AliceCallsListScreen(this._aliceCore, this._aliceLogger);
 
@@ -549,8 +549,8 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
       if (isAndroidRawLogsEnabled) {
         return _buildAndroidRawLogsWidget();
       }
-      return LogsDebugHelper(
-        aliceLogger.logCollection,
+      return AliceLogListWidget(
+        aliceLogger: aliceLogger,
         scrollController: _scrollController,
       );
     } else {

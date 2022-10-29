@@ -39,8 +39,6 @@ class Alice {
   ///Flag used to show/hide share button
   final bool? showShareButton;
 
-  final AliceLogCollection _logCollection = AliceLogCollection();
-
   GlobalKey<NavigatorState>? _navigatorKey;
   late AliceCore _aliceCore;
   late AliceHttpClientAdapter _httpClientAdapter;
@@ -67,7 +65,6 @@ class Alice {
       maxCallsCount: maxCallsCount,
       directionality: directionality,
       showShareButton: showShareButton,
-      logCollection: _logCollection,
     );
     _httpClientAdapter = AliceHttpClientAdapter(_aliceCore);
     _httpAdapter = AliceHttpAdapter(_aliceCore);
@@ -128,11 +125,11 @@ class Alice {
 
   /// Adds new log to Alice logger.
   void addLog(AliceLog log) {
-    _logCollection.logs.add(log);
+    _aliceCore.addLog(log);
   }
 
   /// Adds list of logs to Alice logger
   void addLogs(List<AliceLog> logs) {
-    _logCollection.logs.addAll(logs);
+    _aliceCore.addLogs(logs);
   }
 }

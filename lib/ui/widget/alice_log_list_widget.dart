@@ -2,27 +2,27 @@
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:alice/core/alice_logger.dart';
+import 'package:alice/model/alice_log.dart';
 import 'package:alice/utils/alice_constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../model/alice_log.dart';
-
-class LogsDebugHelper extends StatefulWidget {
-  const LogsDebugHelper(
-    this.logs, {
-    this.scrollController,
+class AliceLogListWidget extends StatefulWidget {
+  const AliceLogListWidget({
+    required this.aliceLogger,
+    required this.scrollController,
   });
 
-  final AliceLogCollection logs;
+  final AliceLogger aliceLogger;
   final ScrollController? scrollController;
 
   @override
-  State<LogsDebugHelper> createState() => _LogsDebugHelperState();
+  State<AliceLogListWidget> createState() => _AliceLogListWidgetState();
 }
 
-class _LogsDebugHelperState extends State<LogsDebugHelper> {
+class _AliceLogListWidgetState extends State<AliceLogListWidget> {
   var _minLevel = DiagnosticLevel.debug;
 
   @override
@@ -33,7 +33,7 @@ class _LogsDebugHelperState extends State<LogsDebugHelper> {
       children: [
         Expanded(
           child: ValueListenableBuilder<List<AliceLog>>(
-            valueListenable: widget.logs.listenable,
+            valueListenable: widget.aliceLogger.listenable,
             builder: (context, logs, _) {
               if (logs.isEmpty) {
                 return Center(
@@ -60,7 +60,7 @@ class _LogsDebugHelperState extends State<LogsDebugHelper> {
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     itemCount: filteredLogs.length,
                     itemBuilder: (context, i) =>
-                        LogEntryWidget(filteredLogs[i]),
+                        AliceLogEntryWidget(filteredLogs[i]),
                   ),
                 ),
               );
@@ -72,8 +72,8 @@ class _LogsDebugHelperState extends State<LogsDebugHelper> {
   }
 }
 
-class LogEntryWidget extends StatelessWidget {
-  LogEntryWidget(this.log) : super(key: ValueKey(log));
+class AliceLogEntryWidget extends StatelessWidget {
+  AliceLogEntryWidget(this.log) : super(key: ValueKey(log));
 
   final AliceLog log;
 
