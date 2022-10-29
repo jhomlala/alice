@@ -13,16 +13,16 @@ dependencies:
     sdk: flutter
   http: ^0.13.5
   dio: ^4.0.6
-  flutter_local_notifications: ^12.0.2
+  flutter_local_notifications: ^12.0.3
   rxdart: ^0.27.5
 
   path_provider: ^2.0.11
-  permission_handler: ^10.1.0
-  package_info_plus: ^1.4.2
-  open_file: ^3.2.1
-  sensors_plus: ^1.4.1
-  share_plus: ^4.5.3
-  chopper: ^5.0.1
+  permission_handler: ^10.2.0
+  package_info_plus: ^3.0.1
+  open_filex: ^4.2.2
+  sensors_plus: ^2.0.1
+  share_plus: ^6.1.0
+  chopper: ^5.1.0
   better_player: ^0.0.83
   collection: ^1.16.0
 
