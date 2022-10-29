@@ -24,7 +24,6 @@ class _MyAppState extends State<MyApp> {
   late HttpClient _httpClient;
   ChopperClient? _chopper;
   late PostsService _postsService;
-  final logs = LogCollection();
   Color _primaryColor = Color(0xffff5e57);
   Color _accentColor = Color(0xffff3f34);
   Color _buttonColor = Color(0xff008000);
@@ -36,7 +35,6 @@ class _MyAppState extends State<MyApp> {
       showInspectorOnShake: true,
       darkTheme: false,
       maxCallsCount: 1000,
-      logCollection: logs,
     );
     _dio = Dio(BaseOptions(
       followRedirects: false,
@@ -124,22 +122,23 @@ class _MyAppState extends State<MyApp> {
 
   void _logExampleData() {
     print("Raw log");
+    final List<AliceLog> logs = [];
     logs.add(
-      Log(
+      AliceLog(
         level: DiagnosticLevel.info,
         timestamp: DateTime.now(),
         message: 'Info log',
       ),
     );
     logs.add(
-      Log(
+      AliceLog(
         level: DiagnosticLevel.debug,
         timestamp: DateTime.now(),
         message: 'Debug log',
       ),
     );
     logs.add(
-      Log(
+      AliceLog(
         level: DiagnosticLevel.warning,
         timestamp: DateTime.now(),
         message: 'Warning log',
@@ -150,7 +149,7 @@ class _MyAppState extends State<MyApp> {
       int.parse(notNumber);
     } catch (e, stacktrace) {
       logs.add(
-        Log(
+        AliceLog(
           level: DiagnosticLevel.error,
           timestamp: DateTime.now(),
           message: 'Error log',
@@ -159,6 +158,7 @@ class _MyAppState extends State<MyApp> {
         ),
       );
     }
+    _alice.addLogs(logs);
   }
 
   void _runChopperHttpRequests() async {

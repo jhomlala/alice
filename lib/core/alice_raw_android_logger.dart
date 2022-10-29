@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import 'package:alice/logger/logs/data.dart';
+import 'package:alice/model/alice_log.dart';
 import 'package:flutter/foundation.dart';
 
-class AliceLogger {
-  final LogCollection logCollection;
+class AliceRawAndroidLogger {
+  final AliceLogCollection logCollection;
 
-  AliceLogger({required this.logCollection});
+  AliceRawAndroidLogger({required this.logCollection});
 
   Future<String> getAndroidRawLogs() async {
     debugPrint('getLogs');

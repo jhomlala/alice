@@ -2,13 +2,12 @@
 import 'dart:convert';
 import 'dart:ui';
 
-import 'package:alice/logger/logs/level_selector.dart';
 import 'package:alice/utils/alice_constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'data.dart';
+import '../../model/alice_log.dart';
 
 class LogsDebugHelper extends StatefulWidget {
   const LogsDebugHelper(
@@ -16,7 +15,7 @@ class LogsDebugHelper extends StatefulWidget {
     this.scrollController,
   });
 
-  final LogCollection logs;
+  final AliceLogCollection logs;
   final ScrollController? scrollController;
 
   @override
@@ -33,7 +32,7 @@ class _LogsDebugHelperState extends State<LogsDebugHelper> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(
-          child: ValueListenableBuilder<List<Log>>(
+          child: ValueListenableBuilder<List<AliceLog>>(
             valueListenable: widget.logs.listenable,
             builder: (context, logs, _) {
               if (logs.isEmpty) {
@@ -60,7 +59,8 @@ class _LogsDebugHelperState extends State<LogsDebugHelper> {
                     shrinkWrap: true,
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     itemCount: filteredLogs.length,
-                    itemBuilder: (context, i) => LogEntryWidget(filteredLogs[i]),
+                    itemBuilder: (context, i) =>
+                        LogEntryWidget(filteredLogs[i]),
                   ),
                 ),
               );
@@ -75,7 +75,7 @@ class _LogsDebugHelperState extends State<LogsDebugHelper> {
 class LogEntryWidget extends StatelessWidget {
   LogEntryWidget(this.log) : super(key: ValueKey(log));
 
-  final Log log;
+  final AliceLog log;
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +118,7 @@ class LogEntryWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Icon(
-              DiagnosticLevelSelector.levelToIcon(log.level),
+              _getLogIcon(log.level),
               size: 16,
               color: color,
             ),
@@ -169,6 +169,29 @@ class LogEntryWidget extends StatelessWidget {
         return theme.errorColor;
       case DiagnosticLevel.off:
         return Colors.purple;
+    }
+  }
+
+  IconData _getLogIcon(DiagnosticLevel level) {
+    switch (level) {
+      case DiagnosticLevel.hidden:
+        return Icons.all_inclusive_outlined;
+      case DiagnosticLevel.fine:
+        return Icons.bubble_chart_outlined;
+      case DiagnosticLevel.debug:
+        return Icons.bug_report_outlined;
+      case DiagnosticLevel.info:
+        return Icons.info_outline;
+      case DiagnosticLevel.warning:
+        return Icons.warning_outlined;
+      case DiagnosticLevel.hint:
+        return Icons.privacy_tip_outlined;
+      case DiagnosticLevel.summary:
+        return Icons.subject;
+      case DiagnosticLevel.error:
+        return Icons.error_outlined;
+      case DiagnosticLevel.off:
+        return Icons.not_interested_outlined;
     }
   }
 

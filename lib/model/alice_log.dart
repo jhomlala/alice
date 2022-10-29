@@ -1,10 +1,8 @@
-/// Copyright (c) 2020 Jonas Wanke
-
 import 'package:flutter/foundation.dart';
 
 @immutable
-class Log {
-  Log({
+class AliceLog {
+  AliceLog({
     this.level = DiagnosticLevel.info,
     DateTime? timestamp,
     required this.message,
@@ -29,7 +27,7 @@ class Log {
 
   @override
   bool operator ==(Object other) {
-    return other is Log &&
+    return other is AliceLog &&
         level == other.level &&
         timestamp == other.timestamp &&
         message == other.message &&
@@ -38,20 +36,23 @@ class Log {
   }
 }
 
-class LogCollection {
-  LogCollection({int? maximumSize = 50}) : _maximumSize = maximumSize;
+class AliceLogCollection {
+  AliceLogCollection({int? maximumSize = 1000}) : _maximumSize = maximumSize;
 
-  final _logs = ValueNotifier<List<Log>>([]);
-  ValueListenable<List<Log>> get listenable => _logs;
-  List<Log> get logs => listenable.value;
+  final _logs = ValueNotifier<List<AliceLog>>([]);
+
+  ValueListenable<List<AliceLog>> get listenable => _logs;
+
+  List<AliceLog> get logs => listenable.value;
 
   int? _maximumSize;
 
   /// The maximum number of logs to store or `null` for unlimited storage.
   ///
-  /// If more logs arrive, the oldest ones (based on their [Log.timestamp]) will
+  /// If more logs arrive, the oldest ones (based on their [AliceLog.timestamp]) will
   /// be removed.
   int? get maximumSize => _maximumSize;
+
   set maximumSize(int? value) {
     _maximumSize = maximumSize;
 
@@ -60,7 +61,7 @@ class LogCollection {
     }
   }
 
-  void add(Log log) {
+  void add(AliceLog log) {
     int index;
     if (logs.isEmpty || !log.timestamp.isBefore(logs.last.timestamp)) {
       // Quick path as new logs are usually more recent.

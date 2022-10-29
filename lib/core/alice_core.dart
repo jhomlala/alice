@@ -1,12 +1,12 @@
 import 'dart:async';
 
+import 'package:alice/core/alice_raw_android_logger.dart';
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/helper/alice_save_helper.dart';
-import 'package:alice/logger/alice_logger.dart';
-import 'package:alice/logger/logs/data.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
+import 'package:alice/model/alice_log.dart';
 import 'package:alice/ui/page/alice_calls_list_screen.dart';
 import 'package:alice/utils/shake_detector.dart';
 import 'package:collection/collection.dart' show IterableExtension;
@@ -43,9 +43,9 @@ class AliceCore {
   ///Flag used to show/hide share button
   final bool? showShareButton;
 
-  final LogCollection? logCollection;
+  final AliceLogCollection? logCollection;
 
-  late final AliceLogger? _aliceLogger;
+  late final AliceRawAndroidLogger? _aliceLogger;
 
   late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
   GlobalKey<NavigatorState>? navigatorKey;
@@ -82,7 +82,7 @@ class AliceCore {
       );
     }
     if (logCollection != null) {
-      _aliceLogger = AliceLogger(logCollection: logCollection!);
+      _aliceLogger = AliceRawAndroidLogger(logCollection: logCollection!);
     } else {
       _aliceLogger = null;
     }

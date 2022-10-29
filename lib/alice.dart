@@ -5,14 +5,14 @@ import 'package:alice/core/alice_core.dart';
 import 'package:alice/core/alice_dio_interceptor.dart';
 import 'package:alice/core/alice_http_adapter.dart';
 import 'package:alice/core/alice_http_client_adapter.dart';
-import 'package:alice/logger/logs/data.dart';
 import 'package:alice/model/alice_http_call.dart';
+import 'package:alice/model/alice_log.dart';
 import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
-export 'package:alice/logger/logs/data.dart';
+export 'package:alice/model/alice_log.dart';
 
 class Alice {
   /// Should user be notified with notification if there's new request catched
@@ -39,9 +39,7 @@ class Alice {
   ///Flag used to show/hide share button
   final bool? showShareButton;
 
-  final LogCollection? logCollection;
-
-  final bool isAndroidRawLog;
+  final AliceLogCollection _logCollection = AliceLogCollection();
 
   GlobalKey<NavigatorState>? _navigatorKey;
   late AliceCore _aliceCore;
@@ -58,8 +56,6 @@ class Alice {
     this.maxCallsCount = 1000,
     this.directionality,
     this.showShareButton = true,
-    this.isAndroidRawLog = false,
-    this.logCollection,
   }) {
     _navigatorKey = navigatorKey ?? GlobalKey<NavigatorState>();
     _aliceCore = AliceCore(
@@ -71,7 +67,7 @@ class Alice {
       maxCallsCount: maxCallsCount,
       directionality: directionality,
       showShareButton: showShareButton,
-      logCollection: logCollection,
+      logCollection: _logCollection,
     );
     _httpClientAdapter = AliceHttpClientAdapter(_aliceCore);
     _httpAdapter = AliceHttpAdapter(_aliceCore);
@@ -128,5 +124,15 @@ class Alice {
     assert(aliceHttpCall.request != null, "Http call request can't be null");
     assert(aliceHttpCall.response != null, "Http call response can't be null");
     _aliceCore.addCall(aliceHttpCall);
+  }
+
+  /// Adds new log to Alice logger.
+  void addLog(AliceLog log) {
+    _logCollection.logs.add(log);
+  }
+
+  /// Adds list of logs to Alice logger
+  void addLogs(List<AliceLog> logs) {
+    _logCollection.logs.addAll(logs);
   }
 }
