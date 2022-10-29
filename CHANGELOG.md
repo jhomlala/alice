@@ -3,6 +3,7 @@
 * Updated Android configuration (by Bartosz Gasztych https://github.com/bgasztych)
 * Updated Flutter configuration (by Bartosz Gasztych https://github.com/bgasztych)
 * Updated dependencies (by Bartosz Gasztych https://github.com/bgasztych)
+* Updated chopper extension
 * Changed open_file to open_filex 
 * General refactor
 
