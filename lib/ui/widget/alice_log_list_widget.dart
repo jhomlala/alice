@@ -32,7 +32,6 @@ class _AliceLogListWidgetState extends State<AliceLogListWidget> {
         if (logs.isEmpty) {
           return widget.emptyWidget;
         }
-
         final filteredLogs =
             logs.where((it) => it.level.index >= _minLevel.index).toList();
         return ListView.builder(
@@ -54,7 +53,6 @@ class AliceLogEntryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // We don't show the date to save space.
     final textTheme = Theme.of(context).textTheme;
 
     final rawTimestamp = log.timestamp.toString();
