@@ -121,7 +121,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _logExampleData() {
-    print("Raw log");
     final List<AliceLog> logs = [];
     logs.add(
       AliceLog(

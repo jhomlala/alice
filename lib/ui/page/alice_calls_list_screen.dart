@@ -26,93 +26,27 @@ class AliceCallsListScreen extends StatefulWidget {
 
 class _AliceCallsListScreenState extends State<AliceCallsListScreen>
     with SingleTickerProviderStateMixin {
-  AliceCore get aliceCore => widget._aliceCore;
-  bool _searchEnabled = false;
   final TextEditingController _queryTextEditingController =
       TextEditingController();
   final List<AliceMenuItem> _menuItems = [];
-  AliceSortOption? _sortOption = AliceSortOption.time;
-  bool _sortAscending = false;
-
-  int? _selectedIndex;
   final _tabItems = AliceTabItem.values;
   final ScrollController _scrollController = ScrollController();
-  TabController? _tabController;
+
+  AliceSortOption? _sortOption = AliceSortOption.time;
+  bool _sortAscending = false;
+  bool _searchEnabled = false;
   bool isAndroidRawLogsEnabled = false;
+  int _selectedIndex = 0;
+
+  TabController? _tabController;
+
+  AliceCore get aliceCore => widget._aliceCore;
 
   _AliceCallsListScreenState() {
     _menuItems.add(AliceMenuItem("Sort", Icons.sort));
     _menuItems.add(AliceMenuItem("Delete", Icons.delete));
     _menuItems.add(AliceMenuItem("Stats", Icons.insert_chart));
     _menuItems.add(AliceMenuItem("Save", Icons.save));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final isLoggerTab = _selectedIndex == 1;
-    return Directionality(
-      textDirection:
-          widget._aliceCore.directionality ?? Directionality.of(context),
-      child: Theme(
-        data: ThemeData(
-          brightness: widget._aliceCore.brightness,
-          colorScheme: ColorScheme.light(secondary: AliceConstants.lightRed),
-        ),
-        child: Scaffold(
-          appBar: AppBar(
-            title: _searchEnabled ? _buildSearchField() : _buildTitleWidget(),
-            actions: isLoggerTab
-                ? [
-                    _buildLogsChangeButton(),
-                    _buildLogsClearButton(),
-                  ]
-                : [
-                    _buildSearchButton(),
-                    _buildMenuButton(),
-                  ],
-            bottom: TabBar(
-              controller: _tabController,
-              indicatorColor: AliceConstants.orange,
-              tabs: [
-                for (final item in _tabItems)
-                  Tab(text: item.title.toUpperCase())
-              ],
-            ),
-          ),
-          body: TabBarView(
-            controller: _tabController,
-            children: [
-              _buildCallsListWrapper(),
-              _buildLogsWidget(),
-            ],
-          ),
-          floatingActionButton: isLoggerTab
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    FloatingActionButton(
-                        heroTag: 'h1',
-                        child: Icon(Icons.arrow_upward,
-                            color: AliceConstants.white),
-                        backgroundColor: AliceConstants.orange,
-                        onPressed: () {
-                          _scrollLogsList(true);
-                        }),
-                    const SizedBox(height: 8),
-                    FloatingActionButton(
-                        heroTag: 'h2',
-                        child: Icon(Icons.arrow_downward,
-                            color: AliceConstants.white),
-                        backgroundColor: AliceConstants.orange,
-                        onPressed: () {
-                          _scrollLogsList(false);
-                        }),
-                  ],
-                )
-              : const SizedBox(),
-        ),
-      ),
-    );
   }
 
   @override
@@ -136,6 +70,81 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
     _queryTextEditingController.dispose();
     _tabController?.dispose();
     _scrollController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isLoggerTab = _selectedIndex == 1;
+    return Directionality(
+      textDirection:
+          widget._aliceCore.directionality ?? Directionality.of(context),
+      child: Theme(
+        data: ThemeData(
+          brightness: widget._aliceCore.brightness,
+          colorScheme: ColorScheme.light(secondary: AliceConstants.lightRed),
+        ),
+        child: Scaffold(
+          appBar: AppBar(
+            title: _searchEnabled ? _buildSearchField() : _buildTitleWidget(),
+            actions: _buildActionWidgets(isLoggerTab),
+            bottom: TabBar(
+              controller: _tabController,
+              indicatorColor: AliceConstants.orange,
+              tabs: [
+                for (final item in _tabItems)
+                  Tab(text: item.title.toUpperCase())
+              ],
+            ),
+          ),
+          body: TabBarView(
+            controller: _tabController,
+            children: [
+              _buildCallsListWrapper(),
+              _buildLogsWidget(),
+            ],
+          ),
+          floatingActionButton: _buildFloatingActionButton(isLoggerTab),
+        ),
+      ),
+    );
+  }
+
+  List<Widget> _buildActionWidgets(bool isLoggerTab) {
+    return isLoggerTab
+        ? [
+            _buildLogsChangeButton(),
+            _buildLogsClearButton(),
+          ]
+        : [
+            _buildSearchButton(),
+            _buildMenuButton(),
+          ];
+  }
+
+  Widget _buildFloatingActionButton(bool isLoggerTab) {
+    return isLoggerTab
+        ? Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              FloatingActionButton(
+                  heroTag: 'h1',
+                  child: Icon(Icons.arrow_upward, color: AliceConstants.white),
+                  backgroundColor: AliceConstants.orange,
+                  onPressed: () {
+                    _scrollLogsList(true);
+                  }),
+              const SizedBox(height: 8),
+              FloatingActionButton(
+                  heroTag: 'h2',
+                  child:
+                      Icon(Icons.arrow_downward, color: AliceConstants.white),
+                  backgroundColor: AliceConstants.orange,
+                  onPressed: () {
+                    _scrollLogsList(false);
+                  }),
+            ],
+          )
+        : const SizedBox();
   }
 
   Widget _buildSearchButton() {
