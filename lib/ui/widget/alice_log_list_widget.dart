@@ -1,22 +1,21 @@
-/// Copyright (c) 2020 Jonas Wanke
 import 'dart:convert';
 import 'dart:ui';
 
-import 'package:alice/core/alice_logger.dart';
 import 'package:alice/model/alice_log.dart';
-import 'package:alice/utils/alice_constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AliceLogListWidget extends StatefulWidget {
   const AliceLogListWidget({
-    required this.aliceLogger,
+    required this.logsListenable,
     required this.scrollController,
+    required this.emptyWidget,
   });
 
-  final AliceLogger aliceLogger;
+  final ValueListenable<List<AliceLog>> logsListenable;
   final ScrollController? scrollController;
+  final Widget emptyWidget;
 
   @override
   State<AliceLogListWidget> createState() => _AliceLogListWidgetState();
@@ -27,47 +26,23 @@ class _AliceLogListWidgetState extends State<AliceLogListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Expanded(
-          child: ValueListenableBuilder<List<AliceLog>>(
-            valueListenable: widget.aliceLogger.listenable,
-            builder: (context, logs, _) {
-              if (logs.isEmpty) {
-                return Center(
-                  child: Text(
-                    'No logs available.',
-                    style: textTheme.caption!.copyWith(
-                      color: AliceConstants.orange,
-                    ),
-                  ),
-                );
-              }
+    return ValueListenableBuilder<List<AliceLog>>(
+      valueListenable: widget.logsListenable,
+      builder: (context, logs, _) {
+        if (logs.isEmpty) {
+          return widget.emptyWidget;
+        }
 
-              final filteredLogs = logs
-                  .where((it) => it.level.index >= _minLevel.index)
-                  .toList();
-              return Scrollbar(
-                thickness: 8,
-                controller: widget.scrollController,
-                // Fix related to [https://github.com/flutter/flutter/issues/25652]
-                child: SingleChildScrollView(
-                  child: ListView.builder(
-                    controller: widget.scrollController,
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    itemCount: filteredLogs.length,
-                    itemBuilder: (context, i) =>
-                        AliceLogEntryWidget(filteredLogs[i]),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      ],
+        final filteredLogs =
+            logs.where((it) => it.level.index >= _minLevel.index).toList();
+        return ListView.builder(
+          controller: widget.scrollController,
+          shrinkWrap: true,
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          itemCount: filteredLogs.length,
+          itemBuilder: (context, i) => AliceLogEntryWidget(filteredLogs[i]),
+        );
+      },
     );
   }
 }

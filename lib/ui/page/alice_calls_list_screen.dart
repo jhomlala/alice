@@ -8,6 +8,7 @@ import 'package:alice/model/alice_tab_item.dart';
 import 'package:alice/ui/page/alice_call_details_screen.dart';
 import 'package:alice/ui/widget/alice_call_list_item_widget.dart';
 import 'package:alice/ui/widget/alice_log_list_widget.dart';
+import 'package:alice/ui/widget/alice_raw_log_list_widger.dart';
 import 'package:alice/utils/alice_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -91,20 +92,22 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     FloatingActionButton(
-                      heroTag: 'h1',
-                      child:
-                          Icon(Icons.arrow_upward, color: AliceConstants.white),
-                      backgroundColor: AliceConstants.orange,
-                      onPressed: _onScrollToTopTap,
-                    ),
+                        heroTag: 'h1',
+                        child: Icon(Icons.arrow_upward,
+                            color: AliceConstants.white),
+                        backgroundColor: AliceConstants.orange,
+                        onPressed: () {
+                          _scrollLogsList(true);
+                        }),
                     const SizedBox(height: 8),
                     FloatingActionButton(
-                      heroTag: 'h2',
-                      child: Icon(Icons.arrow_downward,
-                          color: AliceConstants.white),
-                      backgroundColor: AliceConstants.orange,
-                      onPressed: _onScrollToBottomTap,
-                    ),
+                        heroTag: 'h2',
+                        child: Icon(Icons.arrow_downward,
+                            color: AliceConstants.white),
+                        backgroundColor: AliceConstants.orange,
+                        onPressed: () {
+                          _scrollLogsList(false);
+                        }),
                   ],
                 )
               : const SizedBox(),
@@ -201,28 +204,6 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
         _queryTextEditingController.text = "";
       }
     });
-  }
-
-  void _onScrollToTopTap() {
-    switch (_selectedIndex) {
-      case 0:
-        // TODO
-        break;
-      case 1:
-        _scrollToTop();
-        break;
-    }
-  }
-
-  void _onScrollToBottomTap() {
-    switch (_selectedIndex) {
-      case 0:
-        // TODO
-        break;
-      case 1:
-        _scrollToBottom();
-        break;
-    }
   }
 
   Widget _buildMenuButton() {
@@ -539,60 +520,29 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
     );
   }
 
-  void sortCalls() {
-    setState(() {});
-  }
-
   Widget _buildLogsWidget() {
     final aliceLogger = widget._aliceLogger;
+    final emptyWidget = _buildEmptyLogsWidget();
     if (aliceLogger != null) {
       if (isAndroidRawLogsEnabled) {
-        return _buildAndroidRawLogsWidget();
+        return AliceRawLogListWidget(
+          scrollController: _scrollController,
+          getRawLogs: aliceLogger.getAndroidRawLogs(),
+          emptyWidget: emptyWidget,
+        );
       }
       return AliceLogListWidget(
-        aliceLogger: aliceLogger,
+        logsListenable: aliceLogger.listenable,
         scrollController: _scrollController,
+        emptyWidget: emptyWidget,
       );
     } else {
       return _buildEmptyLogsWidget();
     }
   }
 
-  Widget _buildAndroidRawLogsWidget() {
-    return FutureBuilder<String>(
-      future: widget._aliceLogger!.getAndroidRawLogs(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data?.isNotEmpty == true) {
-            return Scrollbar(
-              thickness: 8,
-              controller: _scrollController,
-              child: SingleChildScrollView(
-                controller: _scrollController,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: InkWell(
-                    onLongPress: () => _copyToClipboard(snapshot.data!),
-                    child: Text(
-                      snapshot.data ?? '',
-                      style: TextStyle(fontSize: 10),
-                    ),
-                  ),
-                ),
-              ),
-            );
-          }
-          return _buildEmptyLogsWidget();
-        }
-        return Center(child: CircularProgressIndicator());
-      },
-    );
-  }
-
-  Future<void> _copyToClipboard(String text) async {
-    await Clipboard.setData(ClipboardData(text: text));
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text('Copied!')));
+  void sortCalls() {
+    setState(() {});
   }
 
   Widget _buildEmptyLogsWidget() {
@@ -615,6 +565,14 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
         ),
       ),
     );
+  }
+
+  void _scrollLogsList(bool top) {
+    if (top) {
+      _scrollToTop();
+    } else {
+      _scrollToBottom();
+    }
   }
 
   void _scrollToTop() {
