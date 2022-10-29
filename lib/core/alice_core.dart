@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/helper/alice_save_helper.dart';
-import 'package:alice/model/alice_http_error.dart';
+import 'package:alice/logger/alice_logger.dart';
+import 'package:alice/logger/logs/data.dart';
 import 'package:alice/model/alice_http_call.dart';
+import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice/ui/page/alice_calls_list_screen.dart';
 import 'package:alice/utils/shake_detector.dart';
@@ -41,6 +43,10 @@ class AliceCore {
   ///Flag used to show/hide share button
   final bool? showShareButton;
 
+  final LogCollection? logCollection;
+
+  late final AliceLogger? _aliceLogger;
+
   late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
   GlobalKey<NavigatorState>? navigatorKey;
   Brightness _brightness = Brightness.light;
@@ -61,6 +67,7 @@ class AliceCore {
     required this.maxCallsCount,
     this.directionality,
     this.showShareButton,
+    this.logCollection,
   }) {
     if (showNotification) {
       _initializeNotificationsPlugin();
@@ -71,8 +78,13 @@ class AliceCore {
         onPhoneShake: () {
           navigateToCallListScreen();
         },
-        shakeThresholdGravity: 5,
+        shakeThresholdGravity: 4,
       );
+    }
+    if (logCollection != null) {
+      _aliceLogger = AliceLogger(logCollection: logCollection!);
+    } else {
+      _aliceLogger = null;
     }
     _brightness = darkTheme ? Brightness.dark : Brightness.light;
   }
@@ -91,14 +103,14 @@ class AliceCore {
     _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     final initializationSettingsAndroid =
         AndroidInitializationSettings(notificationIcon);
-    const initializationSettingsIOS = IOSInitializationSettings();
+    const initializationSettingsIOS = DarwinInitializationSettings();
     final initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
     );
     _flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
-      onSelectNotification: _onSelectedNotification,
+      onDidReceiveNotificationResponse: _onDidReceiveNotificationResponse,
     );
   }
 
@@ -113,8 +125,9 @@ class AliceCore {
     }
   }
 
-  Future<void> _onSelectedNotification(String? payload) async {
-    assert(payload != null, "payload can't be null");
+  Future<void> _onDidReceiveNotificationResponse(
+      NotificationResponse response) async {
+    assert(response.payload != null, "payload can't be null");
     navigateToCallListScreen();
     return;
   }
@@ -134,7 +147,7 @@ class AliceCore {
       Navigator.push<void>(
         context,
         MaterialPageRoute(
-          builder: (context) => AliceCallsListScreen(this),
+          builder: (context) => AliceCallsListScreen(this, _aliceLogger),
         ),
       ).then((onValue) => _isInspectorOpened = false);
     }
@@ -219,7 +232,7 @@ class AliceCore {
       largeIcon: DrawableResourceAndroidBitmap(notificationIcon),
     );
     const iOSPlatformChannelSpecifics =
-        IOSNotificationDetails(presentSound: false);
+        DarwinNotificationDetails(presentSound: false);
     final platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics,
