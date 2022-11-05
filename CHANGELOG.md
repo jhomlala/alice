@@ -1,3 +1,7 @@
+# 0.3.2
+* Removed video player.
+* Link to the video will be displayed instead of video player.
+
 # 0.3.1
 * Fixed flutter version upper bound
 
