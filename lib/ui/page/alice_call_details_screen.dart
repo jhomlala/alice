@@ -36,7 +36,6 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
       child: Theme(
         data: ThemeData(
           brightness: widget.core.brightness,
-          colorScheme: ColorScheme.light(secondary: AliceConstants.lightRed),
         ),
         child: StreamBuilder<List<AliceHttpCall>>(
           stream: widget.core.callsSubject,

@@ -81,7 +81,6 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
       child: Theme(
         data: ThemeData(
           brightness: widget._aliceCore.brightness,
-          colorScheme: ColorScheme.light(secondary: AliceConstants.lightRed),
         ),
         child: Scaffold(
           appBar: AppBar(

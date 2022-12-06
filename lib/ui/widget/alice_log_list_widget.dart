@@ -129,15 +129,15 @@ class AliceLogEntryWidget extends StatelessWidget {
       case DiagnosticLevel.fine:
         return Colors.grey;
       case DiagnosticLevel.debug:
-        return Colors.black;
+        return Theme.of(context).colorScheme.onSurface;
       case DiagnosticLevel.info:
-        return Colors.black;
+        return Theme.of(context).colorScheme.onSurface;
       case DiagnosticLevel.warning:
         return Colors.orange;
       case DiagnosticLevel.hint:
         return Colors.grey;
       case DiagnosticLevel.summary:
-        return Colors.black;
+        return Theme.of(context).colorScheme.onSurface;
       case DiagnosticLevel.error:
         return theme.errorColor;
       case DiagnosticLevel.off:
