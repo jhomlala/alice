@@ -41,51 +41,24 @@ class AliceChopperInterceptor extends chopper.ResponseInterceptor
   FutureOr<chopper.Request> onRequest(chopper.Request request) async {
     try {
       final baseRequest = await request.toBaseRequest();
-      final AliceHttpCall call = AliceHttpCall(getRequestHashCode(baseRequest));
-      String endpoint = "";
-      String server = "";
+      final call = AliceHttpCall(getRequestHashCode(baseRequest));
 
-      final List<String> split = request.url.toString().split("/");
-      if (split.length > 2) {
-        server = split[1] + split[2];
-      }
-      if (split.length > 4) {
-        endpoint = "/";
-        for (int splitIndex = 3; splitIndex < split.length; splitIndex++) {
-          // ignore: use_string_buffers
-          endpoint += "${split[splitIndex]}/";
-        }
-        endpoint = endpoint.substring(0, endpoint.length - 1);
-      }
-
-      call.method = request.method;
-      call.endpoint = endpoint;
-      call.server = server;
-      call.client = "Chopper";
-      if (request.url.toString().contains("https")) {
-        call.secure = true;
-      }
-
-      final AliceHttpRequest aliceHttpRequest = AliceHttpRequest();
-
-      if (request.body == null) {
-        aliceHttpRequest.size = 0;
-        aliceHttpRequest.body = "";
-      } else {
-        aliceHttpRequest.size = utf8.encode(request.body as String).length;
-        aliceHttpRequest.body = request.body;
-      }
+      final aliceHttpRequest = AliceHttpRequest();
+      aliceHttpRequest.body = request.body?.toString() ?? '';
+      aliceHttpRequest.size =
+          utf8.encode(aliceHttpRequest.body.toString()).length;
       aliceHttpRequest.time = DateTime.now();
       aliceHttpRequest.headers = request.headers;
-
-      String? contentType = "unknown";
-      if (request.headers.containsKey("Content-Type")) {
-        contentType = request.headers["Content-Type"];
-      }
-      aliceHttpRequest.contentType = contentType;
+      aliceHttpRequest.contentType =
+          request.headers['Content-Type'] ?? 'unknown';
       aliceHttpRequest.queryParameters = request.parameters;
 
       call.request = aliceHttpRequest;
+      call.method = request.method;
+      call.endpoint = request.url.path;
+      call.server = request.url.origin;
+      call.client = 'Chopper';
+      call.secure = request.url.scheme.contains('https');
       call.response = AliceHttpResponse();
 
       aliceCore.addCall(call);
@@ -100,20 +73,10 @@ class AliceChopperInterceptor extends chopper.ResponseInterceptor
   FutureOr<chopper.Response> onResponse(chopper.Response response) {
     final httpResponse = AliceHttpResponse();
     httpResponse.status = response.statusCode;
-    if (response.body == null) {
-      httpResponse.body = "";
-      httpResponse.size = 0;
-    } else {
-      httpResponse.body = response.body;
-      httpResponse.size = utf8.encode(response.body.toString()).length;
-    }
-
+    httpResponse.body = response.body ?? '';
+    httpResponse.size = utf8.encode(httpResponse.body.toString()).length;
     httpResponse.time = DateTime.now();
-    final Map<String, String> headers = {};
-    response.headers.forEach((header, values) {
-      headers[header] = values.toString();
-    });
-    httpResponse.headers = headers;
+    httpResponse.headers = response.headers;
 
     aliceCore.addResponse(
       httpResponse,
