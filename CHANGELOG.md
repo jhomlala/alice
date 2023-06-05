@@ -1,3 +1,6 @@
+# 0.3.3
+* Updated dependencies
+
 # 0.3.2
 * Removed video player.
 * Link to the video will be displayed instead of video player.
