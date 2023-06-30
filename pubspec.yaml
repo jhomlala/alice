@@ -11,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: ^1.0.0
+  http: 0.13.6
   dio: ^5.1.2
   flutter_local_notifications: ^14.1.1
   rxdart: ^0.27.7
@@ -23,8 +23,8 @@ dependencies:
   sensors_plus: ^3.0.2
   share_plus: ^7.0.2
   chopper: ^6.1.4
-  collection: ^1.17.1
+  collection: ^1.17.0
   url_launcher: ^6.1.6
 
 dev_dependencies:
-  lint: ^2.1.2
+  lint: ^2.0.20
