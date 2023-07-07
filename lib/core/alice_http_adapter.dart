@@ -84,7 +84,7 @@ class AliceHttpAdapter {
 
     call.loading = false;
     call.duration = httpResponse.time.millisecondsSinceEpoch -
-        httpRequest.time!.millisecondsSinceEpoch;
+        httpRequest.time.millisecondsSinceEpoch;
     aliceCore.addCall(call);
   }
 }
