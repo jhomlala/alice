@@ -13,8 +13,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Color _primaryColor = Color(0xffff5e57);
-  Color _accentColor = Color(0xffff3f34);
+  final _primaryColor = const Color(0xffff5e57);
+  final _accentColor = const Color(0xffff3f34);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,6 @@ class _MyAppState extends State<MyApp> {
         primaryColor: _primaryColor,
         colorScheme: ColorScheme.light(secondary: _accentColor),
       ),
-      // navigatorKey: _alice.getNavigatorKey(),
       debugShowCheckedModeBanner: false,
       home: _ExampleBody(),
     );
@@ -40,8 +39,8 @@ class _ExampleBody extends StatefulWidget {
 class _ExampleBodyState extends State<_ExampleBody> {
   final _buttonColor = const Color(0xff008000);
 
-  late Alice _alice;
-  late HttpClient _httpClient;
+  late final Alice _alice;
+  late final HttpClient _httpClient;
 
   @override
   void initState() {
@@ -154,88 +153,119 @@ class _ExampleBodyState extends State<_ExampleBody> {
       "userId": "1"
     };
     http
-        .post(Uri.tryParse('https://jsonplaceholder.typicode.com/posts')!,
-            body: body)
+        .post(
+          Uri.parse('https://jsonplaceholder.typicode.com/posts'),
+          body: body,
+        )
         .interceptWithAlice(_alice, body: body);
 
     http
-        .get(Uri.tryParse('https://jsonplaceholder.typicode.com/posts')!)
+        .get(
+          Uri.parse('https://jsonplaceholder.typicode.com/posts'),
+        )
         .interceptWithAlice(_alice);
 
     http
-        .put(Uri.tryParse('https://jsonplaceholder.typicode.com/posts/1')!,
-            body: body)
+        .put(
+          Uri.parse('https://jsonplaceholder.typicode.com/posts/1'),
+          body: body,
+        )
         .interceptWithAlice(_alice, body: body);
 
     http
-        .patch(Uri.tryParse('https://jsonplaceholder.typicode.com/posts/1')!,
-            body: body)
+        .patch(
+          Uri.parse('https://jsonplaceholder.typicode.com/posts/1'),
+          body: body,
+        )
         .interceptWithAlice(_alice, body: body);
 
     http
-        .delete(Uri.tryParse('https://jsonplaceholder.typicode.com/posts/1')!)
+        .delete(
+          Uri.parse('https://jsonplaceholder.typicode.com/posts/1'),
+        )
         .interceptWithAlice(_alice, body: body);
 
     http
-        .get(Uri.tryParse('https://jsonplaceholder.typicode.com/test/test')!)
+        .get(
+          Uri.parse('https://jsonplaceholder.typicode.com/test/test'),
+        )
         .interceptWithAlice(_alice);
 
     http
-        .post(Uri.tryParse('https://jsonplaceholder.typicode.com/posts')!,
-            body: body)
+        .post(
+      Uri.parse('https://jsonplaceholder.typicode.com/posts'),
+      body: body,
+    )
         .then((response) {
       _alice.onHttpResponse(response, body: body);
     });
 
     http
-        .get(Uri.tryParse('https://jsonplaceholder.typicode.com/posts')!)
+        .get(
+      Uri.parse('https://jsonplaceholder.typicode.com/posts'),
+    )
         .then((response) {
       _alice.onHttpResponse(response);
     });
 
     http
-        .put(Uri.tryParse('https://jsonplaceholder.typicode.com/posts/1')!,
-            body: body)
+        .put(
+      Uri.parse('https://jsonplaceholder.typicode.com/posts/1'),
+      body: body,
+    )
         .then((response) {
       _alice.onHttpResponse(response, body: body);
     });
 
     http
-        .patch(Uri.tryParse('https://jsonplaceholder.typicode.com/posts/1')!,
-            body: body)
+        .patch(
+      Uri.parse('https://jsonplaceholder.typicode.com/posts/1'),
+      body: body,
+    )
         .then((response) {
       _alice.onHttpResponse(response, body: body);
     });
 
     http
-        .delete(Uri.tryParse('https://jsonplaceholder.typicode.com/posts/1')!)
+        .delete(
+      Uri.parse('https://jsonplaceholder.typicode.com/posts/1'),
+    )
         .then((response) {
       _alice.onHttpResponse(response);
     });
 
     http
-        .get(Uri.tryParse('https://jsonplaceholder.typicode.com/test/test')!)
+        .get(
+      Uri.parse('https://jsonplaceholder.typicode.com/test/test'),
+    )
         .then((response) {
       _alice.onHttpResponse(response);
     });
 
     http
         .post(
-            Uri.tryParse(
-                'https://jsonplaceholder.typicode.com/posts?key1=value1')!,
-            body: body)
+          Uri.parse(
+            'https://jsonplaceholder.typicode.com/posts?key1=value1',
+          ),
+          body: body,
+        )
         .interceptWithAlice(_alice, body: body);
 
     http
         .post(
-            Uri.tryParse(
-                'https://jsonplaceholder.typicode.com/posts?key1=value1&key2=value2&key3=value3')!,
-            body: body)
+          Uri.parse(
+            'https://jsonplaceholder.typicode.com/posts?key1=value1&key2=value2&key3=value3',
+          ),
+          body: body,
+        )
         .interceptWithAlice(_alice, body: body);
 
     http
-        .get(Uri.tryParse(
-            'https://jsonplaceholder.typicode.com/test/test?key1=value1&key2=value2&key3=value3')!)
+        .get(
+      Uri.parse(
+        'https://jsonplaceholder.typicode.com/test/test?key1=value1&key2=value2&key3=value3',
+      ),
+    )
         .then((response) {
       _alice.onHttpResponse(response);
     });

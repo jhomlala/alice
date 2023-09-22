@@ -7,7 +7,7 @@ import Foundation
 
 import package_info_plus
 import path_provider_foundation
-import share_plus
+import share_plus_macos
 import url_launcher_macos
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
