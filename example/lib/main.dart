@@ -2,14 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:alice/alice.dart';
-import 'package:alice/core/alice_http_client_extensions.dart';
-import 'package:alice/core/alice_http_extensions.dart';
-import 'package:alice_example/posts_service.dart';
-import 'package:chopper/chopper.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
 
 void main() => runApp(MyApp());
 
@@ -19,32 +13,43 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late Alice _alice;
-  late Dio _dio;
-  late HttpClient _httpClient;
-  ChopperClient? _chopper;
-  late PostsService _postsService;
   Color _primaryColor = Color(0xffff5e57);
   Color _accentColor = Color(0xffff3f34);
-  Color _buttonColor = Color(0xff008000);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData(
+        primaryColor: _primaryColor,
+        colorScheme: ColorScheme.light(secondary: _accentColor),
+      ),
+      // navigatorKey: _alice.getNavigatorKey(),
+      debugShowCheckedModeBanner: false,
+      home: _ExampleBody(),
+    );
+  }
+}
+
+class _ExampleBody extends StatefulWidget {
+  const _ExampleBody({super.key});
+
+  @override
+  State<_ExampleBody> createState() => _ExampleBodyState();
+}
+
+class _ExampleBodyState extends State<_ExampleBody> {
+  final _buttonColor = const Color(0xff008000);
+
+  late Alice _alice;
+  late HttpClient _httpClient;
 
   @override
   void initState() {
     _alice = Alice(
-      showNotification: true,
-      showInspectorOnShake: true,
       darkTheme: false,
       maxCallsCount: 1000,
     );
-    _dio = Dio(BaseOptions(
-      followRedirects: false,
-    ));
-    _dio.interceptors.add(_alice.getDioInterceptor());
     _httpClient = HttpClient();
-    _chopper = ChopperClient(
-      interceptors: _alice.getChopperInterceptor(),
-    );
-    _postsService = PostsService.create(_chopper);
 
     super.initState();
   }
@@ -53,60 +58,42 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     ButtonStyle _buttonStyle = ButtonStyle(
         backgroundColor: MaterialStateProperty.all<Color>(_buttonColor));
-    return MaterialApp(
-      theme: ThemeData(
-        primaryColor: _primaryColor,
-        colorScheme: ColorScheme.light(secondary: _accentColor),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Alice HTTP Inspector - Example'),
       ),
-      navigatorKey: _alice.getNavigatorKey(),
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Alice HTTP Inspector - Example'),
-        ),
-        body: Container(
-          padding: EdgeInsets.all(16),
-          child: ListView(
-            children: [
-              const SizedBox(height: 8),
-              _getTextWidget(
-                  "Welcome to example of Alice Http Inspector. Click buttons below to generate sample data."),
-              ElevatedButton(
-                child: Text("Run Dio HTTP Requests"),
-                onPressed: _runDioRequests,
-                style: _buttonStyle,
-              ),
-              ElevatedButton(
-                child: Text("Run http/http HTTP Requests"),
-                onPressed: _runHttpHttpRequests,
-                style: _buttonStyle,
-              ),
-              ElevatedButton(
-                child: Text("Run HttpClient Requests"),
-                onPressed: _runHttpHttpClientRequests,
-                style: _buttonStyle,
-              ),
-              ElevatedButton(
-                child: Text("Run Chopper HTTP Requests"),
-                onPressed: _runChopperHttpRequests,
-                style: _buttonStyle,
-              ),
-              ElevatedButton(
-                child: Text("Log example data"),
-                onPressed: _logExampleData,
-                style: _buttonStyle,
-              ),
-              const SizedBox(height: 24),
-              _getTextWidget(
-                  "After clicking on buttons above, you should receive notification."
-                  " Click on it to show inspector. You can also shake your device or click button below."),
-              ElevatedButton(
-                child: Text("Run HTTP Inspector"),
-                onPressed: _runHttpInspector,
-                style: _buttonStyle,
-              )
-            ],
-          ),
+      body: Container(
+        padding: EdgeInsets.all(16),
+        child: ListView(
+          children: [
+            const SizedBox(height: 8),
+            _getTextWidget(
+                "Welcome to example of Alice Http Inspector. Click buttons below to generate sample data."),
+            ElevatedButton(
+              child: Text("Run http/http HTTP Requests"),
+              onPressed: _runHttpHttpRequests,
+              style: _buttonStyle,
+            ),
+            ElevatedButton(
+              child: Text("Run HttpClient Requests"),
+              onPressed: _runHttpHttpClientRequests,
+              style: _buttonStyle,
+            ),
+            ElevatedButton(
+              child: Text("Log example data"),
+              onPressed: _logExampleData,
+              style: _buttonStyle,
+            ),
+            const SizedBox(height: 24),
+            _getTextWidget(
+                "After clicking on buttons above, you should receive notification."
+                " Click on it to show inspector. You can also shake your device or click button below."),
+            ElevatedButton(
+              child: Text("Run HTTP Inspector"),
+              onPressed: _runHttpInspector,
+              style: _buttonStyle,
+            )
+          ],
         ),
       ),
     );
@@ -158,67 +145,6 @@ class _MyAppState extends State<MyApp> {
       );
     }
     _alice.addLogs(logs);
-  }
-
-  void _runChopperHttpRequests() async {
-    String body = jsonEncode(
-        <String, dynamic>{"title": "foo", "body": "bar", "userId": "1"});
-    _postsService.getPost("1");
-    _postsService.postPost(body);
-    _postsService.putPost("1", body);
-    _postsService.putPost("1231923", body);
-    _postsService.putPost("1", null);
-    _postsService.postPost(null);
-    _postsService.getPost("123456");
-  }
-
-  void _runDioRequests() async {
-    Map<String, dynamic> body = <String, dynamic>{
-      "title": "foo",
-      "body": "bar",
-      "userId": "1"
-    };
-    _dio.get<void>(
-        "https://httpbin.org/redirect-to?url=https%3A%2F%2Fhttpbin.org");
-    _dio.delete<void>("https://httpbin.org/status/500");
-    _dio.delete<void>("https://httpbin.org/status/400");
-    _dio.delete<void>("https://httpbin.org/status/300");
-    _dio.delete<void>("https://httpbin.org/status/200");
-    _dio.delete<void>("https://httpbin.org/status/100");
-    _dio.post<void>("https://jsonplaceholder.typicode.com/posts", data: body);
-    _dio.get<void>("https://jsonplaceholder.typicode.com/posts",
-        queryParameters: <String, dynamic>{"test": 1});
-    _dio.put<void>("https://jsonplaceholder.typicode.com/posts/1", data: body);
-    _dio.put<void>("https://jsonplaceholder.typicode.com/posts/1", data: body);
-    _dio.delete<void>("https://jsonplaceholder.typicode.com/posts/1");
-    _dio.get<void>("http://jsonplaceholder.typicode.com/test/test");
-
-    _dio.get<void>("https://jsonplaceholder.typicode.com/photos");
-    _dio.get<void>(
-        "https://icons.iconarchive.com/icons/paomedia/small-n-flat/256/sign-info-icon.png");
-    _dio.get<void>(
-        "https://images.unsplash.com/photo-1542736705-53f0131d1e98?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80");
-    _dio.get<void>(
-        "https://findicons.com/files/icons/1322/world_of_aqua_5/128/bluetooth.png");
-    _dio.get<void>(
-        "https://upload.wikimedia.org/wikipedia/commons/4/4e/Pleiades_large.jpg");
-    _dio.get<void>("http://techslides.com/demos/sample-videos/small.mp4");
-
-    _dio.get<void>("https://www.cse.wustl.edu/~jain/cis677-97/ftp/e_3dlc2.pdf");
-
-    final directory = await getApplicationDocumentsDirectory();
-    File file = File("${directory.path}/test.txt");
-    file.create();
-    file.writeAsStringSync("123456789");
-
-    String fileName = file.path.split('/').last;
-    FormData formData = FormData.fromMap(<String, dynamic>{
-      "file": await MultipartFile.fromFile(file.path, filename: fileName),
-    });
-    _dio.post<void>("https://jsonplaceholder.typicode.com/photos",
-        data: formData);
-
-    _dio.get<void>("http://dummy.restapiexample.com/api/v1/employees");
   }
 
   void _runHttpHttpRequests() async {
@@ -387,6 +313,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _runHttpInspector() {
-    _alice.showInspector();
+    _alice.showInspector(context);
   }
 }
