@@ -40,19 +40,15 @@ class AliceHttpAdapter {
 
     if (response.request is http.Request) {
       // we are guaranteed` the existence of body and headers
-      print('AAAAA: 1');
       if (body != null) {
         httpRequest.body = body;
       }
       // ignore: cast_nullable_to_non_nullable
       httpRequest.body = body ?? (response.request as http.Request).body ?? "";
-      print('AAAAA: real body is ${(response.request as http.Request).body}');
-      print('AAAAA: resulted body is ${httpRequest.body}');
       httpRequest.size = utf8.encode(httpRequest.body.toString()).length;
       httpRequest.headers =
           Map<String, dynamic>.from(response.request!.headers);
     } else if (body == null) {
-      print('AAAAA: 2');
       httpRequest.size = 0;
       httpRequest.body = "";
     } else {
