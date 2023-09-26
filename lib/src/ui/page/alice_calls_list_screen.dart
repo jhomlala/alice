@@ -80,10 +80,6 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
           widget._aliceCore.directionality ?? Directionality.of(context),
       child: Theme(
         data: Theme.of(context),
-            // .copyWith(
-          // brightness: widget._aliceCore.brightness,
-          // colorScheme: ColorScheme.light(secondary: AliceConstants.lightRed),
-        // ),
         child: Scaffold(
           appBar: AppBar(
             title: _searchEnabled ? _buildSearchField() : _buildTitleWidget(),
@@ -415,7 +411,6 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
 
   void _onListItemClicked(AliceHttpCall call) {
     Navigator.push<void>(
-      // widget._aliceCore.getContext()!,
       context,
       MaterialPageRoute(
         builder: (context) => AliceCallDetailsScreen(call, widget._aliceCore),
@@ -442,7 +437,6 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
   void _showStatsScreen() {
     Navigator.push<void>(
       context,
-      // aliceCore.getContext()!,
       MaterialPageRoute(
         builder: (context) => AliceStatsScreen(widget._aliceCore),
       ),

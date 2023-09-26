@@ -54,13 +54,6 @@ class AliceCore {
   /// Opens Http calls inspector. This will navigate user to the new fullscreen
   /// page where all listened http calls can be viewed.
   void navigateToCallListScreen(BuildContext context) {
-    // final context = getContext();
-    // if (context == null) {
-    //   debugPrint(
-    //     "Cant start Alice HTTP Inspector. Please add NavigatorKey to your application",
-    //   );
-    //   return;
-    // }
     if (!_isInspectorOpened) {
       _isInspectorOpened = true;
       Navigator.push<void>(
