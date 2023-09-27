@@ -61,12 +61,12 @@ class Alice {
   }
 
   /// Handle both request and response from http package
-  void onHttpResponse(http.Response response, {dynamic body, Object? id}) {
+  void onHttpResponse(http.BaseResponse response, {dynamic body, Object? id}) {
     _httpAdapter.onResponse(response, body: body, id: id);
   }
 
   /// Handle both request and response from http package
-  void onHttpRequest(http.Request request, {dynamic body, Object? id}) {
+  void onHttpRequest(http.BaseRequest request, {dynamic body, Object? id}) {
     _httpAdapter.onRequest(request, body: body, id: id);
   }
 

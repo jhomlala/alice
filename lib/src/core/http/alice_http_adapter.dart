@@ -65,12 +65,17 @@ class AliceHttpAdapter {
   }
 
   /// Handles http response. It creates both request and response from http call
-  void onResponse(http.Response response, {dynamic body, Object? id}) {
+  void onResponse(http.BaseResponse response, {dynamic body, Object? id}) {
     final httpResponse = AliceHttpResponse();
     httpResponse.status = response.statusCode;
-    httpResponse.body = response.body;
-
-    httpResponse.size = utf8.encode(response.body.toString()).length;
+    if (response is http.Response) {
+      httpResponse.body = body ?? response.body;
+      httpResponse.size =
+          utf8.encode((body ?? response.body).toString()).length;
+    } else {
+      httpResponse.body = body ?? '';
+      httpResponse.size = utf8.encode((body ?? '').toString()).length;
+    }
     httpResponse.time = DateTime.now();
     final Map<String, String> responseHeaders = {};
     response.headers.forEach((header, values) {
