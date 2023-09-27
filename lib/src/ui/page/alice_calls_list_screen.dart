@@ -1,5 +1,5 @@
 import 'package:alice/src/core/alice_core.dart';
-import 'package:alice/src/core/http_client/alice_logger.dart';
+import 'package:alice/src/core/alice_logger.dart';
 import 'package:alice/src/helper/alice_alert_helper.dart';
 import 'package:alice/src/model/alice_http_call.dart';
 import 'package:alice/src/model/alice_menu_item.dart';

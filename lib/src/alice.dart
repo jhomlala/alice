@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:alice/src/core/alice_core.dart';
-import 'package:alice/src/core/alice_http_client_adapter.dart';
+import 'package:alice/src/core/http_client/alice_http_client_adapter.dart';
 import 'package:alice/src/core/http/alice_http_adapter.dart';
 import 'package:alice/src/model/alice_http_call.dart';
 import 'package:alice/src/model/alice_log.dart';
