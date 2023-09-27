@@ -3,7 +3,7 @@ import 'package:alice/src/model/alice_http_request.dart';
 import 'package:alice/src/model/alice_http_response.dart';
 
 class AliceHttpCall {
-  final int id;
+  final Object id;
   late DateTime createdTime;
   String client = "";
   bool loading = true;
@@ -21,11 +21,6 @@ class AliceHttpCall {
   AliceHttpCall(this.id) {
     loading = true;
     createdTime = DateTime.now();
-  }
-
-  void setResponse(AliceHttpResponse response) {
-    this.response = response;
-    loading = false;
   }
 
   String getCurlCommand() {

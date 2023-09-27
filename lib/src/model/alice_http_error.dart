@@ -1,4 +1,14 @@
+import 'package:meta/meta.dart';
+
+@immutable
 class AliceHttpError {
-  dynamic error;
-  StackTrace? stackTrace;
+  final Object error;
+  final StackTrace? stackTrace;
+  final DateTime time;
+
+  AliceHttpError({
+    required this.error,
+    required this.stackTrace,
+    required this.time,
+  });
 }

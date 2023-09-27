@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:alice/src/core/http_client/alice_logger.dart';
+import 'package:alice/src/core/alice_logger.dart';
 import 'package:alice/src/model/alice_http_call.dart';
 import 'package:alice/src/model/alice_http_error.dart';
 import 'package:alice/src/model/alice_http_response.dart';
@@ -84,8 +84,8 @@ class AliceCore {
   }
 
   /// Add error to existing alice http call
-  void addError(AliceHttpError error, int requestId) {
-    final AliceHttpCall? selectedCall = _selectCall(requestId);
+  void addError(AliceHttpError error, Object requestId) {
+    final selectedCall = _selectCall(requestId);
 
     if (selectedCall == null) {
       debugPrint("Selected call is null");
@@ -93,11 +93,13 @@ class AliceCore {
     }
 
     selectedCall.error = error;
+    selectedCall.duration = error.time.millisecondsSinceEpoch -
+        selectedCall.request!.time.millisecondsSinceEpoch;
     callsSubject.add([...callsSubject.value]);
   }
 
   /// Add response to existing alice http call
-  void addResponse(AliceHttpResponse response, int requestId) {
+  void addResponse(AliceHttpResponse response, Object requestId) {
     final AliceHttpCall? selectedCall = _selectCall(requestId);
 
     if (selectedCall == null) {
@@ -112,19 +114,12 @@ class AliceCore {
     callsSubject.add([...callsSubject.value]);
   }
 
-  /// Add alice http call to calls subject
-  void addHttpCall(AliceHttpCall aliceHttpCall) {
-    assert(aliceHttpCall.request != null, "Http call request can't be null");
-    assert(aliceHttpCall.response != null, "Http call response can't be null");
-    callsSubject.add([...callsSubject.value, aliceHttpCall]);
-  }
-
   /// Remove all calls from calls subject
   void removeCalls() {
     callsSubject.add([]);
   }
 
-  AliceHttpCall? _selectCall(int requestId) =>
+  AliceHttpCall? _selectCall(Object requestId) =>
       callsSubject.value.firstWhereOrNull((call) => call.id == requestId);
 
   /// Adds new log to Alice logger.

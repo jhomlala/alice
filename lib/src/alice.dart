@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:alice/src/core/alice_core.dart';
-import 'package:alice/src/core/alice_http_client_adapter.dart';
 import 'package:alice/src/core/http/alice_http_adapter.dart';
+import 'package:alice/src/core/http_client/alice_http_client_adapter.dart';
 import 'package:alice/src/model/alice_http_call.dart';
 import 'package:alice/src/model/alice_log.dart';
 import 'package:flutter/material.dart';
@@ -61,8 +61,18 @@ class Alice {
   }
 
   /// Handle both request and response from http package
-  void onHttpResponse(http.Response response, {dynamic body}) {
-    _httpAdapter.onResponse(response, body: body);
+  void onHttpResponse(http.BaseResponse response, {dynamic body, Object? id}) {
+    _httpAdapter.onResponse(response, body: body, id: id);
+  }
+
+  /// Handle both request and response from http package
+  void onHttpRequest(http.BaseRequest request, {dynamic body, Object? id}) {
+    _httpAdapter.onRequest(request, body: body, id: id);
+  }
+
+  /// Handle both request and response from http package
+  void onHttpError(Object error, StackTrace? stackTrace, {required Object id}) {
+    _httpAdapter.onError(error, stackTrace, id: id);
   }
 
   /// Opens Http calls inspector. This will navigate user to the new fullscreen
