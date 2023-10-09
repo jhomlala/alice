@@ -3,12 +3,12 @@ description: Demonstrates how to use the Alice plugin.
 publish_to: "none"
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: ">=2.17.6 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  chopper: ^4.0.1
+  chopper: ^6.1.4
   path_provider:
 
 dev_dependencies:

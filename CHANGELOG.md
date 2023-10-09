@@ -1,3 +1,23 @@
+# 0.3.3
+* Updated dependencies
+* Added fix for call time for http package (by itsara-odds https://github.com/itsara-odds)
+
+# 0.3.2
+* Removed video player.
+* Link to the video will be displayed instead of video player.
+
+# 0.3.1
+* Fixed flutter version upper bound
+
+# 0.3.0
+* Added logger feature (by Bartosz Gasztych https://github.com/bgasztych)
+* Updated Android configuration (by Bartosz Gasztych https://github.com/bgasztych)
+* Updated Flutter configuration (by Bartosz Gasztych https://github.com/bgasztych)
+* Updated dependencies (by Bartosz Gasztych https://github.com/bgasztych)
+* Updated chopper extension
+* Changed open_file to open_filex 
+* General refactor
+
 # 0.2.5
 * Added showShareButton in Alice constructor.
 * Added support for Android 12 (by Igor Kurek https://github.com/ikurek )
