@@ -6,12 +6,11 @@ import 'package:alice/core/alice_dio_interceptor.dart';
 import 'package:alice/core/alice_http_adapter.dart';
 import 'package:alice/core/alice_http_client_adapter.dart';
 import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/model/alice_log.dart';
 import 'package:chopper/chopper.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
-
 export 'package:alice/model/alice_log.dart';
 
 class Alice {
@@ -82,8 +81,9 @@ class Alice {
   }
 
   /// Get Dio interceptor which should be applied to Dio instance.
-  AliceDioInterceptor getDioInterceptor() {
-    return AliceDioInterceptor(_aliceCore);
+  /// [retryDio] support retry request
+  AliceDioInterceptor getDioInterceptor({Dio? retryDio}) {
+    return AliceDioInterceptor(_aliceCore, retryDio: retryDio);
   }
 
   /// Handle request from HttpClient

@@ -19,6 +19,7 @@ class _AliceCallRequestWidget
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final List<Widget> rows = [];
     rows.add(getListRow("Started:", _call.request!.time.toString()));
     rows.add(getListRow("Bytes sent:", formatBytes(_call.request!.size)));
@@ -80,4 +81,7 @@ class _AliceCallRequestWidget
       child: ListView(children: rows),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

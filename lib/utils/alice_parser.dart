@@ -26,7 +26,8 @@ class AliceParser {
     }
   }
 
-  static String formatBody(dynamic body, String? contentType) {
+  static String formatBody(dynamic body, String? contentType,
+      {String Function(dynamic json)? parseJson = _parseJson}) {
     try {
       if (body == null) {
         return _emptyBody;
@@ -48,12 +49,12 @@ class AliceParser {
           if (body is String) {
             if (body.isNotEmpty) {
               //body is minified json, so decode it to a map and let the encoder pretty print this map
-              bodyContent = _parseJson(_decodeJson(body));
+              bodyContent = parseJson?.call(_decodeJson(body)) ?? _emptyBody;
             }
           } else if (body is Stream) {
             bodyContent = _stream;
           } else {
-            bodyContent = _parseJson(body);
+            bodyContent = parseJson?.call(body) ?? _emptyBody;
           }
         }
       }

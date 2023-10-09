@@ -139,6 +139,7 @@ class AliceSaveHelper {
     stringBuffer.write("--------------------------------------------\n");
     stringBuffer.write("General data\n");
     stringBuffer.write("--------------------------------------------\n");
+    stringBuffer.write("Uri: ${call.uri} \n");
     stringBuffer.write("Server: ${call.server} \n");
     stringBuffer.write("Method: ${call.method} \n");
     stringBuffer.write("Endpoint: ${call.endpoint} \n");

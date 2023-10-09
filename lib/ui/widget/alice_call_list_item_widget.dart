@@ -32,11 +32,12 @@ class AliceCallListItemWidget extends StatelessWidget {
                       const SizedBox(height: 4),
                       _buildServerRow(),
                       const SizedBox(height: 4),
-                      _buildStatsRow()
+                      _buildStatsRow(),
                     ],
                   ),
                 ),
-                _buildResponseColumn(context)
+                _buildResponseColumn(context),
+                _buildRetryButton(),
               ],
             ),
           ),
@@ -223,5 +224,18 @@ class AliceCallListItemWidget extends StatelessWidget {
         size: 12,
       ),
     );
+  }
+
+  Widget _buildRetryButton() {
+    if (call.shouldShowRetryButton) {
+      return Padding(
+        padding: EdgeInsets.only(left: 4),
+        child: IconButton(
+          icon: Icon(Icons.replay_outlined),
+          onPressed: call.retryCallBack,
+        ),
+      );
+    }
+    return const SizedBox();
   }
 }

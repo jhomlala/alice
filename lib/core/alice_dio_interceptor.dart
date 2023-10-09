@@ -12,9 +12,10 @@ import 'package:dio/dio.dart';
 class AliceDioInterceptor extends InterceptorsWrapper {
   /// AliceCore instance
   final AliceCore aliceCore;
+  final Dio? retryDio;
 
   /// Creates dio interceptor
-  AliceDioInterceptor(this.aliceCore);
+  AliceDioInterceptor(this.aliceCore, {this.retryDio});
 
   /// Handles dio request and creates alice http call based on it
   @override
@@ -58,9 +59,10 @@ class AliceDioInterceptor extends InterceptorsWrapper {
           data.files.forEach((entry) {
             files.add(
               AliceFormDataFile(
-                entry.value.filename,
-                entry.value.contentType.toString(),
-                entry.value.length,
+                key: entry.key,
+                fileName: entry.value.filename,
+                contentType: entry.value.contentType.toString(),
+                length: entry.value.length,
               ),
             );
           });
@@ -72,7 +74,11 @@ class AliceDioInterceptor extends InterceptorsWrapper {
         request.body = data;
       }
     }
-
+    final parentCallId = options.extra['parent_call_id'] as int?;
+    if (parentCallId != null) {
+      aliceCore.removeCallId(parentCallId);
+      call.parentCallId = parentCallId;
+    }
     request.time = DateTime.now();
     request.headers = options.headers;
     request.contentType = options.contentType.toString();
@@ -80,8 +86,41 @@ class AliceDioInterceptor extends InterceptorsWrapper {
 
     call.request = request;
     call.response = AliceHttpResponse();
+    final isSupportRetryCallBack =
+        retryDio != null && !(options.data is FormData);
 
-    aliceCore.addCall(call);
+    call.retryCallBack = isSupportRetryCallBack
+        ? () {
+            retryDio?.request<dynamic>(options.path,
+                data: options.data,
+                queryParameters: options.queryParameters,
+                onReceiveProgress: options.onReceiveProgress,
+                onSendProgress: options.onSendProgress,
+                cancelToken: options.cancelToken,
+                options: Options(
+                    method: options.method,
+                    sendTimeout: options.sendTimeout,
+                    receiveTimeout: options.receiveTimeout,
+                    extra: <String, dynamic>{
+                      ...options.extra,
+                      'parent_call_id': call.id
+                    },
+                    headers: options.headers,
+                    responseType: options.responseType,
+                    contentType: options.contentType,
+                    validateStatus: options.validateStatus,
+                    receiveDataWhenStatusError:
+                        options.receiveDataWhenStatusError,
+                    maxRedirects: options.maxRedirects,
+                    followRedirects: options.followRedirects,
+                    requestEncoder: options.requestEncoder,
+                    responseDecoder: options.responseDecoder,
+                    listFormat: options.listFormat));
+          }
+        : null;
+    aliceCore.addCall(
+      call,
+    );
     handler.next(options);
   }
 

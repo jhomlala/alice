@@ -31,6 +31,7 @@ class _AliceCallResponseWidgetState
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final List<Widget> rows = [];
     if (!_call.loading) {
       rows.addAll(_buildGeneralDataRows());
@@ -289,4 +290,7 @@ class _AliceCallResponseWidgetState
     return _call.response!.body != null &&
         _call.response!.body.toString().length > _kLargeOutputSize;
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

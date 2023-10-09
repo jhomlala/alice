@@ -19,6 +19,7 @@ class _AliceCallOverviewWidget
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final List<Widget> rows = [];
     rows.add(getListRow("Method: ", _call.method));
     rows.add(getListRow("Server: ", _call.server));
@@ -30,9 +31,16 @@ class _AliceCallOverviewWidget
     rows.add(getListRow("Bytes received:", formatBytes(_call.response!.size)));
     rows.add(getListRow("Client:", _call.client));
     rows.add(getListRow("Secure:", _call.secure.toString()));
+    rows.add(getListRow('curl Postman', _call.getCurlCommand().toString()));
+    rows.add(SizedBox(
+      height: 56,
+    ));
     return Container(
       padding: const EdgeInsets.all(6),
       child: ListView(children: rows),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

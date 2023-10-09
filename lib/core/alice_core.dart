@@ -253,7 +253,6 @@ class AliceCore {
       );
       final indexToReplace = originalCalls.indexOf(calls.first);
       originalCalls[indexToReplace] = call;
-
       callsSubject.add(originalCalls);
     } else {
       callsSubject.add([...callsSubject.value, call]);
@@ -299,6 +298,18 @@ class AliceCore {
   /// Remove all calls from calls subject
   void removeCalls() {
     callsSubject.add([]);
+  }
+
+  /// Remove call item
+  void removeCallId(int callId) {
+    if (callsSubject.value.isNotEmpty) {
+      final calls = List<AliceHttpCall>.from(callsSubject.value);
+      final int index = calls.indexWhere((element) => element.id == callId);
+      if (index >= 0) {
+        calls.removeAt(index);
+        callsSubject.add(calls);
+      }
+    }
   }
 
   AliceHttpCall? _selectCall(int requestId) =>

@@ -10,6 +10,8 @@
 
 Alice is an HTTP Inspector tool for Flutter which helps debugging http requests. It catches and stores http requests and responses, which can be viewed via simple UI. It is inspired from [Chuck](https://github.com/jgilfelt/chuck) and [Chucker](https://github.com/ChuckerTeam/chucker).
 
+**Root**
+
 <table>
   <tr>
     <td>
@@ -51,7 +53,19 @@ Alice is an HTTP Inspector tool for Flutter which helps debugging http requests.
        <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/media/12.png">
     </td>
   </tr>
+</table>
 
+**Forked**
+<table>
+  
+  <tr>
+    <td>
+	<img width="250px" src="https://github.com/tronghuy5555/alice/blob/master/media/forked/1.png">
+    </td>
+     <td>
+	<img width="250px" src="https://github.com/tronghuy5555/alice/blob/master/media/forked/2.png">
+    </td>
+  </tr>
 </table>
 
 **Supported Dart http client plugins:**
@@ -74,13 +88,27 @@ Alice is an HTTP Inspector tool for Flutter which helps debugging http requests.
 ✔️ HTTP calls search
 ✔️ Flutter/Android logs
 
+**Fork Features:**  
+✔️ Refresh call (No support for form data)  
+✔️ Generate curl Postman style (Must edit form files path before run it)  
+
 ## Install
 
 1. Add this to your **pubspec.yaml** file:
 
+**Root:**
 ```yaml
 dependencies:
   alice: ^0.3.3
+```
+**Forked:**
+
+```yaml
+dependencies:
+  alice:
+    git: 
+      url: https://github.com/tronghuy5555/alice.git
+      ref: v1.1.0
 ```
 
 2. Install it
@@ -162,6 +190,11 @@ If you want to hide share button, you can use `showShareButton` parameter.
 Alice alice = Alice(..., showShareButton: false);
 ```
 
+If you want to refresh call, you can use `retryDio` parameter
+```dart
+Dio dio = Dio();
+dio.interceptors.add(alice.getDioInterceptor(retryDio: [your Dio]));
+```
 ### HTTP Client configuration
 If you're using Dio, you just need to add interceptor.
 
@@ -169,7 +202,6 @@ If you're using Dio, you just need to add interceptor.
 Dio dio = Dio();
 dio.interceptors.add(alice.getDioInterceptor());
 ```
-
 
 If you're using HttpClient from dart:io package:
 
