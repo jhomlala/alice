@@ -10,8 +10,8 @@ import 'package:http/http.dart';
 
 import 'alice_core.dart';
 
-class AliceChopperInterceptor extends chopper.ResponseInterceptor
-    with chopper.RequestInterceptor {
+class AliceChopperInterceptor
+    implements chopper.ResponseInterceptor, chopper.RequestInterceptor {
   /// AliceCore instance
   final AliceCore aliceCore;
 
