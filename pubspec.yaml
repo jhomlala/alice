@@ -27,4 +27,4 @@ dependencies:
   url_launcher: ^6.1.6
 
 dev_dependencies:
-  lint: ^2.1.2
+  very_good_analysis: ^5.1.0
