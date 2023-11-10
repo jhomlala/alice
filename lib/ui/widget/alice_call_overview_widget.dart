@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class AliceCallOverviewWidget extends StatefulWidget {
   final AliceHttpCall call;
 
-  const AliceCallOverviewWidget(this.call);
+  const AliceCallOverviewWidget(this.call, {super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -19,17 +19,19 @@ class _AliceCallOverviewWidget
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> rows = [];
-    rows.add(getListRow("Method: ", _call.method));
-    rows.add(getListRow("Server: ", _call.server));
-    rows.add(getListRow("Endpoint: ", _call.endpoint));
-    rows.add(getListRow("Started:", _call.request!.time.toString()));
-    rows.add(getListRow("Finished:", _call.response!.time.toString()));
-    rows.add(getListRow("Duration:", formatDuration(_call.duration)));
-    rows.add(getListRow("Bytes sent:", formatBytes(_call.request!.size)));
-    rows.add(getListRow("Bytes received:", formatBytes(_call.response!.size)));
-    rows.add(getListRow("Client:", _call.client));
-    rows.add(getListRow("Secure:", _call.secure.toString()));
+    final rows = [
+      getListRow('Method: ', _call.method),
+      getListRow('Server: ', _call.server),
+      getListRow('Endpoint: ', _call.endpoint),
+      getListRow('Started:', _call.request!.time.toString()),
+      getListRow('Finished:', _call.response!.time.toString()),
+      getListRow('Duration:', formatDuration(_call.duration)),
+      getListRow('Bytes sent:', formatBytes(_call.request!.size)),
+      getListRow('Bytes received:', formatBytes(_call.response!.size)),
+      getListRow('Client:', _call.client),
+      getListRow('Secure:', _call.secure.toString()),
+    ];
+
     return Container(
       padding: const EdgeInsets.all(6),
       child: ListView(children: rows),

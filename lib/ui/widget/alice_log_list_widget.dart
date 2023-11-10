@@ -11,6 +11,7 @@ class AliceLogListWidget extends StatefulWidget {
     required this.logsListenable,
     required this.scrollController,
     required this.emptyWidget,
+    super.key,
   });
 
   final ValueListenable<List<AliceLog>> logsListenable;
@@ -22,7 +23,7 @@ class AliceLogListWidget extends StatefulWidget {
 }
 
 class _AliceLogListWidgetState extends State<AliceLogListWidget> {
-  var _minLevel = DiagnosticLevel.debug;
+  final _minLevel = DiagnosticLevel.debug;
 
   @override
   Widget build(BuildContext context) {
@@ -65,9 +66,9 @@ class AliceLogEntryWidget extends StatelessWidget {
         children: [
           TextSpan(
             text: formattedTimestamp,
-            style: textTheme.caption!.copyWith(
+            style: textTheme.bodySmall!.copyWith(
               color: color.withOpacity(0.6),
-              fontFeatures: [FontFeature.tabularFigures()],
+              fontFeatures: [const FontFeature.tabularFigures()],
             ),
           ),
           TextSpan(text: ' ${log.message}'),
@@ -86,7 +87,7 @@ class AliceLogEntryWidget extends StatelessWidget {
     return InkWell(
       onLongPress: () => _copyToClipboard(context),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -95,7 +96,7 @@ class AliceLogEntryWidget extends StatelessWidget {
               size: 16,
               color: color,
             ),
-            SizedBox(width: 4),
+            const SizedBox(width: 4),
             Expanded(child: content),
           ],
         ),
@@ -115,7 +116,7 @@ class AliceLogEntryWidget extends StatelessWidget {
     return [
       TextSpan(
         text: '\n$title:${addLineBreakAfterTitle ? '\n' : ' '}',
-        style: TextStyle(fontWeight: FontWeight.bold),
+        style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       TextSpan(text: string),
     ];
@@ -139,7 +140,7 @@ class AliceLogEntryWidget extends StatelessWidget {
       case DiagnosticLevel.summary:
         return Colors.black;
       case DiagnosticLevel.error:
-        return theme.errorColor;
+        return theme.colorScheme.error;
       case DiagnosticLevel.off:
         return Colors.purple;
     }
@@ -178,7 +179,7 @@ class AliceLogEntryWidget extends StatelessWidget {
     ].join('\n');
     await Clipboard.setData(ClipboardData(text: text));
     ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text('Copied!')));
+        .showSnackBar(const SnackBar(content: Text('Copied!')));
   }
 
   String? _stringify(dynamic object) {
@@ -187,11 +188,13 @@ class AliceLogEntryWidget extends StatelessWidget {
     if (object is DiagnosticsNode) return object.toStringDeep();
 
     try {
+      // ignore: avoid_dynamic_calls
       object.toJson();
       // It supports `toJson()`.
 
       dynamic toEncodable(dynamic object) {
         try {
+          // ignore: avoid_dynamic_calls
           return object.toJson();
         } catch (_) {
           try {

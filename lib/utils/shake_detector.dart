@@ -1,5 +1,7 @@
 ///Code from https://github.com/deven98/shake
 ///Seems to be not maintained for almost 2 years... (01.03.2021).
+library;
+
 import 'dart:async';
 import 'dart:math';
 
@@ -26,7 +28,7 @@ class ShakeDetector {
   int mShakeCount = 0;
 
   /// StreamSubscription for Accelerometer events
-  StreamSubscription? streamSubscription;
+  StreamSubscription<dynamic>? streamSubscription;
 
   /// This constructor waits until [startListening] is called
   ShakeDetector.waitForStart({
@@ -49,16 +51,16 @@ class ShakeDetector {
   /// Starts listening to accelerometer events
   void startListening() {
     streamSubscription = accelerometerEvents.listen((AccelerometerEvent event) {
-      final double x = event.x;
-      final double y = event.y;
-      final double z = event.z;
+      final x = event.x;
+      final y = event.y;
+      final z = event.z;
 
-      final double gX = x / 9.80665;
-      final double gY = y / 9.80665;
-      final double gZ = z / 9.80665;
+      final gX = x / 9.80665;
+      final gY = y / 9.80665;
+      final gZ = z / 9.80665;
 
       // gForce will be close to 1 when there is no movement.
-      final double gForce = sqrt(gX * gX + gY * gY + gZ * gZ);
+      final gForce = sqrt(gX * gX + gY * gY + gZ * gZ);
 
       if (gForce > shakeThresholdGravity) {
         final now = DateTime.now().millisecondsSinceEpoch;

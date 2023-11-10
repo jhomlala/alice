@@ -33,7 +33,8 @@ class Alice {
   ///method queue will be used to remove elements.
   final int maxCallsCount;
 
-  ///Directionality of app. Directionality of the app will be used if set to null.
+  ///Directionality of app. Directionality of the app will be used if set to
+  ///null.
   final TextDirection? directionality;
 
   ///Flag used to show/hide share button
@@ -50,7 +51,7 @@ class Alice {
     this.showNotification = true,
     this.showInspectorOnShake = false,
     this.darkTheme = false,
-    this.notificationIcon = "@mipmap/ic_launcher",
+    this.notificationIcon = '@mipmap/ic_launcher',
     this.maxCallsCount = 1000,
     this.directionality,
     this.showShareButton = true,

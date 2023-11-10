@@ -20,23 +20,23 @@ class AliceHttpAdapter {
     }
     final request = response.request!;
 
-    final AliceHttpCall call = AliceHttpCall(response.request.hashCode);
-    call.loading = true;
-    call.client = "HttpClient (http package)";
-    call.uri = request.url.toString();
-    call.method = request.method;
+    final call = AliceHttpCall(response.request.hashCode)
+      ..loading = true
+      ..client = 'HttpClient (http package)'
+      ..uri = request.url.toString()
+      ..method = request.method;
     var path = request.url.path;
     if (path.isEmpty) {
-      path = "/";
+      path = '/';
     }
-    call.endpoint = path;
-
-    call.server = request.url.host;
-    if (request.url.scheme == "https") {
+    call
+      ..endpoint = path
+      ..server = request.url.host;
+    if (request.url.scheme == 'https') {
       call.secure = true;
     }
 
-    final AliceHttpRequest httpRequest = AliceHttpRequest();
+    final httpRequest = AliceHttpRequest();
 
     if (response.request is http.Request) {
       // we are guaranteed` the existence of body and headers
@@ -44,47 +44,49 @@ class AliceHttpAdapter {
         httpRequest.body = body;
       }
       // ignore: cast_nullable_to_non_nullable
-      httpRequest.body = body ?? (response.request as http.Request).body ?? "";
-      httpRequest.size = utf8.encode(httpRequest.body.toString()).length;
-      httpRequest.headers =
-          Map<String, dynamic>.from(response.request!.headers);
+      httpRequest
+        ..body = body ?? (response.request! as http.Request).body ?? ''
+        ..size = utf8.encode(httpRequest.body.toString()).length
+        ..headers = Map<String, dynamic>.from(response.request!.headers);
     } else if (body == null) {
-      httpRequest.size = 0;
-      httpRequest.body = "";
+      httpRequest
+        ..size = 0
+        ..body = '';
     } else {
-      httpRequest.size = utf8.encode(body.toString()).length;
-      httpRequest.body = body;
+      httpRequest
+        ..size = utf8.encode(body.toString()).length
+        ..body = body;
     }
 
     httpRequest.time = DateTime.now();
 
-    String? contentType = "unknown";
-    if (httpRequest.headers.containsKey("Content-Type")) {
-      contentType = httpRequest.headers["Content-Type"] as String?;
+    String? contentType = 'unknown';
+    if (httpRequest.headers.containsKey('Content-Type')) {
+      contentType = httpRequest.headers['Content-Type'] as String?;
     }
 
-    httpRequest.contentType = contentType;
+    httpRequest
+      ..contentType = contentType
+      ..queryParameters = response.request!.url.queryParameters;
 
-    httpRequest.queryParameters = response.request!.url.queryParameters;
-
-    final AliceHttpResponse httpResponse = AliceHttpResponse();
-    httpResponse.status = response.statusCode;
-    httpResponse.body = response.body;
-
-    httpResponse.size = utf8.encode(response.body.toString()).length;
-    httpResponse.time = DateTime.now();
-    final Map<String, String> responseHeaders = {};
+    final httpResponse = AliceHttpResponse()
+      ..status = response.statusCode
+      ..body = response.body
+      // ignore: noop_primitive_operations
+      ..size = utf8.encode(response.body.toString()).length
+      ..time = DateTime.now();
+    final responseHeaders = <String, String>{};
     response.headers.forEach((header, values) {
-      responseHeaders[header] = values.toString();
+      responseHeaders[header] = values;
     });
     httpResponse.headers = responseHeaders;
 
-    call.request = httpRequest;
-    call.response = httpResponse;
-
-    call.loading = false;
-    call.duration = httpResponse.time.millisecondsSinceEpoch -
-        httpRequest.time!.millisecondsSinceEpoch;
+    call
+      ..request = httpRequest
+      ..response = httpResponse
+      ..loading = false
+      ..duration = httpResponse.time.millisecondsSinceEpoch -
+          httpRequest.time.millisecondsSinceEpoch;
     aliceCore.addCall(call);
   }
 }

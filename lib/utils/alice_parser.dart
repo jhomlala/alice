@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 class AliceParser {
-  static const String _emptyBody = "Body is empty";
-  static const String _unknownContentType = "Unknown";
-  static const String _jsonContentTypeSmall = "content-type";
-  static const String _jsonContentTypeBig = "Content-Type";
-  static const String _stream = "Stream";
-  static const String _applicationJson = "application/json";
-  static const String _parseFailedText = "Failed to parse ";
+  static const String _emptyBody = 'Body is empty';
+  static const String _unknownContentType = 'Unknown';
+  static const String _jsonContentTypeSmall = 'content-type';
+  static const String _jsonContentTypeBig = 'Content-Type';
+  static const String _stream = 'Stream';
+  static const String _applicationJson = 'application/json';
+  static const String _parseFailedText = 'Failed to parse ';
   static const JsonEncoder encoder = JsonEncoder.withIndent('  ');
 
   static String _parseJson(dynamic json) {
@@ -42,12 +42,13 @@ class AliceParser {
           bodyContent = bodyTemp;
         }
       } else {
-        if (body is String && body.contains("\n")) {
+        if (body is String && body.contains('\n')) {
           bodyContent = body;
         } else {
           if (body is String) {
             if (body.isNotEmpty) {
-              //body is minified json, so decode it to a map and let the encoder pretty print this map
+              //body is minified json, so decode it to a map and let the
+              // encoder pretty print this map
               bodyContent = _parseJson(_decodeJson(body));
             }
           } else if (body is Stream) {

@@ -16,8 +16,8 @@ class AliceLogger {
 
   /// The maximum number of logs to store or `null` for unlimited storage.
   ///
-  /// If more logs arrive, the oldest ones (based on their [AliceLog.timestamp]) will
-  /// be removed.
+  /// If more logs arrive, the oldest ones (based on their [
+  /// AliceLog.timestamp]) will be removed.
   int? get maximumSize => _maximumSize;
 
   set maximumSize(int? value) {
@@ -46,7 +46,7 @@ class AliceLogger {
           min = mid + 1;
         }
       }
-      assert(min == max);
+      assert(min == max, '');
       index = min;
     }
 

@@ -11,20 +11,20 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: ^1.1.0
-  dio: ^5.3.3
-  flutter_local_notifications: ^16.1.0
+  http: ^1.0.0
+  dio: ^5.1.2
+  flutter_local_notifications: ^14.1.1
   rxdart: ^0.27.7
 
-  path_provider: ^2.1.1
-  permission_handler: ^11.0.1
-  package_info_plus: ^4.2.0
-  open_filex: ^4.3.4
-  sensors_plus: ^3.1.0
-  share_plus: ^7.2.1
+  path_provider: ^2.0.15
+  permission_handler: ^10.2.0
+  package_info_plus: ^4.0.2
+  open_filex: ^4.3.2
+  sensors_plus: ^3.0.2
+  share_plus: ^7.0.2
   chopper: ^7.0.9
-  collection: ^1.17.2
-  url_launcher: ^6.2.1
+  collection: ^1.17.1
+  url_launcher: ^6.1.6
 
 dev_dependencies:
   lint: ^2.1.2
