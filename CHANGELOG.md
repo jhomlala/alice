@@ -1,6 +1,8 @@
 # 0.4.0
-* [BREAKING_CHANGE] Updated dart min version to 3.0.0
-* Updated dependencies
+* [BREAKING_CHANGE] Updated dart min version to 3.0.0.
+* Updated dependencies.
+* Fixed lints.
+* Updated example.
 
 # 0.3.3
 * Updated dependencies
