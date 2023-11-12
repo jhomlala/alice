@@ -1,5 +1,6 @@
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/ui/widget/alice_base_call_details_widget.dart';
+import 'package:alice/utils/alice_scroll_behavior.dart';
 import 'package:flutter/material.dart';
 
 class AliceCallOverviewWidget extends StatefulWidget {
@@ -34,7 +35,10 @@ class _AliceCallOverviewWidget
 
     return Container(
       padding: const EdgeInsets.all(6),
-      child: ListView(children: rows),
+      child: ScrollConfiguration(
+        behavior: AliceScrollBehavior(),
+        child: ListView(children: rows),
+      ),
     );
   }
 }

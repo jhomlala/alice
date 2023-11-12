@@ -24,17 +24,32 @@ class AliceSaveHelper {
     _checkPermissions(context, calls);
   }
 
+  static Future<bool> _getPermissionStatus() async {
+    if (Platform.isAndroid || Platform.isIOS) {
+      return Permission.storage.status.isGranted;
+    } else {
+      return true;
+    }
+  }
+
+  static Future<bool> _requestPermission() async {
+    if (Platform.isAndroid || Platform.isIOS) {
+      return Permission.storage.request().isGranted;
+    } else {
+      return true;
+    }
+  }
+
   static Future<void> _checkPermissions(
     BuildContext context,
     List<AliceHttpCall> calls,
   ) async {
-    final status = await Permission.storage.status;
-    if (status.isGranted) {
+    if (await _getPermissionStatus()) {
       await _saveToFile(context, calls);
     } else {
-      final status = await Permission.storage.request();
+      final status = await _requestPermission();
 
-      if (status.isGranted) {
+      if (status) {
         await _saveToFile(context, calls);
       } else {
         AliceAlertHelper.showAlert(
@@ -60,12 +75,15 @@ class AliceSaveHelper {
         return '';
       }
       final isAndroid = Platform.isAndroid;
+      final isIOS = Platform.isIOS;
 
       Directory? externalDir;
       if (isAndroid) {
         externalDir = await getExternalStorageDirectory();
-      } else {
+      } else if (isIOS) {
         externalDir = await getApplicationDocumentsDirectory();
+      } else {
+        externalDir = await getApplicationCacheDirectory();
       }
       if (externalDir != null) {
         final fileName =

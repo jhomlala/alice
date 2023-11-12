@@ -87,9 +87,11 @@ class AliceCore {
     final initializationSettingsAndroid =
         AndroidInitializationSettings(notificationIcon);
     const initializationSettingsIOS = DarwinInitializationSettings();
+    const initializationSettingsMacOS = DarwinInitializationSettings();
     final initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
+      macOS: initializationSettingsMacOS,
     );
     _flutterLocalNotificationsPlugin.initialize(
       initializationSettings,

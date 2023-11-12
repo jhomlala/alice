@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:alice/model/alice_log.dart';
+import 'package:alice/utils/alice_scroll_behavior.dart';
 import 'package:alice/utils/alice_theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -36,12 +37,15 @@ class _AliceLogListWidgetState extends State<AliceLogListWidget> {
         }
         final filteredLogs =
             logs.where((it) => it.level.index >= _minLevel.index).toList();
-        return ListView.builder(
-          controller: widget.scrollController,
-          shrinkWrap: true,
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          itemCount: filteredLogs.length,
-          itemBuilder: (context, i) => AliceLogEntryWidget(filteredLogs[i]),
+        return ScrollConfiguration(
+          behavior: AliceScrollBehavior(),
+          child: ListView.builder(
+            controller: widget.scrollController,
+            shrinkWrap: true,
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            itemCount: filteredLogs.length,
+            itemBuilder: (context, i) => AliceLogEntryWidget(filteredLogs[i]),
+          ),
         );
       },
     );

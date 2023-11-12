@@ -3,6 +3,7 @@
 * [BREAKING_CHANGE] Removed `darkTheme` parameter. Alice will now automatically detect the color scheme.
 * [BREAKING_CHANGE] Alice will now return chopper interceptor instance instead of list with that interceptor.
 * Added `isInspectorOpened` method to check inspector state.
+* Added support for macOS.
 * Fixed issue with the same http call not properly handled with chopper. Alice will add "alice_token" to the headers of the request to identify given http call.
 * Fixed lints.
 * Updated dependencies.

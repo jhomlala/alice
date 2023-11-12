@@ -75,21 +75,25 @@ class _MyAppState extends State<MyApp> {
                 onPressed: _runDioRequests,
                 style: _buttonStyle,
               ),
+              const SizedBox(height: 8),
               ElevatedButton(
                 child: Text('Run http/http HTTP Requests'),
                 onPressed: _runHttpHttpRequests,
                 style: _buttonStyle,
               ),
+              const SizedBox(height: 8),
               ElevatedButton(
                 child: Text('Run HttpClient Requests'),
                 onPressed: _runHttpHttpClientRequests,
                 style: _buttonStyle,
               ),
+              const SizedBox(height: 8),
               ElevatedButton(
                 child: Text('Run Chopper HTTP Requests'),
                 onPressed: _runChopperHttpRequests,
                 style: _buttonStyle,
               ),
+              const SizedBox(height: 8),
               ElevatedButton(
                 child: Text('Log example data'),
                 onPressed: _logExampleData,
