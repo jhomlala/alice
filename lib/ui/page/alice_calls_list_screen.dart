@@ -414,7 +414,9 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
         itemCount: callsSorted.length,
         itemBuilder: (context, index) {
           return AliceCallListItemWidget(
-              callsSorted[index], _onListItemClicked);
+            callsSorted[index],
+            _onListItemClicked,
+          );
         },
       ),
     );

@@ -29,13 +29,13 @@ dependencies:
 dev_dependencies:
   very_good_analysis: ^5.1.0
 
-  flutter:
-    plugin:
-      platforms:
-        android:
-          package: com.jhomlala.alice
-          pluginClass: AlicePlugin
-        ios:
-          pluginClass: AlicePlugin
-        macos:
-          pluginClass: AlicePlugin
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.jhomlala.alice
+        pluginClass: AlicePlugin
+      ios:
+        pluginClass: AlicePlugin
+      macos:
+        pluginClass: AlicePlugin
