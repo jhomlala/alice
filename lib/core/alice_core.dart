@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:alice/core/alice_logger.dart';
 import 'package:alice/core/alice_utils.dart';
@@ -66,12 +67,14 @@ class AliceCore {
       _callsSubscription = callsSubject.listen((_) => _onCallsChanged());
     }
     if (showInspectorOnShake) {
-      _shakeDetector = ShakeDetector.autoStart(
-        onPhoneShake: () {
-          navigateToCallListScreen();
-        },
-        shakeThresholdGravity: 4,
-      );
+      if (Platform.isAndroid || Platform.isIOS) {
+        _shakeDetector = ShakeDetector.autoStart(
+          onPhoneShake: () {
+            navigateToCallListScreen();
+          },
+          shakeThresholdGravity: 4,
+        );
+      }
     }
   }
 
