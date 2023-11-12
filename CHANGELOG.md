@@ -2,6 +2,7 @@
 * [BREAKING_CHANGE] Updated dart min version to 3.0.0.
 * [BREAKING_CHANGE] Removed `darkTheme` parameter. Alice will now automatically detect the color scheme.
 * [BREAKING_CHANGE] Alice will now return chopper interceptor instance instead of list with that interceptor.
+* Fixed issue with the same http call not properly handled with chopper. Alice will add "alice_token" to the headers of the request to identify given http call.
 * Updated dependencies.
 * Fixed lints.
 * Updated example.

@@ -194,6 +194,8 @@ chopper = ChopperClient(
 );
 ```
 
+Attention! Alice will add special "alice_token" header to the request in order to calculate correct id for the http call. 
+
 If you have other HTTP client you can use generic http call interface:
 ```dart
 AliceHttpCall aliceHttpCall = AliceHttpCall(id);

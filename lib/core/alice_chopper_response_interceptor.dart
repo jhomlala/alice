@@ -39,7 +39,11 @@ class AliceChopperInterceptor
   @override
   FutureOr<chopper.Request> onRequest(chopper.Request request) async {
     try {
-      final baseRequest = await request.toBaseRequest();
+      final headers = request.headers;
+      headers['alice_token'] = DateTime.now().millisecondsSinceEpoch.toString();
+      final changedRequest = request.copyWith(headers: headers);
+      final baseRequest = await changedRequest.toBaseRequest();
+
       final call = AliceHttpCall(getRequestHashCode(baseRequest));
       var endpoint = '';
       var server = '';
