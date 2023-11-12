@@ -26,7 +26,7 @@ abstract class AliceBaseCallDetailsWidgetState<T extends StatefulWidget>
         ),
         const Padding(
           padding: EdgeInsets.only(bottom: 18),
-        )
+        ),
       ],
     );
   }

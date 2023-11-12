@@ -3,17 +3,16 @@ import 'package:flutter/foundation.dart';
 @immutable
 class AliceLog {
   AliceLog({
+    required this.message,
     this.level = DiagnosticLevel.info,
     DateTime? timestamp,
-    required this.message,
     this.error,
     this.stackTrace,
   })  : assert(
-          level != DiagnosticLevel.off,
-          '`DiagnosticLevel.off` is a "[special] level indicating that no '
-          'diagnostics should be shown" and should not be used as a value.',
-        ),
-        assert(timestamp == null || !timestamp.isUtc),
+            level != DiagnosticLevel.off,
+            "`DiagnosticLevel.off` is a '[special] level indicating that no "
+            "diagnostics should be shown' and should not be used as a value."),
+        assert(timestamp == null || !timestamp.isUtc, 'Invalid timestamp'),
         timestamp = timestamp ?? DateTime.now();
 
   final DiagnosticLevel level;

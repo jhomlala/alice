@@ -11,15 +11,15 @@ extension AliceSortOptionsExtension on AliceSortOption {
   String get name {
     switch (this) {
       case AliceSortOption.time:
-        return "Create time (default)";
+        return 'Create time (default)';
       case AliceSortOption.responseTime:
-        return "Response time";
+        return 'Response time';
       case AliceSortOption.responseCode:
-        return "Response code";
+        return 'Response code';
       case AliceSortOption.responseSize:
-        return "Response size";
+        return 'Response size';
       case AliceSortOption.endpoint:
-        return "Endpoint";
+        return 'Endpoint';
     }
   }
 }

@@ -23,9 +23,6 @@ class Alice {
   /// with sensors)
   final bool showInspectorOnShake;
 
-  /// Should inspector use dark theme
-  final bool darkTheme;
-
   /// Icon url for notification
   final String notificationIcon;
 
@@ -33,7 +30,8 @@ class Alice {
   ///method queue will be used to remove elements.
   final int maxCallsCount;
 
-  ///Directionality of app. Directionality of the app will be used if set to null.
+  ///Directionality of app. Directionality of the app will be used if set to
+  ///null.
   final TextDirection? directionality;
 
   ///Flag used to show/hide share button
@@ -49,8 +47,7 @@ class Alice {
     GlobalKey<NavigatorState>? navigatorKey,
     this.showNotification = true,
     this.showInspectorOnShake = false,
-    this.darkTheme = false,
-    this.notificationIcon = "@mipmap/ic_launcher",
+    this.notificationIcon = '@mipmap/ic_launcher',
     this.maxCallsCount = 1000,
     this.directionality,
     this.showShareButton = true,
@@ -60,7 +57,6 @@ class Alice {
       _navigatorKey,
       showNotification: showNotification,
       showInspectorOnShake: showInspectorOnShake,
-      darkTheme: darkTheme,
       notificationIcon: notificationIcon,
       maxCallsCount: maxCallsCount,
       directionality: directionality,
@@ -112,8 +108,8 @@ class Alice {
   }
 
   /// Get chopper interceptor. This should be added to Chopper instance.
-  List<ResponseInterceptor> getChopperInterceptor() {
-    return [AliceChopperInterceptor(_aliceCore)];
+  ResponseInterceptor getChopperInterceptor() {
+    return AliceChopperInterceptor(_aliceCore);
   }
 
   /// Handle generic http call. Can be used to any http client.
@@ -131,5 +127,10 @@ class Alice {
   /// Adds list of logs to Alice logger
   void addLogs(List<AliceLog> logs) {
     _aliceCore.addLogs(logs);
+  }
+
+  /// Returns flag which determines whether inspector is opened
+  bool isInspectorOpened() {
+    return _aliceCore.isInspectorOpened();
   }
 }

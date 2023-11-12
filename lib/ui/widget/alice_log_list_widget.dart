@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:alice/model/alice_log.dart';
+import 'package:alice/utils/alice_scroll_behavior.dart';
+import 'package:alice/utils/alice_theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +13,7 @@ class AliceLogListWidget extends StatefulWidget {
     required this.logsListenable,
     required this.scrollController,
     required this.emptyWidget,
+    super.key,
   });
 
   final ValueListenable<List<AliceLog>> logsListenable;
@@ -22,7 +25,7 @@ class AliceLogListWidget extends StatefulWidget {
 }
 
 class _AliceLogListWidgetState extends State<AliceLogListWidget> {
-  var _minLevel = DiagnosticLevel.debug;
+  final _minLevel = DiagnosticLevel.debug;
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +37,15 @@ class _AliceLogListWidgetState extends State<AliceLogListWidget> {
         }
         final filteredLogs =
             logs.where((it) => it.level.index >= _minLevel.index).toList();
-        return ListView.builder(
-          controller: widget.scrollController,
-          shrinkWrap: true,
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          itemCount: filteredLogs.length,
-          itemBuilder: (context, i) => AliceLogEntryWidget(filteredLogs[i]),
+        return ScrollConfiguration(
+          behavior: AliceScrollBehavior(),
+          child: ListView.builder(
+            controller: widget.scrollController,
+            shrinkWrap: true,
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            itemCount: filteredLogs.length,
+            itemBuilder: (context, i) => AliceLogEntryWidget(filteredLogs[i]),
+          ),
         );
       },
     );
@@ -65,9 +71,9 @@ class AliceLogEntryWidget extends StatelessWidget {
         children: [
           TextSpan(
             text: formattedTimestamp,
-            style: textTheme.caption!.copyWith(
+            style: textTheme.bodySmall!.copyWith(
               color: color.withOpacity(0.6),
-              fontFeatures: [FontFeature.tabularFigures()],
+              fontFeatures: [const FontFeature.tabularFigures()],
             ),
           ),
           TextSpan(text: ' ${log.message}'),
@@ -86,7 +92,7 @@ class AliceLogEntryWidget extends StatelessWidget {
     return InkWell(
       onLongPress: () => _copyToClipboard(context),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -95,7 +101,7 @@ class AliceLogEntryWidget extends StatelessWidget {
               size: 16,
               color: color,
             ),
-            SizedBox(width: 4),
+            const SizedBox(width: 4),
             Expanded(child: content),
           ],
         ),
@@ -115,34 +121,14 @@ class AliceLogEntryWidget extends StatelessWidget {
     return [
       TextSpan(
         text: '\n$title:${addLineBreakAfterTitle ? '\n' : ' '}',
-        style: TextStyle(fontWeight: FontWeight.bold),
+        style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       TextSpan(text: string),
     ];
   }
 
   Color _getTextColor(BuildContext context) {
-    final theme = Theme.of(context);
-    switch (log.level) {
-      case DiagnosticLevel.hidden:
-        return Colors.grey;
-      case DiagnosticLevel.fine:
-        return Colors.grey;
-      case DiagnosticLevel.debug:
-        return Colors.black;
-      case DiagnosticLevel.info:
-        return Colors.black;
-      case DiagnosticLevel.warning:
-        return Colors.orange;
-      case DiagnosticLevel.hint:
-        return Colors.grey;
-      case DiagnosticLevel.summary:
-        return Colors.black;
-      case DiagnosticLevel.error:
-        return theme.errorColor;
-      case DiagnosticLevel.off:
-        return Colors.purple;
-    }
+    return AliceTheme.getTextColor(context, log.level);
   }
 
   IconData _getLogIcon(DiagnosticLevel level) {
@@ -178,7 +164,7 @@ class AliceLogEntryWidget extends StatelessWidget {
     ].join('\n');
     await Clipboard.setData(ClipboardData(text: text));
     ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text('Copied!')));
+        .showSnackBar(const SnackBar(content: Text('Copied!')));
   }
 
   String? _stringify(dynamic object) {
@@ -187,11 +173,13 @@ class AliceLogEntryWidget extends StatelessWidget {
     if (object is DiagnosticsNode) return object.toStringDeep();
 
     try {
+      // ignore: avoid_dynamic_calls
       object.toJson();
       // It supports `toJson()`.
 
       dynamic toEncodable(dynamic object) {
         try {
+          // ignore: avoid_dynamic_calls
           return object.toJson();
         } catch (_) {
           try {

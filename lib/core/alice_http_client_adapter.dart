@@ -15,69 +15,75 @@ class AliceHttpClientAdapter {
 
   /// Handles httpClientRequest and creates http alice call from it
   void onRequest(HttpClientRequest request, {dynamic body}) {
-    final AliceHttpCall call = AliceHttpCall(request.hashCode);
-    call.loading = true;
-    call.client = "HttpClient (io package)";
-    call.method = request.method;
-    call.uri = request.uri.toString();
+    final call = AliceHttpCall(request.hashCode)
+      ..loading = true
+      ..client = 'HttpClient (io package)'
+      ..method = request.method
+      ..uri = request.uri.toString();
 
     var path = request.uri.path;
     if (path.isEmpty) {
-      path = "/";
+      path = '/';
     }
 
-    call.endpoint = path;
-    call.server = request.uri.host;
-    if (request.uri.scheme == "https") {
+    call
+      ..endpoint = path
+      ..server = request.uri.host;
+    if (request.uri.scheme == 'https') {
       call.secure = true;
     }
-    final AliceHttpRequest httpRequest = AliceHttpRequest();
+    final httpRequest = AliceHttpRequest();
     if (body == null) {
-      httpRequest.size = 0;
-      httpRequest.body = "";
+      httpRequest
+        ..size = 0
+        ..body = '';
     } else {
-      httpRequest.size = utf8.encode(body.toString()).length;
-      httpRequest.body = body;
+      httpRequest
+        ..size = utf8.encode(body.toString()).length
+        ..body = body;
     }
     httpRequest.time = DateTime.now();
-    final Map<String, dynamic> headers = <String, dynamic>{};
+    final headers = <String, dynamic>{};
 
     httpRequest.headers.forEach((header, dynamic value) {
       headers[header] = value;
     });
 
     httpRequest.headers = headers;
-    String? contentType = "unknown";
-    if (headers.containsKey("Content-Type")) {
-      contentType = headers["Content-Type"] as String?;
+    String? contentType = 'unknown';
+    if (headers.containsKey('Content-Type')) {
+      contentType = headers['Content-Type'] as String?;
     }
 
-    httpRequest.contentType = contentType;
-    httpRequest.cookies = request.cookies;
+    httpRequest
+      ..contentType = contentType
+      ..cookies = request.cookies;
 
-    call.request = httpRequest;
-    call.response = AliceHttpResponse();
+    call
+      ..request = httpRequest
+      ..response = AliceHttpResponse();
     aliceCore.addCall(call);
   }
 
   /// Handles httpClientRequest and adds response to http alice call
-  void onResponse(
+  Future<void> onResponse(
     HttpClientResponse response,
     HttpClientRequest request, {
     dynamic body,
   }) async {
-    final AliceHttpResponse httpResponse = AliceHttpResponse();
-    httpResponse.status = response.statusCode;
+    final httpResponse = AliceHttpResponse()..status = response.statusCode;
 
     if (body != null) {
-      httpResponse.body = body;
-      httpResponse.size = utf8.encode(body.toString()).length;
+      httpResponse
+        ..body = body
+        ..size = utf8.encode(body.toString()).length;
     } else {
-      httpResponse.body = "";
-      httpResponse.size = 0;
+      httpResponse
+        ..body = ''
+        ..size = 0;
     }
     httpResponse.time = DateTime.now();
-    final Map<String, String> headers = {};
+    final headers = <String, String>{};
     response.headers.forEach((header, values) {
       headers[header] = values.toString();
     });

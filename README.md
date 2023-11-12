@@ -80,7 +80,7 @@ Alice is an HTTP Inspector tool for Flutter which helps debugging http requests.
 
 ```yaml
 dependencies:
-  alice: ^0.3.3
+  alice: ^0.4.0
 ```
 
 2. Install it
@@ -133,12 +133,6 @@ You can set `showInspectorOnShake` in Alice constructor to open inspector by sha
 
 ```dart
 Alice alice = Alice(..., showInspectorOnShake: true);
-```
-
-If you want to use dark mode just add `darkTheme` flag:
-
-```dart
-Alice alice = Alice(..., darkTheme: true);
 ```
 
 If you want to pass another notification icon, you can use `notificationIcon` parameter. Default value is @mipmap/ic_launcher.
@@ -196,9 +190,11 @@ If you're using Chopper. you need to add interceptor:
 
 ```dart
 chopper = ChopperClient(
-    interceptors: alice.getChopperInterceptor(),
+    interceptors: [alice.getChopperInterceptor()],
 );
 ```
+
+Attention! Alice will add special "alice_token" header to the request in order to calculate correct id for the http call. 
 
 If you have other HTTP client you can use generic http call interface:
 ```dart
@@ -232,6 +228,14 @@ alice.addLog(log);
 alice.addLogs(logList);
 ```
 
+
+## Inspector state
+
+Check current inspector state (opened/closed) with:
+
+```dart
+alice.isInspectorOpened();
+```
 
 
 ## Extensions

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:alice/core/alice_logger.dart';
 import 'package:alice/core/alice_utils.dart';
@@ -23,9 +24,6 @@ class AliceCore {
   /// with sensors)
   final bool showInspectorOnShake;
 
-  /// Should inspector use dark theme
-  final bool darkTheme;
-
   /// Rx subject which contains all intercepted http calls
   final BehaviorSubject<List<AliceHttpCall>> callsSubject =
       BehaviorSubject.seeded([]);
@@ -47,10 +45,9 @@ class AliceCore {
 
   late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
   GlobalKey<NavigatorState>? navigatorKey;
-  Brightness _brightness = Brightness.light;
   bool _isInspectorOpened = false;
   ShakeDetector? _shakeDetector;
-  StreamSubscription? _callsSubscription;
+  StreamSubscription<dynamic>? _callsSubscription;
   String? _notificationMessage;
   String? _notificationMessageShown;
   bool _notificationProcessing = false;
@@ -60,7 +57,6 @@ class AliceCore {
     this.navigatorKey, {
     required this.showNotification,
     required this.showInspectorOnShake,
-    required this.darkTheme,
     required this.notificationIcon,
     required this.maxCallsCount,
     this.directionality,
@@ -71,14 +67,15 @@ class AliceCore {
       _callsSubscription = callsSubject.listen((_) => _onCallsChanged());
     }
     if (showInspectorOnShake) {
-      _shakeDetector = ShakeDetector.autoStart(
-        onPhoneShake: () {
-          navigateToCallListScreen();
-        },
-        shakeThresholdGravity: 4,
-      );
+      if (Platform.isAndroid || Platform.isIOS) {
+        _shakeDetector = ShakeDetector.autoStart(
+          onPhoneShake: () {
+            navigateToCallListScreen();
+          },
+          shakeThresholdGravity: 4,
+        );
+      }
     }
-    _brightness = darkTheme ? Brightness.dark : Brightness.light;
   }
 
   /// Dispose subjects and subscriptions
@@ -88,17 +85,16 @@ class AliceCore {
     _callsSubscription?.cancel();
   }
 
-  /// Get currently used brightness
-  Brightness get brightness => _brightness;
-
   void _initializeNotificationsPlugin() {
     _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     final initializationSettingsAndroid =
         AndroidInitializationSettings(notificationIcon);
     const initializationSettingsIOS = DarwinInitializationSettings();
+    const initializationSettingsMacOS = DarwinInitializationSettings();
     final initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
+      macOS: initializationSettingsMacOS,
     );
     _flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
@@ -106,19 +102,20 @@ class AliceCore {
     );
   }
 
-  void _onCallsChanged() async {
+  Future<void> _onCallsChanged() async {
     if (callsSubject.value.isNotEmpty) {
       _notificationMessage = _getNotificationMessage();
       if (_notificationMessage != _notificationMessageShown &&
           !_notificationProcessing) {
         await _showLocalNotification();
-        _onCallsChanged();
+        await _onCallsChanged();
       }
     }
   }
 
   Future<void> _onDidReceiveNotificationResponse(
-      NotificationResponse response) async {
+    NotificationResponse response,
+  ) async {
     assert(response.payload != null, "payload can't be null");
     navigateToCallListScreen();
     return;
@@ -130,7 +127,8 @@ class AliceCore {
     final context = getContext();
     if (context == null) {
       AliceUtils.log(
-        "Cant start Alice HTTP Inspector. Please add NavigatorKey to your application",
+        'Cant start Alice HTTP Inspector. Please add NavigatorKey to your '
+        'application',
       );
       return;
     }
@@ -149,8 +147,8 @@ class AliceCore {
   BuildContext? getContext() => navigatorKey?.currentState?.overlay?.context;
 
   String _getNotificationMessage() {
-    final List<AliceHttpCall> calls = callsSubject.value;
-    final int successCalls = calls
+    final calls = callsSubject.value;
+    final successCalls = calls
         .where(
           (call) =>
               call.response != null &&
@@ -160,7 +158,7 @@ class AliceCore {
         .toList()
         .length;
 
-    final int redirectCalls = calls
+    final redirectCalls = calls
         .where(
           (call) =>
               call.response != null &&
@@ -170,7 +168,7 @@ class AliceCore {
         .toList()
         .length;
 
-    final int errorCalls = calls
+    final errorCalls = calls
         .where(
           (call) =>
               call.response != null &&
@@ -180,27 +178,29 @@ class AliceCore {
         .toList()
         .length;
 
-    final int loadingCalls =
-        calls.where((call) => call.loading).toList().length;
+    final loadingCalls = calls.where((call) => call.loading).toList().length;
 
-    final StringBuffer notificationsMessage = StringBuffer();
+    final notificationsMessage = StringBuffer();
     if (loadingCalls > 0) {
-      notificationsMessage.write("Loading: $loadingCalls");
-      notificationsMessage.write(" | ");
+      notificationsMessage
+        ..write('Loading: $loadingCalls')
+        ..write(' | ');
     }
     if (successCalls > 0) {
-      notificationsMessage.write("Success: $successCalls");
-      notificationsMessage.write(" | ");
+      notificationsMessage
+        ..write('Success: $successCalls')
+        ..write(' | ');
     }
     if (redirectCalls > 0) {
-      notificationsMessage.write("Redirect: $redirectCalls");
-      notificationsMessage.write(" | ");
+      notificationsMessage
+        ..write('Redirect: $redirectCalls')
+        ..write(' | ');
     }
     if (errorCalls > 0) {
-      notificationsMessage.write("Error: $errorCalls");
+      notificationsMessage.write('Error: $errorCalls');
     }
-    String notificationMessageString = notificationsMessage.toString();
-    if (notificationMessageString.endsWith(" | ")) {
+    var notificationMessageString = notificationsMessage.toString();
+    if (notificationMessageString.endsWith(' | ')) {
       notificationMessageString = notificationMessageString.substring(
         0,
         notificationMessageString.length - 3,
@@ -210,11 +210,11 @@ class AliceCore {
     return notificationMessageString;
   }
 
-  Future _showLocalNotification() async {
+  Future<void> _showLocalNotification() async {
     _notificationProcessing = true;
-    const channelId = "Alice";
-    const channelName = "Alice";
-    const channelDescription = "Alice";
+    const channelId = 'Alice';
+    const channelName = 'Alice';
+    const channelDescription = 'Alice';
     final androidPlatformChannelSpecifics = AndroidNotificationDetails(
       channelId,
       channelName,
@@ -229,13 +229,13 @@ class AliceCore {
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics,
     );
-    final String? message = _notificationMessage;
+    final message = _notificationMessage;
     await _flutterLocalNotificationsPlugin.show(
       0,
-      "Alice (total: ${callsSubject.value.length} requests)",
+      'Alice (total: ${callsSubject.value.length} requests)',
       message,
       platformChannelSpecifics,
-      payload: "",
+      payload: '',
     );
     _notificationMessageShown = message;
     _notificationProcessing = false;
@@ -247,10 +247,10 @@ class AliceCore {
     final callsCount = callsSubject.value.length;
     if (callsCount >= maxCallsCount) {
       final originalCalls = callsSubject.value;
-      final calls = List<AliceHttpCall>.from(originalCalls);
-      calls.sort(
-        (call1, call2) => call1.createdTime.compareTo(call2.createdTime),
-      );
+      final calls = List<AliceHttpCall>.from(originalCalls)
+        ..sort(
+          (call1, call2) => call1.createdTime.compareTo(call2.createdTime),
+        );
       final indexToReplace = originalCalls.indexOf(calls.first);
       originalCalls[indexToReplace] = call;
 
@@ -262,10 +262,10 @@ class AliceCore {
 
   /// Add error to existing alice http call
   void addError(AliceHttpError error, int requestId) {
-    final AliceHttpCall? selectedCall = _selectCall(requestId);
+    final selectedCall = _selectCall(requestId);
 
     if (selectedCall == null) {
-      AliceUtils.log("Selected call is null");
+      AliceUtils.log('Selected call is null');
       return;
     }
 
@@ -275,16 +275,17 @@ class AliceCore {
 
   /// Add response to existing alice http call
   void addResponse(AliceHttpResponse response, int requestId) {
-    final AliceHttpCall? selectedCall = _selectCall(requestId);
+    final selectedCall = _selectCall(requestId);
 
     if (selectedCall == null) {
-      AliceUtils.log("Selected call is null");
+      AliceUtils.log('Selected call is null');
       return;
     }
-    selectedCall.loading = false;
-    selectedCall.response = response;
-    selectedCall.duration = response.time.millisecondsSinceEpoch -
-        selectedCall.request!.time.millisecondsSinceEpoch;
+    selectedCall
+      ..loading = false
+      ..response = response
+      ..duration = response.time.millisecondsSinceEpoch -
+          selectedCall.request!.time.millisecondsSinceEpoch;
 
     callsSubject.add([...callsSubject.value]);
   }
@@ -306,7 +307,7 @@ class AliceCore {
 
   /// Save all calls to file
   void saveHttpRequests(BuildContext context) {
-    AliceSaveHelper.saveCalls(context, callsSubject.value, _brightness);
+    AliceSaveHelper.saveCalls(context, callsSubject.value);
   }
 
   /// Adds new log to Alice logger.
@@ -317,5 +318,10 @@ class AliceCore {
   /// Adds list of logs to Alice logger
   void addLogs(List<AliceLog> logs) {
     _aliceLogger.logs.addAll(logs);
+  }
+
+  /// Returns flag which determines whether inspector is opened
+  bool isInspectorOpened() {
+    return _isInspectorOpened;
   }
 }

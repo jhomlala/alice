@@ -1,3 +1,4 @@
+import 'package:alice/utils/alice_theme.dart';
 import 'package:flutter/material.dart';
 
 class AliceAlertHelper {
@@ -6,31 +7,27 @@ class AliceAlertHelper {
     BuildContext context,
     String title,
     String description, {
-    String firstButtonTitle = "Accept",
+    String firstButtonTitle = 'Accept',
     String? secondButtonTitle,
     Function? firstButtonAction,
     Function? secondButtonAction,
-    Brightness? brightness,
   }) {
-    final List<Widget> actions = [];
-    actions.add(
+    final actions = <Widget>[
       TextButton(
         onPressed: () {
-          if (firstButtonAction != null) {
-            firstButtonAction();
-          }
+          // ignore: avoid_dynamic_calls
+          firstButtonAction?.call();
           Navigator.of(context).pop();
         },
         child: Text(firstButtonTitle),
       ),
-    );
+    ];
     if (secondButtonTitle != null) {
       actions.add(
         TextButton(
           onPressed: () {
-            if (secondButtonAction != null) {
-              secondButtonAction();
-            }
+            // ignore: avoid_dynamic_calls
+            secondButtonAction?.call();
             Navigator.of(context).pop();
           },
           child: Text(secondButtonTitle),
@@ -42,7 +39,7 @@ class AliceAlertHelper {
       builder: (BuildContext buildContext) {
         return Theme(
           data: ThemeData(
-            brightness: brightness ?? Brightness.light,
+            colorScheme: AliceTheme.getColorScheme(),
           ),
           child: AlertDialog(
             title: Text(title),

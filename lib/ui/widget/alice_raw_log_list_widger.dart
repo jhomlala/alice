@@ -3,11 +3,11 @@ import 'package:flutter/services.dart';
 
 class AliceRawLogListWidget extends StatelessWidget {
   const AliceRawLogListWidget({
-    Key? key,
     required this.scrollController,
     required this.getRawLogs,
     required this.emptyWidget,
-  }) : super(key: key);
+    super.key,
+  });
 
   final ScrollController scrollController;
   final Future<String>? getRawLogs;
@@ -26,13 +26,13 @@ class AliceRawLogListWidget extends StatelessWidget {
               child: SingleChildScrollView(
                 controller: scrollController,
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8),
                   child: InkWell(
                     onLongPress: () =>
                         _copyToClipboard(snapshot.data!, context),
                     child: Text(
                       snapshot.data ?? '',
-                      style: TextStyle(fontSize: 10),
+                      style: const TextStyle(fontSize: 10),
                     ),
                   ),
                 ),
@@ -41,7 +41,7 @@ class AliceRawLogListWidget extends StatelessWidget {
           }
           return emptyWidget;
         }
-        return Center(child: CircularProgressIndicator());
+        return const Center(child: CircularProgressIndicator());
       },
     );
   }
@@ -49,7 +49,7 @@ class AliceRawLogListWidget extends StatelessWidget {
   Future<void> _copyToClipboard(String text, BuildContext context) async {
     await Clipboard.setData(ClipboardData(text: text));
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Text('Copied!'),
       ),
     );
