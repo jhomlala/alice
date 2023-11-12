@@ -229,6 +229,14 @@ alice.addLogs(logList);
 ```
 
 
+## Inspector state
+
+Check current inspector state (opened/closed) with:
+
+```dart
+alice.isInspectorOpened();
+```
+
 
 ## Extensions
 You can use extensions to shorten your http and http client code. This is optional, but may improve your codebase.

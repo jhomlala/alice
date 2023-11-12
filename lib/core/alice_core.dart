@@ -314,4 +314,9 @@ class AliceCore {
   void addLogs(List<AliceLog> logs) {
     _aliceLogger.logs.addAll(logs);
   }
+
+  /// Returns flag which determines whether inspector is opened
+  bool isInspectorOpened() {
+    return _isInspectorOpened;
+  }
 }
