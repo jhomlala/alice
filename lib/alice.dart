@@ -108,8 +108,8 @@ class Alice {
   }
 
   /// Get chopper interceptor. This should be added to Chopper instance.
-  List<ResponseInterceptor> getChopperInterceptor() {
-    return [AliceChopperInterceptor(_aliceCore)];
+  ResponseInterceptor getChopperInterceptor() {
+    return AliceChopperInterceptor(_aliceCore);
   }
 
   /// Handle generic http call. Can be used to any http client.

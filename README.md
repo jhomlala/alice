@@ -190,7 +190,7 @@ If you're using Chopper. you need to add interceptor:
 
 ```dart
 chopper = ChopperClient(
-    interceptors: alice.getChopperInterceptor(),
+    interceptors: [alice.getChopperInterceptor()],
 );
 ```
 
