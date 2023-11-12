@@ -135,12 +135,6 @@ You can set `showInspectorOnShake` in Alice constructor to open inspector by sha
 Alice alice = Alice(..., showInspectorOnShake: true);
 ```
 
-If you want to use dark mode just add `darkTheme` flag:
-
-```dart
-Alice alice = Alice(..., darkTheme: true);
-```
-
 If you want to pass another notification icon, you can use `notificationIcon` parameter. Default value is @mipmap/ic_launcher.
 ```dart
 Alice alice = Alice(..., notificationIcon: "myNotificationIconResourceName");
