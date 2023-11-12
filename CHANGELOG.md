@@ -1,3 +1,7 @@
+# 0.4.1
+* Updated dependencies.
+* Alice requires now min sdk version 22, and compile sdk version 34 for android.
+
 # 0.4.0
 * [BREAKING_CHANGE] Updated dart min version to 3.0.0.
 * [BREAKING_CHANGE] Removed `darkTheme` parameter. Alice will now automatically detect the color scheme.
