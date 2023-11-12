@@ -11,6 +11,7 @@ import 'package:alice/ui/widget/alice_call_list_item_widget.dart';
 import 'package:alice/ui/widget/alice_log_list_widget.dart';
 import 'package:alice/ui/widget/alice_raw_log_list_widger.dart';
 import 'package:alice/utils/alice_constants.dart';
+import 'package:alice/utils/alice_theme.dart';
 import 'package:flutter/material.dart';
 
 class AliceCallsListScreen extends StatefulWidget {
@@ -83,8 +84,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
           widget._aliceCore.directionality ?? Directionality.of(context),
       child: Theme(
         data: ThemeData(
-          brightness: widget._aliceCore.brightness,
-          colorScheme: ColorScheme.light(secondary: AliceConstants.lightRed),
+          colorScheme: AliceTheme.getColorScheme(),
         ),
         child: Scaffold(
           appBar: AppBar(

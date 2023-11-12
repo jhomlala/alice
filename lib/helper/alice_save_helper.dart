@@ -20,34 +20,27 @@ class AliceSaveHelper {
   static void saveCalls(
     BuildContext context,
     List<AliceHttpCall> calls,
-    Brightness brightness,
   ) {
-    _checkPermissions(context, calls, brightness);
+    _checkPermissions(context, calls);
   }
 
   static Future<void> _checkPermissions(
     BuildContext context,
     List<AliceHttpCall> calls,
-    Brightness brightness,
   ) async {
     final status = await Permission.storage.status;
     if (status.isGranted) {
-      await _saveToFile(
-        context,
-        calls,
-        brightness,
-      );
+      await _saveToFile(context, calls);
     } else {
       final status = await Permission.storage.request();
 
       if (status.isGranted) {
-        await _saveToFile(context, calls, brightness);
+        await _saveToFile(context, calls);
       } else {
         AliceAlertHelper.showAlert(
           context,
           'Permission error',
           "Permission not granted. Couldn't save logs.",
-          brightness: brightness,
         );
       }
     }
@@ -56,7 +49,6 @@ class AliceSaveHelper {
   static Future<String> _saveToFile(
     BuildContext context,
     List<AliceHttpCall> calls,
-    Brightness brightness,
   ) async {
     try {
       if (calls.isEmpty) {
@@ -64,7 +56,6 @@ class AliceSaveHelper {
           context,
           'Error',
           'There are no logs to save',
-          brightness: brightness,
         );
         return '';
       }
@@ -94,7 +85,6 @@ class AliceSaveHelper {
           secondButtonTitle: isAndroid ? 'View file' : null,
           secondButtonAction: () =>
               isAndroid ? OpenFilex.open(file.path) : null,
-          brightness: brightness,
         );
         return file.path;
       } else {
@@ -109,7 +99,6 @@ class AliceSaveHelper {
         context,
         'Error',
         'Failed to save http calls to file',
-        brightness: brightness,
       );
       AliceUtils.log(exception.toString());
     }

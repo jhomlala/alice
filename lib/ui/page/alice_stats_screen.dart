@@ -1,7 +1,7 @@
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/helper/alice_conversion_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/utils/alice_constants.dart';
+import 'package:alice/utils/alice_theme.dart';
 import 'package:flutter/material.dart';
 
 class AliceStatsScreen extends StatelessWidget {
@@ -14,10 +14,7 @@ class AliceStatsScreen extends StatelessWidget {
     return Directionality(
       textDirection: aliceCore.directionality ?? Directionality.of(context),
       child: Theme(
-        data: ThemeData(
-          brightness: aliceCore.brightness,
-          colorScheme: ColorScheme.light(secondary: AliceConstants.lightRed),
-        ),
+        data: ThemeData(colorScheme: AliceTheme.getColorScheme()),
         child: Scaffold(
           appBar: AppBar(
             title: const Text('Alice - HTTP Inspector - Stats'),

@@ -1,3 +1,4 @@
+import 'package:alice/utils/alice_theme.dart';
 import 'package:flutter/material.dart';
 
 class AliceAlertHelper {
@@ -10,7 +11,6 @@ class AliceAlertHelper {
     String? secondButtonTitle,
     Function? firstButtonAction,
     Function? secondButtonAction,
-    Brightness? brightness,
   }) {
     final actions = <Widget>[
       TextButton(
@@ -39,7 +39,7 @@ class AliceAlertHelper {
       builder: (BuildContext buildContext) {
         return Theme(
           data: ThemeData(
-            brightness: brightness ?? Brightness.light,
+            colorScheme: AliceTheme.getColorScheme(),
           ),
           child: AlertDialog(
             title: Text(title),

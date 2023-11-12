@@ -23,9 +23,6 @@ class AliceCore {
   /// with sensors)
   final bool showInspectorOnShake;
 
-  /// Should inspector use dark theme
-  final bool darkTheme;
-
   /// Rx subject which contains all intercepted http calls
   final BehaviorSubject<List<AliceHttpCall>> callsSubject =
       BehaviorSubject.seeded([]);
@@ -47,7 +44,6 @@ class AliceCore {
 
   late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
   GlobalKey<NavigatorState>? navigatorKey;
-  Brightness _brightness = Brightness.light;
   bool _isInspectorOpened = false;
   ShakeDetector? _shakeDetector;
   StreamSubscription<dynamic>? _callsSubscription;
@@ -60,7 +56,6 @@ class AliceCore {
     this.navigatorKey, {
     required this.showNotification,
     required this.showInspectorOnShake,
-    required this.darkTheme,
     required this.notificationIcon,
     required this.maxCallsCount,
     this.directionality,
@@ -78,7 +73,6 @@ class AliceCore {
         shakeThresholdGravity: 4,
       );
     }
-    _brightness = darkTheme ? Brightness.dark : Brightness.light;
   }
 
   /// Dispose subjects and subscriptions
@@ -87,9 +81,6 @@ class AliceCore {
     _shakeDetector?.stopListening();
     _callsSubscription?.cancel();
   }
-
-  /// Get currently used brightness
-  Brightness get brightness => _brightness;
 
   void _initializeNotificationsPlugin() {
     _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -311,7 +302,7 @@ class AliceCore {
 
   /// Save all calls to file
   void saveHttpRequests(BuildContext context) {
-    AliceSaveHelper.saveCalls(context, callsSubject.value, _brightness);
+    AliceSaveHelper.saveCalls(context, callsSubject.value);
   }
 
   /// Adds new log to Alice logger.

@@ -33,7 +33,6 @@ class _MyAppState extends State<MyApp> {
     _alice = Alice(
       showNotification: true,
       showInspectorOnShake: true,
-      darkTheme: false,
       maxCallsCount: 1000,
     );
     _dio = Dio(BaseOptions(

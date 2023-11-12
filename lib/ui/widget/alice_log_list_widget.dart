@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:alice/model/alice_log.dart';
+import 'package:alice/utils/alice_theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -123,27 +124,7 @@ class AliceLogEntryWidget extends StatelessWidget {
   }
 
   Color _getTextColor(BuildContext context) {
-    final theme = Theme.of(context);
-    switch (log.level) {
-      case DiagnosticLevel.hidden:
-        return Colors.grey;
-      case DiagnosticLevel.fine:
-        return Colors.grey;
-      case DiagnosticLevel.debug:
-        return Colors.black;
-      case DiagnosticLevel.info:
-        return Colors.black;
-      case DiagnosticLevel.warning:
-        return Colors.orange;
-      case DiagnosticLevel.hint:
-        return Colors.grey;
-      case DiagnosticLevel.summary:
-        return Colors.black;
-      case DiagnosticLevel.error:
-        return theme.colorScheme.error;
-      case DiagnosticLevel.off:
-        return Colors.purple;
-    }
+    return AliceTheme.getTextColor(context, log.level);
   }
 
   IconData _getLogIcon(DiagnosticLevel level) {
