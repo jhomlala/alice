@@ -13,24 +13,28 @@ class AliceAlertHelper {
     Function? secondButtonAction,
   }) {
     final actions = <Widget>[
-      TextButton(
-        onPressed: () {
-          // ignore: avoid_dynamic_calls
-          firstButtonAction?.call();
-          Navigator.of(context).pop();
-        },
-        child: Text(firstButtonTitle),
+      Builder(
+        builder: (context) => TextButton(
+          onPressed: () {
+            // ignore: avoid_dynamic_calls
+            firstButtonAction?.call();
+            Navigator.of(context).pop();
+          },
+          child: Text(firstButtonTitle),
+        ),
       ),
     ];
     if (secondButtonTitle != null) {
       actions.add(
-        TextButton(
-          onPressed: () {
-            // ignore: avoid_dynamic_calls
-            secondButtonAction?.call();
-            Navigator.of(context).pop();
-          },
-          child: Text(secondButtonTitle),
+        Builder(
+          builder: (context) => TextButton(
+            onPressed: () {
+              // ignore: avoid_dynamic_calls
+              secondButtonAction?.call();
+              Navigator.of(context).pop();
+            },
+            child: Text(secondButtonTitle),
+          ),
         ),
       );
     }
