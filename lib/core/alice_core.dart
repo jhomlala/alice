@@ -235,7 +235,7 @@ class AliceCore {
       'Alice (total: ${callsSubject.value.length} requests)',
       message,
       platformChannelSpecifics,
-      payload: '',
+      payload: 'alice-inspector',
     );
     _notificationMessageShown = message;
     _notificationProcessing = false;
