@@ -13,7 +13,6 @@ dependencies:
     sdk: flutter
   http: ^1.0.0
   dio: ^5.1.2
-  flutter_local_notifications: ^16.1.0
   rxdart: ^0.27.7
 
   path_provider: ^2.0.15
