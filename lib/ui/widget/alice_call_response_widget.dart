@@ -164,7 +164,7 @@ class _AliceCallResponseWidgetState
           ElevatedButton(
             style: ButtonStyle(
               backgroundColor:
-                  MaterialStateProperty.all<Color>(AliceConstants.lightRed),
+                  WidgetStateProperty.all<Color>(AliceConstants.lightRed),
             ),
             onPressed: () {
               setState(() {
@@ -235,7 +235,7 @@ class _AliceCallResponseWidgetState
           ElevatedButton(
             style: ButtonStyle(
               backgroundColor:
-                  MaterialStateProperty.all<Color>(AliceConstants.lightRed),
+                  WidgetStateProperty.all<Color>(AliceConstants.lightRed),
             ),
             onPressed: () {
               setState(() {
