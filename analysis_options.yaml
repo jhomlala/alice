@@ -1,4 +1,4 @@
-include: package:very_good_analysis/analysis_options.yaml
+1include: package:very_good_analysis/analysis_options.yaml
 
 linter:
   rules:

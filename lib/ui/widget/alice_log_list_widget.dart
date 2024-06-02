@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:ui';
-
 import 'package:alice/model/alice_log.dart';
 import 'package:alice/utils/alice_scroll_behavior.dart';
 import 'package:alice/utils/alice_theme.dart';
