@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:alice/alice.dart';
 import 'package:alice/core/alice_http_client_extensions.dart';
 import 'package:alice/core/alice_http_extensions.dart';
-import 'package:alice_example/posts_service.dart';
+import 'package:example/posts_service.dart';
 import 'package:chopper/chopper.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +27,7 @@ class _MyAppState extends State<MyApp> {
   Color _primaryColor = Color(0xffff5e57);
   Color _accentColor = Color(0xffff3f34);
   Color _buttonColor = Color(0xff008000);
+  TextStyle _buttonTextStyle = TextStyle(color: Colors.white);
 
   @override
   void initState() {
@@ -71,31 +72,46 @@ class _MyAppState extends State<MyApp> {
               _getTextWidget(
                   'Welcome to example of Alice Http Inspector. Click buttons below to generate sample data.'),
               ElevatedButton(
-                child: Text('Run Dio HTTP Requests'),
+                child: Text(
+                  'Run Dio HTTP Requests',
+                  style: _buttonTextStyle,
+                ),
                 onPressed: _runDioRequests,
                 style: _buttonStyle,
               ),
               const SizedBox(height: 8),
               ElevatedButton(
-                child: Text('Run http/http HTTP Requests'),
+                child: Text(
+                  'Run http/http HTTP Requests',
+                  style: _buttonTextStyle,
+                ),
                 onPressed: _runHttpHttpRequests,
                 style: _buttonStyle,
               ),
               const SizedBox(height: 8),
               ElevatedButton(
-                child: Text('Run HttpClient Requests'),
+                child: Text(
+                  'Run HttpClient Requests',
+                  style: _buttonTextStyle,
+                ),
                 onPressed: _runHttpHttpClientRequests,
                 style: _buttonStyle,
               ),
               const SizedBox(height: 8),
               ElevatedButton(
-                child: Text('Run Chopper HTTP Requests'),
+                child: Text(
+                  'Run Chopper HTTP Requests',
+                  style: _buttonTextStyle,
+                ),
                 onPressed: _runChopperHttpRequests,
                 style: _buttonStyle,
               ),
               const SizedBox(height: 8),
               ElevatedButton(
-                child: Text('Log example data'),
+                child: Text(
+                  'Log example data',
+                  style: _buttonTextStyle,
+                ),
                 onPressed: _logExampleData,
                 style: _buttonStyle,
               ),
@@ -104,7 +120,10 @@ class _MyAppState extends State<MyApp> {
                   'After clicking on buttons above, you should receive notification.'
                   ' Click on it to show inspector. You can also shake your device or click button below.'),
               ElevatedButton(
-                child: Text('Run HTTP Inspector'),
+                child: Text(
+                  'Run HTTP Inspector',
+                  style: _buttonTextStyle,
+                ),
                 onPressed: _runHttpInspector,
                 style: _buttonStyle,
               )

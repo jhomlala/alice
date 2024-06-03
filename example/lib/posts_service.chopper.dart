@@ -6,6 +6,7 @@ part of 'posts_service.dart';
 // ChopperGenerator
 // **************************************************************************
 
+// coverage:ignore-file
 // ignore_for_file: type=lint
 final class _$PostsService extends PostsService {
   _$PostsService([ChopperClient? client]) {
@@ -14,7 +15,7 @@ final class _$PostsService extends PostsService {
   }
 
   @override
-  final definitionType = PostsService;
+  final Type definitionType = PostsService;
 
   @override
   Future<Response<dynamic>> getPost(String id) {
