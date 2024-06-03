@@ -9,7 +9,6 @@ import 'package:alice/model/alice_http_response.dart';
 import 'package:chopper/chopper.dart' as chopper;
 import 'package:http/http.dart';
 
-
 class AliceChopperInterceptor
     implements chopper.ResponseInterceptor, chopper.RequestInterceptor {
   /// AliceCore instance
