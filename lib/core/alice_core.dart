@@ -64,6 +64,7 @@ class AliceCore {
   }) {
     if (showNotification) {
       _initializeNotificationsPlugin();
+      _requestPermissions();
       _callsSubscription = callsSubject.listen((_) => _onCallsChanged());
     }
     if (showInspectorOnShake) {
@@ -210,6 +211,34 @@ class AliceCore {
     return notificationMessageString;
   }
 
+  Future<void> _requestPermissions() async {
+    if (Platform.isIOS || Platform.isMacOS) {
+      await _flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+              IOSFlutterLocalNotificationsPlugin>()
+          ?.requestPermissions(
+            alert: true,
+            badge: true,
+            sound: true,
+          );
+      await _flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+              MacOSFlutterLocalNotificationsPlugin>()
+          ?.requestPermissions(
+            alert: true,
+            badge: true,
+            sound: true,
+          );
+    } else if (Platform.isAndroid) {
+      final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
+          _flutterLocalNotificationsPlugin
+              .resolvePlatformSpecificImplementation<
+                  AndroidFlutterLocalNotificationsPlugin>();
+
+      await androidImplementation?.requestNotificationsPermission();
+    }
+  }
+
   Future<void> _showLocalNotification() async {
     _notificationProcessing = true;
     const channelId = 'Alice';
@@ -237,6 +266,7 @@ class AliceCore {
       platformChannelSpecifics,
       payload: '',
     );
+
     _notificationMessageShown = message;
     _notificationProcessing = false;
     return;

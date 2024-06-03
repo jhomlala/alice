@@ -8,7 +8,7 @@
 PRODUCT_NAME = example
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.jhomlala.example
+PRODUCT_BUNDLE_IDENTIFIER = com.jhomlala.alice.example.example
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2023 com.jhomlala. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2024 com.jhomlala.alice.example. All rights reserved.
