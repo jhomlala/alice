@@ -1,16 +1,20 @@
-import 'dart:async';
-import 'dart:convert';
+import 'dart:async' show FutureOr;
+import 'dart:convert' show utf8;
 
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
-import 'package:chopper/chopper.dart' as chopper;
-import 'package:http/http.dart';
+import 'package:chopper/chopper.dart';
+import 'package:http/http.dart' as http;
 
-class AliceChopperInterceptor
-    implements chopper.ResponseInterceptor, chopper.RequestInterceptor {
+extension on String {
+  String stripTrailingSlash() =>
+      endsWith('/') ? substring(0, length - 1) : this;
+}
+
+class AliceChopperInterceptor implements Interceptor {
   /// AliceCore instance
   final AliceCore aliceCore;
 
@@ -18,80 +22,81 @@ class AliceChopperInterceptor
   AliceChopperInterceptor(this.aliceCore);
 
   /// Creates hashcode based on request
-  int getRequestHashCode(BaseRequest baseRequest) {
-    var hashCodeSum = 0;
-    hashCodeSum += baseRequest.url.hashCode;
-    hashCodeSum += baseRequest.method.hashCode;
-    if (baseRequest.headers.isNotEmpty) {
-      baseRequest.headers.forEach((key, value) {
-        hashCodeSum += key.hashCode;
-        hashCodeSum += value.hashCode;
-      });
-    }
-    if (baseRequest.contentLength != null) {
-      hashCodeSum += baseRequest.contentLength.hashCode;
-    }
+  int getRequestHashCode(http.BaseRequest baseRequest) {
+    final int hashCodeSum = baseRequest.url.hashCode +
+        baseRequest.method.hashCode +
+        (baseRequest.headers.entries
+            .map((MapEntry<String, String> header) =>
+                header.key.hashCode + header.value.hashCode)
+            .reduce((int value, int hashCode) => value + hashCode)) +
+        (baseRequest.contentLength?.hashCode ?? 0);
 
     return hashCodeSum.hashCode;
   }
 
   /// Handles chopper request and creates alice http call
   @override
-  FutureOr<chopper.Request> onRequest(chopper.Request request) async {
+  FutureOr<Response<BodyType>> intercept<BodyType>(
+    Chain<BodyType> chain,
+  ) async {
     try {
-      final headers = request.headers;
+      final Map<String, String> headers = chain.request.headers;
       headers['alice_token'] = DateTime.now().millisecondsSinceEpoch.toString();
-      final changedRequest = request.copyWith(headers: headers);
-      final baseRequest = await changedRequest.toBaseRequest();
+      final Request changedRequest = chain.request.copyWith(headers: headers);
+      final http.BaseRequest baseRequest = await changedRequest.toBaseRequest();
 
-      final call = AliceHttpCall(getRequestHashCode(baseRequest));
-      var endpoint = '';
-      var server = '';
+      final AliceHttpCall call = AliceHttpCall(getRequestHashCode(baseRequest));
+      final StringBuffer endpoint = StringBuffer();
+      final StringBuffer server = StringBuffer();
 
-      final split = request.url.toString().split('/');
+      final List<String> split = chain.request.url.toString().split('/');
       if (split.length > 2) {
-        server = split[1] + split[2];
+        server.writeAll([
+          split[1],
+          split[2],
+        ]);
       }
       if (split.length > 4) {
-        endpoint = '/';
-        for (var splitIndex = 3; splitIndex < split.length; splitIndex++) {
-          // ignore: use_string_buffers
-          endpoint += '${split[splitIndex]}/';
+        endpoint.write('/');
+        for (int splitIndex = 3; splitIndex < split.length; splitIndex++) {
+          endpoint.writeAll([
+            split[splitIndex],
+            '/',
+          ]);
         }
-        endpoint = endpoint.substring(0, endpoint.length - 1);
       }
 
       call
-        ..method = request.method
-        ..endpoint = endpoint
-        ..server = server
+        ..method = chain.request.method
+        ..endpoint = endpoint.toString().stripTrailingSlash()
+        ..server = server.toString()
         ..client = 'Chopper';
-      if (request.url.toString().contains('https')) {
+      if (chain.request.url.toString().contains('https')) {
         call.secure = true;
       }
 
-      final aliceHttpRequest = AliceHttpRequest();
+      final AliceHttpRequest aliceHttpRequest = AliceHttpRequest();
 
-      if (request.body == null) {
+      if (chain.request.body == null) {
         aliceHttpRequest
           ..size = 0
           ..body = '';
       } else {
         aliceHttpRequest
-          ..size = utf8.encode(request.body as String).length
-          ..body = request.body;
+          ..size = utf8.encode(chain.request.body as String).length
+          ..body = chain.request.body;
       }
       aliceHttpRequest
         ..time = DateTime.now()
-        ..headers = request.headers;
+        ..headers = chain.request.headers;
 
       String? contentType = 'unknown';
-      if (request.headers.containsKey('Content-Type')) {
-        contentType = request.headers['Content-Type'];
+      if (chain.request.headers.containsKey('Content-Type')) {
+        contentType = chain.request.headers['Content-Type'];
       }
       aliceHttpRequest
         ..contentType = contentType
-        ..queryParameters = request.parameters;
+        ..queryParameters = chain.request.parameters;
 
       call
         ..request = aliceHttpRequest
@@ -101,35 +106,25 @@ class AliceChopperInterceptor
     } catch (exception) {
       AliceUtils.log(exception.toString());
     }
-    return request;
-  }
 
-  /// Handles chopper response and adds data to existing alice http call
-  @override
-  // ignore: strict_raw_type
-  FutureOr<chopper.Response> onResponse(chopper.Response response) {
-    final httpResponse = AliceHttpResponse()..status = response.statusCode;
-    if (response.body == null) {
-      httpResponse
-        ..body = ''
-        ..size = 0;
-    } else {
-      httpResponse
-        ..body = response.body
-        ..size = utf8.encode(response.body.toString()).length;
-    }
+    final Response<BodyType> response = await chain.proceed(chain.request);
 
-    httpResponse.time = DateTime.now();
-    final headers = <String, String>{};
-    response.headers.forEach((header, values) {
-      headers[header] = values;
-    });
-    httpResponse.headers = headers;
-
+    /// Adds data to existing alice http call
     aliceCore.addResponse(
-      httpResponse,
+      AliceHttpResponse()
+        ..status = response.statusCode
+        ..body = response.body ?? ''
+        ..size = response.body != null
+            ? utf8.encode(response.body.toString()).length
+            : 0
+        ..time = DateTime.now()
+        ..headers = <String, String>{
+          for (final MapEntry<String, String> entry in response.headers.entries)
+            entry.key: entry.value
+        },
       getRequestHashCode(response.base.request!),
     );
+
     return response;
   }
 }
