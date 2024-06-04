@@ -1,14 +1,11 @@
 import 'dart:io';
 
 import 'package:alice/core/alice_adapter.dart';
-import 'package:alice/core/alice_chopper_response_interceptor.dart';
 import 'package:alice/core/alice_core.dart';
-import 'package:alice/core/alice_dio_interceptor.dart';
 import 'package:alice/core/alice_http_adapter.dart';
 import 'package:alice/core/alice_http_client_adapter.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_log.dart';
-import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
@@ -78,11 +75,6 @@ class Alice {
     return _navigatorKey;
   }
 
-  /// Get Dio interceptor which should be applied to Dio instance.
-  AliceDioInterceptor getDioInterceptor() {
-    return AliceDioInterceptor(_aliceCore);
-  }
-
   /// Handle request from HttpClient
   void onHttpClientRequest(HttpClientRequest request, {dynamic body}) {
     _httpClientAdapter.onRequest(request, body: body);
@@ -108,10 +100,6 @@ class Alice {
     _aliceCore.navigateToCallListScreen();
   }
 
-  /// Get chopper interceptor. This should be added to Chopper instance.
-  ResponseInterceptor getChopperInterceptor() {
-    return AliceChopperInterceptor(_aliceCore);
-  }
 
   /// Handle generic http call. Can be used to any http client.
   void addHttpCall(AliceHttpCall aliceHttpCall) {

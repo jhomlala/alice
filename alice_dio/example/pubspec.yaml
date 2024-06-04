@@ -13,6 +13,7 @@ dependencies:
     path: ../../alice
   alice_dio:
     path: ../../alice_dio
+  dio: ^5.4.3+1
 
 
 flutter:

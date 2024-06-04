@@ -2,11 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:alice/alice.dart';
-import 'package:alice/core/alice_dio_interceptor.dart';
-import 'package:alice/core/alice_http_client_extensions.dart';
-import 'package:alice/core/alice_http_extensions.dart';
 import 'package:alice_dio/alice_dio_adapter.dart';
-import 'package:chopper/chopper.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;

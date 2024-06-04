@@ -1,24 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:alice/core/alice_adapter.dart';
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
-import 'package:chopper/chopper.dart' as chopper;
-import 'package:http/http.dart';
+import 'package:chopper/chopper.dart';
+import 'package:http/http.dart' as http;
 
-class AliceChopperInterceptor
-    implements chopper.ResponseInterceptor, chopper.RequestInterceptor {
-  /// AliceCore instance
-  final AliceCore aliceCore;
-
-  /// Creates instance of chopper interceptor
-  AliceChopperInterceptor(this.aliceCore);
-
+class AliceChopperAdapter with AliceAdapter implements Interceptor {
   /// Creates hashcode based on request
-  int getRequestHashCode(BaseRequest baseRequest) {
+  int getRequestHashCode(http.BaseRequest baseRequest) {
     var hashCodeSum = 0;
     hashCodeSum += baseRequest.url.hashCode;
     hashCodeSum += baseRequest.method.hashCode;
@@ -36,8 +30,7 @@ class AliceChopperInterceptor
   }
 
   /// Handles chopper request and creates alice http call
-  @override
-  FutureOr<chopper.Request> onRequest(chopper.Request request) async {
+  Future<Request> interceptRequest(Request request) async {
     try {
       final headers = request.headers;
       headers['alice_token'] = DateTime.now().millisecondsSinceEpoch.toString();
@@ -98,16 +91,17 @@ class AliceChopperInterceptor
         ..response = AliceHttpResponse();
 
       aliceCore.addCall(call);
+      return changedRequest;
     } catch (exception) {
       AliceUtils.log(exception.toString());
+      return request;
     }
-    return request;
   }
 
   /// Handles chopper response and adds data to existing alice http call
   @override
   // ignore: strict_raw_type
-  FutureOr<chopper.Response> onResponse(chopper.Response response) {
+  void interceptResponse(Response response) {
     final httpResponse = AliceHttpResponse()..status = response.statusCode;
     if (response.body == null) {
       httpResponse
@@ -126,10 +120,20 @@ class AliceChopperInterceptor
     });
     httpResponse.headers = headers;
 
-    aliceCore.addResponse(
-      httpResponse,
-      getRequestHashCode(response.base.request!),
-    );
+    if (response.base.request != null) {
+      aliceCore.addResponse(
+        httpResponse,
+        getRequestHashCode(response.base.request!),
+      );
+    }
+  }
+
+  @override
+  FutureOr<Response<BodyType>> intercept<BodyType>(
+      Chain<BodyType> chain) async {
+    final request = await interceptRequest(chain.request);
+    final response = await chain.proceed(request);
+    interceptResponse(response);
     return response;
   }
 }
