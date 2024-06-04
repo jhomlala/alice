@@ -1,0 +1,16 @@
+name: alice_dio
+description: "Dio plugin for Alice."
+version: 0.0.1
+homepage:
+
+environment:
+  sdk: '>=3.4.1 <4.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  alice:
+    path:
+      ../alice
+  dio: ^5.4.3+1
