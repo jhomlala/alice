@@ -1,4 +1,8 @@
-# 1.0.0
+# 1.0.0-dev.2
+* Updated links.
+* Updated readme.
+
+# 1.0.0-dev.1
 * [BREAKING_CHANGE] Extracted http clients interceptors to separate packages. See migration guide here.
 * [BREAKING_CHANGE] Removed methods: `getChopperInterceptor`, `onHttpResponse`, `onHttpClientResponse`, `getDioInterceptor` from `Alice` class.
 * Updated example.

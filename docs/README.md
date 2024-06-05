@@ -13,42 +13,42 @@ Alice is an HTTP Inspector tool for Flutter which helps debugging http requests.
 <table>
   <tr>
     <td>
-		<img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/media/1.png">
+		<img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/1.png">
     </td>
     <td>
-       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/media/2.png">
+       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/2.png">
     </td>
     <td>
-       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/media/3.png">
+       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/3.png">
     </td>
     <td>
-       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/media/4.png">
+       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/4.png">
     </td>
      <td>
-       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/media/5.png">
+       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/5.png">
     </td>
     <td>
-       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/media/6.png">
+       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/6.png">
     </td>
   </tr>
   <tr>
     <td>
-	<img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/media/7.png">
+	<img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/7.png">
     </td>
     <td>
-       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/media/8.png">
+       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/8.png">
     </td>
     <td>
-       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/media/9.png">
+       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/9.png">
     </td>
     <td>
-       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/media/10.png">
+       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/10.png">
     </td>
     <td>
-       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/media/11.png">
+       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/11.png">
     </td>
      <td>
-       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/media/12.png">
+       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/12.png">
     </td>
   </tr>
 

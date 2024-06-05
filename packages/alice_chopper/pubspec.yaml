@@ -1,14 +1,12 @@
 name: alice_chopper
-description: "A new Flutter project."
+description: "Alice + Chopper integration."
 version: 1.0.0
 
 environment:
   sdk: '>=3.4.1 <4.0.0'
 
 dependencies:
-  alice:
-    path:
-      ../alice
+  alice: ^1.0.0-dev.1
   chopper: ^8.0.0
   http: ^1.2.1
 
