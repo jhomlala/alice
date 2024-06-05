@@ -1,0 +1,20 @@
+name: example
+description: "A project to showcase dio and alice integration."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.4.1 <4.0.0'
+dependencies:
+  flutter:
+    sdk: flutter
+  alice:
+    path: ../../packages/alice
+  alice_dio:
+    path: ../../packages/alice_dio
+  dio: ^5.4.3+1
+
+
+flutter:
+  uses-material-design: true

@@ -1,0 +1,20 @@
+name: example
+description: "A project to showcase http and Alice integration."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.4.1 <4.0.0'
+dependencies:
+  flutter:
+    sdk: flutter
+  alice:
+    path: ../../packages/alice
+  alice_http:
+    path: ../../packages/alice_http
+  http: ^1.2.1
+
+
+flutter:
+  uses-material-design: true
