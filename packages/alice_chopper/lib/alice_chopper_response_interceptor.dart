@@ -2,6 +2,7 @@ import 'dart:async' show FutureOr;
 import 'dart:convert' show utf8;
 import 'dart:io' show HttpHeaders;
 
+import 'package:alice/core/alice_adapter.dart';
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/model/alice_http_call.dart';
@@ -10,7 +11,7 @@ import 'package:alice/model/alice_http_response.dart';
 import 'package:chopper/chopper.dart';
 import 'package:http/http.dart' as http;
 
-class AliceChopperInterceptor implements Interceptor {
+class AliceChopperInterceptor with AliceAdapter implements Interceptor {
   /// AliceCore instance
   final AliceCore aliceCore;
 
@@ -23,7 +24,7 @@ class AliceChopperInterceptor implements Interceptor {
         baseRequest.method.hashCode +
         (baseRequest.headers.entries
             .map((MapEntry<String, String> header) =>
-        header.key.hashCode + header.value.hashCode)
+                header.key.hashCode + header.value.hashCode)
             .reduce((int value, int hashCode) => value + hashCode)) +
         (baseRequest.contentLength?.hashCode ?? 0);
 
@@ -33,7 +34,8 @@ class AliceChopperInterceptor implements Interceptor {
   /// Handles chopper request and creates alice http call
   @override
   FutureOr<Response<BodyType>> intercept<BodyType>(
-      Chain<BodyType> chain,) async {
+    Chain<BodyType> chain,
+  ) async {
     final Response<BodyType> response = await chain.proceed(chain.request);
 
     try {
@@ -42,16 +44,13 @@ class AliceChopperInterceptor implements Interceptor {
           applyHeader(
             chain.request,
             'alice_token',
-            DateTime
-                .now()
-                .millisecondsSinceEpoch
-                .toString(),
+            DateTime.now().millisecondsSinceEpoch.toString(),
           ),
         ),
       )
         ..method = chain.request.method
         ..endpoint =
-        chain.request.url.path.isEmpty ? '/' : chain.request.url.path
+            chain.request.url.path.isEmpty ? '/' : chain.request.url.path
         ..server = chain.request.url.host
         ..secure = chain.request.url.scheme == 'https'
         ..uri = chain.request.url.toString()
@@ -65,9 +64,7 @@ class AliceChopperInterceptor implements Interceptor {
           ..body = '';
       } else {
         aliceHttpRequest
-          ..size = utf8
-              .encode(chain.request.body as String)
-              .length
+          ..size = utf8.encode(chain.request.body as String).length
           ..body = chain.request.body;
       }
       aliceHttpRequest
@@ -88,14 +85,12 @@ class AliceChopperInterceptor implements Interceptor {
           ..status = response.statusCode
           ..body = response.body ?? ''
           ..size = response.body != null
-              ? utf8
-              .encode(response.body.toString())
-              .length
+              ? utf8.encode(response.body.toString()).length
               : 0
           ..time = DateTime.now()
           ..headers = <String, String>{
             for (final MapEntry<String, String> entry
-            in response.headers.entries)
+                in response.headers.entries)
               entry.key: entry.value
           });
 
