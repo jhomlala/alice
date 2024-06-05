@@ -3,7 +3,6 @@ import 'dart:convert' show utf8;
 import 'dart:io' show HttpHeaders;
 
 import 'package:alice/core/alice_adapter.dart';
-import 'package:alice/core/alice_core.dart';
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_request.dart';
@@ -11,13 +10,7 @@ import 'package:alice/model/alice_http_response.dart';
 import 'package:chopper/chopper.dart';
 import 'package:http/http.dart' as http;
 
-class AliceChopperInterceptor with AliceAdapter implements Interceptor {
-  /// AliceCore instance
-  final AliceCore aliceCore;
-
-  /// Creates instance of chopper interceptor
-  AliceChopperInterceptor(this.aliceCore);
-
+class AliceChopperAdapter with AliceAdapter implements Interceptor {
   /// Creates hashcode based on request
   int getRequestHashCode(http.BaseRequest baseRequest) {
     final int hashCodeSum = baseRequest.url.hashCode +
