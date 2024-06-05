@@ -1,9 +1,12 @@
 name: alice_chopper
-description: "Alice + Chopper integration."
-version: 1.0.0
+description: "Alice + Chopper integration. It contains plugin for Alice which allows to use Chopper package."
+version: 1.0.1
+repository: https://github.com/jhomlala/alice
+homepage: https://github.com/jhomlala/alice
 
 environment:
   sdk: '>=3.4.1 <4.0.0'
+  flutter: ">=3.3.0"
 
 dependencies:
   alice: ^1.0.0-dev.1
