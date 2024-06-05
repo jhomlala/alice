@@ -47,7 +47,8 @@ class AliceChopperInterceptor implements Interceptor {
         ),
       )
         ..method = chain.request.method
-        ..endpoint = chain.request.url.path
+        ..endpoint =
+            chain.request.url.path.isEmpty ? '/' : chain.request.url.path
         ..server = chain.request.url.host
         ..secure = chain.request.url.scheme == 'https'
         ..uri = chain.request.url.toString()
