@@ -1,0 +1,14 @@
+name: alice_dio
+description: "Alice + Dio integration."
+version: 1.0.0
+homepage:
+
+environment:
+  sdk: '>=3.4.1 <4.0.0'
+
+dependencies:
+  alice: ^1.0.0-dev.1
+  dio: ^5.4.3+1
+
+dev_dependencies:
+  very_good_analysis: ^5.1.0

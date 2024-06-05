@@ -1,0 +1,14 @@
+name: alice_http
+description: "Alice + HTTP integration."
+version: 1.0.0
+homepage:
+
+environment:
+  sdk: '>=3.4.1 <4.0.0'
+
+dependencies:
+  alice: ^1.0.0-dev.1
+  http: ^1.2.1
+
+dev_dependencies:
+  very_good_analysis: ^5.1.0
