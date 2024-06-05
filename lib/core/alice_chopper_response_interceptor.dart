@@ -1,5 +1,6 @@
 import 'dart:async' show FutureOr;
 import 'dart:convert' show utf8;
+import 'dart:io' show HttpHeaders;
 
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/core/alice_utils.dart';
@@ -70,8 +71,8 @@ class AliceChopperInterceptor implements Interceptor {
         ..headers = chain.request.headers;
 
       String? contentType = 'unknown';
-      if (chain.request.headers.containsKey('Content-Type')) {
-        contentType = chain.request.headers['Content-Type'];
+      if (chain.request.headers.containsKey(HttpHeaders.contentTypeHeader)) {
+        contentType = chain.request.headers[HttpHeaders.contentTypeHeader];
       }
       aliceHttpRequest
         ..contentType = contentType
