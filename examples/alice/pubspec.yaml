@@ -5,19 +5,23 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.4.1 <4.0.0'
+  sdk: ^3.0.0
+
 dependencies:
   flutter:
     sdk: flutter
-  chopper: ^7.4.0
+  chopper: ^8.0.0
   path_provider:
 
 dev_dependencies:
+  alice:
   build_runner:
-  chopper_generator:
+  chopper_generator: ^8.0.0
+  very_good_analysis: ^5.1.0
+
+dependency_overrides:
   alice:
     path: ../../packages/alice
-  very_good_analysis: ^5.1.0
 
 flutter:
   uses-material-design: true

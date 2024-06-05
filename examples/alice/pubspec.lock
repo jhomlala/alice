@@ -15,7 +15,7 @@ packages:
       path: "../../packages/alice"
       relative: true
     source: path
-    version: "1.0.0"
+    version: "1.0.0-dev.4"
   analyzer:
     dependency: transitive
     description:
@@ -132,18 +132,18 @@ packages:
     dependency: "direct main"
     description:
       name: chopper
-      sha256: "1b6280ec22841b844448bec8ef2644d9cbe9ea8dfce13ec9cab9e8d3aac3830d"
+      sha256: "779a7bc5c7af2e45bd35c49698f2b6fabc23ac053b622294369bbb079eeb8920"
       url: "https://pub.dev"
     source: hosted
-    version: "7.4.0"
+    version: "8.0.0"
   chopper_generator:
     dependency: "direct dev"
     description:
       name: chopper_generator
-      sha256: "2984ed8589132aa8fd8225482038cad2bd576405e3751aa237d466870f5dad42"
+      sha256: f7f4913d14bbec24b5cc3c5270f47a3a218bd1c764d7ed3eb0bf4574913208f3
       url: "https://pub.dev"
     source: hosted
-    version: "7.4.0"
+    version: "8.0.0"
   clock:
     dependency: transitive
     description:
@@ -904,5 +904,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.4.1 <4.0.0"
+  dart: ">=3.4.0 <4.0.0"
   flutter: ">=3.22.0"
