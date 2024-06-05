@@ -1,2 +1,5 @@
-- [Read Me](README)
-- [Example Second Page](second-page)
+- [Alice](README)
+- [Installation](install)
+- [Configuration](config)
+- [Usage](usage)
+- [Other usages](other)
