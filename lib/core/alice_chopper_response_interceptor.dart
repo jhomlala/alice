@@ -9,11 +9,6 @@ import 'package:alice/model/alice_http_response.dart';
 import 'package:chopper/chopper.dart';
 import 'package:http/http.dart' as http;
 
-extension on String {
-  String stripTrailingSlash() =>
-      endsWith('/') ? substring(0, length - 1) : this;
-}
-
 class AliceChopperInterceptor implements Interceptor {
   /// AliceCore instance
   final AliceCore aliceCore;
@@ -39,41 +34,24 @@ class AliceChopperInterceptor implements Interceptor {
   FutureOr<Response<BodyType>> intercept<BodyType>(
     Chain<BodyType> chain,
   ) async {
+    final Response<BodyType> response = await chain.proceed(chain.request);
+
     try {
-      final Map<String, String> headers = chain.request.headers;
-      headers['alice_token'] = DateTime.now().millisecondsSinceEpoch.toString();
-      final Request changedRequest = chain.request.copyWith(headers: headers);
-      final http.BaseRequest baseRequest = await changedRequest.toBaseRequest();
-
-      final AliceHttpCall call = AliceHttpCall(getRequestHashCode(baseRequest));
-      final StringBuffer endpoint = StringBuffer();
-      final StringBuffer server = StringBuffer();
-
-      final List<String> split = chain.request.url.toString().split('/');
-      if (split.length > 2) {
-        server.writeAll([
-          split[1],
-          split[2],
-        ]);
-      }
-      if (split.length > 4) {
-        endpoint.write('/');
-        for (int splitIndex = 3; splitIndex < split.length; splitIndex++) {
-          endpoint.writeAll([
-            split[splitIndex],
-            '/',
-          ]);
-        }
-      }
-
-      call
+      final AliceHttpCall call = AliceHttpCall(
+        getRequestHashCode(
+          applyHeader(
+            chain.request,
+            'alice_token',
+            DateTime.now().millisecondsSinceEpoch.toString(),
+          ),
+        ),
+      )
         ..method = chain.request.method
-        ..endpoint = endpoint.toString().stripTrailingSlash()
-        ..server = server.toString()
+        ..endpoint = chain.request.url.path
+        ..server = chain.request.url.host
+        ..secure = chain.request.url.scheme == 'https'
+        ..uri = chain.request.url.toString()
         ..client = 'Chopper';
-      if (chain.request.url.toString().contains('https')) {
-        call.secure = true;
-      }
 
       final AliceHttpRequest aliceHttpRequest = AliceHttpRequest();
 
@@ -100,30 +78,23 @@ class AliceChopperInterceptor implements Interceptor {
 
       call
         ..request = aliceHttpRequest
-        ..response = AliceHttpResponse();
+        ..response = (AliceHttpResponse()
+          ..status = response.statusCode
+          ..body = response.body ?? ''
+          ..size = response.body != null
+              ? utf8.encode(response.body.toString()).length
+              : 0
+          ..time = DateTime.now()
+          ..headers = <String, String>{
+            for (final MapEntry<String, String> entry
+                in response.headers.entries)
+              entry.key: entry.value
+          });
 
       aliceCore.addCall(call);
     } catch (exception) {
       AliceUtils.log(exception.toString());
     }
-
-    final Response<BodyType> response = await chain.proceed(chain.request);
-
-    /// Adds data to existing alice http call
-    aliceCore.addResponse(
-      AliceHttpResponse()
-        ..status = response.statusCode
-        ..body = response.body ?? ''
-        ..size = response.body != null
-            ? utf8.encode(response.body.toString()).length
-            : 0
-        ..time = DateTime.now()
-        ..headers = <String, String>{
-          for (final MapEntry<String, String> entry in response.headers.entries)
-            entry.key: entry.value
-        },
-      getRequestHashCode(response.base.request!),
-    );
 
     return response;
   }
