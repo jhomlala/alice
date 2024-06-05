@@ -9,25 +9,25 @@ dependencies:
 
 2. Choose adapter based on your HTTP client. **pubspec.yaml** file:
 
-### Dio:
+### Dio
 ```yaml
 dependencies:
   alice_dio: ^1.0.0
 ```
 
-### Chopper:
+### Chopper
 ```yaml
 dependencies:
   alice_chopper: ^1.0.0
 ```
 
-### Http:
+### Http
 ```yaml
 dependencies:
   alice_http: ^1.0.0
 ```
 
-### Http Client:
+### Http Client
 ```yaml
 dependencies:
   alice_http_client: ^1.0.0
