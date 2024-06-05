@@ -1,12 +1,14 @@
 import 'package:alice/alice.dart';
+import 'package:alice_http/alice_http_adapter.dart';
 import 'package:http/http.dart';
 
 extension AliceHttpExtensions on Future<Response> {
   /// Intercept http request with alice. This extension method provides
   /// additional helpful method to intercept https' response.
-  Future<Response> interceptWithAlice(Alice alice, {dynamic body}) async {
+  Future<Response> interceptWithAlice(AliceHttpAdapter adapter,
+      {dynamic body}) async {
     final response = await this;
-    alice.onHttpResponse(response, body: body);
+    adapter.onResponse(response, body: body);
     return response;
   }
 }

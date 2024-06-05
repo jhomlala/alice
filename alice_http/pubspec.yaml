@@ -1,0 +1,16 @@
+name: alice_http
+description: "Alice plugin for HTTP"
+version: 1.0.0
+homepage:
+
+environment:
+  sdk: '>=3.4.1 <4.0.0'
+
+dependencies:
+  alice:
+    path:
+      ../alice
+  http: ^1.2.1
+
+dev_dependencies:
+  very_good_analysis: ^5.1.0
