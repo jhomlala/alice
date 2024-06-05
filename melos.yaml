@@ -1,0 +1,12 @@
+name: alice
+
+packages:
+  - packages/**
+
+scripts:
+  analyze:
+    exec: dart analyze .
+  fix:
+    exec: dart fix --apply
+  format:
+    exec: dart format .
