@@ -1,3 +1,7 @@
+# 1.0.0-dev.3
+* Updated links.
+* Updated readme.
+
 # 1.0.0-dev.2
 * Updated links.
 * Updated readme.

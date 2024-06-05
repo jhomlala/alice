@@ -4,7 +4,7 @@
 
 ```yaml
 dependencies:
-  alice: ^1.0.0
+  alice: ^1.0.0-dev1
 ```
 
 2. Choose adapter based on your HTTP client. **pubspec.yaml** file:
