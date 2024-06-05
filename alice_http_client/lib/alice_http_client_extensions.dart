@@ -2,13 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:alice/alice.dart';
+import 'package:alice_http_client/alice_http_client_adapter.dart';
 
 extension AliceHttpClientExtensions on Future<HttpClientRequest> {
   /// Intercept http client with alice. This extension method provides
   /// additional helpful method to intercept httpClientResponse.
   Future<HttpClientResponse> interceptWithAlice(
-    Alice alice, {
+    AliceHttpClientAdapter alice, {
     dynamic body,
     Map<String, dynamic>? headers,
   }) async {
@@ -23,10 +23,10 @@ extension AliceHttpClientExtensions on Future<HttpClientRequest> {
         },
       );
     }
-    alice.onHttpClientRequest(request, body: body);
+    alice.onRequest(request, body: body);
     final httpResponse = await request.close();
     final responseBody = await utf8.decoder.bind(httpResponse).join();
-    alice.onHttpClientResponse(httpResponse, request, body: responseBody);
+    alice.onResponse(httpResponse, request, body: responseBody);
     return httpResponse;
   }
 }

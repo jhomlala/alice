@@ -1,17 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:alice/core/alice_adapter.dart';
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
 
-class AliceHttpClientAdapter {
-  /// AliceCore instance
-  final AliceCore aliceCore;
-
-  /// Creates alice http client adapter
-  AliceHttpClientAdapter(this.aliceCore);
+class AliceHttpClientAdapter with AliceAdapter {
 
   /// Handles httpClientRequest and creates http alice call from it
   void onRequest(HttpClientRequest request, {dynamic body}) {

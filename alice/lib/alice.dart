@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:alice/core/alice_adapter.dart';
 import 'package:alice/core/alice_core.dart';
-import 'package:alice/core/alice_http_client_adapter.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_log.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +35,6 @@ class Alice {
 
   GlobalKey<NavigatorState>? _navigatorKey;
   late AliceCore _aliceCore;
-  late AliceHttpClientAdapter _httpClientAdapter;
 
   /// Creates alice instance.
   Alice({
@@ -58,7 +56,6 @@ class Alice {
       directionality: directionality,
       showShareButton: showShareButton,
     );
-    _httpClientAdapter = AliceHttpClientAdapter(_aliceCore);
   }
 
   /// Set custom navigation key. This will help if there's route library.
@@ -72,26 +69,11 @@ class Alice {
     return _navigatorKey;
   }
 
-  /// Handle request from HttpClient
-  void onHttpClientRequest(HttpClientRequest request, {dynamic body}) {
-    _httpClientAdapter.onRequest(request, body: body);
-  }
-
-  /// Handle response from HttpClient
-  void onHttpClientResponse(
-    HttpClientResponse response,
-    HttpClientRequest request, {
-    dynamic body,
-  }) {
-    _httpClientAdapter.onResponse(response, request, body: body);
-  }
-
   /// Opens Http calls inspector. This will navigate user to the new fullscreen
   /// page where all listened http calls can be viewed.
   void showInspector() {
     _aliceCore.navigateToCallListScreen();
   }
-
 
   /// Handle generic http call. Can be used to any http client.
   void addHttpCall(AliceHttpCall aliceHttpCall) {
@@ -115,7 +97,7 @@ class Alice {
     return _aliceCore.isInspectorOpened();
   }
 
-  void addAdapter(AliceAdapter adapter){
+  void addAdapter(AliceAdapter adapter) {
     adapter.injectCore(_aliceCore);
   }
 }
