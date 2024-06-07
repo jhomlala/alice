@@ -13,8 +13,8 @@ dependencies:
   chopper: ^8.0.0
   path_provider:
 
+  alice: any
 dev_dependencies:
-  alice:
   build_runner:
   chopper_generator: ^8.0.0
   very_good_analysis: ^5.1.0
