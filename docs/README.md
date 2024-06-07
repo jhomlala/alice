@@ -5,8 +5,12 @@
 # Alice
 
 [![pub package](https://img.shields.io/pub/v/alice.svg)](https://pub.dartlang.org/packages/alice)
-[![pub package](https://img.shields.io/github/license/jhomlala/alice.svg?style=flat)](https://github.com/jhomlala/alice)
+[![pub package](https://img.shields.io/pub/v/alice_dio.svg)](https://pub.dartlang.org/packages/alice_dio)
+[![pub package](https://img.shields.io/pub/v/alice_chopper.svg)](https://pub.dartlang.org/packages/alice_chopper)
+[![pub package](https://img.shields.io/pub/v/alice_http.svg)](https://pub.dartlang.org/packages/alice_http)
+[![pub package](https://img.shields.io/pub/v/alice_http_client.svg)](https://pub.dartlang.org/packages/alice_http_client)
 [![pub package](https://img.shields.io/badge/platform-flutter-blue.svg)](https://github.com/jhomlala/alice)
+[![melos](https://img.shields.io/badge/maintained%20with-melos-f700ff.svg?style=flat-square)](https://github.com/invertase/melos)
 
 Alice is an HTTP Inspector tool for Flutter which helps debugging http requests. It catches and stores http requests and responses, which can be viewed via simple UI. It is inspired from [Chuck](https://github.com/jgilfelt/chuck) and [Chucker](https://github.com/ChuckerTeam/chucker).
 
@@ -71,5 +75,8 @@ Alice is an HTTP Inspector tool for Flutter which helps debugging http requests.
 ✔️ Support for top used HTTP clients in Dart  
 ✔️ Error handling  
 ✔️ Shake to open inspector  
-✔️ HTTP calls search
+✔️ HTTP calls search  
 ✔️ Flutter/Android logs
+
+## Documentation
+You can find documentation [here.](https://jhomlala.github.io/alice/)
