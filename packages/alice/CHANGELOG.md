@@ -1,3 +1,7 @@
+# 1.0.0-dev.5
+* Updated readme.
+* Updated examples configuration (by Klemen Tusar https://github.com/techouse).
+
 # 1.0.0-dev.4
 * Updated metadata.
 
