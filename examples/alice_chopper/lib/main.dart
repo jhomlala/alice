@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:alice/alice.dart';
-import 'package:alice_chopper/alice_chopper_response_interceptor.dart';
+import 'package:alice_chopper/alice_chopper_adapter.dart';
 import 'package:example/posts_service.dart';
 import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
