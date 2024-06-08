@@ -23,7 +23,6 @@ jobs:
           fatal-infos: true
           fatal-warnings: true
           working-directory: ./packages
-          custom-lint: true
 
   format:
     runs-on: ubuntu-latest
