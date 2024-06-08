@@ -3,6 +3,7 @@ import 'dart:convert' show utf8;
 import 'dart:io' show HttpHeaders;
 
 import 'package:alice/core/alice_adapter.dart';
+import 'package:alice/core/alice_utils.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_request.dart';
@@ -77,9 +78,9 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
       requestId,
     );
 
-    if (!response.isSuccessful) {
+    if (!response.isSuccessful || response.error != null) {
       aliceCore.addError(
-        AliceHttpError()..error = response.error.toString(),
+        AliceHttpError()..error = response.error,
         requestId,
       );
     }
