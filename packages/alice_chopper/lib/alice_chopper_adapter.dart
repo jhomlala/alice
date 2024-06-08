@@ -15,10 +15,11 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
   int getRequestHashCode(http.BaseRequest baseRequest) {
     final int hashCodeSum = baseRequest.url.hashCode +
         baseRequest.method.hashCode +
-        (baseRequest.headers.entries
-            .map((MapEntry<String, String> header) =>
-                header.key.hashCode + header.value.hashCode)
-            .reduce((int value, int hashCode) => value + hashCode)) +
+        baseRequest.headers.entries.fold<int>(
+          0,
+          (int previousValue, MapEntry<String, String> header) =>
+              previousValue + header.key.hashCode + header.value.hashCode,
+        ) +
         (baseRequest.contentLength?.hashCode ?? 0);
 
     return hashCodeSum.hashCode;
