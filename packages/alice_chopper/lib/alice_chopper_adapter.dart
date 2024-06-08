@@ -5,6 +5,7 @@ import 'dart:io' show HttpHeaders;
 import 'package:alice/core/alice_adapter.dart';
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/model/alice_http_call.dart';
+import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:chopper/chopper.dart';
@@ -30,57 +31,58 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
   FutureOr<Response<BodyType>> intercept<BodyType>(
     Chain<BodyType> chain,
   ) async {
-    final Response<BodyType> response = await chain.proceed(chain.request);
     final int requestId = getRequestHashCode(chain.request);
-    final DateTime requestTime = DateTime.now();
 
-    try {
-      aliceCore.addCall(
-        AliceHttpCall(requestId)
-          ..method = chain.request.method
-          ..endpoint =
-              chain.request.url.path.isEmpty ? '/' : chain.request.url.path
-          ..server = chain.request.url.host
-          ..secure = chain.request.url.scheme == 'https'
-          ..uri = chain.request.url.toString()
-          ..client = 'Chopper'
-          ..request = (AliceHttpRequest()
-            ..size = switch (chain.request.body) {
-              dynamic body when body is String => utf8.encode(body).length,
-              dynamic body when body is List<int> => body.length,
-              dynamic body when body == null => 0,
-              _ => utf8.encode(body.toString()).length,
-            }
-            ..body = chain.request.body ?? ''
-            ..time = requestTime
-            ..headers = chain.request.headers
-            ..contentType =
-                chain.request.headers[HttpHeaders.contentTypeHeader] ??
-                    'unknown'
-            ..queryParameters = chain.request.parameters)
-          ..response = AliceHttpResponse(),
-      );
-
-      aliceCore.addResponse(
-        AliceHttpResponse()
-          ..status = response.statusCode
-          ..body = response.body ?? ''
-          ..size = switch (response.body) {
+    aliceCore.addCall(
+      AliceHttpCall(requestId)
+        ..method = chain.request.method
+        ..endpoint =
+            chain.request.url.path.isEmpty ? '/' : chain.request.url.path
+        ..server = chain.request.url.host
+        ..secure = chain.request.url.scheme == 'https'
+        ..uri = chain.request.url.toString()
+        ..client = 'Chopper'
+        ..request = (AliceHttpRequest()
+          ..size = switch (chain.request.body) {
             dynamic body when body is String => utf8.encode(body).length,
             dynamic body when body is List<int> => body.length,
             dynamic body when body == null => 0,
             _ => utf8.encode(body.toString()).length,
           }
-          ..time = requestTime
-          ..headers = <String, String>{
-            for (final MapEntry<String, String> entry
-                in response.headers.entries)
-              entry.key: entry.value
-          },
+          ..body = chain.request.body ?? ''
+          ..time = DateTime.now()
+          ..headers = chain.request.headers
+          ..contentType =
+              chain.request.headers[HttpHeaders.contentTypeHeader] ?? 'unknown'
+          ..queryParameters = chain.request.parameters)
+        ..response = AliceHttpResponse(),
+    );
+
+    final Response<BodyType> response = await chain.proceed(chain.request);
+
+    aliceCore.addResponse(
+      AliceHttpResponse()
+        ..status = response.statusCode
+        ..body = response.body ?? ''
+        ..size = switch (response.body) {
+          dynamic body when body is String => utf8.encode(body).length,
+          dynamic body when body is List<int> => body.length,
+          dynamic body when body == null => 0,
+          _ => utf8.encode(body.toString()).length,
+        }
+        ..time = DateTime.now()
+        ..headers = <String, String>{
+          for (final MapEntry<String, String> entry in response.headers.entries)
+            entry.key: entry.value
+        },
+      requestId,
+    );
+
+    if (!response.isSuccessful) {
+      aliceCore.addError(
+        AliceHttpError()..error = response.error.toString(),
         requestId,
       );
-    } catch (exception) {
-      AliceUtils.log(exception.toString());
     }
 
     return response;
