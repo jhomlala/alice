@@ -1,8 +1,8 @@
-import 'dart:convert';
-
 import 'package:alice/alice.dart';
 import 'package:alice_chopper/alice_chopper_adapter.dart';
-import 'package:example/posts_service.dart';
+import 'package:example/models/example_post.dart';
+import 'package:example/services/converters/json_serializable_converter.dart';
+import 'package:example/services/example_posts_service.dart';
 import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 
@@ -14,27 +14,49 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late Alice _alice;
-  late AliceChopperAdapter _aliceChopperAdapter;
-  late ChopperClient _chopper;
-  late PostsService _postsService;
+  final AliceChopperAdapter _aliceChopperAdapter = AliceChopperAdapter();
+  late final Alice _alice = Alice(
+    showNotification: true,
+    showInspectorOnShake: true,
+    maxCallsCount: 1000,
+  )..addAdapter(_aliceChopperAdapter);
 
-  @override
-  void initState() {
-    _alice = Alice(
-      showNotification: true,
-      showInspectorOnShake: true,
-      maxCallsCount: 1000,
+  final JsonSerializableConverter converter = JsonSerializableConverter({
+    ExamplePost: ExamplePost.fromJson,
+  });
+
+  late final ChopperClient _chopper = ChopperClient(
+    baseUrl: Uri.https('jsonplaceholder.typicode.com'),
+    services: [
+      ExamplePostsService.create(),
+    ],
+    interceptors: [
+      _aliceChopperAdapter,
+      CurlInterceptor(),
+      HttpLoggingInterceptor(onlyErrors: true),
+    ],
+    converter: converter,
+  );
+
+  Future<void> _runChopperHttpRequests() async {
+    final ExamplePostsService postService =
+        _chopper.getService<ExamplePostsService>();
+
+    final ExamplePost post = ExamplePost(
+      title: 'foo',
+      body: 'bar',
+      userId: 1,
     );
-    _aliceChopperAdapter = AliceChopperAdapter();
-    _alice.addAdapter(_aliceChopperAdapter);
 
-    _chopper = ChopperClient(
-      interceptors: [_aliceChopperAdapter],
-    );
-    _postsService = PostsService.create(_chopper);
+    postService.getExamplePost('1');
+    postService.createExamplePost(post);
+    postService.updateExamplePost('1', post);
+    postService.updateExamplePost('123456', post);
+    postService.getExamplePost('123456');
+  }
 
-    super.initState();
+  void _runHttpInspector() {
+    _alice.showInspector();
   }
 
   @override
@@ -52,7 +74,8 @@ class _MyAppState extends State<MyApp> {
             children: [
               const SizedBox(height: 8),
               Text(
-                  'Welcome to example of Alice Http Inspector. Click buttons below to generate sample data.'),
+                'Welcome to example of Alice Http Inspector. Click buttons below to generate sample data.',
+              ),
               ElevatedButton(
                 child: Text(
                   'Run Chopper HTTP Requests',
@@ -60,12 +83,11 @@ class _MyAppState extends State<MyApp> {
                 onPressed: _runChopperHttpRequests,
               ),
               Text(
-                  'After clicking on buttons above, you should receive notification.'
-                  ' Click on it to show inspector. You can also shake your device or click button below.'),
+                'After clicking on buttons above, you should receive notification.'
+                ' Click on it to show inspector. You can also shake your device or click button below.',
+              ),
               ElevatedButton(
-                child: Text(
-                  'Run HTTP Inspector',
-                ),
+                child: Text('Run HTTP Inspector'),
                 onPressed: _runHttpInspector,
               )
             ],
@@ -73,21 +95,5 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
     );
-  }
-
-  void _runChopperHttpRequests() async {
-    String body = jsonEncode(
-        <String, dynamic>{'title': 'foo', 'body': 'bar', 'userId': '1'});
-    _postsService.getPost('1');
-    _postsService.postPost(body);
-    _postsService.putPost('1', body);
-    _postsService.putPost('1231923', body);
-    _postsService.putPost('1', null);
-    _postsService.postPost(null);
-    _postsService.getPost('123456');
-  }
-
-  void _runHttpInspector() {
-    _alice.showInspector();
   }
 }
