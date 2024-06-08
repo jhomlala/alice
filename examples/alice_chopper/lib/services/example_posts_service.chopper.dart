@@ -62,4 +62,17 @@ final class _$ExamplePostsService extends ExamplePostsService {
         .send<ExamplePost, ExamplePost>($request)
         .timeout(const Duration(microseconds: 10000000));
   }
+
+  @override
+  Future<Response<void>> deleteExamplePost(String id) {
+    final Uri $url = Uri.parse('/posts/${id}');
+    final Request $request = Request(
+      'DELETE',
+      $url,
+      client.baseUrl,
+    );
+    return client
+        .send<void, void>($request)
+        .timeout(const Duration(microseconds: 10000000));
+  }
 }

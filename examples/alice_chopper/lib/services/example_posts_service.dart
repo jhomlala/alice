@@ -21,4 +21,7 @@ abstract class ExamplePostsService extends ChopperService {
     @Path() String id,
     @Body() ExamplePost body,
   );
+
+  @Delete(path: '/{id}', timeout: Duration(seconds: 10))
+  Future<Response<void>> deleteExamplePost(@Path() String id);
 }

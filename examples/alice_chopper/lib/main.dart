@@ -48,11 +48,13 @@ class _MyAppState extends State<MyApp> {
       userId: 1,
     );
 
-    postService.getExamplePost('1');
     postService.createExamplePost(post);
+    postService.getExamplePost('1');
     postService.updateExamplePost('1', post);
+    postService.deleteExamplePost('1');
     postService.updateExamplePost('123456', post);
     postService.getExamplePost('123456');
+    postService.deleteExamplePost('123456');
   }
 
   void _runHttpInspector() {
