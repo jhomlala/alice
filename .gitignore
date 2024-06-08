@@ -1,0 +1,21 @@
+# macOS specific
+.DS_Store
+
+# Files and directories created by pub.
+.packages
+.pub/
+.dart_tool/
+pubspec.lock
+pubspec_overrides.yaml
+flutter_export_environment.sh
+.flutter-plugins
+.flutter-plugins-dependencies
+
+*.iml
+
+# IDE specific
+.atom/
+.idea/
+.vscode/*
+!.vscode/tasks.json
+!.vscode/settings.json
