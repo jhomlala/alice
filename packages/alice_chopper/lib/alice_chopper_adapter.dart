@@ -32,62 +32,42 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
     final Response<BodyType> response = await chain.proceed(chain.request);
 
     try {
-      final AliceHttpCall call = AliceHttpCall(
-        getRequestHashCode(
-          applyHeader(
-            chain.request,
-            'alice_token',
-            DateTime.now().millisecondsSinceEpoch.toString(),
-          ),
-        ),
-      )
-        ..method = chain.request.method
-        ..endpoint =
-            chain.request.url.path.isEmpty ? '/' : chain.request.url.path
-        ..server = chain.request.url.host
-        ..secure = chain.request.url.scheme == 'https'
-        ..uri = chain.request.url.toString()
-        ..client = 'Chopper';
-
-      final AliceHttpRequest aliceHttpRequest = AliceHttpRequest();
-
-      if (chain.request.body == null) {
-        aliceHttpRequest
-          ..size = 0
-          ..body = '';
-      } else {
-        aliceHttpRequest
-          ..size = utf8.encode(chain.request.body as String).length
-          ..body = chain.request.body;
-      }
-      aliceHttpRequest
-        ..time = DateTime.now()
-        ..headers = chain.request.headers;
-
-      String? contentType = 'unknown';
-      if (chain.request.headers.containsKey(HttpHeaders.contentTypeHeader)) {
-        contentType = chain.request.headers[HttpHeaders.contentTypeHeader];
-      }
-      aliceHttpRequest
-        ..contentType = contentType
-        ..queryParameters = chain.request.parameters;
-
-      call
-        ..request = aliceHttpRequest
-        ..response = (AliceHttpResponse()
-          ..status = response.statusCode
-          ..body = response.body ?? ''
-          ..size = response.body != null
-              ? utf8.encode(response.body.toString()).length
-              : 0
-          ..time = DateTime.now()
-          ..headers = <String, String>{
-            for (final MapEntry<String, String> entry
-                in response.headers.entries)
-              entry.key: entry.value
-          });
-
-      aliceCore.addCall(call);
+      aliceCore.addCall(
+        AliceHttpCall(getRequestHashCode(chain.request))
+          ..method = chain.request.method
+          ..endpoint =
+              chain.request.url.path.isEmpty ? '/' : chain.request.url.path
+          ..server = chain.request.url.host
+          ..secure = chain.request.url.scheme == 'https'
+          ..uri = chain.request.url.toString()
+          ..client = 'Chopper'
+          ..request = (AliceHttpRequest()
+            ..size = switch (chain.request.body) {
+              dynamic body when body is String => utf8.encode(body).length,
+              dynamic body when body is List<int> => body.length,
+              dynamic body when body == null => 0,
+              _ => utf8.encode(body.toString()).length,
+            }
+            ..body = chain.request.body ?? ''
+            ..time = DateTime.now()
+            ..headers = chain.request.headers
+            ..contentType =
+                chain.request.headers[HttpHeaders.contentTypeHeader] ??
+                    'unknown'
+            ..queryParameters = chain.request.parameters)
+          ..response = (AliceHttpResponse()
+            ..status = response.statusCode
+            ..body = response.body ?? ''
+            ..size = response.body != null
+                ? utf8.encode(response.body.toString()).length
+                : 0
+            ..time = DateTime.now()
+            ..headers = <String, String>{
+              for (final MapEntry<String, String> entry
+                  in response.headers.entries)
+                entry.key: entry.value
+            }),
+      );
     } catch (exception) {
       AliceUtils.log(exception.toString());
     }
