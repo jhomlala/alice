@@ -31,10 +31,12 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
     Chain<BodyType> chain,
   ) async {
     final Response<BodyType> response = await chain.proceed(chain.request);
+    final int requestId = getRequestHashCode(chain.request);
+    final DateTime requestTime = DateTime.now();
 
     try {
       aliceCore.addCall(
-        AliceHttpCall(getRequestHashCode(chain.request))
+        AliceHttpCall(requestId)
           ..method = chain.request.method
           ..endpoint =
               chain.request.url.path.isEmpty ? '/' : chain.request.url.path
@@ -50,24 +52,32 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
               _ => utf8.encode(body.toString()).length,
             }
             ..body = chain.request.body ?? ''
-            ..time = DateTime.now()
+            ..time = requestTime
             ..headers = chain.request.headers
             ..contentType =
                 chain.request.headers[HttpHeaders.contentTypeHeader] ??
                     'unknown'
             ..queryParameters = chain.request.parameters)
-          ..response = (AliceHttpResponse()
-            ..status = response.statusCode
-            ..body = response.body ?? ''
-            ..size = response.body != null
-                ? utf8.encode(response.body.toString()).length
-                : 0
-            ..time = DateTime.now()
-            ..headers = <String, String>{
-              for (final MapEntry<String, String> entry
-                  in response.headers.entries)
-                entry.key: entry.value
-            }),
+          ..response = AliceHttpResponse(),
+      );
+
+      aliceCore.addResponse(
+        AliceHttpResponse()
+          ..status = response.statusCode
+          ..body = response.body ?? ''
+          ..size = switch (response.body) {
+            dynamic body when body is String => utf8.encode(body).length,
+            dynamic body when body is List<int> => body.length,
+            dynamic body when body == null => 0,
+            _ => utf8.encode(body.toString()).length,
+          }
+          ..time = requestTime
+          ..headers = <String, String>{
+            for (final MapEntry<String, String> entry
+                in response.headers.entries)
+              entry.key: entry.value
+          },
+        requestId,
       );
     } catch (exception) {
       AliceUtils.log(exception.toString());
