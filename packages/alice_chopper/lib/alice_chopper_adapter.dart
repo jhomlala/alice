@@ -31,7 +31,11 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
   FutureOr<Response<BodyType>> intercept<BodyType>(
     Chain<BodyType> chain,
   ) async {
-    final int requestId = getRequestHashCode(chain.request);
+    final int requestId = getRequestHashCode(applyHeader(
+      chain.request,
+      'alice_token',
+      DateTime.now().microsecondsSinceEpoch.toString(),
+    ));
 
     aliceCore.addCall(
       AliceHttpCall(requestId)
