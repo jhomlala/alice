@@ -5,6 +5,7 @@ import 'package:example/interceptors/json_headers_interceptor.dart';
 import 'package:example/models/address.dart';
 import 'package:example/models/album.dart';
 import 'package:example/models/article.dart';
+import 'package:example/models/broken_article.dart';
 import 'package:example/models/comment.dart';
 import 'package:example/models/company.dart';
 import 'package:example/models/geo_location.dart';
@@ -12,6 +13,7 @@ import 'package:example/models/photo.dart';
 import 'package:example/models/todo.dart';
 import 'package:example/models/user.dart';
 import 'package:example/services/albums_service.dart';
+import 'package:example/services/broken_articles_service.dart';
 import 'package:example/services/comments_service.dart';
 import 'package:example/services/converters/json_serializable_converter.dart';
 import 'package:example/services/articles_service.dart';
@@ -37,7 +39,8 @@ class _MyAppState extends State<MyApp> {
     showNotification: true,
     showInspectorOnShake: true,
     maxCallsCount: 1000,
-  )..addAdapter(_aliceChopperAdapter);
+  )
+    ..addAdapter(_aliceChopperAdapter);
 
   late final ChopperClient _chopper = ChopperClient(
     baseUrl: Uri.https('jsonplaceholder.typicode.com'),
@@ -48,6 +51,7 @@ class _MyAppState extends State<MyApp> {
       PhotosService.create(),
       TodosService.create(),
       UsersService.create(),
+      BrokenArticlesService.create(),
     ],
     interceptors: [
       JsonHeadersInterceptor(),
@@ -61,17 +65,20 @@ class _MyAppState extends State<MyApp> {
       Photo: Photo.fromJson,
       Todo: Todo.fromJson,
       User: User.fromJson,
+      BrokenArticle: BrokenArticle.fromJson,
     }),
   );
 
   late final AlbumsService albumsService = _chopper.getService<AlbumsService>();
   late final ArticlesService articlesService =
-      _chopper.getService<ArticlesService>();
+  _chopper.getService<ArticlesService>();
   late final CommentsService commentsService =
-      _chopper.getService<CommentsService>();
+  _chopper.getService<CommentsService>();
   late final PhotosService photosService = _chopper.getService<PhotosService>();
   late final TodosService todosService = _chopper.getService<TodosService>();
   late final UsersService usersService = _chopper.getService<UsersService>();
+  late final BrokenArticlesService brokenArticlesService =
+  _chopper.getService<BrokenArticlesService>();
 
   /// Albums HTTP requests
   Future<void> _albumsRequests() async {
@@ -413,15 +420,24 @@ class _MyAppState extends State<MyApp> {
     usersService.delete(123456);
   }
 
+  Future<void> _brokenArticlesRequests() async {
+    brokenArticlesService.getAll();
+    brokenArticlesService.get(1);
+  }
+
   /// Run all Chopper HTTP requests
-  Future<void> _runChopperHttpRequests() => Future.wait([
-        _albumsRequests(),
-        _articlesRequests(),
-        _commentsRequests(),
-        _photosRequests(),
-        _todosRequests(),
-        _usersRequests(),
-      ]);
+  Future<void> _runChopperHttpRequests() async {
+    await Future.wait([
+      _albumsRequests(),
+      _articlesRequests(),
+      _commentsRequests(),
+      _photosRequests(),
+      _todosRequests(),
+      _usersRequests(),
+    ]);
+
+    _brokenArticlesRequests();
+  }
 
   void _runHttpInspector() {
     _alice.showInspector();
@@ -443,7 +459,7 @@ class _MyAppState extends State<MyApp> {
               const SizedBox(height: 8),
               const Text(
                 'Welcome to example of Alice Http Inspector. '
-                'Click buttons below to generate sample data.',
+                    'Click buttons below to generate sample data.',
               ),
               ElevatedButton(
                 onPressed: _runChopperHttpRequests,
@@ -453,8 +469,8 @@ class _MyAppState extends State<MyApp> {
               ),
               const Text(
                 'After clicking on buttons above, you should receive notification.'
-                ' Click on it to show inspector. '
-                'You can also shake your device or click button below.',
+                    ' Click on it to show inspector. '
+                    'You can also shake your device or click button below.',
               ),
               ElevatedButton(
                 onPressed: _runHttpInspector,
