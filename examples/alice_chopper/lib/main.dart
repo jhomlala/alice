@@ -1,5 +1,7 @@
 import 'package:alice/alice.dart';
 import 'package:alice_chopper/alice_chopper_adapter.dart';
+import 'package:example/interceptors/json_content_type_inerceptor.dart';
+import 'package:example/interceptors/json_headers_interceptor.dart';
 import 'package:example/models/example_post.dart';
 import 'package:example/services/converters/json_serializable_converter.dart';
 import 'package:example/services/example_posts_service.dart';
@@ -31,6 +33,8 @@ class _MyAppState extends State<MyApp> {
       ExamplePostsService.create(),
     ],
     interceptors: [
+      JsonHeadersInterceptor(),
+      JsonContentTypeInterceptor(),
       _aliceChopperAdapter,
     ],
     converter: converter,
@@ -46,13 +50,14 @@ class _MyAppState extends State<MyApp> {
       userId: 1,
     );
 
-    postService.createExamplePost(post);
-    postService.getExamplePost(1);
-    postService.updateExamplePost(1, post.copyWith(id: 1));
-    postService.deleteExamplePost(1);
-    postService.updateExamplePost(123456, post.copyWith(id: 123456));
-    postService.getExamplePost(123456);
-    postService.deleteExamplePost(123456);
+    postService.getPosts();
+    postService.createPost(post);
+    postService.getPost(1);
+    postService.updatePost(1, post.copyWith(id: 1));
+    postService.deletePost(1);
+    postService.updatePost(123456, post.copyWith(id: 123456));
+    postService.getPost(123456);
+    postService.deletePost(123456);
   }
 
   void _runHttpInspector() {

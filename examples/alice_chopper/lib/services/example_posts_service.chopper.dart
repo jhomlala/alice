@@ -18,7 +18,20 @@ final class _$ExamplePostsService extends ExamplePostsService {
   final Type definitionType = ExamplePostsService;
 
   @override
-  Future<Response<ExamplePost>> getExamplePost(int id) {
+  Future<Response<List<ExamplePost>>> getPosts() {
+    final Uri $url = Uri.parse('/posts/');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client
+        .send<List<ExamplePost>, ExamplePost>($request)
+        .timeout(const Duration(microseconds: 10000000));
+  }
+
+  @override
+  Future<Response<ExamplePost>> getPost(int id) {
     final Uri $url = Uri.parse('/posts/${id}');
     final Request $request = Request(
       'GET',
@@ -31,7 +44,7 @@ final class _$ExamplePostsService extends ExamplePostsService {
   }
 
   @override
-  Future<Response<ExamplePost>> createExamplePost(ExamplePost body) {
+  Future<Response<ExamplePost>> createPost(ExamplePost body) {
     final Uri $url = Uri.parse('/posts/');
     final $body = body;
     final Request $request = Request(
@@ -46,7 +59,7 @@ final class _$ExamplePostsService extends ExamplePostsService {
   }
 
   @override
-  Future<Response<ExamplePost>> updateExamplePost(
+  Future<Response<ExamplePost>> updatePost(
     int id,
     ExamplePost body,
   ) {
@@ -64,7 +77,7 @@ final class _$ExamplePostsService extends ExamplePostsService {
   }
 
   @override
-  Future<Response<void>> deleteExamplePost(int id) {
+  Future<Response<void>> deletePost(int id) {
     final Uri $url = Uri.parse('/posts/${id}');
     final Request $request = Request(
       'DELETE',
