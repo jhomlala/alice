@@ -10,6 +10,7 @@ import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:chopper/chopper.dart';
 import 'package:http/http.dart' as http;
+import 'package:uuid/uuid.dart';
 
 class AliceChopperAdapter with AliceAdapter implements Interceptor {
   /// Creates hashcode based on request
@@ -31,11 +32,15 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
   FutureOr<Response<BodyType>> intercept<BodyType>(
     Chain<BodyType> chain,
   ) async {
-    final int requestId = getRequestHashCode(applyHeader(
-      chain.request,
-      'alice_token',
-      DateTime.now().microsecondsSinceEpoch.toString(),
-    ));
+    final int requestId = getRequestHashCode(
+      /// The alice_token header is added to the request in order to keep track
+      /// of the request in the AliceCore instance.
+      applyHeader(
+        chain.request,
+        'alice_token',
+        Uuid().v4(),
+      ),
+    );
 
     aliceCore.addCall(
       AliceHttpCall(requestId)
