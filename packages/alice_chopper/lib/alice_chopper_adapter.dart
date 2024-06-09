@@ -94,12 +94,7 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
 
       /// Add empty response to Alice core
       aliceCore.addResponse(
-        AliceHttpResponse()
-          ..status = 500
-          ..body = error.toString()
-          ..size = utf8.encode(error.toString()).length
-          ..time = DateTime.now()
-          ..headers = <String, String>{},
+        AliceHttpResponse(),
         requestId,
       );
 
