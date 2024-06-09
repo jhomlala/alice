@@ -18,7 +18,7 @@ final class _$ExamplePostsService extends ExamplePostsService {
   final Type definitionType = ExamplePostsService;
 
   @override
-  Future<Response<ExamplePost>> getExamplePost(String id) {
+  Future<Response<ExamplePost>> getExamplePost(int id) {
     final Uri $url = Uri.parse('/posts/${id}');
     final Request $request = Request(
       'GET',
@@ -47,7 +47,7 @@ final class _$ExamplePostsService extends ExamplePostsService {
 
   @override
   Future<Response<ExamplePost>> updateExamplePost(
-    String id,
+    int id,
     ExamplePost body,
   ) {
     final Uri $url = Uri.parse('/posts/${id}');
@@ -64,7 +64,7 @@ final class _$ExamplePostsService extends ExamplePostsService {
   }
 
   @override
-  Future<Response<void>> deleteExamplePost(String id) {
+  Future<Response<void>> deleteExamplePost(int id) {
     final Uri $url = Uri.parse('/posts/${id}');
     final Request $request = Request(
       'DELETE',

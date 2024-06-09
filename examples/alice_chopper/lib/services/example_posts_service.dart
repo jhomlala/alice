@@ -11,17 +11,17 @@ abstract class ExamplePostsService extends ChopperService {
       _$ExamplePostsService(client);
 
   @Get(path: '/{id}', timeout: Duration(seconds: 10))
-  Future<Response<ExamplePost?>> getExamplePost(@Path() String id);
+  Future<Response<ExamplePost?>> getExamplePost(@Path() int id);
 
   @Post(path: '/', timeout: Duration(seconds: 10))
   Future<Response<ExamplePost?>> createExamplePost(@Body() ExamplePost body);
 
   @Put(path: '/{id}', timeout: Duration(seconds: 10))
   Future<Response<ExamplePost?>> updateExamplePost(
-    @Path() String id,
+    @Path() int id,
     @Body() ExamplePost body,
   );
 
   @Delete(path: '/{id}', timeout: Duration(seconds: 10))
-  Future<Response<void>> deleteExamplePost(@Path() String id);
+  Future<Response<void>> deleteExamplePost(@Path() int id);
 }

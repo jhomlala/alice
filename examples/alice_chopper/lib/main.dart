@@ -32,8 +32,6 @@ class _MyAppState extends State<MyApp> {
     ],
     interceptors: [
       _aliceChopperAdapter,
-      CurlInterceptor(),
-      HttpLoggingInterceptor(onlyErrors: true),
     ],
     converter: converter,
   );
@@ -49,12 +47,12 @@ class _MyAppState extends State<MyApp> {
     );
 
     postService.createExamplePost(post);
-    postService.getExamplePost('1');
-    postService.updateExamplePost('1', post);
-    postService.deleteExamplePost('1');
-    postService.updateExamplePost('123456', post);
-    postService.getExamplePost('123456');
-    postService.deleteExamplePost('123456');
+    postService.getExamplePost(1);
+    postService.updateExamplePost(1, post.copyWith(id: 1));
+    postService.deleteExamplePost(1);
+    postService.updateExamplePost(123456, post.copyWith(id: 123456));
+    postService.getExamplePost(123456);
+    postService.deleteExamplePost(123456);
   }
 
   void _runHttpInspector() {

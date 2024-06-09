@@ -16,7 +16,7 @@ class ExamplePost {
     required this.userId,
   });
 
-  ExamplePost copyPost({
+  ExamplePost copyWith({
     int? id,
     String? title,
     String? body,
