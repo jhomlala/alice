@@ -3,6 +3,7 @@ import 'dart:convert' show utf8;
 import 'dart:io' show HttpHeaders;
 
 import 'package:alice/core/alice_adapter.dart';
+import 'package:alice/core/alice_utils.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_request.dart';
@@ -57,33 +58,61 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
         ..response = AliceHttpResponse(),
     );
 
-    final Response<BodyType> response = await chain.proceed(chain.request);
+    try {
+      final Response<BodyType> response = await chain.proceed(chain.request);
 
-    aliceCore.addResponse(
-      AliceHttpResponse()
-        ..status = response.statusCode
-        ..body = response.body ?? ''
-        ..size = switch (response.body) {
-          dynamic body when body is String => utf8.encode(body).length,
-          dynamic body when body is List<int> => body.length,
-          dynamic body when body == null => 0,
-          _ => utf8.encode(body.toString()).length,
-        }
-        ..time = DateTime.now()
-        ..headers = <String, String>{
-          for (final MapEntry<String, String> entry in response.headers.entries)
-            entry.key: entry.value
-        },
-      requestId,
-    );
-
-    if (!response.isSuccessful || response.error != null) {
-      aliceCore.addError(
-        AliceHttpError()..error = response.error,
+      aliceCore.addResponse(
+        AliceHttpResponse()
+          ..status = response.statusCode
+          ..body = response.body ?? ''
+          ..size = switch (response.body) {
+            dynamic body when body is String => utf8.encode(body).length,
+            dynamic body when body is List<int> => body.length,
+            dynamic body when body == null => 0,
+            _ => utf8.encode(body.toString()).length,
+          }
+          ..time = DateTime.now()
+          ..headers = <String, String>{
+            for (final MapEntry<String, String> entry
+                in response.headers.entries)
+              entry.key: entry.value
+          },
         requestId,
       );
-    }
 
-    return response;
+      if (!response.isSuccessful || response.error != null) {
+        aliceCore.addError(
+          AliceHttpError()..error = response.error,
+          requestId,
+        );
+      }
+
+      return response;
+    } catch (error, stackTrace) {
+      /// Log error to Alice log
+      AliceUtils.log(error.toString());
+
+      /// Add empty response to Alice core
+      aliceCore.addResponse(
+        AliceHttpResponse()
+          ..status = 500
+          ..body = error.toString()
+          ..size = utf8.encode(error.toString()).length
+          ..time = DateTime.now()
+          ..headers = <String, String>{},
+        requestId,
+      );
+
+      /// Add error to Alice core
+      aliceCore.addError(
+        AliceHttpError()
+          ..error = error
+          ..stackTrace = stackTrace,
+        requestId,
+      );
+
+      /// Rethrow error
+      rethrow;
+    }
   }
 }
