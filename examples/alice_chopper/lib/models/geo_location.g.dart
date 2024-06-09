@@ -7,12 +7,12 @@ part of 'geo_location.dart';
 // **************************************************************************
 
 GeoLocation _$GeoLocationFromJson(Map<String, dynamic> json) => GeoLocation(
-      lat: (json['lat'] as num).toDouble(),
-      lng: (json['lng'] as num).toDouble(),
+      lat: GeoLocation._stringToDouble(json['lat'] as String),
+      lng: GeoLocation._stringToDouble(json['lng'] as String),
     );
 
 Map<String, dynamic> _$GeoLocationToJson(GeoLocation instance) =>
     <String, dynamic>{
-      'lat': instance.lat,
-      'lng': instance.lng,
+      'lat': GeoLocation._doubleToString(instance.lat),
+      'lng': GeoLocation._doubleToString(instance.lng),
     };
