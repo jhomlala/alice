@@ -1,5 +1,6 @@
 import 'package:chopper/chopper.dart';
 import 'package:example/models/album.dart';
+import 'package:example/models/photo.dart';
 
 part 'albums_service.chopper.dart';
 
@@ -9,10 +10,15 @@ abstract class AlbumsService extends ChopperService {
       _$AlbumsService(client);
 
   @Get(path: '/', timeout: Duration(seconds: 10))
-  Future<Response<List<Album>>> getAll();
+  Future<Response<List<Album>>> getAll({
+    @Query('userId') int? userId,
+  });
 
   @Get(path: '/{id}', timeout: Duration(seconds: 10))
   Future<Response<Album?>> get(@Path() int id);
+
+  @Get(path: '/{id}/photos', timeout: Duration(seconds: 10))
+  Future<Response<List<Photo>>> getPhotos(@Path() int id);
 
   @Post(path: '/', timeout: Duration(seconds: 10))
   Future<Response<Album?>> post(@Body() Album body);

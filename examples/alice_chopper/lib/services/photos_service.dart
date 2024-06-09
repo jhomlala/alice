@@ -9,7 +9,9 @@ abstract class PhotosService extends ChopperService {
       _$PhotosService(client);
 
   @Get(path: '/', timeout: Duration(seconds: 10))
-  Future<Response<List<Photo>>> getAll();
+  Future<Response<List<Photo>>> getAll({
+    @Query('albumId') int? albumId,
+  });
 
   @Get(path: '/{id}', timeout: Duration(seconds: 10))
   Future<Response<Photo?>> get(@Path() int id);

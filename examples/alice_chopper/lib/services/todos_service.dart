@@ -8,7 +8,10 @@ abstract class TodosService extends ChopperService {
   static TodosService create([ChopperClient? client]) => _$TodosService(client);
 
   @Get(path: '/', timeout: Duration(seconds: 10))
-  Future<Response<List<Todo>>> getAll();
+  Future<Response<List<Todo>>> getAll({
+    @Query('userId') int? userId,
+    @Query('completed') bool? completed,
+  });
 
   @Get(path: '/{id}', timeout: Duration(seconds: 10))
   Future<Response<Todo?>> get(@Path() int id);

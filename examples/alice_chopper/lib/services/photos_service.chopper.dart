@@ -18,12 +18,14 @@ final class _$PhotosService extends PhotosService {
   final Type definitionType = PhotosService;
 
   @override
-  Future<Response<List<Photo>>> getAll() {
+  Future<Response<List<Photo>>> getAll({int? albumId}) {
     final Uri $url = Uri.parse('/photos/');
+    final Map<String, dynamic> $params = <String, dynamic>{'albumId': albumId};
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
+      parameters: $params,
     );
     return client
         .send<List<Photo>, Photo>($request)

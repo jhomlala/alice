@@ -11,6 +11,7 @@ abstract class CommentsService extends ChopperService {
   @Get(path: '/', timeout: Duration(seconds: 10))
   Future<Response<List<Comment>>> getAll({
     @Query('postId') int? articleId,
+    @Query() String? email,
   });
 
   @Get(path: '/{id}', timeout: Duration(seconds: 10))

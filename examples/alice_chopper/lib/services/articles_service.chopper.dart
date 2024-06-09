@@ -46,6 +46,19 @@ final class _$ArticlesService extends ArticlesService {
   }
 
   @override
+  Future<Response<List<Comment>>> getComments(int id) {
+    final Uri $url = Uri.parse('/posts/${id}/comments');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client
+        .send<List<Comment>, Comment>($request)
+        .timeout(const Duration(microseconds: 10000000));
+  }
+
+  @override
   Future<Response<Article>> post(Article body) {
     final Uri $url = Uri.parse('/posts/');
     final $body = body;

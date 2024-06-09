@@ -18,12 +18,14 @@ final class _$AlbumsService extends AlbumsService {
   final Type definitionType = AlbumsService;
 
   @override
-  Future<Response<List<Album>>> getAll() {
+  Future<Response<List<Album>>> getAll({int? userId}) {
     final Uri $url = Uri.parse('/albums/');
+    final Map<String, dynamic> $params = <String, dynamic>{'userId': userId};
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
+      parameters: $params,
     );
     return client
         .send<List<Album>, Album>($request)
@@ -40,6 +42,19 @@ final class _$AlbumsService extends AlbumsService {
     );
     return client
         .send<Album, Album>($request)
+        .timeout(const Duration(microseconds: 10000000));
+  }
+
+  @override
+  Future<Response<List<Photo>>> getPhotos(int id) {
+    final Uri $url = Uri.parse('/albums/${id}/photos');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client
+        .send<List<Photo>, Photo>($request)
         .timeout(const Duration(microseconds: 10000000));
   }
 

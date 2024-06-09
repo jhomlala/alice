@@ -1,5 +1,6 @@
 import 'package:chopper/chopper.dart';
 import 'package:example/models/article.dart';
+import 'package:example/models/comment.dart';
 
 part 'articles_service.chopper.dart';
 
@@ -16,6 +17,9 @@ abstract class ArticlesService extends ChopperService {
 
   @Get(path: '/{id}', timeout: Duration(seconds: 10))
   Future<Response<Article?>> get(@Path() int id);
+
+  @Get(path: '/{id}/comments', timeout: Duration(seconds: 10))
+  Future<Response<List<Comment>>> getComments(@Path() int id);
 
   @Post(path: '/', timeout: Duration(seconds: 10))
   Future<Response<Article?>> post(@Body() Article body);

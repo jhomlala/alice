@@ -18,12 +18,20 @@ final class _$TodosService extends TodosService {
   final Type definitionType = TodosService;
 
   @override
-  Future<Response<List<Todo>>> getAll() {
+  Future<Response<List<Todo>>> getAll({
+    int? userId,
+    bool? completed,
+  }) {
     final Uri $url = Uri.parse('/todos/');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'userId': userId,
+      'completed': completed,
+    };
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
+      parameters: $params,
     );
     return client
         .send<List<Todo>, Todo>($request)

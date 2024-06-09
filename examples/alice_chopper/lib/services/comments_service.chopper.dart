@@ -18,9 +18,15 @@ final class _$CommentsService extends CommentsService {
   final Type definitionType = CommentsService;
 
   @override
-  Future<Response<List<Comment>>> getAll({int? articleId}) {
+  Future<Response<List<Comment>>> getAll({
+    int? articleId,
+    String? email,
+  }) {
     final Uri $url = Uri.parse('/comments/');
-    final Map<String, dynamic> $params = <String, dynamic>{'postId': articleId};
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'postId': articleId,
+      'email': email,
+    };
     final Request $request = Request(
       'GET',
       $url,
