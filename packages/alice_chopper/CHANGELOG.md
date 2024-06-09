@@ -1,3 +1,10 @@
+# 1.0.3
+
+* Replaced milliseconds with UUID for alice token header (by Klemen
+  Tusar https://github.com/techouse).
+* Refactored obtaining the body size (by Klemen Tusar https://github.com/techouse).
+* Removed all unnecessary intermediary variables (by Klemen Tusar https://github.com/techouse).
+
 # 1.0.2
 
 * [BREAKING_CHANGE] Fixed file name of the adapter.
