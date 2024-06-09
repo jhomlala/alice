@@ -17,6 +17,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final AliceChopperAdapter _aliceChopperAdapter = AliceChopperAdapter();
+
   late final Alice _alice = Alice(
     showNotification: true,
     showInspectorOnShake: true,
@@ -40,10 +41,10 @@ class _MyAppState extends State<MyApp> {
     converter: converter,
   );
 
-  Future<void> _runChopperHttpRequests() async {
-    final ArticlesService articlesService =
-        _chopper.getService<ArticlesService>();
+  late final ArticlesService articlesService =
+      _chopper.getService<ArticlesService>();
 
+  Future<void> _runChopperHttpRequests() async {
     final Article article = Article(
       title: 'foo',
       body: 'bar',
