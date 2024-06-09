@@ -77,25 +77,27 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Alice + Chopper - Example'),
         ),
         body: Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: ListView(
             children: [
               const SizedBox(height: 8),
-              Text(
-                'Welcome to example of Alice Http Inspector. Click buttons below to generate sample data.',
+              const Text(
+                'Welcome to example of Alice Http Inspector. '
+                'Click buttons below to generate sample data.',
               ),
               ElevatedButton(
-                child: Text(
+                child: const Text(
                   'Run Chopper HTTP Requests',
                 ),
                 onPressed: _runChopperHttpRequests,
               ),
-              Text(
+              const Text(
                 'After clicking on buttons above, you should receive notification.'
-                ' Click on it to show inspector. You can also shake your device or click button below.',
+                ' Click on it to show inspector. '
+                'You can also shake your device or click button below.',
               ),
               ElevatedButton(
-                child: Text('Run HTTP Inspector'),
+                child: const Text('Run HTTP Inspector'),
                 onPressed: _runHttpInspector,
               )
             ],
