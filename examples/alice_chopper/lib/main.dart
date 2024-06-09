@@ -51,11 +51,14 @@ class _MyAppState extends State<MyApp> {
     );
 
     postService.getPosts();
+    postService.getPosts(userId: 2);
     postService.createPost(post);
     postService.getPost(1);
-    postService.updatePost(1, post.copyWith(id: 1));
+    postService.putPost(1, post.copyWith(id: 1));
+    postService.patchPost(1, post.copyWith(id: 1));
     postService.deletePost(1);
-    postService.updatePost(123456, post.copyWith(id: 123456));
+    postService.putPost(123456, post.copyWith(id: 123456));
+    postService.patchPost(123456, post.copyWith(id: 123456));
     postService.getPost(123456);
     postService.deletePost(123456);
   }

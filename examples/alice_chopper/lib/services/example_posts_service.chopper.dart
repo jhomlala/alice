@@ -18,12 +18,14 @@ final class _$ExamplePostsService extends ExamplePostsService {
   final Type definitionType = ExamplePostsService;
 
   @override
-  Future<Response<List<ExamplePost>>> getPosts() {
+  Future<Response<List<ExamplePost>>> getPosts({int? userId}) {
     final Uri $url = Uri.parse('/posts/');
+    final Map<String, dynamic> $params = <String, dynamic>{'userId': userId};
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
+      parameters: $params,
     );
     return client
         .send<List<ExamplePost>, ExamplePost>($request)
@@ -59,7 +61,7 @@ final class _$ExamplePostsService extends ExamplePostsService {
   }
 
   @override
-  Future<Response<ExamplePost>> updatePost(
+  Future<Response<ExamplePost>> putPost(
     int id,
     ExamplePost body,
   ) {
@@ -67,6 +69,24 @@ final class _$ExamplePostsService extends ExamplePostsService {
     final $body = body;
     final Request $request = Request(
       'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client
+        .send<ExamplePost, ExamplePost>($request)
+        .timeout(const Duration(microseconds: 10000000));
+  }
+
+  @override
+  Future<Response<ExamplePost>> patchPost(
+    int id,
+    ExamplePost body,
+  ) {
+    final Uri $url = Uri.parse('/posts/${id}');
+    final $body = body;
+    final Request $request = Request(
+      'PATCH',
       $url,
       client.baseUrl,
       body: $body,

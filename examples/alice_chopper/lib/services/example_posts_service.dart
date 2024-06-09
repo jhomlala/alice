@@ -11,7 +11,9 @@ abstract class ExamplePostsService extends ChopperService {
       _$ExamplePostsService(client);
 
   @Get(path: '/', timeout: Duration(seconds: 10))
-  Future<Response<List<ExamplePost>>> getPosts();
+  Future<Response<List<ExamplePost>>> getPosts({
+    @Query() int? userId,
+  });
 
   @Get(path: '/{id}', timeout: Duration(seconds: 10))
   Future<Response<ExamplePost?>> getPost(@Path() int id);
@@ -20,7 +22,13 @@ abstract class ExamplePostsService extends ChopperService {
   Future<Response<ExamplePost?>> createPost(@Body() ExamplePost body);
 
   @Put(path: '/{id}', timeout: Duration(seconds: 10))
-  Future<Response<ExamplePost?>> updatePost(
+  Future<Response<ExamplePost?>> putPost(
+    @Path() int id,
+    @Body() ExamplePost body,
+  );
+
+  @Patch(path: '/{id}', timeout: Duration(seconds: 10))
+  Future<Response<ExamplePost?>> patchPost(
     @Path() int id,
     @Body() ExamplePost body,
   );
