@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'example_posts_service.dart';
+part of 'articles_service.dart';
 
 // **************************************************************************
 // ChopperGenerator
@@ -8,17 +8,17 @@ part of 'example_posts_service.dart';
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-final class _$ExamplePostsService extends ExamplePostsService {
-  _$ExamplePostsService([ChopperClient? client]) {
+final class _$ArticlesService extends ArticlesService {
+  _$ArticlesService([ChopperClient? client]) {
     if (client == null) return;
     this.client = client;
   }
 
   @override
-  final Type definitionType = ExamplePostsService;
+  final Type definitionType = ArticlesService;
 
   @override
-  Future<Response<List<ExamplePost>>> getPosts({int? userId}) {
+  Future<Response<List<Article>>> getAll({int? userId}) {
     final Uri $url = Uri.parse('/posts/');
     final Map<String, dynamic> $params = <String, dynamic>{'userId': userId};
     final Request $request = Request(
@@ -28,12 +28,12 @@ final class _$ExamplePostsService extends ExamplePostsService {
       parameters: $params,
     );
     return client
-        .send<List<ExamplePost>, ExamplePost>($request)
+        .send<List<Article>, Article>($request)
         .timeout(const Duration(microseconds: 10000000));
   }
 
   @override
-  Future<Response<ExamplePost>> getPost(int id) {
+  Future<Response<Article>> get(int id) {
     final Uri $url = Uri.parse('/posts/${id}');
     final Request $request = Request(
       'GET',
@@ -41,12 +41,12 @@ final class _$ExamplePostsService extends ExamplePostsService {
       client.baseUrl,
     );
     return client
-        .send<ExamplePost, ExamplePost>($request)
+        .send<Article, Article>($request)
         .timeout(const Duration(microseconds: 10000000));
   }
 
   @override
-  Future<Response<ExamplePost>> createPost(ExamplePost body) {
+  Future<Response<Article>> post(Article body) {
     final Uri $url = Uri.parse('/posts/');
     final $body = body;
     final Request $request = Request(
@@ -56,14 +56,14 @@ final class _$ExamplePostsService extends ExamplePostsService {
       body: $body,
     );
     return client
-        .send<ExamplePost, ExamplePost>($request)
+        .send<Article, Article>($request)
         .timeout(const Duration(microseconds: 10000000));
   }
 
   @override
-  Future<Response<ExamplePost>> putPost(
+  Future<Response<Article>> put(
     int id,
-    ExamplePost body,
+    Article body,
   ) {
     final Uri $url = Uri.parse('/posts/${id}');
     final $body = body;
@@ -74,14 +74,14 @@ final class _$ExamplePostsService extends ExamplePostsService {
       body: $body,
     );
     return client
-        .send<ExamplePost, ExamplePost>($request)
+        .send<Article, Article>($request)
         .timeout(const Duration(microseconds: 10000000));
   }
 
   @override
-  Future<Response<ExamplePost>> patchPost(
+  Future<Response<Article>> patch(
     int id,
-    ExamplePost body,
+    Article body,
   ) {
     final Uri $url = Uri.parse('/posts/${id}');
     final $body = body;
@@ -92,12 +92,12 @@ final class _$ExamplePostsService extends ExamplePostsService {
       body: $body,
     );
     return client
-        .send<ExamplePost, ExamplePost>($request)
+        .send<Article, Article>($request)
         .timeout(const Duration(microseconds: 10000000));
   }
 
   @override
-  Future<Response<void>> deletePost(int id) {
+  Future<Response<void>> delete(int id) {
     final Uri $url = Uri.parse('/posts/${id}');
     final Request $request = Request(
       'DELETE',

@@ -2,9 +2,9 @@ import 'package:alice/alice.dart';
 import 'package:alice_chopper/alice_chopper_adapter.dart';
 import 'package:example/interceptors/json_content_type_inerceptor.dart';
 import 'package:example/interceptors/json_headers_interceptor.dart';
-import 'package:example/models/example_post.dart';
+import 'package:example/models/article.dart';
 import 'package:example/services/converters/json_serializable_converter.dart';
-import 'package:example/services/example_posts_service.dart';
+import 'package:example/services/articles_service.dart';
 import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 
@@ -24,13 +24,13 @@ class _MyAppState extends State<MyApp> {
   )..addAdapter(_aliceChopperAdapter);
 
   final JsonSerializableConverter converter = JsonSerializableConverter({
-    ExamplePost: ExamplePost.fromJson,
+    Article: Article.fromJson,
   });
 
   late final ChopperClient _chopper = ChopperClient(
     baseUrl: Uri.https('jsonplaceholder.typicode.com'),
     services: [
-      ExamplePostsService.create(),
+      ArticlesService.create(),
     ],
     interceptors: [
       JsonHeadersInterceptor(),
@@ -41,26 +41,26 @@ class _MyAppState extends State<MyApp> {
   );
 
   Future<void> _runChopperHttpRequests() async {
-    final ExamplePostsService postService =
-        _chopper.getService<ExamplePostsService>();
+    final ArticlesService articlesService =
+        _chopper.getService<ArticlesService>();
 
-    final ExamplePost post = ExamplePost(
+    final Article article = Article(
       title: 'foo',
       body: 'bar',
       userId: 1,
     );
 
-    postService.getPosts();
-    postService.getPosts(userId: 2);
-    postService.createPost(post);
-    postService.getPost(1);
-    postService.putPost(1, post.copyWith(id: 1));
-    postService.patchPost(1, post.copyWith(id: 1));
-    postService.deletePost(1);
-    postService.putPost(123456, post.copyWith(id: 123456));
-    postService.patchPost(123456, post.copyWith(id: 123456));
-    postService.getPost(123456);
-    postService.deletePost(123456);
+    articlesService.getAll();
+    articlesService.getAll(userId: 2);
+    articlesService.post(article);
+    articlesService.get(1);
+    articlesService.put(1, article.copyWith(id: 1));
+    articlesService.patch(1, article.copyWith(id: 1));
+    articlesService.delete(1);
+    articlesService.put(123456, article.copyWith(id: 123456));
+    articlesService.patch(123456, article.copyWith(id: 123456));
+    articlesService.get(123456);
+    articlesService.delete(123456);
   }
 
   void _runHttpInspector() {
