@@ -308,8 +308,8 @@ class _MyAppState extends State<MyApp> {
         city: 'Springfield',
         zipCode: '12345-6789',
         geoLocation: GeoLocation(
-          lat: 37.1234,
-          lng: -122.1234,
+          latitude: 37.1234,
+          longitude: -122.1234,
         ),
       ),
       company: Company(
@@ -337,8 +337,8 @@ class _MyAppState extends State<MyApp> {
           city: 'New York',
           street: '1234 Main St',
           geoLocation: johnDoe.address.geoLocation.copyWith(
-            lat: 40.7128,
-            lng: -74.0060,
+            latitude: 40.7128,
+            longitude: -74.0060,
           ),
         ),
       ),
@@ -350,8 +350,8 @@ class _MyAppState extends State<MyApp> {
           city: 'Los Angeles',
           street: '1234 Maple St',
           geoLocation: johnDoe.address.geoLocation.copyWith(
-            lat: 34.0522,
-            lng: -118.2437,
+            latitude: 34.0522,
+            longitude: -118.2437,
           ),
         ),
       ),
@@ -372,8 +372,8 @@ class _MyAppState extends State<MyApp> {
           city: 'Springfield',
           zipCode: '12345-6789',
           geoLocation: johnDoe.address.geoLocation.copyWith(
-            lat: 37.1234,
-            lng: -122.1234,
+            latitude: 37.1234,
+            longitude: -122.1234,
           ),
         ),
         company: johnDoe.company.copyWith(
@@ -398,8 +398,8 @@ class _MyAppState extends State<MyApp> {
           city: 'Springfield',
           zipCode: '12345-6789',
           geoLocation: johnDoe.address.geoLocation.copyWith(
-            lat: 37.1234,
-            lng: -122.1234,
+            latitude: 37.1234,
+            longitude: -122.1234,
           ),
         ),
         company: johnDoe.company.copyWith(

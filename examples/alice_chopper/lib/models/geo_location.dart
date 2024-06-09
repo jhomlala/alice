@@ -6,28 +6,30 @@ part 'geo_location.g.dart';
 @JsonSerializable()
 class GeoLocation with EquatableMixin {
   const GeoLocation({
-    required this.lat,
-    required this.lng,
+    required this.latitude,
+    required this.longitude,
   });
 
   @JsonKey(
+    name: 'lat',
     fromJson: GeoLocation._stringToDouble,
     toJson: GeoLocation._doubleToString,
   )
-  final double lat;
+  final double latitude;
   @JsonKey(
+    name: 'lng',
     fromJson: GeoLocation._stringToDouble,
     toJson: GeoLocation._doubleToString,
   )
-  final double lng;
+  final double longitude;
 
   GeoLocation copyWith({
-    double? lat,
-    double? lng,
+    double? latitude,
+    double? longitude,
   }) =>
       GeoLocation(
-        lat: lat ?? this.lat,
-        lng: lng ?? this.lng,
+        latitude: latitude ?? this.latitude,
+        longitude: longitude ?? this.longitude,
       );
 
   static String _doubleToString(double value) => value.toString();
@@ -40,5 +42,5 @@ class GeoLocation with EquatableMixin {
   Map<String, dynamic> toJson() => _$GeoLocationToJson(this);
 
   @override
-  List<Object?> get props => [lat, lng];
+  List<Object?> get props => [latitude, longitude];
 }
