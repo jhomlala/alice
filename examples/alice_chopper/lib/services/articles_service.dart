@@ -1,7 +1,6 @@
 import 'package:chopper/chopper.dart';
 import 'package:example/models/article.dart';
 
-// this is necessary for the generated code to find your class
 part 'articles_service.chopper.dart';
 
 @ChopperApi(baseUrl: '/posts')

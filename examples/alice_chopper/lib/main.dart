@@ -2,17 +2,29 @@ import 'package:alice/alice.dart';
 import 'package:alice_chopper/alice_chopper_adapter.dart';
 import 'package:example/interceptors/json_content_type_inerceptor.dart';
 import 'package:example/interceptors/json_headers_interceptor.dart';
+import 'package:example/models/album.dart';
 import 'package:example/models/article.dart';
+import 'package:example/models/comment.dart';
+import 'package:example/models/photo.dart';
+import 'package:example/models/todo.dart';
+import 'package:example/models/user.dart';
+import 'package:example/services/albums_service.dart';
+import 'package:example/services/comments_service.dart';
 import 'package:example/services/converters/json_serializable_converter.dart';
 import 'package:example/services/articles_service.dart';
 import 'package:chopper/chopper.dart';
+import 'package:example/services/photos_service.dart';
+import 'package:example/services/todos_service.dart';
+import 'package:example/services/users_service.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   @override
-  _MyAppState createState() => _MyAppState();
+  State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
@@ -24,28 +36,36 @@ class _MyAppState extends State<MyApp> {
     maxCallsCount: 1000,
   )..addAdapter(_aliceChopperAdapter);
 
-  final JsonSerializableConverter converter = JsonSerializableConverter({
-    Article: Article.fromJson,
-  });
-
   late final ChopperClient _chopper = ChopperClient(
     baseUrl: Uri.https('jsonplaceholder.typicode.com'),
     services: [
+      AlbumsService.create(),
       ArticlesService.create(),
+      CommentsService.create(),
+      PhotosService.create(),
+      TodosService.create(),
+      UsersService.create(),
     ],
     interceptors: [
       JsonHeadersInterceptor(),
       JsonContentTypeInterceptor(),
       _aliceChopperAdapter,
     ],
-    converter: converter,
+    converter: const JsonSerializableConverter({
+      Album: Album.fromJson,
+      Article: Article.fromJson,
+      Comment: Comment.fromJson,
+      Photo: Photo.fromJson,
+      Todo: Todo.fromJson,
+      User: User.fromJson,
+    }),
   );
 
   late final ArticlesService articlesService =
       _chopper.getService<ArticlesService>();
 
   Future<void> _runChopperHttpRequests() async {
-    final Article article = Article(
+    const Article article = Article(
       title: 'foo',
       body: 'bar',
       userId: 1,
@@ -87,10 +107,10 @@ class _MyAppState extends State<MyApp> {
                 'Click buttons below to generate sample data.',
               ),
               ElevatedButton(
+                onPressed: _runChopperHttpRequests,
                 child: const Text(
                   'Run Chopper HTTP Requests',
                 ),
-                onPressed: _runChopperHttpRequests,
               ),
               const Text(
                 'After clicking on buttons above, you should receive notification.'
@@ -98,8 +118,8 @@ class _MyAppState extends State<MyApp> {
                 'You can also shake your device or click button below.',
               ),
               ElevatedButton(
-                child: const Text('Run HTTP Inspector'),
                 onPressed: _runHttpInspector,
+                child: const Text('Run HTTP Inspector'),
               )
             ],
           ),
