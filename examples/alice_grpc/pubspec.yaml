@@ -1,0 +1,24 @@
+name: example
+description: "A project to showcase gRPC and Alice integration."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.0.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  alice:
+  alice_grpc:
+  grpc: ^3.2.4
+
+dependency_overrides:
+  alice:
+    path: ../../packages/alice
+  alice_grpc:
+    path: ../../packages/alice_grpc
+
+flutter:
+  uses-material-design: true

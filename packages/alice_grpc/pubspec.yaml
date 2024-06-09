@@ -1,0 +1,16 @@
+name: alice_grpc
+description: "Alice + gRPC integration. It contains plugin for Alice which allows to use gRPC package."
+version: 1.0.0
+repository: https://github.com/jhomlala/alice
+homepage: https://github.com/jhomlala/alice
+
+environment:
+  sdk: '>=3.4.1 <4.0.0'
+  flutter: ">=3.3.0"
+
+dependencies:
+  alice: ^1.0.0-dev.4
+  grpc: ^3.2.4
+
+dev_dependencies:
+  very_good_analysis: ^5.1.0
