@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
@@ -36,7 +38,8 @@ class AliceHttpCall {
 
     for (final MapEntry<String, dynamic> header
         in request?.headers.entries ?? []) {
-      if ('Accept-Encoding' == header.key && header.value == 'gzip') {
+      if (header.key.toLowerCase() == HttpHeaders.acceptEncodingHeader &&
+          header.value.toString().toLowerCase() == 'gzip') {
         compressed = true;
       }
 
