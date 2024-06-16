@@ -141,9 +141,9 @@ class AliceCore {
       Navigator.push<void>(
         context,
         MaterialPageRoute(
-          builder: (context) => AliceCallsListScreen(this, _aliceLogger),
+          builder: (_) => AliceCallsListScreen(this, _aliceLogger),
         ),
-      ).then((onValue) => _isInspectorOpened = false);
+      ).then((_) => _isInspectorOpened = false);
     }
   }
 
