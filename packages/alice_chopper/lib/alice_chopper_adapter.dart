@@ -2,12 +2,14 @@ import 'dart:async' show FutureOr;
 import 'dart:convert' show utf8;
 import 'dart:io' show HttpHeaders;
 
+import 'package:flutter/foundation.dart';
 import 'package:alice/core/alice_adapter.dart';
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
+import 'package:alice/model/alice_log.dart';
 import 'package:chopper/chopper.dart';
 import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
@@ -100,6 +102,13 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
     } catch (error, stackTrace) {
       /// Log error to Alice log
       AliceUtils.log(error.toString());
+
+      aliceCore.addLog(AliceLog(
+        message: error.toString(),
+        level: DiagnosticLevel.error,
+        error: error,
+        stackTrace: stackTrace,
+      ));
 
       /// Add empty response to Alice core
       aliceCore.addResponse(
