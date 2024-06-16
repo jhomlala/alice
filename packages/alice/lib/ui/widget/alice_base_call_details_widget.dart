@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:convert' show JsonEncoder;
 
 import 'package:alice/helper/alice_conversion_helper.dart';
 import 'package:alice/utils/alice_parser.dart';

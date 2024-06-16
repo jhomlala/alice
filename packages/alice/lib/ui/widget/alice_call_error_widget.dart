@@ -4,24 +4,23 @@ import 'package:alice/utils/alice_scroll_behavior.dart';
 import 'package:flutter/material.dart';
 
 class AliceCallErrorWidget extends StatefulWidget {
+  const AliceCallErrorWidget(
+    this.call, {
+    super.key,
+  });
+
   final AliceHttpCall call;
 
-  const AliceCallErrorWidget(this.call, {super.key});
-
   @override
-  State<StatefulWidget> createState() {
-    return _AliceCallErrorWidgetState();
-  }
+  State<StatefulWidget> createState() => _AliceCallErrorWidgetState();
 }
 
 class _AliceCallErrorWidgetState
     extends AliceBaseCallDetailsWidgetState<AliceCallErrorWidget> {
-  AliceHttpCall get _call => widget.call;
-
   @override
   Widget build(BuildContext context) {
-    if (_call.error != null) {
-      final dynamic error = _call.error!.error;
+    if (widget.call.error != null) {
+      final dynamic error = widget.call.error!.error;
       final String errorText =
           error != null ? error.toString() : 'Error is empty';
 
@@ -29,11 +28,17 @@ class _AliceCallErrorWidgetState
         padding: const EdgeInsets.all(6),
         child: ScrollConfiguration(
           behavior: AliceScrollBehavior(),
-          child: ListView(children: [getListRow('Error:', errorText)]),
+          child: ListView(
+            children: [
+              getListRow('Error:', errorText),
+            ],
+          ),
         ),
       );
     } else {
-      return const Center(child: Text('Nothing to display here'));
+      return const Center(
+        child: Text('Nothing to display here'),
+      );
     }
   }
 }

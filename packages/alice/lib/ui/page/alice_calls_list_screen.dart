@@ -29,7 +29,12 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
     with SingleTickerProviderStateMixin {
   final TextEditingController _queryTextEditingController =
       TextEditingController();
-  final List<AliceMenuItem> _menuItems = [];
+  static const List<AliceMenuItem> _menuItems = [
+    AliceMenuItem('Sort', Icons.sort),
+    AliceMenuItem('Delete', Icons.delete),
+    AliceMenuItem('Stats', Icons.insert_chart),
+    AliceMenuItem('Save', Icons.save),
+  ];
   final List<AliceTabItem> _tabItems = AliceTabItem.values;
   final ScrollController _scrollController = ScrollController();
 
@@ -42,15 +47,6 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
   late final TabController? _tabController;
 
   AliceCore get aliceCore => widget._aliceCore;
-
-  _AliceCallsListScreenState() {
-    _menuItems.addAll(const [
-      AliceMenuItem('Sort', Icons.sort),
-      AliceMenuItem('Delete', Icons.delete),
-      AliceMenuItem('Stats', Icons.insert_chart),
-      AliceMenuItem('Save', Icons.save),
-    ]);
-  }
 
   @override
   void initState() {
