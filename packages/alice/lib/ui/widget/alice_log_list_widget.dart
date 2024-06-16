@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 
 class AliceLogListWidget extends StatefulWidget {
   const AliceLogListWidget({
-    required this.  logsListenable,
+    required this.logsListenable,
     required this.scrollController,
     required this.emptyWidget,
     super.key,
