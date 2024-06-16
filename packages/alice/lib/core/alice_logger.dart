@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:io' show Platform, Process, ProcessResult;
 
 import 'package:alice/model/alice_log.dart';
 import 'package:flutter/foundation.dart';

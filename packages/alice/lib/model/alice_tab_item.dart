@@ -1,4 +1,7 @@
-enum AliceTabItem { inspector, logger }
+enum AliceTabItem {
+  inspector,
+  logger,
+}
 
 extension AliceTabItemExtension on AliceTabItem {
   String get title => switch (this) {
