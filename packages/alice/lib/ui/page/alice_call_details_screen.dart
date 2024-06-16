@@ -37,77 +37,63 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
           stream: widget.core.callsSubject,
           initialData: [widget.call],
           builder: (context, AsyncSnapshot<List<AliceHttpCall>> callsSnapshot) {
-            if (callsSnapshot.hasData) {
+            if (callsSnapshot.hasData && !callsSnapshot.hasError) {
               final AliceHttpCall? call = callsSnapshot.data?.firstWhereOrNull(
                 (AliceHttpCall snapshotCall) =>
                     snapshotCall.id == widget.call.id,
               );
               if (call != null) {
-                return _buildMainWidget();
+                return DefaultTabController(
+                  length: 4,
+                  child: Scaffold(
+                    appBar: AppBar(
+                      bottom: TabBar(
+                        indicatorColor: AliceConstants.lightRed,
+                        tabs: const [
+                          Tab(icon: Icon(Icons.info_outline), text: 'Overview'),
+                          Tab(icon: Icon(Icons.arrow_upward), text: 'Request'),
+                          Tab(
+                              icon: Icon(Icons.arrow_downward),
+                              text: 'Response'),
+                          Tab(
+                            icon: Icon(Icons.warning),
+                            text: 'Error',
+                          ),
+                        ],
+                      ),
+                      title: const Text('Alice - HTTP Call Details'),
+                    ),
+                    body: TabBarView(
+                      children: [
+                        AliceCallOverviewWidget(widget.call),
+                        AliceCallRequestWidget(widget.call),
+                        AliceCallResponseWidget(widget.call),
+                        AliceCallErrorWidget(widget.call),
+                      ],
+                    ),
+                    floatingActionButton: widget.core.showShareButton ?? false
+                        ? FloatingActionButton(
+                            backgroundColor: AliceConstants.lightRed,
+                            key: const Key('share_key'),
+                            onPressed: () async => await Share.share(
+                              await AliceSaveHelper.buildCallLog(widget.call),
+                              subject: 'Request Details',
+                            ),
+                            child: Icon(
+                              Icons.share,
+                              color: AliceConstants.white,
+                            ),
+                          )
+                        : null,
+                  ),
+                );
               }
             }
 
-            return _buildErrorWidget();
+            return const Center(child: Text('Failed to load data'));
           },
         ),
       ),
     );
   }
-
-  Widget _buildMainWidget() {
-    return DefaultTabController(
-      length: 4,
-      child: Scaffold(
-        floatingActionButton: widget.core.showShareButton == true
-            ? FloatingActionButton(
-                backgroundColor: AliceConstants.lightRed,
-                key: const Key('share_key'),
-                onPressed: () async {
-                  await Share.share(
-                    await _getSharableResponseString(),
-                    subject: 'Request Details',
-                  );
-                },
-                child: Icon(
-                  Icons.share,
-                  color: AliceConstants.white,
-                ),
-              )
-            : null,
-        appBar: AppBar(
-          bottom: TabBar(
-            indicatorColor: AliceConstants.lightRed,
-            tabs: _getTabBars(),
-          ),
-          title: const Text('Alice - HTTP Call Details'),
-        ),
-        body: TabBarView(
-          children: _getTabBarViewList(),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildErrorWidget() =>
-      const Center(child: Text('Failed to load data'));
-
-  Future<String> _getSharableResponseString() =>
-      AliceSaveHelper.buildCallLog(widget.call);
-
-  List<Widget> _getTabBars() => <Widget>[
-        const Tab(icon: Icon(Icons.info_outline), text: 'Overview'),
-        const Tab(icon: Icon(Icons.arrow_upward), text: 'Request'),
-        const Tab(icon: Icon(Icons.arrow_downward), text: 'Response'),
-        const Tab(
-          icon: Icon(Icons.warning),
-          text: 'Error',
-        ),
-      ];
-
-  List<Widget> _getTabBarViewList() => [
-        AliceCallOverviewWidget(widget.call),
-        AliceCallRequestWidget(widget.call),
-        AliceCallResponseWidget(widget.call),
-        AliceCallErrorWidget(widget.call),
-      ];
 }
