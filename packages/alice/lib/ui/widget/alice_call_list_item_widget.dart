@@ -49,7 +49,6 @@ class AliceCallListItemWidget extends StatelessWidget {
     final Color? color = _getEndpointTextColor(context);
 
     return InkWell(
-      // ignore: avoid_dynamic_calls
       onTap: () => itemClickAction.call(call),
       child: Column(
         children: [
