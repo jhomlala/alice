@@ -91,7 +91,7 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
   Widget _buildErrorWidget() =>
       const Center(child: Text('Failed to load data'));
 
-  Future<String> _getSharableResponseString() async =>
+  Future<String> _getSharableResponseString() =>
       AliceSaveHelper.buildCallLog(widget.call);
 
   List<Widget> _getTabBars() => <Widget>[
