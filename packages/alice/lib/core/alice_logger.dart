@@ -63,7 +63,7 @@ class AliceLogger {
     ];
   }
 
-  void clear() => _logs.value = [];
+  void clear() => _logs.value.clear();
 
   Future<String> getAndroidRawLogs() async {
     if (Platform.isAndroid) {
