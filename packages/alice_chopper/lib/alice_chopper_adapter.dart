@@ -103,7 +103,7 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
 
       /// Add empty response to Alice core
       aliceCore.addResponse(
-        AliceHttpResponse(),
+        AliceHttpResponse()..status = -1,
         requestId,
       );
 
