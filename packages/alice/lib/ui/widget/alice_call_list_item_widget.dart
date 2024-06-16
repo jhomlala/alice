@@ -133,7 +133,7 @@ class AliceCallListItemWidget extends StatelessWidget {
 
     if (call.loading) {
       widgets.addAll([
-        SizedBox(
+        const SizedBox(
           width: 20,
           height: 20,
           child: CircularProgressIndicator(

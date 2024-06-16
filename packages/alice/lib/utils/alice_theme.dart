@@ -8,8 +8,8 @@ class AliceTheme {
       Brightness.dark;
 
   static ColorScheme getColorScheme() => _isDarkMode
-      ? ColorScheme.dark(primary: AliceConstants.lightRed)
-      : ColorScheme.light(primary: AliceConstants.lightRed);
+      ? const ColorScheme.dark(primary: AliceConstants.lightRed)
+      : const ColorScheme.light(primary: AliceConstants.lightRed);
 
   static Color getTextColor(BuildContext context, DiagnosticLevel level) =>
       switch (level) {

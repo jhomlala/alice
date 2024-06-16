@@ -47,9 +47,9 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
                   length: 4,
                   child: Scaffold(
                     appBar: AppBar(
-                      bottom: TabBar(
+                      bottom: const TabBar(
                         indicatorColor: AliceConstants.lightRed,
-                        tabs: const [
+                        tabs: [
                           Tab(icon: Icon(Icons.info_outline), text: 'Overview'),
                           Tab(icon: Icon(Icons.arrow_upward), text: 'Request'),
                           Tab(
@@ -79,7 +79,7 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
                               await AliceSaveHelper.buildCallLog(widget.call),
                               subject: 'Request Details',
                             ),
-                            child: Icon(
+                            child: const Icon(
                               Icons.share,
                               color: AliceConstants.white,
                             ),
