@@ -135,14 +135,15 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
             heroTag: 'h1',
             backgroundColor: AliceConstants.orange,
             onPressed: () => _scrollLogsList(true),
-            child: Icon(Icons.arrow_upward, color: AliceConstants.white),
+            child: const Icon(Icons.arrow_upward, color: AliceConstants.white),
           ),
           const SizedBox(height: 8),
           FloatingActionButton(
             heroTag: 'h2',
             backgroundColor: AliceConstants.orange,
             onPressed: () => _scrollLogsList(false),
-            child: Icon(Icons.arrow_downward, color: AliceConstants.white),
+            child:
+                const Icon(Icons.arrow_downward, color: AliceConstants.white),
           ),
         ],
       );
@@ -231,7 +232,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
   Widget _buildSearchField() => TextField(
         controller: _queryTextEditingController,
         autofocus: true,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           hintText: 'Search http request...',
           hintStyle: TextStyle(fontSize: 16, color: AliceConstants.grey),
           border: InputBorder.none,
@@ -274,7 +275,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
 
   Widget _buildEmptyWidget() => Container(
         margin: const EdgeInsets.symmetric(horizontal: 32),
-        child: Center(
+        child: const Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -282,13 +283,13 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
                 Icons.error_outline,
                 color: AliceConstants.orange,
               ),
-              const SizedBox(height: 6),
-              const Text(
+              SizedBox(height: 6),
+              Text(
                 'There are no calls to show',
                 style: TextStyle(fontSize: 18),
               ),
-              const SizedBox(height: 12),
-              const Column(
+              SizedBox(height: 12),
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -512,7 +513,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
 
   Widget _buildEmptyLogsWidget() => Container(
         margin: const EdgeInsets.symmetric(horizontal: 32),
-        child: Center(
+        child: const Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -520,8 +521,8 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
                 Icons.error_outline,
                 color: AliceConstants.orange,
               ),
-              const SizedBox(height: 6),
-              const Text(
+              SizedBox(height: 6),
+              Text(
                 'There are no logs to show',
                 style: TextStyle(fontSize: 18),
               ),
@@ -539,14 +540,14 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
   }
 
   void _scrollToTop() => _scrollController.animateTo(
-      _scrollController.position.minScrollExtent,
-      duration: const Duration(microseconds: 500),
-      curve: Curves.ease,
-    );
+        _scrollController.position.minScrollExtent,
+        duration: const Duration(microseconds: 500),
+        curve: Curves.ease,
+      );
 
   void _scrollToBottom() => _scrollController.animateTo(
-      _scrollController.position.maxScrollExtent,
-      duration: const Duration(microseconds: 500),
-      curve: Curves.ease,
-    );
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(microseconds: 500),
+        curve: Curves.ease,
+      );
 }

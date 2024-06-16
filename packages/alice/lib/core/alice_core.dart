@@ -251,7 +251,8 @@ class AliceCore {
     const String channelId = 'Alice';
     const String channelName = 'Alice';
     const String channelDescription = 'Alice';
-    final AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
+    final AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
       channelId,
       channelName,
       channelDescription: channelDescription,
