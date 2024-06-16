@@ -12,12 +12,12 @@ dependencies:
     sdk: flutter
   chopper: ^8.0.0
   path_provider:
+  alice:
 
-  alice: any
 dev_dependencies:
   build_runner:
   chopper_generator: ^8.0.0
-  very_good_analysis: ^5.1.0
+  flutter_lints: ^4.0.0
 
 dependency_overrides:
   alice:
