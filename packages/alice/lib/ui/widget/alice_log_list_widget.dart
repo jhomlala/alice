@@ -149,13 +149,14 @@ class AliceLogEntryWidget extends StatelessWidget {
   Future<void> _copyToClipboard(BuildContext context) async {
     final String? error = _stringify(log.error);
     final String? stackTrace = _stringify(log.stackTrace);
-    final String text = [
-      '${log.timestamp}: ${log.message}',
-      if (error != null) 'Error: $error',
-      if (stackTrace != null) 'Stack Trace: $stackTrace',
-    ].join('\n');
+    final StringBuffer text = StringBuffer()
+      ..writeAll([
+        '${log.timestamp}: ${log.message}\n',
+        if (error != null) 'Error: $error\n',
+        if (stackTrace != null) 'Stack Trace: $stackTrace\n',
+      ]);
 
-    await Clipboard.setData(ClipboardData(text: text));
+    await Clipboard.setData(ClipboardData(text: text.toString()));
 
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
