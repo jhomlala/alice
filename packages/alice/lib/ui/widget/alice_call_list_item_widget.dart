@@ -46,6 +46,8 @@ class AliceCallListItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color? color = _getEndpointTextColor(context);
+
     return InkWell(
       // ignore: avoid_dynamic_calls
       onTap: () => itemClickAction.call(call),
@@ -64,10 +66,7 @@ class AliceCallListItemWidget extends StatelessWidget {
                         children: [
                           Text(
                             call.method,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: _getEndpointTextColor(context),
-                            ),
+                            style: TextStyle(fontSize: 16, color: color),
                           ),
                           const Padding(
                             padding: EdgeInsets.only(left: 10),
@@ -79,10 +78,7 @@ class AliceCallListItemWidget extends StatelessWidget {
                                 call.endpoint,
                                 maxLines: _endpointMaxLines,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: _getEndpointTextColor(context),
-                                ),
+                                style: TextStyle(fontSize: 16, color: color),
                               ),
                             ),
                           ),
