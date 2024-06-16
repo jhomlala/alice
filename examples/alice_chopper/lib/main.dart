@@ -39,8 +39,7 @@ class _MyAppState extends State<MyApp> {
     showNotification: true,
     showInspectorOnShake: true,
     maxCallsCount: 1000,
-  )
-    ..addAdapter(_aliceChopperAdapter);
+  )..addAdapter(_aliceChopperAdapter);
 
   late final ChopperClient _chopper = ChopperClient(
     baseUrl: Uri.https('jsonplaceholder.typicode.com'),
@@ -71,14 +70,14 @@ class _MyAppState extends State<MyApp> {
 
   late final AlbumsService albumsService = _chopper.getService<AlbumsService>();
   late final ArticlesService articlesService =
-  _chopper.getService<ArticlesService>();
+      _chopper.getService<ArticlesService>();
   late final CommentsService commentsService =
-  _chopper.getService<CommentsService>();
+      _chopper.getService<CommentsService>();
   late final PhotosService photosService = _chopper.getService<PhotosService>();
   late final TodosService todosService = _chopper.getService<TodosService>();
   late final UsersService usersService = _chopper.getService<UsersService>();
   late final BrokenArticlesService brokenArticlesService =
-  _chopper.getService<BrokenArticlesService>();
+      _chopper.getService<BrokenArticlesService>();
 
   /// Albums HTTP requests
   Future<void> _albumsRequests() async {
@@ -458,8 +457,9 @@ class _MyAppState extends State<MyApp> {
             children: [
               const SizedBox(height: 8),
               const Text(
+                style: TextStyle(fontSize: 14),
                 'Welcome to example of Alice Http Inspector. '
-                    'Click buttons below to generate sample data.',
+                'Click buttons below to generate sample data.',
               ),
               ElevatedButton(
                 onPressed: _runChopperHttpRequests,
@@ -467,10 +467,12 @@ class _MyAppState extends State<MyApp> {
                   'Run Chopper HTTP Requests',
                 ),
               ),
+              const SizedBox(height: 8),
               const Text(
+                style: TextStyle(fontSize: 14),
                 'After clicking on buttons above, you should receive notification.'
-                    ' Click on it to show inspector. '
-                    'You can also shake your device or click button below.',
+                ' Click on it to show inspector. '
+                'You can also shake your device or click button below.',
               ),
               ElevatedButton(
                 onPressed: _runHttpInspector,
