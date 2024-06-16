@@ -71,9 +71,7 @@ class AliceCore {
     if (showInspectorOnShake) {
       if (Platform.isAndroid || Platform.isIOS) {
         _shakeDetector = ShakeDetector.autoStart(
-          onPhoneShake: () {
-            navigateToCallListScreen();
-          },
+          onPhoneShake: navigateToCallListScreen,
           shakeThresholdGravity: 4,
         );
       }
@@ -123,7 +121,6 @@ class AliceCore {
   ) async {
     assert(response.payload != null, "payload can't be null");
     navigateToCallListScreen();
-    return;
   }
 
   /// Opens Http calls inspector. This will navigate user to the new fullscreen
@@ -273,19 +270,18 @@ class AliceCore {
 
     _notificationMessageShown = message;
     _notificationProcessing = false;
-    return;
   }
 
   /// Add alice http call to calls subject
   void addCall(AliceHttpCall call) {
     final int callsCount = callsSubject.value.length;
     if (callsCount >= maxCallsCount) {
-      final originalCalls = callsSubject.value;
-      final calls = List<AliceHttpCall>.from(originalCalls)
-        ..sort(
-          (call1, call2) => call1.createdTime.compareTo(call2.createdTime),
+      final List<AliceHttpCall> originalCalls = callsSubject.value;
+      final List<AliceHttpCall> calls = [...originalCalls]..sort(
+          (AliceHttpCall call1, AliceHttpCall call2) =>
+              call1.createdTime.compareTo(call2.createdTime),
         );
-      final indexToReplace = originalCalls.indexOf(calls.first);
+      final int indexToReplace = originalCalls.indexOf(calls.first);
       originalCalls[indexToReplace] = call;
 
       callsSubject.add(originalCalls);
@@ -299,8 +295,7 @@ class AliceCore {
     final AliceHttpCall? selectedCall = _selectCall(requestId);
 
     if (selectedCall == null) {
-      AliceUtils.log('Selected call is null');
-      return;
+      return AliceUtils.log('Selected call is null');
     }
 
     selectedCall.error = error;
@@ -312,9 +307,9 @@ class AliceCore {
     final AliceHttpCall? selectedCall = _selectCall(requestId);
 
     if (selectedCall == null) {
-      AliceUtils.log('Selected call is null');
-      return;
+      return AliceUtils.log('Selected call is null');
     }
+
     selectedCall
       ..loading = false
       ..response = response
@@ -332,12 +327,10 @@ class AliceCore {
   }
 
   /// Remove all calls from calls subject
-  void removeCalls() {
-    callsSubject.add([]);
-  }
+  void removeCalls() => callsSubject.add([]);
 
-  AliceHttpCall? _selectCall(int requestId) =>
-      callsSubject.value.firstWhereOrNull((call) => call.id == requestId);
+  AliceHttpCall? _selectCall(int requestId) => callsSubject.value
+      .firstWhereOrNull((AliceHttpCall call) => call.id == requestId);
 
   /// Save all calls to file
   void saveHttpRequests(BuildContext context) {
