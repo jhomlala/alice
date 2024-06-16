@@ -44,11 +44,11 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
   AliceCore get aliceCore => widget._aliceCore;
 
   _AliceCallsListScreenState() {
-    _menuItems.addAll([
-      const AliceMenuItem('Sort', Icons.sort),
-      const AliceMenuItem('Delete', Icons.delete),
-      const AliceMenuItem('Stats', Icons.insert_chart),
-      const AliceMenuItem('Save', Icons.save),
+    _menuItems.addAll(const [
+      AliceMenuItem('Sort', Icons.sort),
+      AliceMenuItem('Delete', Icons.delete),
+      AliceMenuItem('Stats', Icons.insert_chart),
+      AliceMenuItem('Save', Icons.save),
     ]);
   }
 
