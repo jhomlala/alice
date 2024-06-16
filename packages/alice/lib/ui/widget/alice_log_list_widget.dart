@@ -24,7 +24,7 @@ class AliceLogListWidget extends StatefulWidget {
 }
 
 class _AliceLogListWidgetState extends State<AliceLogListWidget> {
-  final _minLevel = DiagnosticLevel.debug;
+  final DiagnosticLevel _minLevel = DiagnosticLevel.debug;
 
   @override
   Widget build(BuildContext context) {
@@ -62,19 +62,19 @@ class AliceLogEntryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    final TextTheme textTheme = Theme.of(context).textTheme;
 
-    final rawTimestamp = log.timestamp.toString();
-    final timeStartIndex = rawTimestamp.indexOf(' ') + 1;
-    final formattedTimestamp = rawTimestamp.substring(timeStartIndex);
+    final String rawTimestamp = log.timestamp.toString();
+    final int timeStartIndex = rawTimestamp.indexOf(' ') + 1;
+    final String formattedTimestamp = rawTimestamp.substring(timeStartIndex);
 
-    final color = _getTextColor(context);
-    final content = Text.rich(
+    final Color color = _getTextColor(context);
+    final Text content = Text.rich(
       TextSpan(
         children: [
           TextSpan(
             text: formattedTimestamp,
-            style: textTheme.bodySmall!.copyWith(
+            style: textTheme.bodySmall?.copyWith(
               color: color.withOpacity(0.6),
               fontFeatures: [const FontFeature.tabularFigures()],
             ),
@@ -118,7 +118,7 @@ class AliceLogEntryWidget extends StatelessWidget {
     dynamic object, {
     bool addLineBreakAfterTitle = false,
   }) {
-    final string = _stringify(object);
+    final String? string = _stringify(object);
     if (string == null) return [];
 
     return [
@@ -134,28 +134,17 @@ class AliceLogEntryWidget extends StatelessWidget {
     return AliceTheme.getTextColor(context, log.level);
   }
 
-  IconData _getLogIcon(DiagnosticLevel level) {
-    switch (level) {
-      case DiagnosticLevel.hidden:
-        return Icons.all_inclusive_outlined;
-      case DiagnosticLevel.fine:
-        return Icons.bubble_chart_outlined;
-      case DiagnosticLevel.debug:
-        return Icons.bug_report_outlined;
-      case DiagnosticLevel.info:
-        return Icons.info_outline;
-      case DiagnosticLevel.warning:
-        return Icons.warning_outlined;
-      case DiagnosticLevel.hint:
-        return Icons.privacy_tip_outlined;
-      case DiagnosticLevel.summary:
-        return Icons.subject;
-      case DiagnosticLevel.error:
-        return Icons.error_outlined;
-      case DiagnosticLevel.off:
-        return Icons.not_interested_outlined;
-    }
-  }
+  IconData _getLogIcon(DiagnosticLevel level) => switch (level) {
+        DiagnosticLevel.hidden => Icons.all_inclusive_outlined,
+        DiagnosticLevel.fine => Icons.bubble_chart_outlined,
+        DiagnosticLevel.debug => Icons.bug_report_outlined,
+        DiagnosticLevel.info => Icons.info_outline,
+        DiagnosticLevel.warning => Icons.warning_outlined,
+        DiagnosticLevel.hint => Icons.privacy_tip_outlined,
+        DiagnosticLevel.summary => Icons.subject,
+        DiagnosticLevel.error => Icons.error_outlined,
+        DiagnosticLevel.off => Icons.not_interested_outlined,
+      };
 
   Future<void> _copyToClipboard(BuildContext context) async {
     final String? error = _stringify(log.error);
