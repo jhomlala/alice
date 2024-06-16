@@ -29,6 +29,28 @@ abstract class AliceBaseCallDetailsWidgetState<T extends StatefulWidget>
         ],
       );
 
+  Widget getExpandableListRow(String name, String value) => Theme(
+        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+        child: ExpansionTile(
+          title: Text(
+            name,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+          ),
+          subtitle: Text(
+            value,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          controlAffinity: ListTileControlAffinity.trailing,
+          tilePadding: const EdgeInsets.all(0),
+          children: [
+            SelectableText(
+              value,
+            ),
+          ],
+        ),
+      );
+
   String formatBytes(int bytes) => AliceConversionHelper.formatBytes(bytes);
 
   String formatDuration(int duration) =>
