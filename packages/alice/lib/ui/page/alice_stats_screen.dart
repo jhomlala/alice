@@ -30,76 +30,67 @@ class AliceStatsScreen extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildMainListWidgets() {
-    return [
-      _getRow('Total requests:', '${_getTotalRequests()}'),
-      _getRow('Pending requests:', '${_getPendingRequests()}'),
-      _getRow('Success requests:', '${_getSuccessRequests()}'),
-      _getRow('Redirection requests:', '${_getRedirectionRequests()}'),
-      _getRow('Error requests:', '${_getErrorRequests()}'),
-      _getRow(
-        'Bytes send:',
-        AliceConversionHelper.formatBytes(_getBytesSent()),
-      ),
-      _getRow(
-        'Bytes received:',
-        AliceConversionHelper.formatBytes(_getBytesReceived()),
-      ),
-      _getRow(
-        'Average request time:',
-        AliceConversionHelper.formatTime(_getAverageRequestTime()),
-      ),
-      _getRow(
-        'Max request time:',
-        AliceConversionHelper.formatTime(_getMaxRequestTime()),
-      ),
-      _getRow(
-        'Min request time:',
-        AliceConversionHelper.formatTime(_getMinRequestTime()),
-      ),
-      _getRow('Get requests:', '${_getRequests('GET')} '),
-      _getRow('Post requests:', '${_getRequests('POST')} '),
-      _getRow('Delete requests:', '${_getRequests('DELETE')} '),
-      _getRow('Put requests:', '${_getRequests('PUT')} '),
-      _getRow('Patch requests:', '${_getRequests('PATCH')} '),
-      _getRow('Secured requests:', '${_getSecuredRequests()}'),
-      _getRow('Unsecured requests:', '${_getUnsecuredRequests()}'),
-    ];
-  }
-
-  Widget _getRow(String label, String value) {
-    return Row(
-      children: <Widget>[
-        Text(
-          label,
-          style: _getLabelTextStyle(),
+  List<Widget> _buildMainListWidgets() => [
+        _getRow('Total requests:', '${_getTotalRequests()}'),
+        _getRow('Pending requests:', '${_getPendingRequests()}'),
+        _getRow('Success requests:', '${_getSuccessRequests()}'),
+        _getRow('Redirection requests:', '${_getRedirectionRequests()}'),
+        _getRow('Error requests:', '${_getErrorRequests()}'),
+        _getRow(
+          'Bytes send:',
+          AliceConversionHelper.formatBytes(_getBytesSent()),
         ),
-        const Padding(
-          padding: EdgeInsets.only(left: 10),
+        _getRow(
+          'Bytes received:',
+          AliceConversionHelper.formatBytes(_getBytesReceived()),
         ),
-        Text(
-          value,
-          style: _getValueTextStyle(),
+        _getRow(
+          'Average request time:',
+          AliceConversionHelper.formatTime(_getAverageRequestTime()),
         ),
-      ],
-    );
-  }
+        _getRow(
+          'Max request time:',
+          AliceConversionHelper.formatTime(_getMaxRequestTime()),
+        ),
+        _getRow(
+          'Min request time:',
+          AliceConversionHelper.formatTime(_getMinRequestTime()),
+        ),
+        _getRow('Get requests:', '${_getRequests('GET')} '),
+        _getRow('Post requests:', '${_getRequests('POST')} '),
+        _getRow('Delete requests:', '${_getRequests('DELETE')} '),
+        _getRow('Put requests:', '${_getRequests('PUT')} '),
+        _getRow('Patch requests:', '${_getRequests('PATCH')} '),
+        _getRow('Secured requests:', '${_getSecuredRequests()}'),
+        _getRow('Unsecured requests:', '${_getUnsecuredRequests()}'),
+      ];
 
-  TextStyle _getLabelTextStyle() {
-    return const TextStyle(fontSize: 16);
-  }
+  Widget _getRow(String label, String value) => Row(
+        children: <Widget>[
+          Text(
+            label,
+            style: _getLabelTextStyle(),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(left: 10),
+          ),
+          Text(
+            value,
+            style: _getValueTextStyle(),
+          ),
+        ],
+      );
 
-  TextStyle _getValueTextStyle() {
-    return const TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
-  }
+  TextStyle _getLabelTextStyle() => const TextStyle(fontSize: 16);
 
-  int _getTotalRequests() {
-    return calls.length;
-  }
+  TextStyle _getValueTextStyle() =>
+      const TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
+
+  int _getTotalRequests() => calls.length;
 
   int _getSuccessRequests() => calls
       .where(
-        (call) =>
+        (AliceHttpCall call) =>
             call.response != null &&
             call.response!.status! >= 200 &&
             call.response!.status! < 300,
@@ -109,7 +100,7 @@ class AliceStatsScreen extends StatelessWidget {
 
   int _getRedirectionRequests() => calls
       .where(
-        (call) =>
+        (AliceHttpCall call) =>
             call.response != null &&
             call.response!.status! >= 300 &&
             call.response!.status! < 400,
@@ -119,7 +110,7 @@ class AliceStatsScreen extends StatelessWidget {
 
   int _getErrorRequests() => calls
       .where(
-        (call) =>
+        (AliceHttpCall call) =>
             call.response != null &&
             call.response!.status! >= 400 &&
             call.response!.status! < 600,
@@ -128,35 +119,27 @@ class AliceStatsScreen extends StatelessWidget {
       .length;
 
   int _getPendingRequests() =>
-      calls.where((call) => call.loading).toList().length;
+      calls.where((AliceHttpCall call) => call.loading).toList().length;
 
-  int _getBytesSent() {
-    var bytes = 0;
-    calls.forEach((AliceHttpCall call) {
-      bytes += call.request!.size;
-    });
-    return bytes;
-  }
+  int _getBytesSent() => calls.fold(
+        0,
+        (int sum, AliceHttpCall call) => sum + (call.request?.size ?? 0),
+      );
 
-  int _getBytesReceived() {
-    var bytes = 0;
-    calls.forEach((AliceHttpCall call) {
-      if (call.response != null) {
-        bytes += call.response!.size;
-      }
-    });
-    return bytes;
-  }
+  int _getBytesReceived() => calls.fold(
+        0,
+        (int sum, AliceHttpCall call) => sum + (call.response?.size ?? 0),
+      );
 
   int _getAverageRequestTime() {
-    var requestTimeSum = 0;
-    var requestsWithDurationCount = 0;
-    calls.forEach((AliceHttpCall call) {
+    int requestTimeSum = 0;
+    int requestsWithDurationCount = 0;
+    for (final AliceHttpCall call in calls) {
       if (call.duration != 0) {
         requestTimeSum = call.duration;
         requestsWithDurationCount++;
       }
-    });
+    }
     if (requestTimeSum == 0) {
       return 0;
     }
@@ -164,25 +147,25 @@ class AliceStatsScreen extends StatelessWidget {
   }
 
   int _getMaxRequestTime() {
-    var maxRequestTime = 0;
-    calls.forEach((AliceHttpCall call) {
+    int maxRequestTime = 0;
+    for (final AliceHttpCall call in calls) {
       if (call.duration > maxRequestTime) {
         maxRequestTime = call.duration;
       }
-    });
+    }
     return maxRequestTime;
   }
 
   int _getMinRequestTime() {
-    var minRequestTime = 10000000;
+    int minRequestTime = 10000000;
     if (calls.isEmpty) {
       minRequestTime = 0;
     } else {
-      calls.forEach((AliceHttpCall call) {
+      for (final AliceHttpCall call in calls) {
         if (call.duration != 0 && call.duration < minRequestTime) {
           minRequestTime = call.duration;
         }
-      });
+      }
     }
     return minRequestTime;
   }

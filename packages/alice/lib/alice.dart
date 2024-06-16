@@ -8,7 +8,7 @@ import 'package:flutter/widgets.dart';
 export 'package:alice/model/alice_log.dart';
 
 class Alice {
-  /// Should user be notified with notification if there's new request catched
+  /// Should user be notified with notification when there's new request caught
   /// by Alice
   final bool showNotification;
 
@@ -19,15 +19,15 @@ class Alice {
   /// Icon url for notification
   final String notificationIcon;
 
-  ///Max number of calls that are stored in memory. When count is reached, FIFO
-  ///method queue will be used to remove elements.
+  /// Max number of calls that are stored in memory. When count is reached, FIFO
+  /// method queue will be used to remove elements.
   final int maxCallsCount;
 
-  ///Directionality of app. Directionality of the app will be used if set to
-  ///null.
+  /// Directionality of app. Directionality of the app will be used if set to
+  /// null.
   final TextDirection? directionality;
 
-  ///Flag used to show/hide share button
+  /// Flag used to show/hide share button
   final bool? showShareButton;
 
   GlobalKey<NavigatorState>? _navigatorKey;

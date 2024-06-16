@@ -8,28 +8,26 @@ abstract class AliceBaseCallDetailsWidgetState<T extends StatefulWidget>
     extends State<T> {
   final JsonEncoder encoder = const JsonEncoder.withIndent('  ');
 
-  Widget getListRow(String name, String value) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SelectableText(
-          name,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        const Padding(
-          padding: EdgeInsets.only(left: 5),
-        ),
-        Flexible(
-          child: SelectableText(
-            value,
+  Widget getListRow(String name, String value) => Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SelectableText(
+            name,
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-        ),
-        const Padding(
-          padding: EdgeInsets.only(bottom: 18),
-        ),
-      ],
-    );
-  }
+          const Padding(
+            padding: EdgeInsets.only(left: 5),
+          ),
+          Flexible(
+            child: SelectableText(
+              value,
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(bottom: 18),
+          ),
+        ],
+      );
 
   String formatBytes(int bytes) => AliceConversionHelper.formatBytes(bytes);
 

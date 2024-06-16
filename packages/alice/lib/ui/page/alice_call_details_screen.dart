@@ -18,19 +18,12 @@ class AliceCallDetailsScreen extends StatefulWidget {
   const AliceCallDetailsScreen(this.call, this.core, {super.key});
 
   @override
-  State<StatefulWidget> createState() {
-    return _AliceCallDetailsScreenState();
-  }
+  State<StatefulWidget> createState() => _AliceCallDetailsScreenState();
 }
 
 class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
     with SingleTickerProviderStateMixin {
   AliceHttpCall get call => widget.call;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,19 +36,18 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
         child: StreamBuilder<List<AliceHttpCall>>(
           stream: widget.core.callsSubject,
           initialData: [widget.call],
-          builder: (context, callsSnapshot) {
+          builder: (context, AsyncSnapshot<List<AliceHttpCall>> callsSnapshot) {
             if (callsSnapshot.hasData) {
-              final call = callsSnapshot.data!.firstWhereOrNull(
-                (snapshotCall) => snapshotCall.id == widget.call.id,
+              final AliceHttpCall? call = callsSnapshot.data?.firstWhereOrNull(
+                (AliceHttpCall snapshotCall) =>
+                    snapshotCall.id == widget.call.id,
               );
               if (call != null) {
                 return _buildMainWidget();
-              } else {
-                return _buildErrorWidget();
               }
-            } else {
-              return _buildErrorWidget();
             }
+
+            return _buildErrorWidget();
           },
         ),
       ),
@@ -96,32 +88,26 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
     );
   }
 
-  Widget _buildErrorWidget() {
-    return const Center(child: Text('Failed to load data'));
-  }
+  Widget _buildErrorWidget() =>
+      const Center(child: Text('Failed to load data'));
 
-  Future<String> _getSharableResponseString() async {
-    return AliceSaveHelper.buildCallLog(widget.call);
-  }
+  Future<String> _getSharableResponseString() async =>
+      AliceSaveHelper.buildCallLog(widget.call);
 
-  List<Widget> _getTabBars() {
-    return <Widget>[
-      const Tab(icon: Icon(Icons.info_outline), text: 'Overview'),
-      const Tab(icon: Icon(Icons.arrow_upward), text: 'Request'),
-      const Tab(icon: Icon(Icons.arrow_downward), text: 'Response'),
-      const Tab(
-        icon: Icon(Icons.warning),
-        text: 'Error',
-      ),
-    ];
-  }
+  List<Widget> _getTabBars() => <Widget>[
+        const Tab(icon: Icon(Icons.info_outline), text: 'Overview'),
+        const Tab(icon: Icon(Icons.arrow_upward), text: 'Request'),
+        const Tab(icon: Icon(Icons.arrow_downward), text: 'Response'),
+        const Tab(
+          icon: Icon(Icons.warning),
+          text: 'Error',
+        ),
+      ];
 
-  List<Widget> _getTabBarViewList() {
-    return [
-      AliceCallOverviewWidget(widget.call),
-      AliceCallRequestWidget(widget.call),
-      AliceCallResponseWidget(widget.call),
-      AliceCallErrorWidget(widget.call),
-    ];
-  }
+  List<Widget> _getTabBarViewList() => [
+        AliceCallOverviewWidget(widget.call),
+        AliceCallRequestWidget(widget.call),
+        AliceCallResponseWidget(widget.call),
+        AliceCallErrorWidget(widget.call),
+      ];
 }

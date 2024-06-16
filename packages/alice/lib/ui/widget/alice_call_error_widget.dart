@@ -21,19 +21,15 @@ class _AliceCallErrorWidgetState
   @override
   Widget build(BuildContext context) {
     if (_call.error != null) {
-      final rows = <Widget>[];
       final dynamic error = _call.error!.error;
-      var errorText = 'Error is empty';
-      if (error != null) {
-        errorText = error.toString();
-      }
-      rows.add(getListRow('Error:', errorText));
+      final String errorText =
+          error != null ? error.toString() : 'Error is empty';
 
       return Container(
         padding: const EdgeInsets.all(6),
         child: ScrollConfiguration(
           behavior: AliceScrollBehavior(),
-          child: ListView(children: rows),
+          child: ListView(children: [getListRow('Error:', errorText)]),
         ),
       );
     } else {

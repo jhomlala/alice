@@ -8,18 +8,11 @@ enum AliceSortOption {
 }
 
 extension AliceSortOptionsExtension on AliceSortOption {
-  String get name {
-    switch (this) {
-      case AliceSortOption.time:
-        return 'Create time (default)';
-      case AliceSortOption.responseTime:
-        return 'Response time';
-      case AliceSortOption.responseCode:
-        return 'Response code';
-      case AliceSortOption.responseSize:
-        return 'Response size';
-      case AliceSortOption.endpoint:
-        return 'Endpoint';
-    }
-  }
+  String get name => switch (this) {
+        AliceSortOption.time => 'Create time (default)',
+        AliceSortOption.responseTime => 'Response time',
+        AliceSortOption.responseCode => 'Response code',
+        AliceSortOption.responseSize => 'Response size',
+        AliceSortOption.endpoint => 'Endpoint',
+      };
 }

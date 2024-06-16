@@ -1,3 +1,5 @@
+import 'package:alice/model/alice_form_data_file.dart';
+import 'package:alice/model/alice_from_data_field.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/ui/widget/alice_base_call_details_widget.dart';
 import 'package:alice/utils/alice_scroll_behavior.dart';
@@ -20,60 +22,58 @@ class _AliceCallRequestWidget
 
   @override
   Widget build(BuildContext context) {
-    final rows = [
+    final List<Widget> rows = [
       getListRow('Started:', _call.request!.time.toString()),
       getListRow('Bytes sent:', formatBytes(_call.request!.size)),
       getListRow('Content type:', getContentType(_call.request!.headers)!),
     ];
 
     final dynamic body = _call.request!.body;
-    var bodyContent = 'Body is empty';
-    if (body != null) {
-      bodyContent = formatBody(body, getContentType(_call.request!.headers));
-    }
+    final String bodyContent = body != null
+        ? formatBody(body, getContentType(_call.request!.headers))
+        : 'Body is empty';
     rows.add(getListRow('Body:', bodyContent));
-    final formDataFields = _call.request!.formDataFields;
-    if (formDataFields?.isNotEmpty == true) {
+
+    final List<AliceFormDataField>? formDataFields =
+        _call.request!.formDataFields;
+    if (formDataFields?.isNotEmpty ?? false) {
       rows.add(getListRow('Form data fields: ', ''));
-      formDataFields!.forEach(
-        (field) {
-          rows.add(getListRow('   • ${field.name}:', field.value));
-        },
-      );
-    }
-    final formDataFiles = _call.request!.formDataFiles;
-    if (formDataFiles?.isNotEmpty == true) {
-      rows.add(getListRow('Form data files: ', ''));
-      formDataFiles!.forEach(
-        (field) {
-          rows.add(
-            getListRow(
-              '   • ${field.fileName}:',
-              '${field.contentType} / ${field.length} B',
-            ),
-          );
-        },
-      );
+      rows.addAll([
+        for (final AliceFormDataField field in formDataFields!)
+          getListRow('   • ${field.name}:', field.value)
+      ]);
     }
 
-    final headers = _call.request!.headers;
-    var headersContent = 'Headers are empty';
-    if (headers.isNotEmpty) {
-      headersContent = '';
+    final List<AliceFormDataFile>? formDataFiles = _call.request!.formDataFiles;
+    if (formDataFiles?.isNotEmpty ?? false) {
+      rows.add(getListRow('Form data files: ', ''));
+      rows.addAll([
+        for (final AliceFormDataFile file in formDataFiles!)
+          getListRow(
+            '   • ${file.fileName}:',
+            '${file.contentType} / ${file.length} B',
+          )
+      ]);
     }
+
+    final Map<String, dynamic> headers = _call.request!.headers;
+    final String headersContent = headers.isEmpty ? 'Headers are empty' : '';
     rows.add(getListRow('Headers: ', headersContent));
-    _call.request!.headers.forEach((header, dynamic value) {
-      rows.add(getListRow('   • $header:', value.toString()));
-    });
-    final queryParameters = _call.request!.queryParameters;
-    var queryParametersContent = 'Query parameters are empty';
-    if (queryParameters.isNotEmpty) {
-      queryParametersContent = '';
-    }
+    rows.addAll([
+      for (final MapEntry<String, dynamic> header
+          in _call.request?.headers.entries ?? [])
+        getListRow('   • ${header.key}:', header.value.toString())
+    ]);
+
+    final Map<String, dynamic> queryParameters = _call.request!.queryParameters;
+    final String queryParametersContent =
+        queryParameters.isEmpty ? 'Query parameters are empty' : '';
     rows.add(getListRow('Query Parameters: ', queryParametersContent));
-    _call.request!.queryParameters.forEach((query, dynamic value) {
-      rows.add(getListRow('   • $query:', value.toString()));
-    });
+    rows.addAll([
+      for (final MapEntry<String, dynamic> qParam
+          in _call.request?.queryParameters.entries ?? [])
+        getListRow('   • ${qParam.key}:', qParam.value.toString())
+    ]);
 
     return Container(
       padding: const EdgeInsets.all(6),

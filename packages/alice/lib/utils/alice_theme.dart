@@ -3,42 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class AliceTheme {
-  static bool _isDarkMode() {
-    final brightness =
-        SchedulerBinding.instance.platformDispatcher.platformBrightness;
-    final isDarkMode = brightness == Brightness.dark;
-    return isDarkMode;
-  }
+  static bool get _isDarkMode =>
+      SchedulerBinding.instance.platformDispatcher.platformBrightness ==
+      Brightness.dark;
 
-  static ColorScheme getColorScheme() {
-    if (_isDarkMode()) {
-      return ColorScheme.dark(primary: AliceConstants.lightRed);
-    } else {
-      return ColorScheme.light(primary: AliceConstants.lightRed);
-    }
-  }
+  static ColorScheme getColorScheme() => _isDarkMode
+      ? ColorScheme.dark(primary: AliceConstants.lightRed)
+      : ColorScheme.light(primary: AliceConstants.lightRed);
 
-  static Color getTextColor(BuildContext context, DiagnosticLevel level) {
-    final theme = Theme.of(context);
-    switch (level) {
-      case DiagnosticLevel.hidden:
-        return Colors.grey;
-      case DiagnosticLevel.fine:
-        return Colors.grey;
-      case DiagnosticLevel.debug:
-        return Theme.of(context).colorScheme.onSurface;
-      case DiagnosticLevel.info:
-        return Theme.of(context).colorScheme.onSurface;
-      case DiagnosticLevel.warning:
-        return Colors.orange;
-      case DiagnosticLevel.hint:
-        return Colors.grey;
-      case DiagnosticLevel.summary:
-        return Theme.of(context).colorScheme.onSurface;
-      case DiagnosticLevel.error:
-        return theme.colorScheme.error;
-      case DiagnosticLevel.off:
-        return Colors.purple;
-    }
-  }
+  static Color getTextColor(BuildContext context, DiagnosticLevel level) =>
+      switch (level) {
+        DiagnosticLevel.hidden => Colors.grey,
+        DiagnosticLevel.fine => Colors.grey,
+        DiagnosticLevel.debug => Theme.of(context).colorScheme.onSurface,
+        DiagnosticLevel.info => Theme.of(context).colorScheme.onSurface,
+        DiagnosticLevel.warning => Colors.orange,
+        DiagnosticLevel.hint => Colors.grey,
+        DiagnosticLevel.summary => Theme.of(context).colorScheme.onSurface,
+        DiagnosticLevel.error => Theme.of(context).colorScheme.error,
+        DiagnosticLevel.off => Colors.purple,
+      };
 }

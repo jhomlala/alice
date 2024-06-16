@@ -18,13 +18,13 @@ class AliceCallResponseWidget extends StatefulWidget {
 
 class _AliceCallResponseWidgetState
     extends AliceBaseCallDetailsWidgetState<AliceCallResponseWidget> {
-  static const _imageContentType = 'image';
-  static const _videoContentType = 'video';
-  static const _jsonContentType = 'json';
-  static const _xmlContentType = 'xml';
-  static const _textContentType = 'text';
+  static const String _imageContentType = 'image';
+  static const String _videoContentType = 'video';
+  static const String _jsonContentType = 'json';
+  static const String _xmlContentType = 'xml';
+  static const String _textContentType = 'text';
 
-  static const _kLargeOutputSize = 100000;
+  static const int _kLargeOutputSize = 100000;
   bool _showLargeBody = false;
   bool _showUnsupportedBody = false;
 
@@ -32,18 +32,16 @@ class _AliceCallResponseWidgetState
 
   @override
   Widget build(BuildContext context) {
-    final rows = <Widget>[];
     if (!_call.loading) {
-      rows
-        ..addAll(_buildGeneralDataRows())
-        ..addAll(_buildHeadersRows())
-        ..addAll(_buildBodyRows());
-
       return Container(
         padding: const EdgeInsets.all(6),
         child: ScrollConfiguration(
           behavior: AliceScrollBehavior(),
-          child: ListView(children: rows),
+          child: ListView(children: [
+            ..._buildGeneralDataRows(),
+            ..._buildHeadersRows(),
+            ..._buildBodyRows(),
+          ]),
         ),
       );
     } else {
@@ -62,50 +60,41 @@ class _AliceCallResponseWidgetState
       getListRow('Bytes received:', formatBytes(_call.response!.size)),
     ];
 
-    final status = _call.response!.status;
-    var statusText = '$status';
-    if (status == -1) {
-      statusText = 'Error';
-    }
+    final int? status = _call.response!.status;
+    final String statusText = status == -1 ? 'Error' : '$status';
 
     rows.add(getListRow('Status:', statusText));
     return rows;
   }
 
   List<Widget> _buildHeadersRows() {
-    final rows = <Widget>[];
-    final headers = _call.response!.headers;
-    var headersContent = 'Headers are empty';
-    if (headers != null && headers.isNotEmpty) {
-      headersContent = '';
-    }
+    final List<Widget> rows = [];
+    final Map<String, String>? headers = _call.response?.headers;
+    final String headersContent =
+        headers?.isEmpty ?? true ? 'Headers are empty' : '';
     rows.add(getListRow('Headers: ', headersContent));
-    if (_call.response!.headers != null) {
-      _call.response!.headers!.forEach((header, value) {
-        rows.add(getListRow('   • $header:', value));
-      });
-    }
-    return rows;
-  }
-
-  List<Widget> _buildBodyRows() {
-    final rows = <Widget>[];
-    if (_isImageResponse()) {
-      rows.addAll(_buildImageBodyRows());
-    } else if (_isVideoResponse()) {
-      rows.addAll(_buildVideoBodyRows());
-    } else if (_isTextResponse()) {
-      if (_isLargeResponseBody()) {
-        rows.addAll(_buildLargeBodyTextRows());
-      } else {
-        rows.addAll(_buildTextBodyRows());
-      }
-    } else {
-      rows.addAll(_buildUnknownBodyRows());
-    }
+    rows.addAll([
+      for (final MapEntry<String, String> header
+          in _call.response?.headers?.entries ?? [])
+        getListRow('   • ${header.key}:', header.value.toString())
+    ]);
 
     return rows;
   }
+
+  List<Widget> _buildBodyRows() => [
+        if (_isImageResponse())
+          ..._buildImageBodyRows()
+        else if (_isVideoResponse())
+          ..._buildVideoBodyRows()
+        else if (_isTextResponse()) ...[
+          if (_isLargeResponseBody())
+            ..._buildLargeBodyTextRows()
+          else
+            ..._buildTextBodyRows(),
+        ] else
+          ..._buildUnknownBodyRows()
+      ];
 
   List<Widget> _buildImageBodyRows() {
     return [

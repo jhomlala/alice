@@ -20,24 +20,24 @@ class _AliceCallOverviewWidget
 
   @override
   Widget build(BuildContext context) {
-    final rows = [
-      getListRow('Method: ', _call.method),
-      getListRow('Server: ', _call.server),
-      getListRow('Endpoint: ', _call.endpoint),
-      getListRow('Started:', _call.request!.time.toString()),
-      getListRow('Finished:', _call.response!.time.toString()),
-      getListRow('Duration:', formatDuration(_call.duration)),
-      getListRow('Bytes sent:', formatBytes(_call.request!.size)),
-      getListRow('Bytes received:', formatBytes(_call.response!.size)),
-      getListRow('Client:', _call.client),
-      getListRow('Secure:', _call.secure.toString()),
-    ];
-
     return Container(
       padding: const EdgeInsets.all(6),
       child: ScrollConfiguration(
         behavior: AliceScrollBehavior(),
-        child: ListView(children: rows),
+        child: ListView(
+          children: [
+            getListRow('Method: ', _call.method),
+            getListRow('Server: ', _call.server),
+            getListRow('Endpoint: ', _call.endpoint),
+            getListRow('Started:', _call.request!.time.toString()),
+            getListRow('Finished:', _call.response!.time.toString()),
+            getListRow('Duration:', formatDuration(_call.duration)),
+            getListRow('Bytes sent:', formatBytes(_call.request!.size)),
+            getListRow('Bytes received:', formatBytes(_call.response!.size)),
+            getListRow('Client:', _call.client),
+            getListRow('Secure:', _call.secure.toString()),
+          ],
+        ),
       ),
     );
   }

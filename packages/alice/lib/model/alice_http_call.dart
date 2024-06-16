@@ -3,6 +3,11 @@ import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
 
 class AliceHttpCall {
+  AliceHttpCall(this.id) {
+    loading = true;
+    createdTime = DateTime.now();
+  }
+
   final int id;
   late DateTime createdTime;
   String client = '';
@@ -18,59 +23,64 @@ class AliceHttpCall {
   AliceHttpResponse? response;
   AliceHttpError? error;
 
-  AliceHttpCall(this.id) {
-    loading = true;
-    createdTime = DateTime.now();
-  }
-
   void setResponse(AliceHttpResponse response) {
     this.response = response;
     loading = false;
   }
 
   String getCurlCommand() {
-    var compressed = false;
-    var curlCmd = 'curl';
-    curlCmd += ' -X $method';
-    request!.headers.forEach((key, dynamic value) {
-      if ('Accept-Encoding' == key && 'gzip' == value) {
+    bool compressed = false;
+    final StringBuffer curlCmd = StringBuffer('curl');
+
+    curlCmd.write(' -X $method');
+
+    for (final MapEntry<String, dynamic> header
+        in request?.headers.entries ?? []) {
+      if ('Accept-Encoding' == header.key && header.value == 'gzip') {
         compressed = true;
       }
-      curlCmd += " -H '$key: $value'";
-    });
 
-    final requestBody = request!.body.toString();
-    if (requestBody != '') {
-      // try to keep to a single line and use a subshell to preserve any line
-      // breaks
-      curlCmd += " --data \$'${requestBody.replaceAll("\n", r"\n")}'";
+      curlCmd.write(' -H "${header.key}: ${header.value}"');
     }
 
-    final queryParamMap = request!.queryParameters;
-    var paramCount = queryParamMap.keys.length;
-    var queryParams = '';
+    final String? requestBody = request?.body.toString();
+    if (requestBody?.isNotEmpty ?? false) {
+      // try to keep to a single line and use a subshell to preserve any line
+      // breaks
+      curlCmd.write(" --data \$'${requestBody?.replaceAll("\n", r"\n")}'");
+    }
+
+    final Map<String, dynamic>? queryParamMap = request?.queryParameters;
+    int paramCount = queryParamMap?.keys.length ?? 0;
+    final StringBuffer queryParams = StringBuffer();
+
     if (paramCount > 0) {
-      queryParams += '?';
-      queryParamMap.forEach((key, dynamic value) {
-        queryParams += '$key=$value';
-        paramCount -= 1;
+      queryParams.write('?');
+      for (final MapEntry<String, dynamic> queryParam
+          in queryParamMap?.entries ?? []) {
+        queryParams.write('${queryParam.key}=${queryParam.value}');
+        paramCount--;
         if (paramCount > 0) {
-          queryParams += '&';
+          queryParams.write('&');
         }
-      });
+      }
     }
 
     // If server already has http(s) don't add it again
     if (server.contains('http://') || server.contains('https://')) {
       // ignore: join_return_with_assignment
-      curlCmd += "${compressed ? " --compressed " : " "}${"'$server"
-          "$endpoint$queryParams'"}";
+      curlCmd.write(
+        "${compressed ? " --compressed " : " "}"
+        "${"'$server$endpoint$queryParams'"}",
+      );
     } else {
       // ignore: join_return_with_assignment
-      curlCmd += "${compressed ? " --compressed " : " "}${"'"
-          "${secure ? 'https://' : 'http://'}$server$endpoint$queryParams'"}";
+      curlCmd.write(
+        "${compressed ? " --compressed " : " "}"
+        "${"'${secure ? 'https://' : 'http://'}$server$endpoint$queryParams'"}",
+      );
     }
 
-    return curlCmd;
+    return curlCmd.toString();
   }
 }
