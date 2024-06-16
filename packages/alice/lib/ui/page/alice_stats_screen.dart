@@ -1,90 +1,17 @@
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/helper/alice_conversion_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
+import 'package:alice/ui/widget/alice_stats_row.dart';
 import 'package:alice/utils/alice_theme.dart';
 import 'package:flutter/material.dart';
 
 class AliceStatsScreen extends StatelessWidget {
   final AliceCore aliceCore;
 
-  const AliceStatsScreen(this.aliceCore, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: aliceCore.directionality ?? Directionality.of(context),
-      child: Theme(
-        data: ThemeData(colorScheme: AliceTheme.getColorScheme()),
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text('Alice - HTTP Inspector - Stats'),
-          ),
-          body: Container(
-            padding: const EdgeInsets.all(8),
-            child: ListView(
-              children: _buildMainListWidgets(),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  List<Widget> _buildMainListWidgets() => [
-        _getRow('Total requests:', '${_getTotalRequests()}'),
-        _getRow('Pending requests:', '${_getPendingRequests()}'),
-        _getRow('Success requests:', '${_getSuccessRequests()}'),
-        _getRow('Redirection requests:', '${_getRedirectionRequests()}'),
-        _getRow('Error requests:', '${_getErrorRequests()}'),
-        _getRow(
-          'Bytes send:',
-          AliceConversionHelper.formatBytes(_getBytesSent()),
-        ),
-        _getRow(
-          'Bytes received:',
-          AliceConversionHelper.formatBytes(_getBytesReceived()),
-        ),
-        _getRow(
-          'Average request time:',
-          AliceConversionHelper.formatTime(_getAverageRequestTime()),
-        ),
-        _getRow(
-          'Max request time:',
-          AliceConversionHelper.formatTime(_getMaxRequestTime()),
-        ),
-        _getRow(
-          'Min request time:',
-          AliceConversionHelper.formatTime(_getMinRequestTime()),
-        ),
-        _getRow('Get requests:', '${_getRequests('GET')} '),
-        _getRow('Post requests:', '${_getRequests('POST')} '),
-        _getRow('Delete requests:', '${_getRequests('DELETE')} '),
-        _getRow('Put requests:', '${_getRequests('PUT')} '),
-        _getRow('Patch requests:', '${_getRequests('PATCH')} '),
-        _getRow('Secured requests:', '${_getSecuredRequests()}'),
-        _getRow('Unsecured requests:', '${_getUnsecuredRequests()}'),
-      ];
-
-  Widget _getRow(String label, String value) => Row(
-        children: <Widget>[
-          Text(
-            label,
-            style: _getLabelTextStyle(),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: 10),
-          ),
-          Text(
-            value,
-            style: _getValueTextStyle(),
-          ),
-        ],
-      );
-
-  TextStyle _getLabelTextStyle() => const TextStyle(fontSize: 16);
-
-  TextStyle _getValueTextStyle() =>
-      const TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
+  const AliceStatsScreen(
+    this.aliceCore, {
+    super.key,
+  });
 
   int _getTotalRequests() => calls.length;
 
@@ -180,4 +107,62 @@ class AliceStatsScreen extends StatelessWidget {
       calls.where((call) => !call.secure).toList().length;
 
   List<AliceHttpCall> get calls => aliceCore.callsSubject.value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Directionality(
+      textDirection: aliceCore.directionality ?? Directionality.of(context),
+      child: Theme(
+        data: ThemeData(colorScheme: AliceTheme.getColorScheme()),
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Alice - HTTP Inspector - Stats'),
+          ),
+          body: Container(
+            padding: const EdgeInsets.all(8),
+            child: ListView(
+              children: [
+                AliceStatsRow('Total requests:', '${_getTotalRequests()}'),
+                AliceStatsRow('Pending requests:', '${_getPendingRequests()}'),
+                AliceStatsRow('Success requests:', '${_getSuccessRequests()}'),
+                AliceStatsRow(
+                  'Redirection requests:',
+                  '${_getRedirectionRequests()}',
+                ),
+                AliceStatsRow('Error requests:', '${_getErrorRequests()}'),
+                AliceStatsRow(
+                  'Bytes send:',
+                  AliceConversionHelper.formatBytes(_getBytesSent()),
+                ),
+                AliceStatsRow(
+                  'Bytes received:',
+                  AliceConversionHelper.formatBytes(_getBytesReceived()),
+                ),
+                AliceStatsRow(
+                  'Average request time:',
+                  AliceConversionHelper.formatTime(_getAverageRequestTime()),
+                ),
+                AliceStatsRow(
+                  'Max request time:',
+                  AliceConversionHelper.formatTime(_getMaxRequestTime()),
+                ),
+                AliceStatsRow(
+                  'Min request time:',
+                  AliceConversionHelper.formatTime(_getMinRequestTime()),
+                ),
+                AliceStatsRow('Get requests:', '${_getRequests('GET')} '),
+                AliceStatsRow('Post requests:', '${_getRequests('POST')} '),
+                AliceStatsRow('Delete requests:', '${_getRequests('DELETE')} '),
+                AliceStatsRow('Put requests:', '${_getRequests('PUT')} '),
+                AliceStatsRow('Patch requests:', '${_getRequests('PATCH')} '),
+                AliceStatsRow('Secured requests:', '${_getSecuredRequests()}'),
+                AliceStatsRow(
+                    'Unsecured requests:', '${_getUnsecuredRequests()}'),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }

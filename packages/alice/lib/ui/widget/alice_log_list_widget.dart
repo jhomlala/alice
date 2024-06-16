@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:alice/model/alice_log.dart';
 import 'package:alice/utils/alice_scroll_behavior.dart';
 import 'package:alice/utils/alice_theme.dart';
@@ -29,12 +30,16 @@ class _AliceLogListWidgetState extends State<AliceLogListWidget> {
   Widget build(BuildContext context) {
     return ValueListenableBuilder<List<AliceLog>>(
       valueListenable: widget.logsListenable,
-      builder: (context, logs, _) {
+      builder: (_, List<AliceLog> logs, __) {
         if (logs.isEmpty) {
           return widget.emptyWidget;
         }
-        final filteredLogs =
-            logs.where((it) => it.level.index >= _minLevel.index).toList();
+
+        final List<AliceLog> filteredLogs = [
+          for (final AliceLog log in logs)
+            if (log.level.index >= _minLevel.index) log
+        ];
+
         return ScrollConfiguration(
           behavior: AliceScrollBehavior(),
           child: ListView.builder(

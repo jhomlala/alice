@@ -9,7 +9,7 @@ const int _serverMaxLines = 5;
 
 class AliceCallListItemWidget extends StatelessWidget {
   final AliceHttpCall call;
-  final Function itemClickAction;
+  final void Function(AliceHttpCall) itemClickAction;
 
   const AliceCallListItemWidget(this.call, this.itemClickAction, {super.key});
 
@@ -17,7 +17,7 @@ class AliceCallListItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       // ignore: avoid_dynamic_calls
-      onTap: () => itemClickAction(call),
+      onTap: () => itemClickAction.call(call),
       child: Column(
         children: [
           Container(
