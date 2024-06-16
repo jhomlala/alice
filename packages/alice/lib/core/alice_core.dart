@@ -9,6 +9,7 @@ import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice/model/alice_log.dart';
 import 'package:alice/ui/page/alice_calls_list_screen.dart';
+import 'package:alice/utils/num_comparison.dart';
 import 'package:alice/utils/shake_detector.dart';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
@@ -155,29 +156,24 @@ class AliceCore {
     final int successCalls = calls
         .where(
           (AliceHttpCall call) =>
-              call.response != null &&
-              call.response!.status! >= 200 &&
-              call.response!.status! < 300,
+              (call.response?.status.gte(200) ?? false) &&
+              (call.response?.status.lt(300) ?? false),
         )
         .toList()
         .length;
 
     final int redirectCalls = calls
-        .where(
-          (AliceHttpCall call) =>
-              call.response != null &&
-              call.response!.status! >= 300 &&
-              call.response!.status! < 400,
-        )
+        .where((AliceHttpCall call) =>
+            (call.response?.status.gte(300) ?? false) &&
+            (call.response?.status.lt(400) ?? false))
         .toList()
         .length;
 
     final int errorCalls = calls
         .where(
           (AliceHttpCall call) =>
-              call.response != null &&
-              call.response!.status! >= 400 &&
-              call.response!.status! < 600,
+              (call.response?.status.gte(400) ?? false) &&
+              (call.response?.status.lt(600) ?? false),
         )
         .toList()
         .length;
@@ -323,7 +319,7 @@ class AliceCore {
       ..loading = false
       ..response = response
       ..duration = response.time.millisecondsSinceEpoch -
-          selectedCall.request!.time.millisecondsSinceEpoch;
+          (selectedCall.request?.time.millisecondsSinceEpoch ?? 0);
 
     callsSubject.add([...callsSubject.value]);
   }

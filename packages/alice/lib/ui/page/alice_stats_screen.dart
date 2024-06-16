@@ -3,6 +3,7 @@ import 'package:alice/helper/alice_conversion_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/ui/widget/alice_stats_row.dart';
 import 'package:alice/utils/alice_theme.dart';
+import 'package:alice/utils/num_comparison.dart';
 import 'package:flutter/material.dart';
 
 class AliceStatsScreen extends StatelessWidget {
@@ -18,9 +19,8 @@ class AliceStatsScreen extends StatelessWidget {
   int _getSuccessRequests() => calls
       .where(
         (AliceHttpCall call) =>
-            call.response != null &&
-            call.response!.status! >= 200 &&
-            call.response!.status! < 300,
+            (call.response?.status.gte(200) ?? false) &&
+            (call.response?.status.lt(300) ?? false),
       )
       .toList()
       .length;
@@ -28,9 +28,8 @@ class AliceStatsScreen extends StatelessWidget {
   int _getRedirectionRequests() => calls
       .where(
         (AliceHttpCall call) =>
-            call.response != null &&
-            call.response!.status! >= 300 &&
-            call.response!.status! < 400,
+            (call.response?.status.gte(300) ?? false) &&
+            (call.response?.status.lt(400) ?? false),
       )
       .toList()
       .length;
@@ -38,9 +37,8 @@ class AliceStatsScreen extends StatelessWidget {
   int _getErrorRequests() => calls
       .where(
         (AliceHttpCall call) =>
-            call.response != null &&
-            call.response!.status! >= 400 &&
-            call.response!.status! < 600,
+            (call.response?.status.gte(400) ?? false) &&
+            (call.response?.status.lt(600) ?? false),
       )
       .toList()
       .length;

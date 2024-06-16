@@ -194,11 +194,11 @@ class AliceSaveHelper {
         '--------------------------------------------\n',
         'Error\n',
         '--------------------------------------------\n',
-        'Error: ${call.error!.error}\n',
+        'Error: ${call.error?.error}\n',
       ]);
 
-      if (call.error!.stackTrace != null) {
-        stringBuffer.write('Error stacktrace: ${call.error!.stackTrace}\n');
+      if (call.error?.stackTrace != null) {
+        stringBuffer.write('Error stacktrace: ${call.error?.stackTrace}\n');
       }
     }
 

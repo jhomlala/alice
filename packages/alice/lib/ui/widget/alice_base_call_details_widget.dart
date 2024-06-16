@@ -8,7 +8,7 @@ abstract class AliceBaseCallDetailsWidgetState<T extends StatefulWidget>
     extends State<T> {
   final JsonEncoder encoder = const JsonEncoder.withIndent('  ');
 
-  Widget getListRow(String name, String value) => Row(
+  Widget getListRow(String name, String? value) => Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SelectableText(
@@ -19,9 +19,11 @@ abstract class AliceBaseCallDetailsWidgetState<T extends StatefulWidget>
             padding: EdgeInsets.only(left: 5),
           ),
           Flexible(
-            child: SelectableText(
-              value,
-            ),
+            child: value != null
+                ? SelectableText(
+                    value,
+                  )
+                : const SizedBox(),
           ),
           const Padding(
             padding: EdgeInsets.only(bottom: 18),

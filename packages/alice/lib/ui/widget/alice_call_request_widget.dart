@@ -23,19 +23,19 @@ class _AliceCallRequestWidget
   @override
   Widget build(BuildContext context) {
     final List<Widget> rows = [
-      getListRow('Started:', _call.request!.time.toString()),
-      getListRow('Bytes sent:', formatBytes(_call.request!.size)),
-      getListRow('Content type:', getContentType(_call.request!.headers)!),
+      getListRow('Started:', _call.request?.time.toString()),
+      getListRow('Bytes sent:', formatBytes(_call.request?.size ?? 0)),
+      getListRow('Content type:', getContentType(_call.request?.headers)),
     ];
 
-    final dynamic body = _call.request!.body;
+    final dynamic body = _call.request?.body;
     final String bodyContent = body != null
-        ? formatBody(body, getContentType(_call.request!.headers))
+        ? formatBody(body, getContentType(_call.request?.headers))
         : 'Body is empty';
     rows.add(getListRow('Body:', bodyContent));
 
     final List<AliceFormDataField>? formDataFields =
-        _call.request!.formDataFields;
+        _call.request?.formDataFields;
     if (formDataFields?.isNotEmpty ?? false) {
       rows.add(getListRow('Form data fields: ', ''));
       rows.addAll([
@@ -56,8 +56,9 @@ class _AliceCallRequestWidget
       ]);
     }
 
-    final Map<String, dynamic> headers = _call.request!.headers;
-    final String headersContent = headers.isEmpty ? 'Headers are empty' : '';
+    final Map<String, dynamic>? headers = _call.request?.headers;
+    final String headersContent =
+        headers?.isEmpty ?? true ? 'Headers are empty' : '';
     rows.add(getListRow('Headers: ', headersContent));
     rows.addAll([
       for (final MapEntry<String, dynamic> header
@@ -65,9 +66,10 @@ class _AliceCallRequestWidget
         getListRow('   • ${header.key}:', header.value.toString())
     ]);
 
-    final Map<String, dynamic> queryParameters = _call.request!.queryParameters;
+    final Map<String, dynamic>? queryParameters =
+        _call.request?.queryParameters;
     final String queryParametersContent =
-        queryParameters.isEmpty ? 'Query parameters are empty' : '';
+        queryParameters?.isEmpty ?? true ? 'Query parameters are empty' : '';
     rows.add(getListRow('Query Parameters: ', queryParametersContent));
     rows.addAll([
       for (final MapEntry<String, dynamic> qParam

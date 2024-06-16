@@ -98,7 +98,9 @@ class AliceCallListItemWidget extends StatelessWidget {
         children: [
           Flexible(
             child: Text(
-              _formatTime(call.request!.time),
+              call.request?.time != null
+                  ? _formatTime(call.request!.time)
+                  : 'n/a',
               style: const TextStyle(fontSize: 12),
             ),
           ),
@@ -110,8 +112,8 @@ class AliceCallListItemWidget extends StatelessWidget {
           ),
           Flexible(
             child: Text(
-              '${AliceConversionHelper.formatBytes(call.request!.size)} / '
-              '${AliceConversionHelper.formatBytes(call.response!.size)}',
+              '${AliceConversionHelper.formatBytes(call.request?.size ?? 0)} / '
+              '${AliceConversionHelper.formatBytes(call.response?.size ?? 0)}',
               style: const TextStyle(fontSize: 12),
             ),
           ),
@@ -144,15 +146,17 @@ class AliceCallListItemWidget extends StatelessWidget {
       ]);
     }
 
-    widgets.add(
-      Text(
-        _getStatus(call.response!),
-        style: TextStyle(
-          fontSize: 16,
-          color: _getStatusTextColor(context),
+    if (call.response != null) {
+      widgets.add(
+        Text(
+          _getStatus(call.response!),
+          style: TextStyle(
+            fontSize: 16,
+            color: _getStatusTextColor(context),
+          ),
         ),
-      ),
-    );
+      );
+    }
 
     return SizedBox(
       width: 50,
@@ -163,7 +167,7 @@ class AliceCallListItemWidget extends StatelessWidget {
   }
 
   Color? _getStatusTextColor(BuildContext context) =>
-      switch (call.response!.status) {
+      switch (call.response?.status) {
         -1 => AliceConstants.red,
         int status when status < 200 =>
           Theme.of(context).textTheme.bodyLarge?.color,

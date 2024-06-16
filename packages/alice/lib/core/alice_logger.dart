@@ -1,6 +1,7 @@
 import 'dart:io' show Platform, Process, ProcessResult;
 
 import 'package:alice/model/alice_log.dart';
+import 'package:alice/utils/num_comparison.dart';
 import 'package:flutter/foundation.dart';
 
 class AliceLogger {
@@ -51,7 +52,7 @@ class AliceLogger {
     }
 
     int startIndex = 0;
-    if (maximumSize != null && logs.length >= maximumSize!) {
+    if (maximumSize != null && logs.length.gte(maximumSize)) {
       if (index == 0) return;
       startIndex = logs.length - maximumSize! + 1;
     }

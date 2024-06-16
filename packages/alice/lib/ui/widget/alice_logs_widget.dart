@@ -21,7 +21,7 @@ class AliceLogsWidget extends StatelessWidget {
       ? isAndroidRawLogsEnabled
           ? AliceRawLogListWidget(
               scrollController: scrollController,
-              getRawLogs: aliceLogger!.getAndroidRawLogs(),
+              getRawLogs: aliceLogger?.getAndroidRawLogs(),
               emptyWidget: const AliceEmptyLogsWidget(),
             )
           : AliceLogListWidget(

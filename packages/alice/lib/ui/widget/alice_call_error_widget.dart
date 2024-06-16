@@ -20,8 +20,8 @@ class _AliceCallErrorWidgetState
   @override
   Widget build(BuildContext context) {
     if (widget.call.error != null) {
-      final dynamic error = widget.call.error!.error;
-      final StackTrace? stackTrace = widget.call.error!.stackTrace;
+      final dynamic error = widget.call.error?.error;
+      final StackTrace? stackTrace = widget.call.error?.stackTrace;
       final String errorText =
           error != null ? error.toString() : 'Error is empty';
 

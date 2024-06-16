@@ -29,7 +29,7 @@ class AliceRawLogListWidget extends StatelessWidget {
                   padding: const EdgeInsets.all(8),
                   child: InkWell(
                     onLongPress: () =>
-                        _copyToClipboard(snapshot.data!, context),
+                        _copyToClipboard(snapshot.data ?? '', context),
                     child: Text(
                       snapshot.data ?? '',
                       style: const TextStyle(fontSize: 10),

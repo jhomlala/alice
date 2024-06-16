@@ -2,6 +2,7 @@ import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/ui/widget/alice_base_call_details_widget.dart';
 import 'package:alice/utils/alice_constants.dart';
 import 'package:alice/utils/alice_scroll_behavior.dart';
+import 'package:alice/utils/num_comparison.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -56,11 +57,11 @@ class _AliceCallResponseWidgetState
 
   List<Widget> _buildGeneralDataRows() {
     final rows = <Widget>[
-      getListRow('Received:', _call.response!.time.toString()),
-      getListRow('Bytes received:', formatBytes(_call.response!.size)),
+      getListRow('Received:', _call.response?.time.toString()),
+      getListRow('Bytes received:', formatBytes(_call.response?.size ?? 0)),
     ];
 
-    final int? status = _call.response!.status;
+    final int? status = _call.response?.status;
     final String statusText = status == -1 ? 'Error' : '$status';
 
     rows.add(getListRow('Status:', statusText));
@@ -145,7 +146,7 @@ class _AliceCallResponseWidgetState
           getListRow(
             'Body:',
             'Too large to show '
-                '(${_call.response!.body.toString().length} Bytes)',
+                '(${_call.response?.body.toString().length ?? 0} Bytes)',
           ),
         )
         ..add(const SizedBox(height: 8))
@@ -170,10 +171,10 @@ class _AliceCallResponseWidgetState
   }
 
   List<Widget> _buildTextBodyRows() {
-    final rows = <Widget>[];
-    final headers = _call.response!.headers;
-    final bodyContent =
-        formatBody(_call.response!.body, getContentType(headers));
+    final List<Widget> rows = [];
+    final Map<String, String>? headers = _call.response?.headers;
+    final String bodyContent =
+        formatBody(_call.response?.body, getContentType(headers));
     rows.add(getListRow('Body:', bodyContent));
     return rows;
   }
@@ -202,13 +203,13 @@ class _AliceCallResponseWidgetState
   }
 
   List<Widget> _buildUnknownBodyRows() {
-    final rows = <Widget>[];
-    final headers = _call.response!.headers;
-    final contentType = getContentType(headers) ?? '<unknown>';
+    final List<Widget> rows = [];
+    final Map<String, String>? headers = _call.response?.headers;
+    final String contentType = getContentType(headers) ?? '<unknown>';
 
     if (_showUnsupportedBody) {
       final bodyContent =
-          formatBody(_call.response!.body, getContentType(headers));
+          formatBody(_call.response?.body, getContentType(headers));
       rows.add(getListRow('Body:', bodyContent));
     } else {
       rows
@@ -243,9 +244,10 @@ class _AliceCallResponseWidgetState
     if (_call.request?.headers != null) {
       requestHeaders.addAll(
         _call.request!.headers.map(
-          (String key, dynamic value) {
-            return MapEntry(key, value.toString());
-          },
+          (String key, dynamic value) => MapEntry(
+            key,
+            value.toString(),
+          ),
         ),
       );
     }
@@ -274,11 +276,9 @@ class _AliceCallResponseWidgetState
   }
 
   String? _getContentTypeOfResponse() {
-    return getContentType(_call.response!.headers);
+    return getContentType(_call.response?.headers);
   }
 
-  bool _isLargeResponseBody() {
-    return _call.response!.body != null &&
-        _call.response!.body.toString().length > _kLargeOutputSize;
-  }
+  bool _isLargeResponseBody() =>
+      _call.response?.body.toString().length.gt(_kLargeOutputSize) ?? false;
 }

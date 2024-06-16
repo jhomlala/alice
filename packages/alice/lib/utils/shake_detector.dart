@@ -78,7 +78,7 @@ class ShakeDetector {
       mShakeTimestamp = now;
       mShakeCount++;
 
-      onPhoneShake!();
+      onPhoneShake?.call();
     }
   }
 
