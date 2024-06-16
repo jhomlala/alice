@@ -360,13 +360,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
 
   void sortCalls() => setState(() {});
 
-  void _scrollLogsList(bool top) {
-    if (top) {
-      _scrollToTop();
-    } else {
-      _scrollToBottom();
-    }
-  }
+  void _scrollLogsList(bool top) => top ? _scrollToTop() : _scrollToBottom();
 
   void _scrollToTop() => _scrollController.animateTo(
         _scrollController.position.minScrollExtent,
