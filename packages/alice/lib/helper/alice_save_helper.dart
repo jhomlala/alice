@@ -4,6 +4,7 @@ import 'dart:io' show Directory, File, FileMode, IOSink, Platform;
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/helper/alice_alert_helper.dart';
 import 'package:alice/helper/alice_conversion_helper.dart';
+import 'package:alice/helper/operating_system.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/utils/alice_parser.dart';
 import 'package:flutter/material.dart';
@@ -81,8 +82,8 @@ class AliceSaveHelper {
       }
 
       final Directory? externalDir = switch (Platform.operatingSystem) {
-        "android" => await getExternalStorageDirectory(),
-        "ios" => await getApplicationDocumentsDirectory(),
+        OperatingSystem.android => await getExternalStorageDirectory(),
+        OperatingSystem.ios => await getApplicationDocumentsDirectory(),
         _ => await getApplicationCacheDirectory(),
       };
 
