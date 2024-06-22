@@ -1,6 +1,8 @@
+import 'package:alice/helper/alice_conversion_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/ui/widget/alice_base_call_details_widget.dart';
+import 'package:alice/ui/call_details/widget/alice_call_list_row.dart';
 import 'package:alice/utils/alice_constants.dart';
+import 'package:alice/utils/alice_parser.dart';
 import 'package:alice/utils/alice_scroll_behavior.dart';
 import 'package:alice/utils/num_comparison.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +19,7 @@ class AliceCallResponseWidget extends StatefulWidget {
   }
 }
 
-class _AliceCallResponseWidgetState
-    extends AliceBaseCallDetailsWidgetState<AliceCallResponseWidget> {
+class _AliceCallResponseWidgetState extends State<AliceCallResponseWidget> {
   static const String _imageContentType = 'image';
   static const String _videoContentType = 'video';
   static const String _jsonContentType = 'json';
@@ -57,14 +58,17 @@ class _AliceCallResponseWidgetState
 
   List<Widget> _buildGeneralDataRows() {
     final rows = <Widget>[
-      getListRow('Received:', _call.response?.time.toString()),
-      getListRow('Bytes received:', formatBytes(_call.response?.size ?? 0)),
+      AliceCallListRow(
+          name: 'Received:', value: _call.response?.time.toString()),
+      AliceCallListRow(
+          name: 'Bytes received:',
+          value: AliceConversionHelper.formatBytes(_call.response?.size ?? 0)),
     ];
 
     final int? status = _call.response?.status;
     final String statusText = status == -1 ? 'Error' : '$status';
 
-    rows.add(getListRow('Status:', statusText));
+    rows.add(AliceCallListRow(name: 'Status:', value: statusText));
     return rows;
   }
 
@@ -73,11 +77,12 @@ class _AliceCallResponseWidgetState
     final Map<String, String>? headers = _call.response?.headers;
     final String headersContent =
         headers?.isEmpty ?? true ? 'Headers are empty' : '';
-    rows.add(getListRow('Headers: ', headersContent));
+    rows.add(AliceCallListRow(name: 'Headers: ', value: headersContent));
     rows.addAll([
       for (final MapEntry<String, String> header
           in _call.response?.headers?.entries ?? [])
-        getListRow('   • ${header.key}:', header.value.toString())
+        AliceCallListRow(
+            name: '   • ${header.key}:', value: header.value.toString())
     ]);
 
     return rows;
@@ -143,9 +148,9 @@ class _AliceCallResponseWidgetState
     } else {
       rows
         ..add(
-          getListRow(
-            'Body:',
-            'Too large to show '
+          AliceCallListRow(
+            name: 'Body:',
+            value: 'Too large to show '
                 '(${_call.response?.body.toString().length ?? 0} Bytes)',
           ),
         )
@@ -173,9 +178,9 @@ class _AliceCallResponseWidgetState
   List<Widget> _buildTextBodyRows() {
     final List<Widget> rows = [];
     final Map<String, String>? headers = _call.response?.headers;
-    final String bodyContent =
-        formatBody(_call.response?.body, getContentType(headers));
-    rows.add(getListRow('Body:', bodyContent));
+    final String bodyContent = AliceParser.formatBody(
+        _call.response?.body, AliceParser.getContentType(headers));
+    rows.add(AliceCallListRow(name: 'Body:', value: bodyContent));
     return rows;
   }
 
@@ -205,18 +210,20 @@ class _AliceCallResponseWidgetState
   List<Widget> _buildUnknownBodyRows() {
     final List<Widget> rows = [];
     final Map<String, String>? headers = _call.response?.headers;
-    final String contentType = getContentType(headers) ?? '<unknown>';
+    final String contentType =
+        AliceParser.getContentType(headers) ?? '<unknown>';
 
     if (_showUnsupportedBody) {
-      final bodyContent =
-          formatBody(_call.response?.body, getContentType(headers));
-      rows.add(getListRow('Body:', bodyContent));
+      final bodyContent = AliceParser.formatBody(
+          _call.response?.body, AliceParser.getContentType(headers));
+      rows.add(AliceCallListRow(name: 'Body:', value: bodyContent));
     } else {
       rows
         ..add(
-          getListRow(
-              'Body:',
-              'Unsupported body. Alice can render video/image/text body. '
+          AliceCallListRow(
+              name: 'Body:',
+              value:
+                  'Unsupported body. Alice can render video/image/text body. '
                   "Response has Content-Type: $contentType which can't be "
                   "handled. If you're feeling lucky you can try button below "
                   'to try render body as text, but it may fail.'),
@@ -276,7 +283,7 @@ class _AliceCallResponseWidgetState
   }
 
   String? _getContentTypeOfResponse() {
-    return getContentType(_call.response?.headers);
+    return AliceParser.getContentType(_call.response?.headers);
   }
 
   bool _isLargeResponseBody() =>

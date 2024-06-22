@@ -5,8 +5,8 @@ import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_menu_item.dart';
 import 'package:alice/model/alice_sort_option.dart';
 import 'package:alice/model/alice_tab_item.dart';
-import 'package:alice/ui/page/alice_call_details_screen.dart';
-import 'package:alice/ui/page/alice_stats_screen.dart';
+import 'package:alice/ui/call_details/page/alice_call_details_page.dart';
+import 'package:alice/ui/stats/alice_stats_screen.dart';
 import 'package:alice/ui/widget/alice_calls_list_widget.dart';
 import 'package:alice/ui/widget/alice_empty_logs_widget.dart';
 import 'package:alice/ui/widget/alice_logs_widget.dart';
@@ -269,7 +269,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
   void _onListItemClicked(AliceHttpCall call) => Navigator.push<void>(
         widget._aliceCore.getContext()!,
         MaterialPageRoute(
-          builder: (_) => AliceCallDetailsScreen(call, widget._aliceCore),
+          builder: (_) => AliceCallDetailsPage(call, widget._aliceCore),
         ),
       );
 

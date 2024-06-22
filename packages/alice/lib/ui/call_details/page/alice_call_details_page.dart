@@ -1,27 +1,27 @@
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/helper/alice_save_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/ui/widget/alice_call_error_widget.dart';
-import 'package:alice/ui/widget/alice_call_overview_widget.dart';
-import 'package:alice/ui/widget/alice_call_request_widget.dart';
-import 'package:alice/ui/widget/alice_call_response_widget.dart';
+import 'package:alice/ui/call_details/widget/alice_call_error_widget.dart';
+import 'package:alice/ui/call_details/widget/alice_call_overview_widget.dart';
+import 'package:alice/ui/call_details/widget/alice_call_request_widget.dart';
+import 'package:alice/ui/call_details/widget/alice_call_response_widget.dart';
 import 'package:alice/utils/alice_constants.dart';
 import 'package:alice/utils/alice_theme.dart';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 
-class AliceCallDetailsScreen extends StatefulWidget {
+class AliceCallDetailsPage extends StatefulWidget {
   final AliceHttpCall call;
   final AliceCore core;
 
-  const AliceCallDetailsScreen(this.call, this.core, {super.key});
+  const AliceCallDetailsPage(this.call, this.core, {super.key});
 
   @override
-  State<StatefulWidget> createState() => _AliceCallDetailsScreenState();
+  State<StatefulWidget> createState() => _AliceCallDetailsPageState();
 }
 
-class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
+class _AliceCallDetailsPageState extends State<AliceCallDetailsPage>
     with SingleTickerProviderStateMixin {
   AliceHttpCall get call => widget.call;
 

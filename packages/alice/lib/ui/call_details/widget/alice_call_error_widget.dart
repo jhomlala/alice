@@ -1,5 +1,6 @@
 import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/ui/widget/alice_base_call_details_widget.dart';
+import 'package:alice/ui/call_details/widget/alice_call_expandable_list_row.dart';
+import 'package:alice/ui/call_details/widget/alice_call_list_row.dart';
 import 'package:alice/utils/alice_scroll_behavior.dart';
 import 'package:flutter/material.dart';
 
@@ -15,8 +16,7 @@ class AliceCallErrorWidget extends StatefulWidget {
   State<StatefulWidget> createState() => _AliceCallErrorWidgetState();
 }
 
-class _AliceCallErrorWidgetState
-    extends AliceBaseCallDetailsWidgetState<AliceCallErrorWidget> {
+class _AliceCallErrorWidgetState extends State<AliceCallErrorWidget> {
   @override
   Widget build(BuildContext context) {
     if (widget.call.error != null) {
@@ -31,9 +31,12 @@ class _AliceCallErrorWidgetState
           behavior: AliceScrollBehavior(),
           child: ListView(
             children: [
-              getListRow('Error:', errorText),
+              AliceCallListRow(name: 'Error:', value: errorText),
               if (stackTrace != null)
-                getExpandableListRow('Stack trace:', stackTrace.toString()),
+                AliceCallExpandableListRow(
+                  name: 'Stack trace:',
+                  value: stackTrace.toString(),
+                ),
             ],
           ),
         ),
