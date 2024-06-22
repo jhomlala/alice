@@ -4,7 +4,7 @@
 
 ```yaml
 dependencies:
-  alice: ^1.0.0-dev5
+  alice: ^1.0.0-dev6
 ```
 
 2. Choose adapter based on your HTTP client. **pubspec.yaml** file:
@@ -12,25 +12,25 @@ dependencies:
 ### Dio
 ```yaml
 dependencies:
-  alice_dio: ^1.0.2
+  alice_dio: ^1.0.3
 ```
 
 ### Chopper
 ```yaml
 dependencies:
-  alice_chopper: ^1.0.2
+  alice_chopper: ^1.0.3
 ```
 
 ### Http
 ```yaml
 dependencies:
-  alice_http: ^1.0.2
+  alice_http: ^1.0.3
 ```
 
 ### Http Client
 ```yaml
 dependencies:
-  alice_http_client: ^1.0.2
+  alice_http_client: ^1.0.3
 ```
 
 3. Run `get` command:

@@ -1,3 +1,9 @@
+# 1.0.4
+
+* Create error log on exception (by Klemen Tusar https://github.com/techouse).
+* Fixed HTTP error status (by Klemen Tusar https://github.com/techouse).
+* Changed linter from very good analysis to flutter lints.
+
 # 1.0.3
 
 * Replaced milliseconds with UUID for alice token header (by Klemen

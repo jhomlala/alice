@@ -1,6 +1,6 @@
 name: alice_chopper
 description: "Alice + Chopper integration. It contains plugin for Alice which allows to use Chopper package."
-version: 1.0.3
+version: 1.0.4
 repository: https://github.com/jhomlala/alice
 homepage: https://github.com/jhomlala/alice
 
@@ -13,6 +13,8 @@ dependencies:
   chopper: ^8.0.0
   http: ^1.2.1
   uuid: ^4.4.0
+  flutter:
+    sdk: flutter
 
 dev_dependencies:
-  very_good_analysis: ^5.1.0
+  flutter_lints: ^4.0.0

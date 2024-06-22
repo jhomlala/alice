@@ -13,4 +13,4 @@ dependencies:
   dio: ^5.4.3+1
 
 dev_dependencies:
-  very_good_analysis: ^5.1.0
+  flutter_lints: ^4.0.0
