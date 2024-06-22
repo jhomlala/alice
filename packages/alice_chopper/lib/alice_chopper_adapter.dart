@@ -40,7 +40,7 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
       applyHeader(
         chain.request,
         'alice_token',
-        Uuid().v4(),
+        const Uuid().v4(),
       ),
     );
 

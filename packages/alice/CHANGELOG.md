@@ -1,24 +1,39 @@
+# 1.0.0-dev.6
+
+* [BREAKING_CHANGE] Bumped minimal Flutter version to 3.10.0.
+* Changed lint from very good analysis to flutter lints (by Klemen
+  Tusar https://github.com/techouse).
+* General refactor of code base (by Klemen Tusar https://github.com/techouse).
+* Added stacktrace to logs (by Klemen Tusar https://github.com/techouse).
+
 # 1.0.0-dev.5
+
 * Updated readme.
 * Updated examples configuration (by Klemen Tusar https://github.com/techouse).
 
 # 1.0.0-dev.4
+
 * Updated metadata.
 
 # 1.0.0-dev.3
+
 * Updated links.
 * Updated readme.
 
 # 1.0.0-dev.2
+
 * Updated links.
 * Updated readme.
 
 # 1.0.0-dev.1
-* [BREAKING_CHANGE] Extracted http clients interceptors to separate packages. See migration guide here.
-* [BREAKING_CHANGE] Removed methods: `getChopperInterceptor`, `onHttpResponse`, `onHttpClientResponse`, `getDioInterceptor` from `Alice` class.
+
+* [BREAKING_CHANGE] Extracted http clients interceptors to separate packages. See migration guide
+  here.
+* [BREAKING_CHANGE] Removed
+  methods: `getChopperInterceptor`, `onHttpResponse`, `onHttpClientResponse`, `getDioInterceptor`
+  from `Alice` class.
 * Updated example.
 * Updated dependencies.
-
 
 # 0.4.2
 

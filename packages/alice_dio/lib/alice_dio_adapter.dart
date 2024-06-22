@@ -7,7 +7,9 @@ import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
+import 'package:alice/model/alice_log.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 class AliceDioAdapter extends InterceptorsWrapper with AliceAdapter {
   /// Handles dio request and creates alice http call based on it
@@ -45,14 +47,14 @@ class AliceDioAdapter extends InterceptorsWrapper with AliceAdapter {
 
         if (data.fields.isNotEmpty == true) {
           final fields = <AliceFormDataField>[];
-          data.fields.forEach((entry) {
+          for (var entry in data.fields) {
             fields.add(AliceFormDataField(entry.key, entry.value));
-          });
+          }
           request.formDataFields = fields;
         }
         if (data.files.isNotEmpty == true) {
           final files = <AliceFormDataFile>[];
-          data.files.forEach((entry) {
+          for (var entry in data.files) {
             files.add(
               AliceFormDataFile(
                 entry.value.filename,
@@ -60,7 +62,7 @@ class AliceDioAdapter extends InterceptorsWrapper with AliceAdapter {
                 entry.value.length,
               ),
             );
-          });
+          }
 
           request.formDataFiles = files;
         }
@@ -149,6 +151,11 @@ class AliceDioAdapter extends InterceptorsWrapper with AliceAdapter {
         httpResponse,
         error.response!.requestOptions.hashCode,
       );
+      aliceCore.addLog(AliceLog(
+          message: error.toString(),
+          level: DiagnosticLevel.error,
+          error: error,
+          stackTrace: error.stackTrace));
     }
     handler.next(error);
   }
