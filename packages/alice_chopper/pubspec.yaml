@@ -9,7 +9,7 @@ environment:
   flutter: ">=3.3.0"
 
 dependencies:
-  alice: ^1.0.0-dev.4
+  alice: ^1.0.0-dev.6
   chopper: ^8.0.0
   http: ^1.2.1
   uuid: ^4.4.0
