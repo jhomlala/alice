@@ -1,7 +1,7 @@
 import 'package:alice/core/alice_logger.dart';
-import 'package:alice/ui/widget/alice_empty_logs_widget.dart';
-import 'package:alice/ui/widget/alice_log_list_widget.dart';
-import 'package:alice/ui/widget/alice_raw_log_list_widger.dart';
+import 'package:alice/ui/calls_list/widget/alice_empty_logs_widget.dart';
+import 'package:alice/ui/calls_list/widget/alice_log_list_widget.dart';
+import 'package:alice/ui/calls_list/widget/alice_raw_log_list_widger.dart';
 import 'package:flutter/material.dart';
 
 class AliceLogsWidget extends StatelessWidget {

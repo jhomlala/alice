@@ -8,7 +8,7 @@ import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice/model/alice_log.dart';
-import 'package:alice/ui/calls_list/alice_calls_list_screen.dart';
+import 'package:alice/ui/calls_list/page/alice_calls_list_screen.dart';
 import 'package:alice/utils/alice_constants.dart';
 import 'package:alice/utils/alice_theme.dart';
 import 'package:alice/utils/num_comparison.dart';
@@ -150,7 +150,7 @@ class AliceCore {
                   buttonColor: AliceConstants.lightRed,
                   textTheme: ButtonTextTheme.primary,
                 )),
-            home: AliceCallsListScreen(this, _aliceLogger),
+            home: AliceCallsListPage(this, _aliceLogger),
           ),
         ),
       ).then((_) => _isInspectorOpened = false);

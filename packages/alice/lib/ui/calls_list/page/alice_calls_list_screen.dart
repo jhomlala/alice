@@ -6,48 +6,42 @@ import 'package:alice/model/alice_menu_item.dart';
 import 'package:alice/model/alice_sort_option.dart';
 import 'package:alice/model/alice_tab_item.dart';
 import 'package:alice/ui/call_details/page/alice_call_details_page.dart';
+import 'package:alice/ui/calls_list/widget/alice_sort_dialog.dart';
 import 'package:alice/ui/stats/alice_stats_screen.dart';
-import 'package:alice/ui/widget/alice_calls_list_widget.dart';
-import 'package:alice/ui/widget/alice_empty_logs_widget.dart';
-import 'package:alice/ui/widget/alice_logs_widget.dart';
+import 'package:alice/ui/calls_list/widget/alice_calls_list_widget.dart';
+import 'package:alice/ui/calls_list/widget/alice_empty_logs_widget.dart';
+import 'package:alice/ui/calls_list/widget/alice_logs_widget.dart';
 import 'package:alice/utils/alice_constants.dart';
 import 'package:alice/utils/alice_theme.dart';
 import 'package:flutter/material.dart';
 
-class AliceCallsListScreen extends StatefulWidget {
+class AliceCallsListPage extends StatefulWidget {
   final AliceCore _aliceCore;
   final AliceLogger? _aliceLogger;
 
-  const AliceCallsListScreen(
+  const AliceCallsListPage(
     this._aliceCore,
     this._aliceLogger, {
     super.key,
   });
 
   @override
-  State<StatefulWidget> createState() => _AliceCallsListScreenState();
+  State<AliceCallsListPage> createState() => _AliceCallsListPageState();
 }
 
-class _AliceCallsListScreenState extends State<AliceCallsListScreen>
+class _AliceCallsListPageState extends State<AliceCallsListPage>
     with SingleTickerProviderStateMixin {
   final TextEditingController _queryTextEditingController =
       TextEditingController();
-  static const List<AliceMenuItem> _menuItems = [
-    AliceMenuItem('Sort', Icons.sort),
-    AliceMenuItem('Delete', Icons.delete),
-    AliceMenuItem('Stats', Icons.insert_chart),
-    AliceMenuItem('Save', Icons.save),
-  ];
   final List<AliceTabItem> _tabItems = AliceTabItem.values;
-  late final ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
+  late final TabController? _tabController;
 
-  AliceSortOption? _sortOption = AliceSortOption.time;
+  AliceSortOption _sortOption = AliceSortOption.time;
   bool _sortAscending = false;
   bool _searchEnabled = false;
   bool isAndroidRawLogsEnabled = false;
   int _selectedIndex = 0;
-
-  late final TabController? _tabController;
 
   AliceCore get aliceCore => widget._aliceCore;
 
@@ -88,17 +82,15 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
         data: AliceTheme.getTheme(),
         child: Scaffold(
           appBar: AppBar(
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.of(context, rootNavigator: true).pop();
+              },
+            ),
             title: _searchEnabled
-                ? TextField(
-                    controller: _queryTextEditingController,
-                    autofocus: true,
-                    decoration: const InputDecoration(
-                      hintText: 'Search http request...',
-                      hintStyle:
-                          TextStyle(fontSize: 16, color: AliceConstants.grey),
-                      border: InputBorder.none,
-                    ),
-                    style: const TextStyle(fontSize: 16),
+                ? _SearchTextField(
+                    textEditingController: _queryTextEditingController,
                     onChanged: _updateSearchQuery,
                   )
                 : const Text('Alice'),
@@ -118,31 +110,13 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
                       icon: const Icon(Icons.search),
                       onPressed: _onSearchClicked,
                     ),
-                    PopupMenuButton<AliceMenuItem>(
-                      onSelected: _onMenuItemSelected,
-                      itemBuilder: (BuildContext context) => [
-                        for (final AliceMenuItem item in _menuItems)
-                          PopupMenuItem<AliceMenuItem>(
-                            value: item,
-                            child: Row(
-                              children: [
-                                Icon(
-                                  item.iconData,
-                                  color: AliceConstants.lightRed,
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 10),
-                                ),
-                                Text(item.title),
-                              ],
-                            ),
-                          ),
-                      ],
+                    _ContextMenuButton(
+                      onMenuItemSelected: _onMenuItemSelected,
                     ),
                   ],
             bottom: TabBar(
               controller: _tabController,
-              indicatorColor: AliceConstants.orange,
+              indicatorColor: AliceConstants.lightRed,
               tabs: [
                 for (final AliceTabItem item in _tabItems)
                   Tab(text: item.title.toUpperCase()),
@@ -183,29 +157,8 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
             ],
           ),
           floatingActionButton: isLoggerTab
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    FloatingActionButton(
-                      heroTag: 'h1',
-                      backgroundColor: AliceConstants.orange,
-                      onPressed: () => _scrollLogsList(true),
-                      child: const Icon(
-                        Icons.arrow_upward,
-                        color: AliceConstants.white,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    FloatingActionButton(
-                      heroTag: 'h2',
-                      backgroundColor: AliceConstants.orange,
-                      onPressed: () => _scrollLogsList(false),
-                      child: const Icon(
-                        Icons.arrow_downward,
-                        color: AliceConstants.white,
-                      ),
-                    ),
-                  ],
+              ? _LoggerFloatingActionButtons(
+                  scrollLogsList: _scrollLogsList,
                 )
               : const SizedBox(),
         ),
@@ -247,7 +200,7 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
           _searchEnabled = false;
           _queryTextEditingController.text = '';
         }
-      });
+      },);
 
   void _onMenuItemSelected(AliceMenuItem menuItem) {
     if (menuItem.title == 'Sort') {
@@ -296,67 +249,21 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
 
   void _updateSearchQuery(String query) => setState(() {});
 
-  Future<void> _showSortDialog() => showDialog<void>(
-        context: context,
-        builder: (BuildContext buildContext) => Theme(
-          data: ThemeData(
-            brightness: Brightness.light,
-          ),
-          child: AlertDialog(
-            title: const Text('Select filter'),
-            content: StatefulBuilder(
-              builder: (context, setState) => Wrap(
-                children: [
-                  for (final AliceSortOption sortOption
-                      in AliceSortOption.values)
-                    RadioListTile<AliceSortOption>(
-                      title: Text(sortOption.name),
-                      value: sortOption,
-                      groupValue: _sortOption,
-                      onChanged: (AliceSortOption? value) {
-                        setState(() {
-                          _sortOption = value;
-                        });
-                      },
-                    ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('Descending'),
-                      Switch(
-                        value: _sortAscending,
-                        onChanged: (value) {
-                          setState(() {
-                            _sortAscending = value;
-                          });
-                        },
-                        activeTrackColor: Colors.grey,
-                        activeColor: Colors.white,
-                      ),
-                      const Text('Ascending'),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: Navigator.of(context).pop,
-                child: const Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  sortCalls();
-                },
-                child: const Text('Use filter'),
-              ),
-            ],
-          ),
-        ),
-      );
-
-  void sortCalls() => setState(() {});
+  Future<void> _showSortDialog() async {
+    AliceSortDialogResult? result = await showDialog<AliceSortDialogResult>(
+      context: context,
+      builder: (BuildContext buildContext) => AliceSortDialog(
+        sortOption: _sortOption,
+        sortAscending: _sortAscending,
+      ),
+    );
+    if (result != null) {
+      setState(() {
+        _sortOption = result.sortOption;
+        _sortAscending = result.sortAscending ?? false;
+      });
+    }
+  }
 
   void _scrollLogsList(bool top) => top ? _scrollToTop() : _scrollToBottom();
 
@@ -378,5 +285,103 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen>
         curve: Curves.ease,
       );
     }
+  }
+}
+
+class _SearchTextField extends StatelessWidget {
+  const _SearchTextField({
+    super.key,
+    required this.textEditingController,
+    required this.onChanged,
+  });
+
+  final TextEditingController textEditingController;
+  final void Function(String) onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: textEditingController,
+      autofocus: true,
+      decoration: const InputDecoration(
+        hintText: 'Search http request...',
+        hintStyle: TextStyle(fontSize: 16, color: AliceConstants.grey),
+        border: InputBorder.none,
+      ),
+      style: const TextStyle(fontSize: 16),
+      onChanged: onChanged,
+    );
+  }
+}
+
+class _ContextMenuButton extends StatelessWidget {
+  static const List<AliceMenuItem> _menuItems = [
+    AliceMenuItem('Sort', Icons.sort),
+    AliceMenuItem('Delete', Icons.delete),
+    AliceMenuItem('Stats', Icons.insert_chart),
+    AliceMenuItem('Save', Icons.save),
+  ];
+
+  const _ContextMenuButton({super.key, required this.onMenuItemSelected});
+
+  final void Function(AliceMenuItem) onMenuItemSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton<AliceMenuItem>(
+      onSelected: onMenuItemSelected,
+      itemBuilder: (BuildContext context) => [
+        for (final AliceMenuItem item in _menuItems)
+          PopupMenuItem<AliceMenuItem>(
+            value: item,
+            child: Row(
+              children: [
+                Icon(
+                  item.iconData,
+                  color: AliceConstants.lightRed,
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(left: 10),
+                ),
+                Text(item.title),
+              ],
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+class _LoggerFloatingActionButtons extends StatelessWidget {
+  const _LoggerFloatingActionButtons({super.key, required this.scrollLogsList});
+
+  final void Function(bool) scrollLogsList;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        FloatingActionButton(
+          heroTag: 'h1',
+          backgroundColor: AliceConstants.orange,
+          onPressed: () => scrollLogsList(true),
+          child: const Icon(
+            Icons.arrow_upward,
+            color: AliceConstants.white,
+          ),
+        ),
+        const SizedBox(height: 8),
+        FloatingActionButton(
+          heroTag: 'h2',
+          backgroundColor: AliceConstants.orange,
+          onPressed: () => scrollLogsList(false),
+          child: const Icon(
+            Icons.arrow_downward,
+            color: AliceConstants.white,
+          ),
+        ),
+      ],
+    );
   }
 }

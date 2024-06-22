@@ -16,9 +16,7 @@ class AliceAlertHelper {
         context: context,
         builder: (BuildContext buildContext) {
           return Theme(
-            data: ThemeData(
-              colorScheme: AliceTheme.getColorScheme(),
-            ),
+            data: AliceTheme.getTheme(),
             child: AlertDialog(
               title: Text(title),
               content: Text(description),
