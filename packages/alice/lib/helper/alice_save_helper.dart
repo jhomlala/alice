@@ -1,10 +1,10 @@
-import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
+import 'dart:convert' show JsonEncoder;
+import 'dart:io' show Directory, File, FileMode, IOSink, Platform;
 
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/helper/alice_alert_helper.dart';
 import 'package:alice/helper/alice_conversion_helper.dart';
+import 'package:alice/helper/operating_system.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/utils/alice_parser.dart';
 import 'package:flutter/material.dart';
@@ -44,10 +44,16 @@ class AliceSaveHelper {
     BuildContext context,
     List<AliceHttpCall> calls,
   ) async {
-    if (await _getPermissionStatus()) {
+    final bool permissionStatus = await _getPermissionStatus();
+
+    if (!context.mounted) return;
+
+    if (permissionStatus) {
       await _saveToFile(context, calls);
     } else {
-      final status = await _requestPermission();
+      final bool status = await _requestPermission();
+
+      if (!context.mounted) return;
 
       if (status) {
         await _saveToFile(context, calls);
@@ -74,145 +80,138 @@ class AliceSaveHelper {
         );
         return '';
       }
-      final isAndroid = Platform.isAndroid;
-      final isIOS = Platform.isIOS;
 
-      Directory? externalDir;
-      if (isAndroid) {
-        externalDir = await getExternalStorageDirectory();
-      } else if (isIOS) {
-        externalDir = await getApplicationDocumentsDirectory();
-      } else {
-        externalDir = await getApplicationCacheDirectory();
-      }
+      final Directory? externalDir = switch (Platform.operatingSystem) {
+        OperatingSystem.android => await getExternalStorageDirectory(),
+        OperatingSystem.ios => await getApplicationDocumentsDirectory(),
+        _ => await getApplicationCacheDirectory(),
+      };
+
       if (externalDir != null) {
-        final fileName =
+        final String fileName =
             'alice_log_${DateTime.now().millisecondsSinceEpoch}.txt';
-        final file = File('${externalDir.path}/$fileName')..createSync();
-        final sink = file.openWrite(mode: FileMode.append)
+        final File file = File('${externalDir.path}/$fileName')..createSync();
+        final IOSink sink = file.openWrite(mode: FileMode.append)
           ..write(await _buildAliceLog());
-        calls.forEach((AliceHttpCall call) {
+        for (final AliceHttpCall call in calls) {
           sink.write(_buildCallLog(call));
-        });
+        }
         await sink.flush();
         await sink.close();
-        AliceAlertHelper.showAlert(
-          context,
-          'Success',
-          'Successfully saved logs in ${file.path}',
-          secondButtonTitle: isAndroid ? 'View file' : null,
-          secondButtonAction: () =>
-              isAndroid ? OpenFilex.open(file.path) : null,
-        );
+
+        if (context.mounted) {
+          AliceAlertHelper.showAlert(
+            context,
+            'Success',
+            'Successfully saved logs in ${file.path}',
+            secondButtonTitle: Platform.isAndroid ? 'View file' : null,
+            secondButtonAction: () =>
+                Platform.isAndroid ? OpenFilex.open(file.path) : null,
+          );
+        }
+
         return file.path;
       } else {
+        if (context.mounted) {
+          AliceAlertHelper.showAlert(
+            context,
+            'Error',
+            'Failed to save http calls to file',
+          );
+        }
+      }
+    } catch (exception) {
+      if (context.mounted) {
         AliceAlertHelper.showAlert(
           context,
           'Error',
           'Failed to save http calls to file',
         );
+        AliceUtils.log(exception.toString());
       }
-    } catch (exception) {
-      AliceAlertHelper.showAlert(
-        context,
-        'Error',
-        'Failed to save http calls to file',
-      );
-      AliceUtils.log(exception.toString());
     }
 
     return '';
   }
 
   static Future<String> _buildAliceLog() async {
-    final stringBuffer = StringBuffer();
-    final packageInfo = await PackageInfo.fromPlatform();
-    stringBuffer
-      ..write('Alice - HTTP Inspector\n')
-      ..write('App name:  ${packageInfo.appName}\n')
-      ..write('Package: ${packageInfo.packageName}\n')
-      ..write('Version: ${packageInfo.version}\n')
-      ..write('Build number: ${packageInfo.buildNumber}\n')
-      ..write('Generated: ${DateTime.now().toIso8601String()}\n')
-      ..write('\n');
-    return stringBuffer.toString();
+    final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+    return 'Alice - HTTP Inspector\n'
+        'App name:  ${packageInfo.appName}\n'
+        'Package: ${packageInfo.packageName}\n'
+        'Version: ${packageInfo.version}\n'
+        'Build number: ${packageInfo.buildNumber}\n'
+        'Generated: ${DateTime.now().toIso8601String()}\n'
+        '\n';
   }
 
   static String _buildCallLog(AliceHttpCall call) {
-    final stringBuffer = StringBuffer()
-      ..write('===========================================\n')
-      ..write('Id: ${call.id}\n')
-      ..write('============================================\n')
-      ..write('--------------------------------------------\n')
-      ..write('General data\n')
-      ..write('--------------------------------------------\n')
-      ..write('Server: ${call.server} \n')
-      ..write('Method: ${call.method} \n')
-      ..write('Endpoint: ${call.endpoint} \n')
-      ..write('Client: ${call.client} \n')
-      ..write('Duration ${AliceConversionHelper.formatTime(call.duration)}\n')
-      ..write('Secured connection: ${call.secure}\n')
-      ..write('Completed: ${!call.loading} \n')
-      ..write('--------------------------------------------\n')
-      ..write('Request\n')
-      ..write('--------------------------------------------\n')
-      ..write('Request time: ${call.request!.time}\n')
-      ..write('Request content type: ${call.request!.contentType}\n')
-      ..write('Request cookies: ${_encoder.convert(call.request!.cookies)}\n')
-      ..write('Request headers: ${_encoder.convert(call.request!.headers)}\n');
-    if (call.request!.queryParameters.isNotEmpty) {
+    final StringBuffer stringBuffer = StringBuffer()
+      ..writeAll([
+        '===========================================\n',
+        'Id: ${call.id}\n',
+        '============================================\n',
+        '--------------------------------------------\n',
+        'General data\n',
+        '--------------------------------------------\n',
+        'Server: ${call.server} \n',
+        'Method: ${call.method} \n',
+        'Endpoint: ${call.endpoint} \n',
+        'Client: ${call.client} \n',
+        'Duration ${AliceConversionHelper.formatTime(call.duration)}\n',
+        'Secured connection: ${call.secure}\n',
+        'Completed: ${!call.loading} \n',
+        '--------------------------------------------\n',
+        'Request\n',
+        '--------------------------------------------\n',
+        'Request time: ${call.request?.time}\n',
+        'Request content type: ${call.request?.contentType}\n',
+        'Request cookies: ${_encoder.convert(call.request?.cookies)}\n',
+        'Request headers: ${_encoder.convert(call.request?.headers)}\n',
+      ]);
+
+    if (call.request?.queryParameters.isNotEmpty ?? false) {
       stringBuffer.write(
-        'Request query params: '
-        '${_encoder.convert(call.request!.queryParameters)}\n',
+        'Request query params: ${_encoder.convert(call.request?.queryParameters)}\n',
       );
     }
-    stringBuffer
-      ..write(
-        'Request size: '
-        '${AliceConversionHelper.formatBytes(call.request!.size)}\n',
-      )
-      ..write(
-        'Request body: ${AliceParser.formatBody(
-          call.request!.body,
-          AliceParser.getContentType(call.request!.headers),
-        )}\n',
-      )
-      ..write('--------------------------------------------\n')
-      ..write('Response\n')
-      ..write('--------------------------------------------\n')
-      ..write('Response time: ${call.response!.time}\n')
-      ..write('Response status: ${call.response!.status}\n')
-      ..write(
-        'Response size: '
-        '${AliceConversionHelper.formatBytes(call.response!.size)}\n',
-      )
-      ..write(
-        'Response headers: ${_encoder.convert(call.response!.headers)}\n',
-      )
-      ..write(
-        'Response body: ${AliceParser.formatBody(
-          call.response!.body,
-          AliceParser.getContentType(call.response!.headers),
-        )}\n',
-      );
+
+    stringBuffer.writeAll([
+      'Request size: ${AliceConversionHelper.formatBytes(call.request?.size ?? 0)}\n',
+      'Request body: ${AliceParser.formatBody(call.request?.body, call.request?.contentType)}\n',
+      '--------------------------------------------\n',
+      'Response\n',
+      '--------------------------------------------\n',
+      'Response time: ${call.response?.time}\n',
+      'Response status: ${call.response?.status}\n',
+      'Response size: ${AliceConversionHelper.formatBytes(call.response?.size ?? 0)}\n',
+      'Response headers: ${_encoder.convert(call.response?.headers)}\n',
+      'Response body: ${AliceParser.formatBody(call.response?.body, AliceParser.getContentType(call.response?.headers))}\n',
+    ]);
+
     if (call.error != null) {
-      stringBuffer
-        ..write('--------------------------------------------\n')
-        ..write('Error\n')
-        ..write('--------------------------------------------\n')
-        ..write('Error: ${call.error!.error}\n');
-      if (call.error!.stackTrace != null) {
-        stringBuffer.write('Error stacktrace: ${call.error!.stackTrace}\n');
+      stringBuffer.writeAll([
+        '--------------------------------------------\n',
+        'Error\n',
+        '--------------------------------------------\n',
+        'Error: ${call.error?.error}\n',
+      ]);
+
+      if (call.error?.stackTrace != null) {
+        stringBuffer.write('Error stacktrace: ${call.error?.stackTrace}\n');
       }
     }
-    stringBuffer
-      ..write('--------------------------------------------\n')
-      ..write('Curl\n')
-      ..write('--------------------------------------------\n')
-      ..write(call.getCurlCommand())
-      ..write('\n')
-      ..write('==============================================\n')
-      ..write('\n');
+
+    stringBuffer.writeAll([
+      '--------------------------------------------\n',
+      'Curl\n',
+      '--------------------------------------------\n',
+      call.getCurlCommand(),
+      '\n',
+      '==============================================\n',
+      '\n',
+    ]);
 
     return stringBuffer.toString();
   }

@@ -8,7 +8,7 @@ import 'dart:math';
 import 'package:sensors_plus/sensors_plus.dart';
 
 /// Callback for phone shakes
-typedef PhoneShakeCallback = Null Function();
+typedef PhoneShakeCallback = void Function();
 
 /// ShakeDetector class for phone shake functionality
 class ShakeDetector {
@@ -28,7 +28,7 @@ class ShakeDetector {
   int mShakeCount = 0;
 
   /// StreamSubscription for Accelerometer events
-  StreamSubscription<dynamic>? streamSubscription;
+  StreamSubscription<AccelerometerEvent>? streamSubscription;
 
   /// This constructor waits until [startListening] is called
   ShakeDetector.waitForStart({
@@ -51,43 +51,40 @@ class ShakeDetector {
   /// Starts listening to accelerometer events
   void startListening() {
     streamSubscription =
-        accelerometerEventStream().listen((AccelerometerEvent event) {
-      final x = event.x;
-      final y = event.y;
-      final z = event.z;
+        accelerometerEventStream().listen(_onAccelerometerEvent);
+  }
 
-      final gX = x / 9.80665;
-      final gY = y / 9.80665;
-      final gZ = z / 9.80665;
+  void _onAccelerometerEvent(AccelerometerEvent event) {
+    const double g = 9.80665;
+    final double gX = event.x / g;
+    final double gY = event.y / g;
+    final double gZ = event.z / g;
 
-      // gForce will be close to 1 when there is no movement.
-      final gForce = sqrt(gX * gX + gY * gY + gZ * gZ);
+    // gForce will be close to 1 when there is no movement.
+    final double gForce = sqrt(gX * gX + gY * gY + gZ * gZ);
 
-      if (gForce > shakeThresholdGravity) {
-        final now = DateTime.now().millisecondsSinceEpoch;
-        // ignore shake events too close to each other (500ms)
-        if (mShakeTimestamp + shakeSlopTimeMS > now) {
-          return;
-        }
-
-        // reset the shake count after 3 seconds of no shakes
-        if (mShakeTimestamp + shakeCountResetTime < now) {
-          mShakeCount = 0;
-        }
-
-        mShakeTimestamp = now;
-        mShakeCount++;
-
-        onPhoneShake!();
+    if (gForce > shakeThresholdGravity) {
+      final int now = DateTime.now().millisecondsSinceEpoch;
+      // ignore shake events too close to each other (500ms)
+      if (mShakeTimestamp + shakeSlopTimeMS > now) {
+        return;
       }
-    });
+
+      // reset the shake count after 3 seconds of no shakes
+      if (mShakeTimestamp + shakeCountResetTime < now) {
+        mShakeCount = 0;
+      }
+
+      mShakeTimestamp = now;
+      mShakeCount++;
+
+      onPhoneShake?.call();
+    }
   }
 
   /// Stops listening to accelerometer events
   void stopListening() {
-    if (streamSubscription != null) {
-      streamSubscription!.cancel();
-    }
+    streamSubscription?.cancel();
   }
 
   void dispose() {

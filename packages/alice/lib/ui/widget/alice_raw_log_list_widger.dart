@@ -17,7 +17,7 @@ class AliceRawLogListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder<String>(
       future: getRawLogs,
-      builder: (context, snapshot) {
+      builder: (context, AsyncSnapshot<String> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data?.isNotEmpty == true) {
             return Scrollbar(
@@ -29,7 +29,7 @@ class AliceRawLogListWidget extends StatelessWidget {
                   padding: const EdgeInsets.all(8),
                   child: InkWell(
                     onLongPress: () =>
-                        _copyToClipboard(snapshot.data!, context),
+                        _copyToClipboard(snapshot.data ?? '', context),
                     child: Text(
                       snapshot.data ?? '',
                       style: const TextStyle(fontSize: 10),
@@ -48,10 +48,13 @@ class AliceRawLogListWidget extends StatelessWidget {
 
   Future<void> _copyToClipboard(String text, BuildContext context) async {
     await Clipboard.setData(ClipboardData(text: text));
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Copied!'),
-      ),
-    );
+
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Copied!'),
+        ),
+      );
+    }
   }
 }

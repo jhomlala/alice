@@ -4,40 +4,44 @@ import 'package:alice/utils/alice_scroll_behavior.dart';
 import 'package:flutter/material.dart';
 
 class AliceCallErrorWidget extends StatefulWidget {
+  const AliceCallErrorWidget(
+    this.call, {
+    super.key,
+  });
+
   final AliceHttpCall call;
 
-  const AliceCallErrorWidget(this.call, {super.key});
-
   @override
-  State<StatefulWidget> createState() {
-    return _AliceCallErrorWidgetState();
-  }
+  State<StatefulWidget> createState() => _AliceCallErrorWidgetState();
 }
 
 class _AliceCallErrorWidgetState
     extends AliceBaseCallDetailsWidgetState<AliceCallErrorWidget> {
-  AliceHttpCall get _call => widget.call;
-
   @override
   Widget build(BuildContext context) {
-    if (_call.error != null) {
-      final rows = <Widget>[];
-      final dynamic error = _call.error!.error;
-      var errorText = 'Error is empty';
-      if (error != null) {
-        errorText = error.toString();
-      }
-      rows.add(getListRow('Error:', errorText));
+    if (widget.call.error != null) {
+      final dynamic error = widget.call.error?.error;
+      final StackTrace? stackTrace = widget.call.error?.stackTrace;
+      final String errorText =
+          error != null ? error.toString() : 'Error is empty';
 
       return Container(
         padding: const EdgeInsets.all(6),
         child: ScrollConfiguration(
           behavior: AliceScrollBehavior(),
-          child: ListView(children: rows),
+          child: ListView(
+            children: [
+              getListRow('Error:', errorText),
+              if (stackTrace != null)
+                getExpandableListRow('Stack trace:', stackTrace.toString()),
+            ],
+          ),
         ),
       );
     } else {
-      return const Center(child: Text('Nothing to display here'));
+      return const Center(
+        child: Text('Nothing to display here'),
+      );
     }
   }
 }

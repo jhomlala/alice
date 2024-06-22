@@ -18,19 +18,12 @@ class AliceCallDetailsScreen extends StatefulWidget {
   const AliceCallDetailsScreen(this.call, this.core, {super.key});
 
   @override
-  State<StatefulWidget> createState() {
-    return _AliceCallDetailsScreenState();
-  }
+  State<StatefulWidget> createState() => _AliceCallDetailsScreenState();
 }
 
 class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
     with SingleTickerProviderStateMixin {
   AliceHttpCall get call => widget.call;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,85 +36,64 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
         child: StreamBuilder<List<AliceHttpCall>>(
           stream: widget.core.callsSubject,
           initialData: [widget.call],
-          builder: (context, callsSnapshot) {
-            if (callsSnapshot.hasData) {
-              final call = callsSnapshot.data!.firstWhereOrNull(
-                (snapshotCall) => snapshotCall.id == widget.call.id,
+          builder: (context, AsyncSnapshot<List<AliceHttpCall>> callsSnapshot) {
+            if (callsSnapshot.hasData && !callsSnapshot.hasError) {
+              final AliceHttpCall? call = callsSnapshot.data?.firstWhereOrNull(
+                (AliceHttpCall snapshotCall) =>
+                    snapshotCall.id == widget.call.id,
               );
               if (call != null) {
-                return _buildMainWidget();
-              } else {
-                return _buildErrorWidget();
+                return DefaultTabController(
+                  length: 4,
+                  child: Scaffold(
+                    appBar: AppBar(
+                      bottom: const TabBar(
+                        indicatorColor: AliceConstants.lightRed,
+                        tabs: [
+                          Tab(icon: Icon(Icons.info_outline), text: 'Overview'),
+                          Tab(icon: Icon(Icons.arrow_upward), text: 'Request'),
+                          Tab(
+                              icon: Icon(Icons.arrow_downward),
+                              text: 'Response'),
+                          Tab(
+                            icon: Icon(Icons.warning),
+                            text: 'Error',
+                          ),
+                        ],
+                      ),
+                      title: const Text('Alice - HTTP Call Details'),
+                    ),
+                    body: TabBarView(
+                      children: [
+                        AliceCallOverviewWidget(widget.call),
+                        AliceCallRequestWidget(widget.call),
+                        AliceCallResponseWidget(widget.call),
+                        AliceCallErrorWidget(widget.call),
+                      ],
+                    ),
+                    floatingActionButton: widget.core.showShareButton ?? false
+                        ? FloatingActionButton(
+                            backgroundColor: AliceConstants.lightRed,
+                            key: const Key('share_key'),
+                            onPressed: () async => await Share.share(
+                              await AliceSaveHelper.buildCallLog(widget.call),
+                              subject: 'Request Details',
+                            ),
+                            child: const Icon(
+                              Icons.share,
+                              color: AliceConstants.white,
+                            ),
+                          )
+                        : null,
+                  ),
+                );
               }
-            } else {
-              return _buildErrorWidget();
             }
+
+            return const Center(child: Text('Failed to load data'));
           },
         ),
       ),
     );
-  }
-
-  Widget _buildMainWidget() {
-    return DefaultTabController(
-      length: 4,
-      child: Scaffold(
-        floatingActionButton: widget.core.showShareButton == true
-            ? FloatingActionButton(
-                backgroundColor: AliceConstants.lightRed,
-                key: const Key('share_key'),
-                onPressed: () async {
-                  await Share.share(
-                    await _getSharableResponseString(),
-                    subject: 'Request Details',
-                  );
-                },
-                child: Icon(
-                  Icons.share,
-                  color: AliceConstants.white,
-                ),
-              )
-            : null,
-        appBar: AppBar(
-          bottom: TabBar(
-            indicatorColor: AliceConstants.lightRed,
-            tabs: _getTabBars(),
-          ),
-          title: const Text('Alice - HTTP Call Details'),
-        ),
-        body: TabBarView(
-          children: _getTabBarViewList(),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildErrorWidget() {
-    return const Center(child: Text('Failed to load data'));
-  }
-
-  Future<String> _getSharableResponseString() async {
-    return AliceSaveHelper.buildCallLog(widget.call);
-  }
-
-  List<Widget> _getTabBars() {
-    return <Widget>[
-      const Tab(icon: Icon(Icons.info_outline), text: 'Overview'),
-      const Tab(icon: Icon(Icons.arrow_upward), text: 'Request'),
-      const Tab(icon: Icon(Icons.arrow_downward), text: 'Response'),
-      const Tab(
-        icon: Icon(Icons.warning),
-        text: 'Error',
-      ),
-    ];
-  }
-
-  List<Widget> _getTabBarViewList() {
-    return [
-      AliceCallOverviewWidget(widget.call),
-      AliceCallRequestWidget(widget.call),
-      AliceCallResponseWidget(widget.call),
-      AliceCallErrorWidget(widget.call),
-    ];
   }
 }

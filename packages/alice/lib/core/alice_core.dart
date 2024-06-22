@@ -1,5 +1,5 @@
-import 'dart:async';
-import 'dart:io';
+import 'dart:async' show StreamSubscription;
+import 'dart:io' show Platform;
 
 import 'package:alice/core/alice_logger.dart';
 import 'package:alice/core/alice_utils.dart';
@@ -9,6 +9,7 @@ import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice/model/alice_log.dart';
 import 'package:alice/ui/page/alice_calls_list_screen.dart';
+import 'package:alice/utils/num_comparison.dart';
 import 'package:alice/utils/shake_detector.dart';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
@@ -43,7 +44,7 @@ class AliceCore {
 
   final AliceLogger _aliceLogger = AliceLogger();
 
-  late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
+  late final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
   GlobalKey<NavigatorState>? navigatorKey;
   bool _isInspectorOpened = false;
   ShakeDetector? _shakeDetector;
@@ -70,9 +71,7 @@ class AliceCore {
     if (showInspectorOnShake) {
       if (Platform.isAndroid || Platform.isIOS) {
         _shakeDetector = ShakeDetector.autoStart(
-          onPhoneShake: () {
-            navigateToCallListScreen();
-          },
+          onPhoneShake: navigateToCallListScreen,
           shakeThresholdGravity: 4,
         );
       }
@@ -88,11 +87,14 @@ class AliceCore {
 
   void _initializeNotificationsPlugin() {
     _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    final initializationSettingsAndroid =
+    final AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings(notificationIcon);
-    const initializationSettingsIOS = DarwinInitializationSettings();
-    const initializationSettingsMacOS = DarwinInitializationSettings();
-    final initializationSettings = InitializationSettings(
+    const DarwinInitializationSettings initializationSettingsIOS =
+        DarwinInitializationSettings();
+    const DarwinInitializationSettings initializationSettingsMacOS =
+        DarwinInitializationSettings();
+    final InitializationSettings initializationSettings =
+        InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
       macOS: initializationSettingsMacOS,
@@ -119,13 +121,12 @@ class AliceCore {
   ) async {
     assert(response.payload != null, "payload can't be null");
     navigateToCallListScreen();
-    return;
   }
 
   /// Opens Http calls inspector. This will navigate user to the new fullscreen
   /// page where all listened http calls can be viewed.
   void navigateToCallListScreen() {
-    final context = getContext();
+    final BuildContext? context = getContext();
     if (context == null) {
       AliceUtils.log(
         'Cant start Alice HTTP Inspector. Please add NavigatorKey to your '
@@ -138,9 +139,9 @@ class AliceCore {
       Navigator.push<void>(
         context,
         MaterialPageRoute(
-          builder: (context) => AliceCallsListScreen(this, _aliceLogger),
+          builder: (_) => AliceCallsListScreen(this, _aliceLogger),
         ),
-      ).then((onValue) => _isInspectorOpened = false);
+      ).then((_) => _isInspectorOpened = false);
     }
   }
 
@@ -148,59 +149,58 @@ class AliceCore {
   BuildContext? getContext() => navigatorKey?.currentState?.overlay?.context;
 
   String _getNotificationMessage() {
-    final calls = callsSubject.value;
-    final successCalls = calls
+    final List<AliceHttpCall> calls = callsSubject.value;
+    final int successCalls = calls
         .where(
-          (call) =>
-              call.response != null &&
-              call.response!.status! >= 200 &&
-              call.response!.status! < 300,
+          (AliceHttpCall call) =>
+              (call.response?.status.gte(200) ?? false) &&
+              (call.response?.status.lt(300) ?? false),
         )
         .toList()
         .length;
 
-    final redirectCalls = calls
+    final int redirectCalls = calls
+        .where((AliceHttpCall call) =>
+            (call.response?.status.gte(300) ?? false) &&
+            (call.response?.status.lt(400) ?? false))
+        .toList()
+        .length;
+
+    final int errorCalls = calls
         .where(
-          (call) =>
-              call.response != null &&
-              call.response!.status! >= 300 &&
-              call.response!.status! < 400,
+          (AliceHttpCall call) =>
+              (call.response?.status.gte(400) ?? false) &&
+              (call.response?.status.lt(600) ?? false),
         )
         .toList()
         .length;
 
-    final errorCalls = calls
-        .where(
-          (call) =>
-              call.response != null &&
-              call.response!.status! >= 400 &&
-              call.response!.status! < 600,
-        )
-        .toList()
-        .length;
+    final int loadingCalls =
+        calls.where((call) => call.loading).toList().length;
 
-    final loadingCalls = calls.where((call) => call.loading).toList().length;
-
-    final notificationsMessage = StringBuffer();
+    final StringBuffer notificationsMessage = StringBuffer();
     if (loadingCalls > 0) {
-      notificationsMessage
-        ..write('Loading: $loadingCalls')
-        ..write(' | ');
+      notificationsMessage.writeAll([
+        'Loading: $loadingCalls',
+        ' | ',
+      ]);
     }
     if (successCalls > 0) {
-      notificationsMessage
-        ..write('Success: $successCalls')
-        ..write(' | ');
+      notificationsMessage.writeAll([
+        'Success: $successCalls',
+        ' | ',
+      ]);
     }
     if (redirectCalls > 0) {
-      notificationsMessage
-        ..write('Redirect: $redirectCalls')
-        ..write(' | ');
+      notificationsMessage.writeAll([
+        'Redirect: $redirectCalls',
+        ' | ',
+      ]);
     }
     if (errorCalls > 0) {
       notificationsMessage.write('Error: $errorCalls');
     }
-    var notificationMessageString = notificationsMessage.toString();
+    String notificationMessageString = notificationsMessage.toString();
     if (notificationMessageString.endsWith(' | ')) {
       notificationMessageString = notificationMessageString.substring(
         0,
@@ -241,10 +241,11 @@ class AliceCore {
 
   Future<void> _showLocalNotification() async {
     _notificationProcessing = true;
-    const channelId = 'Alice';
-    const channelName = 'Alice';
-    const channelDescription = 'Alice';
-    final androidPlatformChannelSpecifics = AndroidNotificationDetails(
+    const String channelId = 'Alice';
+    const String channelName = 'Alice';
+    const String channelDescription = 'Alice';
+    final AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
       channelId,
       channelName,
       channelDescription: channelDescription,
@@ -252,13 +253,13 @@ class AliceCore {
       playSound: false,
       largeIcon: DrawableResourceAndroidBitmap(notificationIcon),
     );
-    const iOSPlatformChannelSpecifics =
+    const DarwinNotificationDetails iOSPlatformChannelSpecifics =
         DarwinNotificationDetails(presentSound: false);
-    final platformChannelSpecifics = NotificationDetails(
+    final NotificationDetails platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics,
     );
-    final message = _notificationMessage;
+    final String? message = _notificationMessage;
     await _flutterLocalNotificationsPlugin.show(
       0,
       'Alice (total: ${callsSubject.value.length} requests)',
@@ -269,19 +270,18 @@ class AliceCore {
 
     _notificationMessageShown = message;
     _notificationProcessing = false;
-    return;
   }
 
   /// Add alice http call to calls subject
   void addCall(AliceHttpCall call) {
-    final callsCount = callsSubject.value.length;
+    final int callsCount = callsSubject.value.length;
     if (callsCount >= maxCallsCount) {
-      final originalCalls = callsSubject.value;
-      final calls = List<AliceHttpCall>.from(originalCalls)
-        ..sort(
-          (call1, call2) => call1.createdTime.compareTo(call2.createdTime),
+      final List<AliceHttpCall> originalCalls = callsSubject.value;
+      final List<AliceHttpCall> calls = [...originalCalls]..sort(
+          (AliceHttpCall call1, AliceHttpCall call2) =>
+              call1.createdTime.compareTo(call2.createdTime),
         );
-      final indexToReplace = originalCalls.indexOf(calls.first);
+      final int indexToReplace = originalCalls.indexOf(calls.first);
       originalCalls[indexToReplace] = call;
 
       callsSubject.add(originalCalls);
@@ -292,11 +292,10 @@ class AliceCore {
 
   /// Add error to existing alice http call
   void addError(AliceHttpError error, int requestId) {
-    final selectedCall = _selectCall(requestId);
+    final AliceHttpCall? selectedCall = _selectCall(requestId);
 
     if (selectedCall == null) {
-      AliceUtils.log('Selected call is null');
-      return;
+      return AliceUtils.log('Selected call is null');
     }
 
     selectedCall.error = error;
@@ -305,17 +304,17 @@ class AliceCore {
 
   /// Add response to existing alice http call
   void addResponse(AliceHttpResponse response, int requestId) {
-    final selectedCall = _selectCall(requestId);
+    final AliceHttpCall? selectedCall = _selectCall(requestId);
 
     if (selectedCall == null) {
-      AliceUtils.log('Selected call is null');
-      return;
+      return AliceUtils.log('Selected call is null');
     }
+
     selectedCall
       ..loading = false
       ..response = response
       ..duration = response.time.millisecondsSinceEpoch -
-          selectedCall.request!.time.millisecondsSinceEpoch;
+          (selectedCall.request?.time.millisecondsSinceEpoch ?? 0);
 
     callsSubject.add([...callsSubject.value]);
   }
@@ -328,12 +327,10 @@ class AliceCore {
   }
 
   /// Remove all calls from calls subject
-  void removeCalls() {
-    callsSubject.add([]);
-  }
+  void removeCalls() => callsSubject.add([]);
 
-  AliceHttpCall? _selectCall(int requestId) =>
-      callsSubject.value.firstWhereOrNull((call) => call.id == requestId);
+  AliceHttpCall? _selectCall(int requestId) => callsSubject.value
+      .firstWhereOrNull((AliceHttpCall call) => call.id == requestId);
 
   /// Save all calls to file
   void saveHttpRequests(BuildContext context) {

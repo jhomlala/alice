@@ -13,7 +13,7 @@ class AliceParser {
   static String _parseJson(dynamic json) {
     try {
       return encoder.convert(json);
-    } catch (exception) {
+    } catch (_) {
       return json.toString();
     }
   }
@@ -21,7 +21,7 @@ class AliceParser {
   static dynamic _decodeJson(dynamic body) {
     try {
       return json.decode(body as String);
-    } catch (exception) {
+    } catch (_) {
       return body;
     }
   }
@@ -32,7 +32,7 @@ class AliceParser {
         return _emptyBody;
       }
 
-      var bodyContent = _emptyBody;
+      String bodyContent = _emptyBody;
 
       if (contentType == null ||
           !contentType.toLowerCase().contains(_applicationJson)) {
@@ -47,7 +47,7 @@ class AliceParser {
         } else {
           if (body is String) {
             if (body.isNotEmpty) {
-              //body is minified json, so decode it to a map and let the
+              // body is minified json, so decode it to a map and let the
               // encoder pretty print this map
               bodyContent = _parseJson(_decodeJson(body));
             }
@@ -60,7 +60,7 @@ class AliceParser {
       }
 
       return bodyContent;
-    } catch (exception) {
+    } catch (_) {
       return _parseFailedText + body.toString();
     }
   }
