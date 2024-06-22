@@ -2,7 +2,7 @@ import 'package:alice/core/alice_core.dart';
 import 'package:alice/helper/alice_save_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/ui/call_details/widget/alice_call_error_widget.dart';
-import 'package:alice/ui/call_details/widget/alice_call_overview_widget.dart';
+import 'package:alice/ui/call_details/widget/alice_call_overview_screen.dart';
 import 'package:alice/ui/call_details/widget/alice_call_request_widget.dart';
 import 'package:alice/ui/call_details/widget/alice_call_response_widget.dart';
 import 'package:alice/utils/alice_constants.dart';
@@ -63,10 +63,10 @@ class _AliceCallDetailsPageState extends State<AliceCallDetailsPage>
                     ),
                     body: TabBarView(
                       children: [
-                        AliceCallOverviewWidget(widget.call),
-                        AliceCallRequestWidget(widget.call),
-                        AliceCallResponseWidget(widget.call),
-                        AliceCallErrorWidget(widget.call),
+                        AliceCallOverviewScreen(call: widget.call),
+                        AliceCallRequestScreen(call: widget.call),
+                        AliceCallResponseScreen(call: widget.call),
+                        AliceCallErrorScreen(call: widget.call),
                       ],
                     ),
                     floatingActionButton: widget.core.showShareButton ?? false

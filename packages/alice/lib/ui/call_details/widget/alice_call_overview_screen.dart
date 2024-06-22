@@ -4,19 +4,9 @@ import 'package:alice/ui/call_details/widget/alice_call_list_row.dart';
 import 'package:alice/utils/alice_scroll_behavior.dart';
 import 'package:flutter/material.dart';
 
-class AliceCallOverviewWidget extends StatefulWidget {
+class AliceCallOverviewScreen extends StatelessWidget {
   final AliceHttpCall call;
-
-  const AliceCallOverviewWidget(this.call, {super.key});
-
-  @override
-  State<StatefulWidget> createState() {
-    return _AliceCallOverviewWidget();
-  }
-}
-
-class _AliceCallOverviewWidget extends State<AliceCallOverviewWidget> {
-  AliceHttpCall get _call => widget.call;
+  const AliceCallOverviewScreen({super.key, required this.call});
 
   @override
   Widget build(BuildContext context) {
@@ -28,44 +18,44 @@ class _AliceCallOverviewWidget extends State<AliceCallOverviewWidget> {
           children: [
             AliceCallListRow(
               name: 'Method: ',
-              value: _call.method,
+              value: call.method,
             ),
             AliceCallListRow(
               name: 'Server: ',
-              value: _call.server,
+              value: call.server,
             ),
             AliceCallListRow(
               name: 'Endpoint: ',
-              value: _call.endpoint,
+              value: call.endpoint,
             ),
             AliceCallListRow(
               name: 'Started:',
-              value: _call.request?.time.toString(),
+              value: call.request?.time.toString(),
             ),
             AliceCallListRow(
               name: 'Finished:',
-              value: _call.response?.time.toString(),
+              value: call.response?.time.toString(),
             ),
             AliceCallListRow(
               name: 'Duration:',
-              value: AliceConversionHelper.formatTime(_call.duration),
+              value: AliceConversionHelper.formatTime(call.duration),
             ),
             AliceCallListRow(
               name: 'Bytes sent:',
               value: AliceConversionHelper.formatBytes(
-                _call.request?.size ?? 0,
+                call.request?.size ?? 0,
               ),
             ),
             AliceCallListRow(
               name: 'Bytes received:',
               value: AliceConversionHelper.formatBytes(
-                _call.response?.size ?? 0,
+                call.response?.size ?? 0,
               ),
             ),
-            AliceCallListRow(name: 'Client:', value: _call.client),
+            AliceCallListRow(name: 'Client:', value: call.client),
             AliceCallListRow(
               name: 'Secure:',
-              value: _call.secure.toString(),
+              value: call.secure.toString(),
             ),
           ],
         ),

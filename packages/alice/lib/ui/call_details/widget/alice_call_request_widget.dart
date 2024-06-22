@@ -7,36 +7,27 @@ import 'package:alice/utils/alice_parser.dart';
 import 'package:alice/utils/alice_scroll_behavior.dart';
 import 'package:flutter/material.dart';
 
-class AliceCallRequestWidget extends StatefulWidget {
+class AliceCallRequestScreen extends StatelessWidget {
   final AliceHttpCall call;
 
-  const AliceCallRequestWidget(this.call, {super.key});
-
-  @override
-  State<StatefulWidget> createState() {
-    return _AliceCallRequestWidget();
-  }
-}
-
-class _AliceCallRequestWidget extends State<AliceCallRequestWidget> {
-  AliceHttpCall get _call => widget.call;
+  const AliceCallRequestScreen({super.key, required this.call});
 
   @override
   Widget build(BuildContext context) {
     final List<Widget> rows = [
-      AliceCallListRow(name: 'Started:', value: _call.request?.time.toString()),
+      AliceCallListRow(name: 'Started:', value: call.request?.time.toString()),
       AliceCallListRow(
           name: 'Bytes sent:',
-          value: AliceConversionHelper.formatBytes(_call.request?.size ?? 0)),
+          value: AliceConversionHelper.formatBytes(call.request?.size ?? 0)),
       AliceCallListRow(
           name: 'Content type:',
-          value: AliceParser.getContentType(_call.request?.headers)),
+          value: AliceParser.getContentType(call.request?.headers)),
     ];
 
     rows.add(AliceCallListRow(name: 'Body:', value: _getBodyContent()));
 
     final List<AliceFormDataField>? formDataFields =
-        _call.request?.formDataFields;
+        call.request?.formDataFields;
     if (formDataFields?.isNotEmpty ?? false) {
       rows.add(const AliceCallListRow(name: 'Form data fields: ', value: ''));
       rows.addAll([
@@ -45,7 +36,7 @@ class _AliceCallRequestWidget extends State<AliceCallRequestWidget> {
       ]);
     }
 
-    final List<AliceFormDataFile>? formDataFiles = _call.request!.formDataFiles;
+    final List<AliceFormDataFile>? formDataFiles = call.request!.formDataFiles;
     if (formDataFiles?.isNotEmpty ?? false) {
       rows.add(const AliceCallListRow(name: 'Form data files: ', value: ''));
       rows.addAll([
@@ -57,7 +48,7 @@ class _AliceCallRequestWidget extends State<AliceCallRequestWidget> {
       ]);
     }
 
-    final Map<String, dynamic>? headers = _call.request?.headers;
+    final Map<String, dynamic>? headers = call.request?.headers;
     final String headersContent =
         headers?.isEmpty ?? true ? 'Headers are empty' : '';
     rows.add(AliceCallListRow(name: 'Headers: ', value: headersContent));
@@ -67,8 +58,7 @@ class _AliceCallRequestWidget extends State<AliceCallRequestWidget> {
             name: '   • ${header.key}:', value: header.value.toString())
     ]);
 
-    final Map<String, dynamic>? queryParameters =
-        _call.request?.queryParameters;
+    final Map<String, dynamic>? queryParameters = call.request?.queryParameters;
     final String queryParametersContent =
         queryParameters?.isEmpty ?? true ? 'Query parameters are empty' : '';
     rows.add(AliceCallListRow(
@@ -90,10 +80,10 @@ class _AliceCallRequestWidget extends State<AliceCallRequestWidget> {
   }
 
   String _getBodyContent() {
-    final dynamic body = _call.request?.body;
+    final dynamic body = call.request?.body;
     return body != null
         ? AliceParser.formatBody(
-            body, AliceParser.getContentType(_call.request?.headers))
+            body, AliceParser.getContentType(call.request?.headers))
         : 'Body is empty';
   }
 }
