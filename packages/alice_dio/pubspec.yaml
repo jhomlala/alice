@@ -1,6 +1,6 @@
 name: alice_dio
 description: "Alice + Dio integration. It contains plugin for Alice which allows to use Dio package."
-version: 1.0.2
+version: 1.0.3
 repository: https://github.com/jhomlala/alice
 homepage: https://github.com/jhomlala/alice
 
