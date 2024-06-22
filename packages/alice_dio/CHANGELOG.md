@@ -2,6 +2,7 @@
 
 * Changed linter from very good analysis to flutter lints.
 * General code base refactor.
+* Create error log on http exception.
 
 # 1.0.2
 

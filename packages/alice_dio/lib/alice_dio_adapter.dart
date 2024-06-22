@@ -7,7 +7,9 @@ import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
+import 'package:alice/model/alice_log.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 class AliceDioAdapter extends InterceptorsWrapper with AliceAdapter {
   /// Handles dio request and creates alice http call based on it
@@ -149,6 +151,12 @@ class AliceDioAdapter extends InterceptorsWrapper with AliceAdapter {
         httpResponse,
         error.response!.requestOptions.hashCode,
       );
+      aliceCore.addLog(AliceLog(
+        message: error.toString(),
+        level: DiagnosticLevel.error,
+        error: error,
+        stackTrace: error.stackTrace
+      ));
     }
     handler.next(error);
   }

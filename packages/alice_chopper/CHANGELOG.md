@@ -1,6 +1,6 @@
 # 1.0.4
 
-* Create error log on exception (by Klemen Tusar https://github.com/techouse).
+* Create error log on http exception (by Klemen Tusar https://github.com/techouse).
 * Fixed HTTP error status (by Klemen Tusar https://github.com/techouse).
 * Changed linter from very good analysis to flutter lints.
 * General code base refactor.
