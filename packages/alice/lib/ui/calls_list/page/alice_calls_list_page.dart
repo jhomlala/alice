@@ -194,26 +194,26 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
         }
       });
 
-  void _onTabChanged(int index) => setState(() {
-        _selectedIndex = index;
-        if (_selectedIndex == 1) {
-          _searchEnabled = false;
-          _queryTextEditingController.text = '';
-        }
-      },);
+  void _onTabChanged(int index) => setState(
+        () {
+          _selectedIndex = index;
+          if (_selectedIndex == 1) {
+            _searchEnabled = false;
+            _queryTextEditingController.text = '';
+          }
+        },
+      );
 
-  void _onMenuItemSelected(AliceMenuItem menuItem) {
-    if (menuItem.title == 'Sort') {
-      _showSortDialog();
-    }
-    if (menuItem.title == 'Delete') {
-      _showRemoveDialog();
-    }
-    if (menuItem.title == 'Stats') {
-      _showStatsScreen();
-    }
-    if (menuItem.title == 'Save') {
-      _saveToFile();
+  void _onMenuItemSelected(AliceMenuItemType menuItem) {
+    switch (menuItem) {
+      case AliceMenuItemType.sort:
+        _showSortDialog();
+      case AliceMenuItemType.delete:
+        _showRemoveDialog();
+      case AliceMenuItemType.stats:
+        _showStatsScreen();
+      case AliceMenuItemType.save:
+        _saveToFile();
     }
   }
 
@@ -315,40 +315,59 @@ class _SearchTextField extends StatelessWidget {
 }
 
 class _ContextMenuButton extends StatelessWidget {
-  static const List<AliceMenuItem> _menuItems = [
-    AliceMenuItem('Sort', Icons.sort),
-    AliceMenuItem('Delete', Icons.delete),
-    AliceMenuItem('Stats', Icons.insert_chart),
-    AliceMenuItem('Save', Icons.save),
-  ];
-
   const _ContextMenuButton({super.key, required this.onMenuItemSelected});
 
-  final void Function(AliceMenuItem) onMenuItemSelected;
+  final void Function(AliceMenuItemType) onMenuItemSelected;
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton<AliceMenuItem>(
+    return PopupMenuButton<AliceMenuItemType>(
       onSelected: onMenuItemSelected,
       itemBuilder: (BuildContext context) => [
-        for (final AliceMenuItem item in _menuItems)
-          PopupMenuItem<AliceMenuItem>(
+        for (final AliceMenuItemType item in AliceMenuItemType.values)
+          PopupMenuItem<AliceMenuItemType>(
             value: item,
             child: Row(
               children: [
                 Icon(
-                  item.iconData,
+                  _getIcon(itemType: item),
                   color: AliceConstants.lightRed,
                 ),
                 const Padding(
                   padding: EdgeInsets.only(left: 10),
                 ),
-                Text(item.title),
+                Text(_getTitle(itemType: item)),
               ],
             ),
           ),
       ],
     );
+  }
+
+  String _getTitle({required AliceMenuItemType itemType}) {
+    switch (itemType) {
+      case AliceMenuItemType.sort:
+        return "Sort";
+      case AliceMenuItemType.delete:
+        return "Delete";
+      case AliceMenuItemType.stats:
+        return "Stats";
+      case AliceMenuItemType.save:
+        return "Save";
+    }
+  }
+
+  IconData _getIcon({required AliceMenuItemType itemType}) {
+    switch (itemType) {
+      case AliceMenuItemType.sort:
+        return Icons.sort;
+      case AliceMenuItemType.delete:
+        return Icons.delete;
+      case AliceMenuItemType.stats:
+        return Icons.insert_chart;
+      case AliceMenuItemType.save:
+        return Icons.save;
+    }
   }
 }
 

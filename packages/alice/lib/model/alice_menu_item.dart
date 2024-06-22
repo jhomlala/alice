@@ -9,3 +9,7 @@ class AliceMenuItem {
   final String title;
   final IconData iconData;
 }
+
+enum AliceMenuItemType{
+  sort, delete, stats, save
+}
