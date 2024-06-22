@@ -14,6 +14,9 @@ dependencies:
   alice_http:
   http: ^1.2.1
 
+dev_dependencies:
+  flutter_lints: ^4.0.0
+
 dependency_overrides:
   alice:
     path: ../../packages/alice
