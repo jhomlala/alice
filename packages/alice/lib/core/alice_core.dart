@@ -9,6 +9,8 @@ import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice/model/alice_log.dart';
 import 'package:alice/ui/calls_list/alice_calls_list_screen.dart';
+import 'package:alice/utils/alice_constants.dart';
+import 'package:alice/utils/alice_theme.dart';
 import 'package:alice/utils/num_comparison.dart';
 import 'package:alice/utils/shake_detector.dart';
 import 'package:collection/collection.dart' show IterableExtension;
@@ -139,8 +141,17 @@ class AliceCore {
       Navigator.push<void>(
         context,
         MaterialPageRoute(
-          builder: (_) =>
-              MaterialApp(home: AliceCallsListScreen(this, _aliceLogger)),
+          builder: (_) => MaterialApp(
+            theme: ThemeData(
+              useMaterial3: true,
+                colorScheme: AliceTheme.getColorScheme(),
+                dividerColor: Colors.transparent,
+                buttonTheme: const ButtonThemeData(
+                  buttonColor: AliceConstants.lightRed,
+                  textTheme: ButtonTextTheme.primary,
+                )),
+            home: AliceCallsListScreen(this, _aliceLogger),
+          ),
         ),
       ).then((_) => _isInspectorOpened = false);
     }

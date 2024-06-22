@@ -30,9 +30,7 @@ class _AliceCallDetailsPageState extends State<AliceCallDetailsPage>
     return Directionality(
       textDirection: widget.core.directionality ?? Directionality.of(context),
       child: Theme(
-        data: ThemeData(
-          colorScheme: AliceTheme.getColorScheme(),
-        ),
+        data: AliceTheme.getTheme(),
         child: StreamBuilder<List<AliceHttpCall>>(
           stream: widget.core.callsSubject,
           initialData: [widget.call],

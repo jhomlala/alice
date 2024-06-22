@@ -3,6 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class AliceTheme {
+  static ThemeData getTheme() {
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: AliceTheme.getColorScheme(),
+      dividerColor: Colors.transparent,
+      buttonTheme: const ButtonThemeData(
+        buttonColor: AliceConstants.lightRed,
+        textTheme: ButtonTextTheme.primary,
+      ),
+    );
+  }
+
   static bool get _isDarkMode =>
       SchedulerBinding.instance.platformDispatcher.platformBrightness ==
       Brightness.dark;

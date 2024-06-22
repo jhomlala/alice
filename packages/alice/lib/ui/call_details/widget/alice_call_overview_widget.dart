@@ -26,27 +26,47 @@ class _AliceCallOverviewWidget extends State<AliceCallOverviewWidget> {
         behavior: AliceScrollBehavior(),
         child: ListView(
           children: [
-            AliceCallListRow(name: 'Method: ', value: _call.method),
-            AliceCallListRow(name: 'Server: ', value: _call.server),
-            AliceCallListRow(name: 'Endpoint: ', value: _call.endpoint),
             AliceCallListRow(
-                name: 'Started:', value: _call.request?.time.toString()),
+              name: 'Method: ',
+              value: _call.method,
+            ),
             AliceCallListRow(
-                name: 'Finished:', value: _call.response?.time.toString()),
+              name: 'Server: ',
+              value: _call.server,
+            ),
             AliceCallListRow(
-                name: 'Duration:',
-                value: AliceConversionHelper.formatTime(_call.duration)),
+              name: 'Endpoint: ',
+              value: _call.endpoint,
+            ),
             AliceCallListRow(
-                name: 'Bytes sent:',
-                value: AliceConversionHelper.formatBytes(
-                    _call.request?.size ?? 0)),
+              name: 'Started:',
+              value: _call.request?.time.toString(),
+            ),
+            AliceCallListRow(
+              name: 'Finished:',
+              value: _call.response?.time.toString(),
+            ),
+            AliceCallListRow(
+              name: 'Duration:',
+              value: AliceConversionHelper.formatTime(_call.duration),
+            ),
+            AliceCallListRow(
+              name: 'Bytes sent:',
+              value: AliceConversionHelper.formatBytes(
+                _call.request?.size ?? 0,
+              ),
+            ),
             AliceCallListRow(
               name: 'Bytes received:',
-              value:
-                  AliceConversionHelper.formatBytes(_call.response?.size ?? 0),
+              value: AliceConversionHelper.formatBytes(
+                _call.response?.size ?? 0,
+              ),
             ),
             AliceCallListRow(name: 'Client:', value: _call.client),
-            AliceCallListRow(name: 'Secure:', value: _call.secure.toString()),
+            AliceCallListRow(
+              name: 'Secure:',
+              value: _call.secure.toString(),
+            ),
           ],
         ),
       ),
