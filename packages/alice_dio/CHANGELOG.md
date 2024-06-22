@@ -1,6 +1,7 @@
 # 1.0.3
 
 * Changed linter from very good analysis to flutter lints.
+* General code base refactor.
 
 # 1.0.2
 
