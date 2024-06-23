@@ -4,8 +4,8 @@ import 'package:alice/ui/calls_list/widget/alice_call_list_item_widget.dart';
 import 'package:alice/utils/alice_scroll_behavior.dart';
 import 'package:flutter/material.dart';
 
-class AliceCallsListWidget extends StatelessWidget {
-  const AliceCallsListWidget({
+class AliceCallsListScreen extends StatelessWidget {
+  const AliceCallsListScreen({
     super.key,
     required this.calls,
     this.sortOption,

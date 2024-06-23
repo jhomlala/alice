@@ -8,9 +8,9 @@ import 'package:alice/ui/calls_list/model/alice_calls_list_tab_item.dart';
 import 'package:alice/ui/calls_list/widget/alice_sort_dialog.dart';
 import 'package:alice/ui/common/alice_navigation.dart';
 import 'package:alice/ui/common/alice_page.dart';
-import 'package:alice/ui/calls_list/widget/alice_calls_list_widget.dart';
+import 'package:alice/ui/calls_list/widget/alice_calls_list_screen.dart';
 import 'package:alice/ui/calls_list/widget/alice_empty_logs_widget.dart';
-import 'package:alice/ui/calls_list/widget/alice_logs_widget.dart';
+import 'package:alice/ui/calls_list/widget/alice_logs_screen.dart';
 import 'package:alice/utils/alice_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -130,7 +130,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
                       .contains(query.toLowerCase()));
                 }
                 if (calls.isNotEmpty) {
-                  return AliceCallsListWidget(
+                  return AliceCallsListScreen(
                     calls: calls,
                     sortOption: _sortOption,
                     sortAscending: _sortAscending,
@@ -141,7 +141,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
                 }
               },
             ),
-            AliceLogsWidget(
+            AliceLogsScreen(
               scrollController: _scrollController,
               aliceLogger: widget.logger,
               isAndroidRawLogsEnabled: isAndroidRawLogsEnabled,
