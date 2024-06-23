@@ -43,7 +43,7 @@ class AliceSortDialog extends StatelessWidget {
                   children: [
                     const Text('Descending'),
                     Switch(
-                      value: currentSortAscending ?? false,
+                      value: currentSortAscending,
                       onChanged: (value) {
                         setState(() {
                           currentSortAscending = value;

@@ -5,11 +5,9 @@ import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/ui/call_details/model/alice_menu_item.dart';
 import 'package:alice/ui/call_details/model/alice_sort_option.dart';
 import 'package:alice/ui/calls_list/model/alice_calls_list_tab_item.dart';
-import 'package:alice/ui/call_details/page/alice_call_details_page.dart';
 import 'package:alice/ui/calls_list/widget/alice_sort_dialog.dart';
 import 'package:alice/ui/common/alice_navigation.dart';
 import 'package:alice/ui/common/alice_page.dart';
-import 'package:alice/ui/stats/alice_stats_page.dart';
 import 'package:alice/ui/calls_list/widget/alice_calls_list_widget.dart';
 import 'package:alice/ui/calls_list/widget/alice_empty_logs_widget.dart';
 import 'package:alice/ui/calls_list/widget/alice_logs_widget.dart';
@@ -257,7 +255,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
     if (result != null) {
       setState(() {
         _sortOption = result.sortOption;
-        _sortAscending = result.sortAscending ?? false;
+        _sortAscending = result.sortAscending;
       });
     }
   }
@@ -287,7 +285,6 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
 
 class _SearchTextField extends StatelessWidget {
   const _SearchTextField({
-    super.key,
     required this.textEditingController,
     required this.onChanged,
   });
@@ -312,7 +309,7 @@ class _SearchTextField extends StatelessWidget {
 }
 
 class _ContextMenuButton extends StatelessWidget {
-  const _ContextMenuButton({super.key, required this.onMenuItemSelected});
+  const _ContextMenuButton({required this.onMenuItemSelected});
 
   final void Function(AliceMenuItemType) onMenuItemSelected;
 
@@ -369,7 +366,7 @@ class _ContextMenuButton extends StatelessWidget {
 }
 
 class _LoggerFloatingActionButtons extends StatelessWidget {
-  const _LoggerFloatingActionButtons({super.key, required this.scrollLogsList});
+  const _LoggerFloatingActionButtons({required this.scrollLogsList});
 
   final void Function(bool) scrollLogsList;
 

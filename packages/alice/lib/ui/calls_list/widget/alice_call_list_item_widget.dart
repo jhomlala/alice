@@ -17,7 +17,6 @@ class AliceCallListItemWidget extends StatelessWidget {
   final AliceHttpCall call;
   final void Function(AliceHttpCall) itemClickAction;
 
-
   @override
   Widget build(BuildContext context) {
     final Color requestColor = _getEndpointTextColor(context);
@@ -57,12 +56,11 @@ class AliceCallListItemWidget extends StatelessWidget {
     );
   }
 
-
   Color _getStatusTextColor(BuildContext context) =>
       switch (call.response?.status) {
         -1 => AliceTheme.red,
         int status when status < 200 =>
-        Theme.of(context).textTheme.bodyLarge?.color ?? AliceTheme.grey,
+          Theme.of(context).textTheme.bodyLarge?.color ?? AliceTheme.grey,
         int status when status >= 200 && status < 300 => AliceTheme.green,
         int status when status >= 300 && status < 400 => AliceTheme.orange,
         int status when status >= 400 && status < 600 => AliceTheme.red,
@@ -76,7 +74,7 @@ class AliceCallListItemWidget extends StatelessWidget {
 class _ServerAddress extends StatelessWidget {
   final AliceHttpCall call;
 
-  const _ServerAddress({super.key, required this.call});
+  const _ServerAddress({required this.call});
 
   @override
   Widget build(BuildContext context) {
@@ -109,8 +107,7 @@ class _EndpointAndMethod extends StatelessWidget {
   final AliceHttpCall call;
   final Color color;
 
-  const _EndpointAndMethod(
-      {super.key, required this.call, required this.color});
+  const _EndpointAndMethod({required this.call, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +140,7 @@ class _ResponseStatus extends StatelessWidget {
   final AliceHttpCall call;
   final Color color;
 
-  const _ResponseStatus({super.key, required this.call, required this.color});
+  const _ResponseStatus({required this.call, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -186,7 +183,7 @@ class _ResponseStatus extends StatelessWidget {
 class _ConnectionStats extends StatelessWidget {
   final AliceHttpCall call;
 
-  const _ConnectionStats({super.key, required this.call});
+  const _ConnectionStats({required this.call});
 
   @override
   Widget build(BuildContext context) {
