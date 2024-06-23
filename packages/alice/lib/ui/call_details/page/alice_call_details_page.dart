@@ -1,6 +1,7 @@
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/helper/alice_save_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
+import 'package:alice/ui/call_details/model/alice_call_details_tab.dart';
 import 'package:alice/ui/call_details/widget/alice_call_error_widget.dart';
 import 'package:alice/ui/call_details/widget/alice_call_overview_screen.dart';
 import 'package:alice/ui/call_details/widget/alice_call_request_widget.dart';
@@ -15,7 +16,8 @@ class AliceCallDetailsPage extends StatefulWidget {
   final AliceHttpCall call;
   final AliceCore core;
 
-  const AliceCallDetailsPage({required this.call, required this.core, super.key});
+  const AliceCallDetailsPage(
+      {required this.call, required this.core, super.key});
 
   @override
   State<StatefulWidget> createState() => _AliceCallDetailsPageState();
@@ -42,17 +44,15 @@ class _AliceCallDetailsPageState extends State<AliceCallDetailsPage>
                 length: 4,
                 child: Scaffold(
                   appBar: AppBar(
-                    bottom: const TabBar(
+                    bottom: TabBar(
                       indicatorColor: AliceTheme.lightRed,
-                      tabs: [
-                        Tab(icon: Icon(Icons.info_outline), text: 'Overview'),
-                        Tab(icon: Icon(Icons.arrow_upward), text: 'Request'),
-                        Tab(icon: Icon(Icons.arrow_downward), text: 'Response'),
-                        Tab(
-                          icon: Icon(Icons.warning),
-                          text: 'Error',
-                        ),
-                      ],
+                      tabs: AliceCallDetailsTabItem.values.map((item) {
+                        return Tab(
+                            icon: _getTabIcon(item: item),
+                            text: _getTabName(
+                              item: item,
+                            ));
+                      }).toList(),
                     ),
                     title: const Text('Alice - HTTP Call Details'),
                   ),
@@ -87,5 +87,31 @@ class _AliceCallDetailsPageState extends State<AliceCallDetailsPage>
         },
       ),
     );
+  }
+
+  String _getTabName({required AliceCallDetailsTabItem item}) {
+    switch (item) {
+      case AliceCallDetailsTabItem.overview:
+        return "Overview";
+      case AliceCallDetailsTabItem.request:
+        return "Request";
+      case AliceCallDetailsTabItem.response:
+        return "Response";
+      case AliceCallDetailsTabItem.error:
+        return "Error";
+    }
+  }
+
+  Icon _getTabIcon({required AliceCallDetailsTabItem item}) {
+    switch (item) {
+      case AliceCallDetailsTabItem.overview:
+        return const Icon(Icons.info_outline);
+      case AliceCallDetailsTabItem.request:
+        return const Icon(Icons.arrow_upward);
+      case AliceCallDetailsTabItem.response:
+        return const Icon(Icons.arrow_downward);
+      case AliceCallDetailsTabItem.error:
+        return const Icon(Icons.warning);
+    }
   }
 }

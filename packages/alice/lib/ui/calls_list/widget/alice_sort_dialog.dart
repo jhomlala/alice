@@ -1,4 +1,4 @@
-import 'package:alice/model/alice_sort_option.dart';
+import 'package:alice/ui/call_details/model/alice_sort_option.dart';
 import 'package:flutter/material.dart';
 
 class AliceSortDialog extends StatelessWidget {

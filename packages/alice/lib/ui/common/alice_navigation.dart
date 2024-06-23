@@ -3,7 +3,7 @@ import 'package:alice/core/alice_logger.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/ui/call_details/page/alice_call_details_page.dart';
 import 'package:alice/ui/calls_list/page/alice_calls_list_page.dart';
-import 'package:alice/ui/stats/alice_stats_screen.dart';
+import 'package:alice/ui/stats/alice_stats_page.dart';
 import 'package:flutter/material.dart';
 
 /// Simple navigation helper class for Alice.
@@ -25,7 +25,7 @@ class AliceNavigation {
   }
 
   static Future<void> navigateToStats({required AliceCore core}) {
-    return _navigateToPage(core: core, child: AliceStatsScreen(core));
+    return _navigateToPage(core: core, child: AliceStatsPage(core));
   }
 
   static Future<void> _navigateToPage({

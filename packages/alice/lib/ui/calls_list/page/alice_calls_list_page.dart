@@ -2,14 +2,14 @@ import 'package:alice/core/alice_core.dart';
 import 'package:alice/core/alice_logger.dart';
 import 'package:alice/helper/alice_alert_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/model/alice_menu_item.dart';
-import 'package:alice/model/alice_sort_option.dart';
-import 'package:alice/model/alice_tab_item.dart';
+import 'package:alice/ui/call_details/model/alice_menu_item.dart';
+import 'package:alice/ui/call_details/model/alice_sort_option.dart';
+import 'package:alice/ui/calls_list/model/alice_calls_list_tab_item.dart';
 import 'package:alice/ui/call_details/page/alice_call_details_page.dart';
 import 'package:alice/ui/calls_list/widget/alice_sort_dialog.dart';
 import 'package:alice/ui/common/alice_navigation.dart';
 import 'package:alice/ui/common/alice_page.dart';
-import 'package:alice/ui/stats/alice_stats_screen.dart';
+import 'package:alice/ui/stats/alice_stats_page.dart';
 import 'package:alice/ui/calls_list/widget/alice_calls_list_widget.dart';
 import 'package:alice/ui/calls_list/widget/alice_empty_logs_widget.dart';
 import 'package:alice/ui/calls_list/widget/alice_logs_widget.dart';
@@ -34,7 +34,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
     with SingleTickerProviderStateMixin {
   final TextEditingController _queryTextEditingController =
       TextEditingController();
-  final List<AliceTabItem> _tabItems = AliceTabItem.values;
+  final List<AliceCallsListTabItem> _tabItems = AliceCallsListTabItem.values;
   final ScrollController _scrollController = ScrollController();
   late final TabController? _tabController;
 
@@ -113,10 +113,9 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
           bottom: TabBar(
             controller: _tabController,
             indicatorColor: AliceTheme.lightRed,
-            tabs: [
-              for (final AliceTabItem item in _tabItems)
-                Tab(text: item.title.toUpperCase()),
-            ],
+            tabs: AliceCallsListTabItem.values.map((item) {
+              return Tab(text: _getTabName(item: item));
+            }).toList(),
           ),
         ),
         body: TabBarView(
@@ -158,6 +157,15 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
             : const SizedBox(),
       ),
     );
+  }
+
+  String _getTabName({required AliceCallsListTabItem item}) {
+    switch (item) {
+      case AliceCallsListTabItem.inspector:
+        return "Inspector";
+      case AliceCallsListTabItem.logger:
+        return "Logger";
+    }
   }
 
   void _onBackPressed() {

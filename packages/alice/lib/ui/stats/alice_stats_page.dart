@@ -7,10 +7,10 @@ import 'package:alice/utils/alice_theme.dart';
 import 'package:alice/utils/num_comparison.dart';
 import 'package:flutter/material.dart';
 
-class AliceStatsScreen extends StatelessWidget {
+class AliceStatsPage extends StatelessWidget {
   final AliceCore aliceCore;
 
-  const AliceStatsScreen(
+  const AliceStatsPage(
     this.aliceCore, {
     super.key,
   });
