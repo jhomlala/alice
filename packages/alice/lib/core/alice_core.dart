@@ -9,6 +9,7 @@ import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice/model/alice_log.dart';
 import 'package:alice/ui/calls_list/page/alice_calls_list_page.dart';
+import 'package:alice/ui/common/alice_navigation.dart';
 import 'package:alice/utils/alice_constants.dart';
 import 'package:alice/utils/alice_theme.dart';
 import 'package:alice/utils/num_comparison.dart';
@@ -138,22 +139,8 @@ class AliceCore {
     }
     if (!_isInspectorOpened) {
       _isInspectorOpened = true;
-      Navigator.push<void>(
-        context,
-        MaterialPageRoute(
-          builder: (_) => MaterialApp(
-            theme: ThemeData(
-              useMaterial3: true,
-                colorScheme: AliceTheme.getColorScheme(),
-                dividerColor: Colors.transparent,
-                buttonTheme: const ButtonThemeData(
-                  buttonColor: AliceConstants.lightRed,
-                  textTheme: ButtonTextTheme.primary,
-                )),
-            home: AliceCallsListPage(this, _aliceLogger),
-          ),
-        ),
-      ).then((_) => _isInspectorOpened = false);
+      AliceNavigation.navigateToLogList(core: this, logger: _aliceLogger)
+          .then((_) => _isInspectorOpened = false);
     }
   }
 

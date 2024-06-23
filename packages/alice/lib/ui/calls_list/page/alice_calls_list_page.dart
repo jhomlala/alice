@@ -7,6 +7,8 @@ import 'package:alice/model/alice_sort_option.dart';
 import 'package:alice/model/alice_tab_item.dart';
 import 'package:alice/ui/call_details/page/alice_call_details_page.dart';
 import 'package:alice/ui/calls_list/widget/alice_sort_dialog.dart';
+import 'package:alice/ui/common/alice_navigation.dart';
+import 'package:alice/ui/common/alice_page.dart';
 import 'package:alice/ui/stats/alice_stats_screen.dart';
 import 'package:alice/ui/calls_list/widget/alice_calls_list_widget.dart';
 import 'package:alice/ui/calls_list/widget/alice_empty_logs_widget.dart';
@@ -16,12 +18,12 @@ import 'package:alice/utils/alice_theme.dart';
 import 'package:flutter/material.dart';
 
 class AliceCallsListPage extends StatefulWidget {
-  final AliceCore _aliceCore;
-  final AliceLogger? _aliceLogger;
+  final AliceCore core;
+  final AliceLogger? logger;
 
-  const AliceCallsListPage(
-    this._aliceCore,
-    this._aliceLogger, {
+  const AliceCallsListPage({
+    required this.core,
+    this.logger,
     super.key,
   });
 
@@ -43,7 +45,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
   bool isAndroidRawLogsEnabled = false;
   int _selectedIndex = 0;
 
-  AliceCore get aliceCore => widget._aliceCore;
+  AliceCore get aliceCore => widget.core;
 
   @override
   void initState() {
@@ -75,119 +77,116 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection:
-          widget._aliceCore.directionality ?? Directionality.of(context),
-      child: Theme(
-        data: AliceTheme.getTheme(),
-        child: Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.of(context, rootNavigator: true).pop();
-              },
-            ),
-            title: _searchEnabled
-                ? _SearchTextField(
-                    textEditingController: _queryTextEditingController,
-                    onChanged: _updateSearchQuery,
-                  )
-                : const Text('Alice'),
-            actions: isLoggerTab
-                ? <Widget>[
-                    IconButton(
-                      icon: const Icon(Icons.terminal),
-                      onPressed: _onLogsChangeClicked,
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: _showClearLogsDialog,
-                    ),
-                  ]
-                : <Widget>[
-                    IconButton(
-                      icon: const Icon(Icons.search),
-                      onPressed: _onSearchClicked,
-                    ),
-                    _ContextMenuButton(
-                      onMenuItemSelected: _onMenuItemSelected,
-                    ),
-                  ],
-            bottom: TabBar(
-              controller: _tabController,
-              indicatorColor: AliceConstants.lightRed,
-              tabs: [
-                for (final AliceTabItem item in _tabItems)
-                  Tab(text: item.title.toUpperCase()),
-              ],
-            ),
+    return AlicePage(
+      core: aliceCore,
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: _onBackPressed,
           ),
-          body: TabBarView(
+          title: _searchEnabled
+              ? _SearchTextField(
+                  textEditingController: _queryTextEditingController,
+                  onChanged: _updateSearchQuery,
+                )
+              : const Text('Alice'),
+          actions: isLoggerTab
+              ? <Widget>[
+                  IconButton(
+                    icon: const Icon(Icons.terminal),
+                    onPressed: _onLogsChangePressed,
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: _onClearLogsPressed,
+                  ),
+                ]
+              : <Widget>[
+                  IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: _onSearchPressed,
+                  ),
+                  _ContextMenuButton(
+                    onMenuItemSelected: _onMenuItemSelected,
+                  ),
+                ],
+          bottom: TabBar(
             controller: _tabController,
-            children: [
-              StreamBuilder<List<AliceHttpCall>>(
-                stream: aliceCore.callsSubject,
-                builder:
-                    (context, AsyncSnapshot<List<AliceHttpCall>> snapshot) {
-                  final List<AliceHttpCall> calls = snapshot.data ?? [];
-                  final String query = _queryTextEditingController.text.trim();
-                  if (query.isNotEmpty) {
-                    calls.removeWhere((AliceHttpCall call) => !call.endpoint
-                        .toLowerCase()
-                        .contains(query.toLowerCase()));
-                  }
-                  if (calls.isNotEmpty) {
-                    return AliceCallsListWidget(
-                      calls: calls,
-                      sortOption: _sortOption,
-                      sortAscending: _sortAscending,
-                      onListItemClicked: _onListItemClicked,
-                    );
-                  } else {
-                    return const AliceEmptyLogsWidget();
-                  }
-                },
-              ),
-              AliceLogsWidget(
-                scrollController: _scrollController,
-                aliceLogger: widget._aliceLogger,
-                isAndroidRawLogsEnabled: isAndroidRawLogsEnabled,
-              ),
+            indicatorColor: AliceConstants.lightRed,
+            tabs: [
+              for (final AliceTabItem item in _tabItems)
+                Tab(text: item.title.toUpperCase()),
             ],
           ),
-          floatingActionButton: isLoggerTab
-              ? _LoggerFloatingActionButtons(
-                  scrollLogsList: _scrollLogsList,
-                )
-              : const SizedBox(),
         ),
+        body: TabBarView(
+          controller: _tabController,
+          children: [
+            StreamBuilder<List<AliceHttpCall>>(
+              stream: aliceCore.callsSubject,
+              builder: (context, AsyncSnapshot<List<AliceHttpCall>> snapshot) {
+                final List<AliceHttpCall> calls = snapshot.data ?? [];
+                final String query = _queryTextEditingController.text.trim();
+                if (query.isNotEmpty) {
+                  calls.removeWhere((AliceHttpCall call) => !call.endpoint
+                      .toLowerCase()
+                      .contains(query.toLowerCase()));
+                }
+                if (calls.isNotEmpty) {
+                  return AliceCallsListWidget(
+                    calls: calls,
+                    sortOption: _sortOption,
+                    sortAscending: _sortAscending,
+                    onListItemClicked: _onListItemPressed,
+                  );
+                } else {
+                  return const AliceEmptyLogsWidget();
+                }
+              },
+            ),
+            AliceLogsWidget(
+              scrollController: _scrollController,
+              aliceLogger: widget.logger,
+              isAndroidRawLogsEnabled: isAndroidRawLogsEnabled,
+            ),
+          ],
+        ),
+        floatingActionButton: isLoggerTab
+            ? _LoggerFloatingActionButtons(
+                scrollLogsList: _scrollLogsList,
+              )
+            : const SizedBox(),
       ),
     );
   }
 
-  void _showClearLogsDialog() => AliceAlertHelper.showAlert(
+  void _onBackPressed() {
+    Navigator.of(context, rootNavigator: true).pop();
+  }
+
+  void _onClearLogsPressed() => AliceAlertHelper.showAlert(
         context,
         'Delete logs',
         'Do you want to clear logs?',
         firstButtonTitle: 'No',
         secondButtonTitle: 'Yes',
-        secondButtonAction: _onLogsClearClicked,
+        secondButtonAction: _onLogsClearPressed,
       );
 
-  void _onLogsChangeClicked() => setState(() {
+  void _onLogsChangePressed() => setState(() {
         isAndroidRawLogsEnabled = !isAndroidRawLogsEnabled;
       });
 
-  void _onLogsClearClicked() => setState(() {
+  void _onLogsClearPressed() => setState(() {
         if (isAndroidRawLogsEnabled) {
-          widget._aliceLogger?.clearAndroidRawLogs();
+          widget.logger?.clearAndroidRawLogs();
         } else {
-          widget._aliceLogger?.clearLogs();
+          widget.logger?.clearLogs();
         }
       });
 
-  void _onSearchClicked() => setState(() {
+  void _onSearchPressed() => setState(() {
         _searchEnabled = !_searchEnabled;
         if (!_searchEnabled) {
           _queryTextEditingController.text = '';
@@ -207,24 +206,20 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
   void _onMenuItemSelected(AliceMenuItemType menuItem) {
     switch (menuItem) {
       case AliceMenuItemType.sort:
-        _showSortDialog();
+        _onSortPressed();
       case AliceMenuItemType.delete:
-        _showRemoveDialog();
+        _onRemovePressed();
       case AliceMenuItemType.stats:
-        _showStatsScreen();
+        _onStatsPressed();
       case AliceMenuItemType.save:
         _saveToFile();
     }
   }
 
-  void _onListItemClicked(AliceHttpCall call) => Navigator.push<void>(
-        widget._aliceCore.getContext()!,
-        MaterialPageRoute(
-          builder: (_) => AliceCallDetailsPage(call, widget._aliceCore),
-        ),
-      );
+  void _onListItemPressed(AliceHttpCall call) =>
+      AliceNavigation.navigateToDetails(call: call, core: aliceCore);
 
-  void _showRemoveDialog() => AliceAlertHelper.showAlert(
+  void _onRemovePressed() => AliceAlertHelper.showAlert(
         context,
         'Delete calls',
         'Do you want to delete http calls?',
@@ -236,20 +231,15 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
 
   void _removeCalls() => aliceCore.removeCalls();
 
-  void _showStatsScreen() {
-    Navigator.push<void>(
-      aliceCore.getContext()!,
-      MaterialPageRoute(
-        builder: (context) => AliceStatsScreen(widget._aliceCore),
-      ),
-    );
+  void _onStatsPressed() {
+    AliceNavigation.navigateToStats(core: aliceCore);
   }
 
   void _saveToFile() => aliceCore.saveHttpRequests(context);
 
   void _updateSearchQuery(String query) => setState(() {});
 
-  Future<void> _showSortDialog() async {
+  Future<void> _onSortPressed() async {
     AliceSortDialogResult? result = await showDialog<AliceSortDialogResult>(
       context: context,
       builder: (BuildContext buildContext) => AliceSortDialog(
