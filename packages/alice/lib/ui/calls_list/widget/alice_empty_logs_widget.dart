@@ -1,4 +1,4 @@
-import 'package:alice/utils/alice_constants.dart';
+import 'package:alice/utils/alice_theme.dart';
 import 'package:flutter/material.dart';
 
 class AliceEmptyLogsWidget extends StatelessWidget {
@@ -16,7 +16,7 @@ class AliceEmptyLogsWidget extends StatelessWidget {
           children: [
             Icon(
               Icons.error_outline,
-              color: AliceConstants.orange,
+              color: AliceTheme.orange,
             ),
             SizedBox(height: 6),
             Text(

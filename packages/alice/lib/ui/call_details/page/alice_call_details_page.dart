@@ -6,7 +6,6 @@ import 'package:alice/ui/call_details/widget/alice_call_overview_screen.dart';
 import 'package:alice/ui/call_details/widget/alice_call_request_widget.dart';
 import 'package:alice/ui/call_details/widget/alice_call_response_widget.dart';
 import 'package:alice/ui/common/alice_page.dart';
-import 'package:alice/utils/alice_constants.dart';
 import 'package:alice/utils/alice_theme.dart';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
@@ -44,7 +43,7 @@ class _AliceCallDetailsPageState extends State<AliceCallDetailsPage>
                 child: Scaffold(
                   appBar: AppBar(
                     bottom: const TabBar(
-                      indicatorColor: AliceConstants.lightRed,
+                      indicatorColor: AliceTheme.lightRed,
                       tabs: [
                         Tab(icon: Icon(Icons.info_outline), text: 'Overview'),
                         Tab(icon: Icon(Icons.arrow_upward), text: 'Request'),
@@ -67,7 +66,7 @@ class _AliceCallDetailsPageState extends State<AliceCallDetailsPage>
                   ),
                   floatingActionButton: widget.core.showShareButton ?? false
                       ? FloatingActionButton(
-                          backgroundColor: AliceConstants.lightRed,
+                          backgroundColor: AliceTheme.lightRed,
                           key: const Key('share_key'),
                           onPressed: () async => await Share.share(
                             await AliceSaveHelper.buildCallLog(widget.call),
@@ -75,7 +74,7 @@ class _AliceCallDetailsPageState extends State<AliceCallDetailsPage>
                           ),
                           child: const Icon(
                             Icons.share,
-                            color: AliceConstants.white,
+                            color: AliceTheme.white,
                           ),
                         )
                       : null,

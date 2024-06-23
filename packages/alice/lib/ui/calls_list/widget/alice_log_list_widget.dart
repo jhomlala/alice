@@ -131,7 +131,7 @@ class AliceLogEntryWidget extends StatelessWidget {
   }
 
   Color _getTextColor(BuildContext context) {
-    return AliceTheme.getTextColor(context, log.level);
+    return AliceTheme.getLogTextColor(context, log.level);
   }
 
   IconData _getLogIcon(DiagnosticLevel level) => switch (level) {

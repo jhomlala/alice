@@ -1,7 +1,7 @@
 import 'package:alice/helper/alice_conversion_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_response.dart';
-import 'package:alice/utils/alice_constants.dart';
+import 'package:alice/utils/alice_theme.dart';
 import 'package:flutter/material.dart';
 
 const int _endpointMaxLines = 10;
@@ -26,17 +26,17 @@ class AliceCallListItemWidget extends StatelessWidget {
 
   Color? _getStatusTextColor(BuildContext context) =>
       switch (call.response?.status) {
-        -1 => AliceConstants.red,
+        -1 => AliceTheme.red,
         int status when status < 200 =>
           Theme.of(context).textTheme.bodyLarge?.color,
-        int status when status >= 200 && status < 300 => AliceConstants.green,
-        int status when status >= 300 && status < 400 => AliceConstants.orange,
-        int status when status >= 400 && status < 600 => AliceConstants.red,
+        int status when status >= 200 && status < 300 => AliceTheme.green,
+        int status when status >= 300 && status < 400 => AliceTheme.orange,
+        int status when status >= 400 && status < 600 => AliceTheme.red,
         _ => Theme.of(context).textTheme.bodyLarge?.color,
       };
 
   Color? _getEndpointTextColor(BuildContext context) =>
-      call.loading ? AliceConstants.grey : _getStatusTextColor(context);
+      call.loading ? AliceTheme.grey : _getStatusTextColor(context);
 
   String _getStatus(AliceHttpResponse response) => switch (response.status) {
         -1 => 'ERR',
@@ -93,8 +93,8 @@ class AliceCallListItemWidget extends StatelessWidget {
                                   ? Icons.lock_outline
                                   : Icons.lock_open,
                               color: call.secure
-                                  ? AliceConstants.green
-                                  : AliceConstants.red,
+                                  ? AliceTheme.green
+                                  : AliceTheme.red,
                               size: 12,
                             ),
                           ),
@@ -150,7 +150,7 @@ class AliceCallListItemWidget extends StatelessWidget {
                           height: 20,
                           child: CircularProgressIndicator(
                             valueColor: AlwaysStoppedAnimation<Color>(
-                              AliceConstants.lightRed,
+                              AliceTheme.lightRed,
                             ),
                           ),
                         ),
@@ -170,7 +170,7 @@ class AliceCallListItemWidget extends StatelessWidget {
               ],
             ),
           ),
-          const Divider(height: 1, color: AliceConstants.grey),
+          const Divider(height: 1, color: AliceTheme.grey),
         ],
       ),
     );

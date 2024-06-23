@@ -13,7 +13,6 @@ import 'package:alice/ui/stats/alice_stats_screen.dart';
 import 'package:alice/ui/calls_list/widget/alice_calls_list_widget.dart';
 import 'package:alice/ui/calls_list/widget/alice_empty_logs_widget.dart';
 import 'package:alice/ui/calls_list/widget/alice_logs_widget.dart';
-import 'package:alice/utils/alice_constants.dart';
 import 'package:alice/utils/alice_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -113,7 +112,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
                 ],
           bottom: TabBar(
             controller: _tabController,
-            indicatorColor: AliceConstants.lightRed,
+            indicatorColor: AliceTheme.lightRed,
             tabs: [
               for (final AliceTabItem item in _tabItems)
                 Tab(text: item.title.toUpperCase()),
@@ -295,7 +294,7 @@ class _SearchTextField extends StatelessWidget {
       autofocus: true,
       decoration: const InputDecoration(
         hintText: 'Search http request...',
-        hintStyle: TextStyle(fontSize: 16, color: AliceConstants.grey),
+        hintStyle: TextStyle(fontSize: 16, color: AliceTheme.grey),
         border: InputBorder.none,
       ),
       style: const TextStyle(fontSize: 16),
@@ -321,7 +320,7 @@ class _ContextMenuButton extends StatelessWidget {
               children: [
                 Icon(
                   _getIcon(itemType: item),
-                  color: AliceConstants.lightRed,
+                  color: AliceTheme.lightRed,
                 ),
                 const Padding(
                   padding: EdgeInsets.only(left: 10),
@@ -373,21 +372,21 @@ class _LoggerFloatingActionButtons extends StatelessWidget {
       children: [
         FloatingActionButton(
           heroTag: 'h1',
-          backgroundColor: AliceConstants.orange,
+          backgroundColor: AliceTheme.lightRed,
           onPressed: () => scrollLogsList(true),
           child: const Icon(
             Icons.arrow_upward,
-            color: AliceConstants.white,
+            color: AliceTheme.white,
           ),
         ),
         const SizedBox(height: 8),
         FloatingActionButton(
           heroTag: 'h2',
-          backgroundColor: AliceConstants.orange,
+          backgroundColor: AliceTheme.lightRed,
           onPressed: () => scrollLogsList(false),
           child: const Icon(
             Icons.arrow_downward,
-            color: AliceConstants.white,
+            color: AliceTheme.white,
           ),
         ),
       ],
