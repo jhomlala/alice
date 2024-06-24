@@ -1,1 +1,6 @@
-enum AliceCallDetailsTabItem { overview, request, response, error }
+enum AliceCallDetailsTabItem {
+  overview,
+  request,
+  response,
+  error,
+}

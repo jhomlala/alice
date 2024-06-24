@@ -10,4 +10,9 @@ class AliceMenuItem {
   final IconData iconData;
 }
 
-enum AliceMenuItemType { sort, delete, stats, save }
+enum AliceMenuItemType {
+  sort,
+  delete,
+  stats,
+  save,
+}

@@ -1,11 +1,11 @@
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/core/alice_logger.dart';
-import 'package:alice/helper/alice_alert_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/ui/call_details/model/alice_menu_item.dart';
 import 'package:alice/ui/call_details/model/alice_sort_option.dart';
 import 'package:alice/ui/calls_list/model/alice_calls_list_tab_item.dart';
 import 'package:alice/ui/calls_list/widget/alice_sort_dialog.dart';
+import 'package:alice/ui/common/alice_dialog.dart';
 import 'package:alice/ui/common/alice_navigation.dart';
 import 'package:alice/ui/common/alice_page.dart';
 import 'package:alice/ui/calls_list/widget/alice_calls_list_screen.dart';
@@ -170,10 +170,10 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
     Navigator.of(context, rootNavigator: true).pop();
   }
 
-  void _onClearLogsPressed() => AliceAlertHelper.showAlert(
-        context,
-        'Delete logs',
-        'Do you want to clear logs?',
+  void _onClearLogsPressed() => AliceGeneralDialog.show(
+        context: context,
+        title: 'Delete logs',
+        description: 'Do you want to clear logs?',
         firstButtonTitle: 'No',
         secondButtonTitle: 'Yes',
         secondButtonAction: _onLogsClearPressed,
@@ -224,10 +224,10 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
   void _onListItemPressed(AliceHttpCall call) =>
       AliceNavigation.navigateToDetails(call: call, core: aliceCore);
 
-  void _onRemovePressed() => AliceAlertHelper.showAlert(
-        context,
-        'Delete calls',
-        'Do you want to delete http calls?',
+  void _onRemovePressed() => AliceGeneralDialog.show(
+        context: context,
+        title: 'Delete calls',
+        description: 'Do you want to delete http calls?',
         firstButtonTitle: 'No',
         firstButtonAction: () => <String, dynamic>{},
         secondButtonTitle: 'Yes',

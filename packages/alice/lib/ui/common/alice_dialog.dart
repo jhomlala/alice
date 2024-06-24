@@ -1,12 +1,12 @@
 import 'package:alice/utils/alice_theme.dart';
 import 'package:flutter/material.dart';
 
-class AliceAlertHelper {
+class AliceGeneralDialog {
   /// Helper method used to open alarm with given title and description.
-  static Future<void> showAlert(
-    BuildContext context,
-    String title,
-    String description, {
+  static Future<void> show({
+    required BuildContext context,
+    required String title,
+    required String description,
     String firstButtonTitle = 'Accept',
     String? secondButtonTitle,
     Function? firstButtonAction,

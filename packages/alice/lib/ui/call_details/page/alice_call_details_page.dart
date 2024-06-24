@@ -16,8 +16,11 @@ class AliceCallDetailsPage extends StatefulWidget {
   final AliceHttpCall call;
   final AliceCore core;
 
-  const AliceCallDetailsPage(
-      {required this.call, required this.core, super.key});
+  const AliceCallDetailsPage({
+    required this.call,
+    required this.core,
+    super.key,
+  });
 
   @override
   State<StatefulWidget> createState() => _AliceCallDetailsPageState();
@@ -48,10 +51,11 @@ class _AliceCallDetailsPageState extends State<AliceCallDetailsPage>
                       indicatorColor: AliceTheme.lightRed,
                       tabs: AliceCallDetailsTabItem.values.map((item) {
                         return Tab(
-                            icon: _getTabIcon(item: item),
-                            text: _getTabName(
-                              item: item,
-                            ));
+                          icon: _getTabIcon(item: item),
+                          text: _getTabName(
+                            item: item,
+                          ),
+                        );
                       }).toList(),
                     ),
                     title: const Text('Alice - HTTP Call Details'),

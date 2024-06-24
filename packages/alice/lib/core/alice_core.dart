@@ -17,7 +17,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:rxdart/rxdart.dart';
 
 class AliceCore {
-  /// Should user be notified with notification if there's new request catched
+  /// Should user be notified with notification if there's new request caught
   /// by Alice
   final bool showNotification;
 
