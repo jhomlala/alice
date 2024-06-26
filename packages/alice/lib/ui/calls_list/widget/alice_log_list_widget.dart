@@ -56,6 +56,7 @@ class _AliceLogListWidgetState extends State<AliceLogListWidget> {
     );
   }
 }
+
 /// Widget which renders one log entry in logs list.
 class _AliceLogEntryWidget extends StatelessWidget {
   _AliceLogEntryWidget(this.log) : super(key: ValueKey(log));

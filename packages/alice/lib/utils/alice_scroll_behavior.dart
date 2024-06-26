@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+
 /// Scroll behavior for Alice.
 class AliceScrollBehavior extends MaterialScrollBehavior {
   @override

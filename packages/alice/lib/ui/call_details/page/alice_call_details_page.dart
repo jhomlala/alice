@@ -1,4 +1,5 @@
 import 'package:alice/core/alice_core.dart';
+import 'package:alice/core/alice_translations.dart';
 import 'package:alice/helper/alice_save_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/ui/call_details/model/alice_call_details_tab.dart';
@@ -6,6 +7,7 @@ import 'package:alice/ui/call_details/widget/alice_call_error_screen.dart';
 import 'package:alice/ui/call_details/widget/alice_call_overview_screen.dart';
 import 'package:alice/ui/call_details/widget/alice_call_request_screen.dart';
 import 'package:alice/ui/call_details/widget/alice_call_response_screen.dart';
+import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/ui/common/alice_page.dart';
 import 'package:alice/utils/alice_theme.dart';
 import 'package:collection/collection.dart' show IterableExtension;
@@ -99,13 +101,13 @@ class _AliceCallDetailsPageState extends State<AliceCallDetailsPage>
   String _getTabName({required AliceCallDetailsTabItem item}) {
     switch (item) {
       case AliceCallDetailsTabItem.overview:
-        return "Overview";
+        return context.i18n(AliceTranslationKey.callDetailsOverview);
       case AliceCallDetailsTabItem.request:
-        return "Request";
+        return context.i18n(AliceTranslationKey.callDetailsRequest);
       case AliceCallDetailsTabItem.response:
-        return "Response";
+        return context.i18n(AliceTranslationKey.callDetailsResponse);
       case AliceCallDetailsTabItem.error:
-        return "Error";
+        return context.i18n(AliceTranslationKey.callDetailsError);
     }
   }
 

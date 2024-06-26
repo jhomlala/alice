@@ -83,5 +83,4 @@ class AliceLogger {
       await Process.run('logcat', ['-c']);
     }
   }
-
 }

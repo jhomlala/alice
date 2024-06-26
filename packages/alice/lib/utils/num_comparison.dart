@@ -1,4 +1,3 @@
-
 /// Extension used to compare numbers.
 extension NumComparison on num? {
   bool get isZero => this != null && this! == 0;

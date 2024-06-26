@@ -6,4 +6,3 @@ enum AliceCallsListSortOption {
   responseSize,
   endpoint,
 }
-
