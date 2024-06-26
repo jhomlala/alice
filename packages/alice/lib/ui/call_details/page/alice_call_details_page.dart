@@ -99,7 +99,7 @@ class _AliceCallDetailsPageState extends State<AliceCallDetailsPage>
   String _getTabName({required AliceCallDetailsTabItem item}) {
     switch (item) {
       case AliceCallDetailsTabItem.overview:
-       return "Overview";
+        return "Overview";
       case AliceCallDetailsTabItem.request:
         return "Request";
       case AliceCallDetailsTabItem.response:
