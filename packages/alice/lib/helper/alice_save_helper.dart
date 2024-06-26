@@ -179,7 +179,7 @@ class AliceSaveHelper {
 
     stringBuffer.writeAll([
       'Request size: ${AliceConversionHelper.formatBytes(call.request?.size ?? 0)}\n',
-      'Request body: ${AliceParser.formatBody(call.request?.body, call.request?.contentType)}\n',
+      'Request body: ${AliceBodyParser.formatBody(call.request?.body, call.request?.contentType)}\n',
       '--------------------------------------------\n',
       'Response\n',
       '--------------------------------------------\n',
@@ -187,7 +187,7 @@ class AliceSaveHelper {
       'Response status: ${call.response?.status}\n',
       'Response size: ${AliceConversionHelper.formatBytes(call.response?.size ?? 0)}\n',
       'Response headers: ${_encoder.convert(call.response?.headers)}\n',
-      'Response body: ${AliceParser.formatBody(call.response?.body, AliceParser.getContentType(call.response?.headers))}\n',
+      'Response body: ${AliceBodyParser.formatBody(call.response?.body, AliceBodyParser.getContentType(call.response?.headers))}\n',
     ]);
 
     if (call.error != null) {

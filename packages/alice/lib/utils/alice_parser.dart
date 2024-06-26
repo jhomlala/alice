@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-class AliceParser {
+/// Body parser helper used to parsing body data.
+class AliceBodyParser {
   static const String _emptyBody = 'Body is empty';
   static const String _unknownContentType = 'Unknown';
   static const String _jsonContentTypeSmall = 'content-type';
@@ -10,6 +11,7 @@ class AliceParser {
   static const String _parseFailedText = 'Failed to parse ';
   static const JsonEncoder encoder = JsonEncoder.withIndent('  ');
 
+  /// Tries to parse json. If it fails, it will return the json itself.
   static String _parseJson(dynamic json) {
     try {
       return encoder.convert(json);
@@ -18,6 +20,7 @@ class AliceParser {
     }
   }
 
+  /// Tries to parse json. If it fails, it will return the json itself.
   static dynamic _decodeJson(dynamic body) {
     try {
       return json.decode(body as String);
@@ -26,6 +29,9 @@ class AliceParser {
     }
   }
 
+  /// Formats body based on [contentType]. If body is null it will return
+  /// [_emptyBody]. Otherwise if body type is json - it will try to format it.
+  ///
   static String formatBody(dynamic body, String? contentType) {
     try {
       if (body == null) {
@@ -65,6 +71,8 @@ class AliceParser {
     }
   }
 
+  /// Get content type from [headers]. It looks for json and if it can't find
+  /// it, it will return unknown content type.
   static String? getContentType(Map<String, dynamic>? headers) {
     if (headers != null) {
       if (headers.containsKey(_jsonContentTypeSmall)) {

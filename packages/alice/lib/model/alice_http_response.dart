@@ -1,3 +1,4 @@
+/// Definition of http response data holder.
 class AliceHttpResponse {
   int? status = 0;
   int size = 0;

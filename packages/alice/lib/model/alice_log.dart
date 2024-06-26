@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
+/// Definition of log data holder.
 @immutable
 class AliceLog with EquatableMixin {
   AliceLog({

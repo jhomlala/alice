@@ -4,6 +4,7 @@ import 'package:alice/model/alice_log.dart';
 import 'package:alice/utils/num_comparison.dart';
 import 'package:flutter/foundation.dart';
 
+/// Logger used to handle logs from application.
 class AliceLogger {
   AliceLogger({int? maximumSize = 1000}) : _maximumSize = maximumSize;
 
@@ -63,8 +64,10 @@ class AliceLogger {
     ];
   }
 
-  void clear() => _logs.value.clear();
+  /// Clears all logs.
+  void clearLogs() => _logs.value.clear();
 
+  /// Returns raw logs from Android via ADB.
   Future<String> getAndroidRawLogs() async {
     if (Platform.isAndroid) {
       final ProcessResult process =
@@ -74,11 +77,11 @@ class AliceLogger {
     return '';
   }
 
+  /// Clears all raw logs.
   Future<void> clearAndroidRawLogs() async {
     if (Platform.isAndroid) {
       await Process.run('logcat', ['-c']);
     }
   }
 
-  void clearLogs() => logs.clear();
 }

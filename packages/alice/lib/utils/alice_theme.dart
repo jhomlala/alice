@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
+/// All definitions for theming Alice.
 class AliceTheme {
   static const Color red = Color(0xffff3f34);
   static const Color lightRed = Color(0xffff5e57);
@@ -9,6 +10,7 @@ class AliceTheme {
   static const Color orange = Color(0xffffa801);
   static const Color white = Color(0xffffffff);
 
+  /// Returns general theme data.
   static ThemeData getTheme() {
     return ThemeData(
       useMaterial3: true,
@@ -21,14 +23,17 @@ class AliceTheme {
     );
   }
 
+  /// Checks whether is dark mode enabled.
   static bool get _isDarkMode =>
       SchedulerBinding.instance.platformDispatcher.platformBrightness ==
       Brightness.dark;
 
+  /// Returns color scheme based on dark mode.
   static ColorScheme _getColorScheme() => _isDarkMode
       ? const ColorScheme.dark(primary: AliceTheme.lightRed)
       : const ColorScheme.light(primary: AliceTheme.lightRed);
 
+  /// Return log text color based on diagnostic [level].
   static Color getLogTextColor(BuildContext context, DiagnosticLevel level) =>
       switch (level) {
         DiagnosticLevel.hidden => Colors.grey,

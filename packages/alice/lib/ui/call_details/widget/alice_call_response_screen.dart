@@ -162,7 +162,7 @@ class _BodyDataColumnState extends State<_BodyDataColumn> {
   }
 
   String? _getContentTypeOfResponse() {
-    return AliceParser.getContentType(call.response?.headers);
+    return AliceBodyParser.getContentType(call.response?.headers);
   }
 
   bool _isLargeResponseBody() =>
@@ -283,8 +283,8 @@ class _TextBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<String, String>? headers = call.response?.headers;
-    final String bodyContent = AliceParser.formatBody(
-        call.response?.body, AliceParser.getContentType(headers));
+    final String bodyContent = AliceBodyParser.formatBody(
+        call.response?.body, AliceBodyParser.getContentType(headers));
     return AliceCallListRow(name: 'Body:', value: bodyContent);
   }
 }
@@ -333,11 +333,11 @@ class _UnknownBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final Map<String, String>? headers = call.response?.headers;
     final String contentType =
-        AliceParser.getContentType(headers) ?? '<unknown>';
+        AliceBodyParser.getContentType(headers) ?? '<unknown>';
 
     if (showUnsupportedBody) {
-      final bodyContent = AliceParser.formatBody(
-          call.response?.body, AliceParser.getContentType(headers));
+      final bodyContent = AliceBodyParser.formatBody(
+          call.response?.body, AliceBodyParser.getContentType(headers));
       return AliceCallListRow(name: 'Body:', value: bodyContent);
     } else {
       return Column(

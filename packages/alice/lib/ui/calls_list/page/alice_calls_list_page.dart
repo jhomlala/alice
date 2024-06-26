@@ -221,7 +221,6 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
         },
       );
 
-
   /// Called when menu item from overflow menu has been pressed.
   void _onMenuItemSelected(AliceCallDetailsMenuItemType menuItem) {
     switch (menuItem) {
@@ -286,7 +285,6 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
   /// Scrolls logs list based on [top] parameter.
   void _scrollLogsList(bool top) => top ? _scrollToTop() : _scrollToBottom();
 
-
   /// Scrolls logs list to the top.
   void _scrollToTop() {
     if (_scrollController.hasClients) {
@@ -348,7 +346,8 @@ class _ContextMenuButton extends StatelessWidget {
     return PopupMenuButton<AliceCallDetailsMenuItemType>(
       onSelected: onMenuItemSelected,
       itemBuilder: (BuildContext context) => [
-        for (final AliceCallDetailsMenuItemType item in AliceCallDetailsMenuItemType.values)
+        for (final AliceCallDetailsMenuItemType item
+            in AliceCallDetailsMenuItemType.values)
           PopupMenuItem<AliceCallDetailsMenuItemType>(
             value: item,
             child: Row(
