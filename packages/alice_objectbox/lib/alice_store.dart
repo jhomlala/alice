@@ -7,17 +7,13 @@ import 'objectbox.g.dart';
 /// Provides access to the ObjectBox Store throughout the app.
 ///
 /// Create this in the apps main function.
-class AliceObjectBox {
-  late final Store _store;
-
-  late final Box<CachedAliceHttpCall> httpCalls;
-
-  AliceObjectBox._create(this._store) {
+class AliceStore {
+  AliceStore._create(this._store) {
     httpCalls = Box<CachedAliceHttpCall>(_store);
   }
 
   /// Create an instance of ObjectBox to use throughout the app.
-  static Future<AliceObjectBox> create([Store? store]) async {
+  static Future<AliceStore> create([Store? store]) async {
     final String storeDirectoryPath = path.join(
       (await getApplicationDocumentsDirectory()).path,
       Store.defaultDirectoryPath,
@@ -28,6 +24,11 @@ class AliceObjectBox {
         ? Store.attach(getObjectBoxModel(), storeDirectoryPath)
         : await openStore(directory: storeDirectoryPath);
 
-    return AliceObjectBox._create(store);
+    return AliceStore._create(store);
   }
+
+  late final Store _store;
+
+  /// Boxes
+  late final Box<CachedAliceHttpCall> httpCalls;
 }
