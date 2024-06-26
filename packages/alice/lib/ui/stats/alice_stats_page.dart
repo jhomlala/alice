@@ -6,6 +6,7 @@ import 'package:alice/ui/widget/alice_stats_row.dart';
 import 'package:alice/utils/num_comparison.dart';
 import 'package:flutter/material.dart';
 
+/// General stats page for currently caught HTTP calls.
 class AliceStatsPage extends StatelessWidget {
   final AliceCore aliceCore;
 
@@ -69,9 +70,11 @@ class AliceStatsPage extends StatelessWidget {
     );
   }
 
-  int _getTotalRequests() => calls.length;
+  /// Returns count of requests.
+  int _getTotalRequests() => _calls.length;
 
-  int _getSuccessRequests() => calls
+  /// Returns count of success requests.
+  int _getSuccessRequests() => _calls
       .where(
         (AliceHttpCall call) =>
             (call.response?.status.gte(200) ?? false) &&
@@ -80,7 +83,8 @@ class AliceStatsPage extends StatelessWidget {
       .toList()
       .length;
 
-  int _getRedirectionRequests() => calls
+  /// Returns count of redirection requests.
+  int _getRedirectionRequests() => _calls
       .where(
         (AliceHttpCall call) =>
             (call.response?.status.gte(300) ?? false) &&
@@ -89,7 +93,8 @@ class AliceStatsPage extends StatelessWidget {
       .toList()
       .length;
 
-  int _getErrorRequests() => calls
+  /// Returns count of error requests.
+  int _getErrorRequests() => _calls
       .where(
         (AliceHttpCall call) =>
             (call.response?.status.gte(400) ?? false) &&
@@ -98,23 +103,27 @@ class AliceStatsPage extends StatelessWidget {
       .toList()
       .length;
 
+  /// Returns count of pending requests.
   int _getPendingRequests() =>
-      calls.where((AliceHttpCall call) => call.loading).toList().length;
+      _calls.where((AliceHttpCall call) => call.loading).toList().length;
 
-  int _getBytesSent() => calls.fold(
+  /// Returns total bytes sent count.
+  int _getBytesSent() => _calls.fold(
         0,
         (int sum, AliceHttpCall call) => sum + (call.request?.size ?? 0),
       );
 
-  int _getBytesReceived() => calls.fold(
+  /// Returns total bytes received count.
+  int _getBytesReceived() => _calls.fold(
         0,
         (int sum, AliceHttpCall call) => sum + (call.response?.size ?? 0),
       );
 
+  /// Returns average request time of all calls.
   int _getAverageRequestTime() {
     int requestTimeSum = 0;
     int requestsWithDurationCount = 0;
-    for (final AliceHttpCall call in calls) {
+    for (final AliceHttpCall call in _calls) {
       if (call.duration != 0) {
         requestTimeSum = call.duration;
         requestsWithDurationCount++;
@@ -126,9 +135,10 @@ class AliceStatsPage extends StatelessWidget {
     return requestTimeSum ~/ requestsWithDurationCount;
   }
 
+  /// Returns max request time of all calls.
   int _getMaxRequestTime() {
     int maxRequestTime = 0;
-    for (final AliceHttpCall call in calls) {
+    for (final AliceHttpCall call in _calls) {
       if (call.duration > maxRequestTime) {
         maxRequestTime = call.duration;
       }
@@ -136,12 +146,13 @@ class AliceStatsPage extends StatelessWidget {
     return maxRequestTime;
   }
 
+  /// Returns min request time of all calls.
   int _getMinRequestTime() {
     int minRequestTime = 10000000;
-    if (calls.isEmpty) {
+    if (_calls.isEmpty) {
       minRequestTime = 0;
     } else {
-      for (final AliceHttpCall call in calls) {
+      for (final AliceHttpCall call in _calls) {
         if (call.duration != 0 && call.duration < minRequestTime) {
           minRequestTime = call.duration;
         }
@@ -150,14 +161,18 @@ class AliceStatsPage extends StatelessWidget {
     return minRequestTime;
   }
 
+  /// Get all requests with [requestType].
   int _getRequests(String requestType) =>
-      calls.where((call) => call.method == requestType).toList().length;
+      _calls.where((call) => call.method == requestType).toList().length;
 
+  /// Get all secured requests count.
   int _getSecuredRequests() =>
-      calls.where((call) => call.secure).toList().length;
+      _calls.where((call) => call.secure).toList().length;
 
+  /// Get unsecured requests count.
   int _getUnsecuredRequests() =>
-      calls.where((call) => !call.secure).toList().length;
+      _calls.where((call) => !call.secure).toList().length;
 
-  List<AliceHttpCall> get calls => aliceCore.callsSubject.value;
+  /// Get all calls from Alice.
+  List<AliceHttpCall> get _calls => aliceCore.callsSubject.value;
 }

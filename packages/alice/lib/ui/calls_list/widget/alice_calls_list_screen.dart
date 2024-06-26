@@ -1,9 +1,10 @@
 import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/ui/call_details/model/alice_sort_option.dart';
+import 'package:alice/ui/calls_list/model/alice_calls_list_sort_option.dart';
 import 'package:alice/ui/calls_list/widget/alice_call_list_item_widget.dart';
 import 'package:alice/utils/alice_scroll_behavior.dart';
 import 'package:flutter/material.dart';
 
+/// Widget which displays calls list. It's hosted in tab in calls list page.
 class AliceCallsListScreen extends StatelessWidget {
   const AliceCallsListScreen({
     super.key,
@@ -14,19 +15,19 @@ class AliceCallsListScreen extends StatelessWidget {
   });
 
   final List<AliceHttpCall> calls;
-  final AliceSortOption? sortOption;
+  final AliceCallsListSortOption? sortOption;
   final bool sortAscending;
   final void Function(AliceHttpCall) onListItemClicked;
 
   List<AliceHttpCall> get _sortedCalls => switch (sortOption) {
-        AliceSortOption.time => sortAscending
+        AliceCallsListSortOption.time => sortAscending
             ? (calls
               ..sort((AliceHttpCall call1, AliceHttpCall call2) =>
                   call1.createdTime.compareTo(call2.createdTime)))
             : (calls
               ..sort((AliceHttpCall call1, AliceHttpCall call2) =>
                   call2.createdTime.compareTo(call1.createdTime))),
-        AliceSortOption.responseTime => sortAscending
+        AliceCallsListSortOption.responseTime => sortAscending
             ? (calls
               ..sort()
               ..sort((AliceHttpCall call1, AliceHttpCall call2) =>
@@ -34,7 +35,7 @@ class AliceCallsListScreen extends StatelessWidget {
             : (calls
               ..sort((AliceHttpCall call1, AliceHttpCall call2) =>
                   call2.response?.time.compareTo(call1.response!.time) ?? -1)),
-        AliceSortOption.responseCode => sortAscending
+        AliceCallsListSortOption.responseCode => sortAscending
             ? (calls
               ..sort((AliceHttpCall call1, AliceHttpCall call2) =>
                   call1.response?.status?.compareTo(call2.response!.status!) ??
@@ -43,14 +44,14 @@ class AliceCallsListScreen extends StatelessWidget {
               ..sort((AliceHttpCall call1, AliceHttpCall call2) =>
                   call2.response?.status?.compareTo(call1.response!.status!) ??
                   -1)),
-        AliceSortOption.responseSize => sortAscending
+        AliceCallsListSortOption.responseSize => sortAscending
             ? (calls
               ..sort((AliceHttpCall call1, AliceHttpCall call2) =>
                   call1.response?.size.compareTo(call2.response!.size) ?? -1))
             : (calls
               ..sort((AliceHttpCall call1, AliceHttpCall call2) =>
                   call2.response?.size.compareTo(call1.response!.size) ?? -1)),
-        AliceSortOption.endpoint => sortAscending
+        AliceCallsListSortOption.endpoint => sortAscending
             ? (calls
               ..sort((AliceHttpCall call1, AliceHttpCall call2) =>
                   call1.endpoint.compareTo(call2.endpoint)))

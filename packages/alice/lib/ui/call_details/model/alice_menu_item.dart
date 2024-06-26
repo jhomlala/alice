@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-class AliceMenuItem {
-  const AliceMenuItem(
+/// Definition of menu item used in call details.
+class AliceCallDetailsMenuItem {
+  const AliceCallDetailsMenuItem(
     this.title,
     this.iconData,
   );
@@ -10,7 +11,8 @@ class AliceMenuItem {
   final IconData iconData;
 }
 
-enum AliceMenuItemType {
+/// Definition of all call details menu item types.
+enum AliceCallDetailsMenuItemType {
   sort,
   delete,
   stats,

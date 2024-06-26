@@ -4,6 +4,7 @@ import 'package:alice/ui/call_details/widget/alice_call_list_row.dart';
 import 'package:alice/utils/alice_scroll_behavior.dart';
 import 'package:flutter/material.dart';
 
+/// Screen which displays call overview data, for example method, server.
 class AliceCallOverviewScreen extends StatelessWidget {
   final AliceHttpCall call;
   const AliceCallOverviewScreen({super.key, required this.call});

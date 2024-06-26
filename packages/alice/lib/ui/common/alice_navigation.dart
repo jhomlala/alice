@@ -8,15 +8,19 @@ import 'package:flutter/material.dart';
 
 /// Simple navigation helper class for Alice.
 class AliceNavigation {
-  static Future<void> navigateToLogList({
+  /// Navigates to calls list page.
+  static Future<void> navigateToCallsList({
     required AliceCore core,
     required AliceLogger logger,
   }) {
     return _navigateToPage(
-        core: core, child: AliceCallsListPage(core: core, logger: logger));
+      core: core,
+      child: AliceCallsListPage(core: core, logger: logger),
+    );
   }
 
-  static Future<void> navigateToDetails({
+  /// Navigates to call details page.
+  static Future<void> navigateToCallDetails({
     required AliceHttpCall call,
     required AliceCore core,
   }) {
@@ -24,10 +28,16 @@ class AliceNavigation {
         core: core, child: AliceCallDetailsPage(call: call, core: core));
   }
 
+  /// Navigates to stats page.
   static Future<void> navigateToStats({required AliceCore core}) {
-    return _navigateToPage(core: core, child: AliceStatsPage(core));
+    return _navigateToPage(
+      core: core,
+      child: AliceStatsPage(core),
+    );
   }
 
+  /// Common helper method which checks whether context is available for
+  /// navigation and navigates to a specific page.
   static Future<void> _navigateToPage({
     required AliceCore core,
     required Widget child,

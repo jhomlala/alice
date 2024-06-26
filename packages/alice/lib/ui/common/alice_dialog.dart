@@ -1,6 +1,7 @@
 import 'package:alice/utils/alice_theme.dart';
 import 'package:flutter/material.dart';
 
+/// General dialogs used in Alice.
 class AliceGeneralDialog {
   /// Helper method used to open alarm with given title and description.
   static Future<void> show({

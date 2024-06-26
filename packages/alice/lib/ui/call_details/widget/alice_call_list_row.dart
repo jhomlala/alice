@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Widget which displays formatted text row. It allows to select the text.
 class AliceCallListRow extends StatelessWidget {
   final String name;
   final String? value;

@@ -7,6 +7,8 @@ import 'package:alice/utils/alice_parser.dart';
 import 'package:alice/utils/alice_scroll_behavior.dart';
 import 'package:flutter/material.dart';
 
+/// Screen which displays information about call request: content, transfer,
+/// headers.
 class AliceCallRequestScreen extends StatelessWidget {
   final AliceHttpCall call;
 

@@ -7,6 +7,7 @@ import 'package:alice/utils/num_comparison.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+/// Screen which displays information about HTTP call response.
 class AliceCallResponseScreen extends StatelessWidget {
   const AliceCallResponseScreen({super.key, required this.call});
 
@@ -37,6 +38,8 @@ class AliceCallResponseScreen extends StatelessWidget {
   }
 }
 
+/// Column which displays general information like received time and bytes
+/// count.
 class _GeneralDataColumn extends StatelessWidget {
   final AliceHttpCall call;
 

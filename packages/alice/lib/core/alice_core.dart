@@ -136,7 +136,7 @@ class AliceCore {
     }
     if (!_isInspectorOpened) {
       _isInspectorOpened = true;
-      AliceNavigation.navigateToLogList(core: this, logger: _aliceLogger)
+      AliceNavigation.navigateToCallsList(core: this, logger: _aliceLogger)
           .then((_) => _isInspectorOpened = false);
     }
   }

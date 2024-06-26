@@ -1,8 +1,9 @@
-import 'package:alice/ui/call_details/model/alice_sort_option.dart';
+import 'package:alice/ui/calls_list/model/alice_calls_list_sort_option.dart';
 import 'package:flutter/material.dart';
 
+/// Dialog which can be used to sort alice calls.
 class AliceSortDialog extends StatelessWidget {
-  final AliceSortOption sortOption;
+  final AliceCallsListSortOption sortOption;
   final bool sortAscending;
 
   const AliceSortDialog({
@@ -13,7 +14,7 @@ class AliceSortDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AliceSortOption currentSortOption = sortOption;
+    AliceCallsListSortOption currentSortOption = sortOption;
     bool currentSortAscending = sortAscending;
     return Theme(
       data: ThemeData(
@@ -25,12 +26,15 @@ class AliceSortDialog extends StatelessWidget {
             title: const Text('Select filter'),
             content: Wrap(
               children: [
-                for (final AliceSortOption sortOption in AliceSortOption.values)
-                  RadioListTile<AliceSortOption>(
-                    title: Text(sortOption.name),
+                for (final AliceCallsListSortOption sortOption
+                    in AliceCallsListSortOption.values)
+                  RadioListTile<AliceCallsListSortOption>(
+                    title: Text(_getName(
+                      option: sortOption,
+                    )),
                     value: sortOption,
                     groupValue: currentSortOption,
-                    onChanged: (AliceSortOption? value) {
+                    onChanged: (AliceCallsListSortOption? value) {
                       if (value != null) {
                         setState(() {
                           currentSortOption = value;
@@ -79,10 +83,22 @@ class AliceSortDialog extends StatelessWidget {
       ),
     );
   }
+
+  /// Get sort option name based on [option].
+  String _getName({required AliceCallsListSortOption option}) {
+    return switch (option) {
+      AliceCallsListSortOption.time => 'Create time (default)',
+      AliceCallsListSortOption.responseTime => 'Response time',
+      AliceCallsListSortOption.responseCode => 'Response code',
+      AliceCallsListSortOption.responseSize => 'Response size',
+      AliceCallsListSortOption.endpoint => 'Endpoint',
+    };
+  }
 }
 
+/// Result of alice sort dialog.
 class AliceSortDialogResult {
-  final AliceSortOption sortOption;
+  final AliceCallsListSortOption sortOption;
   final bool sortAscending;
 
   AliceSortDialogResult({

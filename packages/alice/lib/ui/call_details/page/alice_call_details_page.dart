@@ -12,6 +12,7 @@ import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 
+/// Call details page which displays 4 tabs: overview, request, response, error.
 class AliceCallDetailsPage extends StatefulWidget {
   final AliceHttpCall call;
   final AliceCore core;
@@ -26,6 +27,7 @@ class AliceCallDetailsPage extends StatefulWidget {
   State<StatefulWidget> createState() => _AliceCallDetailsPageState();
 }
 
+/// State of call details page.
 class _AliceCallDetailsPageState extends State<AliceCallDetailsPage>
     with SingleTickerProviderStateMixin {
   AliceHttpCall get call => widget.call;
@@ -93,6 +95,7 @@ class _AliceCallDetailsPageState extends State<AliceCallDetailsPage>
     );
   }
 
+  /// Get tab name based on [item] type.
   String _getTabName({required AliceCallDetailsTabItem item}) {
     switch (item) {
       case AliceCallDetailsTabItem.overview:
@@ -106,6 +109,7 @@ class _AliceCallDetailsPageState extends State<AliceCallDetailsPage>
     }
   }
 
+  /// Get tab icon based on [item] type.
   Icon _getTabIcon({required AliceCallDetailsTabItem item}) {
     switch (item) {
       case AliceCallDetailsTabItem.overview:

@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 const int _endpointMaxLines = 10;
 const int _serverMaxLines = 5;
 
+/// Widget which renders one row in calls list view. It displays general
+/// information about call.
 class AliceCallListItemWidget extends StatelessWidget {
   const AliceCallListItemWidget(
     this.call,
@@ -56,6 +58,7 @@ class AliceCallListItemWidget extends StatelessWidget {
     );
   }
 
+  /// Get response status text color based on response status.
   Color _getStatusTextColor(BuildContext context) =>
       switch (call.response?.status) {
         -1 => AliceTheme.red,
@@ -67,10 +70,12 @@ class AliceCallListItemWidget extends StatelessWidget {
         _ => Theme.of(context).textTheme.bodyLarge!.color ?? AliceTheme.grey,
       };
 
+  /// Returns endpoint text color based on call state.
   Color _getEndpointTextColor(BuildContext context) =>
       call.loading ? AliceTheme.grey : _getStatusTextColor(context);
 }
 
+/// Widget which renders server address line.
 class _ServerAddress extends StatelessWidget {
   final AliceHttpCall call;
 
@@ -103,6 +108,7 @@ class _ServerAddress extends StatelessWidget {
   }
 }
 
+/// Widget which renders endpoint and the HTTP method line.
 class _EndpointAndMethod extends StatelessWidget {
   final AliceHttpCall call;
   final Color color;
@@ -136,6 +142,7 @@ class _EndpointAndMethod extends StatelessWidget {
   }
 }
 
+/// Widget which renders response status line.
 class _ResponseStatus extends StatelessWidget {
   final AliceHttpCall call;
   final Color color;
@@ -173,6 +180,7 @@ class _ResponseStatus extends StatelessWidget {
     );
   }
 
+  /// Get status based on [response].
   String _getStatus(AliceHttpResponse response) => switch (response.status) {
         -1 => 'ERR',
         0 => '???',
@@ -180,6 +188,7 @@ class _ResponseStatus extends StatelessWidget {
       };
 }
 
+/// Widget which renders connection stats based on [call].
 class _ConnectionStats extends StatelessWidget {
   final AliceHttpCall call;
 
@@ -215,10 +224,12 @@ class _ConnectionStats extends StatelessWidget {
     );
   }
 
+  /// Formats call time.
   String _formatTime(DateTime time) => '${formatTimeUnit(time.hour)}:'
       '${formatTimeUnit(time.minute)}:'
       '${formatTimeUnit(time.second)}:'
       '${formatTimeUnit(time.millisecond)}';
 
+  /// Format one of time units.
   String formatTimeUnit(int timeUnit) => timeUnit.toString().padLeft(2, '0');
 }

@@ -2,7 +2,7 @@ import 'package:alice/core/alice_core.dart';
 import 'package:alice/core/alice_logger.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/ui/call_details/model/alice_menu_item.dart';
-import 'package:alice/ui/call_details/model/alice_sort_option.dart';
+import 'package:alice/ui/calls_list/model/alice_calls_list_sort_option.dart';
 import 'package:alice/ui/calls_list/model/alice_calls_list_tab_item.dart';
 import 'package:alice/ui/calls_list/widget/alice_sort_dialog.dart';
 import 'package:alice/ui/common/alice_dialog.dart';
@@ -14,6 +14,9 @@ import 'package:alice/ui/calls_list/widget/alice_logs_screen.dart';
 import 'package:alice/utils/alice_theme.dart';
 import 'package:flutter/material.dart';
 
+/// Page which displays list of calls caught by Alice. It displays tab view
+/// where calls and logs can be inspected. It allows to sort calls, delete calls
+/// and search calls.
 class AliceCallsListPage extends StatefulWidget {
   final AliceCore core;
   final AliceLogger? logger;
@@ -36,7 +39,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
   final ScrollController _scrollController = ScrollController();
   late final TabController? _tabController;
 
-  AliceSortOption _sortOption = AliceSortOption.time;
+  AliceCallsListSortOption _sortOption = AliceCallsListSortOption.time;
   bool _sortAscending = false;
   bool _searchEnabled = false;
   bool isAndroidRawLogsEnabled = false;
@@ -70,6 +73,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
     super.dispose();
   }
 
+  /// Returns [true] when logger tab is opened.
   bool get isLoggerTab => _selectedIndex == 1;
 
   @override
@@ -157,6 +161,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
     );
   }
 
+  /// Get tab name based on [item] type.
   String _getTabName({required AliceCallsListTabItem item}) {
     switch (item) {
       case AliceCallsListTabItem.inspector:
@@ -166,10 +171,14 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
     }
   }
 
+  /// Called when back button has been pressed. It navigates back to original
+  /// application.
   void _onBackPressed() {
     Navigator.of(context, rootNavigator: true).pop();
   }
 
+  /// Called when clear logs has been pressed. It displays dialog and awaits for
+  /// user confirmation.
   void _onClearLogsPressed() => AliceGeneralDialog.show(
         context: context,
         title: 'Delete logs',
@@ -179,10 +188,12 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
         secondButtonAction: _onLogsClearPressed,
       );
 
+  /// Called when logs type mode pressed.
   void _onLogsChangePressed() => setState(() {
         isAndroidRawLogsEnabled = !isAndroidRawLogsEnabled;
       });
 
+  /// Called when logs clear button has been pressed.
   void _onLogsClearPressed() => setState(() {
         if (isAndroidRawLogsEnabled) {
           widget.logger?.clearAndroidRawLogs();
@@ -191,6 +202,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
         }
       });
 
+  /// Called when search button. It displays search textfield.
   void _onSearchPressed() => setState(() {
         _searchEnabled = !_searchEnabled;
         if (!_searchEnabled) {
@@ -198,6 +210,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
         }
       });
 
+  /// Called on tab has been changed.
   void _onTabChanged(int index) => setState(
         () {
           _selectedIndex = index;
@@ -208,22 +221,26 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
         },
       );
 
-  void _onMenuItemSelected(AliceMenuItemType menuItem) {
+
+  /// Called when menu item from overflow menu has been pressed.
+  void _onMenuItemSelected(AliceCallDetailsMenuItemType menuItem) {
     switch (menuItem) {
-      case AliceMenuItemType.sort:
+      case AliceCallDetailsMenuItemType.sort:
         _onSortPressed();
-      case AliceMenuItemType.delete:
+      case AliceCallDetailsMenuItemType.delete:
         _onRemovePressed();
-      case AliceMenuItemType.stats:
+      case AliceCallDetailsMenuItemType.stats:
         _onStatsPressed();
-      case AliceMenuItemType.save:
+      case AliceCallDetailsMenuItemType.save:
         _saveToFile();
     }
   }
 
+  /// Called when item from the list has been pressed. It opens details page.
   void _onListItemPressed(AliceHttpCall call) =>
-      AliceNavigation.navigateToDetails(call: call, core: aliceCore);
+      AliceNavigation.navigateToCallDetails(call: call, core: aliceCore);
 
+  /// Called when remove all calls button has been pressed.
   void _onRemovePressed() => AliceGeneralDialog.show(
         context: context,
         title: 'Delete calls',
@@ -234,16 +251,22 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
         secondButtonAction: _removeCalls,
       );
 
+  /// Removes all calls from Alice.
   void _removeCalls() => aliceCore.removeCalls();
 
+  /// Called when stats button has been pressed. Navigates to stats page.
   void _onStatsPressed() {
     AliceNavigation.navigateToStats(core: aliceCore);
   }
 
+  /// Called when save to file has been pressed. It saves data to file.
   void _saveToFile() => aliceCore.saveHttpRequests(context);
 
+  /// Filters calls based on query.
   void _updateSearchQuery(String query) => setState(() {});
 
+  /// Called when sort button has been pressed. It opens dialog where filters
+  /// can be picked.
   Future<void> _onSortPressed() async {
     AliceSortDialogResult? result = await showDialog<AliceSortDialogResult>(
       context: context,
@@ -260,8 +283,11 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
     }
   }
 
+  /// Scrolls logs list based on [top] parameter.
   void _scrollLogsList(bool top) => top ? _scrollToTop() : _scrollToBottom();
 
+
+  /// Scrolls logs list to the top.
   void _scrollToTop() {
     if (_scrollController.hasClients) {
       _scrollController.animateTo(
@@ -272,6 +298,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
     }
   }
 
+  /// Scrolls logs list to the bottom.
   void _scrollToBottom() {
     if (_scrollController.hasClients) {
       _scrollController.animateTo(
@@ -283,6 +310,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
   }
 }
 
+/// Text field displayed in app bar. Used to search call logs.
 class _SearchTextField extends StatelessWidget {
   const _SearchTextField({
     required this.textEditingController,
@@ -308,18 +336,20 @@ class _SearchTextField extends StatelessWidget {
   }
 }
 
+/// Menu button displayed in app bar. It displays overflow menu with addtional
+/// actions.
 class _ContextMenuButton extends StatelessWidget {
   const _ContextMenuButton({required this.onMenuItemSelected});
 
-  final void Function(AliceMenuItemType) onMenuItemSelected;
+  final void Function(AliceCallDetailsMenuItemType) onMenuItemSelected;
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton<AliceMenuItemType>(
+    return PopupMenuButton<AliceCallDetailsMenuItemType>(
       onSelected: onMenuItemSelected,
       itemBuilder: (BuildContext context) => [
-        for (final AliceMenuItemType item in AliceMenuItemType.values)
-          PopupMenuItem<AliceMenuItemType>(
+        for (final AliceCallDetailsMenuItemType item in AliceCallDetailsMenuItemType.values)
+          PopupMenuItem<AliceCallDetailsMenuItemType>(
             value: item,
             child: Row(
               children: [
@@ -338,33 +368,36 @@ class _ContextMenuButton extends StatelessWidget {
     );
   }
 
-  String _getTitle({required AliceMenuItemType itemType}) {
+  /// Get title of the menu item based on [itemType].
+  String _getTitle({required AliceCallDetailsMenuItemType itemType}) {
     switch (itemType) {
-      case AliceMenuItemType.sort:
+      case AliceCallDetailsMenuItemType.sort:
         return "Sort";
-      case AliceMenuItemType.delete:
+      case AliceCallDetailsMenuItemType.delete:
         return "Delete";
-      case AliceMenuItemType.stats:
+      case AliceCallDetailsMenuItemType.stats:
         return "Stats";
-      case AliceMenuItemType.save:
+      case AliceCallDetailsMenuItemType.save:
         return "Save";
     }
   }
 
-  IconData _getIcon({required AliceMenuItemType itemType}) {
+  /// Get icon of the menu item based [itemType].
+  IconData _getIcon({required AliceCallDetailsMenuItemType itemType}) {
     switch (itemType) {
-      case AliceMenuItemType.sort:
+      case AliceCallDetailsMenuItemType.sort:
         return Icons.sort;
-      case AliceMenuItemType.delete:
+      case AliceCallDetailsMenuItemType.delete:
         return Icons.delete;
-      case AliceMenuItemType.stats:
+      case AliceCallDetailsMenuItemType.stats:
         return Icons.insert_chart;
-      case AliceMenuItemType.save:
+      case AliceCallDetailsMenuItemType.save:
         return Icons.save;
     }
   }
 }
 
+/// FAB buttons used to scroll logs. Displayed only in logs tab.
 class _LoggerFloatingActionButtons extends StatelessWidget {
   const _LoggerFloatingActionButtons({required this.scrollLogsList});
 
