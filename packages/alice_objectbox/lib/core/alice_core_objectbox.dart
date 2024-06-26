@@ -22,9 +22,8 @@ class AliceCoreObjectBox extends AliceCore {
   late final Box<CachedAliceHttpCall> httpCallsBox = _store.httpCalls;
 
   @override
-  void addCall(AliceHttpCall call) {
-    httpCallsBox.put(CachedAliceHttpCall.fromAliceHttpCall(call));
-  }
+  void addCall(AliceHttpCall call) =>
+      httpCallsBox.put(CachedAliceHttpCall.fromAliceHttpCall(call));
 
   @override
   void addError(AliceHttpError error, int requestId) {
