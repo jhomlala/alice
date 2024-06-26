@@ -1,3 +1,6 @@
+# 1.0.0-dev-7
+* Refactored UI code.
+
 # 1.0.0-dev.6
 
 * [BREAKING_CHANGE] Bumped minimal Flutter version to 3.10.0.

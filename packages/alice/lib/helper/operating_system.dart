@@ -1,3 +1,4 @@
+/// Definition of OS.
 abstract class OperatingSystem {
   static const String android = 'android';
   static const String fuchsia = 'fuchsia';

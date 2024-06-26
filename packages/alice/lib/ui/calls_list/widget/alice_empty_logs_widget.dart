@@ -1,6 +1,7 @@
-import 'package:alice/utils/alice_constants.dart';
+import 'package:alice/utils/alice_theme.dart';
 import 'package:flutter/material.dart';
 
+/// Widget which renders empty text for calls list.
 class AliceEmptyLogsWidget extends StatelessWidget {
   const AliceEmptyLogsWidget({
     super.key,
@@ -16,7 +17,7 @@ class AliceEmptyLogsWidget extends StatelessWidget {
           children: [
             Icon(
               Icons.error_outline,
-              color: AliceConstants.orange,
+              color: AliceTheme.orange,
             ),
             SizedBox(height: 6),
             Text(

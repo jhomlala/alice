@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+/// Widget which renders log list for calls list page.
 class AliceLogListWidget extends StatefulWidget {
   const AliceLogListWidget({
     required this.logsListenable,
@@ -23,6 +24,7 @@ class AliceLogListWidget extends StatefulWidget {
   State<AliceLogListWidget> createState() => _AliceLogListWidgetState();
 }
 
+/// State for logs list widget.
 class _AliceLogListWidgetState extends State<AliceLogListWidget> {
   final DiagnosticLevel _minLevel = DiagnosticLevel.debug;
 
@@ -47,7 +49,7 @@ class _AliceLogListWidgetState extends State<AliceLogListWidget> {
             shrinkWrap: true,
             padding: const EdgeInsets.symmetric(vertical: 8),
             itemCount: filteredLogs.length,
-            itemBuilder: (context, i) => AliceLogEntryWidget(filteredLogs[i]),
+            itemBuilder: (context, i) => _AliceLogEntryWidget(filteredLogs[i]),
           ),
         );
       },
@@ -55,8 +57,9 @@ class _AliceLogListWidgetState extends State<AliceLogListWidget> {
   }
 }
 
-class AliceLogEntryWidget extends StatelessWidget {
-  AliceLogEntryWidget(this.log) : super(key: ValueKey(log));
+/// Widget which renders one log entry in logs list.
+class _AliceLogEntryWidget extends StatelessWidget {
+  _AliceLogEntryWidget(this.log) : super(key: ValueKey(log));
 
   final AliceLog log;
 
@@ -112,6 +115,7 @@ class AliceLogEntryWidget extends StatelessWidget {
     );
   }
 
+  /// Formats log entry.
   List<InlineSpan> _toText(
     BuildContext context,
     String title,
@@ -130,10 +134,12 @@ class AliceLogEntryWidget extends StatelessWidget {
     ];
   }
 
+  /// Returns text color based on log level.
   Color _getTextColor(BuildContext context) {
-    return AliceTheme.getTextColor(context, log.level);
+    return AliceTheme.getLogTextColor(context, log.level);
   }
 
+  /// Returns icon based on log level.
   IconData _getLogIcon(DiagnosticLevel level) => switch (level) {
         DiagnosticLevel.hidden => Icons.all_inclusive_outlined,
         DiagnosticLevel.fine => Icons.bubble_chart_outlined,
@@ -146,6 +152,7 @@ class AliceLogEntryWidget extends StatelessWidget {
         DiagnosticLevel.off => Icons.not_interested_outlined,
       };
 
+  /// Copies to clipboard given error.
   Future<void> _copyToClipboard(BuildContext context) async {
     final String? error = _stringify(log.error);
     final String? stackTrace = _stringify(log.stackTrace);
@@ -165,6 +172,7 @@ class AliceLogEntryWidget extends StatelessWidget {
     }
   }
 
+  /// Formats text with json decode/encode.
   String? _stringify(dynamic object) {
     if (object == null) return null;
     if (object is String) return object.trim();

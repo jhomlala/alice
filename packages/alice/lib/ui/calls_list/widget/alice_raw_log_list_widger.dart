@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+/// Widget which displays raw logs list (logs collected with ADB).
 class AliceRawLogListWidget extends StatelessWidget {
   const AliceRawLogListWidget({
     required this.scrollController,

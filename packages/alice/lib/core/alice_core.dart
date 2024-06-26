@@ -8,7 +8,7 @@ import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice/model/alice_log.dart';
-import 'package:alice/ui/page/alice_calls_list_screen.dart';
+import 'package:alice/ui/common/alice_navigation.dart';
 import 'package:alice/utils/num_comparison.dart';
 import 'package:alice/utils/shake_detector.dart';
 import 'package:collection/collection.dart' show IterableExtension;
@@ -17,7 +17,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:rxdart/rxdart.dart';
 
 class AliceCore {
-  /// Should user be notified with notification if there's new request catched
+  /// Should user be notified with notification if there's new request caught
   /// by Alice
   final bool showNotification;
 
@@ -136,12 +136,8 @@ class AliceCore {
     }
     if (!_isInspectorOpened) {
       _isInspectorOpened = true;
-      Navigator.push<void>(
-        context,
-        MaterialPageRoute(
-          builder: (_) => AliceCallsListScreen(this, _aliceLogger),
-        ),
-      ).then((_) => _isInspectorOpened = false);
+      AliceNavigation.navigateToCallsList(core: this, logger: _aliceLogger)
+          .then((_) => _isInspectorOpened = false);
     }
   }
 

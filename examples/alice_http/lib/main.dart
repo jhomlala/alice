@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
               const Text(
                 style: TextStyle(fontSize: 14),
                 'Welcome to example of Alice Http Inspector. '
-                    'Click buttons below to generate sample data.',
+                'Click buttons below to generate sample data.',
               ),
               ElevatedButton(
                 onPressed: _runHttpHttpRequests,
