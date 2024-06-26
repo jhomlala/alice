@@ -1,7 +1,7 @@
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/ui/call_details/widget/alice_call_expandable_list_row.dart';
 import 'package:alice/ui/call_details/widget/alice_call_list_row.dart';
-import 'package:alice/utils/alice_scroll_behavior.dart';
+import 'package:alice/ui/common/alice_scroll_behavior.dart';
 import 'package:flutter/material.dart';
 
 /// Call error screen which displays info on HTTP call error.

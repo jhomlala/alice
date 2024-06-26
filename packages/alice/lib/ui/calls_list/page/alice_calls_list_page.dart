@@ -11,7 +11,7 @@ import 'package:alice/ui/common/alice_page.dart';
 import 'package:alice/ui/calls_list/widget/alice_calls_list_screen.dart';
 import 'package:alice/ui/calls_list/widget/alice_empty_logs_widget.dart';
 import 'package:alice/ui/calls_list/widget/alice_logs_screen.dart';
-import 'package:alice/utils/alice_theme.dart';
+import 'package:alice/ui/common/alice_theme.dart';
 import 'package:flutter/material.dart';
 
 /// Page which displays list of calls caught by Alice. It displays tab view

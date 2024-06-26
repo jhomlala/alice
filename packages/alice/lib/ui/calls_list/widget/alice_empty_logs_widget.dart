@@ -1,4 +1,4 @@
-import 'package:alice/utils/alice_theme.dart';
+import 'package:alice/ui/common/alice_theme.dart';
 import 'package:flutter/material.dart';
 
 /// Widget which renders empty text for calls list.

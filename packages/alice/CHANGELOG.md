@@ -1,4 +1,4 @@
-# 1.0.0-dev-7
+# 1.0.0-dev.7
 * Refactored UI code.
 
 # 1.0.0-dev.6
