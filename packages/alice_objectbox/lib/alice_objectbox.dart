@@ -9,7 +9,8 @@ class AliceObjectBox extends Alice {
     required super.showInspectorOnShake,
     required super.notificationIcon,
     required super.maxCallsCount,
-    bool super.showShareButton,
+    super.directionality,
+    super.showShareButton,
   })  : _store = store,
         super();
 
