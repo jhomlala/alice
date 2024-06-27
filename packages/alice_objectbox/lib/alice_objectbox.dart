@@ -11,7 +11,7 @@ class AliceObjectBox extends Alice {
     required super.maxCallsCount,
     super.directionality,
     super.showShareButton,
-  })  : _store = store;
+  }) : _store = store;
 
   final AliceStore _store;
 
