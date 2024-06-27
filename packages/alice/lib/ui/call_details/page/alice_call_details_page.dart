@@ -103,7 +103,7 @@ class _AliceCallDetailsPageState extends State<AliceCallDetailsPage>
 
   void _saveCallsToFile() async {
     await Share.share(
-      await AliceSaveHelper.buildCallLog(widget.call),
+      await AliceSaveHelper.buildCallLog(call: widget.call, context: context),
       subject: context.i18n(AliceTranslationKey.emailSubject),
     );
   }
