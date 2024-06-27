@@ -84,37 +84,12 @@ class AliceCoreObjectBox extends AliceCore {
         .build()
         .count();
 
-    final StringBuffer notificationsMessage = StringBuffer();
-    if (loadingCalls > 0) {
-      notificationsMessage.writeAll([
-        'Loading: $loadingCalls',
-        ' | ',
-      ]);
-    }
-    if (successCalls > 0) {
-      notificationsMessage.writeAll([
-        'Success: $successCalls',
-        ' | ',
-      ]);
-    }
-    if (redirectCalls > 0) {
-      notificationsMessage.writeAll([
-        'Redirect: $redirectCalls',
-        ' | ',
-      ]);
-    }
-    if (errorCalls > 0) {
-      notificationsMessage.write('Error: $errorCalls');
-    }
-    String notificationMessageString = notificationsMessage.toString();
-    if (notificationMessageString.endsWith(' | ')) {
-      notificationMessageString = notificationMessageString.substring(
-        0,
-        notificationMessageString.length - 3,
-      );
-    }
-
-    return notificationMessageString;
+    return <String>[
+      if (loadingCalls > 0) 'Loading: $loadingCalls',
+      if (successCalls > 0) 'Success: $successCalls',
+      if (redirectCalls > 0) 'Redirect: $redirectCalls',
+      if (errorCalls > 0) 'Error: $errorCalls',
+    ].join(' | ');
   }
 
   Future<void> _showLocalNotification() async {
