@@ -124,7 +124,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
           controller: _tabController,
           children: [
             StreamBuilder<List<AliceHttpCall>>(
-              stream: aliceCore.callsSubject,
+              stream: aliceCore.callsStream,
               builder: (context, AsyncSnapshot<List<AliceHttpCall>> snapshot) {
                 final List<AliceHttpCall> calls = snapshot.data ?? [];
                 final String query = _queryTextEditingController.text.trim();
