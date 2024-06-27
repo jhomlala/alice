@@ -38,7 +38,8 @@ class CachedAliceHttpRequest implements AliceHttpRequest {
 
   String get dbHeaders => jsonEncode(headers);
 
-  set dbHeaders(String value) => headers = jsonDecode(value);
+  set dbHeaders(String value) =>
+      headers = jsonDecode(value) as Map<String, dynamic>;
 
   @override
   @Transient()
@@ -67,7 +68,8 @@ class CachedAliceHttpRequest implements AliceHttpRequest {
 
   String get dbQueryParameters => jsonEncode(queryParameters);
 
-  set dbQueryParameters(String value) => queryParameters = jsonDecode(value);
+  set dbQueryParameters(String value) =>
+      queryParameters = jsonDecode(value) as Map<String, dynamic>;
 
   @override
   @Transient()

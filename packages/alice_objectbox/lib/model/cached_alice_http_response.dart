@@ -41,8 +41,11 @@ class CachedAliceHttpResponse implements AliceHttpResponse {
 
   String? get dbHeaders => jsonEncode(headers);
 
-  set dbHeaders(String? value) =>
-      headers = value != null ? jsonDecode(value) : null;
+  set dbHeaders(String? value) => headers = value != null
+      ? (jsonDecode(value) as Map<String, dynamic>?)?.map(
+          (key, value) => MapEntry(key, value.toString()),
+        )
+      : null;
 
   factory CachedAliceHttpResponse.fromAliceHttpResponse(
     AliceHttpResponse response,
