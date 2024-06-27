@@ -61,4 +61,18 @@ enum AliceTranslationKey {
   callResponseHeadersUnknown,
   callResponseBodyUnknown,
   callResponseBodyUnknownShow,
+  callsListInspector,
+  callsListLogger,
+  callsListDeleteLogsDialogTitle,
+  callsListDeleteLogsDialogDescription,
+  callsListYes,
+  callsListNo,
+  callsListDeleteCallsDialogTitle,
+  callsListDeleteCallsDialogDescription,
+  callsListSearchHint,
+  callsListSort,
+  callsListDelete,
+  callsListStats,
+  callsListSave,
+
 }
