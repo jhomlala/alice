@@ -90,9 +90,7 @@ class Alice {
   }
 
   /// Returns flag which determines whether inspector is opened
-  bool isInspectorOpened() {
-    return _aliceCore.isInspectorOpened();
-  }
+  bool get isInspectorOpened => _aliceCore.isInspectorOpened;
 
   /// Adds new adapter to Alice.
   void addAdapter(AliceAdapter adapter) {

@@ -47,11 +47,16 @@ class AliceCore {
   late final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
   GlobalKey<NavigatorState>? navigatorKey;
   bool _isInspectorOpened = false;
-  ShakeDetector? _shakeDetector;
-  StreamSubscription<dynamic>? _callsSubscription;
-  String? _notificationMessage;
-  String? _notificationMessageShown;
-  bool _notificationProcessing = false;
+  @protected
+  ShakeDetector? shakeDetector;
+  @protected
+  StreamSubscription<List<AliceHttpCall>>? callsSubscription;
+  @protected
+  String? notificationMessage;
+  @protected
+  String? notificationMessageShown;
+  @protected
+  bool notificationProcessing = false;
 
   /// Creates alice core instance
   AliceCore(
@@ -64,13 +69,13 @@ class AliceCore {
     this.showShareButton,
   }) {
     if (showNotification) {
-      _initializeNotificationsPlugin();
-      _requestNotificationPermissions();
-      _callsSubscription = callsSubject.listen((_) => _onCallsChanged());
+      initializeNotificationsPlugin();
+      requestNotificationPermissions();
+      callsSubscription = callsSubject.listen((_) => _onCallsChanged());
     }
     if (showInspectorOnShake) {
       if (Platform.isAndroid || Platform.isIOS) {
-        _shakeDetector = ShakeDetector.autoStart(
+        shakeDetector = ShakeDetector.autoStart(
           onPhoneShake: navigateToCallListScreen,
           shakeThresholdGravity: 4,
         );
@@ -81,11 +86,12 @@ class AliceCore {
   /// Dispose subjects and subscriptions
   void dispose() {
     callsSubject.close();
-    _shakeDetector?.stopListening();
-    _callsSubscription?.cancel();
+    shakeDetector?.stopListening();
+    callsSubscription?.cancel();
   }
 
-  void _initializeNotificationsPlugin() {
+  @protected
+  void initializeNotificationsPlugin() {
     _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     final AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings(notificationIcon);
@@ -107,9 +113,9 @@ class AliceCore {
 
   Future<void> _onCallsChanged() async {
     if (callsSubject.value.isNotEmpty) {
-      _notificationMessage = _getNotificationMessage();
-      if (_notificationMessage != _notificationMessageShown &&
-          !_notificationProcessing) {
+      notificationMessage = _getNotificationMessage();
+      if (notificationMessage != notificationMessageShown &&
+          !notificationProcessing) {
         await _showLocalNotification();
         await _onCallsChanged();
       }
@@ -207,7 +213,8 @@ class AliceCore {
     return notificationMessageString;
   }
 
-  Future<void> _requestNotificationPermissions() async {
+  @protected
+  Future<void> requestNotificationPermissions() async {
     if (Platform.isIOS || Platform.isMacOS) {
       await _flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
@@ -236,7 +243,7 @@ class AliceCore {
   }
 
   Future<void> _showLocalNotification() async {
-    _notificationProcessing = true;
+    notificationProcessing = true;
     const String channelId = 'Alice';
     const String channelName = 'Alice';
     const String channelDescription = 'Alice';
@@ -255,7 +262,7 @@ class AliceCore {
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics,
     );
-    final String? message = _notificationMessage;
+    final String? message = notificationMessage;
     await _flutterLocalNotificationsPlugin.show(
       0,
       'Alice (total: ${callsSubject.value.length} requests)',
@@ -264,8 +271,8 @@ class AliceCore {
       payload: '',
     );
 
-    _notificationMessageShown = message;
-    _notificationProcessing = false;
+    notificationMessageShown = message;
+    notificationProcessing = false;
   }
 
   /// Add alice http call to calls subject
@@ -344,7 +351,5 @@ class AliceCore {
   }
 
   /// Returns flag which determines whether inspector is opened
-  bool isInspectorOpened() {
-    return _isInspectorOpened;
-  }
+  bool get isInspectorOpened => _isInspectorOpened;
 }
