@@ -115,6 +115,11 @@ class AliceTranslations {
       AliceTranslationKey.statsPatchRequests: "PATCH requests:",
       AliceTranslationKey.statsSecuredRequests: "Secured requests:",
       AliceTranslationKey.statsUnsecuredRequests: "Unsecured requests:",
+      AliceTranslationKey.notificationLoading: "Loading:",
+      AliceTranslationKey.notificationSuccess: "Success:",
+      AliceTranslationKey.notificationRedirect: "Redirect:",
+      AliceTranslationKey.notificationError: "Error:",
+      AliceTranslationKey.notificationTotalRequests:"Alice (total [requestCount] requests)"
     });
   }
 

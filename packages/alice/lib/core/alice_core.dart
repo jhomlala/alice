@@ -2,12 +2,15 @@ import 'dart:async' show StreamSubscription;
 import 'dart:io' show Platform;
 
 import 'package:alice/core/alice_logger.dart';
+import 'package:alice/core/alice_translations.dart';
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/helper/alice_save_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice/model/alice_log.dart';
+import 'package:alice/model/alice_translation.dart';
+import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/ui/common/alice_navigation.dart';
 import 'package:alice/utils/num_comparison.dart';
 import 'package:alice/utils/shake_detector.dart';
@@ -119,7 +122,6 @@ class AliceCore {
   Future<void> _onDidReceiveNotificationResponse(
     NotificationResponse response,
   ) async {
-    assert(response.payload != null, "payload can't be null");
     navigateToCallListScreen();
   }
 
@@ -145,6 +147,22 @@ class AliceCore {
   BuildContext? getContext() => navigatorKey?.currentState?.overlay?.context;
 
   String _getNotificationMessage() {
+    final context = getContext();
+    var loadingText = AliceTranslations.get(
+        languageCode: "en", key: AliceTranslationKey.notificationLoading);
+    var successText = AliceTranslations.get(
+        languageCode: "en", key: AliceTranslationKey.notificationSuccess);
+    var redirectText = AliceTranslations.get(
+        languageCode: "en", key: AliceTranslationKey.notificationRedirect);
+    var errorText = AliceTranslations.get(
+        languageCode: "en", key: AliceTranslationKey.notificationError);
+    if (context != null) {
+      loadingText = context.i18n(AliceTranslationKey.notificationLoading);
+      successText = context.i18n(AliceTranslationKey.notificationSuccess);
+      redirectText = context.i18n(AliceTranslationKey.notificationRedirect);
+      errorText = context.i18n(AliceTranslationKey.notificationError);
+    }
+
     final List<AliceHttpCall> calls = callsSubject.value;
     final int successCalls = calls
         .where(
@@ -177,24 +195,24 @@ class AliceCore {
     final StringBuffer notificationsMessage = StringBuffer();
     if (loadingCalls > 0) {
       notificationsMessage.writeAll([
-        'Loading: $loadingCalls',
+        '$loadingText $loadingCalls',
         ' | ',
       ]);
     }
     if (successCalls > 0) {
       notificationsMessage.writeAll([
-        'Success: $successCalls',
+        '$successText $successCalls',
         ' | ',
       ]);
     }
     if (redirectCalls > 0) {
       notificationsMessage.writeAll([
-        'Redirect: $redirectCalls',
+        '$redirectText $redirectCalls',
         ' | ',
       ]);
     }
     if (errorCalls > 0) {
-      notificationsMessage.write('Error: $errorCalls');
+      notificationsMessage.write('$errorText $errorCalls');
     }
     String notificationMessageString = notificationsMessage.toString();
     if (notificationMessageString.endsWith(' | ')) {
@@ -256,9 +274,18 @@ class AliceCore {
       iOS: iOSPlatformChannelSpecifics,
     );
     final String? message = _notificationMessage;
+    final context = getContext();
+    var title = AliceTranslations.get(
+        languageCode: "en", key: AliceTranslationKey.notificationTotalRequests);
+    if (context != null) {
+      title = context
+          .i18n(AliceTranslationKey.notificationTotalRequests)
+          .replaceAll("[requestCount]", callsSubject.value.length.toString());
+    }
+
     await _flutterLocalNotificationsPlugin.show(
       0,
-      'Alice (total: ${callsSubject.value.length} requests)',
+      title,
       message,
       platformChannelSpecifics,
       payload: '',

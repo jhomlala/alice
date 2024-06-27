@@ -102,9 +102,10 @@ class AliceSortDialog extends StatelessWidget {
   }
 
   /// Get sort option name based on [option].
-  String _getName(
-      {required BuildContext context,
-      required AliceCallsListSortOption option}) {
+  String _getName({
+    required BuildContext context,
+    required AliceCallsListSortOption option,
+  }) {
     return switch (option) {
       AliceCallsListSortOption.time =>
         context.i18n(AliceTranslationKey.sortDialogTime),

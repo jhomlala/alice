@@ -106,6 +106,10 @@ enum AliceTranslationKey {
   statsPatchRequests,
   statsSecuredRequests,
   statsUnsecuredRequests,
-
+  notificationLoading,
+  notificationSuccess,
+  notificationRedirect,
+  notificationError,
+  notificationTotalRequests,
 
 }
