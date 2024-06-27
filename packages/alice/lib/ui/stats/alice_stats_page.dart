@@ -1,6 +1,8 @@
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/helper/alice_conversion_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
+import 'package:alice/model/alice_translation.dart';
+import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/ui/common/alice_page.dart';
 import 'package:alice/ui/widget/alice_stats_row.dart';
 import 'package:alice/utils/num_comparison.dart';
@@ -21,48 +23,67 @@ class AliceStatsPage extends StatelessWidget {
       core: aliceCore,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Alice - HTTP Inspector - Stats'),
+          title: Text('${context.i18n(AliceTranslationKey.alice)} - '
+              '${context.i18n(AliceTranslationKey.statsTitle)}'),
         ),
         body: Container(
           padding: const EdgeInsets.all(8),
           child: ListView(
             children: [
-              AliceStatsRow('Total requests:', '${_getTotalRequests()}'),
-              AliceStatsRow('Pending requests:', '${_getPendingRequests()}'),
-              AliceStatsRow('Success requests:', '${_getSuccessRequests()}'),
               AliceStatsRow(
-                'Redirection requests:',
+                  context.i18n(AliceTranslationKey.statsTotalRequests),
+                  '${_getTotalRequests()}'),
+              AliceStatsRow(
+                  context.i18n(AliceTranslationKey.statsPendingRequests),
+                  '${_getPendingRequests()}'),
+              AliceStatsRow(
+                  context.i18n(AliceTranslationKey.statsSuccessRequests),
+                  '${_getSuccessRequests()}'),
+              AliceStatsRow(
+                context.i18n(AliceTranslationKey.statsRedirectionRequests),
                 '${_getRedirectionRequests()}',
               ),
-              AliceStatsRow('Error requests:', '${_getErrorRequests()}'),
               AliceStatsRow(
-                'Bytes send:',
+                  context.i18n(AliceTranslationKey.statsErrorRequests),
+                  '${_getErrorRequests()}'),
+              AliceStatsRow(
+                context.i18n(AliceTranslationKey.statsBytesSent),
                 AliceConversionHelper.formatBytes(_getBytesSent()),
               ),
               AliceStatsRow(
-                'Bytes received:',
+                context.i18n(AliceTranslationKey.statsBytesReceived),
                 AliceConversionHelper.formatBytes(_getBytesReceived()),
               ),
               AliceStatsRow(
-                'Average request time:',
+                context.i18n(AliceTranslationKey.statsAverageRequestTime),
                 AliceConversionHelper.formatTime(_getAverageRequestTime()),
               ),
               AliceStatsRow(
-                'Max request time:',
+                context.i18n(AliceTranslationKey.statsMaxRequestTime),
                 AliceConversionHelper.formatTime(_getMaxRequestTime()),
               ),
               AliceStatsRow(
-                'Min request time:',
+                context.i18n(AliceTranslationKey.statsMinRequestTime),
                 AliceConversionHelper.formatTime(_getMinRequestTime()),
               ),
-              AliceStatsRow('Get requests:', '${_getRequests('GET')} '),
-              AliceStatsRow('Post requests:', '${_getRequests('POST')} '),
-              AliceStatsRow('Delete requests:', '${_getRequests('DELETE')} '),
-              AliceStatsRow('Put requests:', '${_getRequests('PUT')} '),
-              AliceStatsRow('Patch requests:', '${_getRequests('PATCH')} '),
-              AliceStatsRow('Secured requests:', '${_getSecuredRequests()}'),
+              AliceStatsRow(context.i18n(AliceTranslationKey.statsGetRequests),
+                  '${_getRequests('GET')} '),
+              AliceStatsRow(context.i18n(AliceTranslationKey.statsPostRequests),
+                  '${_getRequests('POST')} '),
               AliceStatsRow(
-                  'Unsecured requests:', '${_getUnsecuredRequests()}'),
+                  context.i18n(AliceTranslationKey.statsDeleteRequests),
+                  '${_getRequests('DELETE')} '),
+              AliceStatsRow(context.i18n(AliceTranslationKey.statsPutRequests),
+                  '${_getRequests('PUT')} '),
+              AliceStatsRow(
+                  context.i18n(AliceTranslationKey.statsPatchRequests),
+                  '${_getRequests('PATCH')} '),
+              AliceStatsRow(
+                  context.i18n(AliceTranslationKey.statsSecuredRequests),
+                  '${_getSecuredRequests()}'),
+              AliceStatsRow(
+                  context.i18n(AliceTranslationKey.statsUnsecuredRequests),
+                  '${_getUnsecuredRequests()}'),
             ],
           ),
         ),

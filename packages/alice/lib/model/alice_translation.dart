@@ -87,6 +87,25 @@ enum AliceTranslationKey {
   sortDialogResponseTime,
   sortDialogResponseCode,
   sortDialogResponseSize,
-  sortDialogEndpoint
+  sortDialogEndpoint,
+  statsTitle,
+  statsTotalRequests,
+  statsPendingRequests,
+  statsSuccessRequests,
+  statsRedirectionRequests,
+  statsErrorRequests,
+  statsBytesSent,
+  statsBytesReceived,
+  statsAverageRequestTime,
+  statsMaxRequestTime,
+  statsMinRequestTime,
+  statsGetRequests,
+  statsPostRequests,
+  statsDeleteRequests,
+  statsPutRequests,
+  statsPatchRequests,
+  statsSecuredRequests,
+  statsUnsecuredRequests,
+
 
 }
