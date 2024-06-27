@@ -74,5 +74,19 @@ enum AliceTranslationKey {
   callsListDelete,
   callsListStats,
   callsListSave,
+  logsEmpty,
+  logsItemError,
+  logsItemStackTrace,
+  logsCopied,
+  sortDialogTitle,
+  sortDialogAscending,
+  sortDialogDescending,
+  sortDialogAccept,
+  sortDialogCancel,
+  sortDialogTime,
+  sortDialogResponseTime,
+  sortDialogResponseCode,
+  sortDialogResponseSize,
+  sortDialogEndpoint
 
 }

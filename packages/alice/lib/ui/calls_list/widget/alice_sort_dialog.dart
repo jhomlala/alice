@@ -1,4 +1,6 @@
+import 'package:alice/model/alice_translation.dart';
 import 'package:alice/ui/calls_list/model/alice_calls_list_sort_option.dart';
+import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:flutter/material.dart';
 
 /// Dialog which can be used to sort alice calls.
@@ -23,15 +25,22 @@ class AliceSortDialog extends StatelessWidget {
       child: StatefulBuilder(
         builder: (context, setState) {
           return AlertDialog(
-            title: const Text('Select filter'),
+            title: Text(
+              context.i18n(
+                AliceTranslationKey.sortDialogTitle,
+              ),
+            ),
             content: Wrap(
               children: [
                 for (final AliceCallsListSortOption sortOption
                     in AliceCallsListSortOption.values)
                   RadioListTile<AliceCallsListSortOption>(
-                    title: Text(_getName(
-                      option: sortOption,
-                    )),
+                    title: Text(
+                      _getName(
+                        context: context,
+                        option: sortOption,
+                      ),
+                    ),
                     value: sortOption,
                     groupValue: currentSortOption,
                     onChanged: (AliceCallsListSortOption? value) {
@@ -45,7 +54,9 @@ class AliceSortDialog extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('Descending'),
+                    Text(
+                      context.i18n(AliceTranslationKey.sortDialogDescending),
+                    ),
                     Switch(
                       value: currentSortAscending,
                       onChanged: (value) {
@@ -56,7 +67,9 @@ class AliceSortDialog extends StatelessWidget {
                       activeTrackColor: Colors.grey,
                       activeColor: Colors.white,
                     ),
-                    const Text('Ascending'),
+                    Text(
+                      context.i18n(AliceTranslationKey.sortDialogAscending),
+                    ),
                   ],
                 ),
               ],
@@ -64,7 +77,9 @@ class AliceSortDialog extends StatelessWidget {
             actions: [
               TextButton(
                 onPressed: Navigator.of(context).pop,
-                child: const Text('Cancel'),
+                child: Text(
+                  context.i18n(AliceTranslationKey.sortDialogCancel),
+                ),
               ),
               TextButton(
                 onPressed: () {
@@ -75,7 +90,9 @@ class AliceSortDialog extends StatelessWidget {
                     ),
                   );
                 },
-                child: const Text('Use filter'),
+                child: Text(
+                  context.i18n(AliceTranslationKey.sortDialogAccept),
+                ),
               ),
             ],
           );
@@ -85,13 +102,20 @@ class AliceSortDialog extends StatelessWidget {
   }
 
   /// Get sort option name based on [option].
-  String _getName({required AliceCallsListSortOption option}) {
+  String _getName(
+      {required BuildContext context,
+      required AliceCallsListSortOption option}) {
     return switch (option) {
-      AliceCallsListSortOption.time => 'Create time (default)',
-      AliceCallsListSortOption.responseTime => 'Response time',
-      AliceCallsListSortOption.responseCode => 'Response code',
-      AliceCallsListSortOption.responseSize => 'Response size',
-      AliceCallsListSortOption.endpoint => 'Endpoint',
+      AliceCallsListSortOption.time =>
+        context.i18n(AliceTranslationKey.sortDialogTime),
+      AliceCallsListSortOption.responseTime =>
+        context.i18n(AliceTranslationKey.sortDialogResponseTime),
+      AliceCallsListSortOption.responseCode =>
+        context.i18n(AliceTranslationKey.sortDialogResponseCode),
+      AliceCallsListSortOption.responseSize =>
+        context.i18n(AliceTranslationKey.sortDialogResponseSize),
+      AliceCallsListSortOption.endpoint =>
+        context.i18n(AliceTranslationKey.sortDialogEndpoint),
     };
   }
 }

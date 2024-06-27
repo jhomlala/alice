@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:alice/model/alice_log.dart';
+import 'package:alice/model/alice_translation.dart';
+import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/ui/common/alice_scroll_behavior.dart';
 import 'package:alice/ui/common/alice_theme.dart';
 import 'package:flutter/foundation.dart';
@@ -83,10 +85,11 @@ class _AliceLogEntryWidget extends StatelessWidget {
             ),
           ),
           TextSpan(text: ' ${log.message}'),
-          ..._toText(context, 'Error', log.error),
+          ..._toText(context, context.i18n(AliceTranslationKey.logsItemError),
+              log.error),
           ..._toText(
             context,
-            'Stack Trace',
+            context.i18n(AliceTranslationKey.logsItemStackTrace),
             log.stackTrace,
             addLineBreakAfterTitle: true,
           ),
@@ -159,15 +162,23 @@ class _AliceLogEntryWidget extends StatelessWidget {
     final StringBuffer text = StringBuffer()
       ..writeAll([
         '${log.timestamp}: ${log.message}\n',
-        if (error != null) 'Error: $error\n',
-        if (stackTrace != null) 'Stack Trace: $stackTrace\n',
+        if (error != null)
+          '${context.i18n(AliceTranslationKey.logsItemError)} $error\n',
+        if (stackTrace != null)
+          '${context.i18n(AliceTranslationKey.logsItemStackTrace)}: $stackTrace\n',
       ]);
 
     await Clipboard.setData(ClipboardData(text: text.toString()));
 
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Copied!')),
+        SnackBar(
+          content: Text(
+            context.i18n(
+              AliceTranslationKey.logsCopied,
+            ),
+          ),
+        ),
       );
     }
   }

@@ -83,6 +83,20 @@ class AliceTranslations {
       AliceTranslationKey.callsListDelete: "Delete",
       AliceTranslationKey.callsListStats: "Stats",
       AliceTranslationKey.callsListSave: "Save",
+      AliceTranslationKey.logsEmpty: "There are no logs to show",
+      AliceTranslationKey.logsItemError: "Error:",
+      AliceTranslationKey.logsItemStackTrace: "Stack trace:",
+      AliceTranslationKey.logsCopied: "Copied to clipboard.",
+      AliceTranslationKey.sortDialogTitle: "Select filter",
+      AliceTranslationKey.sortDialogAscending:'Ascending',
+      AliceTranslationKey.sortDialogDescending:"Descending",
+      AliceTranslationKey.sortDialogAccept:"Accept",
+      AliceTranslationKey.sortDialogCancel:"Cancel",
+      AliceTranslationKey.sortDialogTime:"Create time (default)",
+      AliceTranslationKey.sortDialogResponseTime:"Response time",
+      AliceTranslationKey.sortDialogResponseCode:"Response code",
+      AliceTranslationKey.sortDialogResponseSize:"Response size",
+      AliceTranslationKey.sortDialogEndpoint:"Endpoint"
     });
   }
 

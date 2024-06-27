@@ -1,3 +1,5 @@
+import 'package:alice/model/alice_translation.dart';
+import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/ui/common/alice_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -11,18 +13,18 @@ class AliceEmptyLogsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 32),
-      child: const Center(
+      child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
+            const Icon(
               Icons.error_outline,
               color: AliceTheme.orange,
             ),
-            SizedBox(height: 6),
+            const SizedBox(height: 6),
             Text(
-              'There are no logs to show',
-              style: TextStyle(fontSize: 18),
+              context.i18n(AliceTranslationKey.logsEmpty),
+              style: const TextStyle(fontSize: 18),
             ),
           ],
         ),
