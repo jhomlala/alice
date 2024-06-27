@@ -5,14 +5,10 @@ import 'package:alice/model/alice_http_response.dart';
 import 'package:alice_objectbox/model/cached_alice_http_error.dart';
 import 'package:alice_objectbox/model/cached_alice_http_request.dart';
 import 'package:alice_objectbox/model/cached_alice_http_response.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:objectbox/objectbox.dart';
 
-part 'cached_alice_http_call.g.dart';
-
 @Entity()
-@JsonSerializable(explicitToJson: true)
 class CachedAliceHttpCall implements AliceHttpCall {
   CachedAliceHttpCall(
     this.id, {
@@ -30,7 +26,6 @@ class CachedAliceHttpCall implements AliceHttpCall {
   }
 
   @Id()
-  @JsonKey(includeFromJson: false, includeToJson: false)
   int objectId;
 
   @override
@@ -68,10 +63,6 @@ class CachedAliceHttpCall implements AliceHttpCall {
 
   @override
   @Transient()
-  @JsonKey(
-    toJson: _aliceHttpRequestToJson,
-    fromJson: CachedAliceHttpRequest.fromJson,
-  )
   AliceHttpRequest? get request => requestRel?.target;
 
   @override
@@ -82,21 +73,12 @@ class CachedAliceHttpCall implements AliceHttpCall {
         : null;
   }
 
-  static _aliceHttpRequestToJson(AliceHttpRequest? request) => request != null
-      ? CachedAliceHttpRequest.fromAliceHttpRequest(request).toJson()
-      : null;
-
   @protected
-  @JsonKey(includeFromJson: false, includeToJson: false)
   final ToOne<CachedAliceHttpRequest>? requestRel =
       ToOne<CachedAliceHttpRequest>();
 
   @override
   @Transient()
-  @JsonKey(
-    toJson: _aliceHttpResponseToJson,
-    fromJson: CachedAliceHttpResponse.fromJson,
-  )
   AliceHttpResponse? get response => responseRel?.target;
 
   @override
@@ -107,22 +89,12 @@ class CachedAliceHttpCall implements AliceHttpCall {
         : null;
   }
 
-  static _aliceHttpResponseToJson(AliceHttpResponse? response) =>
-      response != null
-          ? CachedAliceHttpResponse.fromAliceHttpResponse(response).toJson()
-          : null;
-
   @protected
-  @JsonKey(includeFromJson: false, includeToJson: false)
   final ToOne<CachedAliceHttpResponse>? responseRel =
       ToOne<CachedAliceHttpResponse>();
 
   @override
   @Transient()
-  @JsonKey(
-    toJson: _aliceHttpErrorToJson,
-    fromJson: CachedAliceHttpError.fromJson,
-  )
   AliceHttpError? get error => errorRel?.target;
 
   @override
@@ -132,12 +104,7 @@ class CachedAliceHttpCall implements AliceHttpCall {
         value != null ? CachedAliceHttpError.fromAliceHttpError(value) : null;
   }
 
-  static _aliceHttpErrorToJson(AliceHttpError? error) => error != null
-      ? CachedAliceHttpError.fromAliceHttpError(error).toJson()
-      : null;
-
   @protected
-  @JsonKey(includeFromJson: false, includeToJson: false)
   final ToOne<CachedAliceHttpError>? errorRel = ToOne<CachedAliceHttpError>();
 
   @override
@@ -161,9 +128,4 @@ class CachedAliceHttpCall implements AliceHttpCall {
         ..error = call.error
         ..request = call.request
         ..response = call.response;
-
-  factory CachedAliceHttpCall.fromJson(Map<String, dynamic> json) =>
-      _$CachedAliceHttpCallFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CachedAliceHttpCallToJson(this);
 }

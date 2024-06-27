@@ -5,17 +5,9 @@ import 'package:alice/model/alice_from_data_field.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice_objectbox/json_converter/alice_form_data_field_converter.dart';
 import 'package:alice_objectbox/json_converter/alice_form_data_file_converter.dart';
-import 'package:alice_objectbox/json_converter/cookie_converter.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:objectbox/objectbox.dart';
 
-part 'cached_alice_http_request.g.dart';
-
 @Entity()
-@JsonSerializable(explicitToJson: true)
-@CookieConverter.instance
-@AliceFormDataFileConverter.instance
-@AliceFormDataFieldConverter.instance
 class CachedAliceHttpRequest implements AliceHttpRequest {
   CachedAliceHttpRequest({
     this.objectId = 0,
@@ -31,7 +23,6 @@ class CachedAliceHttpRequest implements AliceHttpRequest {
   }) : time = time ?? DateTime.now();
 
   @Id()
-  @JsonKey(includeFromJson: false, includeToJson: false)
   int objectId;
 
   @override
@@ -45,17 +36,14 @@ class CachedAliceHttpRequest implements AliceHttpRequest {
   @Transient()
   Map<String, dynamic> headers;
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   String get dbHeaders => jsonEncode(headers);
 
   set dbHeaders(String value) => headers = jsonDecode(value);
 
   @override
-  @JsonKey(toJson: jsonEncode, fromJson: jsonDecode)
   @Transient()
   dynamic body;
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   String? get dbBody => jsonEncode(body);
 
   set dbBody(String? value) => body = value != null ? jsonDecode(value) : null;
@@ -67,7 +55,6 @@ class CachedAliceHttpRequest implements AliceHttpRequest {
   @Transient()
   List<Cookie> cookies;
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   List<String> get dbCookies =>
       cookies.map((Cookie cookie) => cookie.toString()).toList();
 
@@ -78,7 +65,6 @@ class CachedAliceHttpRequest implements AliceHttpRequest {
   @Transient()
   Map<String, dynamic> queryParameters;
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   String get dbQueryParameters => jsonEncode(queryParameters);
 
   set dbQueryParameters(String value) => queryParameters = jsonDecode(value);
@@ -87,7 +73,6 @@ class CachedAliceHttpRequest implements AliceHttpRequest {
   @Transient()
   List<AliceFormDataFile>? formDataFiles;
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   List<String>? get dbFormDataFiles => formDataFiles
       ?.map(
         (AliceFormDataFile file) =>
@@ -106,7 +91,6 @@ class CachedAliceHttpRequest implements AliceHttpRequest {
   @Transient()
   List<AliceFormDataField>? formDataFields;
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   List<String>? get dbFormDataFields => formDataFields
       ?.map(
         (AliceFormDataField field) =>
@@ -135,9 +119,4 @@ class CachedAliceHttpRequest implements AliceHttpRequest {
         formDataFiles: request.formDataFiles,
         formDataFields: request.formDataFields,
       );
-
-  factory CachedAliceHttpRequest.fromJson(Map<String, dynamic> json) =>
-      _$CachedAliceHttpRequestFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CachedAliceHttpRequestToJson(this);
 }
