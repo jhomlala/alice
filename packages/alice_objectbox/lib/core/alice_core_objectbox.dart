@@ -63,8 +63,70 @@ class AliceCoreObjectBox extends AliceCore {
   }
 
   String _getNotificationMessage() {
-    // TODO: Implement this method
-    throw UnimplementedError();
+    final int successCalls = (_store.httpCalls.query()
+          ..link(
+            CachedAliceHttpCall_.responseRel,
+            CachedAliceHttpResponse_.status
+                .greaterOrEqual(300)
+                .and(CachedAliceHttpResponse_.status.lessThan(400)),
+          ))
+        .build()
+        .count();
+
+    final int redirectCalls = (_store.httpCalls.query()
+          ..link(
+            CachedAliceHttpCall_.responseRel,
+            CachedAliceHttpResponse_.status
+                .greaterOrEqual(300)
+                .and(CachedAliceHttpResponse_.status.lessThan(400)),
+          ))
+        .build()
+        .count();
+
+    final int errorCalls = (_store.httpCalls.query()
+          ..link(
+            CachedAliceHttpCall_.responseRel,
+            CachedAliceHttpResponse_.status.greaterOrEqual(400),
+          ))
+        .build()
+        .count();
+
+    final int loadingCalls = _store.httpCalls
+        .query(CachedAliceHttpCall_.loading.equals(true))
+        .build()
+        .count();
+
+    final StringBuffer notificationsMessage = StringBuffer();
+    if (loadingCalls > 0) {
+      notificationsMessage.writeAll([
+        'Loading: $loadingCalls',
+        ' | ',
+      ]);
+    }
+    if (successCalls > 0) {
+      notificationsMessage.writeAll([
+        'Success: $successCalls',
+        ' | ',
+      ]);
+    }
+    if (redirectCalls > 0) {
+      notificationsMessage.writeAll([
+        'Redirect: $redirectCalls',
+        ' | ',
+      ]);
+    }
+    if (errorCalls > 0) {
+      notificationsMessage.write('Error: $errorCalls');
+    }
+    String notificationMessageString = notificationsMessage.toString();
+    if (notificationMessageString.endsWith(' | ')) {
+      notificationMessageString = notificationMessageString.substring(
+        0,
+        notificationMessageString.length - 3,
+      );
+    }
+
+    return notificationMessageString;
   }
 
   Future<void> _showLocalNotification() async {

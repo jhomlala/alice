@@ -78,7 +78,8 @@ class CachedAliceHttpCall implements AliceHttpCall {
       : null;
 
   @JsonKey(includeFromJson: false, includeToJson: false)
-  final ToOne<AliceHttpRequest>? requestRel = ToOne<CachedAliceHttpRequest>();
+  final ToOne<CachedAliceHttpRequest>? requestRel =
+      ToOne<CachedAliceHttpRequest>();
 
   @override
   @Transient()
@@ -94,7 +95,8 @@ class CachedAliceHttpCall implements AliceHttpCall {
           : null;
 
   @JsonKey(includeFromJson: false, includeToJson: false)
-  final ToOne<AliceHttpResponse>? responseRel = ToOne<CachedAliceHttpResponse>();
+  final ToOne<CachedAliceHttpResponse>? responseRel =
+      ToOne<CachedAliceHttpResponse>();
 
   @override
   @Transient()
@@ -109,7 +111,7 @@ class CachedAliceHttpCall implements AliceHttpCall {
       : null;
 
   @JsonKey(includeFromJson: false, includeToJson: false)
-  final ToOne<AliceHttpError>? errorRel = ToOne<CachedAliceHttpError>();
+  final ToOne<CachedAliceHttpError>? errorRel = ToOne<CachedAliceHttpError>();
 
   @override
   void setResponse(AliceHttpResponse response) {
