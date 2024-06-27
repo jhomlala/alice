@@ -72,18 +72,6 @@ class CachedAliceHttpCall implements AliceHttpCall {
   @override
   @Transient()
   @JsonKey(
-    toJson: _aliceHttpErrorToJson,
-    fromJson: CachedAliceHttpError.fromJson,
-  )
-  AliceHttpError? error;
-
-  static _aliceHttpErrorToJson(AliceHttpError? error) => error != null
-      ? CachedAliceHttpError.fromAliceHttpError(error).toJson()
-      : null;
-
-  @override
-  @Transient()
-  @JsonKey(
     toJson: _aliceHttpRequestToJson,
     fromJson: CachedAliceHttpRequest.fromJson,
   )
@@ -105,6 +93,18 @@ class CachedAliceHttpCall implements AliceHttpCall {
       response != null
           ? CachedAliceHttpResponse.fromAliceHttpResponse(response).toJson()
           : null;
+
+  @override
+  @Transient()
+  @JsonKey(
+    toJson: _aliceHttpErrorToJson,
+    fromJson: CachedAliceHttpError.fromJson,
+  )
+  AliceHttpError? error;
+
+  static _aliceHttpErrorToJson(AliceHttpError? error) => error != null
+      ? CachedAliceHttpError.fromAliceHttpError(error).toJson()
+      : null;
 
   @override
   void setResponse(AliceHttpResponse response) {

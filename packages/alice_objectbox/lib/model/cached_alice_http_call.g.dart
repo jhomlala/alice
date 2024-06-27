@@ -21,12 +21,12 @@ CachedAliceHttpCall _$CachedAliceHttpCallFromJson(Map<String, dynamic> json) =>
     )
       ..createdTime = DateTime.parse(json['createdTime'] as String)
       ..dbCreatedTime = (json['dbCreatedTime'] as num).toInt()
-      ..error =
-          CachedAliceHttpError.fromJson(json['error'] as Map<String, dynamic>)
       ..request = CachedAliceHttpRequest.fromJson(
           json['request'] as Map<String, dynamic>)
       ..response = CachedAliceHttpResponse.fromJson(
-          json['response'] as Map<String, dynamic>);
+          json['response'] as Map<String, dynamic>)
+      ..error =
+          CachedAliceHttpError.fromJson(json['error'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$CachedAliceHttpCallToJson(
         CachedAliceHttpCall instance) =>
@@ -43,8 +43,8 @@ Map<String, dynamic> _$CachedAliceHttpCallToJson(
       'server': instance.server,
       'uri': instance.uri,
       'duration': instance.duration,
-      'error': CachedAliceHttpCall._aliceHttpErrorToJson(instance.error),
       'request': CachedAliceHttpCall._aliceHttpRequestToJson(instance.request),
       'response':
           CachedAliceHttpCall._aliceHttpResponseToJson(instance.response),
+      'error': CachedAliceHttpCall._aliceHttpErrorToJson(instance.error),
     };
