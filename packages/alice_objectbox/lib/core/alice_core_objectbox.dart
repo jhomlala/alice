@@ -22,11 +22,6 @@ class AliceCoreObjectBox extends AliceCore {
       .watch(triggerImmediately: true)
       .map((Query<CachedAliceHttpCall> query) => query.find());
 
-  bool _isInspectorOpened = false;
-
-  @override
-  bool get isInspectorOpened => _isInspectorOpened;
-
   AliceCoreObjectBox(
     super.navigatorKey, {
     required AliceStore store,
@@ -132,8 +127,23 @@ class AliceCoreObjectBox extends AliceCore {
   }
 
   Future<void> _showLocalNotification() async {
-    // TODO: Implement this method
-    throw UnimplementedError();
+    try {
+      notificationProcessing = true;
+
+      final String? message = notificationMessage;
+
+      await flutterLocalNotificationsPlugin.show(
+        0,
+        'Alice (total: ${_store.httpCalls.count()} requests)',
+        message,
+        notificationDetails,
+        payload: '',
+      );
+
+      notificationMessageShown = message;
+    } finally {
+      notificationProcessing = false;
+    }
   }
 
   CachedAliceHttpCall? _selectCall(int requestId) => _store.httpCalls

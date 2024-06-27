@@ -32,6 +32,19 @@ class AliceCore {
   /// Icon url for notification
   final String notificationIcon;
 
+  @protected
+  late final NotificationDetails notificationDetails = NotificationDetails(
+    android: AndroidNotificationDetails(
+      'Alice',
+      'Alice',
+      channelDescription: 'Alice',
+      enableVibration: false,
+      playSound: false,
+      largeIcon: DrawableResourceAndroidBitmap(notificationIcon),
+    ),
+    iOS: const DarwinNotificationDetails(presentSound: false),
+  );
+
   ///Max number of calls that are stored in memory. When count is reached, FIFO
   ///method queue will be used to remove elements.
   final int maxCallsCount;
@@ -44,7 +57,8 @@ class AliceCore {
 
   final AliceLogger _aliceLogger = AliceLogger();
 
-  late final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
+  @protected
+  late final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   GlobalKey<NavigatorState>? navigatorKey;
   bool _isInspectorOpened = false;
   @protected
@@ -92,7 +106,7 @@ class AliceCore {
 
   @protected
   void initializeNotificationsPlugin() {
-    _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     final AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings(notificationIcon);
     const DarwinInitializationSettings initializationSettingsIOS =
@@ -105,7 +119,7 @@ class AliceCore {
       iOS: initializationSettingsIOS,
       macOS: initializationSettingsMacOS,
     );
-    _flutterLocalNotificationsPlugin.initialize(
+    flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: _onDidReceiveNotificationResponse,
     );
@@ -216,7 +230,7 @@ class AliceCore {
   @protected
   Future<void> requestNotificationPermissions() async {
     if (Platform.isIOS || Platform.isMacOS) {
-      await _flutterLocalNotificationsPlugin
+      await flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
               IOSFlutterLocalNotificationsPlugin>()
           ?.requestPermissions(
@@ -224,7 +238,7 @@ class AliceCore {
             badge: true,
             sound: true,
           );
-      await _flutterLocalNotificationsPlugin
+      await flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
               MacOSFlutterLocalNotificationsPlugin>()
           ?.requestPermissions(
@@ -234,45 +248,31 @@ class AliceCore {
           );
     } else if (Platform.isAndroid) {
       final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
-          _flutterLocalNotificationsPlugin
-              .resolvePlatformSpecificImplementation<
-                  AndroidFlutterLocalNotificationsPlugin>();
+          flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>();
 
       await androidImplementation?.requestNotificationsPermission();
     }
   }
 
   Future<void> _showLocalNotification() async {
-    notificationProcessing = true;
-    const String channelId = 'Alice';
-    const String channelName = 'Alice';
-    const String channelDescription = 'Alice';
-    final AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
-      channelId,
-      channelName,
-      channelDescription: channelDescription,
-      enableVibration: false,
-      playSound: false,
-      largeIcon: DrawableResourceAndroidBitmap(notificationIcon),
-    );
-    const DarwinNotificationDetails iOSPlatformChannelSpecifics =
-        DarwinNotificationDetails(presentSound: false);
-    final NotificationDetails platformChannelSpecifics = NotificationDetails(
-      android: androidPlatformChannelSpecifics,
-      iOS: iOSPlatformChannelSpecifics,
-    );
-    final String? message = notificationMessage;
-    await _flutterLocalNotificationsPlugin.show(
-      0,
-      'Alice (total: ${callsSubject.value.length} requests)',
-      message,
-      platformChannelSpecifics,
-      payload: '',
-    );
+    try {
+      notificationProcessing = true;
 
-    notificationMessageShown = message;
-    notificationProcessing = false;
+      final String? message = notificationMessage;
+
+      await flutterLocalNotificationsPlugin.show(
+        0,
+        'Alice (total: ${callsSubject.value.length} requests)',
+        message,
+        notificationDetails,
+        payload: '',
+      );
+
+      notificationMessageShown = message;
+    } finally {
+      notificationProcessing = false;
+    }
   }
 
   /// Add alice http call to calls subject
