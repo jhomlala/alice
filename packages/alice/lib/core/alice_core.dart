@@ -32,6 +32,9 @@ class AliceCore {
   /// Stream which contains all intercepted http calls
   Stream<List<AliceHttpCall>> get callsStream => callsSubject.stream;
 
+  /// Get all calls from calls subject
+  List<AliceHttpCall> getCalls() => callsSubject.value;
+
   /// Icon url for notification
   final String notificationIcon;
 

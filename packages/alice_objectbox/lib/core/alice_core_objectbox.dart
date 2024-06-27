@@ -35,6 +35,9 @@ class AliceCoreObjectBox extends AliceCore {
       .map((Query<CachedAliceHttpCall> query) => query.find());
 
   @override
+  List<AliceHttpCall> getCalls() => _store.httpCalls.getAll();
+
+  @override
   Future<void> onCallsChanged([List<AliceHttpCall>? calls]) async {
     if (calls?.isNotEmpty ?? false) {
       notificationMessage = _getNotificationMessage();
