@@ -71,7 +71,15 @@ class CachedAliceHttpCall implements AliceHttpCall {
     toJson: _aliceHttpRequestToJson,
     fromJson: CachedAliceHttpRequest.fromJson,
   )
-  AliceHttpRequest? request;
+  AliceHttpRequest? get request => requestRel?.target;
+
+  @override
+  @Transient()
+  set request(AliceHttpRequest? value) {
+    requestRel?.target = value != null
+        ? CachedAliceHttpRequest.fromAliceHttpRequest(value)
+        : null;
+  }
 
   static _aliceHttpRequestToJson(AliceHttpRequest? request) => request != null
       ? CachedAliceHttpRequest.fromAliceHttpRequest(request).toJson()
@@ -87,7 +95,15 @@ class CachedAliceHttpCall implements AliceHttpCall {
     toJson: _aliceHttpResponseToJson,
     fromJson: CachedAliceHttpResponse.fromJson,
   )
-  AliceHttpResponse? response;
+  AliceHttpResponse? get response => responseRel?.target;
+
+  @override
+  @Transient()
+  set response(AliceHttpResponse? value) {
+    responseRel?.target = value != null
+        ? CachedAliceHttpResponse.fromAliceHttpResponse(value)
+        : null;
+  }
 
   static _aliceHttpResponseToJson(AliceHttpResponse? response) =>
       response != null
@@ -104,7 +120,14 @@ class CachedAliceHttpCall implements AliceHttpCall {
     toJson: _aliceHttpErrorToJson,
     fromJson: CachedAliceHttpError.fromJson,
   )
-  AliceHttpError? error;
+  AliceHttpError? get error => errorRel?.target;
+
+  @override
+  @Transient()
+  set error(AliceHttpError? value) {
+    errorRel?.target =
+        value != null ? CachedAliceHttpError.fromAliceHttpError(value) : null;
+  }
 
   static _aliceHttpErrorToJson(AliceHttpError? error) => error != null
       ? CachedAliceHttpError.fromAliceHttpError(error).toJson()
