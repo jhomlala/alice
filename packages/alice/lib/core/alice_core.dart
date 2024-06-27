@@ -29,6 +29,9 @@ class AliceCore {
   final BehaviorSubject<List<AliceHttpCall>> callsSubject =
       BehaviorSubject.seeded([]);
 
+  /// Stream which contains all intercepted http calls
+  Stream<List<AliceHttpCall>> get callsStream => callsSubject.stream;
+
   /// Icon url for notification
   final String notificationIcon;
 
@@ -57,18 +60,26 @@ class AliceCore {
 
   final AliceLogger _aliceLogger = AliceLogger();
 
+  FlutterLocalNotificationsPlugin? _flutterLocalNotificationsPlugin;
+
   @protected
-  late final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  FlutterLocalNotificationsPlugin? get flutterLocalNotificationsPlugin =>
+      _flutterLocalNotificationsPlugin;
+
   GlobalKey<NavigatorState>? navigatorKey;
+
   bool _isInspectorOpened = false;
-  @protected
-  ShakeDetector? shakeDetector;
-  @protected
-  StreamSubscription<List<AliceHttpCall>>? callsSubscription;
+
+  ShakeDetector? _shakeDetector;
+
+  StreamSubscription<List<AliceHttpCall>>? _callsSubscription;
+
   @protected
   String? notificationMessage;
+
   @protected
   String? notificationMessageShown;
+
   @protected
   bool notificationProcessing = false;
 
@@ -83,13 +94,13 @@ class AliceCore {
     this.showShareButton,
   }) {
     if (showNotification) {
-      initializeNotificationsPlugin();
-      requestNotificationPermissions();
-      callsSubscription = callsSubject.listen((_) => _onCallsChanged());
+      _initializeNotificationsPlugin();
+      _requestNotificationPermissions();
+      _callsSubscription = callsStream.listen(onCallsChanged);
     }
     if (showInspectorOnShake) {
       if (Platform.isAndroid || Platform.isIOS) {
-        shakeDetector = ShakeDetector.autoStart(
+        _shakeDetector = ShakeDetector.autoStart(
           onPhoneShake: navigateToCallListScreen,
           shakeThresholdGravity: 4,
         );
@@ -100,13 +111,13 @@ class AliceCore {
   /// Dispose subjects and subscriptions
   void dispose() {
     callsSubject.close();
-    shakeDetector?.stopListening();
-    callsSubscription?.cancel();
+    _shakeDetector?.stopListening();
+    _callsSubscription?.cancel();
   }
 
   @protected
-  void initializeNotificationsPlugin() {
-    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  void _initializeNotificationsPlugin() {
+    _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     final AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings(notificationIcon);
     const DarwinInitializationSettings initializationSettingsIOS =
@@ -119,19 +130,20 @@ class AliceCore {
       iOS: initializationSettingsIOS,
       macOS: initializationSettingsMacOS,
     );
-    flutterLocalNotificationsPlugin.initialize(
+    flutterLocalNotificationsPlugin?.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: _onDidReceiveNotificationResponse,
     );
   }
 
-  Future<void> _onCallsChanged() async {
+  @protected
+  Future<void> onCallsChanged([List<AliceHttpCall>? calls]) async {
     if (callsSubject.value.isNotEmpty) {
       notificationMessage = _getNotificationMessage();
       if (notificationMessage != notificationMessageShown &&
           !notificationProcessing) {
         await _showLocalNotification();
-        await _onCallsChanged();
+        await onCallsChanged();
       }
     }
   }
@@ -228,10 +240,10 @@ class AliceCore {
   }
 
   @protected
-  Future<void> requestNotificationPermissions() async {
+  Future<void> _requestNotificationPermissions() async {
     if (Platform.isIOS || Platform.isMacOS) {
       await flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
+          ?.resolvePlatformSpecificImplementation<
               IOSFlutterLocalNotificationsPlugin>()
           ?.requestPermissions(
             alert: true,
@@ -239,7 +251,7 @@ class AliceCore {
             sound: true,
           );
       await flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
+          ?.resolvePlatformSpecificImplementation<
               MacOSFlutterLocalNotificationsPlugin>()
           ?.requestPermissions(
             alert: true,
@@ -248,8 +260,9 @@ class AliceCore {
           );
     } else if (Platform.isAndroid) {
       final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
-          flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin>();
+          flutterLocalNotificationsPlugin
+              ?.resolvePlatformSpecificImplementation<
+                  AndroidFlutterLocalNotificationsPlugin>();
 
       await androidImplementation?.requestNotificationsPermission();
     }
@@ -261,7 +274,7 @@ class AliceCore {
 
       final String? message = notificationMessage;
 
-      await flutterLocalNotificationsPlugin.show(
+      await flutterLocalNotificationsPlugin?.show(
         0,
         'Alice (total: ${callsSubject.value.length} requests)',
         message,

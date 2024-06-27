@@ -1,12 +1,9 @@
-import 'dart:io' show Platform;
-
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/helper/alice_save_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
-import 'package:alice/utils/shake_detector.dart';
 import 'package:alice_objectbox/alice_store.dart';
 import 'package:alice_objectbox/model/cached_alice_http_call.dart';
 import 'package:alice_objectbox/model/cached_alice_http_error.dart';
@@ -14,14 +11,6 @@ import 'package:alice_objectbox/objectbox.g.dart';
 import 'package:flutter/widgets.dart';
 
 class AliceCoreObjectBox extends AliceCore {
-  final AliceStore _store;
-
-  late final Stream<List<AliceHttpCall>> _callsStream = _store.httpCalls
-      .query()
-      .order<int>(CachedAliceHttpCall_.createdTime, flags: Order.descending)
-      .watch(triggerImmediately: true)
-      .map((Query<CachedAliceHttpCall> query) => query.find());
-
   AliceCoreObjectBox(
     super.navigatorKey, {
     required AliceStore store,
@@ -31,24 +20,21 @@ class AliceCoreObjectBox extends AliceCore {
     required super.maxCallsCount,
     super.directionality,
     super.showShareButton,
-  }) : _store = store {
-    if (showNotification) {
-      initializeNotificationsPlugin();
-      requestNotificationPermissions();
-      callsSubscription = _callsStream.listen(_onCallsChanged);
-    }
-    if (showInspectorOnShake) {
-      if (Platform.isAndroid || Platform.isIOS) {
-        shakeDetector = ShakeDetector.autoStart(
-          onPhoneShake: navigateToCallListScreen,
-          shakeThresholdGravity: 4,
-        );
-      }
-    }
-  }
+  })  : _store = store,
+        super();
 
-  Future<void> _onCallsChanged(List<AliceHttpCall> calls) async {
-    if (calls.isNotEmpty) {
+  final AliceStore _store;
+
+  @override
+  Stream<List<AliceHttpCall>> get callsStream => _store.httpCalls
+      .query()
+      .order<int>(CachedAliceHttpCall_.createdTime, flags: Order.descending)
+      .watch(triggerImmediately: true)
+      .map((Query<CachedAliceHttpCall> query) => query.find());
+
+  @override
+  Future<void> onCallsChanged([List<AliceHttpCall>? calls]) async {
+    if (calls?.isNotEmpty ?? false) {
       notificationMessage = _getNotificationMessage();
       if (notificationMessage != notificationMessageShown &&
           !notificationProcessing) {
@@ -132,7 +118,7 @@ class AliceCoreObjectBox extends AliceCore {
 
       final String? message = notificationMessage;
 
-      await flutterLocalNotificationsPlugin.show(
+      await flutterLocalNotificationsPlugin?.show(
         0,
         'Alice (total: ${_store.httpCalls.count()} requests)',
         message,
