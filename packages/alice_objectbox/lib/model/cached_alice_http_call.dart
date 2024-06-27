@@ -6,6 +6,7 @@ import 'package:alice_objectbox/model/cached_alice_http_error.dart';
 import 'package:alice_objectbox/model/cached_alice_http_request.dart';
 import 'package:alice_objectbox/model/cached_alice_http_response.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 import 'package:objectbox/objectbox.dart';
 
 part 'cached_alice_http_call.g.dart';
@@ -85,6 +86,7 @@ class CachedAliceHttpCall implements AliceHttpCall {
       ? CachedAliceHttpRequest.fromAliceHttpRequest(request).toJson()
       : null;
 
+  @protected
   @JsonKey(includeFromJson: false, includeToJson: false)
   final ToOne<CachedAliceHttpRequest>? requestRel =
       ToOne<CachedAliceHttpRequest>();
@@ -110,6 +112,7 @@ class CachedAliceHttpCall implements AliceHttpCall {
           ? CachedAliceHttpResponse.fromAliceHttpResponse(response).toJson()
           : null;
 
+  @protected
   @JsonKey(includeFromJson: false, includeToJson: false)
   final ToOne<CachedAliceHttpResponse>? responseRel =
       ToOne<CachedAliceHttpResponse>();
@@ -133,6 +136,7 @@ class CachedAliceHttpCall implements AliceHttpCall {
       ? CachedAliceHttpError.fromAliceHttpError(error).toJson()
       : null;
 
+  @protected
   @JsonKey(includeFromJson: false, includeToJson: false)
   final ToOne<CachedAliceHttpError>? errorRel = ToOne<CachedAliceHttpError>();
 
