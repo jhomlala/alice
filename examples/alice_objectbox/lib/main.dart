@@ -1,80 +1,190 @@
+import 'package:alice_http/alice_http_adapter.dart';
+import 'package:alice_http/alice_http_extensions.dart';
+import 'package:alice_objectbox/alice_objectbox.dart';
 import 'package:alice_objectbox/alice_store.dart';
 import 'package:flutter/material.dart';
-
-/// Provides access to the ObjectBox Store throughout the app.
-late AliceStore aliceStore;
+import 'package:http/http.dart' as http;
 
 Future<void> main() async {
   /// This is required so ObjectBox can get the application directory
   /// to store the database in.
   WidgetsFlutterBinding.ensureInitialized();
 
-  aliceStore = await AliceStore.create();
-
-  runApp(const MyApp());
+  runApp(MyApp(
+    store: await AliceStore.create(),
+  ));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({
+    super.key,
+    required this.store,
+  });
 
-  // This widget is the root of your application.
+  final AliceStore store;
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late final AliceHttpAdapter _aliceHttpAdapter = AliceHttpAdapter();
+
+  late final AliceObjectBox _alice = AliceObjectBox(
+    store: widget.store,
+    showNotification: true,
+    showInspectorOnShake: true,
+    maxCallsCount: 1000,
+  )..addAdapter(_aliceHttpAdapter);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+      navigatorKey: _alice.getNavigatorKey(),
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Alice + ObjectBox + HTTP - Example'),
+        ),
+        body: Container(
+          padding: const EdgeInsets.all(16),
+          child: ListView(
+            children: [
+              const SizedBox(height: 8),
+              const Text(
+                style: TextStyle(fontSize: 14),
+                'Welcome to example of Alice Http Inspector. '
+                'Click buttons below to generate sample data.',
+              ),
+              ElevatedButton(
+                onPressed: _runHttpHttpRequests,
+                child: const Text(
+                  'Run http/http HTTP Requests',
+                ),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                style: TextStyle(fontSize: 14),
+                'After clicking on buttons above, you should receive notification.'
+                ' Click on it to show inspector. '
+                'You can also shake your device or click button below.',
+              ),
+              ElevatedButton(
+                onPressed: _runHttpInspector,
+                child: const Text(
+                  'Run HTTP Inspector',
+                ),
+              )
+            ],
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
     );
+  }
+
+  void _runHttpHttpRequests() async {
+    final Map<String, String> body = {
+      'title': 'foo',
+      'body': 'bar',
+      'userId': '1'
+    };
+
+    http
+        .post(Uri.https('jsonplaceholder.typicode.com', '/posts'), body: body)
+        .interceptWithAlice(_aliceHttpAdapter, body: body);
+
+    http
+        .get(Uri.https('jsonplaceholder.typicode.com', '/posts'))
+        .interceptWithAlice(_aliceHttpAdapter);
+
+    http
+        .put(Uri.https('jsonplaceholder.typicode.com', '/posts/1'), body: body)
+        .interceptWithAlice(_aliceHttpAdapter, body: body);
+
+    http
+        .patch(
+          Uri.https('jsonplaceholder.typicode.com', '/posts/1'),
+          body: body,
+        )
+        .interceptWithAlice(_aliceHttpAdapter, body: body);
+
+    http
+        .delete(Uri.https('jsonplaceholder.typicode.com', '/posts/1'))
+        .interceptWithAlice(_aliceHttpAdapter, body: body);
+
+    http
+        .get(Uri.https('jsonplaceholder.typicode.com', '/test/test'))
+        .interceptWithAlice(_aliceHttpAdapter);
+
+    http
+        .post(Uri.https('jsonplaceholder.typicode.com', '/posts'), body: body)
+        .then((response) => _aliceHttpAdapter.onResponse(response, body: body));
+
+    http
+        .get(Uri.https('jsonplaceholder.typicode.com', '/posts'))
+        .then((response) => _aliceHttpAdapter.onResponse(response));
+
+    http
+        .put(Uri.https('jsonplaceholder.typicode.com', '/posts/1'), body: body)
+        .then((response) => _aliceHttpAdapter.onResponse(response, body: body));
+
+    http
+        .patch(
+          Uri.https('jsonplaceholder.typicode.com', '/posts/1'),
+          body: body,
+        )
+        .then((response) => _aliceHttpAdapter.onResponse(response, body: body));
+
+    http
+        .delete(Uri.https('jsonplaceholder.typicode.com', '/posts/1'))
+        .then((response) => _aliceHttpAdapter.onResponse(response));
+
+    http
+        .get(Uri.https('jsonplaceholder.typicode.com', '/test/test'))
+        .then((response) => _aliceHttpAdapter.onResponse(response));
+
+    http
+        .post(
+          Uri.https(
+            'jsonplaceholder.typicode.com',
+            '/posts',
+            {'key1': 'value1'},
+          ),
+          body: body,
+        )
+        .interceptWithAlice(_aliceHttpAdapter, body: body);
+
+    http
+        .post(
+          Uri.https(
+            'jsonplaceholder.typicode.com',
+            '/posts',
+            {
+              'key1': 'value1',
+              'key2': 'value2',
+              'key3': 'value3',
+            },
+          ),
+          body: body,
+        )
+        .interceptWithAlice(_aliceHttpAdapter, body: body);
+
+    http
+        .get(
+          Uri.https(
+            'jsonplaceholder.typicode.com',
+            '/test/test',
+            {
+              'key1': 'value1',
+              'key2': 'value2',
+              'key3': 'value3',
+            },
+          ),
+        )
+        .then((response) => _aliceHttpAdapter.onResponse(response));
+  }
+
+  void _runHttpInspector() {
+    _alice.showInspector();
   }
 }

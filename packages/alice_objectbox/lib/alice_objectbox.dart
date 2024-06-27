@@ -5,10 +5,10 @@ import 'package:alice_objectbox/core/alice_core_objectbox.dart';
 class AliceObjectBox extends Alice {
   AliceObjectBox({
     required AliceStore store,
-    required super.showNotification,
-    required super.showInspectorOnShake,
-    required super.notificationIcon,
-    required super.maxCallsCount,
+    super.showNotification,
+    super.showInspectorOnShake,
+    super.notificationIcon,
+    super.maxCallsCount,
     super.directionality,
     super.showShareButton,
   }) : _store = store;
