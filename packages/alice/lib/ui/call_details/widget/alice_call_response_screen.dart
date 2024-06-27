@@ -1,6 +1,8 @@
 import 'package:alice/helper/alice_conversion_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
+import 'package:alice/model/alice_translation.dart';
 import 'package:alice/ui/call_details/widget/alice_call_list_row.dart';
+import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/utils/alice_parser.dart';
 import 'package:alice/ui/common/alice_scroll_behavior.dart';
 import 'package:alice/utils/num_comparison.dart';
@@ -48,18 +50,21 @@ class _GeneralDataColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final int? status = call.response?.status;
-    final String statusText = status == -1 ? 'Error' : '$status';
+    final String statusText = status == -1
+        ? context.i18n(AliceTranslationKey.callResponseError)
+        : '$status';
 
     return Column(
       children: [
         AliceCallListRow(
-            name: 'Received:', value: call.response?.time.toString()),
+            name: context.i18n(AliceTranslationKey.callResponseReceived),
+            value: call.response?.time.toString()),
         AliceCallListRow(
-          name: 'Bytes received:',
+          name: context.i18n(AliceTranslationKey.callResponseBytesReceived),
           value: AliceConversionHelper.formatBytes(call.response?.size ?? 0),
         ),
         AliceCallListRow(
-          name: 'Status:',
+          name: context.i18n(AliceTranslationKey.callResponseStatus),
           value: statusText,
         ),
       ],
@@ -75,12 +80,15 @@ class _HeaderDataColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<String, String>? headers = call.response?.headers;
-    final String headersContent =
-        headers?.isEmpty ?? true ? 'Headers are empty' : '';
+    final String headersContent = headers?.isEmpty ?? true
+        ? context.i18n(AliceTranslationKey.callResponseHeadersEmpty)
+        : '';
 
     return Column(
       children: [
-        AliceCallListRow(name: 'Headers: ', value: headersContent),
+        AliceCallListRow(
+            name: context.i18n(AliceTranslationKey.callResponseHeaders),
+            value: headersContent),
         for (final MapEntry<String, String> header in headers?.entries ?? [])
           AliceCallListRow(
             name: '   • ${header.key}:',
@@ -192,11 +200,11 @@ class _ImageBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Row(
+        Row(
           children: [
             Text(
-              'Body: Image',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              context.i18n(AliceTranslationKey.callResponseBodyImage),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -260,16 +268,25 @@ class _LargeTextBody extends StatelessWidget {
     } else {
       return Column(children: [
         AliceCallListRow(
-          name: 'Body:',
-          value: 'Too large to show '
-              '(${call.response?.body.toString().length ?? 0} Bytes)',
+          name: context.i18n(AliceTranslationKey.callResponseBody),
+          value:
+              '${context.i18n(AliceTranslationKey.callResponseTooLargeToShow)}'
+              '(${call.response?.body.toString().length ?? 0} B)',
         ),
         const SizedBox(height: 8),
         TextButton(
           onPressed: onShowLargeBodyPressed,
-          child: const Text('Show body'),
+          child: Text(
+            context.i18n(
+              AliceTranslationKey.callResponseBodyShow,
+            ),
+          ),
         ),
-        const Text('Warning! It will take some time to render output.')
+        Text(
+          context.i18n(
+            AliceTranslationKey.callResponseLargeBodyShowWarning,
+          ),
+        ),
       ]);
     }
   }
@@ -285,7 +302,9 @@ class _TextBody extends StatelessWidget {
     final Map<String, String>? headers = call.response?.headers;
     final String bodyContent = AliceBodyParser.formatBody(
         call.response?.body, AliceBodyParser.getContentType(headers));
-    return AliceCallListRow(name: 'Body:', value: bodyContent);
+    return AliceCallListRow(
+        name: context.i18n(AliceTranslationKey.callResponseBody),
+        value: bodyContent);
   }
 }
 
@@ -298,17 +317,18 @@ class _VideoBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Row(
+        Row(
           children: [
             Text(
-              'Body: Video',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              context.i18n(AliceTranslationKey.callResponseBodyVideo),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ],
         ),
         const SizedBox(height: 8),
         TextButton(
-          child: const Text('Open video in web browser'),
+          child: Text(context
+              .i18n(AliceTranslationKey.callResponseBodyVideoWebBrowser)),
           onPressed: () async {
             await launchUrl(Uri.parse(call.uri));
           },
@@ -332,26 +352,34 @@ class _UnknownBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<String, String>? headers = call.response?.headers;
-    final String contentType =
-        AliceBodyParser.getContentType(headers) ?? '<unknown>';
+    final String contentType = AliceBodyParser.getContentType(headers) ??
+        context.i18n(AliceTranslationKey.callResponseHeadersUnknown);
 
     if (showUnsupportedBody) {
       final bodyContent = AliceBodyParser.formatBody(
           call.response?.body, AliceBodyParser.getContentType(headers));
-      return AliceCallListRow(name: 'Body:', value: bodyContent);
+      return AliceCallListRow(
+          name: context.i18n(AliceTranslationKey.callResponseBody),
+          value: bodyContent);
     } else {
       return Column(
         children: [
           AliceCallListRow(
-              name: 'Body:',
-              value:
-                  'Unsupported body. Alice can render video/image/text body. '
-                  "Response has Content-Type: $contentType which can't be "
-                  "handled. If you're feeling lucky you can try button below "
-                  'to try render body as text, but it may fail.'),
+            name: context.i18n(AliceTranslationKey.callResponseBody),
+            value: context
+                .i18n(AliceTranslationKey.callResponseBodyUnknown)
+                .replaceAll(
+                  "[contentType]",
+                  contentType,
+                ),
+          ),
           TextButton(
             onPressed: onShowUnsupportedBodyPressed,
-            child: const Text('Show unsupported body'),
+            child: Text(
+              context.i18n(
+                AliceTranslationKey.callResponseBodyUnknownShow,
+              ),
+            ),
           ),
         ],
       );
