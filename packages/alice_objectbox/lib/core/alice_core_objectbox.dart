@@ -1,3 +1,5 @@
+import 'dart:math' show max;
+
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/helper/alice_save_helper.dart';
@@ -138,8 +140,19 @@ class AliceCoreObjectBox extends AliceCore {
       .findFirst();
 
   @override
-  void addCall(AliceHttpCall call) =>
-      _store.httpCalls.put(CachedAliceHttpCall.fromAliceHttpCall(call));
+  void addCall(AliceHttpCall call) {
+    if (maxCallsCount > 0 && _store.httpCalls.count() > maxCallsCount) {
+      final Query<CachedAliceHttpCall> overQuota = _store.httpCalls
+          .query()
+          .order<int>(CachedAliceHttpCall_.createdTime, flags: Order.descending)
+          .build()
+        ..offset = max(maxCallsCount - 1, 0);
+
+      overQuota.remove();
+    }
+
+    _store.httpCalls.put(CachedAliceHttpCall.fromAliceHttpCall(call));
+  }
 
   @override
   void addError(AliceHttpError error, int requestId) {
