@@ -74,7 +74,8 @@ class CachedAliceHttpCall implements AliceHttpCall {
   }
 
   @protected
-  final ToOne<CachedAliceHttpRequest> requestRel = ToOne<CachedAliceHttpRequest>();
+  final ToOne<CachedAliceHttpRequest> requestRel =
+      ToOne<CachedAliceHttpRequest>();
 
   @override
   @Transient()
@@ -89,7 +90,8 @@ class CachedAliceHttpCall implements AliceHttpCall {
   }
 
   @protected
-  final ToOne<CachedAliceHttpResponse> responseRel = ToOne<CachedAliceHttpResponse>();
+  final ToOne<CachedAliceHttpResponse> responseRel =
+      ToOne<CachedAliceHttpResponse>();
 
   @override
   @Transient()
