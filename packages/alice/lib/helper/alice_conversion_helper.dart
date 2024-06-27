@@ -1,3 +1,4 @@
+/// Helper used in unit conversion.
 class AliceConversionHelper {
   static const int _kilobyteAsByte = 1000;
   static const int _megabyteAsByte = 1000000;
@@ -13,6 +14,7 @@ class AliceConversionHelper {
         _ => '${_formatDouble(bytes / _megabyteAsByte)} MB',
       };
 
+  /// Formats double with two numbers after dot.
   static String _formatDouble(double value) => value.toStringAsFixed(2);
 
   /// Format time in milliseconds

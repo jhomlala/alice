@@ -2,10 +2,10 @@ import 'dart:convert' show JsonEncoder;
 import 'dart:io' show Directory, File, FileMode, IOSink, Platform;
 
 import 'package:alice/core/alice_utils.dart';
-import 'package:alice/helper/alice_alert_helper.dart';
 import 'package:alice/helper/alice_conversion_helper.dart';
 import 'package:alice/helper/operating_system.dart';
 import 'package:alice/model/alice_http_call.dart';
+import 'package:alice/ui/common/alice_dialog.dart';
 import 'package:alice/utils/alice_parser.dart';
 import 'package:alice/utils/curl.dart';
 import 'package:flutter/material.dart';
@@ -59,10 +59,10 @@ class AliceSaveHelper {
       if (status) {
         await _saveToFile(context, calls);
       } else {
-        AliceAlertHelper.showAlert(
-          context,
-          'Permission error',
-          "Permission not granted. Couldn't save logs.",
+        AliceGeneralDialog.show(
+          context: context,
+          title: 'Permission error',
+          description: "Permission not granted. Couldn't save logs.",
         );
       }
     }
@@ -74,10 +74,10 @@ class AliceSaveHelper {
   ) async {
     try {
       if (calls.isEmpty) {
-        AliceAlertHelper.showAlert(
-          context,
-          'Error',
-          'There are no logs to save',
+        AliceGeneralDialog.show(
+          context: context,
+          title: 'Error',
+          description: 'There are no logs to save',
         );
         return '';
       }
@@ -101,10 +101,10 @@ class AliceSaveHelper {
         await sink.close();
 
         if (context.mounted) {
-          AliceAlertHelper.showAlert(
-            context,
-            'Success',
-            'Successfully saved logs in ${file.path}',
+          AliceGeneralDialog.show(
+            context: context,
+            title: 'Success',
+            description: 'Successfully saved logs in ${file.path}',
             secondButtonTitle: Platform.isAndroid ? 'View file' : null,
             secondButtonAction: () =>
                 Platform.isAndroid ? OpenFilex.open(file.path) : null,
@@ -114,19 +114,19 @@ class AliceSaveHelper {
         return file.path;
       } else {
         if (context.mounted) {
-          AliceAlertHelper.showAlert(
-            context,
-            'Error',
-            'Failed to save http calls to file',
+          AliceGeneralDialog.show(
+            context: context,
+            title: 'Error',
+            description: 'Failed to save http calls to file',
           );
         }
       }
     } catch (exception) {
       if (context.mounted) {
-        AliceAlertHelper.showAlert(
-          context,
-          'Error',
-          'Failed to save http calls to file',
+        AliceGeneralDialog.show(
+          context: context,
+          title: 'Error',
+          description: 'Failed to save http calls to file',
         );
         AliceUtils.log(exception.toString());
       }
@@ -180,7 +180,7 @@ class AliceSaveHelper {
 
     stringBuffer.writeAll([
       'Request size: ${AliceConversionHelper.formatBytes(call.request?.size ?? 0)}\n',
-      'Request body: ${AliceParser.formatBody(call.request?.body, call.request?.contentType)}\n',
+      'Request body: ${AliceBodyParser.formatBody(call.request?.body, call.request?.contentType)}\n',
       '--------------------------------------------\n',
       'Response\n',
       '--------------------------------------------\n',
@@ -188,7 +188,7 @@ class AliceSaveHelper {
       'Response status: ${call.response?.status}\n',
       'Response size: ${AliceConversionHelper.formatBytes(call.response?.size ?? 0)}\n',
       'Response headers: ${_encoder.convert(call.response?.headers)}\n',
-      'Response body: ${AliceParser.formatBody(call.response?.body, AliceParser.getContentType(call.response?.headers))}\n',
+      'Response body: ${AliceBodyParser.formatBody(call.response?.body, AliceBodyParser.getContentType(call.response?.headers))}\n',
     ]);
 
     if (call.error != null) {

@@ -94,6 +94,7 @@ class Alice {
     return _aliceCore.isInspectorOpened();
   }
 
+  /// Adds new adapter to Alice.
   void addAdapter(AliceAdapter adapter) {
     adapter.injectCore(_aliceCore);
   }

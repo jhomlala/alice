@@ -2,6 +2,7 @@ import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
 
+/// Definition of http calls data holder.
 class AliceHttpCall {
   AliceHttpCall(this.id) {
     loading = true;

@@ -3,6 +3,7 @@ import 'dart:io' show Cookie;
 import 'package:alice/model/alice_form_data_file.dart';
 import 'package:alice/model/alice_from_data_field.dart';
 
+/// Definition of http request data holder.
 class AliceHttpRequest {
   int size = 0;
   DateTime time = DateTime.now();

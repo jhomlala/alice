@@ -1,3 +1,4 @@
+/// Definition of form data field.
 class AliceFormDataField {
   const AliceFormDataField(
     this.name,
