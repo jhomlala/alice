@@ -1,11 +1,13 @@
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/helper/alice_save_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
+import 'package:alice/model/alice_translation.dart';
 import 'package:alice/ui/call_details/model/alice_call_details_tab.dart';
 import 'package:alice/ui/call_details/widget/alice_call_error_screen.dart';
 import 'package:alice/ui/call_details/widget/alice_call_overview_screen.dart';
 import 'package:alice/ui/call_details/widget/alice_call_request_screen.dart';
 import 'package:alice/ui/call_details/widget/alice_call_response_screen.dart';
+import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/ui/common/alice_page.dart';
 import 'package:alice/ui/common/alice_theme.dart';
 import 'package:collection/collection.dart' show IterableExtension;
@@ -60,7 +62,8 @@ class _AliceCallDetailsPageState extends State<AliceCallDetailsPage>
                         );
                       }).toList(),
                     ),
-                    title: const Text('Alice - HTTP Call Details'),
+                    title: Text('${context.i18n(AliceTranslationKey.alice)} -'
+                        ' ${context.i18n(AliceTranslationKey.callDetails)}'),
                   ),
                   body: TabBarView(
                     children: [
@@ -74,10 +77,7 @@ class _AliceCallDetailsPageState extends State<AliceCallDetailsPage>
                       ? FloatingActionButton(
                           backgroundColor: AliceTheme.lightRed,
                           key: const Key('share_key'),
-                          onPressed: () async => await Share.share(
-                            await AliceSaveHelper.buildCallLog(widget.call),
-                            subject: 'Request Details',
-                          ),
+                          onPressed: () async => _saveCallsToFile(),
                           child: const Icon(
                             Icons.share,
                             color: AliceTheme.white,
@@ -89,9 +89,22 @@ class _AliceCallDetailsPageState extends State<AliceCallDetailsPage>
             }
           }
 
-          return const Center(child: Text('Failed to load data'));
+          return Center(
+            child: Text(
+              context.i18n(
+                AliceTranslationKey.callDetailsEmpty,
+              ),
+            ),
+          );
         },
       ),
+    );
+  }
+
+  void _saveCallsToFile() async {
+    await Share.share(
+      await AliceSaveHelper.buildCallLog(widget.call),
+      subject: context.i18n(AliceTranslationKey.emailSubject),
     );
   }
 
@@ -99,13 +112,13 @@ class _AliceCallDetailsPageState extends State<AliceCallDetailsPage>
   String _getTabName({required AliceCallDetailsTabItem item}) {
     switch (item) {
       case AliceCallDetailsTabItem.overview:
-        return "Overview";
+        return context.i18n(AliceTranslationKey.callDetailsOverview);
       case AliceCallDetailsTabItem.request:
-        return "Request";
+        return context.i18n(AliceTranslationKey.callDetailsRequest);
       case AliceCallDetailsTabItem.response:
-        return "Response";
+        return context.i18n(AliceTranslationKey.callDetailsResponse);
       case AliceCallDetailsTabItem.error:
-        return "Error";
+        return context.i18n(AliceTranslationKey.callDetailsError);
     }
   }
 

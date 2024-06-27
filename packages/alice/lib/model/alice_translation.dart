@@ -11,8 +11,37 @@ class AliceTranslationData {
 
 /// Translation keys
 enum AliceTranslationKey {
+  alice,
+  callDetails,
+  emailSubject,
   callDetailsOverview,
   callDetailsRequest,
   callDetailsResponse,
-  callDetailsError
+  callDetailsError,
+  callDetailsEmpty,
+  callErrorScreenErrorEmpty,
+  callErrorScreenError,
+  callErrorScreenStacktrace,
+  callErrorScreenEmpty,
+  callOverviewMethod,
+  callOverviewServer,
+  callOverviewEndpoint,
+  callOverviewStarted,
+  callOverviewFinished,
+  callOverviewDuration,
+  callOverviewBytesSent,
+  callOverviewBytesReceived,
+  callOverviewClient,
+  callOverviewSecure,
+  callRequestStarted,
+  callRequestBytesSent,
+  callRequestContentType,
+  callRequestBody,
+  callRequestBodyEmpty,
+  callRequestFormDataFields,
+  callRequestFormDataFiles,
+  callRequestHeaders,
+  callRequestHeadersEmpty,
+  callRequestQueryParameters,
+  callRequestQueryParametersEmpty
 }
