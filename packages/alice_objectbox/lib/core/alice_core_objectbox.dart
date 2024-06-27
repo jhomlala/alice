@@ -67,8 +67,8 @@ class AliceCoreObjectBox extends AliceCore {
           ..link(
             CachedAliceHttpCall_.responseRel,
             CachedAliceHttpResponse_.status
-                .greaterOrEqual(300)
-                .and(CachedAliceHttpResponse_.status.lessThan(400)),
+                .greaterOrEqual(200)
+                .and(CachedAliceHttpResponse_.status.lessThan(300)),
           ))
         .build()
         .count();
