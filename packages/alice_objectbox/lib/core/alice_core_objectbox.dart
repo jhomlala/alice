@@ -141,7 +141,7 @@ class AliceCoreObjectBox extends AliceCore {
 
   @override
   void addCall(AliceHttpCall call) {
-    if (maxCallsCount > 0 && _store.httpCalls.count() > maxCallsCount) {
+    if (maxCallsCount > 0 && _store.httpCalls.count() >= maxCallsCount) {
       final Query<CachedAliceHttpCall> overQuota = _store.httpCalls
           .query()
           .order<int>(CachedAliceHttpCall_.createdTime, flags: Order.descending)
