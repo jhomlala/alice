@@ -25,7 +25,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(1, 7966972383605391222),
       name: 'CachedAliceHttpCall',
-      lastPropertyId: const obx_int.IdUid(11, 7246547736740780977),
+      lastPropertyId: const obx_int.IdUid(14, 1111194229063950218),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -83,7 +83,28 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(11, 7246547736740780977),
             name: 'duration',
             type: 6,
-            flags: 0)
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(12, 4124804168770380396),
+            name: 'requestRelId',
+            type: 11,
+            flags: 520,
+            indexId: const obx_int.IdUid(2, 409270695779761201),
+            relationTarget: 'AliceHttpRequest'),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(13, 3850383197327980812),
+            name: 'responseRelId',
+            type: 11,
+            flags: 520,
+            indexId: const obx_int.IdUid(3, 2933162598674585698),
+            relationTarget: 'AliceHttpResponse'),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(14, 1111194229063950218),
+            name: 'errorRelId',
+            type: 11,
+            flags: 520,
+            indexId: const obx_int.IdUid(4, 2745026917205475387),
+            relationTarget: 'AliceHttpError')
       ],
       relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[]),
@@ -247,7 +268,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
       lastEntityId: const obx_int.IdUid(4, 7998052459255419380),
-      lastIndexId: const obx_int.IdUid(1, 7806734416831662739),
+      lastIndexId: const obx_int.IdUid(4, 2745026917205475387),
       lastRelationId: const obx_int.IdUid(0, 0),
       lastSequenceId: const obx_int.IdUid(0, 0),
       retiredEntityUids: const [],
@@ -261,7 +282,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
   final bindings = <Type, obx_int.EntityDefinition>{
     CachedAliceHttpCall: obx_int.EntityDefinition<CachedAliceHttpCall>(
         model: _entities[0],
-        toOneRelations: (CachedAliceHttpCall object) => [],
+        toOneRelations: (CachedAliceHttpCall object) =>
+            [object.requestRel, object.responseRel, object.errorRel],
         toManyRelations: (CachedAliceHttpCall object) => {},
         getId: (CachedAliceHttpCall object) => object.objectId,
         setId: (CachedAliceHttpCall object, int id) {
@@ -273,7 +295,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final endpointOffset = fbb.writeString(object.endpoint);
           final serverOffset = fbb.writeString(object.server);
           final uriOffset = fbb.writeString(object.uri);
-          fbb.startTable(12);
+          fbb.startTable(15);
           fbb.addInt64(0, object.objectId);
           fbb.addInt64(1, object.id);
           fbb.addInt64(2, object.createdTime.microsecondsSinceEpoch * 1000);
@@ -285,6 +307,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addOffset(8, serverOffset);
           fbb.addOffset(9, uriOffset);
           fbb.addInt64(10, object.duration);
+          fbb.addInt64(11, object.requestRel.targetId);
+          fbb.addInt64(12, object.responseRel.targetId);
+          fbb.addInt64(13, object.errorRel.targetId);
           fbb.finish(fbb.endTable());
           return object.objectId;
         },
@@ -325,7 +350,15 @@ obx_int.ModelDefinition getObjectBoxModel() {
                 (const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0) /
                         1000)
                     .round());
-
+          object.requestRel.targetId =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 26);
+          object.requestRel.attach(store);
+          object.responseRel.targetId =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 28);
+          object.responseRel.attach(store);
+          object.errorRel.targetId =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 30);
+          object.errorRel.attach(store);
           return object;
         }),
     CachedAliceHttpError: obx_int.EntityDefinition<CachedAliceHttpError>(
@@ -544,6 +577,21 @@ class CachedAliceHttpCall_ {
   /// See [CachedAliceHttpCall.duration].
   static final duration = obx.QueryIntegerProperty<CachedAliceHttpCall>(
       _entities[0].properties[10]);
+
+  /// See [CachedAliceHttpCall.requestRel].
+  static final requestRel =
+      obx.QueryRelationToOne<CachedAliceHttpCall, AliceHttpRequest>(
+          _entities[0].properties[11]);
+
+  /// See [CachedAliceHttpCall.responseRel].
+  static final responseRel =
+      obx.QueryRelationToOne<CachedAliceHttpCall, AliceHttpResponse>(
+          _entities[0].properties[12]);
+
+  /// See [CachedAliceHttpCall.errorRel].
+  static final errorRel =
+      obx.QueryRelationToOne<CachedAliceHttpCall, AliceHttpError>(
+          _entities[0].properties[13]);
 }
 
 /// [CachedAliceHttpError] entity fields to define ObjectBox queries.

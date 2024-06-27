@@ -9,7 +9,6 @@ part of 'cached_alice_http_call.dart';
 CachedAliceHttpCall _$CachedAliceHttpCallFromJson(Map<String, dynamic> json) =>
     CachedAliceHttpCall(
       (json['id'] as num).toInt(),
-      objectId: (json['objectId'] as num?)?.toInt() ?? 0,
       client: json['client'] as String? ?? '',
       loading: json['loading'] as bool? ?? true,
       secure: json['secure'] as bool? ?? false,
@@ -30,7 +29,6 @@ CachedAliceHttpCall _$CachedAliceHttpCallFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$CachedAliceHttpCallToJson(
         CachedAliceHttpCall instance) =>
     <String, dynamic>{
-      'objectId': instance.objectId,
       'id': instance.id,
       'createdTime': instance.createdTime.toIso8601String(),
       'client': instance.client,

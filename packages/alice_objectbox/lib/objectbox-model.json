@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:7966972383605391222",
-      "lastPropertyId": "11:7246547736740780977",
+      "lastPropertyId": "14:1111194229063950218",
       "name": "CachedAliceHttpCall",
       "properties": [
         {
@@ -65,6 +65,30 @@
           "id": "11:7246547736740780977",
           "name": "duration",
           "type": 6
+        },
+        {
+          "id": "12:4124804168770380396",
+          "name": "requestRelId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "2:409270695779761201",
+          "relationTarget": "AliceHttpRequest"
+        },
+        {
+          "id": "13:3850383197327980812",
+          "name": "responseRelId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "3:2933162598674585698",
+          "relationTarget": "AliceHttpResponse"
+        },
+        {
+          "id": "14:1111194229063950218",
+          "name": "errorRelId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "4:2745026917205475387",
+          "relationTarget": "AliceHttpError"
         }
       ],
       "relations": []
@@ -193,7 +217,7 @@
     }
   ],
   "lastEntityId": "4:7998052459255419380",
-  "lastIndexId": "1:7806734416831662739",
+  "lastIndexId": "4:2745026917205475387",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
