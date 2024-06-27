@@ -86,7 +86,9 @@ class AliceCoreObjectBox extends AliceCore {
     final int errorCalls = (_store.httpCalls.query()
           ..link(
             CachedAliceHttpCall_.responseRel,
-            CachedAliceHttpResponse_.status.greaterOrEqual(400),
+            CachedAliceHttpResponse_.status
+                .greaterOrEqual(400)
+                .and(CachedAliceHttpResponse_.status.lessThan(600)),
           ))
         .build()
         .count();
