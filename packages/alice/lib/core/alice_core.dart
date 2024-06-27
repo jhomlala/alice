@@ -308,7 +308,7 @@ class AliceCore {
 
   /// Add error to existing alice http call
   void addError(AliceHttpError error, int requestId) {
-    final AliceHttpCall? selectedCall = _selectCall(requestId);
+    final AliceHttpCall? selectedCall = selectCall(requestId);
 
     if (selectedCall == null) {
       return AliceUtils.log('Selected call is null');
@@ -320,7 +320,7 @@ class AliceCore {
 
   /// Add response to existing alice http call
   void addResponse(AliceHttpResponse response, int requestId) {
-    final AliceHttpCall? selectedCall = _selectCall(requestId);
+    final AliceHttpCall? selectedCall = selectCall(requestId);
 
     if (selectedCall == null) {
       return AliceUtils.log('Selected call is null');
@@ -345,7 +345,8 @@ class AliceCore {
   /// Remove all calls from calls subject
   void removeCalls() => callsSubject.add([]);
 
-  AliceHttpCall? _selectCall(int requestId) => callsSubject.value
+  @protected
+  AliceHttpCall? selectCall(int requestId) => callsSubject.value
       .firstWhereOrNull((AliceHttpCall call) => call.id == requestId);
 
   /// Save all calls to file

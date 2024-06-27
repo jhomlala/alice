@@ -134,7 +134,8 @@ class AliceCoreObjectBox extends AliceCore {
     }
   }
 
-  CachedAliceHttpCall? _selectCall(int requestId) => _store.httpCalls
+  @override
+  CachedAliceHttpCall? selectCall(int requestId) => _store.httpCalls
       .query(CachedAliceHttpCall_.id.equals(requestId))
       .build()
       .findFirst();
@@ -156,7 +157,7 @@ class AliceCoreObjectBox extends AliceCore {
 
   @override
   void addError(AliceHttpError error, int requestId) {
-    final CachedAliceHttpCall? selectedCall = _selectCall(requestId);
+    final CachedAliceHttpCall? selectedCall = selectCall(requestId);
 
     if (selectedCall != null) {
       selectedCall.error = CachedAliceHttpError.fromAliceHttpError(error);
@@ -169,7 +170,7 @@ class AliceCoreObjectBox extends AliceCore {
 
   @override
   void addResponse(AliceHttpResponse response, int requestId) {
-    final CachedAliceHttpCall? selectedCall = _selectCall(requestId);
+    final CachedAliceHttpCall? selectedCall = selectCall(requestId);
 
     if (selectedCall != null) {
       selectedCall
