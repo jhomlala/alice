@@ -20,7 +20,6 @@ CachedAliceHttpCall _$CachedAliceHttpCallFromJson(Map<String, dynamic> json) =>
       duration: (json['duration'] as num?)?.toInt() ?? 0,
     )
       ..createdTime = DateTime.parse(json['createdTime'] as String)
-      ..dbCreatedTime = (json['dbCreatedTime'] as num).toInt()
       ..request = CachedAliceHttpRequest.fromJson(
           json['request'] as Map<String, dynamic>)
       ..response = CachedAliceHttpResponse.fromJson(
@@ -34,7 +33,6 @@ Map<String, dynamic> _$CachedAliceHttpCallToJson(
       'objectId': instance.objectId,
       'id': instance.id,
       'createdTime': instance.createdTime.toIso8601String(),
-      'dbCreatedTime': instance.dbCreatedTime,
       'client': instance.client,
       'loading': instance.loading,
       'secure': instance.secure,

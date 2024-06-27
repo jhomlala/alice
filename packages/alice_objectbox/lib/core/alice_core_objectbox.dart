@@ -18,7 +18,7 @@ class AliceCoreObjectBox extends AliceCore {
 
   late final Stream<List<AliceHttpCall>> _callsStream = _store.httpCalls
       .query()
-      .order<int>(CachedAliceHttpCall_.dbCreatedTime, flags: Order.descending)
+      .order<int>(CachedAliceHttpCall_.createdTime, flags: Order.descending)
       .watch(triggerImmediately: true)
       .map((Query<CachedAliceHttpCall> query) => query.find());
 

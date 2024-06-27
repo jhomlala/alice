@@ -7,15 +7,18 @@ import 'package:alice_objectbox/json_converter/alice_form_data_field_converter.d
 import 'package:alice_objectbox/json_converter/alice_form_data_file_converter.dart';
 import 'package:alice_objectbox/json_converter/cookie_converter.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:objectbox/objectbox.dart';
 
 part 'cached_alice_http_request.g.dart';
 
+@Entity()
 @JsonSerializable(explicitToJson: true)
 @CookieConverter.instance
 @AliceFormDataFileConverter.instance
 @AliceFormDataFieldConverter.instance
 class CachedAliceHttpRequest implements AliceHttpRequest {
   CachedAliceHttpRequest({
+    this.objectId = 0,
     this.size = 0,
     DateTime? time,
     this.headers = const <String, dynamic>{},
@@ -27,33 +30,96 @@ class CachedAliceHttpRequest implements AliceHttpRequest {
     this.formDataFields,
   }) : time = time ?? DateTime.now();
 
+  @Id()
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  int objectId;
+
   @override
   int size;
 
   @override
+  @Property(type: PropertyType.dateNano)
   DateTime time;
 
   @override
+  @Transient()
   Map<String, dynamic> headers;
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  String get dbHeaders => jsonEncode(headers);
+
+  set dbHeaders(String value) => headers = jsonDecode(value);
 
   @override
   @JsonKey(toJson: jsonEncode, fromJson: jsonDecode)
+  @Transient()
   dynamic body;
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  String? get dbBody => jsonEncode(body);
+
+  set dbBody(String? value) => body = value != null ? jsonDecode(value) : null;
 
   @override
   String? contentType;
 
   @override
+  @Transient()
   List<Cookie> cookies;
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<String> get dbCookies =>
+      cookies.map((Cookie cookie) => cookie.toString()).toList();
+
+  set dbCookies(List<String> value) => cookies =
+      value.map((String cookie) => Cookie.fromSetCookieValue(cookie)).toList();
+
   @override
+  @Transient()
   Map<String, dynamic> queryParameters;
 
-  @override
-  List<AliceFormDataFile>? formDataFiles;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  String get dbQueryParameters => jsonEncode(queryParameters);
+
+  set dbQueryParameters(String value) => queryParameters = jsonDecode(value);
 
   @override
+  @Transient()
+  List<AliceFormDataFile>? formDataFiles;
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<String>? get dbFormDataFiles => formDataFiles
+      ?.map(
+        (AliceFormDataFile file) =>
+            jsonEncode(AliceFormDataFileConverter.instance.toJson(file)),
+      )
+      .toList();
+
+  set dbFormDataFiles(List<String>? value) => formDataFiles = value
+      ?.map(
+        (String file) =>
+            AliceFormDataFileConverter.instance.fromJson(jsonDecode(file)),
+      )
+      .toList();
+
+  @override
+  @Transient()
   List<AliceFormDataField>? formDataFields;
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<String>? get dbFormDataFields => formDataFields
+      ?.map(
+        (AliceFormDataField field) =>
+            jsonEncode(AliceFormDataFieldConverter.instance.toJson(field)),
+      )
+      .toList();
+
+  set dbFormDataFields(List<String>? value) => formDataFields = value
+      ?.map(
+        (String field) =>
+            AliceFormDataFieldConverter.instance.fromJson(jsonDecode(field)),
+      )
+      .toList();
 
   factory CachedAliceHttpRequest.fromAliceHttpRequest(
     AliceHttpRequest request,

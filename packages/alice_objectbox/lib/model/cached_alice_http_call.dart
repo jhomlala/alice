@@ -37,13 +37,8 @@ class CachedAliceHttpCall implements AliceHttpCall {
   final int id;
 
   @override
-  @Transient()
+  @Property(type: PropertyType.dateNano)
   late DateTime createdTime;
-
-  int get dbCreatedTime => createdTime.microsecondsSinceEpoch;
-
-  set dbCreatedTime(int value) =>
-      createdTime = DateTime.fromMicrosecondsSinceEpoch(value, isUtc: true);
 
   @override
   String client;

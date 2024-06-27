@@ -4,74 +4,196 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:2068188390220569306",
-      "lastPropertyId": "11:8134225339072812918",
+      "id": "1:7966972383605391222",
+      "lastPropertyId": "11:7246547736740780977",
       "name": "CachedAliceHttpCall",
       "properties": [
         {
-          "id": "1:1516028707362159090",
+          "id": "1:2611954971147239715",
           "name": "objectId",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:4300192335930645900",
+          "id": "2:4065771694064483950",
           "name": "id",
           "type": 6,
           "flags": 32808,
-          "indexId": "1:8394515860817686132"
+          "indexId": "1:7806734416831662739"
         },
         {
-          "id": "3:3213966191000205885",
+          "id": "3:1128321870714016550",
+          "name": "createdTime",
+          "type": 12
+        },
+        {
+          "id": "4:2364982798756923399",
           "name": "client",
           "type": 9
         },
         {
-          "id": "4:6247677566960652699",
+          "id": "5:3526127556678126978",
           "name": "loading",
           "type": 1
         },
         {
-          "id": "5:4454211707004133587",
+          "id": "6:6132631377165247486",
           "name": "secure",
           "type": 1
         },
         {
-          "id": "6:8391884418285945466",
+          "id": "7:6732870593997845800",
           "name": "method",
           "type": 9
         },
         {
-          "id": "7:3203195198832901748",
+          "id": "8:3464644865519134404",
           "name": "endpoint",
           "type": 9
         },
         {
-          "id": "8:7889861149412466020",
+          "id": "9:3408262996165725817",
           "name": "server",
           "type": 9
         },
         {
-          "id": "9:46420952474449934",
+          "id": "10:2393974080063909874",
           "name": "uri",
           "type": 9
         },
         {
-          "id": "10:159505556851051167",
+          "id": "11:7246547736740780977",
           "name": "duration",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:4166562143828248152",
+      "lastPropertyId": "3:5652225144642456739",
+      "name": "CachedAliceHttpError",
+      "properties": [
+        {
+          "id": "1:1150695727706960866",
+          "name": "objectId",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:76918744273935497",
+          "name": "dbError",
+          "type": 9
+        },
+        {
+          "id": "3:5652225144642456739",
+          "name": "dbStackTrace",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:2575738817393140918",
+      "lastPropertyId": "10:6873883084704930844",
+      "name": "CachedAliceHttpRequest",
+      "properties": [
+        {
+          "id": "1:7210466286209124761",
+          "name": "objectId",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2423150125374997873",
+          "name": "size",
           "type": 6
         },
         {
-          "id": "11:8134225339072812918",
-          "name": "dbCreatedTime",
+          "id": "3:5626255206265915779",
+          "name": "time",
+          "type": 12
+        },
+        {
+          "id": "4:2479654374849631358",
+          "name": "contentType",
+          "type": 9
+        },
+        {
+          "id": "5:2862546867846667543",
+          "name": "dbHeaders",
+          "type": 9
+        },
+        {
+          "id": "6:6187082742659222658",
+          "name": "dbBody",
+          "type": 9
+        },
+        {
+          "id": "7:3848494849781578366",
+          "name": "dbCookies",
+          "type": 30
+        },
+        {
+          "id": "8:4821682110491901923",
+          "name": "dbQueryParameters",
+          "type": 9
+        },
+        {
+          "id": "9:8433030524215414487",
+          "name": "dbFormDataFiles",
+          "type": 30
+        },
+        {
+          "id": "10:6873883084704930844",
+          "name": "dbFormDataFields",
+          "type": 30
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:7998052459255419380",
+      "lastPropertyId": "6:3958260222261837986",
+      "name": "CachedAliceHttpResponse",
+      "properties": [
+        {
+          "id": "1:7763962666525679930",
+          "name": "objectId",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1042424244858136771",
+          "name": "status",
           "type": 6
+        },
+        {
+          "id": "3:317299358966899386",
+          "name": "size",
+          "type": 6
+        },
+        {
+          "id": "4:3273768143987223171",
+          "name": "time",
+          "type": 12
+        },
+        {
+          "id": "5:502758276581478405",
+          "name": "dbBody",
+          "type": 9
+        },
+        {
+          "id": "6:3958260222261837986",
+          "name": "dbHeaders",
+          "type": 9
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "1:2068188390220569306",
-  "lastIndexId": "1:8394515860817686132",
+  "lastEntityId": "4:7998052459255419380",
+  "lastIndexId": "1:7806734416831662739",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
