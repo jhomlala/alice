@@ -23,109 +23,109 @@ export 'package:objectbox/objectbox.dart'; // so that callers only have to impor
 
 final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(1, 795492642044767907),
+      id: const obx_int.IdUid(1, 9112051699732156539),
       name: 'CachedAliceHttpCall',
-      lastPropertyId: const obx_int.IdUid(14, 7251587541401851452),
+      lastPropertyId: const obx_int.IdUid(14, 4354662762236974529),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 5804378221431109317),
+            id: const obx_int.IdUid(1, 3762653877211677624),
             name: 'objectId',
             type: 6,
             flags: 1),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 7272334615509979180),
+            id: const obx_int.IdUid(2, 3842302574345199884),
             name: 'id',
             type: 6,
             flags: 32808,
-            indexId: const obx_int.IdUid(1, 4565593432710152261)),
+            indexId: const obx_int.IdUid(1, 785825462386371646)),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 2423725452772481472),
+            id: const obx_int.IdUid(3, 2486716479761573541),
             name: 'createdTime',
             type: 12,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 7431201984298066166),
+            id: const obx_int.IdUid(4, 5652467799946319465),
             name: 'client',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 6754942195864336650),
+            id: const obx_int.IdUid(5, 4684667944697724811),
             name: 'loading',
             type: 1,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(6, 3373208458967960734),
+            id: const obx_int.IdUid(6, 4083857791022485908),
             name: 'secure',
             type: 1,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(7, 1352990603220358436),
+            id: const obx_int.IdUid(7, 2468700886320707450),
             name: 'method',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(8, 3664370209205571314),
+            id: const obx_int.IdUid(8, 1481352321860840686),
             name: 'endpoint',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(9, 8183221547872287864),
+            id: const obx_int.IdUid(9, 168907952189534839),
             name: 'server',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(10, 2300359236140682054),
+            id: const obx_int.IdUid(10, 2352012304390890819),
             name: 'uri',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(11, 7862279959842279303),
+            id: const obx_int.IdUid(11, 5411203974018974012),
             name: 'duration',
             type: 6,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(12, 8462423596696641997),
+            id: const obx_int.IdUid(12, 6347069823169535184),
             name: 'requestRelId',
             type: 11,
             flags: 520,
-            indexId: const obx_int.IdUid(2, 5052305317488294240),
+            indexId: const obx_int.IdUid(2, 1736187189570129453),
             relationTarget: 'CachedAliceHttpRequest'),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(13, 7077447070924302194),
+            id: const obx_int.IdUid(13, 2665094240670232880),
             name: 'responseRelId',
             type: 11,
             flags: 520,
-            indexId: const obx_int.IdUid(3, 5239923625099331256),
+            indexId: const obx_int.IdUid(3, 736342038365124987),
             relationTarget: 'CachedAliceHttpResponse'),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(14, 7251587541401851452),
+            id: const obx_int.IdUid(14, 4354662762236974529),
             name: 'errorRelId',
             type: 11,
             flags: 520,
-            indexId: const obx_int.IdUid(4, 3292746390836808516),
+            indexId: const obx_int.IdUid(4, 6876753875053649510),
             relationTarget: 'CachedAliceHttpError')
       ],
       relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[]),
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(2, 2920518958531222117),
+      id: const obx_int.IdUid(2, 1234822196006357971),
       name: 'CachedAliceHttpError',
-      lastPropertyId: const obx_int.IdUid(3, 4360332889131133863),
+      lastPropertyId: const obx_int.IdUid(3, 6606174208067502830),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 3441925468177658281),
+            id: const obx_int.IdUid(1, 7595183079379424783),
             name: 'objectId',
             type: 6,
             flags: 1),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 3732695790152900478),
+            id: const obx_int.IdUid(2, 2906952339862377074),
             name: 'dbError',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 4360332889131133863),
+            id: const obx_int.IdUid(3, 6606174208067502830),
             name: 'dbStackTrace',
             type: 9,
             flags: 0)
@@ -133,58 +133,58 @@ final _entities = <obx_int.ModelEntity>[
       relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[]),
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(3, 1318435393945231169),
+      id: const obx_int.IdUid(3, 3952435099002188469),
       name: 'CachedAliceHttpRequest',
-      lastPropertyId: const obx_int.IdUid(10, 3121674032364790532),
+      lastPropertyId: const obx_int.IdUid(10, 5482956073710374459),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 833323211192767425),
+            id: const obx_int.IdUid(1, 7860030543131149189),
             name: 'objectId',
             type: 6,
             flags: 1),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 3527442623562936144),
+            id: const obx_int.IdUid(2, 400756712209683011),
             name: 'size',
             type: 6,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 3230616071288079637),
+            id: const obx_int.IdUid(3, 1461695331578797514),
             name: 'time',
             type: 12,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 4724888987680495281),
+            id: const obx_int.IdUid(4, 6367092714501419189),
             name: 'contentType',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 7569938724858843184),
+            id: const obx_int.IdUid(5, 6942973330930551852),
             name: 'dbHeaders',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(6, 3575930149228390529),
+            id: const obx_int.IdUid(6, 5177090139150472743),
             name: 'dbBody',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(7, 2572432170790316770),
+            id: const obx_int.IdUid(7, 7073566945336254377),
             name: 'dbCookies',
             type: 30,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(8, 869911787862940731),
+            id: const obx_int.IdUid(8, 7499443194345193384),
             name: 'dbQueryParameters',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(9, 8059275937808545299),
+            id: const obx_int.IdUid(9, 3569666611249608973),
             name: 'dbFormDataFiles',
             type: 30,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(10, 3121674032364790532),
+            id: const obx_int.IdUid(10, 5482956073710374459),
             name: 'dbFormDataFields',
             type: 30,
             flags: 0)
@@ -192,38 +192,38 @@ final _entities = <obx_int.ModelEntity>[
       relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[]),
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(4, 3599726729348725275),
+      id: const obx_int.IdUid(4, 8890972191143949164),
       name: 'CachedAliceHttpResponse',
-      lastPropertyId: const obx_int.IdUid(6, 2934319795063615484),
+      lastPropertyId: const obx_int.IdUid(6, 8264530521928833819),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 6138846308730278927),
+            id: const obx_int.IdUid(1, 3995456757645260575),
             name: 'objectId',
             type: 6,
             flags: 1),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 4856631098748217080),
+            id: const obx_int.IdUid(2, 3245463467272928109),
             name: 'status',
             type: 6,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 4986685428550340886),
+            id: const obx_int.IdUid(3, 8483714278633944857),
             name: 'size',
             type: 6,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 3047713617827854337),
+            id: const obx_int.IdUid(4, 2693845057233959128),
             name: 'time',
             type: 12,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 8865594459779684325),
+            id: const obx_int.IdUid(5, 5298588582283239315),
             name: 'dbBody',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(6, 2934319795063615484),
+            id: const obx_int.IdUid(6, 8264530521928833819),
             name: 'dbHeaders',
             type: 9,
             flags: 0)
@@ -267,8 +267,8 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(4, 3599726729348725275),
-      lastIndexId: const obx_int.IdUid(4, 3292746390836808516),
+      lastEntityId: const obx_int.IdUid(4, 8890972191143949164),
+      lastIndexId: const obx_int.IdUid(4, 6876753875053649510),
       lastRelationId: const obx_int.IdUid(0, 0),
       lastSequenceId: const obx_int.IdUid(0, 0),
       retiredEntityUids: const [],
@@ -351,13 +351,13 @@ obx_int.ModelDefinition getObjectBoxModel() {
                         1000)
                     .round());
           object.requestRel.targetId =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 26);
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 26, 0);
           object.requestRel.attach(store);
           object.responseRel.targetId =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 28);
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 28, 0);
           object.responseRel.attach(store);
           object.errorRel.targetId =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 30);
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 30, 0);
           object.errorRel.attach(store);
           return object;
         }),

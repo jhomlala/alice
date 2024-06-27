@@ -63,49 +63,47 @@ class CachedAliceHttpCall implements AliceHttpCall {
 
   @override
   @Transient()
-  AliceHttpRequest? get request => requestRel?.target;
+  AliceHttpRequest? get request => requestRel.target;
 
   @override
   @Transient()
   set request(AliceHttpRequest? value) {
-    requestRel?.target = value != null
+    requestRel.target = value != null
         ? CachedAliceHttpRequest.fromAliceHttpRequest(value)
         : null;
   }
 
   @protected
-  final ToOne<CachedAliceHttpRequest>? requestRel =
-      ToOne<CachedAliceHttpRequest>();
+  final ToOne<CachedAliceHttpRequest> requestRel = ToOne<CachedAliceHttpRequest>();
 
   @override
   @Transient()
-  AliceHttpResponse? get response => responseRel?.target;
+  AliceHttpResponse? get response => responseRel.target;
 
   @override
   @Transient()
   set response(AliceHttpResponse? value) {
-    responseRel?.target = value != null
+    responseRel.target = value != null
         ? CachedAliceHttpResponse.fromAliceHttpResponse(value)
         : null;
   }
 
   @protected
-  final ToOne<CachedAliceHttpResponse>? responseRel =
-      ToOne<CachedAliceHttpResponse>();
+  final ToOne<CachedAliceHttpResponse> responseRel = ToOne<CachedAliceHttpResponse>();
 
   @override
   @Transient()
-  AliceHttpError? get error => errorRel?.target;
+  AliceHttpError? get error => errorRel.target;
 
   @override
   @Transient()
   set error(AliceHttpError? value) {
-    errorRel?.target =
+    errorRel.target =
         value != null ? CachedAliceHttpError.fromAliceHttpError(value) : null;
   }
 
   @protected
-  final ToOne<CachedAliceHttpError>? errorRel = ToOne<CachedAliceHttpError>();
+  final ToOne<CachedAliceHttpError> errorRel = ToOne<CachedAliceHttpError>();
 
   @override
   void setResponse(AliceHttpResponse response) {

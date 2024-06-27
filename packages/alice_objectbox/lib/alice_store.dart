@@ -1,3 +1,5 @@
+import 'dart:io' show Directory;
+
 import 'package:alice_objectbox/model/cached_alice_http_call.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
@@ -19,6 +21,8 @@ class AliceStore {
       Store.defaultDirectoryPath,
       "alice",
     );
+
+    await Directory(storeDirectoryPath).create(recursive: true);
 
     store ??= Store.isOpen(storeDirectoryPath)
         ? Store.attach(getObjectBoxModel(), storeDirectoryPath)

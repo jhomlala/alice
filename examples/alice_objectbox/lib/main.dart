@@ -1,6 +1,18 @@
+import 'package:alice_objectbox/alice_store.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(const MyApp());
+/// Provides access to the ObjectBox Store throughout the app.
+late AliceStore aliceStore;
+
+Future<void> main() async {
+  /// This is required so ObjectBox can get the application directory
+  /// to store the database in.
+  WidgetsFlutterBinding.ensureInitialized();
+
+  aliceStore = await AliceStore.create();
+
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
