@@ -18,12 +18,12 @@ class AliceObjectBox extends Alice {
   @override
   AliceCoreObjectBox buildAliceCore() => AliceCoreObjectBox(
         getNavigatorKey(),
+        store: _store,
         showNotification: showNotification,
         showInspectorOnShake: showInspectorOnShake,
         notificationIcon: notificationIcon,
         maxCallsCount: maxCallsCount,
         directionality: directionality,
         showShareButton: showShareButton,
-        store: _store,
       );
 }
