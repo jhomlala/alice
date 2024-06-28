@@ -11,10 +11,11 @@ Future<void> main() async {
   /// to store the database in.
   WidgetsFlutterBinding.ensureInitialized();
 
-  /// Initialize AliceStore before running the app.
+  /// Initialize [AliceObjectBoxStore] before running the app.
   final AliceObjectBoxStore store =
       await AliceObjectBoxStore.create(persistent: false);
 
+  /// Pass [AliceObjectBoxStore] to the app.
   runApp(MyApp(store: store));
 }
 
