@@ -4,12 +4,11 @@ import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/ui/call_details/model/alice_menu_item.dart';
 import 'package:alice/ui/calls_list/model/alice_calls_list_sort_option.dart';
 import 'package:alice/ui/calls_list/model/alice_calls_list_tab_item.dart';
+import 'package:alice/ui/calls_list/widget/alice_inspector_screen.dart';
 import 'package:alice/ui/calls_list/widget/alice_sort_dialog.dart';
 import 'package:alice/ui/common/alice_dialog.dart';
 import 'package:alice/ui/common/alice_navigation.dart';
 import 'package:alice/ui/common/alice_page.dart';
-import 'package:alice/ui/calls_list/widget/alice_calls_list_screen.dart';
-import 'package:alice/ui/calls_list/widget/alice_empty_logs_widget.dart';
 import 'package:alice/ui/calls_list/widget/alice_logs_screen.dart';
 import 'package:alice/utils/alice_theme.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +31,7 @@ class AliceCallsListPage extends StatefulWidget {
 }
 
 class _AliceCallsListPageState extends State<AliceCallsListPage>
-    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+    with SingleTickerProviderStateMixin {
   final TextEditingController _queryTextEditingController =
       TextEditingController();
   final List<AliceCallsListTabItem> _tabItems = AliceCallsListTabItem.values;
@@ -77,12 +76,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
   bool get isLoggerTab => _selectedIndex == 1;
 
   @override
-  bool get wantKeepAlive => true;
-
-  @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     return AlicePage(
       core: aliceCore,
       child: Scaffold(
@@ -128,27 +122,12 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
         body: TabBarView(
           controller: _tabController,
           children: [
-            StreamBuilder<List<AliceHttpCall>>(
-              stream: aliceCore.callsStream,
-              builder: (context, AsyncSnapshot<List<AliceHttpCall>> snapshot) {
-                final List<AliceHttpCall> calls = snapshot.data ?? [];
-                final String query = _queryTextEditingController.text.trim();
-                if (query.isNotEmpty) {
-                  calls.removeWhere((AliceHttpCall call) => !call.endpoint
-                      .toLowerCase()
-                      .contains(query.toLowerCase()));
-                }
-                if (calls.isNotEmpty) {
-                  return AliceCallsListScreen(
-                    calls: calls,
-                    sortOption: _sortOption,
-                    sortAscending: _sortAscending,
-                    onListItemClicked: _onListItemPressed,
-                  );
-                } else {
-                  return const AliceEmptyLogsWidget();
-                }
-              },
+            AliceInspectorScreen(
+              aliceCore: aliceCore,
+              queryTextEditingController: _queryTextEditingController,
+              sortOption: _sortOption,
+              sortAscending: _sortAscending,
+              onListItemPressed: _onListItemPressed,
             ),
             AliceLogsScreen(
               scrollController: _scrollController,
