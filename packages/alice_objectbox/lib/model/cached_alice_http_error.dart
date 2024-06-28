@@ -31,7 +31,7 @@ class CachedAliceHttpError implements AliceHttpError {
   @Transient()
   StackTrace? stackTrace;
 
-  String? get dbStackTrace => stackTrace.toString();
+  String? get dbStackTrace => stackTrace?.toString();
 
   set dbStackTrace(String? value) =>
       stackTrace = value != null ? StackTrace.fromString(value) : null;
