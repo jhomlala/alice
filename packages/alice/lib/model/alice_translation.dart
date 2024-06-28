@@ -1,6 +1,5 @@
 /// Definition of translations for specific locale
 class AliceTranslationData {
-
   /// Language code of locale, i.e (en_US) => en.
   final String languageCode;
 

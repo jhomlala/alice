@@ -171,9 +171,9 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
   String _getTabName({required AliceCallsListTabItem item}) {
     switch (item) {
       case AliceCallsListTabItem.inspector:
-        return  context.i18n(AliceTranslationKey.callsListInspector);
+        return context.i18n(AliceTranslationKey.callsListInspector);
       case AliceCallsListTabItem.logger:
-        return  context.i18n(AliceTranslationKey.callsListLogger);
+        return context.i18n(AliceTranslationKey.callsListLogger);
     }
   }
 

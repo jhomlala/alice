@@ -168,8 +168,8 @@ class AliceTranslations {
       AliceTranslationKey.saveLogStackTrace: "Stack trace",
       AliceTranslationKey.saveLogCurl: "Curl",
       AliceTranslationKey.accept: "Accept",
-      AliceTranslationKey.parserFailed:"Failed to parse: ",
-      AliceTranslationKey.unknown:"Unknown",
+      AliceTranslationKey.parserFailed: "Failed to parse: ",
+      AliceTranslationKey.unknown: "Unknown",
     });
   }
 
@@ -231,7 +231,8 @@ class AliceTranslations {
           ' może renderować video/image/text. Odpowiedź ma typ zawartości:'
           "[contentType], który nie może być obsłużony.Jeżeli chcesz, możesz "
           "spróbować wyrenderować body jako tekst, ale może to się nie udać.",
-      AliceTranslationKey.callResponseBodyUnknownShow: "Pokaż nieobsługiwane body",
+      AliceTranslationKey.callResponseBodyUnknownShow:
+          "Pokaż nieobsługiwane body",
       AliceTranslationKey.callsListInspector: "Inspektor",
       AliceTranslationKey.callsListLogger: "Logger",
       AliceTranslationKey.callsListDeleteLogsDialogTitle: "Usuń logi",
@@ -295,8 +296,7 @@ class AliceTranslations {
       AliceTranslationKey.saveDialogFileSaveErrorDescription:
           "Nie można zapisać danych do pliku.",
       AliceTranslationKey.saveSuccessTitle: "Logi zapisane",
-      AliceTranslationKey.saveSuccessDescription:
-          "Zapisano logi w [path].",
+      AliceTranslationKey.saveSuccessDescription: "Zapisano logi w [path].",
       AliceTranslationKey.saveSuccessView: "Otwórz plik",
       AliceTranslationKey.saveHeaderTitle: "Alice - Inspektor HTTP",
       AliceTranslationKey.saveHeaderAppName: "Nazwa aplikacji:",
@@ -331,8 +331,8 @@ class AliceTranslations {
       AliceTranslationKey.saveLogStackTrace: "Ślad stosu",
       AliceTranslationKey.saveLogCurl: "Curl",
       AliceTranslationKey.accept: "Akceptuj",
-      AliceTranslationKey.parserFailed:"Problem z parsowaniem: ",
-      AliceTranslationKey.unknown:"Nieznane"
+      AliceTranslationKey.parserFailed: "Problem z parsowaniem: ",
+      AliceTranslationKey.unknown: "Nieznane"
     });
   }
 
