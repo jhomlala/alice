@@ -30,7 +30,7 @@ class AliceCore {
       BehaviorSubject.seeded([]);
 
   /// Stream which contains all intercepted http calls
-  Stream<List<AliceHttpCall>> get callsStream => callsSubject.stream;
+  Stream<List<AliceHttpCall>> get callsStream => callsSubject;
 
   /// Get all calls from calls subject
   List<AliceHttpCall> getCalls() => callsSubject.value;
