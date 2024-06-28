@@ -22,7 +22,10 @@ class AliceStore {
       "alice",
     );
 
-    await Directory(storeDirectoryPath).create(recursive: true);
+    final Directory storeDirectory = Directory(storeDirectoryPath);
+    if (!await storeDirectory.exists()) {
+      await storeDirectory.create(recursive: true);
+    }
 
     store ??= Store.isOpen(storeDirectoryPath)
         ? Store.attach(getObjectBoxModel(), storeDirectoryPath)
