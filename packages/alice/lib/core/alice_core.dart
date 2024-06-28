@@ -1,4 +1,4 @@
-import 'dart:async' show StreamSubscription;
+import 'dart:async' show FutureOr, StreamSubscription;
 import 'dart:io' show Platform;
 
 import 'package:alice/core/alice_logger.dart';
@@ -220,22 +220,22 @@ class AliceCore {
   }
 
   /// Add alice http call to calls subject
-  void addCall(AliceHttpCall call) => _aliceStorage.addCall(call);
+  FutureOr<void> addCall(AliceHttpCall call) => _aliceStorage.addCall(call);
 
   /// Add error to existing alice http call
-  void addError(AliceHttpError error, int requestId) =>
+  FutureOr<void> addError(AliceHttpError error, int requestId) =>
       _aliceStorage.addError(error, requestId);
 
   /// Add response to existing alice http call
-  void addResponse(AliceHttpResponse response, int requestId) =>
+  FutureOr<void> addResponse(AliceHttpResponse response, int requestId) =>
       _aliceStorage.addResponse(response, requestId);
 
   /// Add alice http call to calls subject
-  void addHttpCall(AliceHttpCall aliceHttpCall) =>
+  FutureOr<void> addHttpCall(AliceHttpCall aliceHttpCall) =>
       _aliceStorage.addHttpCall(aliceHttpCall);
 
   /// Remove all calls from calls subject
-  void removeCalls() => _aliceStorage.removeCalls();
+  FutureOr<void> removeCalls() => _aliceStorage.removeCalls();
 
   @protected
   AliceHttpCall? selectCall(int requestId) =>

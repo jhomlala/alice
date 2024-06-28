@@ -40,7 +40,7 @@ class AliceObjectBox implements AliceStorage {
       .findFirst();
 
   @override
-  void addCall(AliceHttpCall call) {
+  Future<void> addCall(AliceHttpCall call) async {
     if (maxCallsCount > 0 && _store.httpCalls.count() >= maxCallsCount) {
       final Query<CachedAliceHttpCall> overQuota = _store.httpCalls
           .query()
@@ -48,27 +48,27 @@ class AliceObjectBox implements AliceStorage {
           .build()
         ..offset = max(maxCallsCount - 1, 0);
 
-      overQuota.remove();
+      await overQuota.removeAsync();
     }
 
-    _store.httpCalls.put(CachedAliceHttpCall.fromAliceHttpCall(call));
+    _store.httpCalls.putAsync(CachedAliceHttpCall.fromAliceHttpCall(call));
   }
 
   @override
-  void addError(AliceHttpError error, int requestId) {
+  Future<void> addError(AliceHttpError error, int requestId) async {
     final CachedAliceHttpCall? selectedCall = selectCall(requestId);
 
     if (selectedCall != null) {
       selectedCall.error = error;
 
-      _store.httpCalls.put(selectedCall);
+      _store.httpCalls.putAsync(selectedCall);
     } else {
       AliceUtils.log('Selected call is null');
     }
   }
 
   @override
-  void addResponse(AliceHttpResponse response, int requestId) {
+  Future<void> addResponse(AliceHttpResponse response, int requestId) async {
     final CachedAliceHttpCall? selectedCall = selectCall(requestId);
 
     if (selectedCall != null) {
@@ -78,22 +78,24 @@ class AliceObjectBox implements AliceStorage {
         ..duration = response.time.millisecondsSinceEpoch -
             (selectedCall.request?.time.millisecondsSinceEpoch ?? 0);
 
-      _store.httpCalls.put(selectedCall);
+      _store.httpCalls.putAsync(selectedCall);
     } else {
       AliceUtils.log('Selected call is null');
     }
   }
 
   @override
-  void addHttpCall(AliceHttpCall aliceHttpCall) {
+  Future<void> addHttpCall(AliceHttpCall aliceHttpCall) async {
     assert(aliceHttpCall.request != null, "Http call request can't be null");
     assert(aliceHttpCall.response != null, "Http call response can't be null");
 
-    _store.httpCalls.put(CachedAliceHttpCall.fromAliceHttpCall(aliceHttpCall));
+    _store.httpCalls.putAsync(
+      CachedAliceHttpCall.fromAliceHttpCall(aliceHttpCall),
+    );
   }
 
   @override
-  void removeCalls() => _store.httpCalls.removeAll();
+  Future<void> removeCalls() => _store.httpCalls.removeAllAsync();
 
   @override
   void subscribeToCallChanges(AliceOnCallsChanged callback) =>
