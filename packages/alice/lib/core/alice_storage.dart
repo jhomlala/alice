@@ -28,8 +28,6 @@ abstract interface class AliceStorage {
 
   void addResponse(AliceHttpResponse response, int requestId);
 
-  void addHttpCall(AliceHttpCall aliceHttpCall);
-
   void removeCalls();
 
   void subscribeToCallChanges(AliceOnCallsChanged callback);

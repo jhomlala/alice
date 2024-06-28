@@ -85,14 +85,6 @@ class AliceObjectBox implements AliceStorage {
   }
 
   @override
-  void addHttpCall(AliceHttpCall aliceHttpCall) {
-    assert(aliceHttpCall.request != null, "Http call request can't be null");
-    assert(aliceHttpCall.response != null, "Http call response can't be null");
-
-    _store.httpCalls.put(CachedAliceHttpCall.fromAliceHttpCall(aliceHttpCall));
-  }
-
-  @override
   void removeCalls() => _store.httpCalls.removeAll();
 
   @override

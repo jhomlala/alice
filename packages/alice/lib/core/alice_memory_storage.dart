@@ -85,13 +85,6 @@ class AliceMemoryStorage implements AliceStorage {
   }
 
   @override
-  void addHttpCall(AliceHttpCall aliceHttpCall) {
-    assert(aliceHttpCall.request != null, "Http call request can't be null");
-    assert(aliceHttpCall.response != null, "Http call response can't be null");
-    callsSubject.add([...callsSubject.value, aliceHttpCall]);
-  }
-
-  @override
   void addResponse(AliceHttpResponse response, int requestId) {
     final AliceHttpCall? selectedCall = selectCall(requestId);
 
