@@ -32,7 +32,7 @@ class AliceCallsListPage extends StatefulWidget {
 }
 
 class _AliceCallsListPageState extends State<AliceCallsListPage>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   final TextEditingController _queryTextEditingController =
       TextEditingController();
   final List<AliceCallsListTabItem> _tabItems = AliceCallsListTabItem.values;
@@ -77,7 +77,12 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
   bool get isLoggerTab => _selectedIndex == 1;
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return AlicePage(
       core: aliceCore,
       child: Scaffold(
