@@ -28,10 +28,9 @@ class AliceCore {
   /// Icon url for notification
   final String notificationIcon;
 
-  final AliceStorage aliceStorage;
+  final AliceStorage _aliceStorage;
 
-  @protected
-  late final NotificationDetails notificationDetails = NotificationDetails(
+  late final NotificationDetails _notificationDetails = NotificationDetails(
     android: AndroidNotificationDetails(
       'Alice',
       'Alice',
@@ -78,14 +77,14 @@ class AliceCore {
     required this.showInspectorOnShake,
     required this.notificationIcon,
     required this.maxCallsCount,
-    required this.aliceStorage,
+    required AliceStorage aliceStorage,
     this.directionality,
     this.showShareButton,
-  }) {
+  }) : _aliceStorage = aliceStorage {
     if (showNotification) {
       _initializeNotificationsPlugin();
       _requestNotificationPermissions();
-      aliceStorage.subscribeToCallChanges(onCallsChanged);
+      _aliceStorage.subscribeToCallChanges(onCallsChanged);
     }
     if (showInspectorOnShake) {
       if (Platform.isAndroid || Platform.isIOS) {
@@ -127,7 +126,7 @@ class AliceCore {
   @protected
   Future<void> onCallsChanged(List<AliceHttpCall>? calls) async {
     if (calls != null && calls.isNotEmpty) {
-      final AliceStats stats = aliceStorage.getStats();
+      final AliceStats stats = _aliceStorage.getStats();
 
       _notificationMessage = _getNotificationMessage(stats);
       if (_notificationMessage != _notificationMessageShown &&
@@ -210,7 +209,7 @@ class AliceCore {
         0,
         'Alice (total: ${stats.total} requests)',
         message,
-        notificationDetails,
+        _notificationDetails,
         payload: '',
       );
 
@@ -221,34 +220,34 @@ class AliceCore {
   }
 
   /// Add alice http call to calls subject
-  void addCall(AliceHttpCall call) => aliceStorage.addCall(call);
+  void addCall(AliceHttpCall call) => _aliceStorage.addCall(call);
 
   /// Add error to existing alice http call
   void addError(AliceHttpError error, int requestId) =>
-      aliceStorage.addError(error, requestId);
+      _aliceStorage.addError(error, requestId);
 
   /// Add response to existing alice http call
   void addResponse(AliceHttpResponse response, int requestId) =>
-      aliceStorage.addResponse(response, requestId);
+      _aliceStorage.addResponse(response, requestId);
 
   /// Add alice http call to calls subject
   void addHttpCall(AliceHttpCall aliceHttpCall) =>
-      aliceStorage.addHttpCall(aliceHttpCall);
+      _aliceStorage.addHttpCall(aliceHttpCall);
 
   /// Remove all calls from calls subject
-  void removeCalls() => aliceStorage.removeCalls();
+  void removeCalls() => _aliceStorage.removeCalls();
 
   @protected
   AliceHttpCall? selectCall(int requestId) =>
-      aliceStorage.selectCall(requestId);
+      _aliceStorage.selectCall(requestId);
 
-  Stream<List<AliceHttpCall>> get callsStream => aliceStorage.callsStream;
+  Stream<List<AliceHttpCall>> get callsStream => _aliceStorage.callsStream;
 
-  List<AliceHttpCall> getCalls() => aliceStorage.getCalls();
+  List<AliceHttpCall> getCalls() => _aliceStorage.getCalls();
 
   /// Save all calls to file
   void saveHttpRequests(BuildContext context) {
-    AliceSaveHelper.saveCalls(context, aliceStorage.getCalls());
+    AliceSaveHelper.saveCalls(context, _aliceStorage.getCalls());
   }
 
   /// Adds new log to Alice logger.
