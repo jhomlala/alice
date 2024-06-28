@@ -1,2 +1,4 @@
-A sample command-line application with an entrypoint in `bin/`, library code
-in `lib/`, and example unit test in `test/`.
+# Alice ObjectBox
+
+## Documentation
+You can find documentation [here.](https://jhomlala.github.io/alice/)
