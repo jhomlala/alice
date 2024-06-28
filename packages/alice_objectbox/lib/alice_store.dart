@@ -10,12 +10,16 @@ import 'objectbox.g.dart';
 ///
 /// Create this in the apps main function.
 class AliceStore {
-  AliceStore._create(this._store) {
+  AliceStore._create(this._store, {bool empty = false}) {
     httpCalls = Box<CachedAliceHttpCall>(_store);
+
+    if (empty) {
+      clear();
+    }
   }
 
   /// Create an instance of ObjectBox to use throughout the app.
-  static Future<AliceStore> create([Store? store]) async {
+  static Future<AliceStore> create({Store? store, bool empty = false}) async {
     final String storeDirectoryPath = path.join(
       (await getApplicationDocumentsDirectory()).path,
       Store.defaultDirectoryPath,
@@ -31,11 +35,22 @@ class AliceStore {
         ? Store.attach(getObjectBoxModel(), storeDirectoryPath)
         : await openStore(directory: storeDirectoryPath);
 
-    return AliceStore._create(store);
+    return AliceStore._create(store, empty: empty);
   }
 
   late final Store _store;
 
   /// Boxes
   late final Box<CachedAliceHttpCall> httpCalls;
+
+  late final Map<Type, Box> _boxes = {
+    CachedAliceHttpCall: httpCalls,
+  };
+
+  /// This will remove all the items from all the boxes
+  void clear() {
+    for (final Box box in _boxes.values) {
+      box.removeAll();
+    }
+  }
 }
