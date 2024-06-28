@@ -320,6 +320,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0);
           final objectIdParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final createdTimeParam = DateTime.fromMicrosecondsSinceEpoch(
+              (const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0) /
+                      1000)
+                  .round());
           final clientParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 10, '');
           final loadingParam =
@@ -338,6 +342,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 24, 0);
           final object = CachedAliceHttpCall(idParam,
               objectId: objectIdParam,
+              createdTime: createdTimeParam,
               client: clientParam,
               loading: loadingParam,
               secure: secureParam,
@@ -345,11 +350,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
               endpoint: endpointParam,
               server: serverParam,
               uri: uriParam,
-              duration: durationParam)
-            ..createdTime = DateTime.fromMicrosecondsSinceEpoch(
-                (const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0) /
-                        1000)
-                    .round());
+              duration: durationParam);
           object.requestRel.targetId =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 26, 0);
           object.requestRel.attach(store);

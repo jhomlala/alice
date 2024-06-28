@@ -12,7 +12,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   /// Initialize AliceStore before running the app.
-  final AliceStore store = await AliceStore.create();
+  final AliceStore store = await AliceStore.create(empty: true);
 
   runApp(MyApp(store: store));
 }

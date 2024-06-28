@@ -13,6 +13,7 @@ class CachedAliceHttpCall implements AliceHttpCall {
   CachedAliceHttpCall(
     this.id, {
     this.objectId = 0,
+    DateTime? createdTime,
     this.client = '',
     this.loading = true,
     this.secure = false,
@@ -21,9 +22,7 @@ class CachedAliceHttpCall implements AliceHttpCall {
     this.server = '',
     this.uri = '',
     this.duration = 0,
-  }) {
-    createdTime = DateTime.now();
-  }
+  }) : createdTime = createdTime ?? DateTime.now();
 
   @Id()
   int objectId;
@@ -35,7 +34,7 @@ class CachedAliceHttpCall implements AliceHttpCall {
 
   @override
   @Property(type: PropertyType.dateNano)
-  late DateTime createdTime;
+  DateTime createdTime;
 
   @override
   String client;
