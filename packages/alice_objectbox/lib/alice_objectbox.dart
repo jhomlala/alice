@@ -64,7 +64,7 @@ class AliceObjectBox implements AliceStorage {
 
       _store.httpCalls.put(selectedCall);
     } else {
-      return AliceUtils.log('Selected call is null');
+      AliceUtils.log('Selected call is null');
     }
   }
 
@@ -81,7 +81,7 @@ class AliceObjectBox implements AliceStorage {
 
       _store.httpCalls.put(selectedCall);
     } else {
-      return AliceUtils.log('Selected call is null');
+      AliceUtils.log('Selected call is null');
     }
   }
 
