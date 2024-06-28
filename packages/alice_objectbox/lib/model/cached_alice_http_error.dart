@@ -16,7 +16,13 @@ class CachedAliceHttpError implements AliceHttpError {
   @Transient()
   dynamic error;
 
-  String? get dbError => jsonEncode(error);
+  String? get dbError {
+    try {
+      return jsonEncode(error);
+    } catch (_) {
+      return jsonEncode(error.toString());
+    }
+  }
 
   set dbError(String? value) =>
       error = value != null ? jsonDecode(value) : null;
