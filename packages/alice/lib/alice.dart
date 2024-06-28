@@ -1,10 +1,13 @@
 import 'package:alice/core/alice_adapter.dart';
 import 'package:alice/core/alice_core.dart';
+import 'package:alice/core/alice_memory_storage.dart';
+import 'package:alice/core/alice_storage.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_log.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+export 'package:alice/core/alice_store.dart';
 export 'package:alice/model/alice_log.dart';
 
 class Alice {
@@ -33,6 +36,8 @@ class Alice {
   GlobalKey<NavigatorState>? _navigatorKey;
   late final AliceCore _aliceCore;
 
+  final AliceStorage? _aliceStorage;
+
   /// Creates alice instance.
   Alice({
     GlobalKey<NavigatorState>? navigatorKey,
@@ -42,20 +47,23 @@ class Alice {
     this.maxCallsCount = 1000,
     this.directionality,
     this.showShareButton = true,
-  }) : _navigatorKey = navigatorKey ?? GlobalKey<NavigatorState>() {
-    _aliceCore = buildAliceCore();
+    AliceStorage? aliceStorage,
+  })  : _navigatorKey = navigatorKey ?? GlobalKey<NavigatorState>(),
+        _aliceStorage = aliceStorage {
+    _aliceCore = AliceCore(
+      _navigatorKey,
+      showNotification: showNotification,
+      showInspectorOnShake: showInspectorOnShake,
+      notificationIcon: notificationIcon,
+      maxCallsCount: maxCallsCount,
+      directionality: directionality,
+      showShareButton: showShareButton,
+      aliceStorage: _aliceStorage ??
+          AliceMemoryStorage(
+            maxCallsCount: maxCallsCount,
+          ),
+    );
   }
-
-  @protected
-  AliceCore buildAliceCore() => AliceCore(
-        _navigatorKey,
-        showNotification: showNotification,
-        showInspectorOnShake: showInspectorOnShake,
-        notificationIcon: notificationIcon,
-        maxCallsCount: maxCallsCount,
-        directionality: directionality,
-        showShareButton: showShareButton,
-      );
 
   /// Set custom navigation key. This will help if there's route library.
   void setNavigatorKey(GlobalKey<NavigatorState> navigatorKey) {

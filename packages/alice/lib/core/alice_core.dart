@@ -2,6 +2,7 @@ import 'dart:async' show StreamSubscription;
 import 'dart:io' show Platform;
 
 import 'package:alice/core/alice_logger.dart';
+import 'package:alice/core/alice_storage.dart';
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/helper/alice_save_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
@@ -9,12 +10,11 @@ import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice/model/alice_log.dart';
 import 'package:alice/ui/common/alice_navigation.dart';
-import 'package:alice/utils/num_comparison.dart';
 import 'package:alice/utils/shake_detector.dart';
-import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:rxdart/rxdart.dart';
+
+typedef AliceOnCallsChanged = Future<void> Function(List<AliceHttpCall>? calls);
 
 class AliceCore {
   /// Should user be notified with notification if there's new request caught
@@ -25,18 +25,10 @@ class AliceCore {
   /// with sensors)
   final bool showInspectorOnShake;
 
-  /// Rx subject which contains all intercepted http calls
-  final BehaviorSubject<List<AliceHttpCall>> callsSubject =
-      BehaviorSubject.seeded([]);
-
-  /// Stream which contains all intercepted http calls
-  Stream<List<AliceHttpCall>> get callsStream => callsSubject;
-
-  /// Get all calls from calls subject
-  List<AliceHttpCall> getCalls() => callsSubject.value;
-
   /// Icon url for notification
   final String notificationIcon;
+
+  final AliceStorage aliceStorage;
 
   @protected
   late final NotificationDetails notificationDetails = NotificationDetails(
@@ -65,10 +57,6 @@ class AliceCore {
 
   FlutterLocalNotificationsPlugin? _flutterLocalNotificationsPlugin;
 
-  @protected
-  FlutterLocalNotificationsPlugin? get flutterLocalNotificationsPlugin =>
-      _flutterLocalNotificationsPlugin;
-
   GlobalKey<NavigatorState>? navigatorKey;
 
   bool _isInspectorOpened = false;
@@ -77,14 +65,11 @@ class AliceCore {
 
   StreamSubscription<List<AliceHttpCall>>? _callsSubscription;
 
-  @protected
-  String? notificationMessage;
+  String? _notificationMessage;
 
-  @protected
-  String? notificationMessageShown;
+  String? _notificationMessageShown;
 
-  @protected
-  bool notificationProcessing = false;
+  bool _notificationProcessing = false;
 
   /// Creates alice core instance
   AliceCore(
@@ -93,13 +78,14 @@ class AliceCore {
     required this.showInspectorOnShake,
     required this.notificationIcon,
     required this.maxCallsCount,
+    required this.aliceStorage,
     this.directionality,
     this.showShareButton,
   }) {
     if (showNotification) {
       _initializeNotificationsPlugin();
       _requestNotificationPermissions();
-      _callsSubscription = callsStream.listen(onCallsChanged);
+      aliceStorage.subscribeToCallChanges(onCallsChanged);
     }
     if (showInspectorOnShake) {
       if (Platform.isAndroid || Platform.isIOS) {
@@ -113,7 +99,6 @@ class AliceCore {
 
   /// Dispose subjects and subscriptions
   void dispose() {
-    callsSubject.close();
     _shakeDetector?.stopListening();
     _callsSubscription?.cancel();
   }
@@ -133,20 +118,21 @@ class AliceCore {
       iOS: initializationSettingsIOS,
       macOS: initializationSettingsMacOS,
     );
-    flutterLocalNotificationsPlugin?.initialize(
+    _flutterLocalNotificationsPlugin?.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: _onDidReceiveNotificationResponse,
     );
   }
 
   @protected
-  Future<void> onCallsChanged([List<AliceHttpCall>? calls]) async {
-    if (callsSubject.value.isNotEmpty) {
-      notificationMessage = _getNotificationMessage();
-      if (notificationMessage != notificationMessageShown &&
-          !notificationProcessing) {
-        await _showLocalNotification();
-        await onCallsChanged();
+  Future<void> onCallsChanged(List<AliceHttpCall>? calls) async {
+    if (calls != null && calls.isNotEmpty) {
+      final AliceStats stats = aliceStorage.getStats();
+
+      _notificationMessage = _getNotificationMessage(stats);
+      if (_notificationMessage != _notificationMessageShown &&
+          !_notificationProcessing) {
+        await _showLocalNotification(stats);
       }
     }
   }
@@ -179,48 +165,16 @@ class AliceCore {
   /// Get context from navigator key. Used to open inspector route.
   BuildContext? getContext() => navigatorKey?.currentState?.overlay?.context;
 
-  String _getNotificationMessage() {
-    final List<AliceHttpCall> calls = callsSubject.value;
-    final int successCalls = calls
-        .where(
-          (AliceHttpCall call) =>
-              (call.response?.status.gte(200) ?? false) &&
-              (call.response?.status.lt(300) ?? false),
-        )
-        .toList()
-        .length;
+  String _getNotificationMessage(AliceStats stats) => <String>[
+        if (stats.loading > 0) 'Loading: ${stats.loading}',
+        if (stats.successes > 0) 'Success: ${stats.successes}',
+        if (stats.redirects > 0) 'Redirect: ${stats.redirects}',
+        if (stats.errors > 0) 'Error: ${stats.errors}',
+      ].join(' | ');
 
-    final int redirectCalls = calls
-        .where((AliceHttpCall call) =>
-            (call.response?.status.gte(300) ?? false) &&
-            (call.response?.status.lt(400) ?? false))
-        .toList()
-        .length;
-
-    final int errorCalls = calls
-        .where(
-          (AliceHttpCall call) =>
-              (call.response?.status.gte(400) ?? false) &&
-              (call.response?.status.lt(600) ?? false),
-        )
-        .toList()
-        .length;
-
-    final int loadingCalls =
-        calls.where((call) => call.loading).toList().length;
-
-    return <String>[
-      if (loadingCalls > 0) 'Loading: $loadingCalls',
-      if (successCalls > 0) 'Success: $successCalls',
-      if (redirectCalls > 0) 'Redirect: $redirectCalls',
-      if (errorCalls > 0) 'Error: $errorCalls',
-    ].join(' | ');
-  }
-
-  @protected
   Future<void> _requestNotificationPermissions() async {
     if (Platform.isIOS || Platform.isMacOS) {
-      await flutterLocalNotificationsPlugin
+      await _flutterLocalNotificationsPlugin
           ?.resolvePlatformSpecificImplementation<
               IOSFlutterLocalNotificationsPlugin>()
           ?.requestPermissions(
@@ -228,7 +182,7 @@ class AliceCore {
             badge: true,
             sound: true,
           );
-      await flutterLocalNotificationsPlugin
+      await _flutterLocalNotificationsPlugin
           ?.resolvePlatformSpecificImplementation<
               MacOSFlutterLocalNotificationsPlugin>()
           ?.requestPermissions(
@@ -238,7 +192,7 @@ class AliceCore {
           );
     } else if (Platform.isAndroid) {
       final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
-          flutterLocalNotificationsPlugin
+          _flutterLocalNotificationsPlugin
               ?.resolvePlatformSpecificImplementation<
                   AndroidFlutterLocalNotificationsPlugin>();
 
@@ -246,101 +200,62 @@ class AliceCore {
     }
   }
 
-  Future<void> _showLocalNotification() async {
+  Future<void> _showLocalNotification(AliceStats stats) async {
     try {
-      notificationProcessing = true;
+      _notificationProcessing = true;
 
-      final String? message = notificationMessage;
+      final String? message = _notificationMessage;
 
-      await flutterLocalNotificationsPlugin?.show(
+      await _flutterLocalNotificationsPlugin?.show(
         0,
-        'Alice (total: ${callsSubject.value.length} requests)',
+        'Alice (total: ${stats.total} requests)',
         message,
         notificationDetails,
         payload: '',
       );
 
-      notificationMessageShown = message;
+      _notificationMessageShown = message;
     } finally {
-      notificationProcessing = false;
+      _notificationProcessing = false;
     }
   }
 
   /// Add alice http call to calls subject
-  void addCall(AliceHttpCall call) {
-    final int callsCount = callsSubject.value.length;
-    if (callsCount >= maxCallsCount) {
-      final List<AliceHttpCall> originalCalls = callsSubject.value;
-      final List<AliceHttpCall> calls = [...originalCalls]..sort(
-          (AliceHttpCall call1, AliceHttpCall call2) =>
-              call1.createdTime.compareTo(call2.createdTime),
-        );
-      final int indexToReplace = originalCalls.indexOf(calls.first);
-      originalCalls[indexToReplace] = call;
-
-      callsSubject.add(originalCalls);
-    } else {
-      callsSubject.add([...callsSubject.value, call]);
-    }
-  }
+  void addCall(AliceHttpCall call) => aliceStorage.addCall(call);
 
   /// Add error to existing alice http call
-  void addError(AliceHttpError error, int requestId) {
-    final AliceHttpCall? selectedCall = selectCall(requestId);
-
-    if (selectedCall == null) {
-      return AliceUtils.log('Selected call is null');
-    }
-
-    selectedCall.error = error;
-    callsSubject.add([...callsSubject.value]);
-  }
+  void addError(AliceHttpError error, int requestId) =>
+      aliceStorage.addError(error, requestId);
 
   /// Add response to existing alice http call
-  void addResponse(AliceHttpResponse response, int requestId) {
-    final AliceHttpCall? selectedCall = selectCall(requestId);
-
-    if (selectedCall == null) {
-      return AliceUtils.log('Selected call is null');
-    }
-
-    selectedCall
-      ..loading = false
-      ..response = response
-      ..duration = response.time.millisecondsSinceEpoch -
-          (selectedCall.request?.time.millisecondsSinceEpoch ?? 0);
-
-    callsSubject.add([...callsSubject.value]);
-  }
+  void addResponse(AliceHttpResponse response, int requestId) =>
+      aliceStorage.addResponse(response, requestId);
 
   /// Add alice http call to calls subject
-  void addHttpCall(AliceHttpCall aliceHttpCall) {
-    assert(aliceHttpCall.request != null, "Http call request can't be null");
-    assert(aliceHttpCall.response != null, "Http call response can't be null");
-    callsSubject.add([...callsSubject.value, aliceHttpCall]);
-  }
+  void addHttpCall(AliceHttpCall aliceHttpCall) =>
+      aliceStorage.addHttpCall(aliceHttpCall);
 
   /// Remove all calls from calls subject
-  void removeCalls() => callsSubject.add([]);
+  void removeCalls() => aliceStorage.removeCalls();
 
   @protected
-  AliceHttpCall? selectCall(int requestId) => callsSubject.value
-      .firstWhereOrNull((AliceHttpCall call) => call.id == requestId);
+  AliceHttpCall? selectCall(int requestId) =>
+      aliceStorage.selectCall(requestId);
+
+  Stream<List<AliceHttpCall>> get callsStream => aliceStorage.callsStream;
+
+  List<AliceHttpCall> getCalls() => aliceStorage.getCalls();
 
   /// Save all calls to file
   void saveHttpRequests(BuildContext context) {
-    AliceSaveHelper.saveCalls(context, callsSubject.value);
+    AliceSaveHelper.saveCalls(context, aliceStorage.getCalls());
   }
 
   /// Adds new log to Alice logger.
-  void addLog(AliceLog log) {
-    _aliceLogger.logs.add(log);
-  }
+  void addLog(AliceLog log) => _aliceLogger.logs.add(log);
 
   /// Adds list of logs to Alice logger
-  void addLogs(List<AliceLog> logs) {
-    _aliceLogger.logs.addAll(logs);
-  }
+  void addLogs(List<AliceLog> logs) => _aliceLogger.logs.addAll(logs);
 
   /// Returns flag which determines whether inspector is opened
   bool get isInspectorOpened => _isInspectorOpened;

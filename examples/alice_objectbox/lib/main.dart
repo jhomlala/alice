@@ -2,7 +2,7 @@ import 'package:alice/alice.dart';
 import 'package:alice_http/alice_http_adapter.dart';
 import 'package:alice_http/alice_http_extensions.dart';
 import 'package:alice_objectbox/alice_objectbox.dart';
-import 'package:alice_objectbox/alice_store.dart';
+import 'package:alice_objectbox/alice_objectbox_store.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,7 +12,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   /// Initialize AliceStore before running the app.
-  final AliceStore store = await AliceStore.create(empty: true);
+  final AliceObjectBoxStore store =
+      await AliceObjectBoxStore.create(persistent: false);
 
   runApp(MyApp(store: store));
 }
@@ -23,7 +24,7 @@ class MyApp extends StatefulWidget {
     required this.store,
   });
 
-  final AliceStore store;
+  final AliceObjectBoxStore store;
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -32,12 +33,15 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late final AliceHttpAdapter _aliceHttpAdapter = AliceHttpAdapter();
 
-  late final Alice _alice = AliceObjectBox(
-    store: widget.store,
-    showNotification: true,
-    showInspectorOnShake: true,
-    maxCallsCount: 1000,
-  )..addAdapter(_aliceHttpAdapter);
+  late final Alice _alice = Alice(
+      showNotification: true,
+      showInspectorOnShake: true,
+      maxCallsCount: 1000,
+      aliceStorage: AliceObjectBox(
+        store: widget.store,
+        maxCallsCount: 1000,
+      ))
+    ..addAdapter(_aliceHttpAdapter);
 
   @override
   Widget build(BuildContext context) {
