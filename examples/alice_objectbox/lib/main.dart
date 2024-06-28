@@ -34,14 +34,14 @@ class _MyAppState extends State<MyApp> {
   late final AliceHttpAdapter _aliceHttpAdapter = AliceHttpAdapter();
 
   late final Alice _alice = Alice(
-      showNotification: true,
-      showInspectorOnShake: true,
+    showNotification: true,
+    showInspectorOnShake: true,
+    maxCallsCount: 1000,
+    aliceStorage: AliceObjectBox(
+      store: widget.store,
       maxCallsCount: 1000,
-      aliceStorage: AliceObjectBox(
-        store: widget.store,
-        maxCallsCount: 1000,
-      ))
-    ..addAdapter(_aliceHttpAdapter);
+    ),
+  )..addAdapter(_aliceHttpAdapter);
 
   @override
   Widget build(BuildContext context) {
