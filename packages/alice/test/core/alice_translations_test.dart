@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 
 void main() {
   group("AliceTranslations", () {
-    test("should return translated key", () {
+    test("should return translated value", () {
       expect(
         AliceTranslations.get(
           languageCode: "en",
@@ -22,13 +22,14 @@ void main() {
       );
     });
 
-    test("should return key when there's no translation found", () {
+    test("should return english translation when there's no translation found",
+        () {
       expect(
         AliceTranslations.get(
           languageCode: "xx",
           key: AliceTranslationKey.saveLogId,
         ),
-        AliceTranslationKey.saveLogId.toString(),
+        "Id:",
       );
 
       expect(
@@ -36,7 +37,25 @@ void main() {
           languageCode: "xx",
           key: AliceTranslationKey.logsEmpty,
         ),
-        AliceTranslationKey.logsEmpty.toString(),
+        "There are no logs to show",
+      );
+    });
+
+    test("should return translated key for other languages", () {
+      expect(
+        AliceTranslations.get(
+          languageCode: "pl",
+          key: AliceTranslationKey.logsEmpty,
+        ),
+        "Brak rezultatów",
+      );
+
+      expect(
+        AliceTranslations.get(
+          languageCode: "pl",
+          key: AliceTranslationKey.saveLogRequest,
+        ),
+        "Żądanie",
       );
     });
   });

@@ -248,7 +248,7 @@ class AliceTranslations {
       AliceTranslationKey.callsListDelete: "Usuń",
       AliceTranslationKey.callsListStats: "Statystyki",
       AliceTranslationKey.callsListSave: "Zapis",
-      AliceTranslationKey.logsEmpty: "Nie ma logów do pokazania",
+      AliceTranslationKey.logsEmpty: "Brak rezultatów",
       AliceTranslationKey.logsItemError: "Błąd:",
       AliceTranslationKey.logsItemStackTrace: "Ślad stosu:",
       AliceTranslationKey.logsCopied: "Skopiowano do schowka.",
@@ -343,8 +343,10 @@ class AliceTranslations {
     required AliceTranslationKey key,
   }) {
     try {
-      final data = _translations
-          .firstWhere((element) => element.languageCode == languageCode);
+      final data = _translations.firstWhere(
+        (element) => element.languageCode == languageCode,
+        orElse: () => _translations.first,
+      );
       final value = data.values[key] ?? key.toString();
       return value;
     } catch (error) {
