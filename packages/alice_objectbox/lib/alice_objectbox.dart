@@ -15,7 +15,8 @@ class AliceObjectBox implements AliceStorage {
   const AliceObjectBox({
     required AliceObjectBoxStore store,
     required this.maxCallsCount,
-  }) : _store = store;
+  })  : _store = store,
+        assert(maxCallsCount > 0, 'Max calls count should be greater than 0');
 
   final AliceObjectBoxStore _store;
 
