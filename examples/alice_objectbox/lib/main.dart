@@ -10,9 +10,10 @@ Future<void> main() async {
   /// to store the database in.
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(MyApp(
-    store: await AliceStore.create(),
-  ));
+  /// Initialize AliceStore before running the app.
+  final AliceStore store = await AliceStore.create();
+
+  runApp(MyApp(store: store));
 }
 
 class MyApp extends StatefulWidget {
