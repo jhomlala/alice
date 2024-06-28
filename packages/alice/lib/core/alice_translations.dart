@@ -168,6 +168,8 @@ class AliceTranslations {
       AliceTranslationKey.saveLogStackTrace: "Stack trace",
       AliceTranslationKey.saveLogCurl: "Curl",
       AliceTranslationKey.accept: "Accept",
+      AliceTranslationKey.parserFailed:"Failed to parse: ",
+      AliceTranslationKey.unknown:"Unknown",
     });
   }
 
@@ -329,9 +331,13 @@ class AliceTranslations {
       AliceTranslationKey.saveLogStackTrace: "Ślad stosu",
       AliceTranslationKey.saveLogCurl: "Curl",
       AliceTranslationKey.accept: "Akceptuj",
+      AliceTranslationKey.parserFailed:"Problem z parsowaniem: ",
+      AliceTranslationKey.unknown:"Nieznane"
     });
   }
 
+  /// Returns localized value for specific [languageCode] and [key]. If value
+  /// can't be selected then [key] will be returned.
   static String get({
     required String languageCode,
     required AliceTranslationKey key,

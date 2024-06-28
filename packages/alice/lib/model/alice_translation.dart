@@ -1,6 +1,10 @@
 /// Definition of translations for specific locale
 class AliceTranslationData {
+
+  /// Language code of locale, i.e (en_US) => en.
   final String languageCode;
+
+  /// Translation values for language
   final Map<AliceTranslationKey, String> values;
 
   AliceTranslationData({
@@ -9,7 +13,7 @@ class AliceTranslationData {
   });
 }
 
-/// Translation keys
+/// Definition of all available translation keys.
 enum AliceTranslationKey {
   alice,
   callDetails,
@@ -153,4 +157,6 @@ enum AliceTranslationKey {
   saveLogStackTrace,
   saveLogCurl,
   accept,
+  parserFailed,
+  unknown
 }

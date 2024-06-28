@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert' show JsonEncoder;
 import 'dart:io' show Directory, File, FileMode, IOSink, Platform;
 
@@ -193,7 +195,7 @@ class AliceSaveHelper {
 
     stringBuffer.writeAll([
       '${context.i18n(AliceTranslationKey.saveLogRequestSize)} ${AliceConversionHelper.formatBytes(call.request?.size ?? 0)}\n',
-      '${context.i18n(AliceTranslationKey.saveLogRequestBody)} ${AliceBodyParser.formatBody(call.request?.body, call.request?.contentType)}\n',
+      '${context.i18n(AliceTranslationKey.saveLogRequestBody)} ${AliceBodyParser.formatBody(context: context, body: call.request?.body, contentType: call.request?.contentType)}\n',
       '--------------------------------------------\n',
       '${context.i18n(AliceTranslationKey.saveLogResponse)}\n',
       '--------------------------------------------\n',
@@ -201,7 +203,7 @@ class AliceSaveHelper {
       '${context.i18n(AliceTranslationKey.saveLogResponseStatus)} ${call.response?.status}\n',
       '${context.i18n(AliceTranslationKey.saveLogResponseSize)} ${AliceConversionHelper.formatBytes(call.response?.size ?? 0)}\n',
       '${context.i18n(AliceTranslationKey.saveLogResponseHeaders)} ${_encoder.convert(call.response?.headers)}\n',
-      '${context.i18n(AliceTranslationKey.saveLogResponseBody)} ${AliceBodyParser.formatBody(call.response?.body, AliceBodyParser.getContentType(call.response?.headers))}\n',
+      '${context.i18n(AliceTranslationKey.saveLogResponseBody)} ${AliceBodyParser.formatBody(context: context, body: call.response?.body, contentType: AliceBodyParser.getContentType(context: context, headers: call.response?.headers))}\n',
     ]);
 
     if (call.error != null) {

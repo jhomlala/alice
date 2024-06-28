@@ -28,7 +28,8 @@ class AliceCallRequestScreen extends StatelessWidget {
           value: AliceConversionHelper.formatBytes(call.request?.size ?? 0)),
       AliceCallListRow(
           name: context.i18n(AliceTranslationKey.callRequestContentType),
-          value: AliceBodyParser.getContentType(call.request?.headers)),
+          value: AliceBodyParser.getContentType(
+              context: context, headers: call.request?.headers)),
     ];
 
     rows.add(AliceCallListRow(
@@ -105,7 +106,11 @@ class AliceCallRequestScreen extends StatelessWidget {
     final dynamic body = call.request?.body;
     return body != null
         ? AliceBodyParser.formatBody(
-            body, AliceBodyParser.getContentType(call.request?.headers))
+            context: context,
+            body: body,
+            contentType: AliceBodyParser.getContentType(
+                context: context, headers: call.request?.headers),
+          )
         : context.i18n(AliceTranslationKey.callRequestBodyEmpty);
   }
 }
