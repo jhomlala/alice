@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' show max;
 
 import 'package:alice/core/alice_core.dart';
@@ -31,7 +32,8 @@ class AliceCoreObjectBox extends AliceCore {
       .query()
       .order<int>(CachedAliceHttpCall_.createdTime, flags: Order.descending)
       .watch(triggerImmediately: true)
-      .map((Query<CachedAliceHttpCall> query) => query.find());
+      .map((Query<CachedAliceHttpCall> query) => query.find())
+      .asBroadcastStream();
 
   @override
   List<AliceHttpCall> getCalls() => _store.httpCalls.getAll();
