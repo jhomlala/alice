@@ -8,7 +8,6 @@ import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice_objectbox/alice_objectbox_store.dart';
 import 'package:alice_objectbox/model/cached_alice_http_call.dart';
-import 'package:alice_objectbox/model/cached_alice_http_error.dart';
 import 'package:alice_objectbox/objectbox.g.dart';
 
 class AliceObjectBox implements AliceStorage {
@@ -60,7 +59,7 @@ class AliceObjectBox implements AliceStorage {
     final CachedAliceHttpCall? selectedCall = selectCall(requestId);
 
     if (selectedCall != null) {
-      selectedCall.error = CachedAliceHttpError.fromAliceHttpError(error);
+      selectedCall.error = error;
 
       _store.httpCalls.put(selectedCall);
     } else {
