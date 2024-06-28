@@ -2,7 +2,6 @@ import 'dart:async' show StreamSubscription;
 import 'dart:io' show Platform;
 
 import 'package:alice/core/alice_logger.dart';
-import 'package:alice/core/alice_translations.dart';
 import 'package:alice/core/alice_storage.dart';
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/helper/alice_save_helper.dart';
@@ -167,10 +166,14 @@ class AliceCore {
   BuildContext? getContext() => navigatorKey?.currentState?.overlay?.context;
 
   String _getNotificationMessage(AliceStats stats) => <String>[
-        if (stats.loading > 0) 'Loading: ${stats.loading}',
-        if (stats.successes > 0) 'Success: ${stats.successes}',
-        if (stats.redirects > 0) 'Redirect: ${stats.redirects}',
-        if (stats.errors > 0) 'Error: ${stats.errors}',
+        if (stats.loading > 0)
+          '${getContext()?.i18n(AliceTranslationKey.notificationLoading)} ${stats.loading}',
+        if (stats.successes > 0)
+          '${getContext()?.i18n(AliceTranslationKey.notificationSuccess)} ${stats.successes}',
+        if (stats.redirects > 0)
+          '${getContext()?.i18n(AliceTranslationKey.notificationRedirect)} ${stats.redirects}',
+        if (stats.errors > 0)
+          '${getContext()?.i18n(AliceTranslationKey.notificationError)} ${stats.errors}',
       ].join(' | ');
 
   Future<void> _requestNotificationPermissions() async {
@@ -209,7 +212,9 @@ class AliceCore {
 
       await _flutterLocalNotificationsPlugin?.show(
         0,
-        'Alice (total: ${stats.total} requests)',
+        getContext()
+            ?.i18n(AliceTranslationKey.notificationTotalRequests)
+            .replaceAll("[requestCount]", stats.total.toString()),
         message,
         _notificationDetails,
         payload: '',

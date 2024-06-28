@@ -280,7 +280,7 @@ class AliceTranslations {
       AliceTranslationKey.statsPatchRequests: "Żądania PATCH:",
       AliceTranslationKey.statsSecuredRequests: "Żądania zabezpieczone:",
       AliceTranslationKey.statsUnsecuredRequests: "Żądania niezabezpieczone:",
-      AliceTranslationKey.notificationLoading: "Oczekiwanie:",
+      AliceTranslationKey.notificationLoading: "Oczekujące:",
       AliceTranslationKey.notificationSuccess: "Poprawne:",
       AliceTranslationKey.notificationRedirect: "Przekierowanie:",
       AliceTranslationKey.notificationError: "Błąd:",
