@@ -100,3 +100,58 @@ httpClient
       aliceHttpClientAdapter.onResponse(httpResponse, request, body: responseBody);
 });
 ```
+
+## ObjectBox
+
+Setting up ObjectBox with Alice is simple, however, there are a few crucial steps which need to be followed.
+
+1. Add it to your dependencies
+
+```yaml
+dependencies:
+  alice_objectbox: ^1.0.0
+```
+
+2. Follow the ObjectBox [example](https://github.com/objectbox/objectbox-dart/blob/main/objectbox/example/flutter/objectbox_demo/lib/main.dart)
+
+```dart
+Future<void> main() async {
+  /// This is required so ObjectBox can get the application directory
+  /// to store the database in.
+  WidgetsFlutterBinding.ensureInitialized();
+
+  /// Initialize [AliceObjectBoxStore] before running the app.
+  final AliceObjectBoxStore store =
+      await AliceObjectBoxStore.create(persistent: false);
+
+  /// Pass [AliceObjectBoxStore] to the app
+  runApp(MyApp(store: store));
+}
+
+class MyApp extends StatefulWidget {
+  const MyApp({
+    super.key,
+    required this.store,
+  });
+
+  final AliceObjectBoxStore store;
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late final Alice _alice = Alice(
+    showNotification: true,
+    showInspectorOnShake: true,
+    maxCallsCount: 1000,
+    /// Pass [AliceObjectBox] to the [Alice] constructor
+    aliceStorage: AliceObjectBox(
+      store: widget.store,
+      maxCallsCount: 1000,
+    ),
+  );
+
+  // your custom stuff...
+}
+```

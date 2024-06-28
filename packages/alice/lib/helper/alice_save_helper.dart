@@ -7,6 +7,7 @@ import 'package:alice/helper/operating_system.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/ui/common/alice_dialog.dart';
 import 'package:alice/utils/alice_parser.dart';
+import 'package:alice/utils/curl.dart';
 import 'package:flutter/material.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -207,7 +208,7 @@ class AliceSaveHelper {
       '--------------------------------------------\n',
       'Curl\n',
       '--------------------------------------------\n',
-      call.getCurlCommand(),
+      getCurlCommand(call),
       '\n',
       '==============================================\n',
       '\n',
