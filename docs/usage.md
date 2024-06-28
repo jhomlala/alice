@@ -139,18 +139,18 @@ class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
 }
-class _MyAppState extends State<MyApp> {
-  late final AliceHttpAdapter _aliceHttpAdapter = AliceHttpAdapter();
 
+class _MyAppState extends State<MyApp> {
   late final Alice _alice = Alice(
     showNotification: true,
     showInspectorOnShake: true,
     maxCallsCount: 1000,
+    /// Pass [AliceObjectBox] to the [Alice] constructor
     aliceStorage: AliceObjectBox(
       store: widget.store,
       maxCallsCount: 1000,
     ),
-  )..addAdapter(_aliceHttpAdapter);
+  );
 
   // your custom stuff...
 }
