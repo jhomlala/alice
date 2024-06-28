@@ -1,3 +1,4 @@
+import 'package:alice/alice.dart';
 import 'package:alice_http/alice_http_adapter.dart';
 import 'package:alice_http/alice_http_extensions.dart';
 import 'package:alice_objectbox/alice_objectbox.dart';
@@ -31,7 +32,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late final AliceHttpAdapter _aliceHttpAdapter = AliceHttpAdapter();
 
-  late final AliceObjectBox _alice = AliceObjectBox(
+  late final Alice _alice = AliceObjectBox(
     store: widget.store,
     showNotification: true,
     showInspectorOnShake: true,
