@@ -1,7 +1,7 @@
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/ui/calls_list/model/alice_calls_list_sort_option.dart';
 import 'package:alice/ui/calls_list/widget/alice_call_list_item_widget.dart';
-import 'package:alice/utils/alice_scroll_behavior.dart';
+import 'package:alice/ui/common/alice_scroll_behavior.dart';
 import 'package:flutter/material.dart';
 
 /// Widget which displays calls list. It's hosted in tab in calls list page.

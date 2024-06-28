@@ -1,5 +1,5 @@
 import 'package:alice/core/alice_core.dart';
-import 'package:alice/utils/alice_theme.dart';
+import 'package:alice/ui/common/alice_theme.dart';
 import 'package:flutter/material.dart';
 
 /// Common page widget which is used across Alice pages.
