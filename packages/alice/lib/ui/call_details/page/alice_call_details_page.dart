@@ -41,7 +41,7 @@ class _AliceCallDetailsPageState extends State<AliceCallDetailsPage>
     return AlicePage(
       core: widget.core,
       child: StreamBuilder<List<AliceHttpCall>>(
-        stream: widget.core.callsSubject,
+        stream: widget.core.callsStream,
         initialData: [widget.call],
         builder: (context, AsyncSnapshot<List<AliceHttpCall>> callsSnapshot) {
           if (callsSnapshot.hasData && !callsSnapshot.hasError) {

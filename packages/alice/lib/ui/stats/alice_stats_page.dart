@@ -195,5 +195,5 @@ class AliceStatsPage extends StatelessWidget {
       _calls.where((call) => !call.secure).toList().length;
 
   /// Get all calls from Alice.
-  List<AliceHttpCall> get _calls => aliceCore.callsSubject.value;
+  List<AliceHttpCall> get _calls => aliceCore.getCalls();
 }
