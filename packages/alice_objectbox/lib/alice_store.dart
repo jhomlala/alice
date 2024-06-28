@@ -1,10 +1,9 @@
 import 'dart:io' show Directory;
 
 import 'package:alice_objectbox/model/cached_alice_http_call.dart';
+import 'package:alice_objectbox/objectbox.g.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
-
-import 'objectbox.g.dart';
 
 /// Provides access to the ObjectBox Store throughout the app.
 ///
