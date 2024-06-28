@@ -22,7 +22,7 @@ class CachedAliceHttpCall implements AliceHttpCall {
     this.uri = '',
     this.duration = 0,
   }) {
-    createdTime = DateTime.timestamp();
+    createdTime = DateTime.now();
   }
 
   @Id()
