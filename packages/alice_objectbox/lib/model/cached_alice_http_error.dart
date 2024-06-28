@@ -17,11 +17,14 @@ class CachedAliceHttpError implements AliceHttpError {
   dynamic error;
 
   String? get dbError {
-    try {
-      return jsonEncode(error);
-    } catch (_) {
-      return jsonEncode(error.toString());
+    if (error != null) {
+      try {
+        return jsonEncode(error);
+      } catch (_) {
+        return jsonEncode(error.toString());
+      }
     }
+    return null;
   }
 
   set dbError(String? value) =>

@@ -46,11 +46,14 @@ class CachedAliceHttpRequest implements AliceHttpRequest {
   dynamic body;
 
   String? get dbBody {
-    try {
-      return jsonEncode(body);
-    } catch (_) {
-      return jsonEncode(body.toString());
+    if (body != null) {
+      try {
+        return jsonEncode(body);
+      } catch (_) {
+        return jsonEncode(body.toString());
+      }
     }
+    return null;
   }
 
   set dbBody(String? value) => body = value != null ? jsonDecode(value) : null;

@@ -32,11 +32,14 @@ class CachedAliceHttpResponse implements AliceHttpResponse {
   dynamic body;
 
   String? get dbBody {
-    try {
-      return jsonEncode(body);
-    } catch (_) {
-      return jsonEncode(body.toString());
+    if (body != null) {
+      try {
+        return jsonEncode(body);
+      } catch (_) {
+        return jsonEncode(body.toString());
+      }
     }
+    return null;
   }
 
   set dbBody(String? value) => body = value != null ? jsonDecode(value) : null;
@@ -45,7 +48,7 @@ class CachedAliceHttpResponse implements AliceHttpResponse {
   @Transient()
   Map<String, String>? headers;
 
-  String? get dbHeaders => jsonEncode(headers);
+  String? get dbHeaders => headers != null ? jsonEncode(headers) : null;
 
   set dbHeaders(String? value) => headers = value != null
       ? (jsonDecode(value) as Map<String, dynamic>?)?.map(
