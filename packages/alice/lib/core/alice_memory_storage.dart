@@ -59,12 +59,8 @@ class AliceMemoryStorage implements AliceStorage {
     final int callsCount = callsSubject.value.length;
     if (callsCount >= maxCallsCount) {
       final List<AliceHttpCall> originalCalls = callsSubject.value;
-      final List<AliceHttpCall> calls = [...originalCalls]..sort(
-          (AliceHttpCall call1, AliceHttpCall call2) =>
-              call1.createdTime.compareTo(call2.createdTime),
-        );
-      final int indexToReplace = originalCalls.indexOf(calls.first);
-      originalCalls[indexToReplace] = call;
+      originalCalls.removeAt(0);
+      originalCalls.add(call);
 
       callsSubject.add(originalCalls);
     } else {

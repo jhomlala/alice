@@ -28,4 +28,47 @@ class AliceHttpCall {
     this.response = response;
     loading = false;
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AliceHttpCall &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          createdTime == other.createdTime &&
+          client == other.client &&
+          loading == other.loading &&
+          secure == other.secure &&
+          method == other.method &&
+          endpoint == other.endpoint &&
+          server == other.server &&
+          uri == other.uri &&
+          duration == other.duration &&
+          request == other.request &&
+          response == other.response &&
+          error == other.error;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      createdTime.hashCode ^
+      client.hashCode ^
+      loading.hashCode ^
+      secure.hashCode ^
+      method.hashCode ^
+      endpoint.hashCode ^
+      server.hashCode ^
+      uri.hashCode ^
+      duration.hashCode ^
+      request.hashCode ^
+      response.hashCode ^
+      error.hashCode;
+
+  @override
+  String toString() {
+    return 'AliceHttpCall{id: $id, createdTime: $createdTime, client: $client,'
+        ' loading: $loading, secure: $secure, method: $method, endpoint: '
+        '$endpoint, server: $server, uri: $uri, duration: $duration, '
+        'request: $request, response: $response, error: $error}';
+  }
 }
