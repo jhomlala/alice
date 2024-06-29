@@ -2,7 +2,7 @@ import 'package:alice/model/alice_http_call.dart';
 import 'package:alice_objectbox/model/cached_alice_http_call.dart';
 
 extension AliceHttpCallExtension on AliceHttpCall {
-  CachedAliceHttpCall toCachedAliceHttpCall() => CachedAliceHttpCall(
+  CachedAliceHttpCall toCached() => CachedAliceHttpCall(
         id,
         client: client,
         loading: loading,

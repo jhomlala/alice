@@ -69,8 +69,7 @@ class CachedAliceHttpCall implements AliceHttpCall {
 
   @override
   @Transient()
-  set request(AliceHttpRequest? value) =>
-      requestRel.target = value?.toCachedAliceHttpRequest();
+  set request(AliceHttpRequest? value) => requestRel.target = value?.toCached();
 
   @protected
   final ToOne<CachedAliceHttpRequest> requestRel =
@@ -83,7 +82,7 @@ class CachedAliceHttpCall implements AliceHttpCall {
   @override
   @Transient()
   set response(AliceHttpResponse? value) =>
-      responseRel.target = value?.toCachedAliceHttpResponse();
+      responseRel.target = value?.toCached();
 
   @protected
   final ToOne<CachedAliceHttpResponse> responseRel =
@@ -95,8 +94,7 @@ class CachedAliceHttpCall implements AliceHttpCall {
 
   @override
   @Transient()
-  set error(AliceHttpError? value) =>
-      errorRel.target = value?.toCachedAliceHttpError();
+  set error(AliceHttpError? value) => errorRel.target = value?.toCached();
 
   @protected
   final ToOne<CachedAliceHttpError> errorRel = ToOne<CachedAliceHttpError>();
