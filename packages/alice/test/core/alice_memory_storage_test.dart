@@ -1,5 +1,6 @@
 import 'package:alice/core/alice_memory_storage.dart';
 import 'package:alice/model/alice_http_call.dart';
+import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:test/expect.dart';
@@ -75,6 +76,26 @@ void main() {
       storage.addCall(thirdCall);
 
       expect(storage.getCalls(), [secondCall, thirdCall]);
+    });
+
+    test("should add error to HTTP call", () {
+      final call = MockedData.getLoadingHttpCall();
+      final error = AliceHttpError()..error = "Some error";
+
+      storage.addCall(call);
+      storage.addError(error, call.id);
+
+      expect(storage.getCalls().first.error != null, true);
+    });
+
+    test("should not add error to HTTP call if HTTP has been not found", () {
+      final call = MockedData.getLoadingHttpCall();
+      final error = AliceHttpError()..error = "Some error";
+
+      storage.addCall(call);
+      storage.addError(error, 100);
+
+      expect(storage.getCalls().first.error != null, false);
     });
   });
 }

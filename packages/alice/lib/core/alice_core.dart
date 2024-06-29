@@ -237,7 +237,6 @@ class AliceCore {
   void addResponse(AliceHttpResponse response, int requestId) =>
       _aliceStorage.addResponse(response, requestId);
 
-
   /// Remove all calls from calls subject
   void removeCalls() => _aliceStorage.removeCalls();
 
