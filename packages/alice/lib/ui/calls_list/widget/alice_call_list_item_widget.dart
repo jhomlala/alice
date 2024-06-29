@@ -1,7 +1,7 @@
 import 'package:alice/helper/alice_conversion_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_response.dart';
-import 'package:alice/utils/alice_theme.dart';
+import 'package:alice/ui/common/alice_theme.dart';
 import 'package:flutter/material.dart';
 
 const int _endpointMaxLines = 10;

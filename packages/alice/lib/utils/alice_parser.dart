@@ -1,14 +1,15 @@
 import 'dart:convert';
 
+import 'package:alice/model/alice_translation.dart';
+import 'package:alice/ui/common/alice_context_ext.dart';
+import 'package:flutter/material.dart';
+
 /// Body parser helper used to parsing body data.
 class AliceBodyParser {
-  static const String _emptyBody = 'Body is empty';
-  static const String _unknownContentType = 'Unknown';
   static const String _jsonContentTypeSmall = 'content-type';
   static const String _jsonContentTypeBig = 'Content-Type';
   static const String _stream = 'Stream';
   static const String _applicationJson = 'application/json';
-  static const String _parseFailedText = 'Failed to parse ';
   static const JsonEncoder encoder = JsonEncoder.withIndent('  ');
 
   /// Tries to parse json. If it fails, it will return the json itself.
@@ -32,13 +33,18 @@ class AliceBodyParser {
   /// Formats body based on [contentType]. If body is null it will return
   /// [_emptyBody]. Otherwise if body type is json - it will try to format it.
   ///
-  static String formatBody(dynamic body, String? contentType) {
+  static String formatBody({
+    required BuildContext context,
+    required dynamic body,
+    String? contentType,
+  }) {
     try {
       if (body == null) {
-        return _emptyBody;
+        return context.i18n(AliceTranslationKey.callRequestBodyEmpty);
       }
 
-      String bodyContent = _emptyBody;
+      String bodyContent =
+          context.i18n(AliceTranslationKey.callRequestBodyEmpty);
 
       if (contentType == null ||
           !contentType.toLowerCase().contains(_applicationJson)) {
@@ -67,13 +73,14 @@ class AliceBodyParser {
 
       return bodyContent;
     } catch (_) {
-      return _parseFailedText + body.toString();
+      return context.i18n(AliceTranslationKey.parserFailed) + body.toString();
     }
   }
 
   /// Get content type from [headers]. It looks for json and if it can't find
   /// it, it will return unknown content type.
-  static String? getContentType(Map<String, dynamic>? headers) {
+  static String? getContentType(
+      {required BuildContext context, Map<String, dynamic>? headers}) {
     if (headers != null) {
       if (headers.containsKey(_jsonContentTypeSmall)) {
         return headers[_jsonContentTypeSmall] as String?;
@@ -82,6 +89,6 @@ class AliceBodyParser {
         return headers[_jsonContentTypeBig] as String?;
       }
     }
-    return _unknownContentType;
+    return context.i18n(AliceTranslationKey.unknown);
   }
 }

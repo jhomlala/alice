@@ -1,4 +1,6 @@
-import 'package:alice/utils/alice_theme.dart';
+import 'package:alice/model/alice_translation.dart';
+import 'package:alice/ui/common/alice_context_ext.dart';
+import 'package:alice/ui/common/alice_theme.dart';
 import 'package:flutter/material.dart';
 
 /// General dialogs used in Alice.
@@ -8,7 +10,7 @@ class AliceGeneralDialog {
     required BuildContext context,
     required String title,
     required String description,
-    String firstButtonTitle = 'Accept',
+    String? firstButtonTitle,
     String? secondButtonTitle,
     Function? firstButtonAction,
     Function? secondButtonAction,
@@ -28,7 +30,10 @@ class AliceGeneralDialog {
                     firstButtonAction?.call();
                     Navigator.of(context).pop();
                   },
-                  child: Text(firstButtonTitle),
+                  child: Text(
+                    firstButtonTitle ??
+                        context.i18n(AliceTranslationKey.accept),
+                  ),
                 ),
                 if (secondButtonTitle != null)
                   TextButton(

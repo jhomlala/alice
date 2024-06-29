@@ -1,4 +1,9 @@
-# 1.0.0-dev-7
+# 1.0.0-dev.8
+* Added storage abstractions (by Klemen Tusar https://github.com/techouse).
+* Added in memory storage implementation (by Klemen Tusar https://github.com/techouse).
+* Added translations.
+
+# 1.0.0-dev.7
 * Refactored UI code.
 
 # 1.0.0-dev.6

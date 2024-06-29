@@ -1,16 +1,18 @@
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/core/alice_logger.dart';
 import 'package:alice/model/alice_http_call.dart';
+import 'package:alice/model/alice_translation.dart';
 import 'package:alice/ui/call_details/model/alice_menu_item.dart';
 import 'package:alice/ui/calls_list/model/alice_calls_list_sort_option.dart';
 import 'package:alice/ui/calls_list/model/alice_calls_list_tab_item.dart';
 import 'package:alice/ui/calls_list/widget/alice_inspector_screen.dart';
 import 'package:alice/ui/calls_list/widget/alice_sort_dialog.dart';
+import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/ui/common/alice_dialog.dart';
 import 'package:alice/ui/common/alice_navigation.dart';
 import 'package:alice/ui/common/alice_page.dart';
 import 'package:alice/ui/calls_list/widget/alice_logs_screen.dart';
-import 'package:alice/utils/alice_theme.dart';
+import 'package:alice/ui/common/alice_theme.dart';
 import 'package:flutter/material.dart';
 
 /// Page which displays list of calls caught by Alice. It displays tab view
@@ -90,7 +92,11 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
                   textEditingController: _queryTextEditingController,
                   onChanged: _updateSearchQuery,
                 )
-              : const Text('Alice'),
+              : Text(
+                  context.i18n(
+                    AliceTranslationKey.alice,
+                  ),
+                ),
           actions: isLoggerTab
               ? <Widget>[
                   IconButton(
@@ -149,9 +155,9 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
   String _getTabName({required AliceCallsListTabItem item}) {
     switch (item) {
       case AliceCallsListTabItem.inspector:
-        return "Inspector";
+        return context.i18n(AliceTranslationKey.callsListInspector);
       case AliceCallsListTabItem.logger:
-        return "Logger";
+        return context.i18n(AliceTranslationKey.callsListLogger);
     }
   }
 
@@ -165,10 +171,11 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
   /// user confirmation.
   void _onClearLogsPressed() => AliceGeneralDialog.show(
         context: context,
-        title: 'Delete logs',
-        description: 'Do you want to clear logs?',
-        firstButtonTitle: 'No',
-        secondButtonTitle: 'Yes',
+        title: context.i18n(AliceTranslationKey.callsListDeleteLogsDialogTitle),
+        description: context
+            .i18n(AliceTranslationKey.callsListDeleteLogsDialogDescription),
+        firstButtonTitle: context.i18n(AliceTranslationKey.callsListNo),
+        secondButtonTitle: context.i18n(AliceTranslationKey.callsListYes),
         secondButtonAction: _onLogsClearPressed,
       );
 
@@ -186,7 +193,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
         }
       });
 
-  /// Called when search button. It displays search textfield.
+  /// Called when search button. It displays search text field.
   void _onSearchPressed() => setState(() {
         _searchEnabled = !_searchEnabled;
         if (!_searchEnabled) {
@@ -226,11 +233,13 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
   /// Called when remove all calls button has been pressed.
   void _onRemovePressed() => AliceGeneralDialog.show(
         context: context,
-        title: 'Delete calls',
-        description: 'Do you want to delete http calls?',
-        firstButtonTitle: 'No',
+        title:
+            context.i18n(AliceTranslationKey.callsListDeleteCallsDialogTitle),
+        description: context
+            .i18n(AliceTranslationKey.callsListDeleteCallsDialogDescription),
+        firstButtonTitle: context.i18n(AliceTranslationKey.callsListNo),
         firstButtonAction: () => <String, dynamic>{},
-        secondButtonTitle: 'Yes',
+        secondButtonTitle: context.i18n(AliceTranslationKey.callsListYes),
         secondButtonAction: _removeCalls,
       );
 
@@ -307,9 +316,9 @@ class _SearchTextField extends StatelessWidget {
     return TextField(
       controller: textEditingController,
       autofocus: true,
-      decoration: const InputDecoration(
-        hintText: 'Search http request...',
-        hintStyle: TextStyle(fontSize: 16, color: AliceTheme.grey),
+      decoration: InputDecoration(
+        hintText: context.i18n(AliceTranslationKey.callsListSearchHint),
+        hintStyle: const TextStyle(fontSize: 16, color: AliceTheme.grey),
         border: InputBorder.none,
       ),
       style: const TextStyle(fontSize: 16),
@@ -318,7 +327,7 @@ class _SearchTextField extends StatelessWidget {
   }
 }
 
-/// Menu button displayed in app bar. It displays overflow menu with addtional
+/// Menu button displayed in app bar. It displays overflow menu with additional
 /// actions.
 class _ContextMenuButton extends StatelessWidget {
   const _ContextMenuButton({required this.onMenuItemSelected});
@@ -343,7 +352,10 @@ class _ContextMenuButton extends StatelessWidget {
                 const Padding(
                   padding: EdgeInsets.only(left: 10),
                 ),
-                Text(_getTitle(itemType: item)),
+                Text(_getTitle(
+                  context: context,
+                  itemType: item,
+                )),
               ],
             ),
           ),
@@ -352,16 +364,19 @@ class _ContextMenuButton extends StatelessWidget {
   }
 
   /// Get title of the menu item based on [itemType].
-  String _getTitle({required AliceCallDetailsMenuItemType itemType}) {
+  String _getTitle({
+    required BuildContext context,
+    required AliceCallDetailsMenuItemType itemType,
+  }) {
     switch (itemType) {
       case AliceCallDetailsMenuItemType.sort:
-        return "Sort";
+        return context.i18n(AliceTranslationKey.callsListSort);
       case AliceCallDetailsMenuItemType.delete:
-        return "Delete";
+        return context.i18n(AliceTranslationKey.callsListDelete);
       case AliceCallDetailsMenuItemType.stats:
-        return "Stats";
+        return context.i18n(AliceTranslationKey.callsListStats);
       case AliceCallDetailsMenuItemType.save:
-        return "Save";
+        return context.i18n(AliceTranslationKey.callsListSave);
     }
   }
 
