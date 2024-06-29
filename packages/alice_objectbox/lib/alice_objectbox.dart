@@ -87,7 +87,7 @@ class AliceObjectBox implements AliceStorage {
         ..duration = response.time.millisecondsSinceEpoch -
             (selectedCall.request?.time.millisecondsSinceEpoch ?? 0);
 
-      _store.httpCalls.put(selectedCall);
+      _store.httpCalls.putAsync(selectedCall);
     } else {
       AliceUtils.log('Selected call is null');
     }
