@@ -60,7 +60,7 @@ class AliceObjectBox implements AliceStorage {
   void addCall(AliceHttpCall call) {
     _removeOverQuota();
 
-    _store.httpCalls.putAsync(call.toCached());
+    _store.httpCalls.put(call.toCached());
   }
 
   @override
@@ -70,7 +70,7 @@ class AliceObjectBox implements AliceStorage {
     if (selectedCall != null) {
       selectedCall.error = error;
 
-      _store.httpCalls.putAsync(selectedCall);
+      _store.httpCalls.put(selectedCall);
     } else {
       AliceUtils.log('Selected call is null');
     }
@@ -87,7 +87,7 @@ class AliceObjectBox implements AliceStorage {
         ..duration = response.time.millisecondsSinceEpoch -
             (selectedCall.request?.time.millisecondsSinceEpoch ?? 0);
 
-      _store.httpCalls.putAsync(selectedCall);
+      _store.httpCalls.put(selectedCall);
     } else {
       AliceUtils.log('Selected call is null');
     }
@@ -98,7 +98,7 @@ class AliceObjectBox implements AliceStorage {
     assert(aliceHttpCall.request != null, "Http call request can't be null");
     assert(aliceHttpCall.response != null, "Http call response can't be null");
 
-    _store.httpCalls.putAsync(aliceHttpCall.toCached());
+    _store.httpCalls.put(aliceHttpCall.toCached());
   }
 
   @override
