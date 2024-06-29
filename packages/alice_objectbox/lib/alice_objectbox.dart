@@ -7,6 +7,7 @@ import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice_objectbox/alice_objectbox_store.dart';
+import 'package:alice_objectbox/extensions/alice_http_call_extension.dart';
 import 'package:alice_objectbox/model/cached_alice_http_call.dart';
 import 'package:alice_objectbox/objectbox.g.dart';
 
@@ -39,8 +40,7 @@ class AliceObjectBox implements AliceStorage {
       .build()
       .findFirst();
 
-  @override
-  Future<void> addCall(AliceHttpCall call) async {
+  Future<void> _removeOverQuota() async {
     if (maxCallsCount > 0 && _store.httpCalls.count() >= maxCallsCount) {
       final Query<CachedAliceHttpCall> overQuota = _store.httpCalls
           .query()
@@ -48,27 +48,36 @@ class AliceObjectBox implements AliceStorage {
           .build()
         ..offset = max(maxCallsCount - 1, 0);
 
-      await overQuota.removeAsync();
-    }
+      final List<int> overQuotaIds = await overQuota.findIdsAsync();
 
-    _store.httpCalls.putAsync(CachedAliceHttpCall.fromAliceHttpCall(call));
+      if (overQuotaIds.isNotEmpty) {
+        _store.httpCalls.removeManyAsync(overQuotaIds);
+      }
+    }
   }
 
   @override
-  Future<void> addError(AliceHttpError error, int requestId) async {
+  void addCall(AliceHttpCall call) {
+    _removeOverQuota();
+
+    _store.httpCalls.put(call.toCachedAliceHttpCall());
+  }
+
+  @override
+  void addError(AliceHttpError error, int requestId) {
     final CachedAliceHttpCall? selectedCall = selectCall(requestId);
 
     if (selectedCall != null) {
       selectedCall.error = error;
 
-      _store.httpCalls.putAsync(selectedCall);
+      _store.httpCalls.put(selectedCall);
     } else {
       AliceUtils.log('Selected call is null');
     }
   }
 
   @override
-  Future<void> addResponse(AliceHttpResponse response, int requestId) async {
+  void addResponse(AliceHttpResponse response, int requestId) {
     final CachedAliceHttpCall? selectedCall = selectCall(requestId);
 
     if (selectedCall != null) {
@@ -78,20 +87,18 @@ class AliceObjectBox implements AliceStorage {
         ..duration = response.time.millisecondsSinceEpoch -
             (selectedCall.request?.time.millisecondsSinceEpoch ?? 0);
 
-      _store.httpCalls.putAsync(selectedCall);
+      _store.httpCalls.put(selectedCall);
     } else {
       AliceUtils.log('Selected call is null');
     }
   }
 
   @override
-  Future<void> addHttpCall(AliceHttpCall aliceHttpCall) async {
+  void addHttpCall(AliceHttpCall aliceHttpCall) {
     assert(aliceHttpCall.request != null, "Http call request can't be null");
     assert(aliceHttpCall.response != null, "Http call response can't be null");
 
-    _store.httpCalls.putAsync(
-      CachedAliceHttpCall.fromAliceHttpCall(aliceHttpCall),
-    );
+    _store.httpCalls.put(aliceHttpCall.toCachedAliceHttpCall());
   }
 
   @override

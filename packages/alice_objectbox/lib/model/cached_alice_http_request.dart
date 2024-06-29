@@ -115,19 +115,4 @@ class CachedAliceHttpRequest implements AliceHttpRequest {
             AliceFormDataFieldConverter.instance.fromJson(jsonDecode(field)),
       )
       .toList();
-
-  factory CachedAliceHttpRequest.fromAliceHttpRequest(
-    AliceHttpRequest request,
-  ) =>
-      CachedAliceHttpRequest(
-        size: request.size,
-        time: request.time,
-        headers: request.headers,
-        body: request.body,
-        contentType: request.contentType,
-        cookies: request.cookies,
-        queryParameters: request.queryParameters,
-        formDataFiles: request.formDataFiles,
-        formDataFields: request.formDataFields,
-      );
 }

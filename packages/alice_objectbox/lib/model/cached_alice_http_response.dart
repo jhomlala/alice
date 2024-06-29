@@ -55,15 +55,4 @@ class CachedAliceHttpResponse implements AliceHttpResponse {
           (key, value) => MapEntry(key, value.toString()),
         )
       : null;
-
-  factory CachedAliceHttpResponse.fromAliceHttpResponse(
-    AliceHttpResponse response,
-  ) =>
-      CachedAliceHttpResponse(
-        status: response.status,
-        size: response.size,
-        time: response.time,
-        body: response.body,
-        headers: response.headers,
-      );
 }

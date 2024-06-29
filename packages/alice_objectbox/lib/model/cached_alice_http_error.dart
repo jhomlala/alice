@@ -38,10 +38,4 @@ class CachedAliceHttpError implements AliceHttpError {
 
   set dbStackTrace(String? value) =>
       stackTrace = value != null ? StackTrace.fromString(value) : null;
-
-  factory CachedAliceHttpError.fromAliceHttpError(AliceHttpError error) {
-    return CachedAliceHttpError()
-      ..error = error.error
-      ..stackTrace = error.stackTrace;
-  }
 }

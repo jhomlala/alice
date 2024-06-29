@@ -2,6 +2,9 @@ import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
+import 'package:alice_objectbox/extensions/alice_http_error_extension.dart';
+import 'package:alice_objectbox/extensions/alice_http_request_extension.dart';
+import 'package:alice_objectbox/extensions/alice_http_response_extension.dart';
 import 'package:alice_objectbox/model/cached_alice_http_error.dart';
 import 'package:alice_objectbox/model/cached_alice_http_request.dart';
 import 'package:alice_objectbox/model/cached_alice_http_response.dart';
@@ -66,11 +69,8 @@ class CachedAliceHttpCall implements AliceHttpCall {
 
   @override
   @Transient()
-  set request(AliceHttpRequest? value) {
-    requestRel.target = value != null
-        ? CachedAliceHttpRequest.fromAliceHttpRequest(value)
-        : null;
-  }
+  set request(AliceHttpRequest? value) =>
+      requestRel.target = value?.toCachedAliceHttpRequest();
 
   @protected
   final ToOne<CachedAliceHttpRequest> requestRel =
@@ -82,11 +82,8 @@ class CachedAliceHttpCall implements AliceHttpCall {
 
   @override
   @Transient()
-  set response(AliceHttpResponse? value) {
-    responseRel.target = value != null
-        ? CachedAliceHttpResponse.fromAliceHttpResponse(value)
-        : null;
-  }
+  set response(AliceHttpResponse? value) =>
+      responseRel.target = value?.toCachedAliceHttpResponse();
 
   @protected
   final ToOne<CachedAliceHttpResponse> responseRel =
@@ -98,10 +95,8 @@ class CachedAliceHttpCall implements AliceHttpCall {
 
   @override
   @Transient()
-  set error(AliceHttpError? value) {
-    errorRel.target =
-        value != null ? CachedAliceHttpError.fromAliceHttpError(value) : null;
-  }
+  set error(AliceHttpError? value) =>
+      errorRel.target = value?.toCachedAliceHttpError();
 
   @protected
   final ToOne<CachedAliceHttpError> errorRel = ToOne<CachedAliceHttpError>();
@@ -111,20 +106,4 @@ class CachedAliceHttpCall implements AliceHttpCall {
     this.response = response;
     loading = false;
   }
-
-  factory CachedAliceHttpCall.fromAliceHttpCall(AliceHttpCall call) =>
-      CachedAliceHttpCall(
-        call.id,
-        client: call.client,
-        loading: call.loading,
-        secure: call.secure,
-        method: call.method,
-        endpoint: call.endpoint,
-        server: call.server,
-        uri: call.uri,
-        duration: call.duration,
-      )
-        ..error = call.error
-        ..request = call.request
-        ..response = call.response;
 }
