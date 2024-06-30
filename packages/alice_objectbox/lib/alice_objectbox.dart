@@ -7,6 +7,7 @@ import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice_objectbox/alice_objectbox_store.dart';
+import 'package:alice_objectbox/extensions/alice_http_call_extension.dart';
 import 'package:alice_objectbox/model/cached_alice_http_call.dart';
 import 'package:alice_objectbox/objectbox.g.dart';
 
@@ -39,8 +40,7 @@ class AliceObjectBox implements AliceStorage {
       .build()
       .findFirst();
 
-  @override
-  void addCall(AliceHttpCall call) {
+  Future<void> _removeOverQuota() async {
     if (maxCallsCount > 0 && _store.httpCalls.count() >= maxCallsCount) {
       final Query<CachedAliceHttpCall> overQuota = _store.httpCalls
           .query()
@@ -48,10 +48,19 @@ class AliceObjectBox implements AliceStorage {
           .build()
         ..offset = max(maxCallsCount - 1, 0);
 
-      overQuota.remove();
-    }
+      final List<int> overQuotaIds = await overQuota.findIdsAsync();
 
-    _store.httpCalls.put(CachedAliceHttpCall.fromAliceHttpCall(call));
+      if (overQuotaIds.isNotEmpty) {
+        _store.httpCalls.removeManyAsync(overQuotaIds);
+      }
+    }
+  }
+
+  @override
+  void addCall(AliceHttpCall call) {
+    _removeOverQuota();
+
+    _store.httpCalls.put(call.toCached());
   }
 
   @override
@@ -89,11 +98,11 @@ class AliceObjectBox implements AliceStorage {
     assert(aliceHttpCall.request != null, "Http call request can't be null");
     assert(aliceHttpCall.response != null, "Http call response can't be null");
 
-    _store.httpCalls.put(CachedAliceHttpCall.fromAliceHttpCall(aliceHttpCall));
+    _store.httpCalls.put(aliceHttpCall.toCached());
   }
 
   @override
-  void removeCalls() => _store.httpCalls.removeAll();
+  Future<void> removeCalls() => _store.httpCalls.removeAllAsync();
 
   @override
   void subscribeToCallChanges(AliceOnCallsChanged callback) =>

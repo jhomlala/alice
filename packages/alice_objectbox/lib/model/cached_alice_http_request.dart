@@ -1,5 +1,6 @@
 import 'dart:convert' show jsonDecode, jsonEncode;
 import 'dart:io' show Cookie;
+
 import 'package:alice/model/alice_form_data_file.dart';
 import 'package:alice/model/alice_from_data_field.dart';
 import 'package:alice/model/alice_http_request.dart';
@@ -115,19 +116,4 @@ class CachedAliceHttpRequest implements AliceHttpRequest {
             AliceFormDataFieldConverter.instance.fromJson(jsonDecode(field)),
       )
       .toList();
-
-  factory CachedAliceHttpRequest.fromAliceHttpRequest(
-    AliceHttpRequest request,
-  ) =>
-      CachedAliceHttpRequest(
-        size: request.size,
-        time: request.time,
-        headers: request.headers,
-        body: request.body,
-        contentType: request.contentType,
-        cookies: request.cookies,
-        queryParameters: request.queryParameters,
-        formDataFiles: request.formDataFiles,
-        formDataFields: request.formDataFields,
-      );
 }
