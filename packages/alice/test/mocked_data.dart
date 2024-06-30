@@ -17,4 +17,9 @@ class MockedData {
     final httpCall = AliceHttpCall(DateTime.now().millisecondsSinceEpoch);
     return httpCall;
   }
+
+  static AliceHttpCall getHttpCall({required int id}) {
+    final httpCall = AliceHttpCall(id);
+    return httpCall;
+  }
 }

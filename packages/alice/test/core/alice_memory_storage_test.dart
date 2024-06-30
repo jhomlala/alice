@@ -97,5 +97,62 @@ void main() {
 
       expect(storage.getCalls().first.error != null, false);
     });
+
+    test("should add response to HTTP call", () {
+      final call = MockedData.getLoadingHttpCall();
+      final response = AliceHttpResponse();
+
+      storage.addCall(call);
+      storage.addResponse(response, call.id);
+
+      final savedCall = storage.getCalls().first;
+      expect(savedCall.response != null, true);
+      expect(savedCall.loading, false);
+      expect(savedCall.duration > 0, true);
+    });
+
+    test("should not add response to HTTP call if HTTP has been not found", () {
+      final call = MockedData.getLoadingHttpCall();
+      final response = AliceHttpResponse();
+
+      storage.addCall(call);
+      storage.addResponse(response, 100);
+
+      expect(storage.getCalls().first.response != null, false);
+    });
+
+    test("should remove all calls", () {
+      storage.addCall(MockedData.getLoadingHttpCall());
+      storage.addCall(MockedData.getLoadingHttpCall());
+      storage.addCall(MockedData.getLoadingHttpCall());
+
+      expect(storage.getCalls().length, 3);
+
+      storage.removeCalls();
+
+      expect(storage.getCalls().length, 0);
+    });
+
+    test("should return call if call exists", () {
+      final call = MockedData.getHttpCall(id: 0);
+      storage.addCall(call);
+
+      expect(call, storage.selectCall(0));
+    });
+
+    test("should return null if call doesn't exist", () {
+      expect(null, storage.selectCall(1));
+    });
+
+    test("should subscribe to call changes", () async {
+      var callReceived = false;
+
+      storage.subscribeToCallChanges((calls) async {
+        callReceived = true;
+      });
+      await Future.delayed(const Duration(milliseconds: 100), () {});
+      storage.addCall(MockedData.getLoadingHttpCall());
+      expect(callReceived, true);
+    });
   });
 }
