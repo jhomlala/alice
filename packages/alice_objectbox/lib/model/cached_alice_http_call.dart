@@ -11,6 +11,7 @@ import 'package:alice_objectbox/model/cached_alice_http_response.dart';
 import 'package:meta/meta.dart';
 import 'package:objectbox/objectbox.dart';
 
+/// ObjectBox [Entity] of [AliceHttpCall].
 @Entity()
 class CachedAliceHttpCall implements AliceHttpCall {
   CachedAliceHttpCall(
@@ -27,6 +28,8 @@ class CachedAliceHttpCall implements AliceHttpCall {
     this.duration = 0,
   }) : createdTime = createdTime ?? DateTime.now();
 
+  /// ObjectBox internal ID.
+  @internal
   @Id()
   int objectId;
 
@@ -71,6 +74,7 @@ class CachedAliceHttpCall implements AliceHttpCall {
   @Transient()
   set request(AliceHttpRequest? value) => requestRel.target = value?.toCached();
 
+  /// [ToOne] relation of [request].
   @internal
   final ToOne<CachedAliceHttpRequest> requestRel =
       ToOne<CachedAliceHttpRequest>();
@@ -84,6 +88,7 @@ class CachedAliceHttpCall implements AliceHttpCall {
   set response(AliceHttpResponse? value) =>
       responseRel.target = value?.toCached();
 
+  /// [ToOne] relation of [response].
   @internal
   final ToOne<CachedAliceHttpResponse> responseRel =
       ToOne<CachedAliceHttpResponse>();
@@ -96,6 +101,7 @@ class CachedAliceHttpCall implements AliceHttpCall {
   @Transient()
   set error(AliceHttpError? value) => errorRel.target = value?.toCached();
 
+  /// [ToOne] relation of [error].
   @internal
   final ToOne<CachedAliceHttpError> errorRel = ToOne<CachedAliceHttpError>();
 

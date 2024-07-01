@@ -11,6 +11,7 @@ import 'package:alice_objectbox/extensions/alice_http_call_extension.dart';
 import 'package:alice_objectbox/model/cached_alice_http_call.dart';
 import 'package:alice_objectbox/objectbox.g.dart';
 
+/// Implementation of [AliceStorage] using ObjectBox.
 class AliceObjectBox implements AliceStorage {
   const AliceObjectBox({
     required AliceObjectBoxStore store,

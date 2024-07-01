@@ -1,8 +1,10 @@
 import 'dart:convert' show jsonDecode, jsonEncode;
 
 import 'package:alice/model/alice_http_response.dart';
+import 'package:meta/meta.dart';
 import 'package:objectbox/objectbox.dart';
 
+/// ObjectBox [Entity] of [AliceHttpResponse].
 @Entity()
 class CachedAliceHttpResponse implements AliceHttpResponse {
   CachedAliceHttpResponse({
@@ -14,6 +16,8 @@ class CachedAliceHttpResponse implements AliceHttpResponse {
     this.headers,
   }) : time = time ?? DateTime.now();
 
+  /// ObjectBox internal ID.
+  @internal
   @Id()
   int objectId;
 
@@ -31,6 +35,7 @@ class CachedAliceHttpResponse implements AliceHttpResponse {
   @Transient()
   dynamic body;
 
+  /// Custom data type converter of [body].
   String? get dbBody {
     if (body != null) {
       try {
@@ -42,14 +47,17 @@ class CachedAliceHttpResponse implements AliceHttpResponse {
     return null;
   }
 
+  /// Custom data type converter of [body].
   set dbBody(String? value) => body = value != null ? jsonDecode(value) : null;
 
   @override
   @Transient()
   Map<String, String>? headers;
 
+  /// Custom data type converter of [headers].
   String? get dbHeaders => headers != null ? jsonEncode(headers) : null;
 
+  /// Custom data type converter of [headers].
   set dbHeaders(String? value) => headers = value != null
       ? (jsonDecode(value) as Map<String, dynamic>?)?.map(
           (key, value) => MapEntry(key, value.toString()),
