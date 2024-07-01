@@ -54,7 +54,7 @@ class AliceCore {
   ///Flag used to show/hide share button
   final bool? showShareButton;
 
-  final AliceLogger _aliceLogger = AliceLogger();
+  final AliceLogger aliceLogger;
 
   FlutterLocalNotificationsPlugin? _flutterLocalNotificationsPlugin;
 
@@ -80,6 +80,7 @@ class AliceCore {
     required this.notificationIcon,
     required this.maxCallsCount,
     required AliceStorage aliceStorage,
+    required this.aliceLogger,
     this.directionality,
     this.showShareButton,
   }) : _aliceStorage = aliceStorage {
@@ -157,7 +158,7 @@ class AliceCore {
     }
     if (!_isInspectorOpened) {
       _isInspectorOpened = true;
-      AliceNavigation.navigateToCallsList(core: this, logger: _aliceLogger)
+      AliceNavigation.navigateToCallsList(core: this, logger: aliceLogger)
           .then((_) => _isInspectorOpened = false);
     }
   }
@@ -240,12 +241,15 @@ class AliceCore {
   /// Remove all calls from calls subject
   void removeCalls() => _aliceStorage.removeCalls();
 
+  /// Selects call with given [requestId]. It may return null.
   @protected
   AliceHttpCall? selectCall(int requestId) =>
       _aliceStorage.selectCall(requestId);
 
+  /// Returns stream which returns list of HTTP calls
   Stream<List<AliceHttpCall>> get callsStream => _aliceStorage.callsStream;
 
+  /// Returns all stored HTTP calls.
   List<AliceHttpCall> getCalls() => _aliceStorage.getCalls();
 
   /// Save all calls to file
@@ -254,10 +258,10 @@ class AliceCore {
   }
 
   /// Adds new log to Alice logger.
-  void addLog(AliceLog log) => _aliceLogger.logs.add(log);
+  void addLog(AliceLog log) => aliceLogger.add(log);
 
   /// Adds list of logs to Alice logger
-  void addLogs(List<AliceLog> logs) => _aliceLogger.logs.addAll(logs);
+  void addLogs(List<AliceLog> logs) => aliceLogger.addAll(logs);
 
   /// Returns flag which determines whether inspector is opened
   bool get isInspectorOpened => _isInspectorOpened;

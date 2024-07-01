@@ -30,6 +30,12 @@ class AliceLogger {
     }
   }
 
+  void addAll(List<AliceLog> logs) {
+    for (var log in logs) {
+      add(log);
+    }
+  }
+
   void add(AliceLog log) {
     late final int index;
     if (logs.isEmpty || !log.timestamp.isBefore(logs.last.timestamp)) {
