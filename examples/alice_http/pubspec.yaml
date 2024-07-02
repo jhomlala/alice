@@ -2,7 +2,7 @@ name: example
 description: "A project to showcase http and Alice integration."
 publish_to: 'none'
 
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ^3.0.0
