@@ -24,6 +24,9 @@ void main() {
     registerFallbackValue(AliceLog(message: ""));
     aliceStorage = AliceStorageMock();
     aliceLogger = AliceLoggerMock();
+
+    when(() => aliceStorage.callsStream)
+        .thenAnswer((_) => const Stream.empty());
     aliceCore = AliceCore(
       GlobalKey(),
       showNotification: false,
