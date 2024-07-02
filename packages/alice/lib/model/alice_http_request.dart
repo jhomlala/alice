@@ -9,7 +9,7 @@ import 'package:equatable/equatable.dart';
 class AliceHttpRequest with EquatableMixin {
   int size = 0;
   DateTime time = DateTime.now();
-  Map<String, dynamic> headers = <String, dynamic>{};
+  Map<String,String> headers = <String,String>{};
   dynamic body = '';
   String? contentType = '';
   List<Cookie> cookies = [];

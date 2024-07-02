@@ -16,7 +16,7 @@ void main() {
   group("AliceBodyParser", () {
     test("should parse json body and pretty print it", () {
       expect(
-        AliceBodyParser.formatBody(
+        AliceParser.formatBody(
             context: context,
             body: '{"id": 1, "name": "test}',
             contentType: "application/json"),
@@ -26,7 +26,7 @@ void main() {
 
     test("should parse unknown body", () {
       expect(
-        AliceBodyParser.formatBody(
+        AliceParser.formatBody(
           context: context,
           body: 'test',
         ),
@@ -36,7 +36,7 @@ void main() {
 
     test("should parse empty body", () {
       expect(
-        AliceBodyParser.formatBody(
+        AliceParser.formatBody(
           context: context,
           body: '',
         ),
@@ -46,14 +46,14 @@ void main() {
 
     test("should parse application/json content type", () {
       expect(
-          AliceBodyParser.getContentType(
+          AliceParser.getContentType(
             context: context,
             headers: {'Content-Type': "application/json"},
           ),
           "application/json");
 
       expect(
-          AliceBodyParser.getContentType(
+          AliceParser.getContentType(
             context: context,
             headers: {'content-type': "application/json"},
           ),
@@ -62,7 +62,7 @@ void main() {
 
     test("should parse unknown content type", () {
       expect(
-          AliceBodyParser.getContentType(
+          AliceParser.getContentType(
             context: context,
             headers: {},
           ),

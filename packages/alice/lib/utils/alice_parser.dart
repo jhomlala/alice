@@ -5,7 +5,7 @@ import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:flutter/material.dart';
 
 /// Body parser helper used to parsing body data.
-class AliceBodyParser {
+class AliceParser {
   static const String _jsonContentTypeSmall = 'content-type';
   static const String _jsonContentTypeBig = 'Content-Type';
   static const String _stream = 'Stream';
@@ -81,16 +81,28 @@ class AliceBodyParser {
   /// it, it will return unknown content type.
   static String? getContentType({
     required BuildContext context,
-    Map<String, dynamic>? headers,
+    Map<String, String>? headers,
   }) {
     if (headers != null) {
       if (headers.containsKey(_jsonContentTypeSmall)) {
-        return headers[_jsonContentTypeSmall] as String?;
+        return headers[_jsonContentTypeSmall];
       }
       if (headers.containsKey(_jsonContentTypeBig)) {
-        return headers[_jsonContentTypeBig] as String?;
+        return headers[_jsonContentTypeBig];
       }
     }
     return context.i18n(AliceTranslationKey.unknown);
+  }
+
+  static Map<String, String> parseHeaders({dynamic headers}) {
+    if (headers is Map<String, String>) {
+      return headers;
+    }
+
+    if (headers is Map<String, dynamic>) {
+      return headers.map((key, value) => MapEntry(key, value.toString()));
+    }
+
+    throw ArgumentError("Invalid headers value.");
   }
 }

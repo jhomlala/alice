@@ -41,7 +41,7 @@ class AliceHttpAdapter with AliceAdapter {
       httpRequest
         ..body = body ?? (response.request! as http.Request).body ?? ''
         ..size = utf8.encode(httpRequest.body.toString()).length
-        ..headers = Map<String, dynamic>.from(response.request!.headers);
+        ..headers = Map<String, String>.from(response.request!.headers);
     } else if (body == null) {
       httpRequest
         ..size = 0
@@ -56,7 +56,7 @@ class AliceHttpAdapter with AliceAdapter {
 
     String? contentType = 'unknown';
     if (httpRequest.headers.containsKey('Content-Type')) {
-      contentType = httpRequest.headers['Content-Type'] as String?;
+      contentType = httpRequest.headers['Content-Type'];
     }
 
     httpRequest
