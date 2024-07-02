@@ -68,5 +68,17 @@ void main() {
           ),
           AliceTranslationKey.unknown.toString());
     });
+
+    test("should parse headers", () {
+      expect(AliceParser.parseHeaders(headers: {"id": 0}), {"id": "0"});
+      expect(AliceParser.parseHeaders(headers: {"id": "0"}), {"id": "0"});
+    });
+
+    test("should not parse headers", () {
+      expect(
+        () => AliceParser.parseHeaders(headers: "test"),
+        throwsArgumentError,
+      );
+    });
   });
 }
