@@ -46,4 +46,10 @@ class CachedAliceHttpError implements AliceHttpError {
   /// Custom data type converter of [error].
   set dbStackTrace(String? value) =>
       stackTrace = value != null ? StackTrace.fromString(value) : null;
+
+  @override
+  List<Object?> get props => [error, stackTrace];
+
+  @override
+  bool? get stringify => true;
 }

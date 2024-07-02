@@ -8,7 +8,7 @@ String getCurlCommand(AliceHttpCall call) {
 
   curlCmd.write(' -X ${call.method}');
 
-  for (final MapEntry<String, dynamic> header
+  for (final MapEntry<String, String> header
       in call.request?.headers.entries ?? []) {
     if (header.key.toLowerCase() == HttpHeaders.acceptEncodingHeader &&
         header.value.toString().toLowerCase() == 'gzip') {

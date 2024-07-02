@@ -37,3 +37,17 @@ jobs:
         run: ./.github/workflows/scripts/install-tools.sh
       - name: Check formatting
         run: melos format --output none --set-exit-if-changed
+
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Install Tools
+        run: ./.github/workflows/scripts/install-tools.sh
+      - name: Check tests
+        run: melos run test

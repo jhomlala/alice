@@ -5,6 +5,7 @@ import 'package:alice/core/alice_adapter.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
+import 'package:alice/utils/alice_parser.dart';
 
 class AliceHttpClientAdapter with AliceAdapter {
   /// Handles httpClientRequest and creates http alice call from it
@@ -43,10 +44,10 @@ class AliceHttpClientAdapter with AliceAdapter {
       headers[header] = value;
     });
 
-    httpRequest.headers = headers;
+    httpRequest.headers = AliceParser.parseHeaders(headers: headers);
     String? contentType = 'unknown';
     if (headers.containsKey('Content-Type')) {
-      contentType = headers['Content-Type'] as String?;
+      contentType = headers['Content-Type'];
     }
 
     httpRequest

@@ -12,7 +12,6 @@ import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/ui/common/alice_dialog.dart';
 import 'package:alice/utils/alice_parser.dart';
 import 'package:alice/utils/curl.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -23,30 +22,7 @@ class AliceSaveHelper {
   static const JsonEncoder _encoder = JsonEncoder.withIndent('  ');
 
   /// Top level method used to save calls to file
-  static void saveCalls(
-    BuildContext context,
-    List<AliceHttpCall> calls,
-  ) {
-    _checkPermissions(context, calls);
-  }
-
-  static Future<bool> _getPermissionStatus() async {
-    if (Platform.isAndroid || Platform.isIOS) {
-      return Permission.storage.status.isGranted;
-    } else {
-      return true;
-    }
-  }
-
-  static Future<bool> _requestPermission() async {
-    if (Platform.isAndroid || Platform.isIOS) {
-      return Permission.storage.request().isGranted;
-    } else {
-      return true;
-    }
-  }
-
-  static Future<void> _checkPermissions(
+  static Future<void> saveCalls(
     BuildContext context,
     List<AliceHttpCall> calls,
   ) async {
@@ -72,6 +48,22 @@ class AliceSaveHelper {
               .i18n(AliceTranslationKey.saveDialogPermissionErrorDescription),
         );
       }
+    }
+  }
+
+  static Future<bool> _getPermissionStatus() async {
+    if (OperatingSystem.isAndroid() || OperatingSystem.isIOS()) {
+      return Permission.storage.status.isGranted;
+    } else {
+      return true;
+    }
+  }
+
+  static Future<bool> _requestPermission() async {
+    if (OperatingSystem.isAndroid() || OperatingSystem.isIOS()) {
+      return Permission.storage.request().isGranted;
+    } else {
+      return true;
     }
   }
 
@@ -115,11 +107,11 @@ class AliceSaveHelper {
             description: context
                 .i18n(AliceTranslationKey.saveSuccessDescription)
                 .replaceAll("[path]", file.path),
-            secondButtonTitle: Platform.isAndroid
+            secondButtonTitle: OperatingSystem.isAndroid()
                 ? context.i18n(AliceTranslationKey.saveSuccessView)
                 : null,
             secondButtonAction: () =>
-                Platform.isAndroid ? OpenFilex.open(file.path) : null,
+                OperatingSystem.isAndroid() ? OpenFilex.open(file.path) : null,
           );
         }
 
@@ -196,7 +188,7 @@ class AliceSaveHelper {
 
     stringBuffer.writeAll([
       '${context.i18n(AliceTranslationKey.saveLogRequestSize)} ${AliceConversionHelper.formatBytes(call.request?.size ?? 0)}\n',
-      '${context.i18n(AliceTranslationKey.saveLogRequestBody)} ${AliceBodyParser.formatBody(context: context, body: call.request?.body, contentType: call.request?.contentType)}\n',
+      '${context.i18n(AliceTranslationKey.saveLogRequestBody)} ${AliceParser.formatBody(context: context, body: call.request?.body, contentType: call.request?.contentType)}\n',
       '--------------------------------------------\n',
       '${context.i18n(AliceTranslationKey.saveLogResponse)}\n',
       '--------------------------------------------\n',
@@ -204,7 +196,7 @@ class AliceSaveHelper {
       '${context.i18n(AliceTranslationKey.saveLogResponseStatus)} ${call.response?.status}\n',
       '${context.i18n(AliceTranslationKey.saveLogResponseSize)} ${AliceConversionHelper.formatBytes(call.response?.size ?? 0)}\n',
       '${context.i18n(AliceTranslationKey.saveLogResponseHeaders)} ${_encoder.convert(call.response?.headers)}\n',
-      '${context.i18n(AliceTranslationKey.saveLogResponseBody)} ${AliceBodyParser.formatBody(context: context, body: call.response?.body, contentType: AliceBodyParser.getContentType(context: context, headers: call.response?.headers))}\n',
+      '${context.i18n(AliceTranslationKey.saveLogResponseBody)} ${AliceParser.formatBody(context: context, body: call.response?.body, contentType: AliceParser.getContentType(context: context, headers: call.response?.headers))}\n',
     ]);
 
     if (call.error != null) {
@@ -234,8 +226,10 @@ class AliceSaveHelper {
     return stringBuffer.toString();
   }
 
-  static Future<String> buildCallLog(
-      {required BuildContext context, required AliceHttpCall call}) async {
+  static Future<String> buildCallLog({
+    required BuildContext context,
+    required AliceHttpCall call,
+  }) async {
     try {
       return await _buildAliceLog(context: context) +
           _buildCallLog(

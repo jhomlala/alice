@@ -8,6 +8,7 @@ import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice/model/alice_log.dart';
+import 'package:alice/utils/alice_parser.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
@@ -75,7 +76,7 @@ class AliceDioAdapter extends InterceptorsWrapper with AliceAdapter {
 
     request
       ..time = DateTime.now()
-      ..headers = options.headers
+      ..headers = AliceParser.parseHeaders(headers: options.headers)
       ..contentType = options.contentType.toString()
       ..queryParameters = options.queryParameters;
 

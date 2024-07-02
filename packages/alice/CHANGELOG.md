@@ -1,3 +1,7 @@
+# 1.0.0-dev.9
+* Added tests.
+* General code refactor.
+
 # 1.0.0-dev.8
 * Added storage abstractions (by Klemen Tusar https://github.com/techouse).
 * Added in memory storage implementation (by Klemen Tusar https://github.com/techouse).
