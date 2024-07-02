@@ -35,10 +35,15 @@ class Alice {
   /// Flag used to show/hide share button
   final bool? showShareButton;
 
-  GlobalKey<NavigatorState>? _navigatorKey;
+  /// Alice core instance
   late final AliceCore _aliceCore;
 
+  /// Alice storage instance
   final AliceStorage? _aliceStorage;
+
+  /// Navigator key used for navigating to inspector
+  GlobalKey<NavigatorState>? _navigatorKey;
+
 
   /// Creates alice instance.
   Alice({

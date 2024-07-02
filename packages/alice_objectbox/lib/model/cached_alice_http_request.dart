@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:convert' show jsonDecode, jsonEncode;
 import 'dart:io' show Cookie;
 import 'package:alice/model/alice_form_data_file.dart';
@@ -130,4 +132,20 @@ class CachedAliceHttpRequest implements AliceHttpRequest {
         formDataFiles: request.formDataFiles,
         formDataFields: request.formDataFields,
       );
+
+  @override
+  List<Object?> get props => [
+    size,
+    time,
+    headers,
+    body,
+    contentType,
+    cookies,
+    queryParameters,
+    formDataFiles,
+    formDataFields,
+  ];
+
+  @override
+  bool? get stringify => true;
 }

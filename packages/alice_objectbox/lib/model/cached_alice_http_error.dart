@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:convert' show jsonDecode, jsonEncode;
 
 import 'package:alice/model/alice_http_error.dart';
@@ -44,4 +46,10 @@ class CachedAliceHttpError implements AliceHttpError {
       ..error = error.error
       ..stackTrace = error.stackTrace;
   }
+
+  @override
+  List<Object?> get props => [error, stackTrace];
+
+  @override
+  bool? get stringify => true;
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:convert' show jsonDecode, jsonEncode;
 
 import 'package:alice/model/alice_http_response.dart';
@@ -66,4 +68,16 @@ class CachedAliceHttpResponse implements AliceHttpResponse {
         body: response.body,
         headers: response.headers,
       );
+
+  @override
+  List<Object?> get props => [
+        status,
+        size,
+        time,
+        body,
+        headers,
+      ];
+
+  @override
+  bool? get stringify => true;
 }

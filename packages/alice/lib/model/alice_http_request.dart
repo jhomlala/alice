@@ -1,10 +1,13 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:io' show Cookie;
 
 import 'package:alice/model/alice_form_data_file.dart';
 import 'package:alice/model/alice_from_data_field.dart';
+import 'package:equatable/equatable.dart';
 
 /// Definition of http request data holder.
-class AliceHttpRequest {
+class AliceHttpRequest extends Equatable {
   int size = 0;
   DateTime time = DateTime.now();
   Map<String, dynamic> headers = <String, dynamic>{};
@@ -14,4 +17,17 @@ class AliceHttpRequest {
   Map<String, dynamic> queryParameters = <String, dynamic>{};
   List<AliceFormDataFile>? formDataFiles;
   List<AliceFormDataField>? formDataFields;
+
+  @override
+  List<Object?> get props => [
+        size,
+        time,
+        headers,
+        body,
+        contentType,
+        cookies,
+        queryParameters,
+        formDataFiles,
+        formDataFields,
+      ];
 }

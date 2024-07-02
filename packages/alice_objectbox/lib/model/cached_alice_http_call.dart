@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_request.dart';
@@ -127,4 +129,24 @@ class CachedAliceHttpCall implements AliceHttpCall {
         ..error = call.error
         ..request = call.request
         ..response = call.response;
+
+  @override
+  List<Object?> get props => [
+        id,
+        createdTime,
+        client,
+        loading,
+        secure,
+        method,
+        endpoint,
+        server,
+        uri,
+        duration,
+        request,
+        response,
+        error,
+      ];
+
+  @override
+  bool? get stringify => true;
 }
