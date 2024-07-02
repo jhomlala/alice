@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:alice/core/alice_core.dart';
-import 'package:alice/helper/alice_save_helper.dart';
+import 'package:alice/helper/alice_export_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_translation.dart';
 import 'package:alice/ui/call_details/model/alice_call_details_tab.dart';
@@ -14,7 +14,6 @@ import 'package:alice/ui/common/alice_page.dart';
 import 'package:alice/ui/common/alice_theme.dart';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
-import 'package:share_plus/share_plus.dart';
 
 /// Call details page which displays 4 tabs: overview, request, response, error.
 class AliceCallDetailsPage extends StatefulWidget {
@@ -79,7 +78,7 @@ class _AliceCallDetailsPageState extends State<AliceCallDetailsPage>
                       ? FloatingActionButton(
                           backgroundColor: AliceTheme.lightRed,
                           key: const Key('share_key'),
-                          onPressed: () async => _saveCallsToFile(),
+                          onPressed: () async => _shareCall(),
                           child: const Icon(
                             Icons.share,
                             color: AliceTheme.white,
@@ -103,11 +102,8 @@ class _AliceCallDetailsPageState extends State<AliceCallDetailsPage>
     );
   }
 
-  void _saveCallsToFile() async {
-    await Share.share(
-      await AliceSaveHelper.buildCallLog(call: widget.call, context: context),
-      subject: context.i18n(AliceTranslationKey.emailSubject),
-    );
+  void _shareCall() async {
+    await AliceExportHelper.shareCall(context: context, call: widget.call);
   }
 
   /// Get tab name based on [item] type.

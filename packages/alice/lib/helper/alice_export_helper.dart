@@ -6,49 +6,61 @@ import 'dart:io' show Directory, File, FileMode, IOSink, Platform;
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/helper/alice_conversion_helper.dart';
 import 'package:alice/helper/operating_system.dart';
+import 'package:alice/model/alice_export_result.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_translation.dart';
 import 'package:alice/ui/common/alice_context_ext.dart';
-import 'package:alice/ui/common/alice_dialog.dart';
 import 'package:alice/utils/alice_parser.dart';
 import 'package:alice/utils/curl.dart';
 import 'package:flutter/material.dart';
-import 'package:open_filex/open_filex.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:share_plus/share_plus.dart';
 
-class AliceSaveHelper {
+class AliceExportHelper {
   static const JsonEncoder _encoder = JsonEncoder.withIndent('  ');
 
-  /// Top level method used to save calls to file
-  static Future<void> saveCalls(
+  /// Format log based on [call] and tries to share it.
+  static Future<AliceExportResult> shareCall({
+    required BuildContext context,
+    required AliceHttpCall call,
+  }) async {
+    final callLog =
+        await AliceExportHelper.buildCallLog(call: call, context: context);
+
+    if (callLog == null) {
+      return AliceExportResult(
+        success: false,
+        error: AliceExportResultError.logGenerate,
+      );
+    }
+
+    await Share.share(
+      callLog,
+      subject: context.i18n(AliceTranslationKey.emailSubject),
+    );
+
+    return AliceExportResult(success: true);
+  }
+
+  /// Format log based on [calls] and saves it to file.
+  static Future<AliceExportResult> saveCallsToFile(
     BuildContext context,
     List<AliceHttpCall> calls,
   ) async {
     final bool permissionStatus = await _getPermissionStatus();
-
-    if (!context.mounted) return;
-
-    if (permissionStatus) {
-      await _saveToFile(context, calls);
-    } else {
+    if (!permissionStatus) {
       final bool status = await _requestPermission();
-
-      if (!context.mounted) return;
-
-      if (status) {
-        await _saveToFile(context, calls);
-      } else {
-        AliceGeneralDialog.show(
-          context: context,
-          title:
-              context.i18n(AliceTranslationKey.saveDialogPermissionErrorTitle),
-          description: context
-              .i18n(AliceTranslationKey.saveDialogPermissionErrorDescription),
+      if (!status) {
+        return AliceExportResult(
+          success: false,
+          error: AliceExportResultError.permission,
         );
       }
     }
+
+    return await _saveToFile(context, calls);
   }
 
   static Future<bool> _getPermissionStatus() async {
@@ -67,19 +79,14 @@ class AliceSaveHelper {
     }
   }
 
-  static Future<String> _saveToFile(
+  static Future<AliceExportResult> _saveToFile(
     BuildContext context,
     List<AliceHttpCall> calls,
   ) async {
     try {
       if (calls.isEmpty) {
-        AliceGeneralDialog.show(
-          context: context,
-          title: context.i18n(AliceTranslationKey.saveDialogEmptyErrorTitle),
-          description:
-              context.i18n(AliceTranslationKey.saveDialogEmptyErrorDescription),
-        );
-        return '';
+        return AliceExportResult(
+            success: false, error: AliceExportResultError.empty);
       }
 
       final Directory? externalDir = switch (Platform.operatingSystem) {
@@ -100,46 +107,23 @@ class AliceSaveHelper {
         await sink.flush();
         await sink.close();
 
-        if (context.mounted) {
-          AliceGeneralDialog.show(
-            context: context,
-            title: context.i18n(AliceTranslationKey.saveSuccessTitle),
-            description: context
-                .i18n(AliceTranslationKey.saveSuccessDescription)
-                .replaceAll("[path]", file.path),
-            secondButtonTitle: OperatingSystem.isAndroid()
-                ? context.i18n(AliceTranslationKey.saveSuccessView)
-                : null,
-            secondButtonAction: () =>
-                OperatingSystem.isAndroid() ? OpenFilex.open(file.path) : null,
-          );
-        }
-
-        return file.path;
+        return AliceExportResult(
+          success: true,
+          path: file.path,
+        );
       } else {
-        if (context.mounted) {
-          AliceGeneralDialog.show(
-            context: context,
-            title:
-                context.i18n(AliceTranslationKey.saveDialogFileSaveErrorTitle),
-            description: context
-                .i18n(AliceTranslationKey.saveDialogFileSaveErrorDescription),
-          );
-        }
+        return AliceExportResult(
+          success: false,
+          error: AliceExportResultError.unknown,
+        );
       }
     } catch (exception) {
-      if (context.mounted) {
-        AliceGeneralDialog.show(
-          context: context,
-          title: context.i18n(AliceTranslationKey.saveDialogFileSaveErrorTitle),
-          description: context
-              .i18n(AliceTranslationKey.saveDialogFileSaveErrorDescription),
-        );
-        AliceUtils.log(exception.toString());
-      }
+      AliceUtils.log(exception.toString());
+      return AliceExportResult(
+        success: false,
+        error: AliceExportResultError.unknown,
+      );
     }
-
-    return '';
   }
 
   static Future<String> _buildAliceLog({required BuildContext context}) async {
@@ -226,7 +210,7 @@ class AliceSaveHelper {
     return stringBuffer.toString();
   }
 
-  static Future<String> buildCallLog({
+  static Future<String?> buildCallLog({
     required BuildContext context,
     required AliceHttpCall call,
   }) async {
@@ -237,7 +221,8 @@ class AliceSaveHelper {
             context: context,
           );
     } catch (exception) {
-      return 'Failed to generate call log';
+      AliceUtils.log("Failed to generate call log: $exception");
+      return null;
     }
   }
 }

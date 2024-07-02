@@ -1,5 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/core/alice_logger.dart';
+import 'package:alice/helper/operating_system.dart';
+import 'package:alice/model/alice_export_result.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_translation.dart';
 import 'package:alice/ui/call_details/model/alice_menu_item.dart';
@@ -14,6 +18,7 @@ import 'package:alice/ui/common/alice_page.dart';
 import 'package:alice/ui/calls_list/widget/alice_logs_screen.dart';
 import 'package:alice/ui/common/alice_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:open_filex/open_filex.dart';
 
 /// Page which displays list of calls caught by Alice. It displays tab view
 /// where calls and logs can be inspected. It allows to sort calls, delete calls
@@ -252,7 +257,55 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
   }
 
   /// Called when save to file has been pressed. It saves data to file.
-  void _saveToFile() => aliceCore.saveHttpRequests(context);
+  void _saveToFile() async {
+    final result = await aliceCore.saveCallsToFile(context);
+    if (result.success) {
+      AliceGeneralDialog.show(
+        context: context,
+        title: context.i18n(AliceTranslationKey.saveSuccessTitle),
+        description: context
+            .i18n(AliceTranslationKey.saveSuccessDescription)
+            .replaceAll("[path]", result.path!),
+        secondButtonTitle: OperatingSystem.isAndroid()
+            ? context.i18n(AliceTranslationKey.saveSuccessView)
+            : null,
+        secondButtonAction: () =>
+            OperatingSystem.isAndroid() ? OpenFilex.open(result.path) : null,
+      );
+    } else {
+      var title = "";
+      var description = "";
+      switch (result.error) {
+        case AliceExportResultError.logGenerate:
+          title =
+              context.i18n(AliceTranslationKey.saveDialogPermissionErrorTitle);
+          description = context
+              .i18n(AliceTranslationKey.saveDialogPermissionErrorDescription);
+
+        case AliceExportResultError.empty:
+          title = context.i18n(AliceTranslationKey.saveDialogEmptyErrorTitle);
+          description =
+              context.i18n(AliceTranslationKey.saveDialogEmptyErrorDescription);
+        case AliceExportResultError.permission:
+          title =
+              context.i18n(AliceTranslationKey.saveDialogPermissionErrorTitle);
+          description = context
+              .i18n(AliceTranslationKey.saveDialogPermissionErrorDescription);
+        case AliceExportResultError.unknown:
+          title =
+              context.i18n(AliceTranslationKey.saveDialogFileSaveErrorTitle);
+          description = context
+              .i18n(AliceTranslationKey.saveDialogFileSaveErrorDescription);
+        default:
+      }
+
+      AliceGeneralDialog.show(
+        context: context,
+        title: title,
+        description: description,
+      );
+    }
+  }
 
   /// Filters calls based on query.
   void _updateSearchQuery(String query) => setState(() {});
