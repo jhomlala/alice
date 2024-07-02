@@ -1,4 +1,4 @@
-package com.jhomlala.alice_http_client_example
+package com.jhomlala.example
 
 import io.flutter.embedding.android.FlutterActivity
 
