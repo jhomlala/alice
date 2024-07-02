@@ -23,30 +23,7 @@ class AliceSaveHelper {
   static const JsonEncoder _encoder = JsonEncoder.withIndent('  ');
 
   /// Top level method used to save calls to file
-  static void saveCalls(
-    BuildContext context,
-    List<AliceHttpCall> calls,
-  ) {
-    _checkPermissions(context, calls);
-  }
-
-  static Future<bool> _getPermissionStatus() async {
-    if (Platform.isAndroid || Platform.isIOS) {
-      return Permission.storage.status.isGranted;
-    } else {
-      return true;
-    }
-  }
-
-  static Future<bool> _requestPermission() async {
-    if (Platform.isAndroid || Platform.isIOS) {
-      return Permission.storage.request().isGranted;
-    } else {
-      return true;
-    }
-  }
-
-  static Future<void> _checkPermissions(
+  static Future<void> saveCalls(
     BuildContext context,
     List<AliceHttpCall> calls,
   ) async {
@@ -72,6 +49,22 @@ class AliceSaveHelper {
               .i18n(AliceTranslationKey.saveDialogPermissionErrorDescription),
         );
       }
+    }
+  }
+
+  static Future<bool> _getPermissionStatus() async {
+    if (Platform.isAndroid || Platform.isIOS) {
+      return Permission.storage.status.isGranted;
+    } else {
+      return true;
+    }
+  }
+
+  static Future<bool> _requestPermission() async {
+    if (Platform.isAndroid || Platform.isIOS) {
+      return Permission.storage.request().isGranted;
+    } else {
+      return true;
     }
   }
 
@@ -234,8 +227,10 @@ class AliceSaveHelper {
     return stringBuffer.toString();
   }
 
-  static Future<String> buildCallLog(
-      {required BuildContext context, required AliceHttpCall call}) async {
+  static Future<String> buildCallLog({
+    required BuildContext context,
+    required AliceHttpCall call,
+  }) async {
     try {
       return await _buildAliceLog(context: context) +
           _buildCallLog(

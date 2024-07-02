@@ -2,12 +2,10 @@ import 'package:alice/alice.dart';
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/core/alice_logger.dart';
 import 'package:alice/core/alice_storage.dart';
-import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:flutter/material.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:test/scaffolding.dart';
 import 'package:test/test.dart';
 
 import '../mock/alice_logger_mock.dart';

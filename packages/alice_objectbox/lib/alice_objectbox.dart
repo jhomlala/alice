@@ -1,6 +1,5 @@
 import 'dart:math' show max;
 
-import 'package:alice/core/alice_core.dart';
 import 'package:alice/core/alice_storage.dart';
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/model/alice_http_call.dart';
@@ -123,9 +122,4 @@ class AliceObjectBox implements AliceStorage {
             .build()
             .count(),
       );
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-  }
 }

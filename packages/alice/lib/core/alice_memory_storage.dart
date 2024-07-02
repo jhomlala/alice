@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:alice/core/alice_core.dart';
 import 'package:alice/core/alice_storage.dart';
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/model/alice_http_call.dart';
@@ -21,7 +20,6 @@ class AliceMemoryStorage implements AliceStorage {
 
   final BehaviorSubject<List<AliceHttpCall>> callsSubject;
 
-  StreamSubscription<List<AliceHttpCall>>? _callsSubscription;
 
   @override
   Stream<List<AliceHttpCall>> get callsStream => callsSubject.stream;
