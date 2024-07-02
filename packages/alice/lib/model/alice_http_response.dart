@@ -1,9 +1,7 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:equatable/equatable.dart';
 
 /// Definition of http response data holder.
-class AliceHttpResponse extends Equatable {
+class AliceHttpResponse with EquatableMixin {
   int? status = 0;
   int size = 0;
   DateTime time = DateTime.now();

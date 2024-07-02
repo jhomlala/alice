@@ -1,5 +1,4 @@
 import 'dart:async' show StreamSubscription;
-import 'dart:io' show Platform;
 
 import 'package:alice/core/alice_logger.dart';
 import 'package:alice/core/alice_storage.dart';

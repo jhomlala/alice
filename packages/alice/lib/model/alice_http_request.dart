@@ -1,4 +1,3 @@
-// ignore_for_file: must_be_immutable
 
 import 'dart:io' show Cookie;
 
@@ -7,7 +6,7 @@ import 'package:alice/model/alice_from_data_field.dart';
 import 'package:equatable/equatable.dart';
 
 /// Definition of http request data holder.
-class AliceHttpRequest extends Equatable {
+class AliceHttpRequest with EquatableMixin {
   int size = 0;
   DateTime time = DateTime.now();
   Map<String, dynamic> headers = <String, dynamic>{};

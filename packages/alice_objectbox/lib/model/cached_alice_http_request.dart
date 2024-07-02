@@ -1,4 +1,3 @@
-// ignore_for_file: must_be_immutable
 
 import 'dart:convert' show jsonDecode, jsonEncode;
 import 'dart:io' show Cookie;

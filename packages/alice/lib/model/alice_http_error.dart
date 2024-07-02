@@ -1,9 +1,8 @@
-// ignore_for_file: must_be_immutable
 
 import 'package:equatable/equatable.dart';
 
 /// Definition of http error data holder.
-class AliceHttpError extends Equatable {
+class AliceHttpError with EquatableMixin {
   dynamic error;
   StackTrace? stackTrace;
 
