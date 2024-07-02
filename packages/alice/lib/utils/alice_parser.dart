@@ -10,12 +10,12 @@ class AliceBodyParser {
   static const String _jsonContentTypeBig = 'Content-Type';
   static const String _stream = 'Stream';
   static const String _applicationJson = 'application/json';
-  static const JsonEncoder encoder = JsonEncoder.withIndent('  ');
+  static const JsonEncoder _encoder = JsonEncoder.withIndent('  ');
 
   /// Tries to parse json. If it fails, it will return the json itself.
   static String _parseJson(dynamic json) {
     try {
-      return encoder.convert(json);
+      return _encoder.convert(json);
     } catch (_) {
       return json.toString();
     }
@@ -79,8 +79,10 @@ class AliceBodyParser {
 
   /// Get content type from [headers]. It looks for json and if it can't find
   /// it, it will return unknown content type.
-  static String? getContentType(
-      {required BuildContext context, Map<String, dynamic>? headers}) {
+  static String? getContentType({
+    required BuildContext context,
+    Map<String, dynamic>? headers,
+  }) {
     if (headers != null) {
       if (headers.containsKey(_jsonContentTypeSmall)) {
         return headers[_jsonContentTypeSmall] as String?;
