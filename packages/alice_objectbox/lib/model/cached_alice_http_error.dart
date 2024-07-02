@@ -2,14 +2,18 @@
 import 'dart:convert' show jsonDecode, jsonEncode;
 
 import 'package:alice/model/alice_http_error.dart';
+import 'package:meta/meta.dart';
 import 'package:objectbox/objectbox.dart';
 
+/// ObjectBox [Entity] of [AliceHttpError].
 @Entity()
 class CachedAliceHttpError implements AliceHttpError {
   CachedAliceHttpError({
     this.objectId = 0,
   });
 
+  /// ObjectBox internal ID.
+  @internal
   @Id()
   int objectId;
 
@@ -17,6 +21,7 @@ class CachedAliceHttpError implements AliceHttpError {
   @Transient()
   dynamic error;
 
+  /// Custom data type converter of [error].
   String? get dbError {
     if (error != null) {
       try {
@@ -28,6 +33,7 @@ class CachedAliceHttpError implements AliceHttpError {
     return null;
   }
 
+  /// Custom data type converter of [error].
   set dbError(String? value) =>
       error = value != null ? jsonDecode(value) : null;
 
@@ -35,20 +41,10 @@ class CachedAliceHttpError implements AliceHttpError {
   @Transient()
   StackTrace? stackTrace;
 
+  /// Custom data type converter of [error].
   String? get dbStackTrace => stackTrace?.toString();
 
+  /// Custom data type converter of [error].
   set dbStackTrace(String? value) =>
       stackTrace = value != null ? StackTrace.fromString(value) : null;
-
-  factory CachedAliceHttpError.fromAliceHttpError(AliceHttpError error) {
-    return CachedAliceHttpError()
-      ..error = error.error
-      ..stackTrace = error.stackTrace;
-  }
-
-  @override
-  List<Object?> get props => [error, stackTrace];
-
-  @override
-  bool? get stringify => true;
 }

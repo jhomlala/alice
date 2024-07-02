@@ -1,4 +1,4 @@
-import 'dart:async' show StreamSubscription;
+import 'dart:async' show FutureOr, StreamSubscription;
 
 import 'package:alice/core/alice_logger.dart';
 import 'package:alice/core/alice_storage.dart';
@@ -244,18 +244,18 @@ class AliceCore {
   }
 
   /// Add alice http call to calls subject
-  void addCall(AliceHttpCall call) => _aliceStorage.addCall(call);
+  FutureOr<void> addCall(AliceHttpCall call) => _aliceStorage.addCall(call);
 
   /// Add error to existing alice http call
-  void addError(AliceHttpError error, int requestId) =>
+  FutureOr<void> addError(AliceHttpError error, int requestId) =>
       _aliceStorage.addError(error, requestId);
 
   /// Add response to existing alice http call
-  void addResponse(AliceHttpResponse response, int requestId) =>
+  FutureOr<void> addResponse(AliceHttpResponse response, int requestId) =>
       _aliceStorage.addResponse(response, requestId);
 
   /// Remove all calls from calls subject
-  void removeCalls() => _aliceStorage.removeCalls();
+  FutureOr<void> removeCalls() => _aliceStorage.removeCalls();
 
   /// Selects call with given [requestId]. It may return null.
   @protected

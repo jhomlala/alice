@@ -4,12 +4,16 @@ import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
+import 'package:alice_objectbox/extensions/alice_http_error_extension.dart';
+import 'package:alice_objectbox/extensions/alice_http_request_extension.dart';
+import 'package:alice_objectbox/extensions/alice_http_response_extension.dart';
 import 'package:alice_objectbox/model/cached_alice_http_error.dart';
 import 'package:alice_objectbox/model/cached_alice_http_request.dart';
 import 'package:alice_objectbox/model/cached_alice_http_response.dart';
 import 'package:meta/meta.dart';
 import 'package:objectbox/objectbox.dart';
 
+/// ObjectBox [Entity] of [AliceHttpCall].
 @Entity()
 class CachedAliceHttpCall implements AliceHttpCall {
   CachedAliceHttpCall(
@@ -26,6 +30,8 @@ class CachedAliceHttpCall implements AliceHttpCall {
     this.duration = 0,
   }) : createdTime = createdTime ?? DateTime.now();
 
+  /// ObjectBox internal ID.
+  @internal
   @Id()
   int objectId;
 
@@ -68,13 +74,10 @@ class CachedAliceHttpCall implements AliceHttpCall {
 
   @override
   @Transient()
-  set request(AliceHttpRequest? value) {
-    requestRel.target = value != null
-        ? CachedAliceHttpRequest.fromAliceHttpRequest(value)
-        : null;
-  }
+  set request(AliceHttpRequest? value) => requestRel.target = value?.toCached();
 
-  @protected
+  /// [ToOne] relation of [request].
+  @internal
   final ToOne<CachedAliceHttpRequest> requestRel =
       ToOne<CachedAliceHttpRequest>();
 
@@ -84,13 +87,11 @@ class CachedAliceHttpCall implements AliceHttpCall {
 
   @override
   @Transient()
-  set response(AliceHttpResponse? value) {
-    responseRel.target = value != null
-        ? CachedAliceHttpResponse.fromAliceHttpResponse(value)
-        : null;
-  }
+  set response(AliceHttpResponse? value) =>
+      responseRel.target = value?.toCached();
 
-  @protected
+  /// [ToOne] relation of [response].
+  @internal
   final ToOne<CachedAliceHttpResponse> responseRel =
       ToOne<CachedAliceHttpResponse>();
 
@@ -100,12 +101,10 @@ class CachedAliceHttpCall implements AliceHttpCall {
 
   @override
   @Transient()
-  set error(AliceHttpError? value) {
-    errorRel.target =
-        value != null ? CachedAliceHttpError.fromAliceHttpError(value) : null;
-  }
+  set error(AliceHttpError? value) => errorRel.target = value?.toCached();
 
-  @protected
+  /// [ToOne] relation of [error].
+  @internal
   final ToOne<CachedAliceHttpError> errorRel = ToOne<CachedAliceHttpError>();
 
   @override
@@ -113,40 +112,4 @@ class CachedAliceHttpCall implements AliceHttpCall {
     this.response = response;
     loading = false;
   }
-
-  factory CachedAliceHttpCall.fromAliceHttpCall(AliceHttpCall call) =>
-      CachedAliceHttpCall(
-        call.id,
-        client: call.client,
-        loading: call.loading,
-        secure: call.secure,
-        method: call.method,
-        endpoint: call.endpoint,
-        server: call.server,
-        uri: call.uri,
-        duration: call.duration,
-      )
-        ..error = call.error
-        ..request = call.request
-        ..response = call.response;
-
-  @override
-  List<Object?> get props => [
-        id,
-        createdTime,
-        client,
-        loading,
-        secure,
-        method,
-        endpoint,
-        server,
-        uri,
-        duration,
-        request,
-        response,
-        error,
-      ];
-
-  @override
-  bool? get stringify => true;
 }

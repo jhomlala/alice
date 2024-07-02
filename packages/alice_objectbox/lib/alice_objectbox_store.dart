@@ -3,12 +3,10 @@ import 'dart:io' show Directory;
 import 'package:alice/core/alice_store.dart';
 import 'package:alice_objectbox/model/cached_alice_http_call.dart';
 import 'package:alice_objectbox/objectbox.g.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 
-/// Provides access to the ObjectBox Store throughout the app.
-///
-/// Create this in the apps main function.
+/// Implementation of [AliceStore] using ObjectBox.
 class AliceObjectBoxStore implements AliceStore {
   AliceObjectBoxStore._create(
     this._store, {
@@ -22,7 +20,7 @@ class AliceObjectBoxStore implements AliceStore {
     }
   }
 
-  /// Create an instance of ObjectBox to use throughout the app.
+  /// Create an instance of [AliceObjectBoxStore] to use throughout the app.
   static Future<AliceObjectBoxStore> create({
     Store? store,
     bool persistent = true,
@@ -47,7 +45,7 @@ class AliceObjectBoxStore implements AliceStore {
 
   late final Store _store;
 
-  /// Boxes
+  /// Box to store [CachedAliceHttpCall] objects.
   late final Box<CachedAliceHttpCall> httpCalls;
 
   late final Map<Type, Box> _boxes = {
