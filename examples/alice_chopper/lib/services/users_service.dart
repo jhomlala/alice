@@ -1,8 +1,8 @@
 import 'package:chopper/chopper.dart';
-import 'package:example/models/album.dart';
-import 'package:example/models/article.dart';
-import 'package:example/models/todo.dart';
-import 'package:example/models/user.dart';
+import 'package:alice_chopper_example/models/album.dart';
+import 'package:alice_chopper_example/models/article.dart';
+import 'package:alice_chopper_example/models/todo.dart';
+import 'package:alice_chopper_example/models/user.dart';
 
 part 'users_service.chopper.dart';
 

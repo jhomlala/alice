@@ -1,5 +1,5 @@
 import 'package:chopper/chopper.dart';
-import 'package:example/models/broken_article.dart';
+import 'package:alice_chopper_example/models/broken_article.dart';
 
 part 'broken_articles_service.chopper.dart';
 

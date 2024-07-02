@@ -1,6 +1,6 @@
 import 'package:chopper/chopper.dart';
-import 'package:example/models/article.dart';
-import 'package:example/models/comment.dart';
+import 'package:alice_chopper_example/models/article.dart';
+import 'package:alice_chopper_example/models/comment.dart';
 
 part 'articles_service.chopper.dart';
 

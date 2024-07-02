@@ -1,6 +1,6 @@
 import 'package:chopper/chopper.dart';
-import 'package:example/models/album.dart';
-import 'package:example/models/photo.dart';
+import 'package:alice_chopper_example/models/album.dart';
+import 'package:alice_chopper_example/models/photo.dart';
 
 part 'albums_service.chopper.dart';
 
