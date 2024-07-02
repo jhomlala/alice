@@ -133,4 +133,18 @@ class CachedAliceHttpRequest implements AliceHttpRequest {
             AliceFormDataFieldConverter.instance.fromJson(jsonDecode(field)),
       )
       .toList();
+
+  @override
+  List<Object?> get props => [        size,
+    time,
+    headers,
+    body,
+    contentType,
+    cookies,
+    queryParameters,
+    formDataFiles,
+    formDataFields,];
+
+  @override
+  bool? get stringify => true;
 }

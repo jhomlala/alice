@@ -1,7 +1,6 @@
 import 'package:alice/model/alice_http_call.dart';
 import 'dart:async' show FutureOr;
 
-import 'package:alice/core/alice_core.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
 
@@ -31,5 +30,4 @@ abstract interface class AliceStorage {
   FutureOr<void> addResponse(AliceHttpResponse response, int requestId);
 
   FutureOr<void> removeCalls();
-
 }

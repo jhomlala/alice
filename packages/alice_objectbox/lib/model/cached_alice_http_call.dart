@@ -112,4 +112,24 @@ class CachedAliceHttpCall implements AliceHttpCall {
     this.response = response;
     loading = false;
   }
+
+  @override
+  List<Object?> get props =>  [
+    id,
+    createdTime,
+    client,
+    loading,
+    secure,
+    method,
+    endpoint,
+    server,
+    uri,
+    duration,
+    request,
+    response,
+    error
+  ];
+
+  @override
+  bool? get stringify => true;
 }
