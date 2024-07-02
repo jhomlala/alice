@@ -12,7 +12,7 @@ import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/ui/common/alice_dialog.dart';
 import 'package:alice/utils/alice_parser.dart';
 import 'package:alice/utils/curl.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -53,7 +53,7 @@ class AliceSaveHelper {
   }
 
   static Future<bool> _getPermissionStatus() async {
-    if (Platform.isAndroid || Platform.isIOS) {
+    if (OperatingSystem.isAndroid() || OperatingSystem.isIOS()) {
       return Permission.storage.status.isGranted;
     } else {
       return true;
@@ -61,7 +61,7 @@ class AliceSaveHelper {
   }
 
   static Future<bool> _requestPermission() async {
-    if (Platform.isAndroid || Platform.isIOS) {
+    if (OperatingSystem.isAndroid() || OperatingSystem.isIOS()) {
       return Permission.storage.request().isGranted;
     } else {
       return true;
@@ -108,11 +108,11 @@ class AliceSaveHelper {
             description: context
                 .i18n(AliceTranslationKey.saveSuccessDescription)
                 .replaceAll("[path]", file.path),
-            secondButtonTitle: Platform.isAndroid
+            secondButtonTitle: OperatingSystem.isAndroid()
                 ? context.i18n(AliceTranslationKey.saveSuccessView)
                 : null,
             secondButtonAction: () =>
-                Platform.isAndroid ? OpenFilex.open(file.path) : null,
+                OperatingSystem.isAndroid() ? OpenFilex.open(file.path) : null,
           );
         }
 
