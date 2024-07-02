@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/core/alice_storage.dart';
 import 'package:alice/core/alice_utils.dart';
@@ -18,6 +20,8 @@ class AliceMemoryStorage implements AliceStorage {
   final int maxCallsCount;
 
   final BehaviorSubject<List<AliceHttpCall>> callsSubject;
+
+  StreamSubscription<List<AliceHttpCall>>? _callsSubscription;
 
   @override
   Stream<List<AliceHttpCall>> get callsStream => callsSubject.stream;
@@ -104,7 +108,4 @@ class AliceMemoryStorage implements AliceStorage {
   AliceHttpCall? selectCall(int requestId) => callsSubject.value
       .firstWhereOrNull((AliceHttpCall call) => call.id == requestId);
 
-  @override
-  void subscribeToCallChanges(AliceOnCallsChanged callback) =>
-      callsSubject.listen(callback);
 }

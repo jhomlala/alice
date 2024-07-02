@@ -57,7 +57,6 @@ class Alice {
       showNotification: showNotification,
       showInspectorOnShake: showInspectorOnShake,
       notificationIcon: notificationIcon,
-      maxCallsCount: maxCallsCount,
       directionality: directionality,
       showShareButton: showShareButton,
       aliceStorage: _aliceStorage ??

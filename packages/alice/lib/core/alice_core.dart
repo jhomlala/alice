@@ -30,8 +30,13 @@ class AliceCore {
   /// Icon url for notification
   final String notificationIcon;
 
+  /// Storage used for Alice to keep calls data.
   final AliceStorage _aliceStorage;
 
+  /// Logger used for Alice to keep logs;
+  final AliceLogger _aliceLogger;
+
+  /// Notification configuration for Alice.
   late final NotificationDetails _notificationDetails = NotificationDetails(
     android: AndroidNotificationDetails(
       'Alice',
@@ -44,33 +49,32 @@ class AliceCore {
     iOS: const DarwinNotificationDetails(presentSound: false),
   );
 
-  ///Max number of calls that are stored in memory. When count is reached, FIFO
-  ///method queue will be used to remove elements.
-  final int maxCallsCount;
-
   ///Directionality of app. If null then directionality of context will be used.
   final TextDirection? directionality;
 
   ///Flag used to show/hide share button
   final bool? showShareButton;
 
-  final AliceLogger aliceLogger;
-
-  FlutterLocalNotificationsPlugin? _flutterLocalNotificationsPlugin;
-
+  /// Navigator key used for inspector navigator.
   GlobalKey<NavigatorState>? navigatorKey;
 
+  /// Flag used to determine whether is inspector opened
   bool _isInspectorOpened = false;
 
+  /// Detector used to detect device shakes
   ShakeDetector? _shakeDetector;
 
+  /// Subscription for call changes
   StreamSubscription<List<AliceHttpCall>>? _callsSubscription;
 
-  String? _notificationMessage;
+  /// Currently displayed notification message
+  String? _notificationMessageDisplayed;
 
-  String? _notificationMessageShown;
+  /// Is current notification being processed
+  bool _isNotificationProcessing = false;
 
-  bool _notificationProcessing = false;
+  /// Notification plugin instance
+  FlutterLocalNotificationsPlugin? _flutterLocalNotificationsPlugin;
 
   /// Creates alice core instance
   AliceCore(
@@ -78,16 +82,16 @@ class AliceCore {
     required this.showNotification,
     required this.showInspectorOnShake,
     required this.notificationIcon,
-    required this.maxCallsCount,
     required AliceStorage aliceStorage,
-    required this.aliceLogger,
+    required AliceLogger aliceLogger,
     this.directionality,
     this.showShareButton,
-  }) : _aliceStorage = aliceStorage {
+  })  : _aliceStorage = aliceStorage,
+        _aliceLogger = aliceLogger {
+    _subscribeToCallChanges();
     if (showNotification) {
       _initializeNotificationsPlugin();
       _requestNotificationPermissions();
-      _aliceStorage.subscribeToCallChanges(onCallsChanged);
     }
     if (showInspectorOnShake) {
       if (Platform.isAndroid || Platform.isIOS) {
@@ -102,10 +106,10 @@ class AliceCore {
   /// Dispose subjects and subscriptions
   void dispose() {
     _shakeDetector?.stopListening();
-    _callsSubscription?.cancel();
+    _unsubscribeToCallChanges();
   }
 
-  @protected
+  /// Initialises notification settings.
   void _initializeNotificationsPlugin() {
     _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     final AndroidInitializationSettings initializationSettingsAndroid =
@@ -130,15 +134,11 @@ class AliceCore {
   Future<void> onCallsChanged(List<AliceHttpCall>? calls) async {
     if (calls != null && calls.isNotEmpty) {
       final AliceStats stats = _aliceStorage.getStats();
-
-      _notificationMessage = _getNotificationMessage(stats);
-      if (_notificationMessage != _notificationMessageShown &&
-          !_notificationProcessing) {
-        await _showLocalNotification(stats);
-      }
+      _showStatsNotification(stats: stats);
     }
   }
 
+  /// Called when notification has been clicked. It navigates to calls screen.
   Future<void> _onDidReceiveNotificationResponse(
     NotificationResponse response,
   ) async {
@@ -158,7 +158,7 @@ class AliceCore {
     }
     if (!_isInspectorOpened) {
       _isInspectorOpened = true;
-      AliceNavigation.navigateToCallsList(core: this, logger: aliceLogger)
+      AliceNavigation.navigateToCallsList(core: this, logger: _aliceLogger)
           .then((_) => _isInspectorOpened = false);
     }
   }
@@ -166,6 +166,7 @@ class AliceCore {
   /// Get context from navigator key. Used to open inspector route.
   BuildContext? getContext() => navigatorKey?.currentState?.overlay?.context;
 
+  /// Formats [stats] for notification message.
   String _getNotificationMessage(AliceStats stats) => <String>[
         if (stats.loading > 0)
           '${getContext()?.i18n(AliceTranslationKey.notificationLoading)} ${stats.loading}',
@@ -177,6 +178,7 @@ class AliceCore {
           '${getContext()?.i18n(AliceTranslationKey.notificationError)} ${stats.errors}',
       ].join(' | ');
 
+  /// Requests notification permissions to display stats notification.
   Future<void> _requestNotificationPermissions() async {
     if (Platform.isIOS || Platform.isMacOS) {
       await _flutterLocalNotificationsPlugin
@@ -205,11 +207,19 @@ class AliceCore {
     }
   }
 
-  Future<void> _showLocalNotification(AliceStats stats) async {
+  /// Shows current stats notification. It formats [stats] into simple
+  /// notification which is displayed when stats has changed.
+  Future<void> _showStatsNotification({required AliceStats stats}) async {
     try {
-      _notificationProcessing = true;
+      if (_isNotificationProcessing) {
+        return;
+      }
+      final message = _getNotificationMessage(stats);
+      if (message == _notificationMessageDisplayed) {
+        return;
+      }
 
-      final String? message = _notificationMessage;
+      _isNotificationProcessing = true;
 
       await _flutterLocalNotificationsPlugin?.show(
         0,
@@ -221,9 +231,11 @@ class AliceCore {
         payload: '',
       );
 
-      _notificationMessageShown = message;
+      _notificationMessageDisplayed = message;
+    } catch (error) {
+      AliceUtils.log(error);
     } finally {
-      _notificationProcessing = false;
+      _isNotificationProcessing = false;
     }
   }
 
@@ -258,11 +270,22 @@ class AliceCore {
   }
 
   /// Adds new log to Alice logger.
-  void addLog(AliceLog log) => aliceLogger.add(log);
+  void addLog(AliceLog log) => _aliceLogger.add(log);
 
   /// Adds list of logs to Alice logger
-  void addLogs(List<AliceLog> logs) => aliceLogger.addAll(logs);
+  void addLogs(List<AliceLog> logs) => _aliceLogger.addAll(logs);
 
   /// Returns flag which determines whether inspector is opened
   bool get isInspectorOpened => _isInspectorOpened;
+
+  /// Subscribes to storage for call changes.
+  void _subscribeToCallChanges() {
+    _callsSubscription = _aliceStorage.callsStream.listen(onCallsChanged);
+  }
+
+  /// Unsubscribes storage for call changes.
+  void _unsubscribeToCallChanges() {
+    _callsSubscription?.cancel();
+    _callsSubscription = null;
+  }
 }

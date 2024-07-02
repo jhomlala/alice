@@ -31,7 +31,6 @@ void main() {
       showNotification: false,
       showInspectorOnShake: false,
       notificationIcon: "",
-      maxCallsCount: 1000,
       aliceStorage: aliceStorage,
       aliceLogger: aliceLogger,
     );
@@ -105,6 +104,5 @@ void main() {
 
       verify(() => aliceCore.addLogs(any()));
     });
-
   });
 }

@@ -144,15 +144,5 @@ void main() {
       expect(null, storage.selectCall(1));
     });
 
-    test("should subscribe to call changes", () async {
-      var callReceived = false;
-
-      storage.subscribeToCallChanges((calls) async {
-        callReceived = true;
-      });
-      await Future.delayed(const Duration(milliseconds: 100), () {});
-      storage.addCall(MockedData.getLoadingHttpCall());
-      expect(callReceived, true);
-    });
   });
 }

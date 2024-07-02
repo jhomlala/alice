@@ -30,5 +30,4 @@ abstract interface class AliceStorage {
 
   void removeCalls();
 
-  void subscribeToCallChanges(AliceOnCallsChanged callback);
 }

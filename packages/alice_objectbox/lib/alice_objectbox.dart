@@ -87,9 +87,6 @@ class AliceObjectBox implements AliceStorage {
   @override
   void removeCalls() => _store.httpCalls.removeAll();
 
-  @override
-  void subscribeToCallChanges(AliceOnCallsChanged callback) =>
-      callsStream.listen(callback);
 
   @override
   AliceStats getStats() => (
@@ -126,4 +123,9 @@ class AliceObjectBox implements AliceStorage {
             .build()
             .count(),
       );
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+  }
 }
