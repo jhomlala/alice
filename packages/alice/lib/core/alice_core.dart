@@ -1,6 +1,5 @@
 import 'dart:async' show FutureOr, StreamSubscription;
 
-import 'package:alice/core/alice_logger.dart';
 import 'package:alice/core/alice_storage.dart';
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/helper/alice_export_helper.dart';

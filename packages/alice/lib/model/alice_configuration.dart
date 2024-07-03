@@ -49,7 +49,7 @@ class AliceConfiguration {
   })  : aliceStorage =
             storage ?? AliceMemoryStorage(maxCallsCount: _defaultMaxCalls),
         navigatorKey = navigatorKey ?? GlobalKey<NavigatorState>(),
-        aliceLogger = logger ?? AliceLogger(maximumSize: _defaultMaxCalls);
+        aliceLogger = logger ?? AliceLogger(maximumSize: _defaultMaxLogs);
 
   AliceConfiguration copyWith({
     required GlobalKey<NavigatorState> newNavigatorKey,

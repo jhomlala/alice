@@ -1,5 +1,4 @@
 import 'package:alice/core/alice_core.dart';
-import 'package:alice/core/alice_logger.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/ui/call_details/page/alice_call_details_page.dart';
 import 'package:alice/ui/calls_list/page/alice_calls_list_page.dart';

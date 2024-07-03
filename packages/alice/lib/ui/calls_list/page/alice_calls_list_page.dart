@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:alice/core/alice_core.dart';
-import 'package:alice/core/alice_logger.dart';
 import 'package:alice/helper/operating_system.dart';
 import 'package:alice/model/alice_export_result.dart';
 import 'package:alice/model/alice_http_call.dart';
@@ -25,7 +24,6 @@ import 'package:open_filex/open_filex.dart';
 /// and search calls.
 class AliceCallsListPage extends StatefulWidget {
   final AliceCore core;
-
 
   const AliceCallsListPage({
     required this.core,
