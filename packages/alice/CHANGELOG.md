@@ -1,3 +1,9 @@
+# 1.0.0-dev.9
+* Fixed saving issue with Android 13 onwards.
+* Added unit tests.
+* Updated CI/CD task for tests.
+* General refactor of code base.
+
 # 1.0.0-dev.8
 * Added storage abstractions (by Klemen Tusar https://github.com/techouse).
 * Added in memory storage implementation (by Klemen Tusar https://github.com/techouse).

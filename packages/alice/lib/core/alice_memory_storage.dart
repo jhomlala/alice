@@ -1,4 +1,5 @@
-import 'package:alice/core/alice_core.dart';
+import 'dart:async';
+
 import 'package:alice/core/alice_storage.dart';
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/model/alice_http_call.dart';
@@ -59,12 +60,8 @@ class AliceMemoryStorage implements AliceStorage {
     final int callsCount = callsSubject.value.length;
     if (callsCount >= maxCallsCount) {
       final List<AliceHttpCall> originalCalls = callsSubject.value;
-      final List<AliceHttpCall> calls = [...originalCalls]..sort(
-          (AliceHttpCall call1, AliceHttpCall call2) =>
-              call1.createdTime.compareTo(call2.createdTime),
-        );
-      final int indexToReplace = originalCalls.indexOf(calls.first);
-      originalCalls[indexToReplace] = call;
+      originalCalls.removeAt(0);
+      originalCalls.add(call);
 
       callsSubject.add(originalCalls);
     } else {
@@ -82,13 +79,6 @@ class AliceMemoryStorage implements AliceStorage {
 
     selectedCall.error = error;
     callsSubject.add([...callsSubject.value]);
-  }
-
-  @override
-  void addHttpCall(AliceHttpCall aliceHttpCall) {
-    assert(aliceHttpCall.request != null, "Http call request can't be null");
-    assert(aliceHttpCall.response != null, "Http call response can't be null");
-    callsSubject.add([...callsSubject.value, aliceHttpCall]);
   }
 
   @override
@@ -114,8 +104,4 @@ class AliceMemoryStorage implements AliceStorage {
   @override
   AliceHttpCall? selectCall(int requestId) => callsSubject.value
       .firstWhereOrNull((AliceHttpCall call) => call.id == requestId);
-
-  @override
-  void subscribeToCallChanges(AliceOnCallsChanged callback) =>
-      callsSubject.listen(callback);
 }

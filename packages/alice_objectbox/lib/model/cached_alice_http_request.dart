@@ -4,6 +4,7 @@ import 'dart:io' show Cookie;
 import 'package:alice/model/alice_form_data_file.dart';
 import 'package:alice/model/alice_from_data_field.dart';
 import 'package:alice/model/alice_http_request.dart';
+import 'package:alice/utils/alice_parser.dart';
 import 'package:alice_objectbox/json_converter/alice_form_data_field_converter.dart';
 import 'package:alice_objectbox/json_converter/alice_form_data_file_converter.dart';
 import 'package:meta/meta.dart';
@@ -16,7 +17,7 @@ class CachedAliceHttpRequest implements AliceHttpRequest {
     this.objectId = 0,
     this.size = 0,
     DateTime? time,
-    this.headers = const <String, dynamic>{},
+    this.headers = const <String, String>{},
     this.body = '',
     this.contentType = '',
     this.cookies = const [],
@@ -39,15 +40,15 @@ class CachedAliceHttpRequest implements AliceHttpRequest {
 
   @override
   @Transient()
-  Map<String, dynamic> headers;
+  Map<String, String> headers;
 
   /// Custom data type converter of [headers].
   String get dbHeaders => jsonEncode(headers);
 
   /// Custom data type converter of [headers].
-  set dbHeaders(String value) =>
-      headers = jsonDecode(value) as Map<String, dynamic>;
-
+  set dbHeaders(String value) => headers = AliceParser.parseHeaders(
+        headers: jsonDecode(value),
+      );
   @override
   @Transient()
   dynamic body;
@@ -132,4 +133,20 @@ class CachedAliceHttpRequest implements AliceHttpRequest {
             AliceFormDataFieldConverter.instance.fromJson(jsonDecode(field)),
       )
       .toList();
+
+  @override
+  List<Object?> get props => [
+        size,
+        time,
+        headers,
+        body,
+        contentType,
+        cookies,
+        queryParameters,
+        formDataFiles,
+        formDataFields,
+      ];
+
+  @override
+  bool? get stringify => true;
 }

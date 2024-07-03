@@ -63,4 +63,16 @@ class CachedAliceHttpResponse implements AliceHttpResponse {
           (key, value) => MapEntry(key, value.toString()),
         )
       : null;
+
+  @override
+  List<Object?> get props => [
+        status,
+        size,
+        time,
+        body,
+        headers,
+      ];
+
+  @override
+  bool? get stringify => true;
 }

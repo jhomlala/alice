@@ -1,5 +1,6 @@
 import 'package:alice/core/alice_adapter.dart';
 import 'package:alice/core/alice_core.dart';
+import 'package:alice/core/alice_logger.dart';
 import 'package:alice/core/alice_memory_storage.dart';
 import 'package:alice/core/alice_storage.dart';
 import 'package:alice/model/alice_http_call.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/widgets.dart';
 
 export 'package:alice/core/alice_store.dart';
 export 'package:alice/model/alice_log.dart';
+export 'package:alice/core/alice_memory_storage.dart';
 
 class Alice {
   /// Should user be notified with notification when there's new request caught
@@ -33,10 +35,14 @@ class Alice {
   /// Flag used to show/hide share button
   final bool? showShareButton;
 
-  GlobalKey<NavigatorState>? _navigatorKey;
+  /// Alice core instance
   late final AliceCore _aliceCore;
 
+  /// Alice storage instance
   final AliceStorage? _aliceStorage;
+
+  /// Navigator key used for navigating to inspector
+  GlobalKey<NavigatorState>? _navigatorKey;
 
   /// Creates alice instance.
   Alice({
@@ -55,13 +61,13 @@ class Alice {
       showNotification: showNotification,
       showInspectorOnShake: showInspectorOnShake,
       notificationIcon: notificationIcon,
-      maxCallsCount: maxCallsCount,
       directionality: directionality,
       showShareButton: showShareButton,
       aliceStorage: _aliceStorage ??
           AliceMemoryStorage(
             maxCallsCount: maxCallsCount,
           ),
+      aliceLogger: AliceLogger(),
     );
   }
 

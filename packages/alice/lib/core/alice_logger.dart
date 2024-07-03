@@ -1,5 +1,6 @@
-import 'dart:io' show Platform, Process, ProcessResult;
+import 'dart:io' show Process, ProcessResult;
 
+import 'package:alice/helper/operating_system.dart';
 import 'package:alice/model/alice_log.dart';
 import 'package:alice/utils/num_comparison.dart';
 import 'package:flutter/foundation.dart';
@@ -27,6 +28,12 @@ class AliceLogger {
 
     if (value != null && logs.length > value) {
       _logs.value = logs.sublist(logs.length - value, logs.length);
+    }
+  }
+
+  void addAll(List<AliceLog> logs) {
+    for (var log in logs) {
+      add(log);
     }
   }
 
@@ -69,7 +76,7 @@ class AliceLogger {
 
   /// Returns raw logs from Android via ADB.
   Future<String> getAndroidRawLogs() async {
-    if (Platform.isAndroid) {
+    if (OperatingSystem.isAndroid) {
       final ProcessResult process =
           await Process.run('logcat', ['-v', 'raw', '-d']);
       return process.stdout as String;
@@ -79,7 +86,7 @@ class AliceLogger {
 
   /// Clears all raw logs.
   Future<void> clearAndroidRawLogs() async {
-    if (Platform.isAndroid) {
+    if (OperatingSystem.isAndroid) {
       await Process.run('logcat', ['-c']);
     }
   }

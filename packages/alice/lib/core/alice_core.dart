@@ -1,20 +1,19 @@
 import 'dart:async' show FutureOr, StreamSubscription;
-import 'dart:io' show Platform;
 
 import 'package:alice/core/alice_logger.dart';
 import 'package:alice/core/alice_storage.dart';
 import 'package:alice/core/alice_utils.dart';
-import 'package:alice/helper/alice_save_helper.dart';
+import 'package:alice/helper/alice_export_helper.dart';
+import 'package:alice/core/alice_notification.dart';
+import 'package:alice/helper/operating_system.dart';
+import 'package:alice/model/alice_export_result.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice/model/alice_log.dart';
-import 'package:alice/model/alice_translation.dart';
-import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/ui/common/alice_navigation.dart';
 import 'package:alice/utils/shake_detector.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 typedef AliceOnCallsChanged = Future<void> Function(List<AliceHttpCall>? calls);
 
@@ -30,23 +29,11 @@ class AliceCore {
   /// Icon url for notification
   final String notificationIcon;
 
+  /// Storage used for Alice to keep calls data.
   final AliceStorage _aliceStorage;
 
-  late final NotificationDetails _notificationDetails = NotificationDetails(
-    android: AndroidNotificationDetails(
-      'Alice',
-      'Alice',
-      channelDescription: 'Alice',
-      enableVibration: false,
-      playSound: false,
-      largeIcon: DrawableResourceAndroidBitmap(notificationIcon),
-    ),
-    iOS: const DarwinNotificationDetails(presentSound: false),
-  );
-
-  ///Max number of calls that are stored in memory. When count is reached, FIFO
-  ///method queue will be used to remove elements.
-  final int maxCallsCount;
+  /// Logger used for Alice to keep logs;
+  final AliceLogger _aliceLogger;
 
   ///Directionality of app. If null then directionality of context will be used.
   final TextDirection? directionality;
@@ -54,23 +41,20 @@ class AliceCore {
   ///Flag used to show/hide share button
   final bool? showShareButton;
 
-  final AliceLogger _aliceLogger = AliceLogger();
-
-  FlutterLocalNotificationsPlugin? _flutterLocalNotificationsPlugin;
-
+  /// Navigator key used for inspector navigator.
   GlobalKey<NavigatorState>? navigatorKey;
 
+  /// Flag used to determine whether is inspector opened
   bool _isInspectorOpened = false;
 
+  /// Detector used to detect device shakes
   ShakeDetector? _shakeDetector;
 
+  /// Helper used for notification management
+  AliceNotification? _notification;
+
+  /// Subscription for call changes
   StreamSubscription<List<AliceHttpCall>>? _callsSubscription;
-
-  String? _notificationMessage;
-
-  String? _notificationMessageShown;
-
-  bool _notificationProcessing = false;
 
   /// Creates alice core instance
   AliceCore(
@@ -78,18 +62,22 @@ class AliceCore {
     required this.showNotification,
     required this.showInspectorOnShake,
     required this.notificationIcon,
-    required this.maxCallsCount,
     required AliceStorage aliceStorage,
+    required AliceLogger aliceLogger,
     this.directionality,
     this.showShareButton,
-  }) : _aliceStorage = aliceStorage {
+  })  : _aliceStorage = aliceStorage,
+        _aliceLogger = aliceLogger {
+    _subscribeToCallChanges();
     if (showNotification) {
-      _initializeNotificationsPlugin();
-      _requestNotificationPermissions();
-      _aliceStorage.subscribeToCallChanges(onCallsChanged);
+      _notification = AliceNotification();
+      _notification?.configure(
+        notificationIcon: notificationIcon,
+        openInspectorCallback: navigateToCallListScreen,
+      );
     }
     if (showInspectorOnShake) {
-      if (Platform.isAndroid || Platform.isIOS) {
+      if (OperatingSystem.isAndroid || OperatingSystem.isMacOS) {
         _shakeDetector = ShakeDetector.autoStart(
           onPhoneShake: navigateToCallListScreen,
           shakeThresholdGravity: 4,
@@ -101,47 +89,18 @@ class AliceCore {
   /// Dispose subjects and subscriptions
   void dispose() {
     _shakeDetector?.stopListening();
-    _callsSubscription?.cancel();
+    _unsubscribeFromCallChanges();
   }
 
-  @protected
-  void _initializeNotificationsPlugin() {
-    _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    final AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings(notificationIcon);
-    const DarwinInitializationSettings initializationSettingsIOS =
-        DarwinInitializationSettings();
-    const DarwinInitializationSettings initializationSettingsMacOS =
-        DarwinInitializationSettings();
-    final InitializationSettings initializationSettings =
-        InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializationSettingsIOS,
-      macOS: initializationSettingsMacOS,
-    );
-    _flutterLocalNotificationsPlugin?.initialize(
-      initializationSettings,
-      onDidReceiveNotificationResponse: _onDidReceiveNotificationResponse,
-    );
-  }
-
-  @protected
-  Future<void> onCallsChanged(List<AliceHttpCall>? calls) async {
+  /// Called when calls has been updated
+  Future<void> _onCallsChanged(List<AliceHttpCall>? calls) async {
     if (calls != null && calls.isNotEmpty) {
       final AliceStats stats = _aliceStorage.getStats();
-
-      _notificationMessage = _getNotificationMessage(stats);
-      if (_notificationMessage != _notificationMessageShown &&
-          !_notificationProcessing) {
-        await _showLocalNotification(stats);
-      }
+      _notification?.showStatsNotification(
+        context: getContext()!,
+        stats: stats,
+      );
     }
-  }
-
-  Future<void> _onDidReceiveNotificationResponse(
-    NotificationResponse response,
-  ) async {
-    navigateToCallListScreen();
   }
 
   /// Opens Http calls inspector. This will navigate user to the new fullscreen
@@ -165,67 +124,6 @@ class AliceCore {
   /// Get context from navigator key. Used to open inspector route.
   BuildContext? getContext() => navigatorKey?.currentState?.overlay?.context;
 
-  String _getNotificationMessage(AliceStats stats) => <String>[
-        if (stats.loading > 0)
-          '${getContext()?.i18n(AliceTranslationKey.notificationLoading)} ${stats.loading}',
-        if (stats.successes > 0)
-          '${getContext()?.i18n(AliceTranslationKey.notificationSuccess)} ${stats.successes}',
-        if (stats.redirects > 0)
-          '${getContext()?.i18n(AliceTranslationKey.notificationRedirect)} ${stats.redirects}',
-        if (stats.errors > 0)
-          '${getContext()?.i18n(AliceTranslationKey.notificationError)} ${stats.errors}',
-      ].join(' | ');
-
-  Future<void> _requestNotificationPermissions() async {
-    if (Platform.isIOS || Platform.isMacOS) {
-      await _flutterLocalNotificationsPlugin
-          ?.resolvePlatformSpecificImplementation<
-              IOSFlutterLocalNotificationsPlugin>()
-          ?.requestPermissions(
-            alert: true,
-            badge: true,
-            sound: true,
-          );
-      await _flutterLocalNotificationsPlugin
-          ?.resolvePlatformSpecificImplementation<
-              MacOSFlutterLocalNotificationsPlugin>()
-          ?.requestPermissions(
-            alert: true,
-            badge: true,
-            sound: true,
-          );
-    } else if (Platform.isAndroid) {
-      final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
-          _flutterLocalNotificationsPlugin
-              ?.resolvePlatformSpecificImplementation<
-                  AndroidFlutterLocalNotificationsPlugin>();
-
-      await androidImplementation?.requestNotificationsPermission();
-    }
-  }
-
-  Future<void> _showLocalNotification(AliceStats stats) async {
-    try {
-      _notificationProcessing = true;
-
-      final String? message = _notificationMessage;
-
-      await _flutterLocalNotificationsPlugin?.show(
-        0,
-        getContext()
-            ?.i18n(AliceTranslationKey.notificationTotalRequests)
-            .replaceAll("[requestCount]", stats.total.toString()),
-        message,
-        _notificationDetails,
-        payload: '',
-      );
-
-      _notificationMessageShown = message;
-    } finally {
-      _notificationProcessing = false;
-    }
-  }
-
   /// Add alice http call to calls subject
   FutureOr<void> addCall(AliceHttpCall call) => _aliceStorage.addCall(call);
 
@@ -237,32 +135,42 @@ class AliceCore {
   FutureOr<void> addResponse(AliceHttpResponse response, int requestId) =>
       _aliceStorage.addResponse(response, requestId);
 
-  /// Add alice http call to calls subject
-  FutureOr<void> addHttpCall(AliceHttpCall aliceHttpCall) =>
-      _aliceStorage.addHttpCall(aliceHttpCall);
-
   /// Remove all calls from calls subject
   FutureOr<void> removeCalls() => _aliceStorage.removeCalls();
 
+  /// Selects call with given [requestId]. It may return null.
   @protected
   AliceHttpCall? selectCall(int requestId) =>
       _aliceStorage.selectCall(requestId);
 
+  /// Returns stream which returns list of HTTP calls
   Stream<List<AliceHttpCall>> get callsStream => _aliceStorage.callsStream;
 
+  /// Returns all stored HTTP calls.
   List<AliceHttpCall> getCalls() => _aliceStorage.getCalls();
 
-  /// Save all calls to file
-  void saveHttpRequests(BuildContext context) {
-    AliceSaveHelper.saveCalls(context, _aliceStorage.getCalls());
+  /// Save all calls to file.
+  Future<AliceExportResult> saveCallsToFile(BuildContext context) {
+    return AliceExportHelper.saveCallsToFile(context, _aliceStorage.getCalls());
   }
 
   /// Adds new log to Alice logger.
-  void addLog(AliceLog log) => _aliceLogger.logs.add(log);
+  void addLog(AliceLog log) => _aliceLogger.add(log);
 
   /// Adds list of logs to Alice logger
-  void addLogs(List<AliceLog> logs) => _aliceLogger.logs.addAll(logs);
+  void addLogs(List<AliceLog> logs) => _aliceLogger.addAll(logs);
 
   /// Returns flag which determines whether inspector is opened
   bool get isInspectorOpened => _isInspectorOpened;
+
+  /// Subscribes to storage for call changes.
+  void _subscribeToCallChanges() {
+    _callsSubscription = _aliceStorage.callsStream.listen(_onCallsChanged);
+  }
+
+  /// Unsubscribes storage for call changes.
+  void _unsubscribeFromCallChanges() {
+    _callsSubscription?.cancel();
+    _callsSubscription = null;
+  }
 }

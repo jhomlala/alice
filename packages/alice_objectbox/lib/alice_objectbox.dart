@@ -1,6 +1,5 @@
 import 'dart:math' show max;
 
-import 'package:alice/core/alice_core.dart';
 import 'package:alice/core/alice_storage.dart';
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/model/alice_http_call.dart';
@@ -95,19 +94,7 @@ class AliceObjectBox implements AliceStorage {
   }
 
   @override
-  void addHttpCall(AliceHttpCall aliceHttpCall) {
-    assert(aliceHttpCall.request != null, "Http call request can't be null");
-    assert(aliceHttpCall.response != null, "Http call response can't be null");
-
-    _store.httpCalls.put(aliceHttpCall.toCached());
-  }
-
-  @override
   Future<void> removeCalls() => _store.httpCalls.removeAllAsync();
-
-  @override
-  void subscribeToCallChanges(AliceOnCallsChanged callback) =>
-      callsStream.listen(callback);
 
   @override
   AliceStats getStats() => (
