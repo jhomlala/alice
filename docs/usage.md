@@ -105,15 +105,6 @@ httpClient
 
 Setting up ObjectBox with Alice is simple, however, there are a few crucial steps which need to be followed.
 
-1. Add it to your dependencies
-
-```yaml
-dependencies:
-  alice_objectbox: ^1.0.0
-```
-
-2. Follow the ObjectBox [example](https://github.com/objectbox/objectbox-dart/blob/main/objectbox/example/flutter/objectbox_demo/lib/main.dart)
-
 ```dart
 Future<void> main() async {
   /// This is required so ObjectBox can get the application directory
