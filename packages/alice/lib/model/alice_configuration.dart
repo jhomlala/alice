@@ -38,7 +38,8 @@ class AliceConfiguration {
     this.showShareButton = true,
     GlobalKey<NavigatorState>? navigatorKey,
     AliceStorage? storage,
-  })  : aliceStorage = storage ?? AliceMemoryStorage(maxCallsCount: _defaultMaxCalls),
+  })  : aliceStorage =
+            storage ?? AliceMemoryStorage(maxCallsCount: _defaultMaxCalls),
         navigatorKey = navigatorKey ?? GlobalKey<NavigatorState>();
 
   AliceConfiguration copyWith({

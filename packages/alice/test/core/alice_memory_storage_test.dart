@@ -39,10 +39,8 @@ void main() {
       storage
           .addCall(MockedData.getHttpCallWithResponseStatus(statusCode: 500));
       storage.addCall(MockedData.getLoadingHttpCall());
-      storage
-          .addCall(MockedData.getHttpCallWithResponseStatus(statusCode: -1));
-      storage
-          .addCall(MockedData.getHttpCallWithResponseStatus(statusCode: 0));
+      storage.addCall(MockedData.getHttpCallWithResponseStatus(statusCode: -1));
+      storage.addCall(MockedData.getHttpCallWithResponseStatus(statusCode: 0));
 
       expect(storage.getStats(), (
         total: 10,

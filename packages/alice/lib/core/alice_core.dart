@@ -21,10 +21,12 @@ typedef AliceOnCallsChanged = Future<void> Function(List<AliceHttpCall>? calls);
 class AliceCore {
   /// Default max logs count.
   static const _defaultMaxLogs = 1000;
+
+  /// Configuration of Alice
   late AliceConfiguration _configuration;
 
-  /// Flag used to determine whether is inspector opened
-  bool _isInspectorOpened = false;
+  /// Alice logger instance
+  late AliceLogger _aliceLogger;
 
   /// Detector used to detect device shakes
   ShakeDetector? _shakeDetector;
@@ -35,7 +37,8 @@ class AliceCore {
   /// Subscription for call changes
   StreamSubscription<List<AliceHttpCall>>? _callsSubscription;
 
-  late AliceLogger _aliceLogger;
+  /// Flag used to determine whether is inspector opened
+  bool _isInspectorOpened = false;
 
   /// Creates alice core instance
   AliceCore({required AliceConfiguration configuration}) {
