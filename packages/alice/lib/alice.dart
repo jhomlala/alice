@@ -16,8 +16,10 @@ class Alice {
   late final AliceCore _aliceCore;
 
   /// Creates alice instance.
-  Alice({required AliceConfiguration configuration}) {
-    _aliceCore = AliceCore(configuration: configuration);
+  Alice({AliceConfiguration? configuration}) {
+    _aliceCore = AliceCore(
+      configuration: configuration ?? AliceConfiguration(),
+    );
   }
 
   /// Set custom navigation key. This will help if there's route library.
