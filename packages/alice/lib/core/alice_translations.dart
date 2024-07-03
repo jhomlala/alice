@@ -121,7 +121,7 @@ class AliceTranslations {
       AliceTranslationKey.notificationRedirect: "Redirect:",
       AliceTranslationKey.notificationError: "Error:",
       AliceTranslationKey.notificationTotalRequests:
-          "Alice (total [requestCount] requests)",
+          "Alice (total [callCount] HTTP calls)",
       AliceTranslationKey.saveDialogPermissionErrorTitle: "Permission error",
       AliceTranslationKey.saveDialogPermissionErrorDescription:
           "Permission not granted. Couldn't save logs.",
@@ -285,7 +285,7 @@ class AliceTranslations {
       AliceTranslationKey.notificationRedirect: "Przekierowanie:",
       AliceTranslationKey.notificationError: "Błąd:",
       AliceTranslationKey.notificationTotalRequests:
-          "Alice (razem [requestCount] żądań)",
+          "Alice (razem [callCount] połączeń HTTP)",
       AliceTranslationKey.saveDialogPermissionErrorTitle: "Błąd pozwolenia",
       AliceTranslationKey.saveDialogPermissionErrorDescription:
           "Pozwolenie nieprzyznane. Nie można zapisać logów.",

@@ -47,8 +47,10 @@ class AliceMemoryStorage implements AliceStorage {
       errors: calls
           .where(
             (AliceHttpCall call) =>
-                (call.response?.status.gte(400) ?? false) &&
-                (call.response?.status.lt(600) ?? false),
+                ((call.response?.status.gte(400) ?? false) &&
+                    (call.response?.status.lt(600) ?? false)) ||
+                call.response?.status == -1 ||
+                call.response?.status == 0,
           )
           .length,
       loading: calls.where((AliceHttpCall call) => call.loading).length,

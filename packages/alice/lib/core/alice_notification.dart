@@ -99,8 +99,10 @@ class AliceNotification {
   }
 
   /// Formats [stats] for notification message.
-  String _getNotificationMessage(
-          {required BuildContext context, required AliceStats stats}) =>
+  String _getNotificationMessage({
+    required BuildContext context,
+    required AliceStats stats,
+  }) =>
       <String>[
         if (stats.loading > 0)
           '${context.i18n(AliceTranslationKey.notificationLoading)} ${stats.loading}',
@@ -136,7 +138,7 @@ class AliceNotification {
         0,
         context
             .i18n(AliceTranslationKey.notificationTotalRequests)
-            .replaceAll("[requestCount]", stats.total.toString()),
+            .replaceAll("[callCount]", stats.total.toString()),
         message,
         _notificationDetails,
         payload: '',
