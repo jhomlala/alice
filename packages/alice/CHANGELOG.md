@@ -3,6 +3,7 @@
 * Added unit tests.
 * Updated CI/CD task for tests.
 * General refactor of code base.
+* Updated metadata.
 
 # 1.0.0-dev.8
 * Added storage abstractions (by Klemen Tusar https://github.com/techouse).

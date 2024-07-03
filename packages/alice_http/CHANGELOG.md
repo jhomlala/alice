@@ -1,3 +1,9 @@
+# 1.0.4
+
+* Untracked gitignored files.
+* Updated metadata.
+* Updated dependencies.
+
 # 1.0.3
 
 * Changed linter from very good analysis to flutter lints.
