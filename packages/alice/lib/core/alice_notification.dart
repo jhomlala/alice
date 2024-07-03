@@ -64,7 +64,7 @@ class AliceNotification {
 
   /// Requests notification permissions to display stats notification.
   Future<void> _requestNotificationPermissions() async {
-    if (OperatingSystem.isIOS() || OperatingSystem.isMacOS()) {
+    if (OperatingSystem.isIOS || OperatingSystem.isMacOS) {
       await _flutterLocalNotificationsPlugin
           ?.resolvePlatformSpecificImplementation<
               IOSFlutterLocalNotificationsPlugin>()
@@ -81,7 +81,7 @@ class AliceNotification {
             badge: true,
             sound: true,
           );
-    } else if (OperatingSystem.isAndroid()) {
+    } else if (OperatingSystem.isAndroid) {
       final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
           _flutterLocalNotificationsPlugin
               ?.resolvePlatformSpecificImplementation<

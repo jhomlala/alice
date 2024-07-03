@@ -9,15 +9,15 @@ abstract class OperatingSystem {
   static const String macos = 'macos';
   static const String windows = 'windows';
 
-  static bool isAndroid() {
-    return defaultTargetPlatform == TargetPlatform.android;
-  }
+  static bool get isAndroid => defaultTargetPlatform == TargetPlatform.android;
 
-  static bool isIOS() {
-    return defaultTargetPlatform == TargetPlatform.iOS;
-  }
+  static bool get isIOS => defaultTargetPlatform == TargetPlatform.iOS;
 
-  static bool isMacOS() {
-    return defaultTargetPlatform == TargetPlatform.macOS;
-  }
+  static bool get isMacOS => defaultTargetPlatform == TargetPlatform.macOS;
+
+  static bool get isWindows => defaultTargetPlatform == TargetPlatform.windows;
+
+  static bool get isLinux => defaultTargetPlatform == TargetPlatform.linux;
+
+  static bool get isFuchsia => defaultTargetPlatform == TargetPlatform.fuchsia;
 }

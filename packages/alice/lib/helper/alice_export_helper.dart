@@ -66,7 +66,7 @@ class AliceExportHelper {
   /// Returns current storage permission status. Checks permission for iOS
   /// For other platforms it returns true.
   static Future<bool> _getPermissionStatus() async {
-    if (OperatingSystem.isIOS()) {
+    if (OperatingSystem.isIOS) {
       return Permission.storage.status.isGranted;
     } else {
       return true;
@@ -76,7 +76,7 @@ class AliceExportHelper {
   /// Requests permissions for storage for iOS. For other platforms it doesn't
   /// make any action and returns true.
   static Future<bool> _requestPermission() async {
-    if (OperatingSystem.isIOS()) {
+    if (OperatingSystem.isIOS) {
       return Permission.storage.request().isGranted;
     } else {
       return true;

@@ -77,7 +77,7 @@ class AliceCore {
       );
     }
     if (showInspectorOnShake) {
-      if (OperatingSystem.isAndroid() || OperatingSystem.isMacOS()) {
+      if (OperatingSystem.isAndroid || OperatingSystem.isMacOS) {
         _shakeDetector = ShakeDetector.autoStart(
           onPhoneShake: navigateToCallListScreen,
           shakeThresholdGravity: 4,
@@ -92,8 +92,8 @@ class AliceCore {
     _unsubscribeFromCallChanges();
   }
 
-  @protected
-  Future<void> onCallsChanged(List<AliceHttpCall>? calls) async {
+  /// Called when calls has been updated
+  Future<void> _onCallsChanged(List<AliceHttpCall>? calls) async {
     if (calls != null && calls.isNotEmpty) {
       final AliceStats stats = _aliceStorage.getStats();
       _notification?.showStatsNotification(
@@ -165,7 +165,7 @@ class AliceCore {
 
   /// Subscribes to storage for call changes.
   void _subscribeToCallChanges() {
-    _callsSubscription = _aliceStorage.callsStream.listen(onCallsChanged);
+    _callsSubscription = _aliceStorage.callsStream.listen(_onCallsChanged);
   }
 
   /// Unsubscribes storage for call changes.

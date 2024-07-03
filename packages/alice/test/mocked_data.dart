@@ -23,28 +23,22 @@ class MockedData {
     return httpCall;
   }
 
-  static AliceHttpCall getFilledHttpCall() {
-    final httpCall = AliceHttpCall(DateTime.now().millisecondsSinceEpoch)
-      ..loading = false;
-
-    final request = AliceHttpRequest();
-    request.headers = {};
-    request.body = '{"id": 0}';
-    request.contentType = "application/json";
-    request.size = 0;
-    request.time = DateTime.now();
-    httpCall.request = request;
-    final response = AliceHttpResponse();
-    response.headers = {};
-    response.body = '{"id": 0}';
-    response.size = 0;
-    response.time = DateTime.now();
-
-    httpCall.response = response;
-    httpCall.method = "POST";
-    httpCall.endpoint = "/test";
-    httpCall.server = "https://test.com";
-    httpCall.secure = true;
-    return httpCall;
-  }
+  static AliceHttpCall getFilledHttpCall() =>
+      AliceHttpCall(DateTime.now().microsecondsSinceEpoch)
+        ..loading = false
+        ..request = (AliceHttpRequest()
+          ..headers = {}
+          ..body = '{"id": 0}'
+          ..contentType = "application/json"
+          ..size = 0
+          ..time = DateTime.now())
+        ..response = (AliceHttpResponse()
+          ..headers = {}
+          ..body = '{"id": 0}'
+          ..size = 0
+          ..time = DateTime.now())
+        ..method = "POST"
+        ..endpoint = "/test"
+        ..server = "https://test.com"
+        ..secure = true;
 }

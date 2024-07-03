@@ -76,7 +76,7 @@ class AliceLogger {
 
   /// Returns raw logs from Android via ADB.
   Future<String> getAndroidRawLogs() async {
-    if (OperatingSystem.isAndroid()) {
+    if (OperatingSystem.isAndroid) {
       final ProcessResult process =
           await Process.run('logcat', ['-v', 'raw', '-d']);
       return process.stdout as String;
@@ -86,7 +86,7 @@ class AliceLogger {
 
   /// Clears all raw logs.
   Future<void> clearAndroidRawLogs() async {
-    if (OperatingSystem.isAndroid()) {
+    if (OperatingSystem.isAndroid) {
       await Process.run('logcat', ['-c']);
     }
   }
