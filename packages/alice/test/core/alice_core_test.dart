@@ -10,7 +10,7 @@ import 'package:mocktail/mocktail.dart';
 
 import '../mock/alice_logger_mock.dart';
 import '../mock/alice_storage_mock.dart';
-import '../mocked_data.dart';
+import '../mock/mocked_data.dart';
 
 void main() {
   late AliceCore aliceCore;

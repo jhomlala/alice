@@ -6,7 +6,7 @@ import 'package:alice/model/alice_http_response.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
-import '../mocked_data.dart';
+import '../mock/mocked_data.dart';
 
 void main() {
   late AliceMemoryStorage storage;
