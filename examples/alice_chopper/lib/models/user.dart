@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:example/models/address.dart';
-import 'package:example/models/company.dart';
+import 'package:alice_chopper_example/models/address.dart';
+import 'package:alice_chopper_example/models/company.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';

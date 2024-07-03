@@ -1,4 +1,4 @@
-package com.jhomlala.example.example
+package com.jhomlala.alice_chopper_example
 
 import io.flutter.embedding.android.FlutterActivity
 
