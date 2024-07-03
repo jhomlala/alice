@@ -1,4 +1,4 @@
-import 'dart:io' show  Process, ProcessResult;
+import 'dart:io' show Process, ProcessResult;
 
 import 'package:alice/helper/operating_system.dart';
 import 'package:alice/model/alice_log.dart';

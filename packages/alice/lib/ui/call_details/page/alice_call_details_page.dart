@@ -78,7 +78,7 @@ class _AliceCallDetailsPageState extends State<AliceCallDetailsPage>
                       ? FloatingActionButton(
                           backgroundColor: AliceTheme.lightRed,
                           key: const Key('share_key'),
-                          onPressed: () async => _shareCall(),
+                          onPressed: _shareCall,
                           child: const Icon(
                             Icons.share,
                             color: AliceTheme.white,

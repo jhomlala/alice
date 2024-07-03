@@ -143,6 +143,5 @@ void main() {
     test("should return null if call doesn't exist", () {
       expect(null, storage.selectCall(1));
     });
-
   });
 }

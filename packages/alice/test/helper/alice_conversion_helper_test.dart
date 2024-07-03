@@ -1,9 +1,9 @@
 import 'package:alice/helper/alice_conversion_helper.dart';
 import 'package:test/test.dart';
 
-void main(){
-  group("AliceConversionHelper", (){
-    test("should format bytes", (){
+void main() {
+  group("AliceConversionHelper", () {
+    test("should format bytes", () {
       expect(AliceConversionHelper.formatBytes(-100), "-1 B");
       expect(AliceConversionHelper.formatBytes(0), "0 B");
       expect(AliceConversionHelper.formatBytes(100), "100 B");
@@ -16,8 +16,7 @@ void main(){
       expect(AliceConversionHelper.formatBytes(100000000), "100.00 MB");
     });
 
-
-    test("should format time", (){
+    test("should format time", () {
       expect(AliceConversionHelper.formatTime(-100), "-1 ms");
       expect(AliceConversionHelper.formatTime(0), "0 ms");
       expect(AliceConversionHelper.formatTime(100), "100 ms");

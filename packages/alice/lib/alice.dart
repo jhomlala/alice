@@ -44,7 +44,6 @@ class Alice {
   /// Navigator key used for navigating to inspector
   GlobalKey<NavigatorState>? _navigatorKey;
 
-
   /// Creates alice instance.
   Alice({
     GlobalKey<NavigatorState>? navigatorKey,

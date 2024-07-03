@@ -20,7 +20,6 @@ class AliceMemoryStorage implements AliceStorage {
 
   final BehaviorSubject<List<AliceHttpCall>> callsSubject;
 
-
   @override
   Stream<List<AliceHttpCall>> get callsStream => callsSubject.stream;
 
@@ -105,5 +104,4 @@ class AliceMemoryStorage implements AliceStorage {
   @override
   AliceHttpCall? selectCall(int requestId) => callsSubject.value
       .firstWhereOrNull((AliceHttpCall call) => call.id == requestId);
-
 }

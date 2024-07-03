@@ -273,31 +273,28 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
             OperatingSystem.isAndroid() ? OpenFilex.open(result.path) : null,
       );
     } else {
-      var title = "";
-      var description = "";
-      switch (result.error) {
-        case AliceExportResultError.logGenerate:
-          title =
-              context.i18n(AliceTranslationKey.saveDialogPermissionErrorTitle);
-          description = context
-              .i18n(AliceTranslationKey.saveDialogPermissionErrorDescription);
-
-        case AliceExportResultError.empty:
-          title = context.i18n(AliceTranslationKey.saveDialogEmptyErrorTitle);
-          description =
-              context.i18n(AliceTranslationKey.saveDialogEmptyErrorDescription);
-        case AliceExportResultError.permission:
-          title =
-              context.i18n(AliceTranslationKey.saveDialogPermissionErrorTitle);
-          description = context
-              .i18n(AliceTranslationKey.saveDialogPermissionErrorDescription);
-        case AliceExportResultError.file:
-          title =
-              context.i18n(AliceTranslationKey.saveDialogFileSaveErrorTitle);
-          description = context
-              .i18n(AliceTranslationKey.saveDialogFileSaveErrorDescription);
-        default:
-      }
+      final [String title, String description] = switch (result.error) {
+        AliceExportResultError.logGenerate => [
+            context.i18n(AliceTranslationKey.saveDialogPermissionErrorTitle),
+            context
+                .i18n(AliceTranslationKey.saveDialogPermissionErrorDescription),
+          ],
+        AliceExportResultError.empty => [
+            context.i18n(AliceTranslationKey.saveDialogEmptyErrorTitle),
+            context.i18n(AliceTranslationKey.saveDialogEmptyErrorDescription),
+          ],
+        AliceExportResultError.permission => [
+            context.i18n(AliceTranslationKey.saveDialogPermissionErrorTitle),
+            context
+                .i18n(AliceTranslationKey.saveDialogPermissionErrorDescription),
+          ],
+        AliceExportResultError.file => [
+            context.i18n(AliceTranslationKey.saveDialogFileSaveErrorTitle),
+            context
+                .i18n(AliceTranslationKey.saveDialogFileSaveErrorDescription),
+          ],
+        _ => ["", ""],
+      };
 
       AliceGeneralDialog.show(
         context: context,

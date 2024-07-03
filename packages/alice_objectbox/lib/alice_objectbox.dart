@@ -96,7 +96,6 @@ class AliceObjectBox implements AliceStorage {
   @override
   Future<void> removeCalls() => _store.httpCalls.removeAllAsync();
 
-
   @override
   AliceStats getStats() => (
         total: _store.httpCalls.count(),

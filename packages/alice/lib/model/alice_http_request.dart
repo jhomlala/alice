@@ -1,4 +1,3 @@
-
 import 'dart:io' show Cookie;
 
 import 'package:alice/model/alice_form_data_file.dart';
@@ -9,7 +8,7 @@ import 'package:equatable/equatable.dart';
 class AliceHttpRequest with EquatableMixin {
   int size = 0;
   DateTime time = DateTime.now();
-  Map<String,String> headers = <String,String>{};
+  Map<String, String> headers = <String, String>{};
   dynamic body = '';
   String? contentType = '';
   List<Cookie> cookies = [];

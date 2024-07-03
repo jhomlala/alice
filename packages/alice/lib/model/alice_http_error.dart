@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 
 /// Definition of http error data holder.

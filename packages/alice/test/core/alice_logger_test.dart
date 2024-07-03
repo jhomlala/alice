@@ -27,7 +27,10 @@ void main() {
     });
 
     test("should clear logs", () {
-      final logs = [AliceLog(message: "test"), AliceLog(message: "test2"),];
+      final logs = [
+        AliceLog(message: "test"),
+        AliceLog(message: "test2"),
+      ];
 
       aliceLogger.addAll(logs);
 
@@ -39,7 +42,10 @@ void main() {
     });
 
     test("should set maximum size", () {
-      final logs = [AliceLog(message: "test"), AliceLog(message: "test2"),];
+      final logs = [
+        AliceLog(message: "test"),
+        AliceLog(message: "test2"),
+      ];
 
       aliceLogger.addAll(logs);
 

@@ -1,6 +1,7 @@
 # 1.0.0-dev.9
-* Added tests.
-* General code refactor.
+* Added unit tests.
+* Updated CI/CD task for tests.
+* General overhaul of code base. 
 
 # 1.0.0-dev.8
 * Added storage abstractions (by Klemen Tusar https://github.com/techouse).
