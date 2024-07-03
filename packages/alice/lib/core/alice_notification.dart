@@ -8,6 +8,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 /// Helper for displaying local notifications.
 class AliceNotification {
+  static const _payload = 'Alice';
+  static const _channel = 'Alice';
+
   /// Notification plugin instance
   FlutterLocalNotificationsPlugin? _flutterLocalNotificationsPlugin;
 
@@ -32,9 +35,9 @@ class AliceNotification {
     _openInspectorCallback = openInspectorCallback;
     _notificationDetails = NotificationDetails(
       android: AndroidNotificationDetails(
-        'Alice',
-        'Alice',
-        channelDescription: 'Alice',
+        _channel,
+        _channel,
+        channelDescription: _channel,
         enableVibration: false,
         playSound: false,
         largeIcon: DrawableResourceAndroidBitmap(notificationIcon),
@@ -141,7 +144,7 @@ class AliceNotification {
             .replaceAll("[callCount]", stats.total.toString()),
         message,
         _notificationDetails,
-        payload: '',
+        payload: _payload,
       );
 
       _notificationMessageDisplayed = message;
