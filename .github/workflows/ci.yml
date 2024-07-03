@@ -31,7 +31,7 @@ jobs:
       - name: Analyze the project's Dart code
         run: melos analyze --fatal-infos
       - name: Invertase Analyze
-        uses: invertase/github-action-dart-analyzer@v1
+        uses: invertase/github-action-dart-analyzer@v3
         with:
           fatal-infos: true
           fatal-warnings: true
