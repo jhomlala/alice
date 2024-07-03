@@ -1,5 +1,5 @@
 import 'package:chopper/chopper.dart';
-import 'package:example/models/todo.dart';
+import 'package:alice_chopper_example/models/todo.dart';
 
 part 'todos_service.chopper.dart';
 

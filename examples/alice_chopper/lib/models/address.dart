@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:example/models/geo_location.dart';
+import 'package:alice_chopper_example/models/geo_location.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'address.g.dart';

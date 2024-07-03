@@ -1,5 +1,5 @@
 import 'package:chopper/chopper.dart';
-import 'package:example/models/photo.dart';
+import 'package:alice_chopper_example/models/photo.dart';
 
 part 'photos_service.chopper.dart';
 
