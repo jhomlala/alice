@@ -1,8 +1,9 @@
 name: alice_chopper
 description: "Alice + Chopper integration. It contains plugin for Alice which allows to use Chopper package."
-version: 1.0.4
+version: 1.0.5
 repository: https://github.com/jhomlala/alice
 homepage: https://github.com/jhomlala/alice
+topics: http, inspector, alice, chopper, interceptor
 
 environment:
   sdk: '>=3.4.1 <4.0.0'

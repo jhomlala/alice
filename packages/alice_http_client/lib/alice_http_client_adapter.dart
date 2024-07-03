@@ -5,7 +5,6 @@ import 'package:alice/core/alice_adapter.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
-import 'package:alice/utils/alice_parser.dart';
 
 class AliceHttpClientAdapter with AliceAdapter {
   /// Handles httpClientRequest and creates http alice call from it

@@ -3,6 +3,7 @@ description: Alice is an HTTP Inspector tool which helps debugging http requests
 version: 1.0.0-dev.9
 homepage: https://github.com/jhomlala/alice
 repository: https://github.com/jhomlala/alice
+topics: http, inspector, dio, chopper, interceptor, alice
 
 environment:
   sdk: ^3.0.0

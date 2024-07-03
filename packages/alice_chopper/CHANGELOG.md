@@ -1,3 +1,7 @@
+# 1.0.5
+* Untrack gitignored files.
+* Updated metadata.
+
 # 1.0.4
 
 * Create error log on http exception (by Klemen Tusar https://github.com/techouse).
