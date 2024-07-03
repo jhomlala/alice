@@ -12,8 +12,6 @@ export 'package:alice/core/alice_memory_storage.dart';
 export 'package:alice/utils/alice_parser.dart';
 
 class Alice {
-  late AliceConfiguration _configuration;
-
   /// Alice core instance
   late final AliceCore _aliceCore;
 
@@ -28,7 +26,8 @@ class Alice {
   }
 
   /// Get currently used navigation key
-  GlobalKey<NavigatorState>? getNavigatorKey() => _configuration.navigatorKey;
+  GlobalKey<NavigatorState>? getNavigatorKey() =>
+      _aliceCore.configuration.navigatorKey;
 
   /// Opens Http calls inspector. This will navigate user to the new fullscreen
   /// page where all listened http calls can be viewed.
