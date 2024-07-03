@@ -12,13 +12,13 @@ import 'package:flutter/services.dart';
 /// Widget which renders log list for calls list page.
 class AliceLogListWidget extends StatefulWidget {
   const AliceLogListWidget({
-    required this.logsListenable,
+    required this.logsStream,
     required this.scrollController,
     required this.emptyWidget,
     super.key,
   });
 
-  final ValueListenable<List<AliceLog>> logsListenable;
+  final Stream<List<AliceLog>>? logsStream;
   final ScrollController? scrollController;
   final Widget emptyWidget;
 
@@ -32,9 +32,10 @@ class _AliceLogListWidgetState extends State<AliceLogListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<List<AliceLog>>(
-      valueListenable: widget.logsListenable,
-      builder: (_, List<AliceLog> logs, __) {
+    return StreamBuilder<List<AliceLog>>(
+      stream: widget.logsStream,
+      builder: (context, snapshot) {
+        final logs = snapshot.data ?? [];
         if (logs.isEmpty) {
           return widget.emptyWidget;
         }

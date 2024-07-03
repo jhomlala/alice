@@ -2,77 +2,48 @@ import 'dart:io' show Process, ProcessResult;
 
 import 'package:alice/helper/operating_system.dart';
 import 'package:alice/model/alice_log.dart';
-import 'package:alice/utils/num_comparison.dart';
-import 'package:flutter/foundation.dart';
+import 'package:rxdart/rxdart.dart';
 
 /// Logger used to handle logs from application.
 class AliceLogger {
-  AliceLogger({int? maximumSize = 1000}) : _maximumSize = maximumSize;
+  /// Maximum logs size. If null, logs will be not rotated.
+  final int? maximumSize;
 
-  final ValueNotifier<List<AliceLog>> _logs = ValueNotifier<List<AliceLog>>([]);
+  /// Subject which keeps logs.
+  final BehaviorSubject<List<AliceLog>> _logsSubject =
+      BehaviorSubject.seeded([]);
 
-  ValueListenable<List<AliceLog>> get listenable => _logs;
+  AliceLogger({required this.maximumSize});
 
-  List<AliceLog> get logs => listenable.value;
+  /// Getter of stream of logs
+  Stream<List<AliceLog>> get logsStream => _logsSubject.stream;
 
-  int? _maximumSize;
+  /// Getter of all logs
+  List<AliceLog> get logs => _logsSubject.value;
 
-  /// The maximum number of logs to store or `null` for unlimited storage.
-  ///
-  /// If more logs arrive, the oldest ones (based on their [
-  /// AliceLog.timestamp]) will be removed.
-  int? get maximumSize => _maximumSize;
-
-  set maximumSize(int? value) {
-    _maximumSize = maximumSize;
-
-    if (value != null && logs.length > value) {
-      _logs.value = logs.sublist(logs.length - value, logs.length);
-    }
-  }
-
+  /// Adds all logs.
   void addAll(List<AliceLog> logs) {
     for (var log in logs) {
       add(log);
     }
   }
 
+  /// Add one log. It sorts logs after adding new element. If [maximumSize] is
+  /// set and max size is reached, first log will be deleted.
   void add(AliceLog log) {
-    late final int index;
-    if (logs.isEmpty || !log.timestamp.isBefore(logs.last.timestamp)) {
-      // Quick path as new logs are usually more recent.
-      index = logs.length;
-    } else {
-      // Binary search to find the insertion index.
-      int min = 0;
-      int max = logs.length;
-      while (min < max) {
-        final int mid = min + ((max - min) >> 1);
-        final AliceLog item = logs[mid];
-        if (log.timestamp.isBefore(item.timestamp)) {
-          max = mid;
-        } else {
-          min = mid + 1;
-        }
-      }
-      assert(min == max, '');
-      index = min;
+    final values = _logsSubject.value;
+    final count = values.length;
+    if (maximumSize != null && count >= maximumSize!) {
+      values.removeAt(0);
     }
 
-    int startIndex = 0;
-    if (maximumSize != null && logs.length.gte(maximumSize)) {
-      if (index == 0) return;
-      startIndex = logs.length - maximumSize! + 1;
-    }
-    _logs.value = <AliceLog>[
-      ...logs.sublist(startIndex, index),
-      log,
-      ...logs.sublist(index, logs.length),
-    ];
+    values.add(log);
+    values.sort((log1, log2) => log1.timestamp.compareTo(log2.timestamp));
+    _logsSubject.add(values);
   }
 
   /// Clears all logs.
-  void clearLogs() => _logs.value.clear();
+  void clearLogs() => _logsSubject.add([]);
 
   /// Returns raw logs from Android via ADB.
   Future<String> getAndroidRawLogs() async {

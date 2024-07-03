@@ -5,6 +5,7 @@
 * [BREAKING_CHANGE] Replaced configuration parameter of Alice with `AliceConfiguration`.
 * Fixed issue with invalid count of calls in notification.
 * Added payload to notification. 
+* General refactor of code base.
 * Updated documentation.
 
 # 1.0.0-dev.9

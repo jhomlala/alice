@@ -5,13 +5,10 @@ import 'package:equatable/equatable.dart';
 
 /// Definition of http calls data holder.
 class AliceHttpCall with EquatableMixin {
-  AliceHttpCall(this.id) {
-    loading = true;
-    createdTime = DateTime.now();
-  }
+  AliceHttpCall(this.id);
 
   final int id;
-  late DateTime createdTime;
+  final DateTime createdTime = DateTime.now();
   String client = '';
   bool loading = true;
   bool secure = false;
@@ -24,11 +21,6 @@ class AliceHttpCall with EquatableMixin {
   AliceHttpRequest? request;
   AliceHttpResponse? response;
   AliceHttpError? error;
-
-  void setResponse(AliceHttpResponse response) {
-    this.response = response;
-    loading = false;
-  }
 
   @override
   List<Object?> get props => [

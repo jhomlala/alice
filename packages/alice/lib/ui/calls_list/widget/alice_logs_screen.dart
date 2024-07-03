@@ -26,7 +26,7 @@ class AliceLogsScreen extends StatelessWidget {
               emptyWidget: const AliceEmptyLogsWidget(),
             )
           : AliceLogListWidget(
-              logsListenable: aliceLogger!.listenable,
+              logsStream: aliceLogger?.logsStream,
               scrollController: scrollController,
               emptyWidget: const AliceEmptyLogsWidget(),
             )
