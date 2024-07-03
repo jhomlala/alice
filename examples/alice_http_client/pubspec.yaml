@@ -1,8 +1,8 @@
-name: alice_http_client_example
+name: example
 description: "A project to showcase http client and Alice integration."
 publish_to: 'none'
 
-version: 1.0.0+2
+version: 1.0.0+1
 
 environment:
   sdk: ^3.0.0
