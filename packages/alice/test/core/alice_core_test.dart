@@ -5,8 +5,9 @@ import 'package:alice/core/alice_storage.dart';
 import 'package:alice/model/alice_configuration.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:test/test.dart';
 
 import '../mock/alice_logger_mock.dart';
 import '../mock/alice_storage_mock.dart';
@@ -18,6 +19,7 @@ void main() {
   late AliceLogger aliceLogger;
 
   setUp(() {
+    TestWidgetsFlutterBinding.ensureInitialized();
     registerFallbackValue(MockedData.getLoadingHttpCall());
     registerFallbackValue(AliceHttpError());
     registerFallbackValue(AliceHttpResponse());
@@ -27,7 +29,14 @@ void main() {
 
     when(() => aliceStorage.callsStream)
         .thenAnswer((_) => const Stream.empty());
-    aliceCore = AliceCore(configuration: AliceConfiguration());
+    aliceCore = AliceCore(
+      configuration: AliceConfiguration(
+        showNotification: false,
+        showInspectorOnShake: false,
+        storage: aliceStorage,
+        logger: aliceLogger,
+      ),
+    );
   });
 
   group("AliceCore", () {

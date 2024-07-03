@@ -11,11 +11,10 @@ class AliceNavigation {
   /// Navigates to calls list page.
   static Future<void> navigateToCallsList({
     required AliceCore core,
-    required AliceLogger logger,
   }) {
     return _navigateToPage(
       core: core,
-      child: AliceCallsListPage(core: core, logger: logger),
+      child: AliceCallsListPage(core: core),
     );
   }
 

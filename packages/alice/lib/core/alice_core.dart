@@ -19,14 +19,8 @@ import 'package:flutter/material.dart';
 typedef AliceOnCallsChanged = Future<void> Function(List<AliceHttpCall>? calls);
 
 class AliceCore {
-  /// Default max logs count.
-  static const _defaultMaxLogs = 1000;
-
   /// Configuration of Alice
   late AliceConfiguration _configuration;
-
-  /// Alice logger instance
-  late AliceLogger _aliceLogger;
 
   /// Detector used to detect device shakes
   ShakeDetector? _shakeDetector;
@@ -43,7 +37,6 @@ class AliceCore {
   /// Creates alice core instance
   AliceCore({required AliceConfiguration configuration}) {
     _configuration = configuration;
-    _aliceLogger = AliceLogger(maximumSize: _defaultMaxLogs);
     _subscribeToCallChanges();
     if (_configuration.showNotification) {
       _notification = AliceNotification();
@@ -99,7 +92,7 @@ class AliceCore {
     }
     if (!_isInspectorOpened) {
       _isInspectorOpened = true;
-      AliceNavigation.navigateToCallsList(core: this, logger: _aliceLogger)
+      AliceNavigation.navigateToCallsList(core: this)
           .then((_) => _isInspectorOpened = false);
     }
   }
@@ -142,10 +135,10 @@ class AliceCore {
   }
 
   /// Adds new log to Alice logger.
-  void addLog(AliceLog log) => _aliceLogger.add(log);
+  void addLog(AliceLog log) => _configuration.aliceLogger.add(log);
 
   /// Adds list of logs to Alice logger
-  void addLogs(List<AliceLog> logs) => _aliceLogger.addAll(logs);
+  void addLogs(List<AliceLog> logs) => _configuration.aliceLogger.addAll(logs);
 
   /// Returns flag which determines whether inspector is opened
   bool get isInspectorOpened => _isInspectorOpened;

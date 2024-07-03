@@ -25,11 +25,10 @@ import 'package:open_filex/open_filex.dart';
 /// and search calls.
 class AliceCallsListPage extends StatefulWidget {
   final AliceCore core;
-  final AliceLogger? logger;
+
 
   const AliceCallsListPage({
     required this.core,
-    this.logger,
     super.key,
   });
 
@@ -142,7 +141,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
             ),
             AliceLogsScreen(
               scrollController: _scrollController,
-              aliceLogger: widget.logger,
+              aliceLogger: widget.core.configuration.aliceLogger,
               isAndroidRawLogsEnabled: isAndroidRawLogsEnabled,
             ),
           ],
@@ -192,9 +191,9 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
   /// Called when logs clear button has been pressed.
   void _onLogsClearPressed() => setState(() {
         if (isAndroidRawLogsEnabled) {
-          widget.logger?.clearAndroidRawLogs();
+          widget.core.configuration.aliceLogger.clearAndroidRawLogs();
         } else {
-          widget.logger?.clearLogs();
+          widget.core.configuration.aliceLogger.clearLogs();
         }
       });
 
