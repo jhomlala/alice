@@ -1,4 +1,10 @@
+# 1.0.0-dev.10
+
+* [BREAKING_CHANGE] Removed maxCallsCount. To change call count, use `storage` constructor parameter
+  with call count.
+
 # 1.0.0-dev.9
+
 * Fixed saving issue with Android 13 onwards.
 * Added unit tests.
 * Updated CI/CD task for tests.
@@ -6,11 +12,13 @@
 * Updated metadata.
 
 # 1.0.0-dev.8
+
 * Added storage abstractions (by Klemen Tusar https://github.com/techouse).
 * Added in memory storage implementation (by Klemen Tusar https://github.com/techouse).
 * Added translations.
 
 # 1.0.0-dev.7
+
 * Refactored UI code.
 
 # 1.0.0-dev.6

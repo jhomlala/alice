@@ -1,4 +1,5 @@
 import 'package:alice/alice.dart';
+import 'package:alice/model/alice_configuration.dart';
 import 'package:alice_http/alice_http_adapter.dart';
 import 'package:alice_http/alice_http_extensions.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +17,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late final AliceHttpAdapter _aliceHttpAdapter = AliceHttpAdapter();
 
-  late final Alice _alice = Alice(
-    showNotification: true,
-    showInspectorOnShake: true,
-    maxCallsCount: 1000,
-  )..addAdapter(_aliceHttpAdapter);
+  late final Alice _alice = Alice(configuration: AliceConfiguration())
+    ..addAdapter(_aliceHttpAdapter);
 
   @override
   Widget build(BuildContext context) {

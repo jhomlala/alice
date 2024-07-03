@@ -1,4 +1,5 @@
 import 'package:alice/alice.dart';
+import 'package:alice/model/alice_configuration.dart';
 import 'package:alice_chopper/alice_chopper_adapter.dart';
 import 'package:alice_chopper_example/interceptors/json_content_type_inerceptor.dart';
 import 'package:alice_chopper_example/interceptors/json_headers_interceptor.dart';
@@ -35,11 +36,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final AliceChopperAdapter _aliceChopperAdapter = AliceChopperAdapter();
 
-  late final Alice _alice = Alice(
-    showNotification: true,
-    showInspectorOnShake: true,
-    maxCallsCount: 1000,
-  )..addAdapter(_aliceChopperAdapter);
+  late final Alice _alice = Alice(configuration: AliceConfiguration())
+    ..addAdapter(_aliceChopperAdapter);
 
   late final ChopperClient _chopper = ChopperClient(
     baseUrl: Uri.https('jsonplaceholder.typicode.com'),

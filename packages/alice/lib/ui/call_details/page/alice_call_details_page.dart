@@ -74,17 +74,18 @@ class _AliceCallDetailsPageState extends State<AliceCallDetailsPage>
                       AliceCallErrorScreen(call: widget.call),
                     ],
                   ),
-                  floatingActionButton: widget.core.showShareButton ?? false
-                      ? FloatingActionButton(
-                          backgroundColor: AliceTheme.lightRed,
-                          key: const Key('share_key'),
-                          onPressed: _shareCall,
-                          child: const Icon(
-                            Icons.share,
-                            color: AliceTheme.white,
-                          ),
-                        )
-                      : null,
+                  floatingActionButton:
+                      widget.core.configuration.showShareButton
+                          ? FloatingActionButton(
+                              backgroundColor: AliceTheme.lightRed,
+                              key: const Key('share_key'),
+                              onPressed: _shareCall,
+                              child: const Icon(
+                                Icons.share,
+                                color: AliceTheme.white,
+                              ),
+                            )
+                          : null,
                 ),
               );
             }

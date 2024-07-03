@@ -12,7 +12,8 @@ class AlicePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: core.directionality ?? Directionality.of(context),
+      textDirection:
+          core.configuration.directionality ?? Directionality.of(context),
       child: Theme(
         data: AliceTheme.getTheme(),
         child: child,
