@@ -291,7 +291,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
               context.i18n(AliceTranslationKey.saveDialogPermissionErrorTitle);
           description = context
               .i18n(AliceTranslationKey.saveDialogPermissionErrorDescription);
-        case AliceExportResultError.unknown:
+        case AliceExportResultError.file:
           title =
               context.i18n(AliceTranslationKey.saveDialogFileSaveErrorTitle);
           description = context

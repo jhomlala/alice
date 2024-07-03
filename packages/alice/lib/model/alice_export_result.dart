@@ -1,3 +1,4 @@
+/// Model of export result.
 class AliceExportResult {
   final bool success;
   final AliceExportResultError? error;
@@ -10,9 +11,10 @@ class AliceExportResult {
   });
 }
 
+/// Definition of all possible export errors.
 enum AliceExportResultError {
   logGenerate,
   empty,
   permission,
-  unknown,
+  file,
 }

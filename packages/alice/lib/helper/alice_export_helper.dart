@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert' show JsonEncoder;
-import 'dart:io' show Directory, File, FileMode, IOSink, Platform;
+import 'dart:io' show Directory, File, FileMode, IOSink;
 
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/helper/alice_conversion_helper.dart';
@@ -27,7 +27,7 @@ class AliceExportHelper {
     required AliceHttpCall call,
   }) async {
     final callLog =
-        await AliceExportHelper.buildCallLog(call: call, context: context);
+        await AliceExportHelper.buildFullCallLog(call: call, context: context);
 
     if (callLog == null) {
       return AliceExportResult(
@@ -63,22 +63,28 @@ class AliceExportHelper {
     return await _saveToFile(context, calls);
   }
 
+  /// Returns current storage permission status. Checks permission for iOS
+  /// For other platforms it returns true.
   static Future<bool> _getPermissionStatus() async {
-    if (OperatingSystem.isAndroid() || OperatingSystem.isIOS()) {
+    if (OperatingSystem.isIOS()) {
       return Permission.storage.status.isGranted;
     } else {
       return true;
     }
   }
 
+  /// Requests permissions for storage for iOS. For other platforms it doesn't
+  /// make any action and returns true.
   static Future<bool> _requestPermission() async {
-    if (OperatingSystem.isAndroid() || OperatingSystem.isIOS()) {
+    if (OperatingSystem.isIOS()) {
       return Permission.storage.request().isGranted;
     } else {
       return true;
     }
   }
 
+  /// Saves [calls] to file. For android it uses external storage directory and
+  /// for ios it uses application documents directory.
   static Future<AliceExportResult> _saveToFile(
     BuildContext context,
     List<AliceHttpCall> calls,
@@ -89,43 +95,32 @@ class AliceExportHelper {
             success: false, error: AliceExportResultError.empty);
       }
 
-      final Directory? externalDir = switch (Platform.operatingSystem) {
-        OperatingSystem.android => await getExternalStorageDirectory(),
-        OperatingSystem.ios => await getApplicationDocumentsDirectory(),
-        _ => await getApplicationCacheDirectory(),
-      };
-
-      if (externalDir != null) {
-        final String fileName =
-            'alice_log_${DateTime.now().millisecondsSinceEpoch}.txt';
-        final File file = File('${externalDir.path}/$fileName')..createSync();
-        final IOSink sink = file.openWrite(mode: FileMode.append)
-          ..write(await _buildAliceLog(context: context));
-        for (final AliceHttpCall call in calls) {
-          sink.write(_buildCallLog(context: context, call: call));
-        }
-        await sink.flush();
-        await sink.close();
-
-        return AliceExportResult(
-          success: true,
-          path: file.path,
-        );
-      } else {
-        return AliceExportResult(
-          success: false,
-          error: AliceExportResultError.unknown,
-        );
+      final Directory externalDir = await getApplicationCacheDirectory();
+      final String fileName =
+          'alice_log_${DateTime.now().millisecondsSinceEpoch}.txt';
+      final File file = File('${externalDir.path}/$fileName')..createSync();
+      final IOSink sink = file.openWrite(mode: FileMode.append)
+        ..write(await _buildAliceLog(context: context));
+      for (final AliceHttpCall call in calls) {
+        sink.write(_buildCallLog(context: context, call: call));
       }
+      await sink.flush();
+      await sink.close();
+
+      return AliceExportResult(
+        success: true,
+        path: file.path,
+      );
     } catch (exception) {
       AliceUtils.log(exception.toString());
       return AliceExportResult(
         success: false,
-        error: AliceExportResultError.unknown,
+        error: AliceExportResultError.file,
       );
     }
   }
 
+  /// Builds log string based on data collected from package info.
   static Future<String> _buildAliceLog({required BuildContext context}) async {
     final PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
@@ -138,8 +133,11 @@ class AliceExportHelper {
         '\n';
   }
 
-  static String _buildCallLog(
-      {required BuildContext context, required AliceHttpCall call}) {
+  /// Build log string based on [call].
+  static String _buildCallLog({
+    required BuildContext context,
+    required AliceHttpCall call,
+  }) {
     final StringBuffer stringBuffer = StringBuffer()
       ..writeAll([
         '===========================================\n',
@@ -210,7 +208,8 @@ class AliceExportHelper {
     return stringBuffer.toString();
   }
 
-  static Future<String?> buildCallLog({
+  /// Builds full call log string (package info log and call log).
+  static Future<String?> buildFullCallLog({
     required BuildContext context,
     required AliceHttpCall call,
   }) async {
