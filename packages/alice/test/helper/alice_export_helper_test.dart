@@ -39,6 +39,7 @@ void main() {
       expect(result.error, null);
 
       final file = File(result.path!);
+      expect(file.existsSync(), true);
       final content = await file.readAsString();
       _verifyLogLines(content);
       file.delete();
@@ -60,7 +61,8 @@ void main() {
 
   test("should not save call log to file if file problem occurs", () async {
     TestWidgetsFlutterBinding.ensureInitialized();
-    _setPathProvider();
+    _setPackageInfo();
+    _setPathProvider(isFailing: true);
     _setDefaultTargetPlatform();
 
     final result = await AliceExportHelper.saveCallsToFile(
@@ -146,12 +148,16 @@ void _setPackageInfo() {
   );
 }
 
-void _setPathProvider() {
+void _setPathProvider({bool isFailing = false}) {
   const MethodChannel channel =
       MethodChannel('plugins.flutter.io/path_provider');
   TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
       .setMockMethodCallHandler(channel, (MethodCall methodCall) async {
-    return ".";
+    if (isFailing) {
+      return "";
+    } else {
+      return ".";
+    }
   });
 }
 

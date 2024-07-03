@@ -4,7 +4,7 @@ import 'package:alice/core/alice_logger.dart';
 import 'package:alice/core/alice_storage.dart';
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/helper/alice_export_helper.dart';
-import 'package:alice/core/alice_notification_helper.dart';
+import 'package:alice/core/alice_notification.dart';
 import 'package:alice/helper/operating_system.dart';
 import 'package:alice/model/alice_export_result.dart';
 import 'package:alice/model/alice_http_call.dart';
