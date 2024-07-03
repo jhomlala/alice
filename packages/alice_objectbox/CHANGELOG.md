@@ -2,6 +2,7 @@
 
 * Updated documentation.
 * Updated metadata.
+* Updated dependencies.
 
 # 1.0.0
 

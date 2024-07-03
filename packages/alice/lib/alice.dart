@@ -11,6 +11,7 @@ import 'package:flutter/widgets.dart';
 export 'package:alice/core/alice_store.dart';
 export 'package:alice/model/alice_log.dart';
 export 'package:alice/core/alice_memory_storage.dart';
+export 'package:alice/utils/alice_parser.dart';
 
 class Alice {
   /// Should user be notified with notification when there's new request caught

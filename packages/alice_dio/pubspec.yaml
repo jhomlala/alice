@@ -3,13 +3,19 @@ description: "Alice + Dio integration. It contains plugin for Alice which allows
 version: 1.0.3
 repository: https://github.com/jhomlala/alice
 homepage: https://github.com/jhomlala/alice
+topics:
+  - http
+  - inspector
+  - dio
+  - interceptor
+  - alice
 
 environment:
   sdk: '>=3.4.1 <4.0.0'
   flutter: ">=3.3.0"
 
 dependencies:
-  alice: ^1.0.0-dev.6
+  alice: ^1.0.0-dev.9
   dio: ^5.4.3+1
   flutter:
     sdk: flutter

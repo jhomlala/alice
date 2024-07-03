@@ -2,6 +2,7 @@
 
 * Untrack gitignored files.
 * Updated metadata.
+* Updated dependencies.
 
 # 1.0.3
 
