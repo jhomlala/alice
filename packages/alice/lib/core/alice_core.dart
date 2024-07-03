@@ -54,6 +54,7 @@ class AliceCore {
     }
   }
 
+  /// Returns current configuration
   AliceConfiguration get configuration => _configuration;
 
   /// Set custom navigation key. This will help if there's route library.
