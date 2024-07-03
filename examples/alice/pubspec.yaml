@@ -1,8 +1,8 @@
-name: example
+name: alice_example
 description: "Example project to showcase Alice."
 publish_to: 'none'
 
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ^3.0.0
@@ -10,13 +10,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  chopper: ^8.0.0
   path_provider:
   alice:
 
 dev_dependencies:
   build_runner:
-  chopper_generator: ^8.0.0
   flutter_lints: ^4.0.0
 
 dependency_overrides:
