@@ -9,23 +9,28 @@ import 'package:alice/utils/num_comparison.dart';
 import 'package:collection/collection.dart';
 import 'package:rxdart/subjects.dart';
 
+/// Storage which uses memory to store calls data. It's a default storage
+/// method.
 class AliceMemoryStorage implements AliceStorage {
   AliceMemoryStorage({
     required this.maxCallsCount,
-  })  : callsSubject = BehaviorSubject.seeded([]),
+  })  : _callsSubject = BehaviorSubject.seeded([]),
         assert(maxCallsCount > 0, 'Max calls count should be greater than 0');
-
   @override
   final int maxCallsCount;
 
-  final BehaviorSubject<List<AliceHttpCall>> callsSubject;
+  /// Subject which stores all HTTP calls.
+  final BehaviorSubject<List<AliceHttpCall>> _callsSubject;
 
+  /// Stream which returns all HTTP calls on change.
   @override
-  Stream<List<AliceHttpCall>> get callsStream => callsSubject.stream;
+  Stream<List<AliceHttpCall>> get callsStream => _callsSubject.stream;
 
+  /// Returns all HTTP calls.
   @override
-  List<AliceHttpCall> getCalls() => callsSubject.value;
+  List<AliceHttpCall> getCalls() => _callsSubject.value;
 
+  /// Returns stats based on calls.
   @override
   AliceStats getStats() {
     final List<AliceHttpCall> calls = getCalls();
@@ -57,20 +62,22 @@ class AliceMemoryStorage implements AliceStorage {
     );
   }
 
+  /// Adds new call to calls list.
   @override
   void addCall(AliceHttpCall call) {
-    final int callsCount = callsSubject.value.length;
+    final int callsCount = _callsSubject.value.length;
     if (callsCount >= maxCallsCount) {
-      final List<AliceHttpCall> originalCalls = callsSubject.value;
+      final List<AliceHttpCall> originalCalls = _callsSubject.value;
       originalCalls.removeAt(0);
       originalCalls.add(call);
 
-      callsSubject.add(originalCalls);
+      _callsSubject.add(originalCalls);
     } else {
-      callsSubject.add([...callsSubject.value, call]);
+      _callsSubject.add([..._callsSubject.value, call]);
     }
   }
 
+  /// Adds error to a specific call.
   @override
   void addError(AliceHttpError error, int requestId) {
     final AliceHttpCall? selectedCall = selectCall(requestId);
@@ -80,9 +87,10 @@ class AliceMemoryStorage implements AliceStorage {
     }
 
     selectedCall.error = error;
-    callsSubject.add([...callsSubject.value]);
+    _callsSubject.add([..._callsSubject.value]);
   }
 
+  /// Adds response to a specific call.
   @override
   void addResponse(AliceHttpResponse response, int requestId) {
     final AliceHttpCall? selectedCall = selectCall(requestId);
@@ -97,13 +105,15 @@ class AliceMemoryStorage implements AliceStorage {
       ..duration = response.time.millisecondsSinceEpoch -
           (selectedCall.request?.time.millisecondsSinceEpoch ?? 0);
 
-    callsSubject.add([...callsSubject.value]);
+    _callsSubject.add([..._callsSubject.value]);
   }
 
+  /// Removes all calls.
   @override
-  void removeCalls() => callsSubject.add([]);
+  void removeCalls() => _callsSubject.add([]);
 
+  /// Searches for call with specific [requestId]. It may return null.
   @override
-  AliceHttpCall? selectCall(int requestId) => callsSubject.value
+  AliceHttpCall? selectCall(int requestId) => _callsSubject.value
       .firstWhereOrNull((AliceHttpCall call) => call.id == requestId);
 }

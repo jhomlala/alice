@@ -15,7 +15,7 @@ typedef AliceStats = ({
 
 /// Definition of storage
 abstract interface class AliceStorage {
-  /// Stream of HTTP calls.
+  /// Stream which returns all HTTP calls on change.
   abstract final Stream<List<AliceHttpCall>> callsStream;
 
   /// Max calls number which should be stored.

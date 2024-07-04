@@ -8,8 +8,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 /// Helper for displaying local notifications.
 class AliceNotification {
-  static const _payload = 'Alice';
-  static const _channel = 'Alice';
+  static const String _payload = 'Alice';
+  static const String _channel = 'Alice';
+  static const String _callCount = '[callCount]';
 
   /// Notification plugin instance
   FlutterLocalNotificationsPlugin? _flutterLocalNotificationsPlugin;
@@ -141,7 +142,7 @@ class AliceNotification {
         0,
         context
             .i18n(AliceTranslationKey.notificationTotalRequests)
-            .replaceAll("[callCount]", stats.total.toString()),
+            .replaceAll(_callCount, stats.total.toString()),
         message,
         _notificationDetails,
         payload: _payload,

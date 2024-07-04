@@ -10,10 +10,10 @@ class AliceLogger {
   final int? maximumSize;
 
   /// Subject which keeps logs.
-  final BehaviorSubject<List<AliceLog>> _logsSubject =
-      BehaviorSubject.seeded([]);
+  final BehaviorSubject<List<AliceLog>> _logsSubject;
 
-  AliceLogger({required this.maximumSize});
+  AliceLogger({required this.maximumSize})
+      : _logsSubject = BehaviorSubject.seeded([]);
 
   /// Getter of stream of logs
   Stream<List<AliceLog>> get logsStream => _logsSubject.stream;

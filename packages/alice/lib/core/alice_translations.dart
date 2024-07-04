@@ -1,8 +1,11 @@
 import 'package:alice/model/alice_translation.dart';
 
+/// Class used to manage translations in Alice.
 class AliceTranslations {
+  /// Contains list of translation data for all languages.
   static final List<AliceTranslationData> _translations = _initialise();
 
+  /// Initialises translation data for all languages.
   static List<AliceTranslationData> _initialise() {
     List<AliceTranslationData> translations = [];
     translations.add(_buildEnTranslations());
@@ -10,6 +13,7 @@ class AliceTranslations {
     return translations;
   }
 
+  /// Builds [AliceTranslationData] for english language.
   static AliceTranslationData _buildEnTranslations() {
     return AliceTranslationData(languageCode: "en", values: {
       AliceTranslationKey.alice: "Alice",
@@ -173,6 +177,7 @@ class AliceTranslations {
     });
   }
 
+  /// Builds [AliceTranslationData] for polish language.
   static AliceTranslationData _buildPlTranslations() {
     return AliceTranslationData(languageCode: "pl", values: {
       AliceTranslationKey.alice: "Alice",
