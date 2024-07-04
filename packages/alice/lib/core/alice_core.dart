@@ -15,8 +15,6 @@ import 'package:alice/ui/common/alice_navigation.dart';
 import 'package:alice/utils/shake_detector.dart';
 import 'package:flutter/material.dart';
 
-typedef AliceOnCallsChanged = Future<void> Function(List<AliceHttpCall>? calls);
-
 class AliceCore {
   /// Configuration of Alice
   late AliceConfiguration _configuration;

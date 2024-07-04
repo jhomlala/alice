@@ -103,6 +103,8 @@ class _AliceCallDetailsPageState extends State<AliceCallDetailsPage>
     );
   }
 
+  /// Called when share button has been pressed. It encodes the [widget.call]
+  /// and tries to invoke system action to share it.
   void _shareCall() async {
     await AliceExportHelper.shareCall(context: context, call: widget.call);
   }

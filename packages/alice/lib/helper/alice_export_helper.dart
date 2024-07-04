@@ -200,7 +200,7 @@ class AliceExportHelper {
       '--------------------------------------------\n',
       '${context.i18n(AliceTranslationKey.saveLogCurl)}\n',
       '--------------------------------------------\n',
-      getCurlCommand(call),
+      Curl.getCurlCommand(call),
       '\n',
       '==============================================\n',
       '\n',
