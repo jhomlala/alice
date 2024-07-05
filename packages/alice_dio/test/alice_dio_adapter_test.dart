@@ -1,5 +1,6 @@
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/model/alice_http_call.dart';
+import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice_dio/alice_dio_adapter.dart';
 import 'package:dio/dio.dart';
@@ -27,9 +28,33 @@ void main() {
 
   group("AliceDioAdapter", () {
     test("should handle GET call with json response", () async {
-      await dio.get<void>(
-        'https://httpbin.org/json',
-      );
+      await dio.get<void>('https://httpbin.org/json',
+          options: Options(headers: {"Content-Type": "application/json"}));
+
+      final requestMatcher = const TypeMatcher<AliceHttpRequest>()
+          .having((call) => call.time.millisecondsSinceEpoch, "Time is set",
+              greaterThan(0))
+          .having(
+            (call) => call.headers,
+            "Headers are set",
+            {"Content-Type": "application/json"},
+          )
+          .having(
+            (call) => call.contentType,
+            "Content type is set",
+            "application/json",
+          )
+          .having(
+            (call) => call.queryParameters,
+            "Query params are not set",
+            {},
+          );
+
+      final responseMatcher = const TypeMatcher<AliceHttpResponse>().having(
+          (call) => call.time.millisecondsSinceEpoch,
+          "Time is set",
+          greaterThan(0));
+
       final callMatcher = const TypeMatcher<AliceHttpCall>()
           .having((call) => call.id, "Id is set", greaterThan(0))
           .having((call) => call.createdTime.millisecondsSinceEpoch,
@@ -41,7 +66,10 @@ void main() {
           .having((call) => call.endpoint, "Endpoint is set", equals("/json"))
           .having((call) => call.server, "Server is set", equals("httpbin.org"))
           .having((call) => call.uri, "Uri is set",
-              equals("https://httpbin.org/json"));
+              equals("https://httpbin.org/json"))
+          .having((call) => call.duration, "Duration is 0", equals(0))
+          .having((call) => call.request, "Request matcher", requestMatcher)
+          .having((call) => call.response, "Response matcher", responseMatcher);
 
       // verify(() => aliceCore.addCall(AliceHttpCall(0)));
       verify(() => aliceCore.addCall(any(that: callMatcher)));
