@@ -1,4 +1,3 @@
-import 'package:alice/alice.dart';
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_response.dart';
@@ -31,7 +30,7 @@ void main() {
       await dio.get<void>(
         'https://httpbin.org/json',
       );
-      final callMatcher = TypeMatcher<AliceHttpCall>()
+      final callMatcher = const TypeMatcher<AliceHttpCall>()
           .having((call) => call.id, "Id is set", greaterThan(0))
           .having((call) => call.createdTime.millisecondsSinceEpoch,
               "Created time is set", greaterThan(0))
