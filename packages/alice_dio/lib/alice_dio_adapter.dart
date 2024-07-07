@@ -53,6 +53,7 @@ class AliceDioAdapter extends InterceptorsWrapper with AliceAdapter {
           }
           request.formDataFields = fields;
         }
+
         if (data.files.isNotEmpty == true) {
           final files = <AliceFormDataFile>[];
           for (var entry in data.files) {

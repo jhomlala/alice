@@ -1,3 +1,6 @@
+# 1.0.5
+* Added tests.
+
 # 1.0.4
 
 * Untrack gitignored files.

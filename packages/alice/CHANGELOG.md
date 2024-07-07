@@ -1,3 +1,6 @@
+# 1.0.0-dev.11
+* Fixed issue with invalid count of error calls in stats page.
+
 # 1.0.0-dev.10
 
 * [BREAKING_CHANGE] Removed `maxCallsCount`. To change call count, use `storage` constructor parameter
