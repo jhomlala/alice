@@ -20,7 +20,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late final AliceDioAdapter _aliceDioAdapter = AliceDioAdapter();
 
-  late final Alice _alice = Alice(configuration: AliceConfiguration())
+  final configuration = AliceConfiguration();
+  late final Alice _alice = Alice(configuration: configuration)
     ..addAdapter(_aliceDioAdapter);
 
   late final Dio _dio = Dio(BaseOptions(followRedirects: false))

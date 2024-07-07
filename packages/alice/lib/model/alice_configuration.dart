@@ -52,15 +52,23 @@ class AliceConfiguration {
         aliceLogger = logger ?? AliceLogger(maximumSize: _defaultMaxLogs);
 
   AliceConfiguration copyWith({
-    required GlobalKey<NavigatorState> newNavigatorKey,
-  }) {
-    return AliceConfiguration(
-      showNotification: showNotification,
-      showInspectorOnShake: showInspectorOnShake,
-      notificationIcon: notificationIcon,
-      directionality: directionality,
-      showShareButton: showShareButton,
-      navigatorKey: newNavigatorKey,
-    );
-  }
+    GlobalKey<NavigatorState>? navigatorKey,
+    bool? showNotification,
+    bool? showInspectorOnShake,
+    String? notificationIcon,
+    TextDirection? directionality,
+    bool? showShareButton,
+    AliceStorage? aliceStorage,
+    AliceLogger? aliceLogger,
+  }) =>
+      AliceConfiguration(
+        showNotification: showNotification ?? this.showNotification,
+        showInspectorOnShake: showInspectorOnShake ?? this.showInspectorOnShake,
+        notificationIcon: notificationIcon ?? this.notificationIcon,
+        directionality: directionality ?? this.directionality,
+        showShareButton: showShareButton ?? this.showShareButton,
+        navigatorKey: navigatorKey ?? this.navigatorKey,
+        storage: aliceStorage ?? this.aliceStorage,
+        logger: aliceLogger ?? this.aliceLogger,
+      );
 }

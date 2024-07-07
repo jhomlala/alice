@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:alice/model/alice_log.dart';
 import 'package:alice/model/alice_translation.dart';
+import 'package:alice/ui/calls_list/widget/alice_empty_logs_widget.dart';
+import 'package:alice/ui/calls_list/widget/alice_error_logs_widget.dart';
 import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/ui/common/alice_scroll_behavior.dart';
 import 'package:alice/ui/common/alice_theme.dart';
@@ -14,13 +16,11 @@ class AliceLogListWidget extends StatefulWidget {
   const AliceLogListWidget({
     required this.logsStream,
     required this.scrollController,
-    required this.emptyWidget,
     super.key,
   });
 
   final Stream<List<AliceLog>>? logsStream;
   final ScrollController? scrollController;
-  final Widget emptyWidget;
 
   @override
   State<AliceLogListWidget> createState() => _AliceLogListWidgetState();
@@ -35,9 +35,20 @@ class _AliceLogListWidgetState extends State<AliceLogListWidget> {
     return StreamBuilder<List<AliceLog>>(
       stream: widget.logsStream,
       builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.none ||
+            snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        if (snapshot.hasError) {
+          return const AliceErrorLogsWidget();
+        }
+
         final logs = snapshot.data ?? [];
         if (logs.isEmpty) {
-          return widget.emptyWidget;
+          return const AliceEmptyLogsWidget();
         }
 
         final List<AliceLog> filteredLogs = [

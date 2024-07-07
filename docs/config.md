@@ -10,9 +10,7 @@ Alice alice = Alice();
 2. Add navigator key to your application:
 
 ```dart
-MaterialApp
-(
-navigatorKey: alice.getNavigatorKey(), home: ...)
+MaterialApp(navigatorKey: alice.getNavigatorKey(), home: ...);
 ```
 
 You need to add this navigator key in order to show inspector UI.
@@ -26,10 +24,7 @@ Alice alice = Alice(configuration: AliceConfiguration(navigatorKey: yourNavigato
 If you need to pass navigatorKey lazily, you can use:
 
 ```dart
-alice.setNavigatorKey
-(
-yourNavigatorKeyHere
-);
+alice.setNavigatorKey(yourNavigatorKeyHere);
 ```
 
 This is minimal configuration required to run Alice. Can set optional settings in Alice constructor,
@@ -61,8 +56,7 @@ value is @mipmap/ic_launcher.
 
 ```dart
 
-Alice alice = Alice(
-    configuration: AliceConfiguration(notificationIcon: "myNotificationIconResourceName"));
+Alice alice = Alice(configuration: AliceConfiguration(notificationIcon: "myNotificationIconResourceName"));
 ```
 
 If you want to change the Directionality of Alice, you can use the `directionality` parameter. If

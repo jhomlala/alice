@@ -43,6 +43,7 @@ dependencies:
 
 ```yaml
 dependencies:
+  objectbox: any
   alice_objectbox: ^1.0.1
 ```
 

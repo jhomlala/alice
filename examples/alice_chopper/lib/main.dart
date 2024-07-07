@@ -36,7 +36,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final AliceChopperAdapter _aliceChopperAdapter = AliceChopperAdapter();
 
-  late final Alice _alice = Alice(configuration: AliceConfiguration())
+  final configuration = AliceConfiguration();
+  late final Alice _alice = Alice(configuration: configuration)
     ..addAdapter(_aliceChopperAdapter);
 
   late final ChopperClient _chopper = ChopperClient(

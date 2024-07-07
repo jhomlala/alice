@@ -17,7 +17,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late final AliceHttpAdapter _aliceHttpAdapter = AliceHttpAdapter();
 
-  late final Alice _alice = Alice(configuration: AliceConfiguration())
+  final configuration = AliceConfiguration();
+  late final Alice _alice = Alice(configuration: configuration)
     ..addAdapter(_aliceHttpAdapter);
 
   @override

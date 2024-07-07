@@ -78,6 +78,7 @@ enum AliceTranslationKey {
   callsListStats,
   callsListSave,
   logsEmpty,
+  logsError,
   logsItemError,
   logsItemStackTrace,
   logsCopied,

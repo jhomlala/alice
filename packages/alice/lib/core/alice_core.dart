@@ -57,7 +57,7 @@ class AliceCore {
 
   /// Set custom navigation key. This will help if there's route library.
   void setNavigatorKey(GlobalKey<NavigatorState> navigatorKey) {
-    _configuration = _configuration.copyWith(newNavigatorKey: navigatorKey);
+    _configuration = _configuration.copyWith(navigatorKey: navigatorKey);
   }
 
   /// Dispose subjects and subscriptions
@@ -79,7 +79,7 @@ class AliceCore {
 
   /// Opens Http calls inspector. This will navigate user to the new fullscreen
   /// page where all listened http calls can be viewed.
-  void navigateToCallListScreen() {
+  Future<void> navigateToCallListScreen() async {
     final BuildContext? context = getContext();
     if (context == null) {
       AliceUtils.log(
@@ -90,8 +90,8 @@ class AliceCore {
     }
     if (!_isInspectorOpened) {
       _isInspectorOpened = true;
-      AliceNavigation.navigateToCallsList(core: this)
-          .then((_) => _isInspectorOpened = false);
+      await AliceNavigation.navigateToCallsList(core: this);
+      _isInspectorOpened = false;
     }
   }
 
@@ -127,10 +127,9 @@ class AliceCore {
   List<AliceHttpCall> getCalls() => _configuration.aliceStorage.getCalls();
 
   /// Save all calls to file.
-  Future<AliceExportResult> saveCallsToFile(BuildContext context) {
-    return AliceExportHelper.saveCallsToFile(
-        context, _configuration.aliceStorage.getCalls());
-  }
+  Future<AliceExportResult> saveCallsToFile(BuildContext context) =>
+      AliceExportHelper.saveCallsToFile(
+          context, _configuration.aliceStorage.getCalls());
 
   /// Adds new log to Alice logger.
   void addLog(AliceLog log) => _configuration.aliceLogger.add(log);

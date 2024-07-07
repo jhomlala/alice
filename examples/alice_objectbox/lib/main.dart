@@ -35,13 +35,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late final AliceHttpAdapter _aliceHttpAdapter = AliceHttpAdapter();
 
-  late final Alice _alice = Alice(
-    configuration: AliceConfiguration(
-      storage: AliceObjectBox(
-        store: widget.store,
-        maxCallsCount: 1000,
-      ),
+  late final configuration =  AliceConfiguration(
+    storage: AliceObjectBox(
+      store: widget.store,
+      maxCallsCount: 1000,
     ),
+  );
+  late final Alice _alice = Alice(
+    configuration: configuration
   )..addAdapter(_aliceHttpAdapter);
 
   @override

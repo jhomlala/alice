@@ -2,12 +2,13 @@ import 'dart:io' show Process, ProcessResult;
 
 import 'package:alice/helper/operating_system.dart';
 import 'package:alice/model/alice_log.dart';
+import 'package:alice/utils/num_comparison.dart';
 import 'package:rxdart/rxdart.dart';
 
 /// Logger used to handle logs from application.
 class AliceLogger {
-  /// Maximum logs size. If null, logs will be not rotated.
-  final int? maximumSize;
+  /// Maximum logs size. If 0, logs will be not rotated.
+  final int maximumSize;
 
   /// Subject which keeps logs.
   final BehaviorSubject<List<AliceLog>> _logsSubject;
@@ -22,7 +23,7 @@ class AliceLogger {
   List<AliceLog> get logs => _logsSubject.value;
 
   /// Adds all logs.
-  void addAll(List<AliceLog> logs) {
+  void addAll(Iterable<AliceLog> logs) {
     for (var log in logs) {
       add(log);
     }
@@ -33,7 +34,7 @@ class AliceLogger {
   void add(AliceLog log) {
     final values = _logsSubject.value;
     final count = values.length;
-    if (maximumSize != null && count >= maximumSize!) {
+    if (maximumSize > 0 && count.gte(maximumSize)) {
       values.removeAt(0);
     }
 
