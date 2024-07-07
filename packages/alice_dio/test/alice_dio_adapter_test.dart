@@ -14,8 +14,6 @@ import 'package:http_mock_adapter/http_mock_adapter.dart' as http_mock_adapter;
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
-import 'alice_core_mock.dart';
-
 void main() {
   late AliceCore aliceCore;
   late AliceDioAdapter aliceDioAdapter;
@@ -223,6 +221,7 @@ void main() {
 
       verify(
           () => aliceCore.addResponse(any(that: nextResponseMatcher), any()));
+      file.deleteSync();
     });
   });
 
