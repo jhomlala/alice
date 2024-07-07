@@ -18,9 +18,11 @@ void main() {
   setUp(() {
     registerFallbackValue(AliceHttpCall(0));
     registerFallbackValue(AliceHttpResponse());
+
     aliceCore = AliceCoreMock();
     when(() => aliceCore.addCall(any())).thenAnswer((_) => {});
     when(() => aliceCore.addResponse(any(), any())).thenAnswer((_) => {});
+
     aliceDioAdapter = AliceDioAdapter();
     aliceDioAdapter.injectCore(aliceCore);
 
@@ -69,6 +71,68 @@ void main() {
           endpoint: '/json',
           server: 'test.com',
           uri: 'https://test.com/json',
+          duration: 0,
+          request: requestMatcher,
+          response: responseMatcher);
+
+      verify(() => aliceCore.addCall(any(that: callMatcher)));
+
+      final nextResponseMatcher = buildResponseMatcher(
+        status: 200,
+        size: 16,
+        checkTime: true,
+        body: '{"result": "ok"}',
+        headers: {'content-type': '[application/json]'},
+      );
+
+      verify(
+          () => aliceCore.addResponse(any(that: nextResponseMatcher), any()));
+    });
+
+    test("should handle POST call with json response", () async {
+      dioAdapter.onPost(
+        'https://test.com/json',
+        (server) => server.reply(
+          200,
+          '{"result": "ok"}',
+          headers: {
+            "content-type": ["application/json"]
+          },
+        ),
+        data: '{"data":"test"}',
+        headers: {"content-type": "application/json"},
+        queryParameters: {"sort":"asc"}
+      );
+
+      await dio.post<void>(
+        'https://test.com/json',
+        data: '{"data":"test"}',
+        queryParameters:{"sort":"asc"},
+        options: Options(
+          headers: {"content-type": "application/json"},
+        ),
+      );
+
+      final requestMatcher = buildRequestMatcher(
+        checkTime: true,
+        headers: {"content-type": "application/json"},
+        contentType: "application/json",
+        body: '{"data":"test"}',
+        queryParameters: {"sort":"asc"},
+      );
+
+      final responseMatcher = buildResponseMatcher(checkTime: true);
+
+      final callMatcher = buildCallMatcher(
+          checkId: true,
+          checkTime: true,
+          secured: true,
+          loading: true,
+          client: 'Dio',
+          method: 'POST',
+          endpoint: '/json',
+          server: 'test.com',
+          uri: 'https://test.com/json?sort=asc',
           duration: 0,
           request: requestMatcher,
           response: responseMatcher);

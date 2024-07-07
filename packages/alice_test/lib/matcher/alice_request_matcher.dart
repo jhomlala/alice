@@ -7,6 +7,7 @@ TypeMatcher<AliceHttpRequest> buildRequestMatcher({
   Map<String, String>? headers,
   String? contentType,
   Map<String, dynamic>? queryParameters,
+  String? body,
 }) {
   var matcher = const TypeMatcher<AliceHttpRequest>();
   if (checkTime == true) {
@@ -27,6 +28,9 @@ TypeMatcher<AliceHttpRequest> buildRequestMatcher({
   if (queryParameters != null) {
     matcher = matcher.having((request) => request.queryParameters,
         "queryParameters", equals(queryParameters));
+  }
+  if (body != null) {
+    matcher = matcher.having((request) => request.body, "body", equals(body));
   }
 
   return matcher;
