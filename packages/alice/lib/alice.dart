@@ -1,85 +1,34 @@
 import 'package:alice/core/alice_adapter.dart';
 import 'package:alice/core/alice_core.dart';
-import 'package:alice/core/alice_logger.dart';
-import 'package:alice/core/alice_memory_storage.dart';
-import 'package:alice/core/alice_storage.dart';
+import 'package:alice/model/alice_configuration.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_log.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-export 'package:alice/core/alice_store.dart';
 export 'package:alice/model/alice_log.dart';
 export 'package:alice/core/alice_memory_storage.dart';
 export 'package:alice/utils/alice_parser.dart';
 
 class Alice {
-  /// Should user be notified with notification when there's new request caught
-  /// by Alice
-  final bool showNotification;
-
-  /// Should inspector be opened on device shake (works only with physical
-  /// with sensors)
-  final bool showInspectorOnShake;
-
-  /// Icon url for notification
-  final String notificationIcon;
-
-  /// Max number of calls that are stored in memory. When count is reached, FIFO
-  /// method queue will be used to remove elements.
-  final int maxCallsCount;
-
-  /// Directionality of app. Directionality of the app will be used if set to
-  /// null.
-  final TextDirection? directionality;
-
-  /// Flag used to show/hide share button
-  final bool? showShareButton;
-
   /// Alice core instance
   late final AliceCore _aliceCore;
 
-  /// Alice storage instance
-  final AliceStorage? _aliceStorage;
-
-  /// Navigator key used for navigating to inspector
-  GlobalKey<NavigatorState>? _navigatorKey;
-
   /// Creates alice instance.
-  Alice({
-    GlobalKey<NavigatorState>? navigatorKey,
-    this.showNotification = true,
-    this.showInspectorOnShake = false,
-    this.notificationIcon = '@mipmap/ic_launcher',
-    this.maxCallsCount = 1000,
-    this.directionality,
-    this.showShareButton = true,
-    AliceStorage? aliceStorage,
-  })  : _navigatorKey = navigatorKey ?? GlobalKey<NavigatorState>(),
-        _aliceStorage = aliceStorage {
+  Alice({AliceConfiguration? configuration}) {
     _aliceCore = AliceCore(
-      _navigatorKey,
-      showNotification: showNotification,
-      showInspectorOnShake: showInspectorOnShake,
-      notificationIcon: notificationIcon,
-      directionality: directionality,
-      showShareButton: showShareButton,
-      aliceStorage: _aliceStorage ??
-          AliceMemoryStorage(
-            maxCallsCount: maxCallsCount,
-          ),
-      aliceLogger: AliceLogger(),
+      configuration: configuration ?? AliceConfiguration(),
     );
   }
 
   /// Set custom navigation key. This will help if there's route library.
   void setNavigatorKey(GlobalKey<NavigatorState> navigatorKey) {
-    _navigatorKey = navigatorKey;
-    _aliceCore.navigatorKey = navigatorKey;
+    _aliceCore.setNavigatorKey(navigatorKey);
   }
 
   /// Get currently used navigation key
-  GlobalKey<NavigatorState>? getNavigatorKey() => _navigatorKey;
+  GlobalKey<NavigatorState>? getNavigatorKey() =>
+      _aliceCore.configuration.navigatorKey;
 
   /// Opens Http calls inspector. This will navigate user to the new fullscreen
   /// page where all listened http calls can be viewed.

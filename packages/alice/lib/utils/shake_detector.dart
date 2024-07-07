@@ -1,7 +1,3 @@
-///Code from https://github.com/deven98/shake
-///Seems to be not maintained for almost 2 years... (01.03.2021).
-library;
-
 import 'dart:async';
 import 'dart:math';
 
@@ -85,10 +81,12 @@ class ShakeDetector {
 
   /// Stops listening to accelerometer events
   void stopListening() {
-    streamSubscription?.cancel();
+    dispose();
   }
 
+  /// Disposes all subscriptions.
   void dispose() {
     streamSubscription?.cancel();
+    streamSubscription = null;
   }
 }

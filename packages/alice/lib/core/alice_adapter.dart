@@ -4,5 +4,6 @@ import 'package:alice/core/alice_core.dart';
 mixin AliceAdapter {
   late final AliceCore aliceCore;
 
+  /// Injects [AliceCore] into adapter.
   void injectCore(AliceCore aliceCore) => this.aliceCore = aliceCore;
 }

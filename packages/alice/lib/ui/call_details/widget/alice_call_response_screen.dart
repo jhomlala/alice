@@ -72,6 +72,7 @@ class _GeneralDataColumn extends StatelessWidget {
   }
 }
 
+/// Widget which renders column with headers of [call].
 class _HeaderDataColumn extends StatelessWidget {
   final AliceHttpCall call;
 
@@ -99,6 +100,7 @@ class _HeaderDataColumn extends StatelessWidget {
   }
 }
 
+/// Widget which renders column with body of [call].
 class _BodyDataColumn extends StatefulWidget {
   const _BodyDataColumn({required this.call});
 
@@ -148,18 +150,21 @@ class _BodyDataColumnState extends State<_BodyDataColumn> {
     }
   }
 
+  /// Checks whether content type of response is image.
   bool _isImageResponse() {
     return _getContentTypeOfResponse()!
         .toLowerCase()
         .contains(_imageContentType);
   }
 
+  /// Checks whether content type of response is video
   bool _isVideoResponse() {
     return _getContentTypeOfResponse()!
         .toLowerCase()
         .contains(_videoContentType);
   }
 
+  /// Checks whether content type of response is text.
   bool _isTextResponse() {
     final responseContentTypeLowerCase =
         _getContentTypeOfResponse()!.toLowerCase();
@@ -169,20 +174,24 @@ class _BodyDataColumnState extends State<_BodyDataColumn> {
         responseContentTypeLowerCase.contains(_textContentType);
   }
 
+  /// Parses headers and returns content type of response. It may return null.
   String? _getContentTypeOfResponse() {
     return AliceParser.getContentType(
         context: context, headers: call.response?.headers);
   }
 
+  /// Checks whether response body is large (more than [_largeOutputSize].
   bool _isLargeResponseBody() =>
       call.response?.body.toString().length.gt(_largeOutputSize) ?? false;
 
+  /// Called when show large body has been pressed.
   void onShowLargeBodyPressed() {
     setState(() {
       _showLargeBody = true;
     });
   }
 
+  /// Called when show unsupported body has been pressed.
   void onShowUnsupportedBodyPressed() {
     setState(() {
       _showUnsupportedBody = true;
@@ -190,6 +199,7 @@ class _BodyDataColumnState extends State<_BodyDataColumn> {
   }
 }
 
+/// Widget which renders body as image.
 class _ImageBody extends StatelessWidget {
   const _ImageBody({
     required this.call,
@@ -235,6 +245,7 @@ class _ImageBody extends StatelessWidget {
     );
   }
 
+  /// Builds request headers to access the image.
   Map<String, String> _buildRequestHeaders() {
     final requestHeaders = <String, String>{};
     if (call.request?.headers != null) {
@@ -251,6 +262,7 @@ class _ImageBody extends StatelessWidget {
   }
 }
 
+/// Widget which renders large body as a text.
 class _LargeTextBody extends StatelessWidget {
   const _LargeTextBody({
     required this.showLargeBody,
@@ -293,6 +305,7 @@ class _LargeTextBody extends StatelessWidget {
   }
 }
 
+/// Widget which renders body as a text.
 class _TextBody extends StatelessWidget {
   const _TextBody({required this.call});
 
@@ -313,6 +326,7 @@ class _TextBody extends StatelessWidget {
   }
 }
 
+/// Widget which renders body as video.
 class _VideoBody extends StatelessWidget {
   const _VideoBody({required this.call});
 
@@ -344,11 +358,15 @@ class _VideoBody extends StatelessWidget {
   }
 }
 
+/// Widget which renders unknown body message.
 class _UnknownBody extends StatelessWidget {
-  const _UnknownBody(
-      {required this.call,
-      required this.showUnsupportedBody,
-      required this.onShowUnsupportedBodyPressed});
+  static const _contentType = "[contentType]";
+
+  const _UnknownBody({
+    required this.call,
+    required this.showUnsupportedBody,
+    required this.onShowUnsupportedBodyPressed,
+  });
 
   final AliceHttpCall call;
   final bool showUnsupportedBody;
@@ -379,7 +397,7 @@ class _UnknownBody extends StatelessWidget {
             value: context
                 .i18n(AliceTranslationKey.callResponseBodyUnknown)
                 .replaceAll(
-                  "[contentType]",
+                  _contentType,
                   contentType,
                 ),
           ),

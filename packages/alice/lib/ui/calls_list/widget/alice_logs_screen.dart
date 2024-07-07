@@ -23,12 +23,10 @@ class AliceLogsScreen extends StatelessWidget {
           ? AliceRawLogListWidget(
               scrollController: scrollController,
               getRawLogs: aliceLogger?.getAndroidRawLogs(),
-              emptyWidget: const AliceEmptyLogsWidget(),
             )
           : AliceLogListWidget(
-              logsListenable: aliceLogger!.listenable,
+              logsStream: aliceLogger?.logsStream,
               scrollController: scrollController,
-              emptyWidget: const AliceEmptyLogsWidget(),
             )
       : const AliceEmptyLogsWidget();
 }

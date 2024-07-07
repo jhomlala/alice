@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:alice/core/alice_core.dart';
-import 'package:alice/core/alice_logger.dart';
 import 'package:alice/helper/operating_system.dart';
 import 'package:alice/model/alice_export_result.dart';
 import 'package:alice/model/alice_http_call.dart';
@@ -25,11 +24,9 @@ import 'package:open_filex/open_filex.dart';
 /// and search calls.
 class AliceCallsListPage extends StatefulWidget {
   final AliceCore core;
-  final AliceLogger? logger;
 
   const AliceCallsListPage({
     required this.core,
-    this.logger,
     super.key,
   });
 
@@ -142,7 +139,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
             ),
             AliceLogsScreen(
               scrollController: _scrollController,
-              aliceLogger: widget.logger,
+              aliceLogger: widget.core.configuration.aliceLogger,
               isAndroidRawLogsEnabled: isAndroidRawLogsEnabled,
             ),
           ],
@@ -192,9 +189,9 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
   /// Called when logs clear button has been pressed.
   void _onLogsClearPressed() => setState(() {
         if (isAndroidRawLogsEnabled) {
-          widget.logger?.clearAndroidRawLogs();
+          widget.core.configuration.aliceLogger.clearAndroidRawLogs();
         } else {
-          widget.logger?.clearLogs();
+          widget.core.configuration.aliceLogger.clearLogs();
         }
       });
 

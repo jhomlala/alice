@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:alice/alice.dart';
+import 'package:alice/model/alice_configuration.dart';
 import 'package:alice_dio/alice_dio_adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -19,11 +20,9 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late final AliceDioAdapter _aliceDioAdapter = AliceDioAdapter();
 
-  late final Alice _alice = Alice(
-    showNotification: true,
-    showInspectorOnShake: true,
-    maxCallsCount: 1000,
-  )..addAdapter(_aliceDioAdapter);
+  final configuration = AliceConfiguration();
+  late final Alice _alice = Alice(configuration: configuration)
+    ..addAdapter(_aliceDioAdapter);
 
   late final Dio _dio = Dio(BaseOptions(followRedirects: false))
     ..interceptors.add(_aliceDioAdapter);

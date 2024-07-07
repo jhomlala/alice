@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:alice/alice.dart';
+import 'package:alice/model/alice_configuration.dart';
 import 'package:alice_http_client/alice_http_client_adapter.dart';
 import 'package:alice_http_client/alice_http_client_extensions.dart';
 import 'package:flutter/material.dart';
@@ -21,11 +22,9 @@ class _MyAppState extends State<MyApp> {
   late final AliceHttpClientAdapter _httpClientAdapter =
       AliceHttpClientAdapter();
 
-  late final Alice _alice = Alice(
-    showNotification: true,
-    showInspectorOnShake: true,
-    maxCallsCount: 1000,
-  )..addAdapter(_httpClientAdapter);
+  final configuration = AliceConfiguration();
+  late final Alice _alice = Alice(configuration: configuration)
+    ..addAdapter(_httpClientAdapter);
 
   @override
   Widget build(BuildContext context) {

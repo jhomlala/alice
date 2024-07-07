@@ -1,13 +1,12 @@
 import 'dart:io' show Directory;
 
-import 'package:alice/core/alice_store.dart';
 import 'package:alice_objectbox/model/cached_alice_http_call.dart';
 import 'package:alice_objectbox/objectbox.g.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 
-/// Implementation of [AliceStore] using ObjectBox.
-class AliceObjectBoxStore implements AliceStore {
+/// Implementation of store for ObjectBox.
+class AliceObjectBoxStore {
   AliceObjectBoxStore._create(
     this._store, {
     bool persistent = true,
@@ -53,7 +52,6 @@ class AliceObjectBoxStore implements AliceStore {
   };
 
   /// This will remove all the items from all the boxes
-  @override
   void clear() {
     for (final Box box in _boxes.values) {
       box.removeAll();

@@ -94,6 +94,8 @@ class AliceParser {
     return context.i18n(AliceTranslationKey.unknown);
   }
 
+  /// Parses headers from [dynamic] to [Map<String,String>], if possible.
+  /// Otherwise it will throw error.
   static Map<String, String> parseHeaders({dynamic headers}) {
     if (headers is Map<String, String>) {
       return headers;

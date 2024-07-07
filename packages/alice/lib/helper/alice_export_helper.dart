@@ -20,6 +20,7 @@ import 'package:share_plus/share_plus.dart';
 
 class AliceExportHelper {
   static const JsonEncoder _encoder = JsonEncoder.withIndent('  ');
+  static const String _fileName = "alice_log";
 
   /// Format log based on [call] and tries to share it.
   static Future<AliceExportResult> shareCall({
@@ -97,7 +98,7 @@ class AliceExportHelper {
 
       final Directory externalDir = await getApplicationCacheDirectory();
       final String fileName =
-          'alice_log_${DateTime.now().millisecondsSinceEpoch}.txt';
+          '${_fileName}_${DateTime.now().millisecondsSinceEpoch}.txt';
       final File file = File('${externalDir.path}/$fileName')..createSync();
       final IOSink sink = file.openWrite(mode: FileMode.append)
         ..write(await _buildAliceLog(context: context));
@@ -199,7 +200,7 @@ class AliceExportHelper {
       '--------------------------------------------\n',
       '${context.i18n(AliceTranslationKey.saveLogCurl)}\n',
       '--------------------------------------------\n',
-      getCurlCommand(call),
+      Curl.getCurlCommand(call),
       '\n',
       '==============================================\n',
       '\n',
