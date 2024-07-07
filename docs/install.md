@@ -4,7 +4,7 @@
 
 ```yaml
 dependencies:
-  alice: ^1.0.0-dev9
+  alice: ^1.0.0-dev10
 ```
 
 2. Choose adapter based on your HTTP client. **pubspec.yaml** file:
@@ -44,7 +44,7 @@ dependencies:
 ```yaml
 dependencies:
   objectbox: any
-  alice_objectbox: ^1.0.1
+  alice_objectbox: ^1.0.2
 ```
 
 4. Run `get` command:

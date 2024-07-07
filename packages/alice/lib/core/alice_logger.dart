@@ -34,7 +34,7 @@ class AliceLogger {
   void add(AliceLog log) {
     final values = _logsSubject.value;
     final count = values.length;
-    if (maximumSize > 0 && count.gte(maximumSize)) {
+    if (maximumSize > 0 && count >= maximumSize) {
       values.removeAt(0);
     }
 

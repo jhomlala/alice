@@ -1,9 +1,10 @@
 import 'package:alice/core/alice_logger.dart';
 import 'package:alice/core/alice_memory_storage.dart';
 import 'package:alice/core/alice_storage.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 
-class AliceConfiguration {
+class AliceConfiguration with EquatableMixin {
   /// Default max calls count used in default memory storage.
   static const _defaultMaxCalls = 1000;
 
@@ -71,4 +72,16 @@ class AliceConfiguration {
         storage: aliceStorage ?? this.aliceStorage,
         logger: aliceLogger ?? this.aliceLogger,
       );
+
+  @override
+  List<Object?> get props => [
+        showNotification,
+        showInspectorOnShake,
+        notificationIcon,
+        directionality,
+        showShareButton,
+        navigatorKey,
+        aliceStorage,
+        aliceLogger,
+      ];
 }
