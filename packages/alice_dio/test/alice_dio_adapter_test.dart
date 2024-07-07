@@ -4,6 +4,7 @@ import 'package:alice/core/alice_core.dart';
 import 'package:alice/model/alice_form_data_file.dart';
 import 'package:alice/model/alice_from_data_field.dart';
 import 'package:alice/model/alice_http_call.dart';
+import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice_dio/alice_dio_adapter.dart';
 import 'package:alice_test/alice_test.dart';
@@ -22,10 +23,12 @@ void main() {
   setUp(() {
     registerFallbackValue(AliceHttpCall(0));
     registerFallbackValue(AliceHttpResponse());
+    registerFallbackValue(AliceHttpError());
 
     aliceCore = AliceCoreMock();
     when(() => aliceCore.addCall(any())).thenAnswer((_) => {});
     when(() => aliceCore.addResponse(any(), any())).thenAnswer((_) => {});
+    when(() => aliceCore.addError(any(), any())).thenAnswer((_) => {});
 
     aliceDioAdapter = AliceDioAdapter();
     aliceDioAdapter.injectCore(aliceCore);
@@ -218,5 +221,64 @@ void main() {
           () => aliceCore.addResponse(any(that: nextResponseMatcher), any()));
       file.deleteSync();
     });
+  });
+
+  test("should handle call with error", () async {
+    dioAdapter.onGet(
+      'https://test.com/json',
+      (server) => server.reply(
+        500,
+        '',
+      ),
+      headers: {"content-type": "application/json"},
+    );
+
+    try {
+      await dio.get<void>(
+        'https://test.com/json',
+        options: Options(
+          headers: {"content-type": "application/json"},
+        ),
+      );
+    } catch (_) {}
+
+    final requestMatcher = buildRequestMatcher(
+      checkTime: true,
+      headers: {"content-type": "application/json"},
+      contentType: "application/json",
+      queryParameters: {},
+    );
+
+    final responseMatcher = buildResponseMatcher(checkTime: true);
+
+    final callMatcher = buildCallMatcher(
+        checkId: true,
+        checkTime: true,
+        secured: true,
+        loading: true,
+        client: 'Dio',
+        method: 'GET',
+        endpoint: '/json',
+        server: 'test.com',
+        uri: 'https://test.com/json',
+        duration: 0,
+        request: requestMatcher,
+        response: responseMatcher);
+
+    verify(() => aliceCore.addCall(any(that: callMatcher)));
+
+    final nextResponseMatcher = buildResponseMatcher(
+      status: 500,
+      size: 0,
+      checkTime: true,
+      headers: {'content-type': '[application/json]'},
+    );
+
+    verify(() => aliceCore.addResponse(any(that: nextResponseMatcher), any()));
+
+    final errorMatcher =
+        buildErrorMatcher(checkError: true, checkStacktrace: true);
+
+    verify(() => aliceCore.addError(any(that: errorMatcher), any()));
   });
 }
