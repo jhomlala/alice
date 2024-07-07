@@ -161,7 +161,8 @@ void main() {
     });
 
     test("should handle form data", () async {
-      final file = File("image.png");
+      final name = '${DateTime.now().microsecondsSinceEpoch}.png';
+      final file = File(name);
       file.createSync();
 
       var formData = FormData.fromMap({
@@ -190,7 +191,7 @@ void main() {
             const AliceFormDataField('surname', 'test'),
           ],
           formDataFiles: [
-            const AliceFormDataFile("image.png", "application/octet-stream", 0),
+            AliceFormDataFile(name, "application/octet-stream", 0),
           ],
           body: 'Form data',
           headers: {'content-type': 'multipart/form-data'});
@@ -222,7 +223,6 @@ void main() {
 
       verify(
           () => aliceCore.addResponse(any(that: nextResponseMatcher), any()));
-      file.deleteSync();
     });
   });
 

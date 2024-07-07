@@ -116,11 +116,10 @@ class AliceStatsPage extends StatelessWidget {
 
   /// Returns count of error requests.
   int _getErrorRequests() => _calls
-      .where(
-        (AliceHttpCall call) =>
-            (call.response?.status.gte(400) ?? false) &&
-            (call.response?.status.lt(600) ?? false),
-      )
+      .where((AliceHttpCall call) =>
+          (call.response?.status.gte(400) ?? false) &&
+              (call.response?.status.lt(600) ?? false) ||
+          const [-1, 0].contains(call.response?.status))
       .toList()
       .length;
 
