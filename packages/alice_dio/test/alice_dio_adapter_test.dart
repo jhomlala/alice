@@ -4,6 +4,7 @@ import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice_dio/alice_dio_adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:http_mock_adapter/http_mock_adapter.dart' as http_mock_adapter;
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
@@ -13,6 +14,7 @@ void main() {
   late AliceCore aliceCore;
   late AliceDioAdapter aliceDioAdapter;
   late Dio dio;
+  late http_mock_adapter.DioAdapter dioAdapter;
   setUp(() {
     registerFallbackValue(AliceHttpCall(0));
     registerFallbackValue(AliceHttpResponse());
@@ -24,16 +26,33 @@ void main() {
 
     dio = Dio(BaseOptions(followRedirects: false))
       ..interceptors.add(aliceDioAdapter);
+    dioAdapter = http_mock_adapter.DioAdapter(dio: dio);
   });
 
   group("AliceDioAdapter", () {
     test("should handle GET call with json response", () async {
-      await dio.get<void>('https://httpbin.org/json',
-          options: Options(headers: {"Content-Type": "application/json"}));
+      dioAdapter.onGet(
+        'https://test.com/json',
+        (server) => server.reply(
+          200,
+          '{"result": "ok"}',
+          headers: {
+            "content-type": ["application/json"]
+          },
+        ),
+        headers: {"content-type": "application/json"},
+      );
+
+      await dio.get<void>(
+        'https://test.com/json',
+        options: Options(
+          headers: {"content-type": "application/json"},
+        ),
+      );
 
       final requestMatcher = buildRequestMatcher(
         checkTime: true,
-        headers: {"Content-Type": "application/json"},
+        headers: {"content-type": "application/json"},
         contentType: "application/json",
         queryParameters: {},
       );
@@ -48,8 +67,8 @@ void main() {
           client: 'Dio',
           method: 'GET',
           endpoint: '/json',
-          server: 'httpbin.org',
-          uri: 'https://httpbin.org/json',
+          server: 'test.com',
+          uri: 'https://test.com/json',
           duration: 0,
           request: requestMatcher,
           response: responseMatcher);
@@ -58,15 +77,10 @@ void main() {
 
       final nextResponseMatcher = buildResponseMatcher(
         status: 200,
-        size: 254,
+        size: 16,
         checkTime: true,
-        body:
-            '{slideshow: {author: Yours Truly, date: date of publication, slides: [{title: Wake up to WonderWidgets!, type: all}, {items: [Why <em>WonderWidgets</em> are great, Who <em>buys</em> WonderWidgets], title: Overview, type: all}], title: Sample Slide Show}}',
+        body: '{"result": "ok"}',
         headers: {
-          'connection': '[keep-alive]',
-          'access-control-allow-credentials': '[true]',
-          'access-control-allow-origin': '[*]',
-          'content-length': '[429]',
           'content-type': '[application/json]'
         },
       );
