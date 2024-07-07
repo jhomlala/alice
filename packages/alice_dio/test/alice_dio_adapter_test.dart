@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:alice/core/alice_core.dart';
+import 'package:alice/model/alice_form_data_file.dart';
+import 'package:alice/model/alice_from_data_field.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice_dio/alice_dio_adapter.dart';
@@ -91,23 +95,22 @@ void main() {
 
     test("should handle POST call with json response", () async {
       dioAdapter.onPost(
-        'https://test.com/json',
-        (server) => server.reply(
-          200,
-          '{"result": "ok"}',
-          headers: {
-            "content-type": ["application/json"]
-          },
-        ),
-        data: '{"data":"test"}',
-        headers: {"content-type": "application/json"},
-        queryParameters: {"sort":"asc"}
-      );
+          'https://test.com/json',
+          (server) => server.reply(
+                200,
+                '{"result": "ok"}',
+                headers: {
+                  "content-type": ["application/json"]
+                },
+              ),
+          data: '{"data":"test"}',
+          headers: {"content-type": "application/json"},
+          queryParameters: {"sort": "asc"});
 
       await dio.post<void>(
         'https://test.com/json',
         data: '{"data":"test"}',
-        queryParameters:{"sort":"asc"},
+        queryParameters: {"sort": "asc"},
         options: Options(
           headers: {"content-type": "application/json"},
         ),
@@ -118,7 +121,7 @@ void main() {
         headers: {"content-type": "application/json"},
         contentType: "application/json",
         body: '{"data":"test"}',
-        queryParameters: {"sort":"asc"},
+        queryParameters: {"sort": "asc"},
       );
 
       final responseMatcher = buildResponseMatcher(checkTime: true);
@@ -149,6 +152,71 @@ void main() {
 
       verify(
           () => aliceCore.addResponse(any(that: nextResponseMatcher), any()));
+    });
+
+    test("should handle form data", () async {
+      final file = File("image.png");
+      file.createSync();
+
+      var formData = FormData.fromMap({
+        'name': 'Alice',
+        'surname': 'test',
+        'image': MultipartFile.fromFileSync(file.path)
+      });
+
+      dioAdapter.onPost(
+          'https://test.com/form',
+          (server) => server.reply(
+                200,
+                '{"result": "ok"}',
+              ),
+          data: formData);
+
+      await dio.post<void>(
+        'https://test.com/form',
+        data: formData,
+      );
+
+      final requestMatcher = buildRequestMatcher(
+          checkTime: true,
+          formDataFields: [
+            const AliceFormDataField('name', 'Alice'),
+            const AliceFormDataField('surname', 'test'),
+          ],
+          formDataFiles: [
+            const AliceFormDataFile("image.png", "application/octet-stream", 0),
+          ],
+          body: 'Form data',
+          headers: {'content-type': 'multipart/form-data'});
+      final responseMatcher = buildResponseMatcher(checkTime: true);
+
+      final callMatcher = buildCallMatcher(
+          checkId: true,
+          checkTime: true,
+          secured: true,
+          loading: true,
+          client: 'Dio',
+          method: 'POST',
+          endpoint: '/form',
+          server: 'test.com',
+          uri: 'https://test.com/form',
+          duration: 0,
+          request: requestMatcher,
+          response: responseMatcher);
+
+      verify(() => aliceCore.addCall(any(that: callMatcher)));
+
+      final nextResponseMatcher = buildResponseMatcher(
+        status: 200,
+        size: 16,
+        checkTime: true,
+        body: '{"result": "ok"}',
+        headers: {'content-type': '[application/json]'},
+      );
+
+      verify(
+          () => aliceCore.addResponse(any(that: nextResponseMatcher), any()));
+      file.deleteSync();
     });
   });
 }
