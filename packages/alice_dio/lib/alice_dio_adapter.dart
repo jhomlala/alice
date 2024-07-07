@@ -157,7 +157,7 @@ class AliceDioAdapter extends InterceptorsWrapper with AliceAdapter {
           message: error.toString(),
           level: DiagnosticLevel.error,
           error: error,
-          stackTrace: error.stackTrace));
+          stackTrace: error.stackTrace,),);
     }
     handler.next(error);
   }

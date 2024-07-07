@@ -13,26 +13,26 @@ TypeMatcher<AliceHttpRequest> buildRequestMatcher(
     Map<String, dynamic>? queryParameters,
     dynamic body,
     List<AliceFormDataField>? formDataFields,
-    List<AliceFormDataFile>? formDataFiles}) {
+    List<AliceFormDataFile>? formDataFiles,}) {
   var matcher = const TypeMatcher<AliceHttpRequest>();
   if (checkTime == true) {
     matcher = matcher.having((request) => request.time.millisecondsSinceEpoch,
-        "time", greaterThan(0));
+        "time", greaterThan(0),);
   }
   if (headers != null) {
     for (var header in headers.entries) {
       matcher = matcher.having((request) {
         return request.headers;
-      }, "header", HeaderMatcher(header));
+      }, "header", HeaderMatcher(header),);
     }
   }
   if (contentType != null) {
     matcher = matcher.having(
-        (request) => request.contentType, "contentType", equals(contentType));
+        (request) => request.contentType, "contentType", equals(contentType),);
   }
   if (queryParameters != null) {
     matcher = matcher.having((request) => request.queryParameters,
-        "queryParameters", equals(queryParameters));
+        "queryParameters", equals(queryParameters),);
   }
   if (body != null) {
     matcher = matcher.having((request) => request.body, "body", equals(body));
@@ -40,13 +40,13 @@ TypeMatcher<AliceHttpRequest> buildRequestMatcher(
   if (formDataFields != null) {
     for (var field in formDataFields) {
       matcher = matcher.having((request) => request.formDataFields,
-          "form data field", FormDataFieldMatcher(field));
+          "form data field", FormDataFieldMatcher(field),);
     }
   }
   if (formDataFiles != null) {
     for (var file in formDataFiles) {
       matcher = matcher.having((request) => request.formDataFiles,
-          "form data file", FormDataFileMatcher(file));
+          "form data file", FormDataFileMatcher(file),);
     }
   }
 

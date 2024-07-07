@@ -22,14 +22,14 @@ class AliceCallRequestScreen extends StatelessWidget {
     final List<Widget> rows = [
       AliceCallListRow(
           name: context.i18n(AliceTranslationKey.callRequestStarted),
-          value: call.request?.time.toString()),
+          value: call.request?.time.toString(),),
       AliceCallListRow(
           name: context.i18n(AliceTranslationKey.callRequestBytesSent),
-          value: AliceConversionHelper.formatBytes(call.request?.size ?? 0)),
+          value: AliceConversionHelper.formatBytes(call.request?.size ?? 0),),
       AliceCallListRow(
           name: context.i18n(AliceTranslationKey.callRequestContentType),
           value: AliceParser.getContentType(
-              context: context, headers: call.request?.headers)),
+              context: context, headers: call.request?.headers,),),
     ];
 
     rows.add(AliceCallListRow(
@@ -37,17 +37,17 @@ class AliceCallRequestScreen extends StatelessWidget {
       value: _getBodyContent(
         context: context,
       ),
-    ));
+    ),);
 
     final List<AliceFormDataField>? formDataFields =
         call.request?.formDataFields;
     if (formDataFields?.isNotEmpty ?? false) {
       rows.add(AliceCallListRow(
           name: context.i18n(AliceTranslationKey.callRequestFormDataFields),
-          value: ''));
+          value: '',),);
       rows.addAll([
         for (final AliceFormDataField field in formDataFields!)
-          AliceCallListRow(name: '   • ${field.name}:', value: field.value)
+          AliceCallListRow(name: '   • ${field.name}:', value: field.value),
       ]);
     }
 
@@ -55,13 +55,13 @@ class AliceCallRequestScreen extends StatelessWidget {
     if (formDataFiles?.isNotEmpty ?? false) {
       rows.add(AliceCallListRow(
           name: context.i18n(AliceTranslationKey.callRequestFormDataFiles),
-          value: ''));
+          value: '',),);
       rows.addAll([
         for (final AliceFormDataFile file in formDataFiles!)
           AliceCallListRow(
             name: '   • ${file.fileName}:',
             value: '${file.contentType} / ${file.length} B',
-          )
+          ),
       ]);
     }
 
@@ -71,11 +71,11 @@ class AliceCallRequestScreen extends StatelessWidget {
         : '';
     rows.add(AliceCallListRow(
         name: context.i18n(AliceTranslationKey.callRequestHeaders),
-        value: headersContent));
+        value: headersContent,),);
     rows.addAll([
       for (final MapEntry<String, dynamic> header in headers?.entries ?? [])
         AliceCallListRow(
-            name: '   • ${header.key}:', value: header.value.toString())
+            name: '   • ${header.key}:', value: header.value.toString(),),
     ]);
 
     final Map<String, dynamic>? queryParameters = call.request?.queryParameters;
@@ -84,12 +84,12 @@ class AliceCallRequestScreen extends StatelessWidget {
         : '';
     rows.add(AliceCallListRow(
         name: context.i18n(AliceTranslationKey.callRequestQueryParameters),
-        value: queryParametersContent));
+        value: queryParametersContent,),);
     rows.addAll([
       for (final MapEntry<String, dynamic> queryParam
           in queryParameters?.entries ?? [])
         AliceCallListRow(
-            name: '   • ${queryParam.key}:', value: queryParam.value.toString())
+            name: '   • ${queryParam.key}:', value: queryParam.value.toString(),),
     ]);
 
     return Container(
@@ -109,7 +109,7 @@ class AliceCallRequestScreen extends StatelessWidget {
             context: context,
             body: body,
             contentType: AliceParser.getContentType(
-                context: context, headers: call.request?.headers),
+                context: context, headers: call.request?.headers,),
           )
         : context.i18n(AliceTranslationKey.callRequestBodyEmpty);
   }

@@ -36,6 +36,6 @@ class AliceHttpCall with EquatableMixin {
         duration,
         request,
         response,
-        error
+        error,
       ];
 }

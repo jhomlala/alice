@@ -58,7 +58,7 @@ class AliceCallOverviewScreen extends StatelessWidget {
             ),
             AliceCallListRow(
                 name: context.i18n(AliceTranslationKey.callOverviewClient),
-                value: call.client),
+                value: call.client,),
             AliceCallListRow(
               name: context.i18n(AliceTranslationKey.callOverviewSecure),
               value: call.secure.toString(),

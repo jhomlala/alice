@@ -43,7 +43,7 @@ class _AliceInspectorScreenState extends State<AliceInspectorScreen>
         final String query = widget.queryTextEditingController.text.trim();
         if (query.isNotEmpty) {
           calls.removeWhere((AliceHttpCall call) =>
-              !call.endpoint.toLowerCase().contains(query.toLowerCase()));
+              !call.endpoint.toLowerCase().contains(query.toLowerCase()),);
         }
         if (calls.isNotEmpty) {
           return AliceCallsListScreen(

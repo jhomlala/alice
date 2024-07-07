@@ -19,7 +19,7 @@ void main() {
         AliceParser.formatBody(
             context: context,
             body: '{"id": 1, "name": "test}',
-            contentType: "application/json"),
+            contentType: "application/json",),
         '"{\\"id\\": 1, \\"name\\": \\"test}"',
       );
     });
@@ -50,14 +50,14 @@ void main() {
             context: context,
             headers: {'Content-Type': "application/json"},
           ),
-          "application/json");
+          "application/json",);
 
       expect(
           AliceParser.getContentType(
             context: context,
             headers: {'content-type': "application/json"},
           ),
-          "application/json");
+          "application/json",);
     });
 
     test("should parse unknown content type", () {
@@ -66,7 +66,7 @@ void main() {
             context: context,
             headers: {},
           ),
-          AliceTranslationKey.unknown.toString());
+          AliceTranslationKey.unknown.toString(),);
     });
 
     test("should parse headers", () {

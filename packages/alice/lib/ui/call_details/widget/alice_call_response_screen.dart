@@ -25,8 +25,8 @@ class AliceCallResponseScreen extends StatelessWidget {
           child: ListView(children: [
             _GeneralDataColumn(call: call),
             _HeaderDataColumn(call: call),
-            _BodyDataColumn(call: call)
-          ]),
+            _BodyDataColumn(call: call),
+          ],),
         ),
       );
     } else {
@@ -58,7 +58,7 @@ class _GeneralDataColumn extends StatelessWidget {
       children: [
         AliceCallListRow(
             name: context.i18n(AliceTranslationKey.callResponseReceived),
-            value: call.response?.time.toString()),
+            value: call.response?.time.toString(),),
         AliceCallListRow(
           name: context.i18n(AliceTranslationKey.callResponseBytesReceived),
           value: AliceConversionHelper.formatBytes(call.response?.size ?? 0),
@@ -89,12 +89,12 @@ class _HeaderDataColumn extends StatelessWidget {
       children: [
         AliceCallListRow(
             name: context.i18n(AliceTranslationKey.callResponseHeaders),
-            value: headersContent),
+            value: headersContent,),
         for (final MapEntry<String, String> header in headers?.entries ?? [])
           AliceCallListRow(
             name: '   • ${header.key}:',
             value: header.value.toString(),
-          )
+          ),
       ],
     );
   }
@@ -177,7 +177,7 @@ class _BodyDataColumnState extends State<_BodyDataColumn> {
   /// Parses headers and returns content type of response. It may return null.
   String? _getContentTypeOfResponse() {
     return AliceParser.getContentType(
-        context: context, headers: call.response?.headers);
+        context: context, headers: call.response?.headers,);
   }
 
   /// Checks whether response body is large (more than [_largeOutputSize].
@@ -300,7 +300,7 @@ class _LargeTextBody extends StatelessWidget {
             AliceTranslationKey.callResponseLargeBodyShowWarning,
           ),
         ),
-      ]);
+      ],);
     }
   }
 }
@@ -322,7 +322,7 @@ class _TextBody extends StatelessWidget {
     );
     return AliceCallListRow(
         name: context.i18n(AliceTranslationKey.callResponseBody),
-        value: bodyContent);
+        value: bodyContent,);
   }
 }
 
@@ -347,7 +347,7 @@ class _VideoBody extends StatelessWidget {
         const SizedBox(height: 8),
         TextButton(
           child: Text(context
-              .i18n(AliceTranslationKey.callResponseBodyVideoWebBrowser)),
+              .i18n(AliceTranslationKey.callResponseBodyVideoWebBrowser),),
           onPressed: () async {
             await launchUrl(Uri.parse(call.uri));
           },
@@ -388,7 +388,7 @@ class _UnknownBody extends StatelessWidget {
       );
       return AliceCallListRow(
           name: context.i18n(AliceTranslationKey.callResponseBody),
-          value: bodyContent);
+          value: bodyContent,);
     } else {
       return Column(
         children: [

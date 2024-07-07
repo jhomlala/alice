@@ -22,7 +22,7 @@ void main() {
       _setPackageInfo();
 
       final result = await AliceExportHelper.buildFullCallLog(
-          context: context, call: MockedData.getFilledHttpCall());
+          context: context, call: MockedData.getFilledHttpCall(),);
       _verifyLogLines(result!);
     });
 
@@ -33,7 +33,7 @@ void main() {
       _setDefaultTargetPlatform();
 
       final result = await AliceExportHelper.saveCallsToFile(
-          context, [MockedData.getFilledHttpCall()]);
+          context, [MockedData.getFilledHttpCall()],);
       expect(result.success, true);
       expect(result.path != null, true);
       expect(result.error, null);
@@ -66,7 +66,7 @@ void main() {
     _setDefaultTargetPlatform();
 
     final result = await AliceExportHelper.saveCallsToFile(
-        context, [MockedData.getFilledHttpCall()]);
+        context, [MockedData.getFilledHttpCall()],);
 
     expect(result.success, false);
     expect(result.path, null);
@@ -79,7 +79,7 @@ void main() {
     _setShare();
 
     final result = await AliceExportHelper.shareCall(
-        context: context, call: MockedData.getFilledHttpCall());
+        context: context, call: MockedData.getFilledHttpCall(),);
     expect(result.success, true);
     expect(result.error, null);
   });

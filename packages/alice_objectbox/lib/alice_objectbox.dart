@@ -124,7 +124,7 @@ class AliceObjectBox implements AliceStorage {
                       .greaterOrEqual(400)
                       .and(CachedAliceHttpResponse_.status.lessThan(600))
                       .and(CachedAliceHttpResponse_.status.equals(-1))
-                      .and(CachedAliceHttpResponse_.status.equals(0))))
+                      .and(CachedAliceHttpResponse_.status.equals(0)),))
             .build()
             .count(),
         loading: _store.httpCalls

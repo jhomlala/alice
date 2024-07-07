@@ -402,7 +402,7 @@ class _ContextMenuButton extends StatelessWidget {
                 Text(_getTitle(
                   context: context,
                   itemType: item,
-                )),
+                ),),
               ],
             ),
           ),

@@ -175,7 +175,7 @@ class AliceTranslations {
       AliceTranslationKey.accept: "Accept",
       AliceTranslationKey.parserFailed: "Failed to parse: ",
       AliceTranslationKey.unknown: "Unknown",
-    });
+    },);
   }
 
   /// Builds [AliceTranslationData] for polish language.
@@ -339,8 +339,8 @@ class AliceTranslations {
       AliceTranslationKey.saveLogCurl: "Curl",
       AliceTranslationKey.accept: "Akceptuj",
       AliceTranslationKey.parserFailed: "Problem z parsowaniem: ",
-      AliceTranslationKey.unknown: "Nieznane"
-    });
+      AliceTranslationKey.unknown: "Nieznane",
+    },);
   }
 
   /// Returns localized value for specific [languageCode] and [key]. If value

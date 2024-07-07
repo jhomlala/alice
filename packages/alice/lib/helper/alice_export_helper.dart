@@ -93,7 +93,7 @@ class AliceExportHelper {
     try {
       if (calls.isEmpty) {
         return AliceExportResult(
-            success: false, error: AliceExportResultError.empty);
+            success: false, error: AliceExportResultError.empty,);
       }
 
       final Directory externalDir = await getApplicationCacheDirectory();
@@ -192,7 +192,7 @@ class AliceExportHelper {
 
       if (call.error?.stackTrace != null) {
         stringBuffer.write(
-            '${context.i18n(AliceTranslationKey.saveLogStackTrace)}: ${call.error?.stackTrace}\n');
+            '${context.i18n(AliceTranslationKey.saveLogStackTrace)}: ${call.error?.stackTrace}\n',);
       }
     }
 
