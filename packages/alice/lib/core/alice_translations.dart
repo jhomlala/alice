@@ -1,8 +1,11 @@
 import 'package:alice/model/alice_translation.dart';
 
+/// Class used to manage translations in Alice.
 class AliceTranslations {
+  /// Contains list of translation data for all languages.
   static final List<AliceTranslationData> _translations = _initialise();
 
+  /// Initialises translation data for all languages.
   static List<AliceTranslationData> _initialise() {
     List<AliceTranslationData> translations = [];
     translations.add(_buildEnTranslations());
@@ -10,6 +13,7 @@ class AliceTranslations {
     return translations;
   }
 
+  /// Builds [AliceTranslationData] for english language.
   static AliceTranslationData _buildEnTranslations() {
     return AliceTranslationData(languageCode: "en", values: {
       AliceTranslationKey.alice: "Alice",
@@ -85,6 +89,7 @@ class AliceTranslations {
       AliceTranslationKey.callsListStats: "Stats",
       AliceTranslationKey.callsListSave: "Save",
       AliceTranslationKey.logsEmpty: "There are no logs to show",
+      AliceTranslationKey.logsError: "Failed to display error",
       AliceTranslationKey.logsItemError: "Error:",
       AliceTranslationKey.logsItemStackTrace: "Stack trace:",
       AliceTranslationKey.logsCopied: "Copied to clipboard.",
@@ -121,7 +126,7 @@ class AliceTranslations {
       AliceTranslationKey.notificationRedirect: "Redirect:",
       AliceTranslationKey.notificationError: "Error:",
       AliceTranslationKey.notificationTotalRequests:
-          "Alice (total [requestCount] requests)",
+          "Alice (total [callCount] HTTP calls)",
       AliceTranslationKey.saveDialogPermissionErrorTitle: "Permission error",
       AliceTranslationKey.saveDialogPermissionErrorDescription:
           "Permission not granted. Couldn't save logs.",
@@ -173,6 +178,7 @@ class AliceTranslations {
     });
   }
 
+  /// Builds [AliceTranslationData] for polish language.
   static AliceTranslationData _buildPlTranslations() {
     return AliceTranslationData(languageCode: "pl", values: {
       AliceTranslationKey.alice: "Alice",
@@ -249,6 +255,7 @@ class AliceTranslations {
       AliceTranslationKey.callsListStats: "Statystyki",
       AliceTranslationKey.callsListSave: "Zapis",
       AliceTranslationKey.logsEmpty: "Brak rezultatów",
+      AliceTranslationKey.logsError: "Problem z wyświetleniem logów.",
       AliceTranslationKey.logsItemError: "Błąd:",
       AliceTranslationKey.logsItemStackTrace: "Ślad stosu:",
       AliceTranslationKey.logsCopied: "Skopiowano do schowka.",
@@ -285,7 +292,7 @@ class AliceTranslations {
       AliceTranslationKey.notificationRedirect: "Przekierowanie:",
       AliceTranslationKey.notificationError: "Błąd:",
       AliceTranslationKey.notificationTotalRequests:
-          "Alice (razem [requestCount] żądań)",
+          "Alice (razem [callCount] połączeń HTTP)",
       AliceTranslationKey.saveDialogPermissionErrorTitle: "Błąd pozwolenia",
       AliceTranslationKey.saveDialogPermissionErrorDescription:
           "Pozwolenie nieprzyznane. Nie można zapisać logów.",

@@ -19,6 +19,7 @@ class AliceCallsListScreen extends StatelessWidget {
   final bool sortAscending;
   final void Function(AliceHttpCall) onListItemClicked;
 
+  /// Returns sorted calls based [sortOption] and [sortAscending].
   List<AliceHttpCall> get _sortedCalls => switch (sortOption) {
         AliceCallsListSortOption.time => sortAscending
             ? (calls

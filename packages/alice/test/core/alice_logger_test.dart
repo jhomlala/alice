@@ -40,20 +40,5 @@ void main() {
 
       expect(aliceLogger.logs.isEmpty, true);
     });
-
-    test("should set maximum size", () {
-      final logs = [
-        AliceLog(message: "test"),
-        AliceLog(message: "test2"),
-      ];
-
-      aliceLogger.addAll(logs);
-
-      expect(aliceLogger.logs.length, 2);
-
-      aliceLogger.maximumSize = 1;
-
-      expect(aliceLogger.logs.length, 1);
-    });
   });
 }

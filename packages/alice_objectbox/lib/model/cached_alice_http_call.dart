@@ -108,12 +108,6 @@ class CachedAliceHttpCall implements AliceHttpCall {
   final ToOne<CachedAliceHttpError> errorRel = ToOne<CachedAliceHttpError>();
 
   @override
-  void setResponse(AliceHttpResponse response) {
-    this.response = response;
-    loading = false;
-  }
-
-  @override
   List<Object?> get props => [
         id,
         createdTime,

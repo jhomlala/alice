@@ -8,6 +8,10 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 /// Helper for displaying local notifications.
 class AliceNotification {
+  static const String _payload = 'Alice';
+  static const String _channel = 'Alice';
+  static const String _callCount = '[callCount]';
+
   /// Notification plugin instance
   FlutterLocalNotificationsPlugin? _flutterLocalNotificationsPlugin;
 
@@ -32,9 +36,9 @@ class AliceNotification {
     _openInspectorCallback = openInspectorCallback;
     _notificationDetails = NotificationDetails(
       android: AndroidNotificationDetails(
-        'Alice',
-        'Alice',
-        channelDescription: 'Alice',
+        _channel,
+        _channel,
+        channelDescription: _channel,
         enableVibration: false,
         playSound: false,
         largeIcon: DrawableResourceAndroidBitmap(notificationIcon),
@@ -99,8 +103,10 @@ class AliceNotification {
   }
 
   /// Formats [stats] for notification message.
-  String _getNotificationMessage(
-          {required BuildContext context, required AliceStats stats}) =>
+  String _getNotificationMessage({
+    required BuildContext context,
+    required AliceStats stats,
+  }) =>
       <String>[
         if (stats.loading > 0)
           '${context.i18n(AliceTranslationKey.notificationLoading)} ${stats.loading}',
@@ -136,10 +142,10 @@ class AliceNotification {
         0,
         context
             .i18n(AliceTranslationKey.notificationTotalRequests)
-            .replaceAll("[requestCount]", stats.total.toString()),
+            .replaceAll(_callCount, stats.total.toString()),
         message,
         _notificationDetails,
-        payload: '',
+        payload: _payload,
       );
 
       _notificationMessageDisplayed = message;

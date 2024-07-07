@@ -9,7 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../mock/build_context_mock.dart';
-import '../mocked_data.dart';
+import '../mock/mocked_data.dart';
 
 void main() {
   late BuildContext context;
