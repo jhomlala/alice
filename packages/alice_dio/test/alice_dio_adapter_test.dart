@@ -226,6 +226,58 @@ void main() {
     });
   });
 
+  test("should handle call with empty response", () async {
+    dioAdapter.onGet(
+      'https://test.com/json',
+      (server) => server.reply(
+        200,
+        null,
+      ),
+      headers: {"content-type": "application/json"},
+    );
+
+    await dio.get<void>(
+      'https://test.com/json',
+      options: Options(
+        headers: {"content-type": "application/json"},
+      ),
+    );
+
+    final requestMatcher = buildRequestMatcher(
+      checkTime: true,
+      headers: {"content-type": "application/json"},
+      contentType: "application/json",
+      queryParameters: {},
+    );
+
+    final responseMatcher = buildResponseMatcher(checkTime: true);
+
+    final callMatcher = buildCallMatcher(
+        checkId: true,
+        checkTime: true,
+        secured: true,
+        loading: true,
+        client: 'Dio',
+        method: 'GET',
+        endpoint: '/json',
+        server: 'test.com',
+        uri: 'https://test.com/json',
+        duration: 0,
+        request: requestMatcher,
+        response: responseMatcher);
+
+    verify(() => aliceCore.addCall(any(that: callMatcher)));
+
+    final nextResponseMatcher = buildResponseMatcher(
+      status: 200,
+      size: 0,
+      checkTime: true,
+      body: '',
+    );
+
+    verify(() => aliceCore.addResponse(any(that: nextResponseMatcher), any()));
+  });
+
   test("should handle call with error", () async {
     dioAdapter.onGet(
       'https://test.com/json',
@@ -293,5 +345,61 @@ void main() {
       checkTime: true,
     );
     verify(() => aliceCore.addLog(any(that: logMatcher)));
+  });
+
+  test("should handle call with error where response is null", () async {
+    dioAdapter.onGet(
+      'https://test.com/json',
+      (server) =>
+          server.throws(0, DioException(requestOptions: RequestOptions())),
+      headers: {"content-type": "application/json"},
+    );
+
+    try {
+      await dio.get<void>(
+        'https://test.com/json',
+        options: Options(
+          headers: {"content-type": "application/json"},
+        ),
+      );
+    } catch (_) {}
+
+    final nextResponseMatcher = buildResponseMatcher(
+      status: -1,
+      size: 0,
+      checkTime: true,
+    );
+
+    verify(() => aliceCore.addResponse(any(that: nextResponseMatcher), any()));
+  });
+
+  test("should handle call with error where response is not null", () async {
+    dioAdapter.onGet(
+      'https://test.com/json',
+      (server) => server.throws(
+        0,
+        DioException(
+            requestOptions: RequestOptions(),
+            response: Response(requestOptions: RequestOptions(), data: "{}")),
+      ),
+      headers: {"content-type": "application/json"},
+    );
+
+    try {
+      await dio.get<void>(
+        'https://test.com/json',
+        options: Options(
+          headers: {"content-type": "application/json"},
+        ),
+      );
+    } catch (_) {}
+
+    final nextResponseMatcher = buildResponseMatcher(
+      size: 2,
+      body: '{}',
+      checkTime: true,
+    );
+
+    verify(() => aliceCore.addResponse(any(that: nextResponseMatcher), any()));
   });
 }
