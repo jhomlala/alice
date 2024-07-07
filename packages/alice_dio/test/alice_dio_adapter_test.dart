@@ -6,6 +6,7 @@ import 'package:alice/model/alice_from_data_field.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
+import 'package:alice/model/alice_log.dart';
 import 'package:alice_dio/alice_dio_adapter.dart';
 import 'package:alice_test/alice_test.dart';
 import 'package:dio/dio.dart';
@@ -24,11 +25,13 @@ void main() {
     registerFallbackValue(AliceHttpCall(0));
     registerFallbackValue(AliceHttpResponse());
     registerFallbackValue(AliceHttpError());
+    registerFallbackValue(AliceLog(message: ''));
 
     aliceCore = AliceCoreMock();
     when(() => aliceCore.addCall(any())).thenAnswer((_) => {});
     when(() => aliceCore.addResponse(any(), any())).thenAnswer((_) => {});
     when(() => aliceCore.addError(any(), any())).thenAnswer((_) => {});
+    when(() => aliceCore.addLog(any())).thenAnswer((_) => {});
 
     aliceDioAdapter = AliceDioAdapter();
     aliceDioAdapter.injectCore(aliceCore);
@@ -276,9 +279,19 @@ void main() {
 
     verify(() => aliceCore.addResponse(any(that: nextResponseMatcher), any()));
 
-    final errorMatcher =
-        buildErrorMatcher(checkError: true, checkStacktrace: true);
+    final errorMatcher = buildErrorMatcher(
+      checkError: true,
+      checkStacktrace: true,
+    );
 
     verify(() => aliceCore.addError(any(that: errorMatcher), any()));
+
+    final logMatcher = buildLogMatcher(
+      checkMessage: true,
+      checkError: true,
+      checkStacktrace: true,
+      checkTime: true,
+    );
+    verify(() => aliceCore.addLog(any(that: logMatcher)));
   });
 }
