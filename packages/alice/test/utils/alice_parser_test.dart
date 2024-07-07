@@ -17,9 +17,10 @@ void main() {
     test("should parse json body and pretty print it", () {
       expect(
         AliceParser.formatBody(
-            context: context,
-            body: '{"id": 1, "name": "test}',
-            contentType: "application/json",),
+          context: context,
+          body: '{"id": 1, "name": "test}',
+          contentType: "application/json",
+        ),
         '"{\\"id\\": 1, \\"name\\": \\"test}"',
       );
     });
@@ -46,27 +47,30 @@ void main() {
 
     test("should parse application/json content type", () {
       expect(
-          AliceParser.getContentType(
-            context: context,
-            headers: {'Content-Type': "application/json"},
-          ),
-          "application/json",);
+        AliceParser.getContentType(
+          context: context,
+          headers: {'Content-Type': "application/json"},
+        ),
+        "application/json",
+      );
 
       expect(
-          AliceParser.getContentType(
-            context: context,
-            headers: {'content-type': "application/json"},
-          ),
-          "application/json",);
+        AliceParser.getContentType(
+          context: context,
+          headers: {'content-type': "application/json"},
+        ),
+        "application/json",
+      );
     });
 
     test("should parse unknown content type", () {
       expect(
-          AliceParser.getContentType(
-            context: context,
-            headers: {},
-          ),
-          AliceTranslationKey.unknown.toString(),);
+        AliceParser.getContentType(
+          context: context,
+          headers: {},
+        ),
+        AliceTranslationKey.unknown.toString(),
+      );
     });
 
     test("should parse headers", () {

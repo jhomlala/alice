@@ -16,13 +16,16 @@ void main() {
 
   group("AliceMemoryStorage", () {
     test("should return HTTP call stats", () {
-      expect(storage.getStats(), (
-        total: 0,
-        successes: 0,
-        redirects: 0,
-        errors: 0,
-        loading: 0,
-      ),);
+      expect(
+        storage.getStats(),
+        (
+          total: 0,
+          successes: 0,
+          redirects: 0,
+          errors: 0,
+          loading: 0,
+        ),
+      );
 
       storage
           .addCall(MockedData.getHttpCallWithResponseStatus(statusCode: 200));
@@ -42,13 +45,16 @@ void main() {
       storage.addCall(MockedData.getHttpCallWithResponseStatus(statusCode: -1));
       storage.addCall(MockedData.getHttpCallWithResponseStatus(statusCode: 0));
 
-      expect(storage.getStats(), (
-        total: 10,
-        successes: 2,
-        redirects: 2,
-        errors: 5,
-        loading: 1,
-      ),);
+      expect(
+        storage.getStats(),
+        (
+          total: 10,
+          successes: 2,
+          redirects: 2,
+          errors: 5,
+          loading: 1,
+        ),
+      );
     });
 
     test("should save HTTP calls", () {

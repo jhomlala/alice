@@ -103,12 +103,14 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
       /// Log error to Alice log
       AliceUtils.log(error.toString());
 
-      aliceCore.addLog(AliceLog(
-        message: error.toString(),
-        level: DiagnosticLevel.error,
-        error: error,
-        stackTrace: stackTrace,
-      ),);
+      aliceCore.addLog(
+        AliceLog(
+          message: error.toString(),
+          level: DiagnosticLevel.error,
+          error: error,
+          stackTrace: stackTrace,
+        ),
+      );
 
       /// Add empty response to Alice core
       aliceCore.addResponse(

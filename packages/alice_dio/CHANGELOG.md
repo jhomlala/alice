@@ -1,5 +1,7 @@
 # 1.0.5
 * Added tests.
+* Added lint for trailing commas.
+* General refactor of code base.
 
 # 1.0.4
 

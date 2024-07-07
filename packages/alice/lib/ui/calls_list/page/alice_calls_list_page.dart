@@ -399,10 +399,12 @@ class _ContextMenuButton extends StatelessWidget {
                 const Padding(
                   padding: EdgeInsets.only(left: 10),
                 ),
-                Text(_getTitle(
-                  context: context,
-                  itemType: item,
-                ),),
+                Text(
+                  _getTitle(
+                    context: context,
+                    itemType: item,
+                  ),
+                ),
               ],
             ),
           ),

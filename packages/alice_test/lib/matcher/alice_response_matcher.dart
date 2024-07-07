@@ -18,18 +18,28 @@ TypeMatcher<AliceHttpResponse> buildResponseMatcher({
     matcher = matcher.having((response) => response.size, "size", equals(size));
   }
   if (checkTime == true) {
-    matcher = matcher.having((response) => response.time.millisecondsSinceEpoch,
-        "time", greaterThan(0),);
+    matcher = matcher.having(
+      (response) => response.time.millisecondsSinceEpoch,
+      "time",
+      greaterThan(0),
+    );
   }
   if (body != null) {
     matcher = matcher.having(
-        (response) => response.body.toString(), "body", equals(body),);
+      (response) => response.body.toString(),
+      "body",
+      equals(body),
+    );
   }
   if (headers != null) {
     for (var header in headers.entries) {
-      matcher = matcher.having((response) {
-        return response.headers;
-      }, "header", HeaderMatcher(header),);
+      matcher = matcher.having(
+        (response) {
+          return response.headers;
+        },
+        "header",
+        HeaderMatcher(header),
+      );
     }
   }
   return matcher;

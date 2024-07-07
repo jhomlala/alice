@@ -129,7 +129,9 @@ class AliceCore {
   /// Save all calls to file.
   Future<AliceExportResult> saveCallsToFile(BuildContext context) =>
       AliceExportHelper.saveCallsToFile(
-          context, _configuration.aliceStorage.getCalls(),);
+        context,
+        _configuration.aliceStorage.getCalls(),
+      );
 
   /// Adds new log to Alice logger.
   void addLog(AliceLog log) => _configuration.aliceLogger.add(log);

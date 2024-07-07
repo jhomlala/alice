@@ -22,8 +22,11 @@ TypeMatcher<AliceHttpCall> buildCallMatcher({
     matcher = matcher.having((call) => call.id, "id", greaterThan(0));
   }
   if (checkTime == true) {
-    matcher = matcher.having((call) => call.createdTime.millisecondsSinceEpoch,
-        "createdTime", greaterThan(0),);
+    matcher = matcher.having(
+      (call) => call.createdTime.millisecondsSinceEpoch,
+      "createdTime",
+      greaterThan(0),
+    );
   }
   if (secured != null) {
     matcher = matcher.having((call) => call.secure, "secure", equals(secured));

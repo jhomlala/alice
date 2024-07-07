@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
                 child: const Text(
                   'Run HTTP Inspector',
                 ),
-              )
+              ),
             ],
           ),
         ),

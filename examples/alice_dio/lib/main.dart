@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
                 child: const Text(
                   'Run HTTP Inspector',
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -74,7 +74,7 @@ class _MyAppState extends State<MyApp> {
     final Map<String, dynamic> body = {
       'title': 'foo',
       'body': 'bar',
-      'userId': '1'
+      'userId': '1',
     };
     _dio.get<void>(
       'https://httpbin.org/redirect-to?url=https%3A%2F%2Fhttpbin.org',

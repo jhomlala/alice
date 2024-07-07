@@ -1,5 +1,7 @@
 # 1.0.0-dev.11
 * Fixed issue with invalid count of error calls in stats page.
+* Added lint for trailing commas.
+* General refactor of code base.
 
 # 1.0.0-dev.10
 

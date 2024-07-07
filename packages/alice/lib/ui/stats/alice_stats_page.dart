@@ -31,21 +31,25 @@ class AliceStatsPage extends StatelessWidget {
           child: ListView(
             children: [
               AliceStatsRow(
-                  context.i18n(AliceTranslationKey.statsTotalRequests),
-                  '${_getTotalRequests()}',),
+                context.i18n(AliceTranslationKey.statsTotalRequests),
+                '${_getTotalRequests()}',
+              ),
               AliceStatsRow(
-                  context.i18n(AliceTranslationKey.statsPendingRequests),
-                  '${_getPendingRequests()}',),
+                context.i18n(AliceTranslationKey.statsPendingRequests),
+                '${_getPendingRequests()}',
+              ),
               AliceStatsRow(
-                  context.i18n(AliceTranslationKey.statsSuccessRequests),
-                  '${_getSuccessRequests()}',),
+                context.i18n(AliceTranslationKey.statsSuccessRequests),
+                '${_getSuccessRequests()}',
+              ),
               AliceStatsRow(
                 context.i18n(AliceTranslationKey.statsRedirectionRequests),
                 '${_getRedirectionRequests()}',
               ),
               AliceStatsRow(
-                  context.i18n(AliceTranslationKey.statsErrorRequests),
-                  '${_getErrorRequests()}',),
+                context.i18n(AliceTranslationKey.statsErrorRequests),
+                '${_getErrorRequests()}',
+              ),
               AliceStatsRow(
                 context.i18n(AliceTranslationKey.statsBytesSent),
                 AliceConversionHelper.formatBytes(_getBytesSent()),
@@ -66,24 +70,34 @@ class AliceStatsPage extends StatelessWidget {
                 context.i18n(AliceTranslationKey.statsMinRequestTime),
                 AliceConversionHelper.formatTime(_getMinRequestTime()),
               ),
-              AliceStatsRow(context.i18n(AliceTranslationKey.statsGetRequests),
-                  '${_getRequests('GET')} ',),
-              AliceStatsRow(context.i18n(AliceTranslationKey.statsPostRequests),
-                  '${_getRequests('POST')} ',),
               AliceStatsRow(
-                  context.i18n(AliceTranslationKey.statsDeleteRequests),
-                  '${_getRequests('DELETE')} ',),
-              AliceStatsRow(context.i18n(AliceTranslationKey.statsPutRequests),
-                  '${_getRequests('PUT')} ',),
+                context.i18n(AliceTranslationKey.statsGetRequests),
+                '${_getRequests('GET')} ',
+              ),
               AliceStatsRow(
-                  context.i18n(AliceTranslationKey.statsPatchRequests),
-                  '${_getRequests('PATCH')} ',),
+                context.i18n(AliceTranslationKey.statsPostRequests),
+                '${_getRequests('POST')} ',
+              ),
               AliceStatsRow(
-                  context.i18n(AliceTranslationKey.statsSecuredRequests),
-                  '${_getSecuredRequests()}',),
+                context.i18n(AliceTranslationKey.statsDeleteRequests),
+                '${_getRequests('DELETE')} ',
+              ),
               AliceStatsRow(
-                  context.i18n(AliceTranslationKey.statsUnsecuredRequests),
-                  '${_getUnsecuredRequests()}',),
+                context.i18n(AliceTranslationKey.statsPutRequests),
+                '${_getRequests('PUT')} ',
+              ),
+              AliceStatsRow(
+                context.i18n(AliceTranslationKey.statsPatchRequests),
+                '${_getRequests('PATCH')} ',
+              ),
+              AliceStatsRow(
+                context.i18n(AliceTranslationKey.statsSecuredRequests),
+                '${_getSecuredRequests()}',
+              ),
+              AliceStatsRow(
+                context.i18n(AliceTranslationKey.statsUnsecuredRequests),
+                '${_getUnsecuredRequests()}',
+              ),
             ],
           ),
         ),
@@ -116,10 +130,12 @@ class AliceStatsPage extends StatelessWidget {
 
   /// Returns count of error requests.
   int _getErrorRequests() => _calls
-      .where((AliceHttpCall call) =>
-          (call.response?.status.gte(400) ?? false) &&
-              (call.response?.status.lt(600) ?? false) ||
-          const [-1, 0].contains(call.response?.status),)
+      .where(
+        (AliceHttpCall call) =>
+            (call.response?.status.gte(400) ?? false) &&
+                (call.response?.status.lt(600) ?? false) ||
+            const [-1, 0].contains(call.response?.status),
+      )
       .toList()
       .length;
 

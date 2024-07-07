@@ -153,11 +153,14 @@ class AliceDioAdapter extends InterceptorsWrapper with AliceAdapter {
         httpResponse,
         error.response!.requestOptions.hashCode,
       );
-      aliceCore.addLog(AliceLog(
+      aliceCore.addLog(
+        AliceLog(
           message: error.toString(),
           level: DiagnosticLevel.error,
           error: error,
-          stackTrace: error.stackTrace,),);
+          stackTrace: error.stackTrace,
+        ),
+      );
     }
     handler.next(error);
   }

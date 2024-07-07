@@ -21,30 +21,40 @@ class AliceCallRequestScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Widget> rows = [
       AliceCallListRow(
-          name: context.i18n(AliceTranslationKey.callRequestStarted),
-          value: call.request?.time.toString(),),
+        name: context.i18n(AliceTranslationKey.callRequestStarted),
+        value: call.request?.time.toString(),
+      ),
       AliceCallListRow(
-          name: context.i18n(AliceTranslationKey.callRequestBytesSent),
-          value: AliceConversionHelper.formatBytes(call.request?.size ?? 0),),
+        name: context.i18n(AliceTranslationKey.callRequestBytesSent),
+        value: AliceConversionHelper.formatBytes(call.request?.size ?? 0),
+      ),
       AliceCallListRow(
-          name: context.i18n(AliceTranslationKey.callRequestContentType),
-          value: AliceParser.getContentType(
-              context: context, headers: call.request?.headers,),),
+        name: context.i18n(AliceTranslationKey.callRequestContentType),
+        value: AliceParser.getContentType(
+          context: context,
+          headers: call.request?.headers,
+        ),
+      ),
     ];
 
-    rows.add(AliceCallListRow(
-      name: context.i18n(AliceTranslationKey.callRequestBody),
-      value: _getBodyContent(
-        context: context,
+    rows.add(
+      AliceCallListRow(
+        name: context.i18n(AliceTranslationKey.callRequestBody),
+        value: _getBodyContent(
+          context: context,
+        ),
       ),
-    ),);
+    );
 
     final List<AliceFormDataField>? formDataFields =
         call.request?.formDataFields;
     if (formDataFields?.isNotEmpty ?? false) {
-      rows.add(AliceCallListRow(
+      rows.add(
+        AliceCallListRow(
           name: context.i18n(AliceTranslationKey.callRequestFormDataFields),
-          value: '',),);
+          value: '',
+        ),
+      );
       rows.addAll([
         for (final AliceFormDataField field in formDataFields!)
           AliceCallListRow(name: '   • ${field.name}:', value: field.value),
@@ -53,9 +63,12 @@ class AliceCallRequestScreen extends StatelessWidget {
 
     final List<AliceFormDataFile>? formDataFiles = call.request!.formDataFiles;
     if (formDataFiles?.isNotEmpty ?? false) {
-      rows.add(AliceCallListRow(
+      rows.add(
+        AliceCallListRow(
           name: context.i18n(AliceTranslationKey.callRequestFormDataFiles),
-          value: '',),);
+          value: '',
+        ),
+      );
       rows.addAll([
         for (final AliceFormDataFile file in formDataFiles!)
           AliceCallListRow(
@@ -69,27 +82,37 @@ class AliceCallRequestScreen extends StatelessWidget {
     final String headersContent = headers?.isEmpty ?? true
         ? context.i18n(AliceTranslationKey.callRequestHeadersEmpty)
         : '';
-    rows.add(AliceCallListRow(
+    rows.add(
+      AliceCallListRow(
         name: context.i18n(AliceTranslationKey.callRequestHeaders),
-        value: headersContent,),);
+        value: headersContent,
+      ),
+    );
     rows.addAll([
       for (final MapEntry<String, dynamic> header in headers?.entries ?? [])
         AliceCallListRow(
-            name: '   • ${header.key}:', value: header.value.toString(),),
+          name: '   • ${header.key}:',
+          value: header.value.toString(),
+        ),
     ]);
 
     final Map<String, dynamic>? queryParameters = call.request?.queryParameters;
     final String queryParametersContent = queryParameters?.isEmpty ?? true
         ? context.i18n(AliceTranslationKey.callRequestQueryParametersEmpty)
         : '';
-    rows.add(AliceCallListRow(
+    rows.add(
+      AliceCallListRow(
         name: context.i18n(AliceTranslationKey.callRequestQueryParameters),
-        value: queryParametersContent,),);
+        value: queryParametersContent,
+      ),
+    );
     rows.addAll([
       for (final MapEntry<String, dynamic> queryParam
           in queryParameters?.entries ?? [])
         AliceCallListRow(
-            name: '   • ${queryParam.key}:', value: queryParam.value.toString(),),
+          name: '   • ${queryParam.key}:',
+          value: queryParam.value.toString(),
+        ),
     ]);
 
     return Container(
@@ -109,7 +132,9 @@ class AliceCallRequestScreen extends StatelessWidget {
             context: context,
             body: body,
             contentType: AliceParser.getContentType(
-                context: context, headers: call.request?.headers,),
+              context: context,
+              headers: call.request?.headers,
+            ),
           )
         : context.i18n(AliceTranslationKey.callRequestBodyEmpty);
   }

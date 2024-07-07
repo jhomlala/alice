@@ -17,11 +17,17 @@ TypeMatcher<AliceLog> buildLogMatcher({
   }
   if (checkStacktrace == true) {
     matcher = matcher.having(
-        (log) => log.stackTrace.toString(), "stackTrace", isNotEmpty,);
+      (log) => log.stackTrace.toString(),
+      "stackTrace",
+      isNotEmpty,
+    );
   }
   if (checkTime == true) {
     matcher = matcher.having(
-        (log) => log.timestamp.millisecondsSinceEpoch, "timestamp", isPositive,);
+      (log) => log.timestamp.millisecondsSinceEpoch,
+      "timestamp",
+      isPositive,
+    );
   }
   return matcher;
 }

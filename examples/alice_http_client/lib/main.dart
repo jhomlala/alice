@@ -41,7 +41,7 @@ class _MyAppState extends State<MyApp> {
             children: [
               const SizedBox(height: 8),
               const Text(
-                  'Welcome to example of Alice Http Inspector. Click buttons below to generate sample data.'),
+                  'Welcome to example of Alice Http Inspector. Click buttons below to generate sample data.',),
               ElevatedButton(
                 onPressed: _runHttpHttpClientRequests,
                 child: const Text(
@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
                 child: const Text(
                   'Run HTTP Inspector',
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -69,7 +69,7 @@ class _MyAppState extends State<MyApp> {
     final Map<String, dynamic> body = {
       'title': 'foo',
       'body': 'bar',
-      'userId': '1'
+      'userId': '1',
     };
 
     _httpClient
