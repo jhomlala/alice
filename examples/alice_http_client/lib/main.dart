@@ -41,7 +41,9 @@ class _MyAppState extends State<MyApp> {
             children: [
               const SizedBox(height: 8),
               const Text(
-                  'Welcome to example of Alice Http Inspector. Click buttons below to generate sample data.',),
+                'Welcome to example of Alice Http Inspector.'
+                ' Click buttons below to generate sample data.',
+              ),
               ElevatedButton(
                 onPressed: _runHttpHttpClientRequests,
                 child: const Text(
@@ -50,8 +52,10 @@ class _MyAppState extends State<MyApp> {
               ),
               const SizedBox(height: 8),
               const Text(
-                  'After clicking on buttons above, you should receive notification.'
-                  ' Click on it to show inspector. You can also shake your device or click button below.'),
+                'After clicking on buttons above, you should receive'
+                ' notification. Click on it to show inspector. You can '
+                'also shake your device or click button below.',
+              ),
               ElevatedButton(
                 onPressed: _runHttpInspector,
                 child: const Text(
