@@ -1,4 +1,10 @@
+# 1.0.6
+
+* Added lint for trailing commas.
+* General refactor of code base.
+
 # 1.0.5
+
 * Untrack gitignored files.
 * Updated metadata.
 * Updated dependencies.

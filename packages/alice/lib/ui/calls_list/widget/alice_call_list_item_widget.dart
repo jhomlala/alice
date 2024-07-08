@@ -174,7 +174,7 @@ class _ResponseStatus extends StatelessWidget {
                 fontSize: 16,
                 color: color,
               ),
-            )
+            ),
         ],
       ),
     );

@@ -53,7 +53,7 @@ class _AliceLogListWidgetState extends State<AliceLogListWidget> {
 
         final List<AliceLog> filteredLogs = [
           for (final AliceLog log in logs)
-            if (log.level.index >= _minLevel.index) log
+            if (log.level.index >= _minLevel.index) log,
         ];
 
         return ScrollConfiguration(
@@ -97,8 +97,11 @@ class _AliceLogEntryWidget extends StatelessWidget {
             ),
           ),
           TextSpan(text: ' ${log.message}'),
-          ..._toText(context, context.i18n(AliceTranslationKey.logsItemError),
-              log.error),
+          ..._toText(
+            context,
+            context.i18n(AliceTranslationKey.logsItemError),
+            log.error,
+          ),
           ..._toText(
             context,
             context.i18n(AliceTranslationKey.logsItemStackTrace),

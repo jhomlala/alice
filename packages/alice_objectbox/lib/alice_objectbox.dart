@@ -119,12 +119,13 @@ class AliceObjectBox implements AliceStorage {
             .count(),
         errors: (_store.httpCalls.query()
               ..link(
-                  CachedAliceHttpCall_.responseRel,
-                  CachedAliceHttpResponse_.status
-                      .greaterOrEqual(400)
-                      .and(CachedAliceHttpResponse_.status.lessThan(600))
-                      .and(CachedAliceHttpResponse_.status.equals(-1))
-                      .and(CachedAliceHttpResponse_.status.equals(0))))
+                CachedAliceHttpCall_.responseRel,
+                CachedAliceHttpResponse_.status
+                    .greaterOrEqual(400)
+                    .and(CachedAliceHttpResponse_.status.lessThan(600))
+                    .and(CachedAliceHttpResponse_.status.equals(-1))
+                    .and(CachedAliceHttpResponse_.status.equals(0)),
+              ))
             .build()
             .count(),
         loading: _store.httpCalls

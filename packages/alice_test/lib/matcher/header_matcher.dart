@@ -19,8 +19,12 @@ class HeaderMatcher extends Matcher {
       description.add('contains header').addDescriptionOf(_expected);
 
   @override
-  Description describeMismatch(Object? item, Description mismatchDescription,
-      Map matchState, bool verbose) {
+  Description describeMismatch(
+    Object? item,
+    Description mismatchDescription,
+    Map matchState,
+    bool verbose,
+  ) {
     mismatchDescription
         .add('does not contain header')
         .addDescriptionOf(_expected);

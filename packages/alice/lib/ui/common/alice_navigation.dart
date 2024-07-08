@@ -23,7 +23,9 @@ class AliceNavigation {
     required AliceCore core,
   }) {
     return _navigateToPage(
-        core: core, child: AliceCallDetailsPage(call: call, core: core));
+      core: core,
+      child: AliceCallDetailsPage(call: call, core: core),
+    );
   }
 
   /// Navigates to stats page.

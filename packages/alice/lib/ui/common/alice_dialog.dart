@@ -43,7 +43,7 @@ class AliceGeneralDialog {
                       Navigator.of(context).pop();
                     },
                     child: Text(secondButtonTitle),
-                  )
+                  ),
               ],
             ),
           );
