@@ -47,9 +47,10 @@ void main() {
       });
 
       chopperClient = ChopperClient(
-          baseUrl: baseUrl,
-          client: mockClient,
-          interceptors: [aliceChopperAdapter]);
+        baseUrl: baseUrl,
+        client: mockClient,
+        interceptors: [aliceChopperAdapter],
+      );
 
       await chopperClient.get(
         Uri(
@@ -68,18 +69,19 @@ void main() {
       final responseMatcher = buildResponseMatcher(checkTime: true);
 
       final callMatcher = buildCallMatcher(
-          checkId: true,
-          checkTime: true,
-          secured: true,
-          loading: true,
-          client: 'Chopper',
-          method: 'GET',
-          endpoint: '/json',
-          server: 'test.com',
-          uri: 'https://test.com/json',
-          duration: 0,
-          request: requestMatcher,
-          response: responseMatcher);
+        checkId: true,
+        checkTime: true,
+        secured: true,
+        loading: true,
+        client: 'Chopper',
+        method: 'GET',
+        endpoint: '/json',
+        server: 'test.com',
+        uri: 'https://test.com/json',
+        duration: 0,
+        request: requestMatcher,
+        response: responseMatcher,
+      );
 
       verify(() => aliceCore.addCall(any(that: callMatcher)));
 
@@ -92,7 +94,8 @@ void main() {
       );
 
       verify(
-          () => aliceCore.addResponse(any(that: nextResponseMatcher), any()));
+        () => aliceCore.addResponse(any(that: nextResponseMatcher), any()),
+      );
     });
 
     test("should handle POST call with json response", () async {
@@ -105,9 +108,10 @@ void main() {
       });
 
       chopperClient = ChopperClient(
-          baseUrl: baseUrl,
-          client: mockClient,
-          interceptors: [aliceChopperAdapter]);
+        baseUrl: baseUrl,
+        client: mockClient,
+        interceptors: [aliceChopperAdapter],
+      );
 
       await chopperClient.post(
         Uri(
@@ -124,7 +128,7 @@ void main() {
         contentType: "application/json",
         body: '{"data":"test"}',
         queryParameters: {
-          "sort": ["asc"]
+          "sort": ["asc"],
         },
       );
 
@@ -156,7 +160,8 @@ void main() {
       );
 
       verify(
-          () => aliceCore.addResponse(any(that: nextResponseMatcher), any()));
+        () => aliceCore.addResponse(any(that: nextResponseMatcher), any()),
+      );
     });
 
     test("should handle form data", () async {
@@ -173,9 +178,10 @@ void main() {
       });
 
       chopperClient = ChopperClient(
-          baseUrl: baseUrl,
-          client: mockClient,
-          interceptors: [aliceChopperAdapter]);
+        baseUrl: baseUrl,
+        client: mockClient,
+        interceptors: [aliceChopperAdapter],
+      );
 
       await chopperClient.post(
         Uri(
@@ -194,17 +200,18 @@ void main() {
       );
 
       final requestMatcher = buildRequestMatcher(
-          checkTime: true,
-          formDataFields: [
-            const AliceFormDataField('name', 'Alice'),
-            const AliceFormDataField('surname', 'test'),
-          ],
-          formDataFiles: [
-            AliceFormDataFile(name, "", 0),
-          ],
-          body: '',
-          headers: {'content-type': 'multipart/form-data'},
-          contentType: 'multipart/form-data');
+        checkTime: true,
+        formDataFields: [
+          const AliceFormDataField('name', 'Alice'),
+          const AliceFormDataField('surname', 'test'),
+        ],
+        formDataFiles: [
+          AliceFormDataFile(name, "", 0),
+        ],
+        body: '',
+        headers: {'content-type': 'multipart/form-data'},
+        contentType: 'multipart/form-data',
+      );
       final responseMatcher = buildResponseMatcher(checkTime: true);
 
       final callMatcher = buildCallMatcher(
@@ -233,7 +240,8 @@ void main() {
       );
 
       verify(
-          () => aliceCore.addResponse(any(that: nextResponseMatcher), any()));
+        () => aliceCore.addResponse(any(that: nextResponseMatcher), any()),
+      );
       file.deleteSync();
     });
   });
