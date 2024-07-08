@@ -27,4 +27,3 @@ dev_dependencies:
   test: ^1.25.2
   alice_test: ^1.0.0
   mocktail: ^1.0.4
-  http: ^1.2.1
