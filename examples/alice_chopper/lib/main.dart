@@ -476,7 +476,7 @@ class _MyAppState extends State<MyApp> {
               ElevatedButton(
                 onPressed: _runHttpInspector,
                 child: const Text('Run HTTP Inspector'),
-              )
+              ),
             ],
           ),
         ),

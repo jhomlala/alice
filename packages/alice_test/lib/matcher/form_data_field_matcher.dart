@@ -23,8 +23,12 @@ class FormDataFieldMatcher extends Matcher {
       description.add('contains form field').addDescriptionOf(_expected);
 
   @override
-  Description describeMismatch(Object? item, Description mismatchDescription,
-      Map matchState, bool verbose) {
+  Description describeMismatch(
+    Object? item,
+    Description mismatchDescription,
+    Map matchState,
+    bool verbose,
+  ) {
     mismatchDescription
         .add('does not contain form field')
         .addDescriptionOf(_expected);

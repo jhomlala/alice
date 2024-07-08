@@ -1,4 +1,10 @@
+# 1.0.3
+
+* Added lint for trailing commas.
+* General refactor of code base.
+
 # 1.0.2
+
 * Fixed issue with invalid count of calls in notification.
 
 # 1.0.1

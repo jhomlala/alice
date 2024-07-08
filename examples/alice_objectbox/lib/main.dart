@@ -42,7 +42,7 @@ class _MyAppState extends State<MyApp> {
     ),
   );
   late final Alice _alice = Alice(
-    configuration: configuration
+    configuration: configuration,
   )..addAdapter(_aliceHttpAdapter);
 
   @override
@@ -82,7 +82,7 @@ class _MyAppState extends State<MyApp> {
                 child: const Text(
                   'Run HTTP Inspector',
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -94,7 +94,7 @@ class _MyAppState extends State<MyApp> {
     final Map<String, String> body = {
       'title': 'foo',
       'body': 'bar',
-      'userId': '1'
+      'userId': '1',
     };
 
     http

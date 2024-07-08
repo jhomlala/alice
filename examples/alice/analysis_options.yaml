@@ -9,4 +9,4 @@ include: package:flutter_lints/flutter.yaml
 
 linter:
   rules:
-    #library_annotations: false
+    - require_trailing_commas

@@ -121,7 +121,7 @@ class CachedAliceHttpCall implements AliceHttpCall {
         duration,
         request,
         response,
-        error
+        error,
       ];
 
   @override

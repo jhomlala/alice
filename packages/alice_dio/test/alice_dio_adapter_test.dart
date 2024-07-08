@@ -47,7 +47,7 @@ void main() {
           200,
           '{"result": "ok"}',
           headers: {
-            "content-type": ["application/json"]
+            "content-type": ["application/json"],
           },
         ),
         headers: {"content-type": "application/json"},
@@ -70,18 +70,19 @@ void main() {
       final responseMatcher = buildResponseMatcher(checkTime: true);
 
       final callMatcher = buildCallMatcher(
-          checkId: true,
-          checkTime: true,
-          secured: true,
-          loading: true,
-          client: 'Dio',
-          method: 'GET',
-          endpoint: '/json',
-          server: 'test.com',
-          uri: 'https://test.com/json',
-          duration: 0,
-          request: requestMatcher,
-          response: responseMatcher);
+        checkId: true,
+        checkTime: true,
+        secured: true,
+        loading: true,
+        client: 'Dio',
+        method: 'GET',
+        endpoint: '/json',
+        server: 'test.com',
+        uri: 'https://test.com/json',
+        duration: 0,
+        request: requestMatcher,
+        response: responseMatcher,
+      );
 
       verify(() => aliceCore.addCall(any(that: callMatcher)));
 
@@ -94,22 +95,24 @@ void main() {
       );
 
       verify(
-          () => aliceCore.addResponse(any(that: nextResponseMatcher), any()));
+        () => aliceCore.addResponse(any(that: nextResponseMatcher), any()),
+      );
     });
 
     test("should handle POST call with json response", () async {
       dioAdapter.onPost(
-          'https://test.com/json',
-          (server) => server.reply(
-                200,
-                '{"result": "ok"}',
-                headers: {
-                  "content-type": ["application/json"]
-                },
-              ),
-          data: '{"data":"test"}',
-          headers: {"content-type": "application/json"},
-          queryParameters: {"sort": "asc"});
+        'https://test.com/json',
+        (server) => server.reply(
+          200,
+          '{"result": "ok"}',
+          headers: {
+            "content-type": ["application/json"],
+          },
+        ),
+        data: '{"data":"test"}',
+        headers: {"content-type": "application/json"},
+        queryParameters: {"sort": "asc"},
+      );
 
       await dio.post<void>(
         'https://test.com/json',
@@ -131,18 +134,19 @@ void main() {
       final responseMatcher = buildResponseMatcher(checkTime: true);
 
       final callMatcher = buildCallMatcher(
-          checkId: true,
-          checkTime: true,
-          secured: true,
-          loading: true,
-          client: 'Dio',
-          method: 'POST',
-          endpoint: '/json',
-          server: 'test.com',
-          uri: 'https://test.com/json?sort=asc',
-          duration: 0,
-          request: requestMatcher,
-          response: responseMatcher);
+        checkId: true,
+        checkTime: true,
+        secured: true,
+        loading: true,
+        client: 'Dio',
+        method: 'POST',
+        endpoint: '/json',
+        server: 'test.com',
+        uri: 'https://test.com/json?sort=asc',
+        duration: 0,
+        request: requestMatcher,
+        response: responseMatcher,
+      );
 
       verify(() => aliceCore.addCall(any(that: callMatcher)));
 
@@ -155,7 +159,8 @@ void main() {
       );
 
       verify(
-          () => aliceCore.addResponse(any(that: nextResponseMatcher), any()));
+        () => aliceCore.addResponse(any(that: nextResponseMatcher), any()),
+      );
     });
 
     test("should handle form data", () async {
@@ -166,16 +171,17 @@ void main() {
       var formData = FormData.fromMap({
         'name': 'Alice',
         'surname': 'test',
-        'image': MultipartFile.fromFileSync(file.path)
+        'image': MultipartFile.fromFileSync(file.path),
       });
 
       dioAdapter.onPost(
-          'https://test.com/form',
-          (server) => server.reply(
-                200,
-                '{"result": "ok"}',
-              ),
-          data: formData);
+        'https://test.com/form',
+        (server) => server.reply(
+          200,
+          '{"result": "ok"}',
+        ),
+        data: formData,
+      );
 
       await dio.post<void>(
         'https://test.com/form',
@@ -183,31 +189,33 @@ void main() {
       );
 
       final requestMatcher = buildRequestMatcher(
-          checkTime: true,
-          formDataFields: [
-            const AliceFormDataField('name', 'Alice'),
-            const AliceFormDataField('surname', 'test'),
-          ],
-          formDataFiles: [
-            AliceFormDataFile(name, "application/octet-stream", 0),
-          ],
-          body: 'Form data',
-          headers: {'content-type': 'multipart/form-data'});
+        checkTime: true,
+        formDataFields: [
+          const AliceFormDataField('name', 'Alice'),
+          const AliceFormDataField('surname', 'test'),
+        ],
+        formDataFiles: [
+          AliceFormDataFile(name, "application/octet-stream", 0),
+        ],
+        body: 'Form data',
+        headers: {'content-type': 'multipart/form-data'},
+      );
       final responseMatcher = buildResponseMatcher(checkTime: true);
 
       final callMatcher = buildCallMatcher(
-          checkId: true,
-          checkTime: true,
-          secured: true,
-          loading: true,
-          client: 'Dio',
-          method: 'POST',
-          endpoint: '/form',
-          server: 'test.com',
-          uri: 'https://test.com/form',
-          duration: 0,
-          request: requestMatcher,
-          response: responseMatcher);
+        checkId: true,
+        checkTime: true,
+        secured: true,
+        loading: true,
+        client: 'Dio',
+        method: 'POST',
+        endpoint: '/form',
+        server: 'test.com',
+        uri: 'https://test.com/form',
+        duration: 0,
+        request: requestMatcher,
+        response: responseMatcher,
+      );
 
       verify(() => aliceCore.addCall(any(that: callMatcher)));
 
@@ -220,7 +228,8 @@ void main() {
       );
 
       verify(
-          () => aliceCore.addResponse(any(that: nextResponseMatcher), any()));
+        () => aliceCore.addResponse(any(that: nextResponseMatcher), any()),
+      );
       file.deleteSync();
     });
   });
@@ -252,18 +261,19 @@ void main() {
     final responseMatcher = buildResponseMatcher(checkTime: true);
 
     final callMatcher = buildCallMatcher(
-        checkId: true,
-        checkTime: true,
-        secured: true,
-        loading: true,
-        client: 'Dio',
-        method: 'GET',
-        endpoint: '/json',
-        server: 'test.com',
-        uri: 'https://test.com/json',
-        duration: 0,
-        request: requestMatcher,
-        response: responseMatcher);
+      checkId: true,
+      checkTime: true,
+      secured: true,
+      loading: true,
+      client: 'Dio',
+      method: 'GET',
+      endpoint: '/json',
+      server: 'test.com',
+      uri: 'https://test.com/json',
+      duration: 0,
+      request: requestMatcher,
+      response: responseMatcher,
+    );
 
     verify(() => aliceCore.addCall(any(that: callMatcher)));
 
@@ -306,18 +316,19 @@ void main() {
     final responseMatcher = buildResponseMatcher(checkTime: true);
 
     final callMatcher = buildCallMatcher(
-        checkId: true,
-        checkTime: true,
-        secured: true,
-        loading: true,
-        client: 'Dio',
-        method: 'GET',
-        endpoint: '/json',
-        server: 'test.com',
-        uri: 'https://test.com/json',
-        duration: 0,
-        request: requestMatcher,
-        response: responseMatcher);
+      checkId: true,
+      checkTime: true,
+      secured: true,
+      loading: true,
+      client: 'Dio',
+      method: 'GET',
+      endpoint: '/json',
+      server: 'test.com',
+      uri: 'https://test.com/json',
+      duration: 0,
+      request: requestMatcher,
+      response: responseMatcher,
+    );
 
     verify(() => aliceCore.addCall(any(that: callMatcher)));
 
@@ -378,8 +389,9 @@ void main() {
       (server) => server.throws(
         0,
         DioException(
-            requestOptions: RequestOptions(),
-            response: Response(requestOptions: RequestOptions(), data: "{}")),
+          requestOptions: RequestOptions(),
+          response: Response(requestOptions: RequestOptions(), data: "{}"),
+        ),
       ),
       headers: {"content-type": "application/json"},
     );

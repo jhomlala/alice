@@ -28,8 +28,9 @@ class AliceCallErrorScreen extends StatelessWidget {
           child: ListView(
             children: [
               AliceCallListRow(
-                  name: context.i18n(AliceTranslationKey.callErrorScreenError),
-                  value: errorText),
+                name: context.i18n(AliceTranslationKey.callErrorScreenError),
+                value: errorText,
+              ),
               if (stackTrace != null)
                 AliceCallExpandableListRow(
                   name: context
