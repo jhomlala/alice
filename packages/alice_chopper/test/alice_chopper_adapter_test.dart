@@ -244,5 +244,127 @@ void main() {
       );
       file.deleteSync();
     });
+
+    test("should handle call with empty response", () async {
+      final mockClient = MockClient((request) async {
+        return http.Response(
+          '',
+          200,
+          headers: {'content-type': 'application/json'},
+        );
+      });
+
+      chopperClient = ChopperClient(
+        baseUrl: baseUrl,
+        client: mockClient,
+        interceptors: [aliceChopperAdapter],
+      );
+
+      await chopperClient.get(
+        Uri(
+          path: 'json',
+        ),
+        headers: {'content-type': 'application/json'},
+      );
+      final requestMatcher = buildRequestMatcher(
+        checkTime: true,
+        headers: {"content-type": "application/json"},
+        contentType: "application/json",
+        queryParameters: {},
+      );
+
+      final responseMatcher = buildResponseMatcher(checkTime: true);
+
+      final callMatcher = buildCallMatcher(
+        checkId: true,
+        checkTime: true,
+        secured: true,
+        loading: true,
+        client: 'Chopper',
+        method: 'GET',
+        endpoint: '/json',
+        server: 'test.com',
+        uri: 'https://test.com/json',
+        duration: 0,
+        request: requestMatcher,
+        response: responseMatcher,
+      );
+
+      verify(() => aliceCore.addCall(any(that: callMatcher)));
+
+      final nextResponseMatcher = buildResponseMatcher(
+        status: 200,
+        size: 0,
+        checkTime: true,
+        body: '',
+      );
+
+      verify(
+        () => aliceCore.addResponse(any(that: nextResponseMatcher), any()),
+      );
+    });
+
+    test("should handle call with error", () async {
+      final mockClient = MockClient((request) async {
+        return http.Response(
+          'error',
+          404,
+        );
+      });
+
+      chopperClient = ChopperClient(
+        baseUrl: baseUrl,
+        client: mockClient,
+        interceptors: [aliceChopperAdapter],
+      );
+
+      await chopperClient.get(
+        Uri(
+          path: 'json',
+        ),
+      );
+
+      final requestMatcher = buildRequestMatcher(
+        checkTime: true,
+      );
+
+      final responseMatcher = buildResponseMatcher(checkTime: true);
+
+      final callMatcher = buildCallMatcher(
+        checkId: true,
+        checkTime: true,
+        secured: true,
+        loading: true,
+        client: 'Chopper',
+        method: 'GET',
+        endpoint: '/json',
+        server: 'test.com',
+        uri: 'https://test.com/json',
+        duration: 0,
+        request: requestMatcher,
+        response: responseMatcher,
+      );
+
+      verify(() => aliceCore.addCall(any(that: callMatcher)));
+
+      final nextResponseMatcher = buildResponseMatcher(
+        status: 404,
+        size: 0,
+        checkTime: true,
+      );
+
+      verify(
+        () => aliceCore.addResponse(
+          any(that: nextResponseMatcher),
+          any(),
+        ),
+      );
+
+      final errorMatcher = buildErrorMatcher(
+        checkError: true,
+      );
+
+      verify(() => aliceCore.addError(any(that: errorMatcher), any()));
+    });
   });
 }
