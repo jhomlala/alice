@@ -31,3 +31,4 @@ dev_dependencies:
   chopper_generator: ^8.0.0
   json_serializable: ^6.8.0
   json_annotation: ^4.9.0
+  equatable: ^2.0.5
