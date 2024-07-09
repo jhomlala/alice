@@ -27,3 +27,7 @@ dev_dependencies:
   test: ^1.25.2
   alice_test: ^1.0.0
   mocktail: ^1.0.4
+  build_runner: ^2.4.9
+  chopper_generator: ^8.0.0
+  json_serializable: ^6.8.0
+  json_annotation: ^4.9.0

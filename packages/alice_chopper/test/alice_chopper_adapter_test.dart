@@ -15,6 +15,10 @@ import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 import 'package:http/http.dart' as http;
 
+import 'invalid_model.dart';
+import 'invalid_service.dart';
+import 'json_serializable_converter.dart';
+
 void main() {
   final baseUrl = Uri.parse('https://test.com');
   late AliceCore aliceCore;
@@ -365,6 +369,82 @@ void main() {
       );
 
       verify(() => aliceCore.addError(any(that: errorMatcher), any()));
+    });
+
+    test("should handle call with error when model fails", () async {
+      final mockClient = MockClient((request) async {
+        return http.Response(
+          '{"id": 0}',
+          200,
+          headers: {'content-type': 'application/json'},
+        );
+      });
+
+      chopperClient = ChopperClient(
+        baseUrl: baseUrl,
+        client: mockClient,
+        interceptors: [aliceChopperAdapter],
+        services: [InvalidService.create()],
+        converter: const JsonSerializableConverter(
+          {InvalidModel: InvalidModel.fromJson},
+        ),
+      );
+
+      final service = chopperClient.getService<InvalidService>();
+      try {
+        await service.get(0);
+      } catch (_) {}
+
+      final requestMatcher = buildRequestMatcher(
+        checkTime: true,
+      );
+
+      final responseMatcher = buildResponseMatcher(checkTime: true);
+
+      final callMatcher = buildCallMatcher(
+        checkId: true,
+        checkTime: true,
+        secured: true,
+        loading: true,
+        client: 'Chopper',
+        method: 'GET',
+        endpoint: '/posts/0',
+        server: 'test.com',
+        uri: 'https://test.com/posts/0',
+        duration: 0,
+        request: requestMatcher,
+        response: responseMatcher,
+      );
+
+      verify(() => aliceCore.addCall(any(that: callMatcher)));
+
+      final nextResponseMatcher = buildResponseMatcher(
+        status: -1,
+        size: 0,
+        checkTime: true,
+      );
+
+      verify(
+        () => aliceCore.addResponse(
+          any(that: nextResponseMatcher),
+          any(),
+        ),
+      );
+
+      final errorMatcher = buildErrorMatcher(
+        checkError: true,
+        checkStacktrace: true,
+      );
+
+      verify(() => aliceCore.addError(any(that: errorMatcher), any()));
+
+      final logMatcher = buildLogMatcher(
+        checkMessage: true,
+        checkError: true,
+        checkStacktrace: true,
+        checkTime: true,
+      );
+      verify(() => aliceCore.addLog(any(that: logMatcher)));
     });
   });
 }
