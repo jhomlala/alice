@@ -178,4 +178,9 @@ class AliceCore {
   bool isInspectorOpened() {
     return _isInspectorOpened;
   }
+
+  /// Clear all logs
+  void clearLogs() {
+    _aliceLogger.clear();
+  }
 }

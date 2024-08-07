@@ -127,4 +127,14 @@ class Alice {
   bool isInspectorOpened() {
     return _aliceCore.isInspectorOpened();
   }
+
+  /// Clear all http calls
+  void removeHttpCalls() {
+    _aliceCore.removeCalls();
+  }
+
+  /// Clear all logs
+  void clearLogs() {
+    _aliceCore.clearLogs();
+  }
 }
