@@ -256,7 +256,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
   /// Called when save to file has been pressed. It saves data to file.
   void _saveToFile() async {
     final result = await aliceCore.saveCallsToFile(context);
-    if (result.success) {
+    if (result.success && result.path != null) {
       AliceGeneralDialog.show(
         context: context,
         title: context.i18n(AliceTranslationKey.saveSuccessTitle),
@@ -267,7 +267,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
             ? context.i18n(AliceTranslationKey.saveSuccessView)
             : null,
         secondButtonAction: () =>
-            OperatingSystem.isAndroid ? OpenFilex.open(result.path) : null,
+            OperatingSystem.isAndroid ? OpenFilex.open(result.path!) : null,
       );
     } else {
       final [String title, String description] = switch (result.error) {
