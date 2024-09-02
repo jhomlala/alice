@@ -166,7 +166,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
   /// Called when back button has been pressed. It navigates back to original
   /// application.
   void _onBackPressed() {
-    Navigator.of(context, rootNavigator: true).pop();
+    Navigator.of(context).pop();
   }
 
   /// Called when clear logs has been pressed. It displays dialog and awaits for
