@@ -267,9 +267,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
             ? context.i18n(AliceTranslationKey.saveSuccessView)
             : null,
         secondButtonAction: () =>
-            OperatingSystem.isAndroid && result.path != null
-                ? OpenFilex.open(result.path!)
-                : null,
+            OperatingSystem.isAndroid ? OpenFilex.open(result.path) : null,
       );
     } else {
       final [String title, String description] = switch (result.error) {
