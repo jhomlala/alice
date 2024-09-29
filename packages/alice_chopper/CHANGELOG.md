@@ -2,6 +2,8 @@
 
 * Added lint for trailing commas.
 * General refactor of code base.
+* Added support for form data. 
+* Added tests.
 
 # 1.0.5
 
