@@ -256,6 +256,9 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
   /// Called when save to file has been pressed. It saves data to file.
   void _saveToFile() async {
     final result = await aliceCore.saveCallsToFile(context);
+
+    if (!mounted) return;
+
     if (result.success) {
       AliceGeneralDialog.show(
         context: context,
@@ -309,7 +312,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
   Future<void> _onSortPressed() async {
     AliceSortDialogResult? result = await showDialog<AliceSortDialogResult>(
       context: context,
-      builder: (BuildContext buildContext) => AliceSortDialog(
+      builder: (_) => AliceSortDialog(
         sortOption: _sortOption,
         sortAscending: _sortAscending,
       ),
