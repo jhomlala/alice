@@ -2,6 +2,8 @@ import 'dart:async' show FutureOr;
 import 'dart:convert' show utf8;
 import 'dart:io' show HttpHeaders;
 
+import 'package:alice/model/alice_form_data_file.dart';
+import 'package:alice/model/alice_from_data_field.dart';
 import 'package:flutter/foundation.dart';
 import 'package:alice/core/alice_adapter.dart';
 import 'package:alice/core/alice_utils.dart';
@@ -65,6 +67,14 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
           ..headers = chain.request.headers
           ..contentType =
               chain.request.headers[HttpHeaders.contentTypeHeader] ?? 'unknown'
+          ..formDataFields = chain.request.parts
+              .whereType<PartValue>()
+              .map((field) => AliceFormDataField(field.name, field.value))
+              .toList()
+          ..formDataFiles = chain.request.parts
+              .whereType<PartValueFile>()
+              .map((file) => AliceFormDataFile(file.value, "", 0))
+              .toList()
           ..queryParameters = chain.request.parameters)
         ..response = AliceHttpResponse(),
     );

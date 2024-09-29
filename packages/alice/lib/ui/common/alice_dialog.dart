@@ -17,7 +17,7 @@ class AliceGeneralDialog {
   }) =>
       showDialog<void>(
         context: context,
-        builder: (BuildContext buildContext) {
+        builder: (BuildContext context) {
           return Theme(
             data: AliceTheme.getTheme(),
             child: AlertDialog(

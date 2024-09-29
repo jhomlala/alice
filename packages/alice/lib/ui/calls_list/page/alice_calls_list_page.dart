@@ -166,7 +166,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
   /// Called when back button has been pressed. It navigates back to original
   /// application.
   void _onBackPressed() {
-    Navigator.of(context, rootNavigator: true).pop();
+    Navigator.of(context).pop();
   }
 
   /// Called when clear logs has been pressed. It displays dialog and awaits for
@@ -255,8 +255,10 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
 
   /// Called when save to file has been pressed. It saves data to file.
   void _saveToFile() async {
+        if (!mounted) return;
     final result = await aliceCore.saveCallsToFile(context);
-    if (result.success) {
+
+  if (result.success && result.path != null) {
       AliceGeneralDialog.show(
         context: context,
         title: context.i18n(AliceTranslationKey.saveSuccessTitle),
@@ -267,7 +269,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
             ? context.i18n(AliceTranslationKey.saveSuccessView)
             : null,
         secondButtonAction: () =>
-            OperatingSystem.isAndroid ? OpenFilex.open(result.path) : null,
+            OperatingSystem.isAndroid ? OpenFilex.open(result.path!) : null,
       );
     } else {
       final [String title, String description] = switch (result.error) {
@@ -309,7 +311,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
   Future<void> _onSortPressed() async {
     AliceSortDialogResult? result = await showDialog<AliceSortDialogResult>(
       context: context,
-      builder: (BuildContext buildContext) => AliceSortDialog(
+      builder: (_) => AliceSortDialog(
         sortOption: _sortOption,
         sortAscending: _sortAscending,
       ),

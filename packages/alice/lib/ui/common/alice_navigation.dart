@@ -49,7 +49,7 @@ class AliceNavigation {
     return Navigator.push<void>(
       context,
       MaterialPageRoute(
-        builder: (context) => child,
+        builder: (_) => child,
       ),
     );
   }
