@@ -1,6 +1,6 @@
 name: alice_objectbox
 description: "Alice + ObjectBox integration. It contains a plugin for Alice which stores http requests and responses in an ObjectBox NoSQL database."
-version: 1.0.3
+version: 1.0.4
 repository: https://github.com/jhomlala/alice
 homepage: https://github.com/jhomlala/alice
 topics:
@@ -17,7 +17,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  alice: ^1.0.0-dev.9
+  alice: ^1.0.0-dev.12
   json_annotation: ^4.9.0
   meta: ^1.9.1
   objectbox: ^4.0.1

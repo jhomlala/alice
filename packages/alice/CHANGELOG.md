@@ -1,3 +1,9 @@
+# 1.0.0-dev.12
+* Fixed build context issues (by Enguerrand ARMINJON https://github.com/EArminjon)
+* Fixed AliceCallsListPage String? unwrap.
+* Fixed Navigator issues (by Enguerrand ARMINJON https://github.com/EArminjon)
+* Fixed updates dependencies.
+
 # 1.0.0-dev.11
 * Fixed issue with invalid count of error calls in stats page.
 * Added lint for trailing commas.

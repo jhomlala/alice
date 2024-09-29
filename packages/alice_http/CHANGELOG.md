@@ -1,3 +1,7 @@
+# 1.0.6
+
+* Updated dependencies.
+
 # 1.0.5
 
 * Added lint for trailing commas.

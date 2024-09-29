@@ -255,10 +255,10 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
 
   /// Called when save to file has been pressed. It saves data to file.
   void _saveToFile() async {
-        if (!mounted) return;
+    if (!mounted) return;
     final result = await aliceCore.saveCallsToFile(context);
 
-  if (result.success && result.path != null) {
+    if (result.success && result.path != null) {
       AliceGeneralDialog.show(
         context: context,
         title: context.i18n(AliceTranslationKey.saveSuccessTitle),

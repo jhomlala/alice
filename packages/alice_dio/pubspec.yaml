@@ -1,6 +1,6 @@
 name: alice_dio
 description: "Alice + Dio integration. It contains plugin for Alice which allows to use Dio package."
-version: 1.0.5
+version: 1.0.6
 repository: https://github.com/jhomlala/alice
 homepage: https://github.com/jhomlala/alice
 topics:
@@ -15,7 +15,7 @@ environment:
   flutter: ">=3.3.0"
 
 dependencies:
-  alice: ^1.0.0-dev.9
+  alice: ^1.0.0-dev.12
   dio: ^5.4.3+1
   flutter:
     sdk: flutter
