@@ -79,7 +79,7 @@ class AliceDioAdapter extends InterceptorsWrapper with AliceAdapter {
       ..time = DateTime.now()
       ..headers = AliceParser.parseHeaders(headers: options.headers)
       ..contentType = options.contentType.toString()
-      ..queryParameters = options.queryParameters;
+      ..queryParameters = uri.queryParameters;
 
     call
       ..request = request
