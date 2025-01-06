@@ -7,10 +7,10 @@ import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:chopper/chopper.dart' as chopper;
+import 'package:chopper/chopper.dart';
 import 'package:http/http.dart';
 
-class AliceChopperInterceptor
-    implements chopper.ResponseInterceptor, chopper.RequestInterceptor {
+class AliceChopperInterceptor implements Interceptor {
   /// AliceCore instance
   final AliceCore aliceCore;
 
@@ -107,7 +107,8 @@ class AliceChopperInterceptor
   /// Handles chopper response and adds data to existing alice http call
   @override
   // ignore: strict_raw_type
-  FutureOr<chopper.Response> onResponse(chopper.Response response) {
+  FutureOr<chopper.Response<BodyType>> onResponse<BodyType>(
+      chopper.Response<BodyType> response) {
     final httpResponse = AliceHttpResponse()..status = response.statusCode;
     if (response.body == null) {
       httpResponse
@@ -131,5 +132,18 @@ class AliceChopperInterceptor
       getRequestHashCode(response.base.request!),
     );
     return response;
+  }
+
+  @override
+  Future<chopper.Response<BodyType>> intercept<BodyType>(
+    chopper.Chain<BodyType> chain,
+  ) async {
+    final request = chain.request;
+    final updatedRequest = await onRequest(request);
+
+    final response = await chain.proceed(updatedRequest);
+    final updatedResponse = onResponse(response);
+
+    return updatedResponse;
   }
 }

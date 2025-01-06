@@ -108,7 +108,7 @@ class Alice {
   }
 
   /// Get chopper interceptor. This should be added to Chopper instance.
-  ResponseInterceptor getChopperInterceptor() {
+  Interceptor getChopperInterceptor() {
     return AliceChopperInterceptor(_aliceCore);
   }
 
