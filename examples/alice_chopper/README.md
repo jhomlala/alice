@@ -1,4 +1,0 @@
-# example
-
-Alice + Chopper Example
-
