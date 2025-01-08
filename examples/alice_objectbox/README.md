@@ -1,3 +1,0 @@
-# example
-
-Alice + ObjectBox Example
