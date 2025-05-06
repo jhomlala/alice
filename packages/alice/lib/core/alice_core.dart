@@ -43,7 +43,7 @@ class AliceCore {
       );
     }
     if (_configuration.showInspectorOnShake) {
-      if (OperatingSystem.isAndroid || OperatingSystem.isMacOS) {
+      if (OperatingSystem.isAndroid || OperatingSystem.isIOS) {
         _shakeDetector = ShakeDetector.autoStart(
           onPhoneShake: navigateToCallListScreen,
           shakeThresholdGravity: 4,
