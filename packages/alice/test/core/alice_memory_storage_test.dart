@@ -1,3 +1,5 @@
+// ignore_for_file: require_trailing_commas
+
 import 'package:alice/core/alice_memory_storage.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
@@ -22,7 +24,7 @@ void main() {
         redirects: 0,
         errors: 0,
         loading: 0,
-      ),);
+      ));
 
       storage.addCall(
         MockedData.getHttpCallWithResponseStatus(statusCode: 200),
@@ -55,7 +57,7 @@ void main() {
         redirects: 2,
         errors: 5,
         loading: 1,
-      ),);
+      ));
     });
 
     test("should save HTTP calls", () {
