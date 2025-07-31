@@ -10,8 +10,8 @@ topics:
   - interceptor
 
 environment:
-  sdk: ^3.7.0
-  flutter: ^3.29.0
+  sdk: ">=3.7.0"
+  flutter: ">=3.29.0"
 
 dependencies:
   alice: ^1.0.0
