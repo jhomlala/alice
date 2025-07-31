@@ -7,10 +7,7 @@ import 'package:path_provider/path_provider.dart';
 
 /// Implementation of store for ObjectBox.
 class AliceObjectBoxStore {
-  AliceObjectBoxStore._create(
-    this._store, {
-    bool persistent = true,
-  }) {
+  AliceObjectBoxStore._create(this._store, {bool persistent = true}) {
     /// Initialize all the boxes here
     httpCalls = Box<CachedAliceHttpCall>(_store);
 
@@ -35,9 +32,10 @@ class AliceObjectBoxStore {
       await storeDirectory.create(recursive: true);
     }
 
-    store ??= Store.isOpen(storeDirectoryPath)
-        ? Store.attach(getObjectBoxModel(), storeDirectoryPath)
-        : await openStore(directory: storeDirectoryPath);
+    store ??=
+        Store.isOpen(storeDirectoryPath)
+            ? Store.attach(getObjectBoxModel(), storeDirectoryPath)
+            : await openStore(directory: storeDirectoryPath);
 
     return AliceObjectBoxStore._create(store, persistent: persistent);
   }
@@ -47,9 +45,7 @@ class AliceObjectBoxStore {
   /// Box to store [CachedAliceHttpCall] objects.
   late final Box<CachedAliceHttpCall> httpCalls;
 
-  late final Map<Type, Box> _boxes = {
-    CachedAliceHttpCall: httpCalls,
-  };
+  late final Map<Type, Box> _boxes = {CachedAliceHttpCall: httpCalls};
 
   /// This will remove all the items from all the boxes
   void clear() {

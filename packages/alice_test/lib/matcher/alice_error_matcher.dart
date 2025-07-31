@@ -7,8 +7,11 @@ TypeMatcher<AliceHttpError> buildErrorMatcher({
 }) {
   var matcher = const TypeMatcher<AliceHttpError>();
   if (checkError == true) {
-    matcher =
-        matcher.having((error) => error.error.toString(), "error", isNotEmpty);
+    matcher = matcher.having(
+      (error) => error.error.toString(),
+      "error",
+      isNotEmpty,
+    );
   }
   if (checkStacktrace == true) {
     matcher = matcher.having(

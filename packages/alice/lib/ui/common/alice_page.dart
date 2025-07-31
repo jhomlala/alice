@@ -14,10 +14,7 @@ class AlicePage extends StatelessWidget {
     return Directionality(
       textDirection:
           core.configuration.directionality ?? Directionality.of(context),
-      child: Theme(
-        data: AliceTheme.getTheme(),
-        child: child,
-      ),
+      child: Theme(data: AliceTheme.getTheme(), child: child),
     );
   }
 }

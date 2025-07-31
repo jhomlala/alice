@@ -21,68 +21,62 @@ class AliceCallsListScreen extends StatelessWidget {
 
   /// Returns sorted calls based [sortOption] and [sortAscending].
   List<AliceHttpCall> get _sortedCalls => switch (sortOption) {
-        AliceCallsListSortOption.time => sortAscending
-            ? (calls
-              ..sort(
-                (AliceHttpCall call1, AliceHttpCall call2) =>
-                    call1.createdTime.compareTo(call2.createdTime),
-              ))
-            : (calls
-              ..sort(
-                (AliceHttpCall call1, AliceHttpCall call2) =>
-                    call2.createdTime.compareTo(call1.createdTime),
-              )),
-        AliceCallsListSortOption.responseTime => sortAscending
-            ? (calls
-              ..sort()
-              ..sort(
-                (AliceHttpCall call1, AliceHttpCall call2) =>
-                    call1.response?.time.compareTo(call2.response!.time) ?? -1,
-              ))
-            : (calls
-              ..sort(
-                (AliceHttpCall call1, AliceHttpCall call2) =>
-                    call2.response?.time.compareTo(call1.response!.time) ?? -1,
-              )),
-        AliceCallsListSortOption.responseCode => sortAscending
-            ? (calls
-              ..sort(
-                (AliceHttpCall call1, AliceHttpCall call2) =>
-                    call1.response?.status
-                        ?.compareTo(call2.response!.status!) ??
-                    -1,
-              ))
-            : (calls
-              ..sort(
-                (AliceHttpCall call1, AliceHttpCall call2) =>
-                    call2.response?.status
-                        ?.compareTo(call1.response!.status!) ??
-                    -1,
-              )),
-        AliceCallsListSortOption.responseSize => sortAscending
-            ? (calls
-              ..sort(
-                (AliceHttpCall call1, AliceHttpCall call2) =>
-                    call1.response?.size.compareTo(call2.response!.size) ?? -1,
-              ))
-            : (calls
-              ..sort(
-                (AliceHttpCall call1, AliceHttpCall call2) =>
-                    call2.response?.size.compareTo(call1.response!.size) ?? -1,
-              )),
-        AliceCallsListSortOption.endpoint => sortAscending
-            ? (calls
-              ..sort(
-                (AliceHttpCall call1, AliceHttpCall call2) =>
-                    call1.endpoint.compareTo(call2.endpoint),
-              ))
-            : (calls
-              ..sort(
-                (AliceHttpCall call1, AliceHttpCall call2) =>
-                    call2.endpoint.compareTo(call1.endpoint),
-              )),
-        _ => calls,
-      };
+    AliceCallsListSortOption.time =>
+      sortAscending
+          ? (calls..sort(
+            (AliceHttpCall call1, AliceHttpCall call2) =>
+                call1.createdTime.compareTo(call2.createdTime),
+          ))
+          : (calls..sort(
+            (AliceHttpCall call1, AliceHttpCall call2) =>
+                call2.createdTime.compareTo(call1.createdTime),
+          )),
+    AliceCallsListSortOption.responseTime =>
+      sortAscending
+          ? (calls
+            ..sort()
+            ..sort(
+              (AliceHttpCall call1, AliceHttpCall call2) =>
+                  call1.response?.time.compareTo(call2.response!.time) ?? -1,
+            ))
+          : (calls..sort(
+            (AliceHttpCall call1, AliceHttpCall call2) =>
+                call2.response?.time.compareTo(call1.response!.time) ?? -1,
+          )),
+    AliceCallsListSortOption.responseCode =>
+      sortAscending
+          ? (calls..sort(
+            (AliceHttpCall call1, AliceHttpCall call2) =>
+                call1.response?.status?.compareTo(call2.response!.status!) ??
+                -1,
+          ))
+          : (calls..sort(
+            (AliceHttpCall call1, AliceHttpCall call2) =>
+                call2.response?.status?.compareTo(call1.response!.status!) ??
+                -1,
+          )),
+    AliceCallsListSortOption.responseSize =>
+      sortAscending
+          ? (calls..sort(
+            (AliceHttpCall call1, AliceHttpCall call2) =>
+                call1.response?.size.compareTo(call2.response!.size) ?? -1,
+          ))
+          : (calls..sort(
+            (AliceHttpCall call1, AliceHttpCall call2) =>
+                call2.response?.size.compareTo(call1.response!.size) ?? -1,
+          )),
+    AliceCallsListSortOption.endpoint =>
+      sortAscending
+          ? (calls..sort(
+            (AliceHttpCall call1, AliceHttpCall call2) =>
+                call1.endpoint.compareTo(call2.endpoint),
+          ))
+          : (calls..sort(
+            (AliceHttpCall call1, AliceHttpCall call2) =>
+                call2.endpoint.compareTo(call1.endpoint),
+          )),
+    _ => calls,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -90,10 +84,9 @@ class AliceCallsListScreen extends StatelessWidget {
       behavior: AliceScrollBehavior(),
       child: ListView.builder(
         itemCount: calls.length,
-        itemBuilder: (_, int index) => AliceCallListItemWidget(
-          _sortedCalls[index],
-          onListItemClicked,
-        ),
+        itemBuilder:
+            (_, int index) =>
+                AliceCallListItemWidget(_sortedCalls[index], onListItemClicked),
       ),
     );
   }

@@ -11,8 +11,11 @@ TypeMatcher<AliceHttpResponse> buildResponseMatcher({
 }) {
   var matcher = const TypeMatcher<AliceHttpResponse>();
   if (status != null) {
-    matcher =
-        matcher.having((response) => response.status, "status", equals(status));
+    matcher = matcher.having(
+      (response) => response.status,
+      "status",
+      equals(status),
+    );
   }
   if (size != null) {
     matcher = matcher.having((response) => response.size, "size", equals(size));

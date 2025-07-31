@@ -1,6 +1,6 @@
 name: alice_chopper
 description: "Alice + Chopper integration. It contains plugin for Alice which allows to use Chopper package."
-version: 1.0.7
+version: 1.0.8
 repository: https://github.com/jhomlala/alice
 homepage: https://github.com/jhomlala/alice
 topics:
@@ -11,24 +11,24 @@ topics:
   - interceptor
 
 environment:
-  sdk: '>=3.4.1 <4.0.0'
-  flutter: ">=3.3.0"
+  sdk: ^3.7.0
+  flutter: ^3.29.0
 
 dependencies:
-  alice: ^1.0.0-dev.12
-  chopper: ^8.0.0
-  http: ^1.2.1
-  uuid: ^4.4.0
+  alice: ^1.0.0
+  chopper: ^8.2.0
+  http: ^1.4.0
+  uuid: ^4.5.1
   flutter:
     sdk: flutter
 
 dev_dependencies:
-  flutter_lints: ^4.0.0
-  test: ^1.25.2
-  alice_test: ^1.0.0
+  flutter_lints: ^5.0.0
+  test: ^1.25.15
+  alice_test: ^1.0.1
   mocktail: ^1.0.4
-  build_runner: ^2.4.9
-  chopper_generator: ^8.0.0
-  json_serializable: ^6.8.0
+  build_runner: ^2.5.4
+  chopper_generator: ^8.2.0
+  json_serializable: ^6.9.5
   json_annotation: ^4.9.0
-  equatable: ^2.0.5
+  equatable: ^2.0.7

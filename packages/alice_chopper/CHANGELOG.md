@@ -1,3 +1,8 @@
+# 1.0.8
+* [BREAKING_CHANGE] Set minimal supported Flutter version 3.29 and Dart 3.7.
+* Updated dependencies.
+
+
 # 1.0.7
 
 * Updated dependencies.
@@ -6,7 +11,7 @@
 
 * Added lint for trailing commas.
 * General refactor of code base.
-* Added support for form data. 
+* Added support for form data.
 * Added tests.
 
 # 1.0.5

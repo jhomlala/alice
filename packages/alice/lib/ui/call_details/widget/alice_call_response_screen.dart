@@ -52,9 +52,10 @@ class _GeneralDataColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final int? status = call.response?.status;
-    final String statusText = status == -1
-        ? context.i18n(AliceTranslationKey.callResponseError)
-        : '$status';
+    final String statusText =
+        status == -1
+            ? context.i18n(AliceTranslationKey.callResponseError)
+            : '$status';
 
     return Column(
       children: [
@@ -84,9 +85,10 @@ class _HeaderDataColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<String, String>? headers = call.response?.headers;
-    final String headersContent = headers?.isEmpty ?? true
-        ? context.i18n(AliceTranslationKey.callResponseHeadersEmpty)
-        : '';
+    final String headersContent =
+        headers?.isEmpty ?? true
+            ? context.i18n(AliceTranslationKey.callResponseHeadersEmpty)
+            : '';
 
     return Column(
       children: [
@@ -130,9 +132,7 @@ class _BodyDataColumnState extends State<_BodyDataColumn> {
   @override
   Widget build(BuildContext context) {
     if (_isImageResponse()) {
-      return _ImageBody(
-        call: call,
-      );
+      return _ImageBody(call: call);
     } else if (_isVideoResponse()) {
       return _VideoBody(call: call);
     } else if (_isTextResponse()) {
@@ -156,16 +156,16 @@ class _BodyDataColumnState extends State<_BodyDataColumn> {
 
   /// Checks whether content type of response is image.
   bool _isImageResponse() {
-    return _getContentTypeOfResponse()!
-        .toLowerCase()
-        .contains(_imageContentType);
+    return _getContentTypeOfResponse()!.toLowerCase().contains(
+      _imageContentType,
+    );
   }
 
   /// Checks whether content type of response is video
   bool _isVideoResponse() {
-    return _getContentTypeOfResponse()!
-        .toLowerCase()
-        .contains(_videoContentType);
+    return _getContentTypeOfResponse()!.toLowerCase().contains(
+      _videoContentType,
+    );
   }
 
   /// Checks whether content type of response is text.
@@ -207,9 +207,7 @@ class _BodyDataColumnState extends State<_BodyDataColumn> {
 
 /// Widget which renders body as image.
 class _ImageBody extends StatelessWidget {
-  const _ImageBody({
-    required this.call,
-  });
+  const _ImageBody({required this.call});
 
   final AliceHttpCall call;
 
@@ -238,10 +236,11 @@ class _ImageBody extends StatelessWidget {
             if (loadingProgress == null) return child;
             return Center(
               child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded /
-                        loadingProgress.expectedTotalBytes!
-                    : null,
+                value:
+                    loadingProgress.expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded /
+                            loadingProgress.expectedTotalBytes!
+                        : null,
               ),
             );
           },
@@ -257,10 +256,7 @@ class _ImageBody extends StatelessWidget {
     if (call.request?.headers != null) {
       requestHeaders.addAll(
         call.request!.headers.map(
-          (String key, dynamic value) => MapEntry(
-            key,
-            value.toString(),
-          ),
+          (String key, dynamic value) => MapEntry(key, value.toString()),
         ),
       );
     }
@@ -296,16 +292,10 @@ class _LargeTextBody extends StatelessWidget {
           const SizedBox(height: 8),
           TextButton(
             onPressed: onShowLargeBodyPressed,
-            child: Text(
-              context.i18n(
-                AliceTranslationKey.callResponseBodyShow,
-              ),
-            ),
+            child: Text(context.i18n(AliceTranslationKey.callResponseBodyShow)),
           ),
           Text(
-            context.i18n(
-              AliceTranslationKey.callResponseLargeBodyShowWarning,
-            ),
+            context.i18n(AliceTranslationKey.callResponseLargeBodyShowWarning),
           ),
         ],
       );
@@ -325,8 +315,10 @@ class _TextBody extends StatelessWidget {
     final String bodyContent = AliceParser.formatBody(
       context: context,
       body: call.response?.body,
-      contentType:
-          AliceParser.getContentType(context: context, headers: headers),
+      contentType: AliceParser.getContentType(
+        context: context,
+        headers: headers,
+      ),
     );
     return AliceCallListRow(
       name: context.i18n(AliceTranslationKey.callResponseBody),
@@ -387,14 +379,16 @@ class _UnknownBody extends StatelessWidget {
     final Map<String, String>? headers = call.response?.headers;
     final String contentType =
         AliceParser.getContentType(context: context, headers: headers) ??
-            context.i18n(AliceTranslationKey.callResponseHeadersUnknown);
+        context.i18n(AliceTranslationKey.callResponseHeadersUnknown);
 
     if (showUnsupportedBody) {
       final bodyContent = AliceParser.formatBody(
         context: context,
         body: call.response?.body,
-        contentType:
-            AliceParser.getContentType(context: context, headers: headers),
+        contentType: AliceParser.getContentType(
+          context: context,
+          headers: headers,
+        ),
       );
       return AliceCallListRow(
         name: context.i18n(AliceTranslationKey.callResponseBody),
@@ -407,17 +401,12 @@ class _UnknownBody extends StatelessWidget {
             name: context.i18n(AliceTranslationKey.callResponseBody),
             value: context
                 .i18n(AliceTranslationKey.callResponseBodyUnknown)
-                .replaceAll(
-                  _contentType,
-                  contentType,
-                ),
+                .replaceAll(_contentType, contentType),
           ),
           TextButton(
             onPressed: onShowUnsupportedBodyPressed,
             child: Text(
-              context.i18n(
-                AliceTranslationKey.callResponseBodyUnknownShow,
-              ),
+              context.i18n(AliceTranslationKey.callResponseBodyUnknownShow),
             ),
           ),
         ],

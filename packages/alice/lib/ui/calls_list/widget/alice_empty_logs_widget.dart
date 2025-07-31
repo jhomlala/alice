@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 
 /// Widget which renders empty text for calls list.
 class AliceEmptyLogsWidget extends StatelessWidget {
-  const AliceEmptyLogsWidget({
-    super.key,
-  });
+  const AliceEmptyLogsWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +15,7 @@ class AliceEmptyLogsWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.error_outline,
-              color: AliceTheme.orange,
-            ),
+            const Icon(Icons.error_outline, color: AliceTheme.orange),
             const SizedBox(height: 6),
             Text(
               context.i18n(AliceTranslationKey.logsEmpty),

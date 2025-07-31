@@ -2,20 +2,20 @@ name: example
 description: "A project to showcase http and Alice integration."
 publish_to: 'none'
 
-version: 1.0.0+2
+version: 1.0.0+3
 
 environment:
-  sdk: ^3.0.0
+  sdk: ^3.7.0
 
 dependencies:
   flutter:
     sdk: flutter
   alice:
   alice_http:
-  http: ^1.2.1
+  http: ^1.4.0
 
 dev_dependencies:
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
 
 dependency_overrides:
   alice:

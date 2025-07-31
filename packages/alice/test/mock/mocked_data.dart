@@ -26,17 +26,19 @@ class MockedData {
   static AliceHttpCall getFilledHttpCall() =>
       AliceHttpCall(DateTime.now().microsecondsSinceEpoch)
         ..loading = false
-        ..request = (AliceHttpRequest()
-          ..headers = {}
-          ..body = '{"id": 0}'
-          ..contentType = "application/json"
-          ..size = 0
-          ..time = DateTime.now())
-        ..response = (AliceHttpResponse()
-          ..headers = {}
-          ..body = '{"id": 0}'
-          ..size = 0
-          ..time = DateTime.now())
+        ..request =
+            (AliceHttpRequest()
+              ..headers = {}
+              ..body = '{"id": 0}'
+              ..contentType = "application/json"
+              ..size = 0
+              ..time = DateTime.now())
+        ..response =
+            (AliceHttpResponse()
+              ..headers = {}
+              ..body = '{"id": 0}'
+              ..size = 0
+              ..time = DateTime.now())
         ..method = "POST"
         ..endpoint = "/test"
         ..server = "https://test.com"

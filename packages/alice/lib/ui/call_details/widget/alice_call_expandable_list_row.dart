@@ -18,18 +18,10 @@ class AliceCallExpandableListRow extends StatelessWidget {
         name,
         style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
       ),
-      subtitle: Text(
-        value,
-        maxLines: 2,
-        overflow: TextOverflow.ellipsis,
-      ),
+      subtitle: Text(value, maxLines: 2, overflow: TextOverflow.ellipsis),
       controlAffinity: ListTileControlAffinity.trailing,
       tilePadding: const EdgeInsets.all(0),
-      children: [
-        SelectableText(
-          value,
-        ),
-      ],
+      children: [SelectableText(value)],
     );
   }
 }

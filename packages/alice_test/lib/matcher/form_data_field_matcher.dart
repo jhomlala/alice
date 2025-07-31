@@ -10,8 +10,9 @@ class FormDataFieldMatcher extends Matcher {
   bool matches(Object? item, Map matchState) {
     try {
       if (item is List<AliceFormDataField>) {
-        final formField =
-            item.firstWhere((element) => element.name == _expected.name);
+        final formField = item.firstWhere(
+          (element) => element.name == _expected.name,
+        );
         return formField.value == _expected.value;
       }
     } catch (_) {}

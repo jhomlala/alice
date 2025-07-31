@@ -1,10 +1,10 @@
 name: alice_objectbox_example
 description: "Alice + ObjectBox + HTTP package - Example"
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
-  sdk: ^3.0.0
+  sdk: ^3.7.0
 
 dependencies:
   flutter:
@@ -13,12 +13,12 @@ dependencies:
   alice_http:
   alice_objectbox:
   cupertino_icons: ^1.0.8
-  http: ^1.2.1
+  http: ^1.4.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
 
 dependency_overrides:
   alice:

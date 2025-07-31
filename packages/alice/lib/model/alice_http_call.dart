@@ -24,18 +24,18 @@ class AliceHttpCall with EquatableMixin {
 
   @override
   List<Object?> get props => [
-        id,
-        createdTime,
-        client,
-        loading,
-        secure,
-        method,
-        endpoint,
-        server,
-        uri,
-        duration,
-        request,
-        response,
-        error,
-      ];
+    id,
+    createdTime,
+    client,
+    loading,
+    secure,
+    method,
+    endpoint,
+    server,
+    uri,
+    duration,
+    request,
+    response,
+    error,
+  ];
 }
