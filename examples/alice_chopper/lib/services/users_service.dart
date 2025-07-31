@@ -10,7 +10,7 @@ part 'users_service.chopper.dart';
 abstract class UsersService extends ChopperService {
   static UsersService create([ChopperClient? client]) => _$UsersService(client);
 
-  @Get(path: '/', timeout: Duration(seconds: 10))
+  @GET(path: '/', timeout: Duration(seconds: 10))
   Future<Response<List<User>>> getAll({
     @Query('id') int? id,
     @Query('username') String? username,
@@ -19,27 +19,27 @@ abstract class UsersService extends ChopperService {
     @Query('website') String? website,
   });
 
-  @Get(path: '/{id}', timeout: Duration(seconds: 10))
+  @GET(path: '/{id}', timeout: Duration(seconds: 10))
   Future<Response<User?>> get(@Path() int id);
 
-  @Get(path: '/{id}/albums', timeout: Duration(seconds: 10))
+  @GET(path: '/{id}/albums', timeout: Duration(seconds: 10))
   Future<Response<List<Album>>> getAlbums(@Path() int id);
 
-  @Get(path: '/{id}/todos', timeout: Duration(seconds: 10))
+  @GET(path: '/{id}/todos', timeout: Duration(seconds: 10))
   Future<Response<List<Todo>>> getTodos(@Path() int id);
 
-  @Get(path: '/{id}/posts', timeout: Duration(seconds: 10))
+  @GET(path: '/{id}/posts', timeout: Duration(seconds: 10))
   Future<Response<List<Article>>> getArticles(@Path() int id);
 
-  @Post(path: '/', timeout: Duration(seconds: 10))
+  @POST(path: '/', timeout: Duration(seconds: 10))
   Future<Response<User?>> post(@Body() User body);
 
-  @Put(path: '/{id}', timeout: Duration(seconds: 10))
+  @PUT(path: '/{id}', timeout: Duration(seconds: 10))
   Future<Response<User?>> put(@Path() int id, @Body() User body);
 
-  @Patch(path: '/{id}', timeout: Duration(seconds: 10))
+  @PATCH(path: '/{id}', timeout: Duration(seconds: 10))
   Future<Response<User?>> patch(@Path() int id, @Body() User body);
 
-  @Delete(path: '/{id}', timeout: Duration(seconds: 10))
+  @DELETE(path: '/{id}', timeout: Duration(seconds: 10))
   Future<Response<void>> delete(@Path() int id);
 }

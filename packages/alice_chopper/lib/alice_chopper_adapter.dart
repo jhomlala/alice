@@ -19,7 +19,8 @@ import 'package:uuid/uuid.dart';
 class AliceChopperAdapter with AliceAdapter implements Interceptor {
   /// Creates hashcode based on request
   int getRequestHashCode(http.BaseRequest baseRequest) {
-    final int hashCodeSum = baseRequest.url.hashCode +
+    final int hashCodeSum =
+        baseRequest.url.hashCode +
         baseRequest.method.hashCode +
         baseRequest.headers.entries.fold<int>(
           0,
@@ -39,11 +40,7 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
     final int requestId = getRequestHashCode(
       /// The alice_token header is added to the request in order to keep track
       /// of the request in the AliceCore instance.
-      applyHeader(
-        chain.request,
-        'alice_token',
-        const Uuid().v4(),
-      ),
+      applyHeader(chain.request, 'alice_token', const Uuid().v4()),
     );
 
     aliceCore.addCall(
@@ -55,27 +52,33 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
         ..secure = chain.request.url.scheme == 'https'
         ..uri = chain.request.url.toString()
         ..client = 'Chopper'
-        ..request = (AliceHttpRequest()
-          ..size = switch (chain.request.body) {
-            dynamic body when body is String => utf8.encode(body).length,
-            dynamic body when body is List<int> => body.length,
-            dynamic body when body == null => 0,
-            _ => utf8.encode(body.toString()).length,
-          }
-          ..body = chain.request.body ?? ''
-          ..time = DateTime.now()
-          ..headers = chain.request.headers
-          ..contentType =
-              chain.request.headers[HttpHeaders.contentTypeHeader] ?? 'unknown'
-          ..formDataFields = chain.request.parts
-              .whereType<PartValue>()
-              .map((field) => AliceFormDataField(field.name, field.value))
-              .toList()
-          ..formDataFiles = chain.request.parts
-              .whereType<PartValueFile>()
-              .map((file) => AliceFormDataFile(file.value, "", 0))
-              .toList()
-          ..queryParameters = chain.request.parameters)
+        ..request =
+            (AliceHttpRequest()
+              ..size = switch (chain.request.body) {
+                dynamic body when body is String => utf8.encode(body).length,
+                dynamic body when body is List<int> => body.length,
+                dynamic body when body == null => 0,
+                _ => utf8.encode(body.toString()).length,
+              }
+              ..body = chain.request.body ?? ''
+              ..time = DateTime.now()
+              ..headers = chain.request.headers
+              ..contentType =
+                  chain.request.headers[HttpHeaders.contentTypeHeader] ??
+                  'unknown'
+              ..formDataFields =
+                  chain.request.parts
+                      .whereType<PartValue>()
+                      .map(
+                        (field) => AliceFormDataField(field.name, field.value),
+                      )
+                      .toList()
+              ..formDataFiles =
+                  chain.request.parts
+                      .whereType<PartValueFile>()
+                      .map((file) => AliceFormDataFile(file.value, "", 0))
+                      .toList()
+              ..queryParameters = chain.request.parameters)
         ..response = AliceHttpResponse(),
     );
 
@@ -102,10 +105,7 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
       );
 
       if (!response.isSuccessful || response.error != null) {
-        aliceCore.addError(
-          AliceHttpError()..error = response.error,
-          requestId,
-        );
+        aliceCore.addError(AliceHttpError()..error = response.error, requestId);
       }
 
       return response;
@@ -123,10 +123,7 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
       );
 
       /// Add empty response to Alice core
-      aliceCore.addResponse(
-        AliceHttpResponse()..status = -1,
-        requestId,
-      );
+      aliceCore.addResponse(AliceHttpResponse()..status = -1, requestId);
 
       /// Add error to Alice core
       aliceCore.addError(

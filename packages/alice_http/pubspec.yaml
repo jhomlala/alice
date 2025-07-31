@@ -10,12 +10,12 @@ topics:
   - interceptor
 
 environment:
-  sdk: '>=3.4.1 <4.0.0'
-  flutter: ">=3.3.0"
+  sdk: ^3.7.0
+  flutter: ^3.29.0
 
 dependencies:
-  alice: ^1.0.0-dev.12
-  http: ^1.2.1
+  alice: ^1.0.0
+  http: ^1.4.0
 
 dev_dependencies:
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0

@@ -26,8 +26,9 @@ void main() {
     aliceStorage = AliceStorageMock();
     aliceLogger = AliceLoggerMock();
 
-    when(() => aliceStorage.callsStream)
-        .thenAnswer((_) => const Stream.empty());
+    when(
+      () => aliceStorage.callsStream,
+    ).thenAnswer((_) => const Stream.empty());
     aliceCore = AliceCore(
       configuration: AliceConfiguration(
         showNotification: false,
@@ -56,8 +57,9 @@ void main() {
     });
 
     test("should use storage to add response", () {
-      when(() => aliceStorage.addResponse(any(), any()))
-          .thenAnswer((_) => () {});
+      when(
+        () => aliceStorage.addResponse(any(), any()),
+      ).thenAnswer((_) => () {});
 
       aliceCore.addResponse(AliceHttpResponse(), 0);
 
@@ -74,8 +76,9 @@ void main() {
 
     test("should use storage to get calls stream", () async {
       final calls = [MockedData.getLoadingHttpCall()];
-      when(() => aliceStorage.callsStream)
-          .thenAnswer((_) => Stream.value(calls));
+      when(
+        () => aliceStorage.callsStream,
+      ).thenAnswer((_) => Stream.value(calls));
 
       expect(await aliceCore.callsStream.first, calls);
 

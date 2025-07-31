@@ -26,21 +26,12 @@ void main() {
     });
 
     test("should parse unknown body", () {
-      expect(
-        AliceParser.formatBody(
-          context: context,
-          body: 'test',
-        ),
-        'test',
-      );
+      expect(AliceParser.formatBody(context: context, body: 'test'), 'test');
     });
 
     test("should parse empty body", () {
       expect(
-        AliceParser.formatBody(
-          context: context,
-          body: '',
-        ),
+        AliceParser.formatBody(context: context, body: ''),
         AliceTranslationKey.callRequestBodyEmpty.toString(),
       );
     });
@@ -65,10 +56,7 @@ void main() {
 
     test("should parse unknown content type", () {
       expect(
-        AliceParser.getContentType(
-          context: context,
-          headers: {},
-        ),
+        AliceParser.getContentType(context: context, headers: {}),
         AliceTranslationKey.unknown.toString(),
       );
     });

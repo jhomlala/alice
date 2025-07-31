@@ -23,9 +23,7 @@ class AliceRawLogListWidget extends StatelessWidget {
       builder: (context, AsyncSnapshot<String> snapshot) {
         if (snapshot.connectionState == ConnectionState.none ||
             snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const Center(child: CircularProgressIndicator());
         }
 
         if (snapshot.hasError) {
@@ -45,10 +43,11 @@ class AliceRawLogListWidget extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8),
               child: InkWell(
-                onLongPress: () => _copyToClipboard(
-                  context: context,
-                  text: snapshot.data ?? '',
-                ),
+                onLongPress:
+                    () => _copyToClipboard(
+                      context: context,
+                      text: snapshot.data ?? '',
+                    ),
                 child: Text(
                   snapshot.data ?? '',
                   style: const TextStyle(fontSize: 10),
@@ -70,13 +69,7 @@ class AliceRawLogListWidget extends StatelessWidget {
 
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            context.i18n(
-              AliceTranslationKey.logsCopied,
-            ),
-          ),
-        ),
+        SnackBar(content: Text(context.i18n(AliceTranslationKey.logsCopied))),
       );
     }
   }

@@ -10,12 +10,13 @@ class AliceLog with EquatableMixin {
     DateTime? timestamp,
     this.error,
     this.stackTrace,
-  })  : assert(
-            level != DiagnosticLevel.off,
-            "`DiagnosticLevel.off` is a '[special] level indicating that no "
-            "diagnostics should be shown' and should not be used as a value."),
-        assert(timestamp == null || !timestamp.isUtc, 'Invalid timestamp'),
-        timestamp = timestamp ?? DateTime.now();
+  }) : assert(
+         level != DiagnosticLevel.off,
+         "`DiagnosticLevel.off` is a '[special] level indicating that no "
+         "diagnostics should be shown' and should not be used as a value.",
+       ),
+       assert(timestamp == null || !timestamp.isUtc, 'Invalid timestamp'),
+       timestamp = timestamp ?? DateTime.now();
 
   final DiagnosticLevel level;
   final DateTime timestamp;
@@ -24,11 +25,5 @@ class AliceLog with EquatableMixin {
   final StackTrace? stackTrace;
 
   @override
-  List<Object?> get props => [
-        level,
-        timestamp,
-        message,
-        error,
-        stackTrace,
-      ];
+  List<Object?> get props => [level, timestamp, message, error, stackTrace];
 }

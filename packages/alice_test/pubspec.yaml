@@ -1,19 +1,19 @@
 name: alice_test
 description: "Test utils for Alice packages."
-version: 1.0.0
+version: 1.0.1
 repository: https://github.com/jhomlala/alice
 homepage: https://github.com/jhomlala/alice
 publish_to: none
 
 environment:
-  sdk: ^3.0.0
+  sdk: ^3.7.0
 
 dependencies:
-  alice: ^1.0.0-dev.9
-  test: ^1.25.2
+  alice: ^1.0.0
+  test: ^1.25.15
   mocktail: ^1.0.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0

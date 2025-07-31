@@ -13,12 +13,12 @@ class AliceConversionHelper {
 
   /// Format bytes text
   static String formatBytes(int bytes) => switch (bytes) {
-        int bytes when bytes < 0 => '-1 $_bytes',
-        int bytes when bytes <= _kilobyteAsByte => '$bytes $_bytes',
-        int bytes when bytes <= _megabyteAsByte =>
-          '${_formatDouble(bytes / _kilobyteAsByte)} $_kiloBytes',
-        _ => '${_formatDouble(bytes / _megabyteAsByte)} $_megaBytes',
-      };
+    int bytes when bytes < 0 => '-1 $_bytes',
+    int bytes when bytes <= _kilobyteAsByte => '$bytes $_bytes',
+    int bytes when bytes <= _megabyteAsByte =>
+      '${_formatDouble(bytes / _kilobyteAsByte)} $_kiloBytes',
+    _ => '${_formatDouble(bytes / _megabyteAsByte)} $_megaBytes',
+  };
 
   /// Formats double with two numbers after dot.
   static String _formatDouble(double value) => value.toStringAsFixed(2);

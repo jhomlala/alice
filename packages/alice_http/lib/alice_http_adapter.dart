@@ -14,11 +14,12 @@ class AliceHttpAdapter with AliceAdapter {
     }
     final request = response.request!;
 
-    final call = AliceHttpCall(response.request.hashCode)
-      ..loading = true
-      ..client = 'HttpClient (http package)'
-      ..uri = request.url.toString()
-      ..method = request.method;
+    final call =
+        AliceHttpCall(response.request.hashCode)
+          ..loading = true
+          ..client = 'HttpClient (http package)'
+          ..uri = request.url.toString()
+          ..method = request.method;
     var path = request.url.path;
     if (path.isEmpty) {
       path = '/';
@@ -63,12 +64,13 @@ class AliceHttpAdapter with AliceAdapter {
       ..contentType = contentType
       ..queryParameters = response.request!.url.queryParameters;
 
-    final httpResponse = AliceHttpResponse()
-      ..status = response.statusCode
-      ..body = response.body
-      // ignore: noop_primitive_operations
-      ..size = utf8.encode(response.body.toString()).length
-      ..time = DateTime.now();
+    final httpResponse =
+        AliceHttpResponse()
+          ..status = response.statusCode
+          ..body = response.body
+          // ignore: noop_primitive_operations
+          ..size = utf8.encode(response.body.toString()).length
+          ..time = DateTime.now();
     final responseHeaders = <String, String>{};
     response.headers.forEach((header, values) {
       responseHeaders[header] = values;
@@ -79,7 +81,8 @@ class AliceHttpAdapter with AliceAdapter {
       ..request = httpRequest
       ..response = httpResponse
       ..loading = false
-      ..duration = httpResponse.time.millisecondsSinceEpoch -
+      ..duration =
+          httpResponse.time.millisecondsSinceEpoch -
           httpRequest.time.millisecondsSinceEpoch;
     aliceCore.addCall(call);
   }

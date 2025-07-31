@@ -6,10 +6,9 @@ import 'package:objectbox/objectbox.dart';
 
 /// ObjectBox [Entity] of [AliceHttpError].
 @Entity()
+// ignore: must_be_immutable
 class CachedAliceHttpError implements AliceHttpError {
-  CachedAliceHttpError({
-    this.objectId = 0,
-  });
+  CachedAliceHttpError({this.objectId = 0});
 
   /// ObjectBox internal ID.
   @internal

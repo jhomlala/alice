@@ -34,10 +34,9 @@ void main() {
       _setPathProvider();
       _setDefaultTargetPlatform();
 
-      final result = await AliceExportHelper.saveCallsToFile(
-        context,
-        [MockedData.getFilledHttpCall()],
-      );
+      final result = await AliceExportHelper.saveCallsToFile(context, [
+        MockedData.getFilledHttpCall(),
+      ]);
       expect(result.success, true);
       expect(result.path != null, true);
       expect(result.error, null);
@@ -69,10 +68,9 @@ void main() {
     _setPathProvider(isFailing: true);
     _setDefaultTargetPlatform();
 
-    final result = await AliceExportHelper.saveCallsToFile(
-      context,
-      [MockedData.getFilledHttpCall()],
-    );
+    final result = await AliceExportHelper.saveCallsToFile(context, [
+      MockedData.getFilledHttpCall(),
+    ]);
 
     expect(result.success, false);
     expect(result.path, null);
@@ -157,16 +155,17 @@ void _setPackageInfo() {
 }
 
 void _setPathProvider({bool isFailing = false}) {
-  const MethodChannel channel =
-      MethodChannel('plugins.flutter.io/path_provider');
+  const MethodChannel channel = MethodChannel(
+    'plugins.flutter.io/path_provider',
+  );
   TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
       .setMockMethodCallHandler(channel, (MethodCall methodCall) async {
-    if (isFailing) {
-      return "";
-    } else {
-      return ".";
-    }
-  });
+        if (isFailing) {
+          return "";
+        } else {
+          return ".";
+        }
+      });
 }
 
 void _setDefaultTargetPlatform() {
@@ -174,10 +173,11 @@ void _setDefaultTargetPlatform() {
 }
 
 void _setShare() {
-  const MethodChannel channel =
-      MethodChannel('dev.fluttercommunity.plus/share');
+  const MethodChannel channel = MethodChannel(
+    'dev.fluttercommunity.plus/share',
+  );
   TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
       .setMockMethodCallHandler(channel, (MethodCall methodCall) async {
-    return ".";
-  });
+        return ".";
+      });
 }

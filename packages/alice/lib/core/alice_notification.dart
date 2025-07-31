@@ -55,10 +55,10 @@ class AliceNotification {
         DarwinInitializationSettings();
     final InitializationSettings initializationSettings =
         InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializationSettingsIOS,
-      macOS: initializationSettingsMacOS,
-    );
+          android: initializationSettingsAndroid,
+          iOS: initializationSettingsIOS,
+          macOS: initializationSettingsMacOS,
+        );
     _flutterLocalNotificationsPlugin?.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: _onDidReceiveNotificationResponse,
@@ -71,25 +71,20 @@ class AliceNotification {
     if (OperatingSystem.isIOS || OperatingSystem.isMacOS) {
       await _flutterLocalNotificationsPlugin
           ?.resolvePlatformSpecificImplementation<
-              IOSFlutterLocalNotificationsPlugin>()
-          ?.requestPermissions(
-            alert: true,
-            badge: true,
-            sound: true,
-          );
+            IOSFlutterLocalNotificationsPlugin
+          >()
+          ?.requestPermissions(alert: true, badge: true, sound: true);
       await _flutterLocalNotificationsPlugin
           ?.resolvePlatformSpecificImplementation<
-              MacOSFlutterLocalNotificationsPlugin>()
-          ?.requestPermissions(
-            alert: true,
-            badge: true,
-            sound: true,
-          );
+            MacOSFlutterLocalNotificationsPlugin
+          >()
+          ?.requestPermissions(alert: true, badge: true, sound: true);
     } else if (OperatingSystem.isAndroid) {
       final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
           _flutterLocalNotificationsPlugin
               ?.resolvePlatformSpecificImplementation<
-                  AndroidFlutterLocalNotificationsPlugin>();
+                AndroidFlutterLocalNotificationsPlugin
+              >();
 
       await androidImplementation?.requestNotificationsPermission();
     }
@@ -106,17 +101,16 @@ class AliceNotification {
   String _getNotificationMessage({
     required BuildContext context,
     required AliceStats stats,
-  }) =>
-      <String>[
-        if (stats.loading > 0)
-          '${context.i18n(AliceTranslationKey.notificationLoading)} ${stats.loading}',
-        if (stats.successes > 0)
-          '${context.i18n(AliceTranslationKey.notificationSuccess)} ${stats.successes}',
-        if (stats.redirects > 0)
-          '${context.i18n(AliceTranslationKey.notificationRedirect)} ${stats.redirects}',
-        if (stats.errors > 0)
-          '${context.i18n(AliceTranslationKey.notificationError)} ${stats.errors}',
-      ].join(' | ');
+  }) => <String>[
+    if (stats.loading > 0)
+      '${context.i18n(AliceTranslationKey.notificationLoading)} ${stats.loading}',
+    if (stats.successes > 0)
+      '${context.i18n(AliceTranslationKey.notificationSuccess)} ${stats.successes}',
+    if (stats.redirects > 0)
+      '${context.i18n(AliceTranslationKey.notificationRedirect)} ${stats.redirects}',
+    if (stats.errors > 0)
+      '${context.i18n(AliceTranslationKey.notificationError)} ${stats.errors}',
+  ].join(' | ');
 
   /// Shows current stats notification. It formats [stats] into simple
   /// notification which is displayed when stats has changed.
@@ -128,10 +122,7 @@ class AliceNotification {
       if (_isNotificationProcessing) {
         return;
       }
-      final message = _getNotificationMessage(
-        context: context,
-        stats: stats,
-      );
+      final message = _getNotificationMessage(context: context, stats: stats);
       if (message == _notificationMessageDisplayed) {
         return;
       }

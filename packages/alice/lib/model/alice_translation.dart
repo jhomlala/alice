@@ -6,10 +6,7 @@ class AliceTranslationData {
   /// Translation values for language
   final Map<AliceTranslationKey, String> values;
 
-  AliceTranslationData({
-    required this.languageCode,
-    required this.values,
-  });
+  AliceTranslationData({required this.languageCode, required this.values});
 }
 
 /// Definition of all available translation keys.
@@ -158,5 +155,5 @@ enum AliceTranslationKey {
   saveLogCurl,
   accept,
   parserFailed,
-  unknown
+  unknown,
 }

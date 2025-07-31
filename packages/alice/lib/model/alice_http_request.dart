@@ -5,6 +5,7 @@ import 'package:alice/model/alice_from_data_field.dart';
 import 'package:equatable/equatable.dart';
 
 /// Definition of http request data holder.
+// ignore: must_be_immutable
 class AliceHttpRequest with EquatableMixin {
   int size = 0;
   DateTime time = DateTime.now();
@@ -18,14 +19,14 @@ class AliceHttpRequest with EquatableMixin {
 
   @override
   List<Object?> get props => [
-        size,
-        time,
-        headers,
-        body,
-        contentType,
-        cookies,
-        queryParameters,
-        formDataFiles,
-        formDataFields,
-      ];
+    size,
+    time,
+    headers,
+    body,
+    contentType,
+    cookies,
+    queryParameters,
+    formDataFiles,
+    formDataFields,
+  ];
 }

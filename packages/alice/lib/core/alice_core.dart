@@ -144,8 +144,9 @@ class AliceCore {
 
   /// Subscribes to storage for call changes.
   void _subscribeToCallChanges() {
-    _callsSubscription =
-        _configuration.aliceStorage.callsStream.listen(_onCallsChanged);
+    _callsSubscription = _configuration.aliceStorage.callsStream.listen(
+      _onCallsChanged,
+    );
   }
 
   /// Unsubscribes storage for call changes.

@@ -14,39 +14,37 @@ class AliceGeneralDialog {
     String? secondButtonTitle,
     Function? firstButtonAction,
     Function? secondButtonAction,
-  }) =>
-      showDialog<void>(
-        context: context,
-        builder: (BuildContext context) {
-          return Theme(
-            data: AliceTheme.getTheme(),
-            child: AlertDialog(
-              title: Text(title),
-              content: Text(description),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    // ignore: avoid_dynamic_calls
-                    firstButtonAction?.call();
-                    Navigator.of(context).pop();
-                  },
-                  child: Text(
-                    firstButtonTitle ??
-                        context.i18n(AliceTranslationKey.accept),
-                  ),
-                ),
-                if (secondButtonTitle != null)
-                  TextButton(
-                    onPressed: () {
-                      // ignore: avoid_dynamic_calls
-                      secondButtonAction?.call();
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(secondButtonTitle),
-                  ),
-              ],
+  }) => showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return Theme(
+        data: AliceTheme.getTheme(),
+        child: AlertDialog(
+          title: Text(title),
+          content: Text(description),
+          actions: [
+            TextButton(
+              onPressed: () {
+                // ignore: avoid_dynamic_calls
+                firstButtonAction?.call();
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                firstButtonTitle ?? context.i18n(AliceTranslationKey.accept),
+              ),
             ),
-          );
-        },
+            if (secondButtonTitle != null)
+              TextButton(
+                onPressed: () {
+                  // ignore: avoid_dynamic_calls
+                  secondButtonAction?.call();
+                  Navigator.of(context).pop();
+                },
+                child: Text(secondButtonTitle),
+              ),
+          ],
+        ),
       );
+    },
+  );
 }

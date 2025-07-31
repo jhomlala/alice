@@ -4,6 +4,7 @@ import 'package:alice/model/alice_http_response.dart';
 import 'package:equatable/equatable.dart';
 
 /// Definition of http calls data holder.
+// ignore: must_be_immutable
 class AliceHttpCall with EquatableMixin {
   AliceHttpCall(this.id);
 
@@ -24,18 +25,18 @@ class AliceHttpCall with EquatableMixin {
 
   @override
   List<Object?> get props => [
-        id,
-        createdTime,
-        client,
-        loading,
-        secure,
-        method,
-        endpoint,
-        server,
-        uri,
-        duration,
-        request,
-        response,
-        error,
-      ];
+    id,
+    createdTime,
+    client,
+    loading,
+    secure,
+    method,
+    endpoint,
+    server,
+    uri,
+    duration,
+    request,
+    response,
+    error,
+  ];
 }

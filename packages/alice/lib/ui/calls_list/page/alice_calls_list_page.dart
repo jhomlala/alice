@@ -25,10 +25,7 @@ import 'package:open_filex/open_filex.dart';
 class AliceCallsListPage extends StatefulWidget {
   final AliceCore core;
 
-  const AliceCallsListPage({
-    required this.core,
-    super.key,
-  });
+  const AliceCallsListPage({required this.core, super.key});
 
   @override
   State<AliceCallsListPage> createState() => _AliceCallsListPageState();
@@ -62,7 +59,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _tabController?.addListener(() {
-        _onTabChanged(_tabController!.index);
+        _onTabChanged(_tabController.index);
       });
     });
   }
@@ -89,42 +86,39 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
             icon: const Icon(Icons.arrow_back),
             onPressed: _onBackPressed,
           ),
-          title: _searchEnabled
-              ? _SearchTextField(
-                  textEditingController: _queryTextEditingController,
-                  onChanged: _updateSearchQuery,
-                )
-              : Text(
-                  context.i18n(
-                    AliceTranslationKey.alice,
-                  ),
-                ),
-          actions: isLoggerTab
-              ? <Widget>[
-                  IconButton(
-                    icon: const Icon(Icons.terminal),
-                    onPressed: _onLogsChangePressed,
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: _onClearLogsPressed,
-                  ),
-                ]
-              : <Widget>[
-                  IconButton(
-                    icon: const Icon(Icons.search),
-                    onPressed: _onSearchPressed,
-                  ),
-                  _ContextMenuButton(
-                    onMenuItemSelected: _onMenuItemSelected,
-                  ),
-                ],
+          title:
+              _searchEnabled
+                  ? _SearchTextField(
+                    textEditingController: _queryTextEditingController,
+                    onChanged: _updateSearchQuery,
+                  )
+                  : Text(context.i18n(AliceTranslationKey.alice)),
+          actions:
+              isLoggerTab
+                  ? <Widget>[
+                    IconButton(
+                      icon: const Icon(Icons.terminal),
+                      onPressed: _onLogsChangePressed,
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: _onClearLogsPressed,
+                    ),
+                  ]
+                  : <Widget>[
+                    IconButton(
+                      icon: const Icon(Icons.search),
+                      onPressed: _onSearchPressed,
+                    ),
+                    _ContextMenuButton(onMenuItemSelected: _onMenuItemSelected),
+                  ],
           bottom: TabBar(
             controller: _tabController,
             indicatorColor: AliceTheme.lightRed,
-            tabs: AliceCallsListTabItem.values.map((item) {
-              return Tab(text: _getTabName(item: item));
-            }).toList(),
+            tabs:
+                AliceCallsListTabItem.values.map((item) {
+                  return Tab(text: _getTabName(item: item));
+                }).toList(),
           ),
         ),
         body: TabBarView(
@@ -144,11 +138,10 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
             ),
           ],
         ),
-        floatingActionButton: isLoggerTab
-            ? _LoggerFloatingActionButtons(
-                scrollLogsList: _scrollLogsList,
-              )
-            : const SizedBox(),
+        floatingActionButton:
+            isLoggerTab
+                ? _LoggerFloatingActionButtons(scrollLogsList: _scrollLogsList)
+                : const SizedBox(),
       ),
     );
   }
@@ -172,47 +165,46 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
   /// Called when clear logs has been pressed. It displays dialog and awaits for
   /// user confirmation.
   void _onClearLogsPressed() => AliceGeneralDialog.show(
-        context: context,
-        title: context.i18n(AliceTranslationKey.callsListDeleteLogsDialogTitle),
-        description: context
-            .i18n(AliceTranslationKey.callsListDeleteLogsDialogDescription),
-        firstButtonTitle: context.i18n(AliceTranslationKey.callsListNo),
-        secondButtonTitle: context.i18n(AliceTranslationKey.callsListYes),
-        secondButtonAction: _onLogsClearPressed,
-      );
+    context: context,
+    title: context.i18n(AliceTranslationKey.callsListDeleteLogsDialogTitle),
+    description: context.i18n(
+      AliceTranslationKey.callsListDeleteLogsDialogDescription,
+    ),
+    firstButtonTitle: context.i18n(AliceTranslationKey.callsListNo),
+    secondButtonTitle: context.i18n(AliceTranslationKey.callsListYes),
+    secondButtonAction: _onLogsClearPressed,
+  );
 
   /// Called when logs type mode pressed.
   void _onLogsChangePressed() => setState(() {
-        isAndroidRawLogsEnabled = !isAndroidRawLogsEnabled;
-      });
+    isAndroidRawLogsEnabled = !isAndroidRawLogsEnabled;
+  });
 
   /// Called when logs clear button has been pressed.
   void _onLogsClearPressed() => setState(() {
-        if (isAndroidRawLogsEnabled) {
-          widget.core.configuration.aliceLogger.clearAndroidRawLogs();
-        } else {
-          widget.core.configuration.aliceLogger.clearLogs();
-        }
-      });
+    if (isAndroidRawLogsEnabled) {
+      widget.core.configuration.aliceLogger.clearAndroidRawLogs();
+    } else {
+      widget.core.configuration.aliceLogger.clearLogs();
+    }
+  });
 
   /// Called when search button. It displays search text field.
   void _onSearchPressed() => setState(() {
-        _searchEnabled = !_searchEnabled;
-        if (!_searchEnabled) {
-          _queryTextEditingController.text = '';
-        }
-      });
+    _searchEnabled = !_searchEnabled;
+    if (!_searchEnabled) {
+      _queryTextEditingController.text = '';
+    }
+  });
 
   /// Called on tab has been changed.
-  void _onTabChanged(int index) => setState(
-        () {
-          _selectedIndex = index;
-          if (_selectedIndex == 1) {
-            _searchEnabled = false;
-            _queryTextEditingController.text = '';
-          }
-        },
-      );
+  void _onTabChanged(int index) => setState(() {
+    _selectedIndex = index;
+    if (_selectedIndex == 1) {
+      _searchEnabled = false;
+      _queryTextEditingController.text = '';
+    }
+  });
 
   /// Called when menu item from overflow menu has been pressed.
   void _onMenuItemSelected(AliceCallDetailsMenuItemType menuItem) {
@@ -234,16 +226,16 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
 
   /// Called when remove all calls button has been pressed.
   void _onRemovePressed() => AliceGeneralDialog.show(
-        context: context,
-        title:
-            context.i18n(AliceTranslationKey.callsListDeleteCallsDialogTitle),
-        description: context
-            .i18n(AliceTranslationKey.callsListDeleteCallsDialogDescription),
-        firstButtonTitle: context.i18n(AliceTranslationKey.callsListNo),
-        firstButtonAction: () => <String, dynamic>{},
-        secondButtonTitle: context.i18n(AliceTranslationKey.callsListYes),
-        secondButtonAction: _removeCalls,
-      );
+    context: context,
+    title: context.i18n(AliceTranslationKey.callsListDeleteCallsDialogTitle),
+    description: context.i18n(
+      AliceTranslationKey.callsListDeleteCallsDialogDescription,
+    ),
+    firstButtonTitle: context.i18n(AliceTranslationKey.callsListNo),
+    firstButtonAction: () => <String, dynamic>{},
+    secondButtonTitle: context.i18n(AliceTranslationKey.callsListYes),
+    secondButtonAction: _removeCalls,
+  );
 
   /// Removes all calls from Alice.
   void _removeCalls() => aliceCore.removeCalls();
@@ -265,33 +257,36 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
         description: context
             .i18n(AliceTranslationKey.saveSuccessDescription)
             .replaceAll("[path]", result.path!),
-        secondButtonTitle: OperatingSystem.isAndroid
-            ? context.i18n(AliceTranslationKey.saveSuccessView)
-            : null,
-        secondButtonAction: () =>
-            OperatingSystem.isAndroid ? OpenFilex.open(result.path!) : null,
+        secondButtonTitle:
+            OperatingSystem.isAndroid
+                ? context.i18n(AliceTranslationKey.saveSuccessView)
+                : null,
+        secondButtonAction:
+            () =>
+                OperatingSystem.isAndroid ? OpenFilex.open(result.path!) : null,
       );
     } else {
       final [String title, String description] = switch (result.error) {
         AliceExportResultError.logGenerate => [
-            context.i18n(AliceTranslationKey.saveDialogPermissionErrorTitle),
-            context
-                .i18n(AliceTranslationKey.saveDialogPermissionErrorDescription),
-          ],
+          context.i18n(AliceTranslationKey.saveDialogPermissionErrorTitle),
+          context.i18n(
+            AliceTranslationKey.saveDialogPermissionErrorDescription,
+          ),
+        ],
         AliceExportResultError.empty => [
-            context.i18n(AliceTranslationKey.saveDialogEmptyErrorTitle),
-            context.i18n(AliceTranslationKey.saveDialogEmptyErrorDescription),
-          ],
+          context.i18n(AliceTranslationKey.saveDialogEmptyErrorTitle),
+          context.i18n(AliceTranslationKey.saveDialogEmptyErrorDescription),
+        ],
         AliceExportResultError.permission => [
-            context.i18n(AliceTranslationKey.saveDialogPermissionErrorTitle),
-            context
-                .i18n(AliceTranslationKey.saveDialogPermissionErrorDescription),
-          ],
+          context.i18n(AliceTranslationKey.saveDialogPermissionErrorTitle),
+          context.i18n(
+            AliceTranslationKey.saveDialogPermissionErrorDescription,
+          ),
+        ],
         AliceExportResultError.file => [
-            context.i18n(AliceTranslationKey.saveDialogFileSaveErrorTitle),
-            context
-                .i18n(AliceTranslationKey.saveDialogFileSaveErrorDescription),
-          ],
+          context.i18n(AliceTranslationKey.saveDialogFileSaveErrorTitle),
+          context.i18n(AliceTranslationKey.saveDialogFileSaveErrorDescription),
+        ],
         _ => ["", ""],
       };
 
@@ -311,10 +306,11 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
   Future<void> _onSortPressed() async {
     AliceSortDialogResult? result = await showDialog<AliceSortDialogResult>(
       context: context,
-      builder: (_) => AliceSortDialog(
-        sortOption: _sortOption,
-        sortAscending: _sortAscending,
-      ),
+      builder:
+          (_) => AliceSortDialog(
+            sortOption: _sortOption,
+            sortAscending: _sortAscending,
+          ),
     );
     if (result != null) {
       setState(() {
@@ -387,30 +383,21 @@ class _ContextMenuButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return PopupMenuButton<AliceCallDetailsMenuItemType>(
       onSelected: onMenuItemSelected,
-      itemBuilder: (BuildContext context) => [
-        for (final AliceCallDetailsMenuItemType item
-            in AliceCallDetailsMenuItemType.values)
-          PopupMenuItem<AliceCallDetailsMenuItemType>(
-            value: item,
-            child: Row(
-              children: [
-                Icon(
-                  _getIcon(itemType: item),
-                  color: AliceTheme.lightRed,
+      itemBuilder:
+          (BuildContext context) => [
+            for (final AliceCallDetailsMenuItemType item
+                in AliceCallDetailsMenuItemType.values)
+              PopupMenuItem<AliceCallDetailsMenuItemType>(
+                value: item,
+                child: Row(
+                  children: [
+                    Icon(_getIcon(itemType: item), color: AliceTheme.lightRed),
+                    const Padding(padding: EdgeInsets.only(left: 10)),
+                    Text(_getTitle(context: context, itemType: item)),
+                  ],
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 10),
-                ),
-                Text(
-                  _getTitle(
-                    context: context,
-                    itemType: item,
-                  ),
-                ),
-              ],
-            ),
-          ),
-      ],
+              ),
+          ],
     );
   }
 
@@ -461,20 +448,14 @@ class _LoggerFloatingActionButtons extends StatelessWidget {
           heroTag: 'h1',
           backgroundColor: AliceTheme.lightRed,
           onPressed: () => scrollLogsList(true),
-          child: const Icon(
-            Icons.arrow_upward,
-            color: AliceTheme.white,
-          ),
+          child: const Icon(Icons.arrow_upward, color: AliceTheme.white),
         ),
         const SizedBox(height: 8),
         FloatingActionButton(
           heroTag: 'h2',
           backgroundColor: AliceTheme.lightRed,
           onPressed: () => scrollLogsList(false),
-          child: const Icon(
-            Icons.arrow_downward,
-            color: AliceTheme.white,
-          ),
+          child: const Icon(Icons.arrow_downward, color: AliceTheme.white),
         ),
       ],
     );

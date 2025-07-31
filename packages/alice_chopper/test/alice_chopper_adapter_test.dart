@@ -57,9 +57,7 @@ void main() {
       );
 
       await chopperClient.get(
-        Uri(
-          path: 'json',
-        ),
+        Uri(path: 'json'),
         headers: {'content-type': 'application/json'},
       );
 
@@ -118,10 +116,7 @@ void main() {
       );
 
       await chopperClient.post(
-        Uri(
-          path: 'json',
-          queryParameters: {'sort': 'asc'},
-        ),
+        Uri(path: 'json', queryParameters: {'sort': 'asc'}),
         body: '{"data":"test"}',
         headers: {'content-type': 'application/json'},
       );
@@ -188,15 +183,10 @@ void main() {
       );
 
       await chopperClient.post(
-        Uri(
-          path: 'form',
-        ),
+        Uri(path: 'form'),
         parts: [
           const PartValue('name', 'Alice'),
-          const PartValue(
-            'surname',
-            'test',
-          ),
+          const PartValue('surname', 'test'),
           PartValueFile('image', file.path),
         ],
         multipart: true,
@@ -209,9 +199,7 @@ void main() {
           const AliceFormDataField('name', 'Alice'),
           const AliceFormDataField('surname', 'test'),
         ],
-        formDataFiles: [
-          AliceFormDataFile(name, "", 0),
-        ],
+        formDataFiles: [AliceFormDataFile(name, "", 0)],
         body: '',
         headers: {'content-type': 'multipart/form-data'},
         contentType: 'multipart/form-data',
@@ -265,9 +253,7 @@ void main() {
       );
 
       await chopperClient.get(
-        Uri(
-          path: 'json',
-        ),
+        Uri(path: 'json'),
         headers: {'content-type': 'application/json'},
       );
       final requestMatcher = buildRequestMatcher(
@@ -310,10 +296,7 @@ void main() {
 
     test("should handle call with error", () async {
       final mockClient = MockClient((request) async {
-        return http.Response(
-          'error',
-          404,
-        );
+        return http.Response('error', 404);
       });
 
       chopperClient = ChopperClient(
@@ -322,15 +305,9 @@ void main() {
         interceptors: [aliceChopperAdapter],
       );
 
-      await chopperClient.get(
-        Uri(
-          path: 'json',
-        ),
-      );
+      await chopperClient.get(Uri(path: 'json'));
 
-      final requestMatcher = buildRequestMatcher(
-        checkTime: true,
-      );
+      final requestMatcher = buildRequestMatcher(checkTime: true);
 
       final responseMatcher = buildResponseMatcher(checkTime: true);
 
@@ -358,15 +335,10 @@ void main() {
       );
 
       verify(
-        () => aliceCore.addResponse(
-          any(that: nextResponseMatcher),
-          any(),
-        ),
+        () => aliceCore.addResponse(any(that: nextResponseMatcher), any()),
       );
 
-      final errorMatcher = buildErrorMatcher(
-        checkError: true,
-      );
+      final errorMatcher = buildErrorMatcher(checkError: true);
 
       verify(() => aliceCore.addError(any(that: errorMatcher), any()));
     });
@@ -385,9 +357,9 @@ void main() {
         client: mockClient,
         interceptors: [aliceChopperAdapter],
         services: [InvalidService.create()],
-        converter: const JsonSerializableConverter(
-          {InvalidModel: InvalidModel.fromJson},
-        ),
+        converter: const JsonSerializableConverter({
+          InvalidModel: InvalidModel.fromJson,
+        }),
       );
 
       final service = chopperClient.getService<InvalidService>();
@@ -395,9 +367,7 @@ void main() {
         await service.get(0);
       } catch (_) {}
 
-      final requestMatcher = buildRequestMatcher(
-        checkTime: true,
-      );
+      final requestMatcher = buildRequestMatcher(checkTime: true);
 
       final responseMatcher = buildResponseMatcher(checkTime: true);
 
@@ -425,10 +395,7 @@ void main() {
       );
 
       verify(
-        () => aliceCore.addResponse(
-          any(that: nextResponseMatcher),
-          any(),
-        ),
+        () => aliceCore.addResponse(any(that: nextResponseMatcher), any()),
       );
 
       final errorMatcher = buildErrorMatcher(

@@ -12,10 +12,7 @@ import 'package:flutter/material.dart';
 class AliceStatsPage extends StatelessWidget {
   final AliceCore aliceCore;
 
-  const AliceStatsPage(
-    this.aliceCore, {
-    super.key,
-  });
+  const AliceStatsPage(this.aliceCore, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +20,10 @@ class AliceStatsPage extends StatelessWidget {
       core: aliceCore,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('${context.i18n(AliceTranslationKey.alice)} - '
-              '${context.i18n(AliceTranslationKey.statsTitle)}'),
+          title: Text(
+            '${context.i18n(AliceTranslationKey.alice)} - '
+            '${context.i18n(AliceTranslationKey.statsTitle)}',
+          ),
         ),
         body: Container(
           padding: const EdgeInsets.all(8),
@@ -109,35 +108,38 @@ class AliceStatsPage extends StatelessWidget {
   int _getTotalRequests() => _calls.length;
 
   /// Returns count of success requests.
-  int _getSuccessRequests() => _calls
-      .where(
-        (AliceHttpCall call) =>
-            (call.response?.status.gte(200) ?? false) &&
-            (call.response?.status.lt(300) ?? false),
-      )
-      .toList()
-      .length;
+  int _getSuccessRequests() =>
+      _calls
+          .where(
+            (AliceHttpCall call) =>
+                (call.response?.status.gte(200) ?? false) &&
+                (call.response?.status.lt(300) ?? false),
+          )
+          .toList()
+          .length;
 
   /// Returns count of redirection requests.
-  int _getRedirectionRequests() => _calls
-      .where(
-        (AliceHttpCall call) =>
-            (call.response?.status.gte(300) ?? false) &&
-            (call.response?.status.lt(400) ?? false),
-      )
-      .toList()
-      .length;
+  int _getRedirectionRequests() =>
+      _calls
+          .where(
+            (AliceHttpCall call) =>
+                (call.response?.status.gte(300) ?? false) &&
+                (call.response?.status.lt(400) ?? false),
+          )
+          .toList()
+          .length;
 
   /// Returns count of error requests.
-  int _getErrorRequests() => _calls
-      .where(
-        (AliceHttpCall call) =>
-            (call.response?.status.gte(400) ?? false) &&
-                (call.response?.status.lt(600) ?? false) ||
-            const [-1, 0].contains(call.response?.status),
-      )
-      .toList()
-      .length;
+  int _getErrorRequests() =>
+      _calls
+          .where(
+            (AliceHttpCall call) =>
+                (call.response?.status.gte(400) ?? false) &&
+                    (call.response?.status.lt(600) ?? false) ||
+                const [-1, 0].contains(call.response?.status),
+          )
+          .toList()
+          .length;
 
   /// Returns count of pending requests.
   int _getPendingRequests() =>
@@ -145,15 +147,15 @@ class AliceStatsPage extends StatelessWidget {
 
   /// Returns total bytes sent count.
   int _getBytesSent() => _calls.fold(
-        0,
-        (int sum, AliceHttpCall call) => sum + (call.request?.size ?? 0),
-      );
+    0,
+    (int sum, AliceHttpCall call) => sum + (call.request?.size ?? 0),
+  );
 
   /// Returns total bytes received count.
   int _getBytesReceived() => _calls.fold(
-        0,
-        (int sum, AliceHttpCall call) => sum + (call.response?.size ?? 0),
-      );
+    0,
+    (int sum, AliceHttpCall call) => sum + (call.response?.size ?? 0),
+  );
 
   /// Returns average request time of all calls.
   int _getAverageRequestTime() {

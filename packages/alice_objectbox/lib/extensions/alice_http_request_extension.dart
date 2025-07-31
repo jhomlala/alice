@@ -5,14 +5,14 @@ import 'package:alice_objectbox/model/cached_alice_http_request.dart';
 extension AliceHttpRequestExtension on AliceHttpRequest {
   /// Converts [AliceHttpRequest] to [CachedAliceHttpRequest].
   CachedAliceHttpRequest toCached() => CachedAliceHttpRequest(
-        size: size,
-        time: time,
-        headers: headers,
-        body: body,
-        contentType: contentType,
-        cookies: cookies,
-        queryParameters: queryParameters,
-        formDataFiles: formDataFiles,
-        formDataFields: formDataFields,
-      );
+    size: size,
+    time: time,
+    headers: headers,
+    body: body,
+    contentType: contentType,
+    cookies: cookies,
+    queryParameters: queryParameters,
+    formDataFiles: formDataFiles,
+    formDataFields: formDataFields,
+  );
 }

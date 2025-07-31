@@ -9,6 +9,6 @@ abstract class InvalidService extends ChopperService {
   static InvalidService create([ChopperClient? client]) =>
       _$InvalidService(client);
 
-  @Get(path: '/{id}', timeout: Duration(seconds: 10))
+  @GET(path: '/{id}', timeout: Duration(seconds: 10))
   Future<Response<InvalidModel?>> get(@Path() int id);
 }

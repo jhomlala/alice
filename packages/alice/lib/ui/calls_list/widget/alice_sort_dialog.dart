@@ -19,28 +19,17 @@ class AliceSortDialog extends StatelessWidget {
     AliceCallsListSortOption currentSortOption = sortOption;
     bool currentSortAscending = sortAscending;
     return Theme(
-      data: ThemeData(
-        brightness: Brightness.light,
-      ),
+      data: ThemeData(brightness: Brightness.light),
       child: StatefulBuilder(
         builder: (context, setState) {
           return AlertDialog(
-            title: Text(
-              context.i18n(
-                AliceTranslationKey.sortDialogTitle,
-              ),
-            ),
+            title: Text(context.i18n(AliceTranslationKey.sortDialogTitle)),
             content: Wrap(
               children: [
                 for (final AliceCallsListSortOption sortOption
                     in AliceCallsListSortOption.values)
                   RadioListTile<AliceCallsListSortOption>(
-                    title: Text(
-                      _getName(
-                        context: context,
-                        option: sortOption,
-                      ),
-                    ),
+                    title: Text(_getName(context: context, option: sortOption)),
                     value: sortOption,
                     groupValue: currentSortOption,
                     onChanged: (AliceCallsListSortOption? value) {
@@ -67,9 +56,7 @@ class AliceSortDialog extends StatelessWidget {
                       activeTrackColor: Colors.grey,
                       activeColor: Colors.white,
                     ),
-                    Text(
-                      context.i18n(AliceTranslationKey.sortDialogAscending),
-                    ),
+                    Text(context.i18n(AliceTranslationKey.sortDialogAscending)),
                   ],
                 ),
               ],
@@ -77,9 +64,7 @@ class AliceSortDialog extends StatelessWidget {
             actions: [
               TextButton(
                 onPressed: Navigator.of(context).pop,
-                child: Text(
-                  context.i18n(AliceTranslationKey.sortDialogCancel),
-                ),
+                child: Text(context.i18n(AliceTranslationKey.sortDialogCancel)),
               ),
               TextButton(
                 onPressed: () {
@@ -90,9 +75,7 @@ class AliceSortDialog extends StatelessWidget {
                     ),
                   );
                 },
-                child: Text(
-                  context.i18n(AliceTranslationKey.sortDialogAccept),
-                ),
+                child: Text(context.i18n(AliceTranslationKey.sortDialogAccept)),
               ),
             ],
           );
@@ -107,16 +90,21 @@ class AliceSortDialog extends StatelessWidget {
     required AliceCallsListSortOption option,
   }) {
     return switch (option) {
-      AliceCallsListSortOption.time =>
-        context.i18n(AliceTranslationKey.sortDialogTime),
-      AliceCallsListSortOption.responseTime =>
-        context.i18n(AliceTranslationKey.sortDialogResponseTime),
-      AliceCallsListSortOption.responseCode =>
-        context.i18n(AliceTranslationKey.sortDialogResponseCode),
-      AliceCallsListSortOption.responseSize =>
-        context.i18n(AliceTranslationKey.sortDialogResponseSize),
-      AliceCallsListSortOption.endpoint =>
-        context.i18n(AliceTranslationKey.sortDialogEndpoint),
+      AliceCallsListSortOption.time => context.i18n(
+        AliceTranslationKey.sortDialogTime,
+      ),
+      AliceCallsListSortOption.responseTime => context.i18n(
+        AliceTranslationKey.sortDialogResponseTime,
+      ),
+      AliceCallsListSortOption.responseCode => context.i18n(
+        AliceTranslationKey.sortDialogResponseCode,
+      ),
+      AliceCallsListSortOption.responseSize => context.i18n(
+        AliceTranslationKey.sortDialogResponseSize,
+      ),
+      AliceCallsListSortOption.endpoint => context.i18n(
+        AliceTranslationKey.sortDialogEndpoint,
+      ),
     };
   }
 }

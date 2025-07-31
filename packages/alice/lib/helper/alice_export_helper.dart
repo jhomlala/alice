@@ -27,8 +27,10 @@ class AliceExportHelper {
     required BuildContext context,
     required AliceHttpCall call,
   }) async {
-    final callLog =
-        await AliceExportHelper.buildFullCallLog(call: call, context: context);
+    final callLog = await AliceExportHelper.buildFullCallLog(
+      call: call,
+      context: context,
+    );
 
     if (callLog == null) {
       return AliceExportResult(
@@ -37,9 +39,11 @@ class AliceExportHelper {
       );
     }
 
-    await Share.share(
-      callLog,
-      subject: context.i18n(AliceTranslationKey.emailSubject),
+    await SharePlus.instance.share(
+      ShareParams(
+        text: callLog,
+        subject: context.i18n(AliceTranslationKey.emailSubject),
+      ),
     );
 
     return AliceExportResult(success: true);
@@ -110,10 +114,7 @@ class AliceExportHelper {
       await sink.flush();
       await sink.close();
 
-      return AliceExportResult(
-        success: true,
-        path: file.path,
-      );
+      return AliceExportResult(success: true, path: file.path);
     } catch (exception) {
       AliceUtils.log(exception.toString());
       return AliceExportResult(
@@ -141,29 +142,29 @@ class AliceExportHelper {
     required BuildContext context,
     required AliceHttpCall call,
   }) {
-    final StringBuffer stringBuffer = StringBuffer()
-      ..writeAll([
-        '===========================================\n',
-        '${context.i18n(AliceTranslationKey.saveLogId)} ${call.id}\n',
-        '============================================\n',
-        '--------------------------------------------\n',
-        '${context.i18n(AliceTranslationKey.saveLogGeneralData)}\n',
-        '--------------------------------------------\n',
-        '${context.i18n(AliceTranslationKey.saveLogServer)} ${call.server} \n',
-        '${context.i18n(AliceTranslationKey.saveLogMethod)} ${call.method} \n',
-        '${context.i18n(AliceTranslationKey.saveLogEndpoint)} ${call.endpoint} \n',
-        '${context.i18n(AliceTranslationKey.saveLogClient)} ${call.client} \n',
-        '${context.i18n(AliceTranslationKey.saveLogDuration)} ${AliceConversionHelper.formatTime(call.duration)}\n',
-        '${context.i18n(AliceTranslationKey.saveLogSecured)} ${call.secure}\n',
-        '${context.i18n(AliceTranslationKey.saveLogCompleted)}: ${!call.loading} \n',
-        '--------------------------------------------\n',
-        '${context.i18n(AliceTranslationKey.saveLogRequest)}\n',
-        '--------------------------------------------\n',
-        '${context.i18n(AliceTranslationKey.saveLogRequestTime)} ${call.request?.time}\n',
-        '${context.i18n(AliceTranslationKey.saveLogRequestContentType)}: ${call.request?.contentType}\n',
-        '${context.i18n(AliceTranslationKey.saveLogRequestCookies)} ${_encoder.convert(call.request?.cookies)}\n',
-        '${context.i18n(AliceTranslationKey.saveLogRequestHeaders)} ${_encoder.convert(call.request?.headers)}\n',
-      ]);
+    final StringBuffer stringBuffer =
+        StringBuffer()..writeAll([
+          '===========================================\n',
+          '${context.i18n(AliceTranslationKey.saveLogId)} ${call.id}\n',
+          '============================================\n',
+          '--------------------------------------------\n',
+          '${context.i18n(AliceTranslationKey.saveLogGeneralData)}\n',
+          '--------------------------------------------\n',
+          '${context.i18n(AliceTranslationKey.saveLogServer)} ${call.server} \n',
+          '${context.i18n(AliceTranslationKey.saveLogMethod)} ${call.method} \n',
+          '${context.i18n(AliceTranslationKey.saveLogEndpoint)} ${call.endpoint} \n',
+          '${context.i18n(AliceTranslationKey.saveLogClient)} ${call.client} \n',
+          '${context.i18n(AliceTranslationKey.saveLogDuration)} ${AliceConversionHelper.formatTime(call.duration)}\n',
+          '${context.i18n(AliceTranslationKey.saveLogSecured)} ${call.secure}\n',
+          '${context.i18n(AliceTranslationKey.saveLogCompleted)}: ${!call.loading} \n',
+          '--------------------------------------------\n',
+          '${context.i18n(AliceTranslationKey.saveLogRequest)}\n',
+          '--------------------------------------------\n',
+          '${context.i18n(AliceTranslationKey.saveLogRequestTime)} ${call.request?.time}\n',
+          '${context.i18n(AliceTranslationKey.saveLogRequestContentType)}: ${call.request?.contentType}\n',
+          '${context.i18n(AliceTranslationKey.saveLogRequestCookies)} ${_encoder.convert(call.request?.cookies)}\n',
+          '${context.i18n(AliceTranslationKey.saveLogRequestHeaders)} ${_encoder.convert(call.request?.headers)}\n',
+        ]);
 
     if (call.request?.queryParameters.isNotEmpty ?? false) {
       stringBuffer.write(
@@ -219,10 +220,7 @@ class AliceExportHelper {
   }) async {
     try {
       return await _buildAliceLog(context: context) +
-          _buildCallLog(
-            call: call,
-            context: context,
-          );
+          _buildCallLog(call: call, context: context);
     } catch (exception) {
       AliceUtils.log("Failed to generate call log: $exception");
       return null;

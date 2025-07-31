@@ -5,19 +5,12 @@ part 'invalid_model.g.dart';
 
 @JsonSerializable()
 class InvalidModel with EquatableMixin {
-  const InvalidModel({
-    this.id,
-  });
+  const InvalidModel({this.id});
 
   // should be `int?` but we want to test the error
   final String? id;
 
-  InvalidModel copyWith({
-    String? id,
-  }) =>
-      InvalidModel(
-        id: id ?? this.id,
-      );
+  InvalidModel copyWith({String? id}) => InvalidModel(id: id ?? this.id);
 
   factory InvalidModel.fromJson(Map<String, dynamic> json) =>
       _$InvalidModelFromJson(json);
@@ -25,7 +18,5 @@ class InvalidModel with EquatableMixin {
   Map<String, dynamic> toJson() => _$InvalidModelToJson(this);
 
   @override
-  List<Object?> get props => [
-        id,
-      ];
+  List<Object?> get props => [id];
 }

@@ -6,6 +6,7 @@ import 'package:objectbox/objectbox.dart';
 
 /// ObjectBox [Entity] of [AliceHttpResponse].
 @Entity()
+// ignore: must_be_immutable
 class CachedAliceHttpResponse implements AliceHttpResponse {
   CachedAliceHttpResponse({
     this.objectId = 0,
@@ -58,20 +59,16 @@ class CachedAliceHttpResponse implements AliceHttpResponse {
   String? get dbHeaders => headers != null ? jsonEncode(headers) : null;
 
   /// Custom data type converter of [headers].
-  set dbHeaders(String? value) => headers = value != null
-      ? (jsonDecode(value) as Map<String, dynamic>?)?.map(
-          (key, value) => MapEntry(key, value.toString()),
-        )
-      : null;
+  set dbHeaders(String? value) =>
+      headers =
+          value != null
+              ? (jsonDecode(value) as Map<String, dynamic>?)?.map(
+                (key, value) => MapEntry(key, value.toString()),
+              )
+              : null;
 
   @override
-  List<Object?> get props => [
-        status,
-        size,
-        time,
-        body,
-        headers,
-      ];
+  List<Object?> get props => [status, size, time, body, headers];
 
   @override
   bool? get stringify => true;

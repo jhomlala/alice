@@ -46,9 +46,7 @@ class AliceCallOverviewScreen extends StatelessWidget {
             ),
             AliceCallListRow(
               name: context.i18n(AliceTranslationKey.callOverviewBytesSent),
-              value: AliceConversionHelper.formatBytes(
-                call.request?.size ?? 0,
-              ),
+              value: AliceConversionHelper.formatBytes(call.request?.size ?? 0),
             ),
             AliceCallListRow(
               name: context.i18n(AliceTranslationKey.callOverviewBytesReceived),

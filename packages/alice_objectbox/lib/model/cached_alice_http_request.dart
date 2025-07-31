@@ -12,6 +12,7 @@ import 'package:objectbox/objectbox.dart';
 
 /// ObjectBox [Entity] of [AliceHttpRequest].
 @Entity()
+// ignore: must_be_immutable
 class CachedAliceHttpRequest implements AliceHttpRequest {
   CachedAliceHttpRequest({
     this.objectId = 0,
@@ -46,9 +47,8 @@ class CachedAliceHttpRequest implements AliceHttpRequest {
   String get dbHeaders => jsonEncode(headers);
 
   /// Custom data type converter of [headers].
-  set dbHeaders(String value) => headers = AliceParser.parseHeaders(
-        headers: jsonDecode(value),
-      );
+  set dbHeaders(String value) =>
+      headers = AliceParser.parseHeaders(headers: jsonDecode(value));
   @override
   @Transient()
   dynamic body;
@@ -80,8 +80,11 @@ class CachedAliceHttpRequest implements AliceHttpRequest {
       cookies.map((Cookie cookie) => cookie.toString()).toList();
 
   /// Custom data type converter of [cookies].
-  set dbCookies(List<String> value) => cookies =
-      value.map((String cookie) => Cookie.fromSetCookieValue(cookie)).toList();
+  set dbCookies(List<String> value) =>
+      cookies =
+          value
+              .map((String cookie) => Cookie.fromSetCookieValue(cookie))
+              .toList();
 
   @override
   @Transient()
@@ -99,53 +102,61 @@ class CachedAliceHttpRequest implements AliceHttpRequest {
   List<AliceFormDataFile>? formDataFiles;
 
   /// Custom data type converter of [formDataFiles].
-  List<String>? get dbFormDataFiles => formDataFiles
-      ?.map(
-        (AliceFormDataFile file) =>
-            jsonEncode(AliceFormDataFileConverter.instance.toJson(file)),
-      )
-      .toList();
+  List<String>? get dbFormDataFiles =>
+      formDataFiles
+          ?.map(
+            (AliceFormDataFile file) =>
+                jsonEncode(AliceFormDataFileConverter.instance.toJson(file)),
+          )
+          .toList();
 
   /// Custom data type converter of [formDataFiles].
-  set dbFormDataFiles(List<String>? value) => formDataFiles = value
-      ?.map(
-        (String file) =>
-            AliceFormDataFileConverter.instance.fromJson(jsonDecode(file)),
-      )
-      .toList();
+  set dbFormDataFiles(List<String>? value) =>
+      formDataFiles =
+          value
+              ?.map(
+                (String file) => AliceFormDataFileConverter.instance.fromJson(
+                  jsonDecode(file),
+                ),
+              )
+              .toList();
 
   @override
   @Transient()
   List<AliceFormDataField>? formDataFields;
 
   /// Custom data type converter of [formDataFields].
-  List<String>? get dbFormDataFields => formDataFields
-      ?.map(
-        (AliceFormDataField field) =>
-            jsonEncode(AliceFormDataFieldConverter.instance.toJson(field)),
-      )
-      .toList();
+  List<String>? get dbFormDataFields =>
+      formDataFields
+          ?.map(
+            (AliceFormDataField field) =>
+                jsonEncode(AliceFormDataFieldConverter.instance.toJson(field)),
+          )
+          .toList();
 
   /// Custom data type converter of [formDataFields].
-  set dbFormDataFields(List<String>? value) => formDataFields = value
-      ?.map(
-        (String field) =>
-            AliceFormDataFieldConverter.instance.fromJson(jsonDecode(field)),
-      )
-      .toList();
+  set dbFormDataFields(List<String>? value) =>
+      formDataFields =
+          value
+              ?.map(
+                (String field) => AliceFormDataFieldConverter.instance.fromJson(
+                  jsonDecode(field),
+                ),
+              )
+              .toList();
 
   @override
   List<Object?> get props => [
-        size,
-        time,
-        headers,
-        body,
-        contentType,
-        cookies,
-        queryParameters,
-        formDataFiles,
-        formDataFields,
-      ];
+    size,
+    time,
+    headers,
+    body,
+    contentType,
+    cookies,
+    queryParameters,
+    formDataFiles,
+    formDataFields,
+  ];
 
   @override
   bool? get stringify => true;

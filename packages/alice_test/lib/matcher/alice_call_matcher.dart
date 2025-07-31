@@ -32,8 +32,11 @@ TypeMatcher<AliceHttpCall> buildCallMatcher({
     matcher = matcher.having((call) => call.secure, "secure", equals(secured));
   }
   if (loading != null) {
-    matcher =
-        matcher.having((call) => call.loading, "loading", equals(loading));
+    matcher = matcher.having(
+      (call) => call.loading,
+      "loading",
+      equals(loading),
+    );
   }
   if (client != null) {
     matcher = matcher.having((call) => call.client, "client", equals(client));
@@ -42,8 +45,11 @@ TypeMatcher<AliceHttpCall> buildCallMatcher({
     matcher = matcher.having((call) => call.method, "method", equals(method));
   }
   if (endpoint != null) {
-    matcher =
-        matcher.having((call) => call.endpoint, "endpoint", equals(endpoint));
+    matcher = matcher.having(
+      (call) => call.endpoint,
+      "endpoint",
+      equals(endpoint),
+    );
   }
   if (server != null) {
     matcher = matcher.having((call) => call.server, "server", equals(server));
@@ -52,16 +58,25 @@ TypeMatcher<AliceHttpCall> buildCallMatcher({
     matcher = matcher.having((call) => call.uri, "uri", equals(uri));
   }
   if (duration != null) {
-    matcher =
-        matcher.having((call) => call.duration, "duration", equals(duration));
+    matcher = matcher.having(
+      (call) => call.duration,
+      "duration",
+      equals(duration),
+    );
   }
   if (request != null) {
-    matcher =
-        matcher.having((call) => call.request, "request", equals(request));
+    matcher = matcher.having(
+      (call) => call.request,
+      "request",
+      equals(request),
+    );
   }
   if (response != null) {
-    matcher =
-        matcher.having((call) => call.response, "response", equals(response));
+    matcher = matcher.having(
+      (call) => call.response,
+      "response",
+      equals(response),
+    );
   }
   return matcher;
 }
