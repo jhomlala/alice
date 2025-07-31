@@ -12,6 +12,7 @@ import 'package:objectbox/objectbox.dart';
 
 /// ObjectBox [Entity] of [AliceHttpRequest].
 @Entity()
+// ignore: must_be_immutable
 class CachedAliceHttpRequest implements AliceHttpRequest {
   CachedAliceHttpRequest({
     this.objectId = 0,

@@ -4,6 +4,7 @@ import 'package:alice/model/alice_http_response.dart';
 import 'package:equatable/equatable.dart';
 
 /// Definition of http calls data holder.
+// ignore: must_be_immutable
 class AliceHttpCall with EquatableMixin {
   AliceHttpCall(this.id);
 
