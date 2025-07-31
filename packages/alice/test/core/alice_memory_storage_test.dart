@@ -22,7 +22,7 @@ void main() {
         redirects: 0,
         errors: 0,
         loading: 0,
-      ));
+      ),);
 
       storage.addCall(
         MockedData.getHttpCallWithResponseStatus(statusCode: 200),
@@ -55,7 +55,7 @@ void main() {
         redirects: 2,
         errors: 5,
         loading: 1,
-      ));
+      ),);
     });
 
     test("should save HTTP calls", () {

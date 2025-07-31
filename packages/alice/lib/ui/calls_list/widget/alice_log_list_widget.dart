@@ -90,7 +90,7 @@ class _AliceLogEntryWidget extends StatelessWidget {
           TextSpan(
             text: formattedTimestamp,
             style: textTheme.bodySmall?.copyWith(
-              color: color.withOpacity(0.6),
+              color: color.withValues(alpha: 0.6),
               fontFeatures: [const FontFeature.tabularFigures()],
             ),
           ),

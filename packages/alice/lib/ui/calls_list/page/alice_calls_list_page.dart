@@ -59,7 +59,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _tabController?.addListener(() {
-        _onTabChanged(_tabController!.index);
+        _onTabChanged(_tabController.index);
       });
     });
   }

@@ -39,10 +39,10 @@ class AliceExportHelper {
       );
     }
 
-    await Share.share(
+    await SharePlus.instance.share(ShareParams(text:
       callLog,
       subject: context.i18n(AliceTranslationKey.emailSubject),
-    );
+    ),);
 
     return AliceExportResult(success: true);
   }
