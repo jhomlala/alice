@@ -1,21 +1,29 @@
+# 1.0.0
+
+* [BREAKING_CHANGE] Set minimal supported Flutter version 3.29 and Dart 3.7.
+* Updated dependencies.
+
 # 1.0.0-dev.12
+
 * Fixed build context issues (by Enguerrand ARMINJON https://github.com/EArminjon)
 * Fixed AliceCallsListPage String? unwrap.
 * Fixed Navigator issues (by Enguerrand ARMINJON https://github.com/EArminjon)
 * Fixed updates dependencies.
 
 # 1.0.0-dev.11
+
 * Fixed issue with invalid count of error calls in stats page.
 * Added lint for trailing commas.
 * General refactor of code base.
 
 # 1.0.0-dev.10
 
-* [BREAKING_CHANGE] Removed `maxCallsCount`. To change call count, use `storage` constructor parameter
+* [BREAKING_CHANGE] Removed `maxCallsCount`. To change call count, use `storage` constructor
+  parameter
   with call count.
 * [BREAKING_CHANGE] Replaced configuration parameter of Alice with `AliceConfiguration`.
 * Fixed issue with invalid count of calls in notification.
-* Added payload to notification. 
+* Added payload to notification.
 * General refactor of code base.
 * Updated documentation.
 
