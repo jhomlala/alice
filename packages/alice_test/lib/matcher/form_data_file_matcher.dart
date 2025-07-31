@@ -10,8 +10,9 @@ class FormDataFileMatcher extends Matcher {
   bool matches(Object? item, Map matchState) {
     try {
       if (item is List<AliceFormDataFile>) {
-        final formFile = item
-            .firstWhere((element) => element.fileName == _expected.fileName);
+        final formFile = item.firstWhere(
+          (element) => element.fileName == _expected.fileName,
+        );
         return formFile.contentType == _expected.contentType;
       }
     } catch (_) {}

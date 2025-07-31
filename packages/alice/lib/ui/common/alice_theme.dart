@@ -29,9 +29,10 @@ class AliceTheme {
       Brightness.dark;
 
   /// Returns color scheme based on dark mode.
-  static ColorScheme _getColorScheme() => _isDarkMode
-      ? const ColorScheme.dark(primary: AliceTheme.lightRed)
-      : const ColorScheme.light(primary: AliceTheme.lightRed);
+  static ColorScheme _getColorScheme() =>
+      _isDarkMode
+          ? const ColorScheme.dark(primary: AliceTheme.lightRed)
+          : const ColorScheme.light(primary: AliceTheme.lightRed);
 
   /// Return log text color based on diagnostic [level].
   static Color getLogTextColor(BuildContext context, DiagnosticLevel level) =>

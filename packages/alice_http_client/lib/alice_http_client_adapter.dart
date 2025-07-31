@@ -10,11 +10,12 @@ import 'package:alice/utils/alice_parser.dart';
 class AliceHttpClientAdapter with AliceAdapter {
   /// Handles httpClientRequest and creates http alice call from it
   void onRequest(HttpClientRequest request, {dynamic body}) {
-    final call = AliceHttpCall(request.hashCode)
-      ..loading = true
-      ..client = 'HttpClient (io package)'
-      ..method = request.method
-      ..uri = request.uri.toString();
+    final call =
+        AliceHttpCall(request.hashCode)
+          ..loading = true
+          ..client = 'HttpClient (io package)'
+          ..method = request.method
+          ..uri = request.uri.toString();
 
     var path = request.uri.path;
     if (path.isEmpty) {

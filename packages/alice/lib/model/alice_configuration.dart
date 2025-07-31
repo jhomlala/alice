@@ -47,10 +47,10 @@ class AliceConfiguration with EquatableMixin {
     GlobalKey<NavigatorState>? navigatorKey,
     AliceStorage? storage,
     AliceLogger? logger,
-  })  : aliceStorage =
-            storage ?? AliceMemoryStorage(maxCallsCount: _defaultMaxCalls),
-        navigatorKey = navigatorKey ?? GlobalKey<NavigatorState>(),
-        aliceLogger = logger ?? AliceLogger(maximumSize: _defaultMaxLogs);
+  }) : aliceStorage =
+           storage ?? AliceMemoryStorage(maxCallsCount: _defaultMaxCalls),
+       navigatorKey = navigatorKey ?? GlobalKey<NavigatorState>(),
+       aliceLogger = logger ?? AliceLogger(maximumSize: _defaultMaxLogs);
 
   AliceConfiguration copyWith({
     GlobalKey<NavigatorState>? navigatorKey,
@@ -61,27 +61,26 @@ class AliceConfiguration with EquatableMixin {
     bool? showShareButton,
     AliceStorage? aliceStorage,
     AliceLogger? aliceLogger,
-  }) =>
-      AliceConfiguration(
-        showNotification: showNotification ?? this.showNotification,
-        showInspectorOnShake: showInspectorOnShake ?? this.showInspectorOnShake,
-        notificationIcon: notificationIcon ?? this.notificationIcon,
-        directionality: directionality ?? this.directionality,
-        showShareButton: showShareButton ?? this.showShareButton,
-        navigatorKey: navigatorKey ?? this.navigatorKey,
-        storage: aliceStorage ?? this.aliceStorage,
-        logger: aliceLogger ?? this.aliceLogger,
-      );
+  }) => AliceConfiguration(
+    showNotification: showNotification ?? this.showNotification,
+    showInspectorOnShake: showInspectorOnShake ?? this.showInspectorOnShake,
+    notificationIcon: notificationIcon ?? this.notificationIcon,
+    directionality: directionality ?? this.directionality,
+    showShareButton: showShareButton ?? this.showShareButton,
+    navigatorKey: navigatorKey ?? this.navigatorKey,
+    storage: aliceStorage ?? this.aliceStorage,
+    logger: aliceLogger ?? this.aliceLogger,
+  );
 
   @override
   List<Object?> get props => [
-        showNotification,
-        showInspectorOnShake,
-        notificationIcon,
-        directionality,
-        showShareButton,
-        navigatorKey,
-        aliceStorage,
-        aliceLogger,
-      ];
+    showNotification,
+    showInspectorOnShake,
+    notificationIcon,
+    directionality,
+    showShareButton,
+    navigatorKey,
+    aliceStorage,
+    aliceLogger,
+  ];
 }

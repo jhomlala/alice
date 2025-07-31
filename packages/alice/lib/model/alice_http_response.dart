@@ -9,11 +9,5 @@ class AliceHttpResponse with EquatableMixin {
   Map<String, String>? headers;
 
   @override
-  List<Object?> get props => [
-        status,
-        size,
-        time,
-        body,
-        headers,
-      ];
+  List<Object?> get props => [status, size, time, body, headers];
 }

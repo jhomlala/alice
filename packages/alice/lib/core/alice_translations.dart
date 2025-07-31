@@ -70,7 +70,8 @@ class AliceTranslations {
         AliceTranslationKey.callResponseBodyVideoWebBrowser:
             'Open video in web browser',
         AliceTranslationKey.callResponseHeadersUnknown: "Unknown",
-        AliceTranslationKey.callResponseBodyUnknown: 'Unsupported body. Alice'
+        AliceTranslationKey.callResponseBodyUnknown:
+            'Unsupported body. Alice'
             ' can render video/image/text body. Response has Content-Type: '
             "[contentType] which can't be handled. If you're feeling lucky you "
             "can try button below to try render body as text, but it may fail.",
@@ -239,7 +240,8 @@ class AliceTranslations {
         AliceTranslationKey.callResponseBodyVideoWebBrowser:
             'Otwórz video w przeglądarce',
         AliceTranslationKey.callResponseHeadersUnknown: "Nieznane",
-        AliceTranslationKey.callResponseBodyUnknown: 'Nieznane body. Alice'
+        AliceTranslationKey.callResponseBodyUnknown:
+            'Nieznane body. Alice'
             ' może renderować video/image/text. Odpowiedź ma typ zawartości:'
             "[contentType], który nie może być obsłużony.Jeżeli chcesz, możesz "
             "spróbować wyrenderować body jako tekst, ale może to się nie udać.",

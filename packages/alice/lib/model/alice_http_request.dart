@@ -18,14 +18,14 @@ class AliceHttpRequest with EquatableMixin {
 
   @override
   List<Object?> get props => [
-        size,
-        time,
-        headers,
-        body,
-        contentType,
-        cookies,
-        queryParameters,
-        formDataFiles,
-        formDataFields,
-      ];
+    size,
+    time,
+    headers,
+    body,
+    contentType,
+    cookies,
+    queryParameters,
+    formDataFiles,
+    formDataFields,
+  ];
 }

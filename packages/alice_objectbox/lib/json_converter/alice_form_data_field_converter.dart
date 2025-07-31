@@ -11,14 +11,12 @@ class AliceFormDataFieldConverter
       AliceFormDataFieldConverter();
 
   @override
-  AliceFormDataField fromJson(Map<String, dynamic> json) => AliceFormDataField(
-        json['name'] as String,
-        json['value'] as String,
-      );
+  AliceFormDataField fromJson(Map<String, dynamic> json) =>
+      AliceFormDataField(json['name'] as String, json['value'] as String);
 
   @override
   Map<String, dynamic> toJson(AliceFormDataField object) => <String, dynamic>{
-        'name': object.name,
-        'value': object.value,
-      };
+    'name': object.name,
+    'value': object.value,
+  };
 }

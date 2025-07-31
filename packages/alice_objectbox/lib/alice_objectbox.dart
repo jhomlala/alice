@@ -15,8 +15,8 @@ class AliceObjectBox implements AliceStorage {
   const AliceObjectBox({
     required AliceObjectBoxStore store,
     required this.maxCallsCount,
-  })  : _store = store,
-        assert(maxCallsCount > 0, 'Max calls count should be greater than 0');
+  }) : _store = store,
+       assert(maxCallsCount > 0, 'Max calls count should be greater than 0');
 
   final AliceObjectBoxStore _store;
 
@@ -24,29 +24,35 @@ class AliceObjectBox implements AliceStorage {
   final int maxCallsCount;
 
   @override
-  Stream<List<AliceHttpCall>> get callsStream => _store.httpCalls
-      .query()
-      .order<int>(CachedAliceHttpCall_.createdTime, flags: Order.descending)
-      .watch(triggerImmediately: true)
-      .map((Query<CachedAliceHttpCall> query) => query.find())
-      .asBroadcastStream();
+  Stream<List<AliceHttpCall>> get callsStream =>
+      _store.httpCalls
+          .query()
+          .order<int>(CachedAliceHttpCall_.createdTime, flags: Order.descending)
+          .watch(triggerImmediately: true)
+          .map((Query<CachedAliceHttpCall> query) => query.find())
+          .asBroadcastStream();
 
   @override
   List<AliceHttpCall> getCalls() => _store.httpCalls.getAll();
 
   @override
-  CachedAliceHttpCall? selectCall(int requestId) => _store.httpCalls
-      .query(CachedAliceHttpCall_.id.equals(requestId))
-      .build()
-      .findFirst();
+  CachedAliceHttpCall? selectCall(int requestId) =>
+      _store.httpCalls
+          .query(CachedAliceHttpCall_.id.equals(requestId))
+          .build()
+          .findFirst();
 
   Future<void> _removeOverQuota() async {
     if (maxCallsCount > 0 && _store.httpCalls.count() >= maxCallsCount) {
-      final Query<CachedAliceHttpCall> overQuota = _store.httpCalls
-          .query()
-          .order<int>(CachedAliceHttpCall_.createdTime, flags: Order.descending)
-          .build()
-        ..offset = max(maxCallsCount - 1, 0);
+      final Query<CachedAliceHttpCall> overQuota =
+          _store.httpCalls
+              .query()
+              .order<int>(
+                CachedAliceHttpCall_.createdTime,
+                flags: Order.descending,
+              )
+              .build()
+            ..offset = max(maxCallsCount - 1, 0);
 
       final List<int> overQuotaIds = await overQuota.findIdsAsync();
 
@@ -84,7 +90,8 @@ class AliceObjectBox implements AliceStorage {
       selectedCall
         ..loading = false
         ..response = response
-        ..duration = response.time.millisecondsSinceEpoch -
+        ..duration =
+            response.time.millisecondsSinceEpoch -
             (selectedCall.request?.time.millisecondsSinceEpoch ?? 0);
 
       _store.httpCalls.put(selectedCall);
@@ -98,39 +105,40 @@ class AliceObjectBox implements AliceStorage {
 
   @override
   AliceStats getStats() => (
-        total: _store.httpCalls.count(),
-        successes: (_store.httpCalls.query()
-              ..link(
-                CachedAliceHttpCall_.responseRel,
-                CachedAliceHttpResponse_.status
-                    .greaterOrEqual(200)
-                    .and(CachedAliceHttpResponse_.status.lessThan(300)),
-              ))
+    total: _store.httpCalls.count(),
+    successes:
+        (_store.httpCalls.query()..link(
+              CachedAliceHttpCall_.responseRel,
+              CachedAliceHttpResponse_.status
+                  .greaterOrEqual(200)
+                  .and(CachedAliceHttpResponse_.status.lessThan(300)),
+            ))
             .build()
             .count(),
-        redirects: (_store.httpCalls.query()
-              ..link(
-                CachedAliceHttpCall_.responseRel,
-                CachedAliceHttpResponse_.status
-                    .greaterOrEqual(300)
-                    .and(CachedAliceHttpResponse_.status.lessThan(400)),
-              ))
+    redirects:
+        (_store.httpCalls.query()..link(
+              CachedAliceHttpCall_.responseRel,
+              CachedAliceHttpResponse_.status
+                  .greaterOrEqual(300)
+                  .and(CachedAliceHttpResponse_.status.lessThan(400)),
+            ))
             .build()
             .count(),
-        errors: (_store.httpCalls.query()
-              ..link(
-                CachedAliceHttpCall_.responseRel,
-                CachedAliceHttpResponse_.status
-                    .greaterOrEqual(400)
-                    .and(CachedAliceHttpResponse_.status.lessThan(600))
-                    .and(CachedAliceHttpResponse_.status.equals(-1))
-                    .and(CachedAliceHttpResponse_.status.equals(0)),
-              ))
+    errors:
+        (_store.httpCalls.query()..link(
+              CachedAliceHttpCall_.responseRel,
+              CachedAliceHttpResponse_.status
+                  .greaterOrEqual(400)
+                  .and(CachedAliceHttpResponse_.status.lessThan(600))
+                  .and(CachedAliceHttpResponse_.status.equals(-1))
+                  .and(CachedAliceHttpResponse_.status.equals(0)),
+            ))
             .build()
             .count(),
-        loading: _store.httpCalls
+    loading:
+        _store.httpCalls
             .query(CachedAliceHttpCall_.loading.equals(true))
             .build()
             .count(),
-      );
+  );
 }

@@ -55,9 +55,7 @@ void main() {
 
       await dio.get<void>(
         'https://test.com/json',
-        options: Options(
-          headers: {"content-type": "application/json"},
-        ),
+        options: Options(headers: {"content-type": "application/json"}),
       );
 
       final requestMatcher = buildRequestMatcher(
@@ -118,9 +116,7 @@ void main() {
         'https://test.com/json',
         data: '{"data":"test"}',
         queryParameters: {"sort": "asc"},
-        options: Options(
-          headers: {"content-type": "application/json"},
-        ),
+        options: Options(headers: {"content-type": "application/json"}),
       );
 
       final requestMatcher = buildRequestMatcher(
@@ -176,17 +172,11 @@ void main() {
 
       dioAdapter.onPost(
         'https://test.com/form',
-        (server) => server.reply(
-          200,
-          '{"result": "ok"}',
-        ),
+        (server) => server.reply(200, '{"result": "ok"}'),
         data: formData,
       );
 
-      await dio.post<void>(
-        'https://test.com/form',
-        data: formData,
-      );
+      await dio.post<void>('https://test.com/form', data: formData);
 
       final requestMatcher = buildRequestMatcher(
         checkTime: true,
@@ -194,9 +184,7 @@ void main() {
           const AliceFormDataField('name', 'Alice'),
           const AliceFormDataField('surname', 'test'),
         ],
-        formDataFiles: [
-          AliceFormDataFile(name, "application/octet-stream", 0),
-        ],
+        formDataFiles: [AliceFormDataFile(name, "application/octet-stream", 0)],
         body: 'Form data',
         headers: {'content-type': 'multipart/form-data'},
       );
@@ -237,18 +225,13 @@ void main() {
   test("should handle call with empty response", () async {
     dioAdapter.onGet(
       'https://test.com/json',
-      (server) => server.reply(
-        200,
-        null,
-      ),
+      (server) => server.reply(200, null),
       headers: {"content-type": "application/json"},
     );
 
     await dio.get<void>(
       'https://test.com/json',
-      options: Options(
-        headers: {"content-type": "application/json"},
-      ),
+      options: Options(headers: {"content-type": "application/json"}),
     );
 
     final requestMatcher = buildRequestMatcher(
@@ -290,19 +273,14 @@ void main() {
   test("should handle call with error", () async {
     dioAdapter.onGet(
       'https://test.com/json',
-      (server) => server.reply(
-        500,
-        '',
-      ),
+      (server) => server.reply(500, ''),
       headers: {"content-type": "application/json"},
     );
 
     try {
       await dio.get<void>(
         'https://test.com/json',
-        options: Options(
-          headers: {"content-type": "application/json"},
-        ),
+        options: Options(headers: {"content-type": "application/json"}),
       );
     } catch (_) {}
 
@@ -368,9 +346,7 @@ void main() {
     try {
       await dio.get<void>(
         'https://test.com/json',
-        options: Options(
-          headers: {"content-type": "application/json"},
-        ),
+        options: Options(headers: {"content-type": "application/json"}),
       );
     } catch (_) {}
 
@@ -399,9 +375,7 @@ void main() {
     try {
       await dio.get<void>(
         'https://test.com/json',
-        options: Options(
-          headers: {"content-type": "application/json"},
-        ),
+        options: Options(headers: {"content-type": "application/json"}),
       );
     } catch (_) {}
 

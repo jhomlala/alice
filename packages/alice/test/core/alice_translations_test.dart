@@ -22,24 +22,26 @@ void main() {
       );
     });
 
-    test("should return english translation when there's no translation found",
-        () {
-      expect(
-        AliceTranslations.get(
-          languageCode: "xx",
-          key: AliceTranslationKey.saveLogId,
-        ),
-        "Id:",
-      );
+    test(
+      "should return english translation when there's no translation found",
+      () {
+        expect(
+          AliceTranslations.get(
+            languageCode: "xx",
+            key: AliceTranslationKey.saveLogId,
+          ),
+          "Id:",
+        );
 
-      expect(
-        AliceTranslations.get(
-          languageCode: "xx",
-          key: AliceTranslationKey.logsEmpty,
-        ),
-        "There are no logs to show",
-      );
-    });
+        expect(
+          AliceTranslations.get(
+            languageCode: "xx",
+            key: AliceTranslationKey.logsEmpty,
+          ),
+          "There are no logs to show",
+        );
+      },
+    );
 
     test("should return translated key for other languages", () {
       expect(

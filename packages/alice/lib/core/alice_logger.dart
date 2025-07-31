@@ -13,7 +13,7 @@ class AliceLogger {
   final BehaviorSubject<List<AliceLog>> _logsSubject;
 
   AliceLogger({required this.maximumSize})
-      : _logsSubject = BehaviorSubject.seeded([]);
+    : _logsSubject = BehaviorSubject.seeded([]);
 
   /// Getter of stream of logs
   Stream<List<AliceLog>> get logsStream => _logsSubject.stream;
@@ -48,8 +48,11 @@ class AliceLogger {
   /// Returns raw logs from Android via ADB.
   Future<String> getAndroidRawLogs() async {
     if (OperatingSystem.isAndroid) {
-      final ProcessResult process =
-          await Process.run('logcat', ['-v', 'raw', '-d']);
+      final ProcessResult process = await Process.run('logcat', [
+        '-v',
+        'raw',
+        '-d',
+      ]);
       return process.stdout as String;
     }
     return '';

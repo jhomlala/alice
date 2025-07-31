@@ -12,15 +12,15 @@ class AliceFormDataFileConverter
 
   @override
   AliceFormDataFile fromJson(Map<String, dynamic> json) => AliceFormDataFile(
-        json['fileName'] as String?,
-        json['contentType'] as String,
-        (json['length'] as num).toInt(),
-      );
+    json['fileName'] as String?,
+    json['contentType'] as String,
+    (json['length'] as num).toInt(),
+  );
 
   @override
   Map<String, dynamic> toJson(AliceFormDataFile object) => <String, dynamic>{
-        'fileName': object.fileName,
-        'contentType': object.contentType,
-        'length': object.length,
-      };
+    'fileName': object.fileName,
+    'contentType': object.contentType,
+    'length': object.length,
+  };
 }

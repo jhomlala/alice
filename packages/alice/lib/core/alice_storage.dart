@@ -5,13 +5,8 @@ import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
 
 /// Definition of call stats.
-typedef AliceStats = ({
-  int total,
-  int successes,
-  int redirects,
-  int errors,
-  int loading,
-});
+typedef AliceStats =
+    ({int total, int successes, int redirects, int errors, int loading});
 
 /// Definition of storage
 abstract interface class AliceStorage {

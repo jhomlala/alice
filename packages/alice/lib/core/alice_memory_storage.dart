@@ -12,10 +12,9 @@ import 'package:rxdart/subjects.dart';
 /// Storage which uses memory to store calls data. It's a default storage
 /// method.
 class AliceMemoryStorage implements AliceStorage {
-  AliceMemoryStorage({
-    required this.maxCallsCount,
-  })  : _callsSubject = BehaviorSubject.seeded([]),
-        assert(maxCallsCount > 0, 'Max calls count should be greater than 0');
+  AliceMemoryStorage({required this.maxCallsCount})
+    : _callsSubject = BehaviorSubject.seeded([]),
+      assert(maxCallsCount > 0, 'Max calls count should be greater than 0');
   @override
   final int maxCallsCount;
 
@@ -37,28 +36,31 @@ class AliceMemoryStorage implements AliceStorage {
 
     return (
       total: calls.length,
-      successes: calls
-          .where(
-            (AliceHttpCall call) =>
-                (call.response?.status.gte(200) ?? false) &&
-                (call.response?.status.lt(300) ?? false),
-          )
-          .length,
-      redirects: calls
-          .where(
-            (AliceHttpCall call) =>
-                (call.response?.status.gte(300) ?? false) &&
-                (call.response?.status.lt(400) ?? false),
-          )
-          .length,
-      errors: calls
-          .where(
-            (AliceHttpCall call) =>
-                ((call.response?.status.gte(400) ?? false) &&
-                    (call.response?.status.lt(600) ?? false)) ||
-                const [-1, 0].contains(call.response?.status),
-          )
-          .length,
+      successes:
+          calls
+              .where(
+                (AliceHttpCall call) =>
+                    (call.response?.status.gte(200) ?? false) &&
+                    (call.response?.status.lt(300) ?? false),
+              )
+              .length,
+      redirects:
+          calls
+              .where(
+                (AliceHttpCall call) =>
+                    (call.response?.status.gte(300) ?? false) &&
+                    (call.response?.status.lt(400) ?? false),
+              )
+              .length,
+      errors:
+          calls
+              .where(
+                (AliceHttpCall call) =>
+                    ((call.response?.status.gte(400) ?? false) &&
+                        (call.response?.status.lt(600) ?? false)) ||
+                    const [-1, 0].contains(call.response?.status),
+              )
+              .length,
       loading: calls.where((AliceHttpCall call) => call.loading).length,
     );
   }
@@ -103,7 +105,8 @@ class AliceMemoryStorage implements AliceStorage {
     selectedCall
       ..loading = false
       ..response = response
-      ..duration = response.time.millisecondsSinceEpoch -
+      ..duration =
+          response.time.millisecondsSinceEpoch -
           (selectedCall.request?.time.millisecondsSinceEpoch ?? 0);
 
     _callsSubject.add([..._callsSubject.value]);

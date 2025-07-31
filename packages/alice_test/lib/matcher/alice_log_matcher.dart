@@ -12,8 +12,11 @@ TypeMatcher<AliceLog> buildLogMatcher({
     matcher = matcher.having((log) => log.message, "message", isNotEmpty);
   }
   if (checkError == true) {
-    matcher =
-        matcher.having((log) => log.error.toString(), "error", isNotEmpty);
+    matcher = matcher.having(
+      (log) => log.error.toString(),
+      "error",
+      isNotEmpty,
+    );
   }
   if (checkStacktrace == true) {
     matcher = matcher.having(

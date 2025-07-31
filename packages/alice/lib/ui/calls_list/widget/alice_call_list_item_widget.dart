@@ -10,11 +10,7 @@ const int _serverMaxLines = 5;
 /// Widget which renders one row in calls list view. It displays general
 /// information about call.
 class AliceCallListItemWidget extends StatelessWidget {
-  const AliceCallListItemWidget(
-    this.call,
-    this.itemClickAction, {
-    super.key,
-  });
+  const AliceCallListItemWidget(this.call, this.itemClickAction, {super.key});
 
   final AliceHttpCall call;
   final void Function(AliceHttpCall) itemClickAction;
@@ -45,10 +41,7 @@ class AliceCallListItemWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                _ResponseStatus(
-                  call: call,
-                  color: statusColor,
-                ),
+                _ResponseStatus(call: call, color: statusColor),
               ],
             ),
           ),
@@ -59,16 +52,17 @@ class AliceCallListItemWidget extends StatelessWidget {
   }
 
   /// Get response status text color based on response status.
-  Color _getStatusTextColor(BuildContext context) =>
-      switch (call.response?.status) {
-        -1 => AliceTheme.red,
-        int status when status < 200 =>
-          Theme.of(context).textTheme.bodyLarge?.color ?? AliceTheme.grey,
-        int status when status >= 200 && status < 300 => AliceTheme.green,
-        int status when status >= 300 && status < 400 => AliceTheme.orange,
-        int status when status >= 400 && status < 600 => AliceTheme.red,
-        _ => Theme.of(context).textTheme.bodyLarge!.color ?? AliceTheme.grey,
-      };
+  Color _getStatusTextColor(BuildContext context) => switch (call
+      .response
+      ?.status) {
+    -1 => AliceTheme.red,
+    int status when status < 200 =>
+      Theme.of(context).textTheme.bodyLarge?.color ?? AliceTheme.grey,
+    int status when status >= 200 && status < 300 => AliceTheme.green,
+    int status when status >= 300 && status < 400 => AliceTheme.orange,
+    int status when status >= 400 && status < 600 => AliceTheme.red,
+    _ => Theme.of(context).textTheme.bodyLarge!.color ?? AliceTheme.grey,
+  };
 
   /// Returns endpoint text color based on call state.
   Color _getEndpointTextColor(BuildContext context) =>
@@ -98,9 +92,7 @@ class _ServerAddress extends StatelessWidget {
             call.server,
             overflow: TextOverflow.ellipsis,
             maxLines: _serverMaxLines,
-            style: const TextStyle(
-              fontSize: 14,
-            ),
+            style: const TextStyle(fontSize: 14),
           ),
         ),
       ],
@@ -119,13 +111,8 @@ class _EndpointAndMethod extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          call.method,
-          style: TextStyle(fontSize: 16, color: color),
-        ),
-        const Padding(
-          padding: EdgeInsets.only(left: 10),
-        ),
+        Text(call.method, style: TextStyle(fontSize: 16, color: color)),
+        const Padding(padding: EdgeInsets.only(left: 10)),
         Flexible(
           // ignore: avoid_unnecessary_containers
           child: Container(
@@ -160,9 +147,7 @@ class _ResponseStatus extends StatelessWidget {
               width: 20,
               height: 20,
               child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  AliceTheme.lightRed,
-                ),
+                valueColor: AlwaysStoppedAnimation<Color>(AliceTheme.lightRed),
               ),
             ),
             const SizedBox(height: 4),
@@ -170,10 +155,7 @@ class _ResponseStatus extends StatelessWidget {
           if (call.response != null)
             Text(
               _getStatus(call.response!),
-              style: TextStyle(
-                fontSize: 16,
-                color: color,
-              ),
+              style: TextStyle(fontSize: 16, color: color),
             ),
         ],
       ),
@@ -182,10 +164,10 @@ class _ResponseStatus extends StatelessWidget {
 
   /// Get status based on [response].
   String _getStatus(AliceHttpResponse response) => switch (response.status) {
-        -1 => 'ERR',
-        0 => '???',
-        _ => '${response.status}',
-      };
+    -1 => 'ERR',
+    0 => '???',
+    _ => '${response.status}',
+  };
 }
 
 /// Widget which renders connection stats based on [call].
@@ -225,7 +207,8 @@ class _ConnectionStats extends StatelessWidget {
   }
 
   /// Formats call time.
-  String _formatTime(DateTime time) => '${formatTimeUnit(time.hour)}:'
+  String _formatTime(DateTime time) =>
+      '${formatTimeUnit(time.hour)}:'
       '${formatTimeUnit(time.minute)}:'
       '${formatTimeUnit(time.second)}:'
       '${formatTimeUnit(time.millisecond)}';

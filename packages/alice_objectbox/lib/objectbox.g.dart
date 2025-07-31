@@ -23,213 +23,250 @@ export 'package:objectbox/objectbox.dart'; // so that callers only have to impor
 
 final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(1, 9112051699732156539),
-      name: 'CachedAliceHttpCall',
-      lastPropertyId: const obx_int.IdUid(14, 4354662762236974529),
-      flags: 0,
-      properties: <obx_int.ModelProperty>[
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 3762653877211677624),
-            name: 'objectId',
-            type: 6,
-            flags: 1),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 3842302574345199884),
-            name: 'id',
-            type: 6,
-            flags: 32808,
-            indexId: const obx_int.IdUid(1, 785825462386371646)),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 2486716479761573541),
-            name: 'createdTime',
-            type: 12,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 5652467799946319465),
-            name: 'client',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 4684667944697724811),
-            name: 'loading',
-            type: 1,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(6, 4083857791022485908),
-            name: 'secure',
-            type: 1,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(7, 2468700886320707450),
-            name: 'method',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(8, 1481352321860840686),
-            name: 'endpoint',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(9, 168907952189534839),
-            name: 'server',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(10, 2352012304390890819),
-            name: 'uri',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(11, 5411203974018974012),
-            name: 'duration',
-            type: 6,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(12, 6347069823169535184),
-            name: 'requestRelId',
-            type: 11,
-            flags: 520,
-            indexId: const obx_int.IdUid(2, 1736187189570129453),
-            relationTarget: 'CachedAliceHttpRequest'),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(13, 2665094240670232880),
-            name: 'responseRelId',
-            type: 11,
-            flags: 520,
-            indexId: const obx_int.IdUid(3, 736342038365124987),
-            relationTarget: 'CachedAliceHttpResponse'),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(14, 4354662762236974529),
-            name: 'errorRelId',
-            type: 11,
-            flags: 520,
-            indexId: const obx_int.IdUid(4, 6876753875053649510),
-            relationTarget: 'CachedAliceHttpError')
-      ],
-      relations: <obx_int.ModelRelation>[],
-      backlinks: <obx_int.ModelBacklink>[]),
+    id: const obx_int.IdUid(1, 9112051699732156539),
+    name: 'CachedAliceHttpCall',
+    lastPropertyId: const obx_int.IdUid(14, 4354662762236974529),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 3762653877211677624),
+        name: 'objectId',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 3842302574345199884),
+        name: 'id',
+        type: 6,
+        flags: 32808,
+        indexId: const obx_int.IdUid(1, 785825462386371646),
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 2486716479761573541),
+        name: 'createdTime',
+        type: 12,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 5652467799946319465),
+        name: 'client',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 4684667944697724811),
+        name: 'loading',
+        type: 1,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(6, 4083857791022485908),
+        name: 'secure',
+        type: 1,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 2468700886320707450),
+        name: 'method',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(8, 1481352321860840686),
+        name: 'endpoint',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(9, 168907952189534839),
+        name: 'server',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(10, 2352012304390890819),
+        name: 'uri',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(11, 5411203974018974012),
+        name: 'duration',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(12, 6347069823169535184),
+        name: 'requestRelId',
+        type: 11,
+        flags: 520,
+        indexId: const obx_int.IdUid(2, 1736187189570129453),
+        relationTarget: 'CachedAliceHttpRequest',
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(13, 2665094240670232880),
+        name: 'responseRelId',
+        type: 11,
+        flags: 520,
+        indexId: const obx_int.IdUid(3, 736342038365124987),
+        relationTarget: 'CachedAliceHttpResponse',
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(14, 4354662762236974529),
+        name: 'errorRelId',
+        type: 11,
+        flags: 520,
+        indexId: const obx_int.IdUid(4, 6876753875053649510),
+        relationTarget: 'CachedAliceHttpError',
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(2, 1234822196006357971),
-      name: 'CachedAliceHttpError',
-      lastPropertyId: const obx_int.IdUid(3, 6606174208067502830),
-      flags: 0,
-      properties: <obx_int.ModelProperty>[
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 7595183079379424783),
-            name: 'objectId',
-            type: 6,
-            flags: 1),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 2906952339862377074),
-            name: 'dbError',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 6606174208067502830),
-            name: 'dbStackTrace',
-            type: 9,
-            flags: 0)
-      ],
-      relations: <obx_int.ModelRelation>[],
-      backlinks: <obx_int.ModelBacklink>[]),
+    id: const obx_int.IdUid(2, 1234822196006357971),
+    name: 'CachedAliceHttpError',
+    lastPropertyId: const obx_int.IdUid(3, 6606174208067502830),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 7595183079379424783),
+        name: 'objectId',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 2906952339862377074),
+        name: 'dbError',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 6606174208067502830),
+        name: 'dbStackTrace',
+        type: 9,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(3, 3952435099002188469),
-      name: 'CachedAliceHttpRequest',
-      lastPropertyId: const obx_int.IdUid(10, 5482956073710374459),
-      flags: 0,
-      properties: <obx_int.ModelProperty>[
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 7860030543131149189),
-            name: 'objectId',
-            type: 6,
-            flags: 1),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 400756712209683011),
-            name: 'size',
-            type: 6,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 1461695331578797514),
-            name: 'time',
-            type: 12,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 6367092714501419189),
-            name: 'contentType',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 6942973330930551852),
-            name: 'dbHeaders',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(6, 5177090139150472743),
-            name: 'dbBody',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(7, 7073566945336254377),
-            name: 'dbCookies',
-            type: 30,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(8, 7499443194345193384),
-            name: 'dbQueryParameters',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(9, 3569666611249608973),
-            name: 'dbFormDataFiles',
-            type: 30,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(10, 5482956073710374459),
-            name: 'dbFormDataFields',
-            type: 30,
-            flags: 0)
-      ],
-      relations: <obx_int.ModelRelation>[],
-      backlinks: <obx_int.ModelBacklink>[]),
+    id: const obx_int.IdUid(3, 3952435099002188469),
+    name: 'CachedAliceHttpRequest',
+    lastPropertyId: const obx_int.IdUid(10, 5482956073710374459),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 7860030543131149189),
+        name: 'objectId',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 400756712209683011),
+        name: 'size',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 1461695331578797514),
+        name: 'time',
+        type: 12,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 6367092714501419189),
+        name: 'contentType',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 6942973330930551852),
+        name: 'dbHeaders',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(6, 5177090139150472743),
+        name: 'dbBody',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 7073566945336254377),
+        name: 'dbCookies',
+        type: 30,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(8, 7499443194345193384),
+        name: 'dbQueryParameters',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(9, 3569666611249608973),
+        name: 'dbFormDataFiles',
+        type: 30,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(10, 5482956073710374459),
+        name: 'dbFormDataFields',
+        type: 30,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(4, 8890972191143949164),
-      name: 'CachedAliceHttpResponse',
-      lastPropertyId: const obx_int.IdUid(6, 8264530521928833819),
-      flags: 0,
-      properties: <obx_int.ModelProperty>[
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 3995456757645260575),
-            name: 'objectId',
-            type: 6,
-            flags: 1),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 3245463467272928109),
-            name: 'status',
-            type: 6,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 8483714278633944857),
-            name: 'size',
-            type: 6,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 2693845057233959128),
-            name: 'time',
-            type: 12,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 5298588582283239315),
-            name: 'dbBody',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(6, 8264530521928833819),
-            name: 'dbHeaders',
-            type: 9,
-            flags: 0)
-      ],
-      relations: <obx_int.ModelRelation>[],
-      backlinks: <obx_int.ModelBacklink>[])
+    id: const obx_int.IdUid(4, 8890972191143949164),
+    name: 'CachedAliceHttpResponse',
+    lastPropertyId: const obx_int.IdUid(6, 8264530521928833819),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 3995456757645260575),
+        name: 'objectId',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 3245463467272928109),
+        name: 'status',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 8483714278633944857),
+        name: 'size',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 2693845057233959128),
+        name: 'time',
+        type: 12,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 5298588582283239315),
+        name: 'dbBody',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(6, 8264530521928833819),
+        name: 'dbHeaders',
+        type: 9,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
 ];
 
 /// Shortcut for [obx.Store.new] that passes [getObjectBoxModel] and for Flutter
@@ -243,291 +280,388 @@ final _entities = <obx_int.ModelEntity>[
 /// For Flutter apps, also calls `loadObjectBoxLibraryAndroidCompat()` from
 /// the ObjectBox Flutter library to fix loading the native ObjectBox library
 /// on Android 6 and older.
-Future<obx.Store> openStore(
-    {String? directory,
-    int? maxDBSizeInKB,
-    int? maxDataSizeInKB,
-    int? fileMode,
-    int? maxReaders,
-    bool queriesCaseSensitiveDefault = true,
-    String? macosApplicationGroup}) async {
+Future<obx.Store> openStore({
+  String? directory,
+  int? maxDBSizeInKB,
+  int? maxDataSizeInKB,
+  int? fileMode,
+  int? maxReaders,
+  bool queriesCaseSensitiveDefault = true,
+  String? macosApplicationGroup,
+}) async {
   await loadObjectBoxLibraryAndroidCompat();
-  return obx.Store(getObjectBoxModel(),
-      directory: directory ?? (await defaultStoreDirectory()).path,
-      maxDBSizeInKB: maxDBSizeInKB,
-      maxDataSizeInKB: maxDataSizeInKB,
-      fileMode: fileMode,
-      maxReaders: maxReaders,
-      queriesCaseSensitiveDefault: queriesCaseSensitiveDefault,
-      macosApplicationGroup: macosApplicationGroup);
+  return obx.Store(
+    getObjectBoxModel(),
+    directory: directory ?? (await defaultStoreDirectory()).path,
+    maxDBSizeInKB: maxDBSizeInKB,
+    maxDataSizeInKB: maxDataSizeInKB,
+    fileMode: fileMode,
+    maxReaders: maxReaders,
+    queriesCaseSensitiveDefault: queriesCaseSensitiveDefault,
+    macosApplicationGroup: macosApplicationGroup,
+  );
 }
 
 /// Returns the ObjectBox model definition for this project for use with
 /// [obx.Store.new].
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
-      entities: _entities,
-      lastEntityId: const obx_int.IdUid(4, 8890972191143949164),
-      lastIndexId: const obx_int.IdUid(4, 6876753875053649510),
-      lastRelationId: const obx_int.IdUid(0, 0),
-      lastSequenceId: const obx_int.IdUid(0, 0),
-      retiredEntityUids: const [],
-      retiredIndexUids: const [],
-      retiredPropertyUids: const [],
-      retiredRelationUids: const [],
-      modelVersion: 5,
-      modelVersionParserMinimum: 5,
-      version: 1);
+    entities: _entities,
+    lastEntityId: const obx_int.IdUid(4, 8890972191143949164),
+    lastIndexId: const obx_int.IdUid(4, 6876753875053649510),
+    lastRelationId: const obx_int.IdUid(0, 0),
+    lastSequenceId: const obx_int.IdUid(0, 0),
+    retiredEntityUids: const [],
+    retiredIndexUids: const [],
+    retiredPropertyUids: const [],
+    retiredRelationUids: const [],
+    modelVersion: 5,
+    modelVersionParserMinimum: 5,
+    version: 1,
+  );
 
   final bindings = <Type, obx_int.EntityDefinition>{
     CachedAliceHttpCall: obx_int.EntityDefinition<CachedAliceHttpCall>(
-        model: _entities[0],
-        toOneRelations: (CachedAliceHttpCall object) =>
-            [object.requestRel, object.responseRel, object.errorRel],
-        toManyRelations: (CachedAliceHttpCall object) => {},
-        getId: (CachedAliceHttpCall object) => object.objectId,
-        setId: (CachedAliceHttpCall object, int id) {
-          object.objectId = id;
-        },
-        objectToFB: (CachedAliceHttpCall object, fb.Builder fbb) {
-          final clientOffset = fbb.writeString(object.client);
-          final methodOffset = fbb.writeString(object.method);
-          final endpointOffset = fbb.writeString(object.endpoint);
-          final serverOffset = fbb.writeString(object.server);
-          final uriOffset = fbb.writeString(object.uri);
-          fbb.startTable(15);
-          fbb.addInt64(0, object.objectId);
-          fbb.addInt64(1, object.id);
-          fbb.addInt64(2, object.createdTime.microsecondsSinceEpoch * 1000);
-          fbb.addOffset(3, clientOffset);
-          fbb.addBool(4, object.loading);
-          fbb.addBool(5, object.secure);
-          fbb.addOffset(6, methodOffset);
-          fbb.addOffset(7, endpointOffset);
-          fbb.addOffset(8, serverOffset);
-          fbb.addOffset(9, uriOffset);
-          fbb.addInt64(10, object.duration);
-          fbb.addInt64(11, object.requestRel.targetId);
-          fbb.addInt64(12, object.responseRel.targetId);
-          fbb.addInt64(13, object.errorRel.targetId);
-          fbb.finish(fbb.endTable());
-          return object.objectId;
-        },
-        objectFromFB: (obx.Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
-          final idParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0);
-          final objectIdParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
-          final createdTimeParam = DateTime.fromMicrosecondsSinceEpoch(
-              (const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0) /
-                      1000)
-                  .round());
-          final clientParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 10, '');
-          final loadingParam =
-              const fb.BoolReader().vTableGet(buffer, rootOffset, 12, false);
-          final secureParam =
-              const fb.BoolReader().vTableGet(buffer, rootOffset, 14, false);
-          final methodParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 16, '');
-          final endpointParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 18, '');
-          final serverParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 20, '');
-          final uriParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 22, '');
-          final durationParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 24, 0);
-          final object = CachedAliceHttpCall(idParam,
-              objectId: objectIdParam,
-              createdTime: createdTimeParam,
-              client: clientParam,
-              loading: loadingParam,
-              secure: secureParam,
-              method: methodParam,
-              endpoint: endpointParam,
-              server: serverParam,
-              uri: uriParam,
-              duration: durationParam);
-          object.requestRel.targetId =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 26, 0);
-          object.requestRel.attach(store);
-          object.responseRel.targetId =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 28, 0);
-          object.responseRel.attach(store);
-          object.errorRel.targetId =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 30, 0);
-          object.errorRel.attach(store);
-          return object;
-        }),
+      model: _entities[0],
+      toOneRelations:
+          (CachedAliceHttpCall object) => [
+            object.requestRel,
+            object.responseRel,
+            object.errorRel,
+          ],
+      toManyRelations: (CachedAliceHttpCall object) => {},
+      getId: (CachedAliceHttpCall object) => object.objectId,
+      setId: (CachedAliceHttpCall object, int id) {
+        object.objectId = id;
+      },
+      objectToFB: (CachedAliceHttpCall object, fb.Builder fbb) {
+        final clientOffset = fbb.writeString(object.client);
+        final methodOffset = fbb.writeString(object.method);
+        final endpointOffset = fbb.writeString(object.endpoint);
+        final serverOffset = fbb.writeString(object.server);
+        final uriOffset = fbb.writeString(object.uri);
+        fbb.startTable(15);
+        fbb.addInt64(0, object.objectId);
+        fbb.addInt64(1, object.id);
+        fbb.addInt64(2, object.createdTime.microsecondsSinceEpoch * 1000);
+        fbb.addOffset(3, clientOffset);
+        fbb.addBool(4, object.loading);
+        fbb.addBool(5, object.secure);
+        fbb.addOffset(6, methodOffset);
+        fbb.addOffset(7, endpointOffset);
+        fbb.addOffset(8, serverOffset);
+        fbb.addOffset(9, uriOffset);
+        fbb.addInt64(10, object.duration);
+        fbb.addInt64(11, object.requestRel.targetId);
+        fbb.addInt64(12, object.responseRel.targetId);
+        fbb.addInt64(13, object.errorRel.targetId);
+        fbb.finish(fbb.endTable());
+        return object.objectId;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          6,
+          0,
+        );
+        final objectIdParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final createdTimeParam = DateTime.fromMicrosecondsSinceEpoch(
+          (const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0) / 1000)
+              .round(),
+        );
+        final clientParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 10, '');
+        final loadingParam = const fb.BoolReader().vTableGet(
+          buffer,
+          rootOffset,
+          12,
+          false,
+        );
+        final secureParam = const fb.BoolReader().vTableGet(
+          buffer,
+          rootOffset,
+          14,
+          false,
+        );
+        final methodParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 16, '');
+        final endpointParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 18, '');
+        final serverParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 20, '');
+        final uriParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 22, '');
+        final durationParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          24,
+          0,
+        );
+        final object = CachedAliceHttpCall(
+          idParam,
+          objectId: objectIdParam,
+          createdTime: createdTimeParam,
+          client: clientParam,
+          loading: loadingParam,
+          secure: secureParam,
+          method: methodParam,
+          endpoint: endpointParam,
+          server: serverParam,
+          uri: uriParam,
+          duration: durationParam,
+        );
+        object.requestRel.targetId = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          26,
+          0,
+        );
+        object.requestRel.attach(store);
+        object.responseRel.targetId = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          28,
+          0,
+        );
+        object.responseRel.attach(store);
+        object.errorRel.targetId = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          30,
+          0,
+        );
+        object.errorRel.attach(store);
+        return object;
+      },
+    ),
     CachedAliceHttpError: obx_int.EntityDefinition<CachedAliceHttpError>(
-        model: _entities[1],
-        toOneRelations: (CachedAliceHttpError object) => [],
-        toManyRelations: (CachedAliceHttpError object) => {},
-        getId: (CachedAliceHttpError object) => object.objectId,
-        setId: (CachedAliceHttpError object, int id) {
-          object.objectId = id;
-        },
-        objectToFB: (CachedAliceHttpError object, fb.Builder fbb) {
-          final dbErrorOffset =
-              object.dbError == null ? null : fbb.writeString(object.dbError!);
-          final dbStackTraceOffset = object.dbStackTrace == null
-              ? null
-              : fbb.writeString(object.dbStackTrace!);
-          fbb.startTable(4);
-          fbb.addInt64(0, object.objectId);
-          fbb.addOffset(1, dbErrorOffset);
-          fbb.addOffset(2, dbStackTraceOffset);
-          fbb.finish(fbb.endTable());
-          return object.objectId;
-        },
-        objectFromFB: (obx.Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
-          final objectIdParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
-          final object = CachedAliceHttpError(objectId: objectIdParam)
-            ..dbError = const fb.StringReader(asciiOptimization: true)
-                .vTableGetNullable(buffer, rootOffset, 6)
-            ..dbStackTrace = const fb.StringReader(asciiOptimization: true)
-                .vTableGetNullable(buffer, rootOffset, 8);
+      model: _entities[1],
+      toOneRelations: (CachedAliceHttpError object) => [],
+      toManyRelations: (CachedAliceHttpError object) => {},
+      getId: (CachedAliceHttpError object) => object.objectId,
+      setId: (CachedAliceHttpError object, int id) {
+        object.objectId = id;
+      },
+      objectToFB: (CachedAliceHttpError object, fb.Builder fbb) {
+        final dbErrorOffset =
+            object.dbError == null ? null : fbb.writeString(object.dbError!);
+        final dbStackTraceOffset =
+            object.dbStackTrace == null
+                ? null
+                : fbb.writeString(object.dbStackTrace!);
+        fbb.startTable(4);
+        fbb.addInt64(0, object.objectId);
+        fbb.addOffset(1, dbErrorOffset);
+        fbb.addOffset(2, dbStackTraceOffset);
+        fbb.finish(fbb.endTable());
+        return object.objectId;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final objectIdParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final object =
+            CachedAliceHttpError(objectId: objectIdParam)
+              ..dbError = const fb.StringReader(
+                asciiOptimization: true,
+              ).vTableGetNullable(buffer, rootOffset, 6)
+              ..dbStackTrace = const fb.StringReader(
+                asciiOptimization: true,
+              ).vTableGetNullable(buffer, rootOffset, 8);
 
-          return object;
-        }),
+        return object;
+      },
+    ),
     CachedAliceHttpRequest: obx_int.EntityDefinition<CachedAliceHttpRequest>(
-        model: _entities[2],
-        toOneRelations: (CachedAliceHttpRequest object) => [],
-        toManyRelations: (CachedAliceHttpRequest object) => {},
-        getId: (CachedAliceHttpRequest object) => object.objectId,
-        setId: (CachedAliceHttpRequest object, int id) {
-          object.objectId = id;
-        },
-        objectToFB: (CachedAliceHttpRequest object, fb.Builder fbb) {
-          final contentTypeOffset = object.contentType == null
-              ? null
-              : fbb.writeString(object.contentType!);
-          final dbHeadersOffset = fbb.writeString(object.dbHeaders);
-          final dbBodyOffset =
-              object.dbBody == null ? null : fbb.writeString(object.dbBody!);
-          final dbCookiesOffset = fbb.writeList(
-              object.dbCookies.map(fbb.writeString).toList(growable: false));
-          final dbQueryParametersOffset =
-              fbb.writeString(object.dbQueryParameters);
-          final dbFormDataFilesOffset = object.dbFormDataFiles == null
-              ? null
-              : fbb.writeList(object.dbFormDataFiles!
-                  .map(fbb.writeString)
-                  .toList(growable: false));
-          final dbFormDataFieldsOffset = object.dbFormDataFields == null
-              ? null
-              : fbb.writeList(object.dbFormDataFields!
-                  .map(fbb.writeString)
-                  .toList(growable: false));
-          fbb.startTable(11);
-          fbb.addInt64(0, object.objectId);
-          fbb.addInt64(1, object.size);
-          fbb.addInt64(2, object.time.microsecondsSinceEpoch * 1000);
-          fbb.addOffset(3, contentTypeOffset);
-          fbb.addOffset(4, dbHeadersOffset);
-          fbb.addOffset(5, dbBodyOffset);
-          fbb.addOffset(6, dbCookiesOffset);
-          fbb.addOffset(7, dbQueryParametersOffset);
-          fbb.addOffset(8, dbFormDataFilesOffset);
-          fbb.addOffset(9, dbFormDataFieldsOffset);
-          fbb.finish(fbb.endTable());
-          return object.objectId;
-        },
-        objectFromFB: (obx.Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
-          final objectIdParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
-          final sizeParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0);
-          final timeParam = DateTime.fromMicrosecondsSinceEpoch(
-              (const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0) /
-                      1000)
-                  .round());
-          final contentTypeParam =
-              const fb.StringReader(asciiOptimization: true)
-                  .vTableGetNullable(buffer, rootOffset, 10);
-          final object = CachedAliceHttpRequest(
-              objectId: objectIdParam,
-              size: sizeParam,
-              time: timeParam,
-              contentType: contentTypeParam)
-            ..dbHeaders = const fb.StringReader(asciiOptimization: true)
-                .vTableGet(buffer, rootOffset, 12, '')
-            ..dbBody = const fb.StringReader(asciiOptimization: true)
-                .vTableGetNullable(buffer, rootOffset, 14)
-            ..dbCookies = const fb.ListReader<String>(
-                    fb.StringReader(asciiOptimization: true),
-                    lazy: false)
-                .vTableGet(buffer, rootOffset, 16, [])
-            ..dbQueryParameters = const fb.StringReader(asciiOptimization: true)
-                .vTableGet(buffer, rootOffset, 18, '')
-            ..dbFormDataFiles = const fb.ListReader<String>(
-                    fb.StringReader(asciiOptimization: true),
-                    lazy: false)
-                .vTableGetNullable(buffer, rootOffset, 20)
-            ..dbFormDataFields = const fb.ListReader<String>(
-                    fb.StringReader(asciiOptimization: true),
-                    lazy: false)
-                .vTableGetNullable(buffer, rootOffset, 22);
+      model: _entities[2],
+      toOneRelations: (CachedAliceHttpRequest object) => [],
+      toManyRelations: (CachedAliceHttpRequest object) => {},
+      getId: (CachedAliceHttpRequest object) => object.objectId,
+      setId: (CachedAliceHttpRequest object, int id) {
+        object.objectId = id;
+      },
+      objectToFB: (CachedAliceHttpRequest object, fb.Builder fbb) {
+        final contentTypeOffset =
+            object.contentType == null
+                ? null
+                : fbb.writeString(object.contentType!);
+        final dbHeadersOffset = fbb.writeString(object.dbHeaders);
+        final dbBodyOffset =
+            object.dbBody == null ? null : fbb.writeString(object.dbBody!);
+        final dbCookiesOffset = fbb.writeList(
+          object.dbCookies.map(fbb.writeString).toList(growable: false),
+        );
+        final dbQueryParametersOffset = fbb.writeString(
+          object.dbQueryParameters,
+        );
+        final dbFormDataFilesOffset =
+            object.dbFormDataFiles == null
+                ? null
+                : fbb.writeList(
+                  object.dbFormDataFiles!
+                      .map(fbb.writeString)
+                      .toList(growable: false),
+                );
+        final dbFormDataFieldsOffset =
+            object.dbFormDataFields == null
+                ? null
+                : fbb.writeList(
+                  object.dbFormDataFields!
+                      .map(fbb.writeString)
+                      .toList(growable: false),
+                );
+        fbb.startTable(11);
+        fbb.addInt64(0, object.objectId);
+        fbb.addInt64(1, object.size);
+        fbb.addInt64(2, object.time.microsecondsSinceEpoch * 1000);
+        fbb.addOffset(3, contentTypeOffset);
+        fbb.addOffset(4, dbHeadersOffset);
+        fbb.addOffset(5, dbBodyOffset);
+        fbb.addOffset(6, dbCookiesOffset);
+        fbb.addOffset(7, dbQueryParametersOffset);
+        fbb.addOffset(8, dbFormDataFilesOffset);
+        fbb.addOffset(9, dbFormDataFieldsOffset);
+        fbb.finish(fbb.endTable());
+        return object.objectId;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final objectIdParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final sizeParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          6,
+          0,
+        );
+        final timeParam = DateTime.fromMicrosecondsSinceEpoch(
+          (const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0) / 1000)
+              .round(),
+        );
+        final contentTypeParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 10);
+        final object =
+            CachedAliceHttpRequest(
+                objectId: objectIdParam,
+                size: sizeParam,
+                time: timeParam,
+                contentType: contentTypeParam,
+              )
+              ..dbHeaders = const fb.StringReader(
+                asciiOptimization: true,
+              ).vTableGet(buffer, rootOffset, 12, '')
+              ..dbBody = const fb.StringReader(
+                asciiOptimization: true,
+              ).vTableGetNullable(buffer, rootOffset, 14)
+              ..dbCookies = const fb.ListReader<String>(
+                fb.StringReader(asciiOptimization: true),
+                lazy: false,
+              ).vTableGet(buffer, rootOffset, 16, [])
+              ..dbQueryParameters = const fb.StringReader(
+                asciiOptimization: true,
+              ).vTableGet(buffer, rootOffset, 18, '')
+              ..dbFormDataFiles = const fb.ListReader<String>(
+                fb.StringReader(asciiOptimization: true),
+                lazy: false,
+              ).vTableGetNullable(buffer, rootOffset, 20)
+              ..dbFormDataFields = const fb.ListReader<String>(
+                fb.StringReader(asciiOptimization: true),
+                lazy: false,
+              ).vTableGetNullable(buffer, rootOffset, 22);
 
-          return object;
-        }),
+        return object;
+      },
+    ),
     CachedAliceHttpResponse: obx_int.EntityDefinition<CachedAliceHttpResponse>(
-        model: _entities[3],
-        toOneRelations: (CachedAliceHttpResponse object) => [],
-        toManyRelations: (CachedAliceHttpResponse object) => {},
-        getId: (CachedAliceHttpResponse object) => object.objectId,
-        setId: (CachedAliceHttpResponse object, int id) {
-          object.objectId = id;
-        },
-        objectToFB: (CachedAliceHttpResponse object, fb.Builder fbb) {
-          final dbBodyOffset =
-              object.dbBody == null ? null : fbb.writeString(object.dbBody!);
-          final dbHeadersOffset = object.dbHeaders == null
-              ? null
-              : fbb.writeString(object.dbHeaders!);
-          fbb.startTable(7);
-          fbb.addInt64(0, object.objectId);
-          fbb.addInt64(1, object.status);
-          fbb.addInt64(2, object.size);
-          fbb.addInt64(3, object.time.microsecondsSinceEpoch * 1000);
-          fbb.addOffset(4, dbBodyOffset);
-          fbb.addOffset(5, dbHeadersOffset);
-          fbb.finish(fbb.endTable());
-          return object.objectId;
-        },
-        objectFromFB: (obx.Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
-          final objectIdParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
-          final statusParam =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 6);
-          final sizeParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
-          final timeParam = DateTime.fromMicrosecondsSinceEpoch(
-              (const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0) /
-                      1000)
-                  .round());
-          final object = CachedAliceHttpResponse(
-              objectId: objectIdParam,
-              status: statusParam,
-              size: sizeParam,
-              time: timeParam)
-            ..dbBody = const fb.StringReader(asciiOptimization: true)
-                .vTableGetNullable(buffer, rootOffset, 12)
-            ..dbHeaders = const fb.StringReader(asciiOptimization: true)
-                .vTableGetNullable(buffer, rootOffset, 14);
+      model: _entities[3],
+      toOneRelations: (CachedAliceHttpResponse object) => [],
+      toManyRelations: (CachedAliceHttpResponse object) => {},
+      getId: (CachedAliceHttpResponse object) => object.objectId,
+      setId: (CachedAliceHttpResponse object, int id) {
+        object.objectId = id;
+      },
+      objectToFB: (CachedAliceHttpResponse object, fb.Builder fbb) {
+        final dbBodyOffset =
+            object.dbBody == null ? null : fbb.writeString(object.dbBody!);
+        final dbHeadersOffset =
+            object.dbHeaders == null
+                ? null
+                : fbb.writeString(object.dbHeaders!);
+        fbb.startTable(7);
+        fbb.addInt64(0, object.objectId);
+        fbb.addInt64(1, object.status);
+        fbb.addInt64(2, object.size);
+        fbb.addInt64(3, object.time.microsecondsSinceEpoch * 1000);
+        fbb.addOffset(4, dbBodyOffset);
+        fbb.addOffset(5, dbHeadersOffset);
+        fbb.finish(fbb.endTable());
+        return object.objectId;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final objectIdParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final statusParam = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          6,
+        );
+        final sizeParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          8,
+          0,
+        );
+        final timeParam = DateTime.fromMicrosecondsSinceEpoch(
+          (const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0) / 1000)
+              .round(),
+        );
+        final object =
+            CachedAliceHttpResponse(
+                objectId: objectIdParam,
+                status: statusParam,
+                size: sizeParam,
+                time: timeParam,
+              )
+              ..dbBody = const fb.StringReader(
+                asciiOptimization: true,
+              ).vTableGetNullable(buffer, rootOffset, 12)
+              ..dbHeaders = const fb.StringReader(
+                asciiOptimization: true,
+              ).vTableGetNullable(buffer, rootOffset, 14);
 
-          return object;
-        })
+        return object;
+      },
+    ),
   };
 
   return obx_int.ModelDefinition(model, bindings);
@@ -536,150 +670,183 @@ obx_int.ModelDefinition getObjectBoxModel() {
 /// [CachedAliceHttpCall] entity fields to define ObjectBox queries.
 class CachedAliceHttpCall_ {
   /// See [CachedAliceHttpCall.objectId].
-  static final objectId =
-      obx.QueryIntegerProperty<CachedAliceHttpCall>(_entities[0].properties[0]);
+  static final objectId = obx.QueryIntegerProperty<CachedAliceHttpCall>(
+    _entities[0].properties[0],
+  );
 
   /// See [CachedAliceHttpCall.id].
-  static final id =
-      obx.QueryIntegerProperty<CachedAliceHttpCall>(_entities[0].properties[1]);
+  static final id = obx.QueryIntegerProperty<CachedAliceHttpCall>(
+    _entities[0].properties[1],
+  );
 
   /// See [CachedAliceHttpCall.createdTime].
   static final createdTime = obx.QueryDateNanoProperty<CachedAliceHttpCall>(
-      _entities[0].properties[2]);
+    _entities[0].properties[2],
+  );
 
   /// See [CachedAliceHttpCall.client].
-  static final client =
-      obx.QueryStringProperty<CachedAliceHttpCall>(_entities[0].properties[3]);
+  static final client = obx.QueryStringProperty<CachedAliceHttpCall>(
+    _entities[0].properties[3],
+  );
 
   /// See [CachedAliceHttpCall.loading].
-  static final loading =
-      obx.QueryBooleanProperty<CachedAliceHttpCall>(_entities[0].properties[4]);
+  static final loading = obx.QueryBooleanProperty<CachedAliceHttpCall>(
+    _entities[0].properties[4],
+  );
 
   /// See [CachedAliceHttpCall.secure].
-  static final secure =
-      obx.QueryBooleanProperty<CachedAliceHttpCall>(_entities[0].properties[5]);
+  static final secure = obx.QueryBooleanProperty<CachedAliceHttpCall>(
+    _entities[0].properties[5],
+  );
 
   /// See [CachedAliceHttpCall.method].
-  static final method =
-      obx.QueryStringProperty<CachedAliceHttpCall>(_entities[0].properties[6]);
+  static final method = obx.QueryStringProperty<CachedAliceHttpCall>(
+    _entities[0].properties[6],
+  );
 
   /// See [CachedAliceHttpCall.endpoint].
-  static final endpoint =
-      obx.QueryStringProperty<CachedAliceHttpCall>(_entities[0].properties[7]);
+  static final endpoint = obx.QueryStringProperty<CachedAliceHttpCall>(
+    _entities[0].properties[7],
+  );
 
   /// See [CachedAliceHttpCall.server].
-  static final server =
-      obx.QueryStringProperty<CachedAliceHttpCall>(_entities[0].properties[8]);
+  static final server = obx.QueryStringProperty<CachedAliceHttpCall>(
+    _entities[0].properties[8],
+  );
 
   /// See [CachedAliceHttpCall.uri].
-  static final uri =
-      obx.QueryStringProperty<CachedAliceHttpCall>(_entities[0].properties[9]);
+  static final uri = obx.QueryStringProperty<CachedAliceHttpCall>(
+    _entities[0].properties[9],
+  );
 
   /// See [CachedAliceHttpCall.duration].
   static final duration = obx.QueryIntegerProperty<CachedAliceHttpCall>(
-      _entities[0].properties[10]);
+    _entities[0].properties[10],
+  );
 
   /// See [CachedAliceHttpCall.requestRel].
   static final requestRel =
       obx.QueryRelationToOne<CachedAliceHttpCall, CachedAliceHttpRequest>(
-          _entities[0].properties[11]);
+        _entities[0].properties[11],
+      );
 
   /// See [CachedAliceHttpCall.responseRel].
   static final responseRel =
       obx.QueryRelationToOne<CachedAliceHttpCall, CachedAliceHttpResponse>(
-          _entities[0].properties[12]);
+        _entities[0].properties[12],
+      );
 
   /// See [CachedAliceHttpCall.errorRel].
   static final errorRel =
       obx.QueryRelationToOne<CachedAliceHttpCall, CachedAliceHttpError>(
-          _entities[0].properties[13]);
+        _entities[0].properties[13],
+      );
 }
 
 /// [CachedAliceHttpError] entity fields to define ObjectBox queries.
 class CachedAliceHttpError_ {
   /// See [CachedAliceHttpError.objectId].
   static final objectId = obx.QueryIntegerProperty<CachedAliceHttpError>(
-      _entities[1].properties[0]);
+    _entities[1].properties[0],
+  );
 
   /// See [CachedAliceHttpError.dbError].
-  static final dbError =
-      obx.QueryStringProperty<CachedAliceHttpError>(_entities[1].properties[1]);
+  static final dbError = obx.QueryStringProperty<CachedAliceHttpError>(
+    _entities[1].properties[1],
+  );
 
   /// See [CachedAliceHttpError.dbStackTrace].
-  static final dbStackTrace =
-      obx.QueryStringProperty<CachedAliceHttpError>(_entities[1].properties[2]);
+  static final dbStackTrace = obx.QueryStringProperty<CachedAliceHttpError>(
+    _entities[1].properties[2],
+  );
 }
 
 /// [CachedAliceHttpRequest] entity fields to define ObjectBox queries.
 class CachedAliceHttpRequest_ {
   /// See [CachedAliceHttpRequest.objectId].
   static final objectId = obx.QueryIntegerProperty<CachedAliceHttpRequest>(
-      _entities[2].properties[0]);
+    _entities[2].properties[0],
+  );
 
   /// See [CachedAliceHttpRequest.size].
   static final size = obx.QueryIntegerProperty<CachedAliceHttpRequest>(
-      _entities[2].properties[1]);
+    _entities[2].properties[1],
+  );
 
   /// See [CachedAliceHttpRequest.time].
   static final time = obx.QueryDateNanoProperty<CachedAliceHttpRequest>(
-      _entities[2].properties[2]);
+    _entities[2].properties[2],
+  );
 
   /// See [CachedAliceHttpRequest.contentType].
   static final contentType = obx.QueryStringProperty<CachedAliceHttpRequest>(
-      _entities[2].properties[3]);
+    _entities[2].properties[3],
+  );
 
   /// See [CachedAliceHttpRequest.dbHeaders].
   static final dbHeaders = obx.QueryStringProperty<CachedAliceHttpRequest>(
-      _entities[2].properties[4]);
+    _entities[2].properties[4],
+  );
 
   /// See [CachedAliceHttpRequest.dbBody].
   static final dbBody = obx.QueryStringProperty<CachedAliceHttpRequest>(
-      _entities[2].properties[5]);
+    _entities[2].properties[5],
+  );
 
   /// See [CachedAliceHttpRequest.dbCookies].
   static final dbCookies =
       obx.QueryStringVectorProperty<CachedAliceHttpRequest>(
-          _entities[2].properties[6]);
+        _entities[2].properties[6],
+      );
 
   /// See [CachedAliceHttpRequest.dbQueryParameters].
   static final dbQueryParameters =
       obx.QueryStringProperty<CachedAliceHttpRequest>(
-          _entities[2].properties[7]);
+        _entities[2].properties[7],
+      );
 
   /// See [CachedAliceHttpRequest.dbFormDataFiles].
   static final dbFormDataFiles =
       obx.QueryStringVectorProperty<CachedAliceHttpRequest>(
-          _entities[2].properties[8]);
+        _entities[2].properties[8],
+      );
 
   /// See [CachedAliceHttpRequest.dbFormDataFields].
   static final dbFormDataFields =
       obx.QueryStringVectorProperty<CachedAliceHttpRequest>(
-          _entities[2].properties[9]);
+        _entities[2].properties[9],
+      );
 }
 
 /// [CachedAliceHttpResponse] entity fields to define ObjectBox queries.
 class CachedAliceHttpResponse_ {
   /// See [CachedAliceHttpResponse.objectId].
   static final objectId = obx.QueryIntegerProperty<CachedAliceHttpResponse>(
-      _entities[3].properties[0]);
+    _entities[3].properties[0],
+  );
 
   /// See [CachedAliceHttpResponse.status].
   static final status = obx.QueryIntegerProperty<CachedAliceHttpResponse>(
-      _entities[3].properties[1]);
+    _entities[3].properties[1],
+  );
 
   /// See [CachedAliceHttpResponse.size].
   static final size = obx.QueryIntegerProperty<CachedAliceHttpResponse>(
-      _entities[3].properties[2]);
+    _entities[3].properties[2],
+  );
 
   /// See [CachedAliceHttpResponse.time].
   static final time = obx.QueryDateNanoProperty<CachedAliceHttpResponse>(
-      _entities[3].properties[3]);
+    _entities[3].properties[3],
+  );
 
   /// See [CachedAliceHttpResponse.dbBody].
   static final dbBody = obx.QueryStringProperty<CachedAliceHttpResponse>(
-      _entities[3].properties[4]);
+    _entities[3].properties[4],
+  );
 
   /// See [CachedAliceHttpResponse.dbHeaders].
   static final dbHeaders = obx.QueryStringProperty<CachedAliceHttpResponse>(
-      _entities[3].properties[5]);
+    _entities[3].properties[5],
+  );
 }

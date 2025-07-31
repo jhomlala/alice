@@ -20,11 +20,7 @@ final class _$InvalidService extends InvalidService {
   @override
   Future<Response<InvalidModel>> get(int id) {
     final Uri $url = Uri.parse('/posts/${id}');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-    );
+    final Request $request = Request('GET', $url, client.baseUrl);
     return client
         .send<InvalidModel, InvalidModel>($request)
         .timeout(const Duration(microseconds: 10000000));

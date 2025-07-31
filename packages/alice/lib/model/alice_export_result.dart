@@ -4,17 +4,8 @@ class AliceExportResult {
   final AliceExportResultError? error;
   final String? path;
 
-  AliceExportResult({
-    required this.success,
-    this.error,
-    this.path,
-  });
+  AliceExportResult({required this.success, this.error, this.path});
 }
 
 /// Definition of all possible export errors.
-enum AliceExportResultError {
-  logGenerate,
-  empty,
-  permission,
-  file,
-}
+enum AliceExportResultError { logGenerate, empty, permission, file }
