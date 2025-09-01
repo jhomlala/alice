@@ -4,12 +4,12 @@
 
 # Alice
 
-[![pub package](https://img.shields.io/pub/v/alice.svg)](https://pub.dartlang.org/packages/alice)
-[![pub package](https://img.shields.io/pub/v/alice_dio.svg)](https://pub.dartlang.org/packages/alice_dio)
-[![pub package](https://img.shields.io/pub/v/alice_chopper.svg)](https://pub.dartlang.org/packages/alice_chopper)
-[![pub package](https://img.shields.io/pub/v/alice_http.svg)](https://pub.dartlang.org/packages/alice_http)
-[![pub package](https://img.shields.io/pub/v/alice_http_client.svg)](https://pub.dartlang.org/packages/alice_http_client)
-[![pub package](https://img.shields.io/pub/v/alice_objectbox.svg)](https://pub.dartlang.org/packages/alice_objectbox)
+[![pub package](https://img.shields.io/pub/v/alice.svg)](https://pub.dev/packages/alice)
+[![pub package](https://img.shields.io/pub/v/alice_dio.svg)](https://pub.dev/packages/alice_dio)
+[![pub package](https://img.shields.io/pub/v/alice_chopper.svg)](https://pub.dev/packages/alice_chopper)
+[![pub package](https://img.shields.io/pub/v/alice_http.svg)](https://pub.dev/packages/alice_http)
+[![pub package](https://img.shields.io/pub/v/alice_http_client.svg)](https://pub.dev/packages/alice_http_client)
+[![pub package](https://img.shields.io/pub/v/alice_objectbox.svg)](https://pub.dev/packages/alice_objectbox)
 [![pub package](https://img.shields.io/badge/platform-flutter-blue.svg)](https://github.com/jhomlala/alice)
 [![melos](https://img.shields.io/badge/maintained%20with-melos-f700ff.svg?style=flat-square)](https://github.com/invertase/melos)
 
