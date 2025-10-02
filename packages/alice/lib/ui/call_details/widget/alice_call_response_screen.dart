@@ -22,12 +22,14 @@ class AliceCallResponseScreen extends StatelessWidget {
         padding: const EdgeInsets.all(6),
         child: ScrollConfiguration(
           behavior: AliceScrollBehavior(),
-          child: ListView(
-            children: [
-              _GeneralDataColumn(call: call),
-              _HeaderDataColumn(call: call),
-              _BodyDataColumn(call: call),
-            ],
+          child: SelectionArea(
+            child: ListView(
+              children: [
+                _GeneralDataColumn(call: call),
+                _HeaderDataColumn(call: call),
+                _BodyDataColumn(call: call),
+              ],
+            ),
           ),
         ),
       );
@@ -52,10 +54,9 @@ class _GeneralDataColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final int? status = call.response?.status;
-    final String statusText =
-        status == -1
-            ? context.i18n(AliceTranslationKey.callResponseError)
-            : '$status';
+    final String statusText = status == -1
+        ? context.i18n(AliceTranslationKey.callResponseError)
+        : '$status';
 
     return Column(
       children: [
@@ -85,10 +86,9 @@ class _HeaderDataColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<String, String>? headers = call.response?.headers;
-    final String headersContent =
-        headers?.isEmpty ?? true
-            ? context.i18n(AliceTranslationKey.callResponseHeadersEmpty)
-            : '';
+    final String headersContent = headers?.isEmpty ?? true
+        ? context.i18n(AliceTranslationKey.callResponseHeadersEmpty)
+        : '';
 
     return Column(
       children: [
@@ -170,8 +170,8 @@ class _BodyDataColumnState extends State<_BodyDataColumn> {
 
   /// Checks whether content type of response is text.
   bool _isTextResponse() {
-    final responseContentTypeLowerCase =
-        _getContentTypeOfResponse()!.toLowerCase();
+    final responseContentTypeLowerCase = _getContentTypeOfResponse()!
+        .toLowerCase();
 
     return responseContentTypeLowerCase.contains(_jsonContentType) ||
         responseContentTypeLowerCase.contains(_xmlContentType) ||
@@ -228,22 +228,22 @@ class _ImageBody extends StatelessWidget {
           call.uri,
           fit: BoxFit.fill,
           headers: _buildRequestHeaders(),
-          loadingBuilder: (
-            BuildContext context,
-            Widget child,
-            ImageChunkEvent? loadingProgress,
-          ) {
-            if (loadingProgress == null) return child;
-            return Center(
-              child: CircularProgressIndicator(
-                value:
-                    loadingProgress.expectedTotalBytes != null
+          loadingBuilder:
+              (
+                BuildContext context,
+                Widget child,
+                ImageChunkEvent? loadingProgress,
+              ) {
+                if (loadingProgress == null) return child;
+                return Center(
+                  child: CircularProgressIndicator(
+                    value: loadingProgress.expectedTotalBytes != null
                         ? loadingProgress.cumulativeBytesLoaded /
-                            loadingProgress.expectedTotalBytes!
+                              loadingProgress.expectedTotalBytes!
                         : null,
-              ),
-            );
-          },
+                  ),
+                );
+              },
         ),
         const SizedBox(height: 8),
       ],
