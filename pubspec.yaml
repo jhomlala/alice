@@ -17,5 +17,4 @@ workspace:
   - examples/alice_http_client
   - examples/alice_objectbox
 
-dependency_overrides:
-  permission_handler_android: 13.0.1
+
