@@ -4,11 +4,8 @@ import 'package:json_annotation/json_annotation.dart';
 part 'geo_location.g.dart';
 
 @JsonSerializable()
-class GeoLocation with EquatableMixin {
-  const GeoLocation({
-    required this.latitude,
-    required this.longitude,
-  });
+class GeoLocation extends Equatable {
+  const GeoLocation({required this.latitude, required this.longitude});
 
   @JsonKey(
     name: 'lat',
@@ -23,14 +20,10 @@ class GeoLocation with EquatableMixin {
   )
   final double longitude;
 
-  GeoLocation copyWith({
-    double? latitude,
-    double? longitude,
-  }) =>
-      GeoLocation(
-        latitude: latitude ?? this.latitude,
-        longitude: longitude ?? this.longitude,
-      );
+  GeoLocation copyWith({double? latitude, double? longitude}) => GeoLocation(
+    latitude: latitude ?? this.latitude,
+    longitude: longitude ?? this.longitude,
+  );
 
   static String _doubleToString(double value) => value.toString();
 

@@ -20,9 +20,7 @@ class _MyAppState extends State<MyApp> {
       navigatorKey: _alice.getNavigatorKey(),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Alice HTTP Inspector - Example'),
-        ),
+        appBar: AppBar(title: const Text('Alice HTTP Inspector - Example')),
         body: Container(
           padding: const EdgeInsets.all(16),
           child: ListView(
@@ -35,9 +33,7 @@ class _MyAppState extends State<MyApp> {
               ),
               ElevatedButton(
                 onPressed: _logExampleData,
-                child: const Text(
-                  'Log example data',
-                ),
+                child: const Text('Log example data'),
               ),
               const SizedBox(height: 8),
               const Text(
@@ -47,9 +43,7 @@ class _MyAppState extends State<MyApp> {
               ),
               ElevatedButton(
                 onPressed: _runHttpInspector,
-                child: const Text(
-                  'Run HTTP Inspector',
-                ),
+                child: const Text('Run HTTP Inspector'),
               ),
             ],
           ),

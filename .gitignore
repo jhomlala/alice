@@ -6,7 +6,7 @@
 .pub/
 .dart_tool/
 pubspec.lock
-pubspec_overrides.yaml
+# Removed by user request
 flutter_export_environment.sh
 .flutter-plugins
 .flutter-plugins-dependencies
@@ -19,3 +19,5 @@ flutter_export_environment.sh
 .vscode/*
 !.vscode/tasks.json
 !.vscode/settings.json
+
+build/

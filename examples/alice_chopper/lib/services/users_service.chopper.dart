@@ -47,11 +47,7 @@ final class _$UsersService extends UsersService {
   @override
   Future<Response<User>> get(int id) {
     final Uri $url = Uri.parse('/users/${id}');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-    );
+    final Request $request = Request('GET', $url, client.baseUrl);
     return client
         .send<User, User>($request)
         .timeout(const Duration(microseconds: 10000000));
@@ -60,11 +56,7 @@ final class _$UsersService extends UsersService {
   @override
   Future<Response<List<Album>>> getAlbums(int id) {
     final Uri $url = Uri.parse('/users/${id}/albums');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-    );
+    final Request $request = Request('GET', $url, client.baseUrl);
     return client
         .send<List<Album>, Album>($request)
         .timeout(const Duration(microseconds: 10000000));
@@ -73,11 +65,7 @@ final class _$UsersService extends UsersService {
   @override
   Future<Response<List<Todo>>> getTodos(int id) {
     final Uri $url = Uri.parse('/users/${id}/todos');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-    );
+    final Request $request = Request('GET', $url, client.baseUrl);
     return client
         .send<List<Todo>, Todo>($request)
         .timeout(const Duration(microseconds: 10000000));
@@ -86,11 +74,7 @@ final class _$UsersService extends UsersService {
   @override
   Future<Response<List<Article>>> getArticles(int id) {
     final Uri $url = Uri.parse('/users/${id}/posts');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-    );
+    final Request $request = Request('GET', $url, client.baseUrl);
     return client
         .send<List<Article>, Article>($request)
         .timeout(const Duration(microseconds: 10000000));
@@ -100,40 +84,24 @@ final class _$UsersService extends UsersService {
   Future<Response<User>> post(User body) {
     final Uri $url = Uri.parse('/users/');
     final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-    );
+    final Request $request = Request('POST', $url, client.baseUrl, body: $body);
     return client
         .send<User, User>($request)
         .timeout(const Duration(microseconds: 10000000));
   }
 
   @override
-  Future<Response<User>> put(
-    int id,
-    User body,
-  ) {
+  Future<Response<User>> put(int id, User body) {
     final Uri $url = Uri.parse('/users/${id}');
     final $body = body;
-    final Request $request = Request(
-      'PUT',
-      $url,
-      client.baseUrl,
-      body: $body,
-    );
+    final Request $request = Request('PUT', $url, client.baseUrl, body: $body);
     return client
         .send<User, User>($request)
         .timeout(const Duration(microseconds: 10000000));
   }
 
   @override
-  Future<Response<User>> patch(
-    int id,
-    User body,
-  ) {
+  Future<Response<User>> patch(int id, User body) {
     final Uri $url = Uri.parse('/users/${id}');
     final $body = body;
     final Request $request = Request(
@@ -150,11 +118,7 @@ final class _$UsersService extends UsersService {
   @override
   Future<Response<void>> delete(int id) {
     final Uri $url = Uri.parse('/users/${id}');
-    final Request $request = Request(
-      'DELETE',
-      $url,
-      client.baseUrl,
-    );
+    final Request $request = Request('DELETE', $url, client.baseUrl);
     return client
         .send<void, void>($request)
         .timeout(const Duration(microseconds: 10000000));

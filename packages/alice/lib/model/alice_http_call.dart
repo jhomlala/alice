@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 
 /// Definition of http calls data holder.
 // ignore: must_be_immutable
-class AliceHttpCall with EquatableMixin {
+class AliceHttpCall extends Equatable {
   AliceHttpCall(this.id);
 
   final int id;

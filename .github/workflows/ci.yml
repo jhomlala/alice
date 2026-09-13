@@ -5,52 +5,41 @@ on:
   push:
     branches:
       - main
-defaults:
-  run:
-    shell: bash
-env:
-  PUB_ENVIRONMENT: bot.github
-permissions: read-all
 
 jobs:
-  analyze:
-    name: Analyze
+  format:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
-          channel: stable
-          cache: true
+          channel: 'stable'
+      - run: flutter pub get
+      - run: dart format --output=none --set-exit-if-changed .
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/checkout@v4
-      - name: Install Melos
-        run: dart pub global activate melos
-      - name: Bootstrap the project
-        run: melos bootstrap
-      - name: Check the formatting of one or more Dart files
-        run: melos format --output none --set-exit-if-changed
-      - name: Analyze the project's Dart code
-        run: melos analyze --fatal-infos
-      - name: Invertase Analyze
-        uses: invertase/github-action-dart-analyzer@v3
+      - uses: subosito/flutter-action@v2
         with:
-          fatal-infos: true
-          fatal-warnings: true
-          working-directory: ./packages
+          channel: 'stable'
+      - run: flutter pub get
+      - run: flutter analyze .
+
   test:
-    name: "Test"
-    needs: analyze
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
-          channel: stable
-          cache: true
-      - uses: actions/checkout@v4
-      - name: Install Melos
-        run: dart pub global activate melos
-      - name: Bootstrap the project
-        run: melos bootstrap
+          channel: 'stable'
+      - run: flutter pub get
       - name: Run tests
-        run: melos test
-        env:
-          CI: true
+        run: |
+          for dir in packages/* examples/*; do
+            if [ -d "$dir/test" ]; then
+              echo "Testing $dir..."
+              (cd "$dir" && flutter test --coverage)
+            fi
+          done

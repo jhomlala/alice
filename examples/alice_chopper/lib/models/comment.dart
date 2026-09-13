@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'comment.g.dart';
 
 @JsonSerializable()
-class Comment with EquatableMixin {
+class Comment extends Equatable {
   const Comment({
     this.id,
     required this.postId,
@@ -25,14 +25,13 @@ class Comment with EquatableMixin {
     String? name,
     String? email,
     String? body,
-  }) =>
-      Comment(
-        id: id ?? this.id,
-        postId: postId ?? this.postId,
-        name: name ?? this.name,
-        email: email ?? this.email,
-        body: body ?? this.body,
-      );
+  }) => Comment(
+    id: id ?? this.id,
+    postId: postId ?? this.postId,
+    name: name ?? this.name,
+    email: email ?? this.email,
+    body: body ?? this.body,
+  );
 
   factory Comment.fromJson(Map<String, dynamic> json) =>
       _$CommentFromJson(json);
@@ -40,11 +39,5 @@ class Comment with EquatableMixin {
   Map<String, dynamic> toJson() => _$CommentToJson(this);
 
   @override
-  List<Object?> get props => [
-        id,
-        postId,
-        name,
-        email,
-        body,
-      ];
+  List<Object?> get props => [id, postId, name, email, body];
 }

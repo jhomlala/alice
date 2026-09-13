@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'photo.g.dart';
 
 @JsonSerializable()
-class Photo with EquatableMixin {
+class Photo extends Equatable {
   const Photo({
     this.id,
     required this.albumId,
@@ -25,25 +25,18 @@ class Photo with EquatableMixin {
     String? title,
     Uri? url,
     Uri? thumbnailUrl,
-  }) =>
-      Photo(
-        id: id ?? this.id,
-        albumId: albumId ?? this.albumId,
-        title: title ?? this.title,
-        url: url ?? this.url,
-        thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
-      );
+  }) => Photo(
+    id: id ?? this.id,
+    albumId: albumId ?? this.albumId,
+    title: title ?? this.title,
+    url: url ?? this.url,
+    thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
+  );
 
   factory Photo.fromJson(Map<String, dynamic> json) => _$PhotoFromJson(json);
 
   Map<String, dynamic> toJson() => _$PhotoToJson(this);
 
   @override
-  List<Object?> get props => [
-        id,
-        albumId,
-        title,
-        url,
-        thumbnailUrl,
-      ];
+  List<Object?> get props => [id, albumId, title, url, thumbnailUrl];
 }

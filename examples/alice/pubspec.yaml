@@ -1,6 +1,7 @@
 name: alice_example
 description: "Example project to showcase Alice."
 publish_to: 'none'
+resolution: workspace
 
 version: 1.0.0+3
 
@@ -15,11 +16,7 @@ dependencies:
 
 dev_dependencies:
   build_runner:
-  flutter_lints: ^5.0.0
-
-dependency_overrides:
-  alice:
-    path: ../../packages/alice
+  flutter_lints: ^6.0.0
 
 flutter:
   uses-material-design: true

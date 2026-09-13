@@ -32,9 +32,7 @@ class _MyAppState extends State<MyApp> {
       navigatorKey: _alice.getNavigatorKey(),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Alice + HTTP Client - Example'),
-        ),
+        appBar: AppBar(title: const Text('Alice + HTTP Client - Example')),
         body: Container(
           padding: const EdgeInsets.all(16),
           child: ListView(
@@ -46,9 +44,7 @@ class _MyAppState extends State<MyApp> {
               ),
               ElevatedButton(
                 onPressed: _runHttpHttpClientRequests,
-                child: const Text(
-                  'Run HttpClient Requests',
-                ),
+                child: const Text('Run HttpClient Requests'),
               ),
               const SizedBox(height: 8),
               const Text(
@@ -58,9 +54,7 @@ class _MyAppState extends State<MyApp> {
               ),
               ElevatedButton(
                 onPressed: _runHttpInspector,
-                child: const Text(
-                  'Run HTTP Inspector',
-                ),
+                child: const Text('Run HTTP Inspector'),
               ),
             ],
           ),
@@ -94,103 +88,93 @@ class _MyAppState extends State<MyApp> {
 
     _httpClient
         .postUrl(Uri.https('jsonplaceholder.typicode.com', '/posts'))
-        .then(
-      (HttpClientRequest request) async {
-        _httpClientAdapter.onRequest(request, body: body);
+        .then((HttpClientRequest request) async {
+          _httpClientAdapter.onRequest(request, body: body);
 
-        request.write(body);
+          request.write(body);
 
-        final HttpClientResponse httpResponse = await request.close();
+          final HttpClientResponse httpResponse = await request.close();
 
-        final String responseBody =
-            await utf8.decoder.bind(httpResponse).join();
+          final String responseBody =
+              await utf8.decoder.bind(httpResponse).join();
 
-        _httpClientAdapter.onResponse(
-          httpResponse,
-          request,
-          body: responseBody,
-        );
-      },
-    );
+          _httpClientAdapter.onResponse(
+            httpResponse,
+            request,
+            body: responseBody,
+          );
+        });
 
     _httpClient
         .putUrl(Uri.https('jsonplaceholder.typicode.com', '/posts/1'))
-        .then(
-      (HttpClientRequest request) async {
-        _httpClientAdapter.onRequest(request, body: body);
+        .then((HttpClientRequest request) async {
+          _httpClientAdapter.onRequest(request, body: body);
 
-        request.write(body);
+          request.write(body);
 
-        final HttpClientResponse httpResponse = await request.close();
+          final HttpClientResponse httpResponse = await request.close();
 
-        final String responseBody =
-            await utf8.decoder.bind(httpResponse).join();
+          final String responseBody =
+              await utf8.decoder.bind(httpResponse).join();
 
-        _httpClientAdapter.onResponse(
-          httpResponse,
-          request,
-          body: responseBody,
-        );
-      },
-    );
+          _httpClientAdapter.onResponse(
+            httpResponse,
+            request,
+            body: responseBody,
+          );
+        });
 
     _httpClient
         .patchUrl(Uri.https('jsonplaceholder.typicode.com', '/posts/1'))
-        .then(
-      (HttpClientRequest request) async {
-        _httpClientAdapter.onRequest(request, body: body);
+        .then((HttpClientRequest request) async {
+          _httpClientAdapter.onRequest(request, body: body);
 
-        request.write(body);
+          request.write(body);
 
-        final HttpClientResponse httpResponse = await request.close();
-        final String responseBody =
-            await utf8.decoder.bind(httpResponse).join();
+          final HttpClientResponse httpResponse = await request.close();
+          final String responseBody =
+              await utf8.decoder.bind(httpResponse).join();
 
-        _httpClientAdapter.onResponse(
-          httpResponse,
-          request,
-          body: responseBody,
-        );
-      },
-    );
+          _httpClientAdapter.onResponse(
+            httpResponse,
+            request,
+            body: responseBody,
+          );
+        });
 
     _httpClient
         .deleteUrl(Uri.https('jsonplaceholder.typicode.com', '/posts/1'))
-        .then(
-      (HttpClientRequest request) async {
-        _httpClientAdapter.onRequest(request);
+        .then((HttpClientRequest request) async {
+          _httpClientAdapter.onRequest(request);
 
-        final HttpClientResponse httpResponse = await request.close();
+          final HttpClientResponse httpResponse = await request.close();
 
-        final String responseBody =
-            await utf8.decoder.bind(httpResponse).join();
+          final String responseBody =
+              await utf8.decoder.bind(httpResponse).join();
 
-        _httpClientAdapter.onResponse(
-          httpResponse,
-          request,
-          body: responseBody,
-        );
-      },
-    );
+          _httpClientAdapter.onResponse(
+            httpResponse,
+            request,
+            body: responseBody,
+          );
+        });
 
     _httpClient
         .getUrl(Uri.https('jsonplaceholder.typicode.com', '/test/test/'))
-        .then(
-      (HttpClientRequest request) async {
-        _httpClientAdapter.onRequest(request);
+        .then((HttpClientRequest request) async {
+          _httpClientAdapter.onRequest(request);
 
-        final HttpClientResponse httpResponse = await request.close();
+          final HttpClientResponse httpResponse = await request.close();
 
-        final String responseBody =
-            await utf8.decoder.bind(httpResponse).join();
+          final String responseBody =
+              await utf8.decoder.bind(httpResponse).join();
 
-        _httpClientAdapter.onResponse(
-          httpResponse,
-          request,
-          body: responseBody,
-        );
-      },
-    );
+          _httpClientAdapter.onResponse(
+            httpResponse,
+            request,
+            body: responseBody,
+          );
+        });
   }
 
   void _runHttpInspector() {

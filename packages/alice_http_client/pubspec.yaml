@@ -1,8 +1,9 @@
 name: alice_http_client
 description: "Alice + HTTP Client integration. It contains plugin for Alice which allows to use Http Client."
-version: 1.0.7
+version: 1.1.0
 repository: https://github.com/jhomlala/alice
 homepage: https://github.com/jhomlala/alice
+resolution: workspace
 topics:
   - http
   - inspector
@@ -13,8 +14,7 @@ environment:
   sdk: ">=3.7.0 <4.0.0"
   flutter: ">=3.29.0"
 
-dependencies:
-  alice: ^1.0.0
+dependencies:  alice: ^1.1.0
 
 dev_dependencies:
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0

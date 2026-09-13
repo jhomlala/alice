@@ -1,6 +1,7 @@
 name: alice_http_client_example
 description: "A project to showcase http client and Alice integration."
 publish_to: 'none'
+resolution: workspace
 
 version: 1.0.0+3
 
@@ -14,13 +15,7 @@ dependencies:
   alice_http_client:
 
 dev_dependencies:
-  flutter_lints: ^5.0.0
-
-dependency_overrides:
-  alice:
-    path: ../../packages/alice
-  alice_http_client:
-    path: ../../packages/alice_http_client
+  flutter_lints: ^6.0.0
 
 flutter:
   uses-material-design: true

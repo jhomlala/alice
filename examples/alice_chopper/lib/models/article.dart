@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'article.g.dart';
 
 @JsonSerializable()
-class Article with EquatableMixin {
+class Article extends Equatable {
   const Article({
     this.id,
     required this.title,
@@ -17,12 +17,7 @@ class Article with EquatableMixin {
   final String body;
   final int userId;
 
-  Article copyWith({
-    int? id,
-    String? title,
-    String? body,
-    int? userId,
-  }) =>
+  Article copyWith({int? id, String? title, String? body, int? userId}) =>
       Article(
         id: id ?? this.id,
         title: title ?? this.title,
@@ -36,10 +31,5 @@ class Article with EquatableMixin {
   Map<String, dynamic> toJson() => _$ArticleToJson(this);
 
   @override
-  List<Object?> get props => [
-        id,
-        title,
-        body,
-        userId,
-      ];
+  List<Object?> get props => [id, title, body, userId];
 }

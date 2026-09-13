@@ -24,42 +24,57 @@ class AliceSortDialog extends StatelessWidget {
         builder: (context, setState) {
           return AlertDialog(
             title: Text(context.i18n(AliceTranslationKey.sortDialogTitle)),
-            content: Wrap(
-              children: [
-                for (final AliceCallsListSortOption sortOption
-                    in AliceCallsListSortOption.values)
-                  RadioListTile<AliceCallsListSortOption>(
-                    title: Text(_getName(context: context, option: sortOption)),
-                    value: sortOption,
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  RadioGroup<AliceCallsListSortOption>(
                     groupValue: currentSortOption,
-                    onChanged: (AliceCallsListSortOption? value) {
-                      if (value != null) {
-                        setState(() {
-                          currentSortOption = value;
-                        });
-                      }
+                    onChanged: (value) {
+                      setState(() {
+                        if (value != null) currentSortOption = value;
+                      });
                     },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children:
+                          AliceCallsListSortOption.values
+                              .map(
+                                (option) => RadioListTile<
+                                  AliceCallsListSortOption
+                                >.adaptive(
+                                  title: Text(
+                                    _getName(context: context, option: option),
+                                  ),
+                                  value: option,
+                                ),
+                              )
+                              .toList(),
+                    ),
                   ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      context.i18n(AliceTranslationKey.sortDialogDescending),
-                    ),
-                    Switch(
-                      value: currentSortAscending,
-                      onChanged: (value) {
-                        setState(() {
-                          currentSortAscending = value;
-                        });
-                      },
-                      activeTrackColor: Colors.grey,
-                      activeColor: Colors.white,
-                    ),
-                    Text(context.i18n(AliceTranslationKey.sortDialogAscending)),
-                  ],
-                ),
-              ],
+                  const Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        context.i18n(AliceTranslationKey.sortDialogDescending),
+                      ),
+                      Switch(
+                        value: currentSortAscending,
+                        onChanged: (value) {
+                          setState(() {
+                            currentSortAscending = value;
+                          });
+                        },
+                        activeThumbColor: Colors.white,
+                      ),
+                      Text(
+                        context.i18n(AliceTranslationKey.sortDialogAscending),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
             actions: [
               TextButton(

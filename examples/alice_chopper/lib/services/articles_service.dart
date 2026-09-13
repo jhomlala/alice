@@ -11,9 +11,7 @@ abstract class ArticlesService extends ChopperService {
       _$ArticlesService(client);
 
   @GET(path: '/', timeout: Duration(seconds: 10))
-  Future<Response<List<Article>>> getAll({
-    @Query() int? userId,
-  });
+  Future<Response<List<Article>>> getAll({@Query() int? userId});
 
   @GET(path: '/{id}', timeout: Duration(seconds: 10))
   Future<Response<Article?>> get(@Path() int id);

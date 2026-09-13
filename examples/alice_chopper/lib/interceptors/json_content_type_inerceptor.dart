@@ -8,12 +8,12 @@ class JsonContentTypeInterceptor implements Interceptor {
   FutureOr<Response<BodyType>> intercept<BodyType>(Chain<BodyType> chain) =>
       switch (chain.request.method) {
         HttpMethod.Post || HttpMethod.Put || HttpMethod.Patch => chain.proceed(
-            applyHeader(
-              chain.request,
-              HttpHeaders.contentTypeHeader,
-              ContentType.json.mimeType,
-            ),
+          applyHeader(
+            chain.request,
+            HttpHeaders.contentTypeHeader,
+            ContentType.json.mimeType,
           ),
+        ),
         _ => chain.proceed(chain.request),
       };
 }

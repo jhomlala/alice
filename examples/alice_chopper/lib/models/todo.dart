@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'todo.g.dart';
 
 @JsonSerializable()
-class Todo with EquatableMixin {
+class Todo extends Equatable {
   const Todo({
     this.id,
     required this.userId,
@@ -17,28 +17,17 @@ class Todo with EquatableMixin {
   final String title;
   final bool completed;
 
-  Todo copyWith({
-    int? id,
-    int? userId,
-    String? title,
-    bool? completed,
-  }) =>
-      Todo(
-        id: id ?? this.id,
-        userId: userId ?? this.userId,
-        title: title ?? this.title,
-        completed: completed ?? this.completed,
-      );
+  Todo copyWith({int? id, int? userId, String? title, bool? completed}) => Todo(
+    id: id ?? this.id,
+    userId: userId ?? this.userId,
+    title: title ?? this.title,
+    completed: completed ?? this.completed,
+  );
 
   factory Todo.fromJson(Map<String, dynamic> json) => _$TodoFromJson(json);
 
   Map<String, dynamic> toJson() => _$TodoToJson(this);
 
   @override
-  List<Object?> get props => [
-        id,
-        userId,
-        title,
-        completed,
-      ];
+  List<Object?> get props => [id, userId, title, completed];
 }

@@ -10,9 +10,7 @@ abstract class BrokenArticlesService extends ChopperService {
       _$BrokenArticlesService(client);
 
   @GET(path: '/', timeout: Duration(seconds: 10))
-  Future<Response<List<BrokenArticle>>> getAll({
-    @Query() int? userId,
-  });
+  Future<Response<List<BrokenArticle>>> getAll({@Query() int? userId});
 
   @GET(path: '/{id}', timeout: Duration(seconds: 10))
   Future<Response<BrokenArticle?>> get(@Path() int id);

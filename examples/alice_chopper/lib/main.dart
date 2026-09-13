@@ -84,44 +84,14 @@ class _MyAppState extends State<MyApp> {
     albumsService.getAll(userId: 1);
     albumsService.get(1);
     albumsService.getPhotos(1);
-    albumsService.post(
-      const Album(
-        title: 'foo',
-        userId: 1,
-      ),
-    );
-    albumsService.put(
-      1,
-      const Album(
-        id: 1,
-        title: 'bar',
-        userId: 1,
-      ),
-    );
-    albumsService.patch(
-      1,
-      const Album(
-        id: 1,
-        title: 'baz',
-        userId: 1,
-      ),
-    );
+    albumsService.post(const Album(title: 'foo', userId: 1));
+    albumsService.put(1, const Album(id: 1, title: 'bar', userId: 1));
+    albumsService.patch(1, const Album(id: 1, title: 'baz', userId: 1));
     albumsService.delete(1);
-    albumsService.put(
-      123456,
-      const Album(
-        id: 123456,
-        title: 'qux',
-        userId: 1,
-      ),
-    );
+    albumsService.put(123456, const Album(id: 123456, title: 'qux', userId: 1));
     albumsService.patch(
       123456,
-      const Album(
-        id: 123456,
-        title: 'quux',
-        userId: 1,
-      ),
+      const Album(id: 123456, title: 'quux', userId: 1),
     );
     albumsService.get(123456);
     albumsService.delete(123456);
@@ -131,51 +101,25 @@ class _MyAppState extends State<MyApp> {
   Future<void> _articlesRequests() async {
     articlesService.getAll();
     articlesService.getAll(userId: 2);
-    articlesService.post(
-      const Article(
-        title: 'foo',
-        body: 'bar',
-        userId: 1,
-      ),
-    );
+    articlesService.post(const Article(title: 'foo', body: 'bar', userId: 1));
     articlesService.get(1);
     articlesService.getComments(1);
     articlesService.put(
       1,
-      const Article(
-        id: 1,
-        title: 'baz',
-        body: 'qux',
-        userId: 1,
-      ),
+      const Article(id: 1, title: 'baz', body: 'qux', userId: 1),
     );
     articlesService.patch(
       1,
-      const Article(
-        id: 1,
-        title: 'lorem',
-        body: 'ipsum',
-        userId: 1,
-      ),
+      const Article(id: 1, title: 'lorem', body: 'ipsum', userId: 1),
     );
     articlesService.delete(1);
     articlesService.put(
       123456,
-      const Article(
-        id: 123456,
-        title: 'dolor',
-        body: 'sit',
-        userId: 1,
-      ),
+      const Article(id: 123456, title: 'dolor', body: 'sit', userId: 1),
     );
     articlesService.patch(
       123456,
-      const Article(
-        id: 123456,
-        title: 'amet',
-        body: 'consectetur',
-        userId: 1,
-      ),
+      const Article(id: 123456, title: 'amet', body: 'consectetur', userId: 1),
     );
     articlesService.get(123456);
     articlesService.delete(123456);
@@ -251,49 +195,23 @@ class _MyAppState extends State<MyApp> {
     todosService.getAll();
     todosService.getAll(userId: 1);
     todosService.get(1);
-    todosService.post(
-      const Todo(
-        title: 'foo',
-        completed: false,
-        userId: 1,
-      ),
-    );
+    todosService.post(const Todo(title: 'foo', completed: false, userId: 1));
     todosService.put(
       1,
-      const Todo(
-        id: 1,
-        title: 'bar',
-        completed: false,
-        userId: 1,
-      ),
+      const Todo(id: 1, title: 'bar', completed: false, userId: 1),
     );
     todosService.patch(
       1,
-      const Todo(
-        id: 1,
-        title: 'baz',
-        completed: false,
-        userId: 1,
-      ),
+      const Todo(id: 1, title: 'baz', completed: false, userId: 1),
     );
     todosService.delete(1);
     todosService.put(
       123456,
-      const Todo(
-        id: 123456,
-        title: 'qux',
-        completed: false,
-        userId: 1,
-      ),
+      const Todo(id: 123456, title: 'qux', completed: false, userId: 1),
     );
     todosService.patch(
       123456,
-      const Todo(
-        id: 123456,
-        title: 'quux',
-        completed: false,
-        userId: 1,
-      ),
+      const Todo(id: 123456, title: 'quux', completed: false, userId: 1),
     );
     todosService.get(123456);
     todosService.delete(123456);
@@ -312,10 +230,7 @@ class _MyAppState extends State<MyApp> {
         suite: 'Apt. 123',
         city: 'Springfield',
         zipCode: '12345-6789',
-        geoLocation: GeoLocation(
-          latitude: 37.1234,
-          longitude: -122.1234,
-        ),
+        geoLocation: GeoLocation(latitude: 37.1234, longitude: -122.1234),
       ),
       company: Company(
         name: 'John Doe Inc.',
@@ -447,9 +362,7 @@ class _MyAppState extends State<MyApp> {
       navigatorKey: _alice.getNavigatorKey(),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Alice + Chopper - Example'),
-        ),
+        appBar: AppBar(title: const Text('Alice + Chopper - Example')),
         body: Container(
           padding: const EdgeInsets.all(16),
           child: ListView(
@@ -462,9 +375,7 @@ class _MyAppState extends State<MyApp> {
               ),
               ElevatedButton(
                 onPressed: _runChopperHttpRequests,
-                child: const Text(
-                  'Run Chopper HTTP Requests',
-                ),
+                child: const Text('Run Chopper HTTP Requests'),
               ),
               const SizedBox(height: 8),
               const Text(

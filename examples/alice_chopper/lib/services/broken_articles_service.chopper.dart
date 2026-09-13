@@ -35,11 +35,7 @@ final class _$BrokenArticlesService extends BrokenArticlesService {
   @override
   Future<Response<BrokenArticle>> get(int id) {
     final Uri $url = Uri.parse('/posts/${id}');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-    );
+    final Request $request = Request('GET', $url, client.baseUrl);
     return client
         .send<BrokenArticle, BrokenArticle>($request)
         .timeout(const Duration(microseconds: 10000000));

@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'company.g.dart';
 
 @JsonSerializable()
-class Company with EquatableMixin {
+class Company extends Equatable {
   const Company({
     required this.name,
     required this.catchPhrase,
@@ -20,12 +20,11 @@ class Company with EquatableMixin {
     String? name,
     String? catchPhrase,
     String? businessStrategy,
-  }) =>
-      Company(
-        name: name ?? this.name,
-        catchPhrase: catchPhrase ?? this.catchPhrase,
-        businessStrategy: businessStrategy ?? this.businessStrategy,
-      );
+  }) => Company(
+    name: name ?? this.name,
+    catchPhrase: catchPhrase ?? this.catchPhrase,
+    businessStrategy: businessStrategy ?? this.businessStrategy,
+  );
 
   factory Company.fromJson(Map<String, dynamic> json) =>
       _$CompanyFromJson(json);
@@ -33,9 +32,5 @@ class Company with EquatableMixin {
   Map<String, dynamic> toJson() => _$CompanyToJson(this);
 
   @override
-  List<Object?> get props => [
-        name,
-        catchPhrase,
-        businessStrategy,
-      ];
+  List<Object?> get props => [name, catchPhrase, businessStrategy];
 }

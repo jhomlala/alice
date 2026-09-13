@@ -6,7 +6,7 @@ import 'package:equatable/equatable.dart';
 
 /// Definition of http request data holder.
 // ignore: must_be_immutable
-class AliceHttpRequest with EquatableMixin {
+class AliceHttpRequest extends Equatable {
   int size = 0;
   DateTime time = DateTime.now();
   Map<String, String> headers = <String, String>{};

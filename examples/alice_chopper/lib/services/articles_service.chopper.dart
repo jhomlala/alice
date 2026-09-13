@@ -35,11 +35,7 @@ final class _$ArticlesService extends ArticlesService {
   @override
   Future<Response<Article>> get(int id) {
     final Uri $url = Uri.parse('/posts/${id}');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-    );
+    final Request $request = Request('GET', $url, client.baseUrl);
     return client
         .send<Article, Article>($request)
         .timeout(const Duration(microseconds: 10000000));
@@ -48,11 +44,7 @@ final class _$ArticlesService extends ArticlesService {
   @override
   Future<Response<List<Comment>>> getComments(int id) {
     final Uri $url = Uri.parse('/posts/${id}/comments');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-    );
+    final Request $request = Request('GET', $url, client.baseUrl);
     return client
         .send<List<Comment>, Comment>($request)
         .timeout(const Duration(microseconds: 10000000));
@@ -62,40 +54,24 @@ final class _$ArticlesService extends ArticlesService {
   Future<Response<Article>> post(Article body) {
     final Uri $url = Uri.parse('/posts/');
     final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-    );
+    final Request $request = Request('POST', $url, client.baseUrl, body: $body);
     return client
         .send<Article, Article>($request)
         .timeout(const Duration(microseconds: 10000000));
   }
 
   @override
-  Future<Response<Article>> put(
-    int id,
-    Article body,
-  ) {
+  Future<Response<Article>> put(int id, Article body) {
     final Uri $url = Uri.parse('/posts/${id}');
     final $body = body;
-    final Request $request = Request(
-      'PUT',
-      $url,
-      client.baseUrl,
-      body: $body,
-    );
+    final Request $request = Request('PUT', $url, client.baseUrl, body: $body);
     return client
         .send<Article, Article>($request)
         .timeout(const Duration(microseconds: 10000000));
   }
 
   @override
-  Future<Response<Article>> patch(
-    int id,
-    Article body,
-  ) {
+  Future<Response<Article>> patch(int id, Article body) {
     final Uri $url = Uri.parse('/posts/${id}');
     final $body = body;
     final Request $request = Request(
@@ -112,11 +88,7 @@ final class _$ArticlesService extends ArticlesService {
   @override
   Future<Response<void>> delete(int id) {
     final Uri $url = Uri.parse('/posts/${id}');
-    final Request $request = Request(
-      'DELETE',
-      $url,
-      client.baseUrl,
-    );
+    final Request $request = Request('DELETE', $url, client.baseUrl);
     return client
         .send<void, void>($request)
         .timeout(const Duration(microseconds: 10000000));

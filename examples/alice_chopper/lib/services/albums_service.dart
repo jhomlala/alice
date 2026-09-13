@@ -10,9 +10,7 @@ abstract class AlbumsService extends ChopperService {
       _$AlbumsService(client);
 
   @GET(path: '/', timeout: Duration(seconds: 10))
-  Future<Response<List<Album>>> getAll({
-    @Query('userId') int? userId,
-  });
+  Future<Response<List<Album>>> getAll({@Query('userId') int? userId});
 
   @GET(path: '/{id}', timeout: Duration(seconds: 10))
   Future<Response<Album?>> get(@Path() int id);

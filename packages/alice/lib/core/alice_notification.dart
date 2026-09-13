@@ -60,7 +60,7 @@ class AliceNotification {
           macOS: initializationSettingsMacOS,
         );
     _flutterLocalNotificationsPlugin?.initialize(
-      initializationSettings,
+      settings: initializationSettings,
       onDidReceiveNotificationResponse: _onDidReceiveNotificationResponse,
     );
     _requestNotificationPermissions();
@@ -130,12 +130,12 @@ class AliceNotification {
       _isNotificationProcessing = true;
 
       await _flutterLocalNotificationsPlugin?.show(
-        0,
-        context
+        id: 0,
+        title: context
             .i18n(AliceTranslationKey.notificationTotalRequests)
             .replaceAll(_callCount, stats.total.toString()),
-        message,
-        _notificationDetails,
+        body: message,
+        notificationDetails: _notificationDetails,
         payload: _payload,
       );
 

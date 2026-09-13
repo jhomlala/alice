@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 
 /// Definition of log data holder.
 @immutable
-class AliceLog with EquatableMixin {
+class AliceLog extends Equatable {
   AliceLog({
     required this.message,
     this.level = DiagnosticLevel.info,

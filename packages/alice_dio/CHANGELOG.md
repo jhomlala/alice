@@ -1,3 +1,7 @@
+# 1.1.0
+
+* Bumped dependencies.
+
 # 1.0.7
 
 * [BREAKING_CHANGE] Set minimal supported Flutter version 3.29 and Dart 3.7.
