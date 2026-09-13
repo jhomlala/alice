@@ -1,9 +1,13 @@
-## 1.1.2
+## Unreleased
+
 * Added support for share curl option (by thanhnt-mdev https://github.com/thanhnt-mdev).
 * Added sharePositionOrigin support for iOS.
 * Added FAB menu for share and share curl.
 
-## 1.1.1
+## 1.2.0
+* Placeholder for future release.
+
+## 1.1.2
 * Bumped dependencies.
 
 # 1.1.0
