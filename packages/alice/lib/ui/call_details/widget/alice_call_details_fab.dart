@@ -40,20 +40,20 @@ class _AliceCallDetailsFabState extends State<AliceCallDetailsFab> {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (_isExpanded) ...[
-          FloatingActionButton.extended(
+          FloatingActionButton(
             key: _shareCurlButtonKey,
+            mini: true,
             backgroundColor: AliceTheme.lightRed,
             onPressed: () => _shareCurlCall(),
-            label: Text(context.i18n(AliceTranslationKey.actionShareCurl)),
-            icon: const Icon(Icons.terminal, color: AliceTheme.white),
+            child: const Icon(Icons.terminal, color: AliceTheme.white),
           ),
           const SizedBox(height: 8),
-          FloatingActionButton.extended(
+          FloatingActionButton(
             key: _shareButtonKey,
+            mini: true,
             backgroundColor: AliceTheme.lightRed,
             onPressed: () => _shareCall(),
-            label: Text(context.i18n(AliceTranslationKey.actionShare)),
-            icon: const Icon(Icons.share, color: AliceTheme.white),
+            child: const Icon(Icons.share, color: AliceTheme.white),
           ),
           const SizedBox(height: 8),
         ],
