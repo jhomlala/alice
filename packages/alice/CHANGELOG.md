@@ -1,5 +1,5 @@
 
-## 1.2.1
+## Unreleased
 
 * Migrated documentation to Docusaurus for better search and structure.
 
