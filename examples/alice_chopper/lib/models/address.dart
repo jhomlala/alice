@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'address.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Address with EquatableMixin {
+class Address extends Equatable {
   const Address({
     required this.street,
     required this.suite,
@@ -28,14 +28,13 @@ class Address with EquatableMixin {
     String? city,
     String? zipCode,
     GeoLocation? geoLocation,
-  }) =>
-      Address(
-        street: street ?? this.street,
-        suite: suite ?? this.suite,
-        city: city ?? this.city,
-        zipCode: zipCode ?? this.zipCode,
-        geoLocation: geoLocation ?? this.geoLocation,
-      );
+  }) => Address(
+    street: street ?? this.street,
+    suite: suite ?? this.suite,
+    city: city ?? this.city,
+    zipCode: zipCode ?? this.zipCode,
+    geoLocation: geoLocation ?? this.geoLocation,
+  );
 
   factory Address.fromJson(Map<String, dynamic> json) =>
       _$AddressFromJson(json);
@@ -43,11 +42,5 @@ class Address with EquatableMixin {
   Map<String, dynamic> toJson() => _$AddressToJson(this);
 
   @override
-  List<Object?> get props => [
-        street,
-        suite,
-        city,
-        zipCode,
-        geoLocation,
-      ];
+  List<Object?> get props => [street, suite, city, zipCode, geoLocation];
 }

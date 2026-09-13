@@ -13,18 +13,16 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   /// Initialize [AliceObjectBoxStore] before running the app.
-  final AliceObjectBoxStore store =
-      await AliceObjectBoxStore.create(persistent: false);
+  final AliceObjectBoxStore store = await AliceObjectBoxStore.create(
+    persistent: false,
+  );
 
   /// Pass [AliceObjectBoxStore] to the app.
   runApp(MyApp(store: store));
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({
-    super.key,
-    required this.store,
-  });
+  const MyApp({super.key, required this.store});
 
   final AliceObjectBoxStore store;
 
@@ -35,15 +33,11 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late final AliceHttpAdapter _aliceHttpAdapter = AliceHttpAdapter();
 
-  late final configuration =  AliceConfiguration(
-    storage: AliceObjectBox(
-      store: widget.store,
-      maxCallsCount: 1000,
-    ),
+  late final configuration = AliceConfiguration(
+    storage: AliceObjectBox(store: widget.store, maxCallsCount: 1000),
   );
-  late final Alice _alice = Alice(
-    configuration: configuration,
-  )..addAdapter(_aliceHttpAdapter);
+  late final Alice _alice = Alice(configuration: configuration)
+    ..addAdapter(_aliceHttpAdapter);
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +45,7 @@ class _MyAppState extends State<MyApp> {
       navigatorKey: _alice.getNavigatorKey(),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Alice + ObjectBox + HTTP - Example'),
-        ),
+        appBar: AppBar(title: const Text('Alice + ObjectBox + HTTP - Example')),
         body: Container(
           padding: const EdgeInsets.all(16),
           child: ListView(
@@ -66,9 +58,7 @@ class _MyAppState extends State<MyApp> {
               ),
               ElevatedButton(
                 onPressed: _runHttpHttpRequests,
-                child: const Text(
-                  'Run http/http HTTP Requests',
-                ),
+                child: const Text('Run http/http HTTP Requests'),
               ),
               const SizedBox(height: 8),
               const Text(
@@ -79,9 +69,7 @@ class _MyAppState extends State<MyApp> {
               ),
               ElevatedButton(
                 onPressed: _runHttpInspector,
-                child: const Text(
-                  'Run HTTP Inspector',
-                ),
+                child: const Text('Run HTTP Inspector'),
               ),
             ],
           ),
@@ -153,41 +141,31 @@ class _MyAppState extends State<MyApp> {
 
     http
         .post(
-          Uri.https(
-            'jsonplaceholder.typicode.com',
-            '/posts',
-            {'key1': 'value1'},
-          ),
+          Uri.https('jsonplaceholder.typicode.com', '/posts', {
+            'key1': 'value1',
+          }),
           body: body,
         )
         .interceptWithAlice(_aliceHttpAdapter, body: body);
 
     http
         .post(
-          Uri.https(
-            'jsonplaceholder.typicode.com',
-            '/posts',
-            {
-              'key1': 'value1',
-              'key2': 'value2',
-              'key3': 'value3',
-            },
-          ),
+          Uri.https('jsonplaceholder.typicode.com', '/posts', {
+            'key1': 'value1',
+            'key2': 'value2',
+            'key3': 'value3',
+          }),
           body: body,
         )
         .interceptWithAlice(_aliceHttpAdapter, body: body);
 
     http
         .get(
-          Uri.https(
-            'jsonplaceholder.typicode.com',
-            '/test/test',
-            {
-              'key1': 'value1',
-              'key2': 'value2',
-              'key3': 'value3',
-            },
-          ),
+          Uri.https('jsonplaceholder.typicode.com', '/test/test', {
+            'key1': 'value1',
+            'key2': 'value2',
+            'key3': 'value3',
+          }),
         )
         .then((response) => _aliceHttpAdapter.onResponse(response));
   }

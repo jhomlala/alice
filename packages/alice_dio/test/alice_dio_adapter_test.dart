@@ -184,7 +184,9 @@ void main() {
           const AliceFormDataField('name', 'Alice'),
           const AliceFormDataField('surname', 'test'),
         ],
-        formDataFiles: [AliceFormDataFile(name, "application/octet-stream", 0)],
+        formDataFiles: [
+          AliceFormDataFile(name, "image/png", file.lengthSync()),
+        ],
         body: 'Form data',
         headers: {'content-type': 'multipart/form-data'},
       );
@@ -218,7 +220,9 @@ void main() {
       verify(
         () => aliceCore.addResponse(any(that: nextResponseMatcher), any()),
       );
-      file.deleteSync();
+      try {
+        file.deleteSync();
+      } catch (_) {}
     });
   });
 

@@ -6,7 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'user.g.dart';
 
 @JsonSerializable()
-class User with EquatableMixin {
+class User extends Equatable {
   const User({
     this.id,
     required this.name,
@@ -36,17 +36,16 @@ class User with EquatableMixin {
     String? phone,
     String? website,
     Company? company,
-  }) =>
-      User(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        username: username ?? this.username,
-        email: email ?? this.email,
-        address: address ?? this.address,
-        phone: phone ?? this.phone,
-        website: website ?? this.website,
-        company: company ?? this.company,
-      );
+  }) => User(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    username: username ?? this.username,
+    email: email ?? this.email,
+    address: address ?? this.address,
+    phone: phone ?? this.phone,
+    website: website ?? this.website,
+    company: company ?? this.company,
+  );
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
@@ -54,13 +53,13 @@ class User with EquatableMixin {
 
   @override
   List<Object?> get props => [
-        id,
-        name,
-        username,
-        email,
-        address,
-        phone,
-        website,
-        company,
-      ];
+    id,
+    name,
+    username,
+    email,
+    address,
+    phone,
+    website,
+    company,
+  ];
 }

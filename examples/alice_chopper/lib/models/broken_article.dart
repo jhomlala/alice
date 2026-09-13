@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'broken_article.g.dart';
 
 @JsonSerializable()
-class BrokenArticle with EquatableMixin {
+class BrokenArticle extends Equatable {
   const BrokenArticle({
     this.id,
     required this.title,
@@ -24,13 +24,12 @@ class BrokenArticle with EquatableMixin {
     String? title,
     String? body,
     String? userId,
-  }) =>
-      BrokenArticle(
-        id: id ?? this.id,
-        title: title ?? this.title,
-        body: body ?? this.body,
-        userId: userId ?? this.userId,
-      );
+  }) => BrokenArticle(
+    id: id ?? this.id,
+    title: title ?? this.title,
+    body: body ?? this.body,
+    userId: userId ?? this.userId,
+  );
 
   factory BrokenArticle.fromJson(Map<String, dynamic> json) =>
       _$BrokenArticleFromJson(json);
@@ -38,10 +37,5 @@ class BrokenArticle with EquatableMixin {
   Map<String, dynamic> toJson() => _$BrokenArticleToJson(this);
 
   @override
-  List<Object?> get props => [
-        id,
-        title,
-        body,
-        userId,
-      ];
+  List<Object?> get props => [id, title, body, userId];
 }

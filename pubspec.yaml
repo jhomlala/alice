@@ -1,6 +1,21 @@
 name: alice_workspace
-
 environment:
-  sdk: ">=3.0.0 <4.0.0"
-dev_dependencies:
-  melos: ^6.0.0
+  sdk: ">=3.7.0 <4.0.0"
+
+workspace:
+  - packages/alice
+  - packages/alice_chopper
+  - packages/alice_dio
+  - packages/alice_http
+  - packages/alice_http_client
+  - packages/alice_objectbox
+  - packages/alice_test
+  - examples/alice
+  - examples/alice_chopper
+  - examples/alice_dio
+  - examples/alice_http
+  - examples/alice_http_client
+  - examples/alice_objectbox
+
+dependency_overrides:
+  permission_handler_android: 13.0.1

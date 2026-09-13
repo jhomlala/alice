@@ -2,6 +2,13 @@ analyzer:
   exclude:
     - "lib/generated_plugin_registrant.dart"
     - "**.g.dart"
+    - build/**
+    - android/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**
 
 include: package:flutter_lints/flutter.yaml
 

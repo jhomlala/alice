@@ -4,7 +4,7 @@ import 'package:alice/core/alice_storage.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 
-class AliceConfiguration with EquatableMixin {
+class AliceConfiguration extends Equatable {
   /// Default max calls count used in default memory storage.
   static const _defaultMaxCalls = 1000;
 

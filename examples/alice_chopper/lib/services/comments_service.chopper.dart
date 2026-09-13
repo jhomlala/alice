@@ -18,10 +18,7 @@ final class _$CommentsService extends CommentsService {
   final Type definitionType = CommentsService;
 
   @override
-  Future<Response<List<Comment>>> getAll({
-    int? articleId,
-    String? email,
-  }) {
+  Future<Response<List<Comment>>> getAll({int? articleId, String? email}) {
     final Uri $url = Uri.parse('/comments/');
     final Map<String, dynamic> $params = <String, dynamic>{
       'postId': articleId,
@@ -41,11 +38,7 @@ final class _$CommentsService extends CommentsService {
   @override
   Future<Response<Comment>> get(int id) {
     final Uri $url = Uri.parse('/comments/${id}');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-    );
+    final Request $request = Request('GET', $url, client.baseUrl);
     return client
         .send<Comment, Comment>($request)
         .timeout(const Duration(microseconds: 10000000));
@@ -55,40 +48,24 @@ final class _$CommentsService extends CommentsService {
   Future<Response<Comment>> post(Comment body) {
     final Uri $url = Uri.parse('/comments/');
     final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-    );
+    final Request $request = Request('POST', $url, client.baseUrl, body: $body);
     return client
         .send<Comment, Comment>($request)
         .timeout(const Duration(microseconds: 10000000));
   }
 
   @override
-  Future<Response<Comment>> put(
-    int id,
-    Comment body,
-  ) {
+  Future<Response<Comment>> put(int id, Comment body) {
     final Uri $url = Uri.parse('/comments/${id}');
     final $body = body;
-    final Request $request = Request(
-      'PUT',
-      $url,
-      client.baseUrl,
-      body: $body,
-    );
+    final Request $request = Request('PUT', $url, client.baseUrl, body: $body);
     return client
         .send<Comment, Comment>($request)
         .timeout(const Duration(microseconds: 10000000));
   }
 
   @override
-  Future<Response<Comment>> patch(
-    int id,
-    Comment body,
-  ) {
+  Future<Response<Comment>> patch(int id, Comment body) {
     final Uri $url = Uri.parse('/comments/${id}');
     final $body = body;
     final Request $request = Request(
@@ -105,11 +82,7 @@ final class _$CommentsService extends CommentsService {
   @override
   Future<Response<void>> delete(int id) {
     final Uri $url = Uri.parse('/comments/${id}');
-    final Request $request = Request(
-      'DELETE',
-      $url,
-      client.baseUrl,
-    );
+    final Request $request = Request('DELETE', $url, client.baseUrl);
     return client
         .send<void, void>($request)
         .timeout(const Duration(microseconds: 10000000));

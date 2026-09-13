@@ -1,6 +1,7 @@
 name: alice_objectbox_example
 description: "Alice + ObjectBox + HTTP package - Example"
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: 'none'
+resolution: workspace
 version: 1.0.0+2
 
 environment:
@@ -18,15 +19,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
-
-dependency_overrides:
-  alice:
-    path: ../../packages/alice
-  alice_http:
-    path: ../../packages/alice_http
-  alice_objectbox:
-    path: ../../packages/alice_objectbox
+  flutter_lints: ^6.0.0
 
 flutter:
   uses-material-design: true

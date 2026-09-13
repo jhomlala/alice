@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'invalid_model.g.dart';
 
 @JsonSerializable()
-class InvalidModel with EquatableMixin {
+class InvalidModel extends Equatable {
   const InvalidModel({this.id});
 
   // should be `int?` but we want to test the error
