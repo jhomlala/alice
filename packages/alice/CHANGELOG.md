@@ -4,9 +4,6 @@
 * Added sharePositionOrigin support for iOS.
 * Added FAB menu for share and share curl.
 
-## 1.2.0
-* Placeholder for future release.
-
 ## 1.1.2
 * Bumped dependencies.
 
