@@ -50,6 +50,42 @@ You can customize Alice's behavior by passing an `AliceConfiguration` object to 
 ### Notifications
 You can configure Alice to show a system notification whenever HTTP requests are made. Clicking this notification quickly opens the inspector.
 
+:::warning iOS Notification Configuration
+For notification taps to work correctly on iOS, you must configure your `ios/Runner/AppDelegate.swift` file.
+
+First, add the `flutter_local_notifications` import at the top. Then, inside `didFinishLaunchingWithOptions`, register the plugin callback and set the `UNUserNotificationCenter` delegate.
+
+Your `AppDelegate.swift` should look similar to this:
+
+```swift
+import UIKit
+import Flutter
+import flutter_local_notifications // Add this import
+
+@UIApplicationMain
+@objc class AppDelegate: FlutterAppDelegate {
+  override func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+  ) -> Bool {
+    
+    // Add these lines for Alice/Local Notifications:
+    FlutterLocalNotificationsPlugin.setPluginRegistrantCallback { (registry) in
+        GeneratedPluginRegistrant.register(with: registry)
+    }
+    
+    if #available(iOS 10.0, *) {
+      UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
+    }
+    // End of Alice configuration
+
+    GeneratedPluginRegistrant.register(with: self)
+    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+  }
+}
+```
+:::
+
 ```dart
 Alice alice = Alice(
   configuration: AliceConfiguration(
