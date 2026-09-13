@@ -68,13 +68,19 @@ class AliceCore {
 
   /// Called when calls has been updated
   Future<void> _onCallsChanged(List<AliceHttpCall>? calls) async {
-    final BuildContext? context = getContext();
-    if (calls != null && calls.isNotEmpty && context != null) {
-      final AliceStats stats = _configuration.aliceStorage.getStats();
-      _notification?.showStatsNotification(
-        context: context,
-        stats: stats,
-      );
+    if (!_configuration.showNotification || _notification == null) {
+      return;
+    }
+
+    if (calls != null && calls.isNotEmpty) {
+      final BuildContext? context = getContext();
+      if (context != null) {
+        final AliceStats stats = _configuration.aliceStorage.getStats();
+        _notification?.showStatsNotification(
+          context: context,
+          stats: stats,
+        );
+      }
     }
   }
 
