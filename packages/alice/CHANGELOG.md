@@ -1,4 +1,8 @@
 
+## Unreleased
+
+* Migrated documentation to Docusaurus for better search and structure.
+
 ## 1.2.0
 
 * Updated Excluded media directory from package publication.
