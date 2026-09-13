@@ -67,7 +67,8 @@ class _AliceCallDetailsFabState extends State<AliceCallDetailsFab> {
   }
 
   Future<void> _shareCall() async {
-    final box = _shareButtonKey.currentContext?.findRenderObject() as RenderBox?;
+    final box =
+        _shareButtonKey.currentContext?.findRenderObject() as RenderBox?;
     final sharePositionOrigin =
         box != null ? box.localToGlobal(Offset.zero) & box.size : null;
     await AliceExportHelper.shareCall(
