@@ -1,18 +1,19 @@
-## Unreleased
 
-* Updated: Excluded media directory from package publication.
-* Updated: Replaced open_filex with open_file (^4.0.0) (by @kostadin-damyanov-prime).
+## 1.2.0
+
+* Updated Excluded media directory from package publication.
+* Updated Replaced open_filex with open_file (^4.0.0) (by @kostadin-damyanov-prime).
 * Added support for share curl option (by @thanhnt-mdev).
 * Added sharePositionOrigin support for iOS (by @thanhnt-mdev).
 * Added FAB menu for share and share curl.
 * Fixed null check in AliceCore (by @karlcosse).
 
 ## 1.1.2
-* Bumped dependencies.
+* Updated dependencies.
 
 ## 1.1.1
 
-* Bumped dependencies.
+* Updated dependencies.
 
 # 1.0.0
 

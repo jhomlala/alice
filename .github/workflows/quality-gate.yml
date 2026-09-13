@@ -1,10 +1,11 @@
-name: CI
+name: Quality Gate
 
 on:
   pull_request:
   push:
     branches:
       - main
+      - master
 
 jobs:
   format:
