@@ -76,10 +76,7 @@ class AliceCore {
       final BuildContext? context = getContext();
       if (context != null) {
         final AliceStats stats = _configuration.aliceStorage.getStats();
-        _notification?.showStatsNotification(
-          context: context,
-          stats: stats,
-        );
+        _notification?.showStatsNotification(context: context, stats: stats);
       }
     }
   }
