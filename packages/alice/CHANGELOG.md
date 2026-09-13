@@ -5,6 +5,7 @@
 * Added support for share curl option (by @thanhnt-mdev).
 * Added sharePositionOrigin support for iOS (by @thanhnt-mdev).
 * Added FAB menu for share and share curl.
+* Fixed null check in AliceCore (by @karlcosse).
 
 ## 1.1.2
 * Bumped dependencies.
