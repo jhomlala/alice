@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:alice/core/alice_core.dart';
-import 'package:alice/helper/alice_export_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_translation.dart';
 import 'package:alice/ui/call_details/model/alice_call_details_tab.dart';

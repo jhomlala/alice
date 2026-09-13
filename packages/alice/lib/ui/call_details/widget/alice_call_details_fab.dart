@@ -1,8 +1,6 @@
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/helper/alice_export_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/model/alice_translation.dart';
-import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/ui/common/alice_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +27,6 @@ class _AliceCallDetailsFabState extends State<AliceCallDetailsFab> {
   @override
   Widget build(BuildContext context) {
     final showShare = widget.core.configuration.showShareButton;
-    final showCurl = showShare; // Always show curl if share is shown
 
     if (!showShare) {
       return Container();
