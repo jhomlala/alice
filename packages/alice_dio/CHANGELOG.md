@@ -1,3 +1,7 @@
+## Unreleased
+
+* Updated package README with setup instructions and badges.
+
 ## 1.1.1
 * Bumped dependencies.
 
