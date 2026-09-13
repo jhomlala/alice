@@ -8,7 +8,7 @@ Add this to your **pubspec.yaml** file:
 
 ```yaml
 dependencies:
-  alice_http_client: ^1.0.7
+  alice_http_client: ^1.2.0
 ```
 
 ## Usage

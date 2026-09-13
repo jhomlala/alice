@@ -8,7 +8,7 @@ Add this to your **pubspec.yaml** file:
 
 ```yaml
 dependencies:
-  alice_chopper: ^1.0.8
+  alice_chopper: ^1.2.0
 ```
 
 ## Usage

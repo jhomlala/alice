@@ -17,7 +17,7 @@ Add this to your **pubspec.yaml** file:
 
 ```yaml
 dependencies:
-  alice: ^1.0.0
+  alice: ^1.2.0
 ```
 
 <table>
