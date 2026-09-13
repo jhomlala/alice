@@ -153,6 +153,8 @@ enum AliceTranslationKey {
   saveLogError,
   saveLogStackTrace,
   saveLogCurl,
+  actionShare,
+  actionShareCurl,
   accept,
   parserFailed,
   unknown,
