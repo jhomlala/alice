@@ -22,10 +22,10 @@ class AliceExportHelper {
   static const JsonEncoder _encoder = JsonEncoder.withIndent('  ');
   static const String _fileName = "alice_log";
 
-  /// Format log based on [call] and tries to share it.
   static Future<AliceExportResult> shareCall({
     required BuildContext context,
     required AliceHttpCall call,
+    Rect? sharePositionOrigin,
   }) async {
     final callLog = await AliceExportHelper.buildFullCallLog(
       call: call,
@@ -43,6 +43,24 @@ class AliceExportHelper {
       ShareParams(
         text: callLog,
         subject: context.i18n(AliceTranslationKey.emailSubject),
+        sharePositionOrigin: sharePositionOrigin,
+      ),
+    );
+
+    return AliceExportResult(success: true);
+  }
+
+  static Future<AliceExportResult> shareCurlCommand({
+    required BuildContext context,
+    required AliceHttpCall call,
+    Rect? sharePositionOrigin,
+  }) async {
+    final curl = Curl.getCurlCommand(call);
+    await SharePlus.instance.share(
+      ShareParams(
+        text: curl,
+        subject: context.i18n(AliceTranslationKey.emailSubject),
+        sharePositionOrigin: sharePositionOrigin,
       ),
     );
 
