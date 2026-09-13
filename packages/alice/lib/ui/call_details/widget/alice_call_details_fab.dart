@@ -29,7 +29,7 @@ class _AliceCallDetailsFabState extends State<AliceCallDetailsFab> {
     final showShare = widget.core.configuration.showShareButton;
 
     if (!showShare) {
-      return Container();
+      return const SizedBox.shrink();
     }
 
     // Both enabled: show expandable FAB
