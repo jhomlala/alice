@@ -4,7 +4,7 @@ import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/ui/common/alice_theme.dart';
 import 'package:flutter/material.dart';
 
-class AliceCallDetailsFab extends StatelessWidget {
+class AliceCallDetailsFab extends StatefulWidget {
   final AliceHttpCall call;
   final AliceCore core;
 
@@ -14,81 +14,93 @@ class AliceCallDetailsFab extends StatelessWidget {
     super.key,
   });
 
+  @override
+  State<AliceCallDetailsFab> createState() => _AliceCallDetailsFabState();
+}
+
+class _AliceCallDetailsFabState extends State<AliceCallDetailsFab> {
+  bool _isExpanded = false;
+
   static final GlobalKey _shareButtonKey = GlobalKey();
   static final GlobalKey _shareCurlButtonKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    final showShare = core.configuration.showShareButton;
-    final showCurl = core.configuration.showShareCurlButton;
+    final showShare = widget.core.configuration.showShareButton;
+    final showCurl = widget.core.configuration.showShareCurlButton;
 
     if (!showShare && !showCurl) {
       return Container();
     }
 
-    if (showShare && !showCurl) {
+    // If only one is enabled, keep original behavior
+    if (showShare != showCurl) {
       return FloatingActionButton(
         backgroundColor: AliceTheme.lightRed,
-        key: _shareButtonKey,
-        onPressed: () => _shareCall(context),
-        child: const Icon(Icons.share, color: AliceTheme.white),
+        onPressed: showShare ? () => _shareCall() : () => _shareCurlCall(),
+        child: Icon(
+          showShare ? Icons.share : Icons.terminal,
+          color: AliceTheme.white,
+        ),
       );
     }
 
-    if (!showShare && showCurl) {
-      return FloatingActionButton(
-        backgroundColor: AliceTheme.lightRed,
-        key: _shareCurlButtonKey,
-        onPressed: () => _shareCurlCall(context),
-        child: const Icon(Icons.terminal, color: AliceTheme.white),
-      );
-    }
-
+    // Both enabled: show expandable FAB
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
+        if (_isExpanded) ...[
+          FloatingActionButton(
+            key: _shareCurlButtonKey,
+            mini: true,
+            backgroundColor: AliceTheme.lightRed,
+            onPressed: () => _shareCurlCall(),
+            child: const Icon(Icons.terminal, color: AliceTheme.white),
+          ),
+          const SizedBox(height: 8),
+          FloatingActionButton(
+            key: _shareButtonKey,
+            mini: true,
+            backgroundColor: AliceTheme.lightRed,
+            onPressed: () => _shareCall(),
+            child: const Icon(Icons.share, color: AliceTheme.white),
+          ),
+          const SizedBox(height: 8),
+        ],
         FloatingActionButton(
           backgroundColor: AliceTheme.lightRed,
-          key: _shareCurlButtonKey,
-          heroTag: 'share_curl',
-          onPressed: () => _shareCurlCall(context),
-          child: const Icon(Icons.terminal, color: AliceTheme.white),
-        ),
-        const SizedBox(height: 8),
-        FloatingActionButton(
-          backgroundColor: AliceTheme.lightRed,
-          key: _shareButtonKey,
-          heroTag: 'share',
-          onPressed: () => _shareCall(context),
-          child: const Icon(Icons.share, color: AliceTheme.white),
+          onPressed: () => setState(() => _isExpanded = !_isExpanded),
+          child: Icon(
+            _isExpanded ? Icons.close : Icons.share,
+            color: AliceTheme.white,
+          ),
         ),
       ],
     );
   }
 
-  void _shareCall(BuildContext context) async {
+  Future<void> _shareCall() async {
     final box = _shareButtonKey.currentContext?.findRenderObject() as RenderBox?;
-    final sharePositionOrigin = box != null
-        ? box.localToGlobal(Offset.zero) & box.size
-        : null;
-
+    final sharePositionOrigin =
+        box != null ? box.localToGlobal(Offset.zero) & box.size : null;
     await AliceExportHelper.shareCall(
       context: context,
-      call: call,
+      call: widget.call,
       sharePositionOrigin: sharePositionOrigin,
     );
+    setState(() => _isExpanded = false);
   }
 
-  void _shareCurlCall(BuildContext context) async {
-    final box = _shareCurlButtonKey.currentContext?.findRenderObject() as RenderBox?;
-    final sharePositionOrigin = box != null
-        ? box.localToGlobal(Offset.zero) & box.size
-        : null;
-
+  Future<void> _shareCurlCall() async {
+    final box =
+        _shareCurlButtonKey.currentContext?.findRenderObject() as RenderBox?;
+    final sharePositionOrigin =
+        box != null ? box.localToGlobal(Offset.zero) & box.size : null;
     await AliceExportHelper.shareCurlCommand(
       context: context,
-      call: call,
+      call: widget.call,
       sharePositionOrigin: sharePositionOrigin,
     );
+    setState(() => _isExpanded = false);
   }
 }
