@@ -39,10 +39,10 @@ class AliceHttpClientAdapter with AliceAdapter {
         ..body = body;
     }
     httpRequest.time = DateTime.now();
-    final headers = <String, dynamic>{};
+    final headers = <String, String>{};
 
-    httpRequest.headers.forEach((header, dynamic value) {
-      headers[header] = value;
+    request.headers.forEach((header, values) {
+      headers[header] = values.toString();
     });
 
     httpRequest.headers = AliceParser.parseHeaders(headers: headers);
