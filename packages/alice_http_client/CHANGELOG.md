@@ -1,3 +1,7 @@
+## Unreleased
+
+* Fixed copying of HTTP request headers (by @FirentisTFW).
+
 ## 1.1.1
 * Bumped dependencies.
 
