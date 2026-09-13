@@ -1,14 +1,14 @@
 ## 1.2.0
 
 * Updated package README with setup instructions and badges.
-* Updated: dependencies.
+* Updated dependencies.
 
 ## 1.1.1
-* Updated: dependencies.
+* Updated dependencies.
 
 # 1.1.0
 
-* Updated: dependencies.
+* Updated dependencies.
 
 # 1.0.7
 

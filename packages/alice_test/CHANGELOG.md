@@ -1,7 +1,7 @@
 ## 1.1.1
-* Updated: dependencies.
+* Updated dependencies.
 
 # 1.1.0
 
-* Updated: dependencies.
+* Updated dependencies.
 
