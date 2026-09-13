@@ -1,6 +1,7 @@
 ## Unreleased
 
-* Replaced open_filex with open_file (^4.0.0) (by @kostadin-damyanov-prime).
+* Updated: Excluded media directory from package publication.
+* Updated: Replaced open_filex with open_file (^4.0.0) (by @kostadin-damyanov-prime).
 * Added support for share curl option (by @thanhnt-mdev).
 * Added sharePositionOrigin support for iOS (by @thanhnt-mdev).
 * Added FAB menu for share and share curl.
