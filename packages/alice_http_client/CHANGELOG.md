@@ -1,3 +1,7 @@
+## Unreleased
+
+* Merged PR from @FirentisTFW.
+
 ## 1.1.1
 * Bumped dependencies.
 
