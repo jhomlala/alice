@@ -1,14 +1,15 @@
-## Unreleased
+## 1.2.0
 
 * Fixed copying of HTTP request headers (by @FirentisTFW).
 * Updated package README with setup instructions and badges.
+* Updated: dependencies.
 
 ## 1.1.1
-* Bumped dependencies.
+* Updated: dependencies.
 
 # 1.1.0
 
-* Bumped dependencies.
+* Updated: dependencies.
 
 # 1.0.7
 
