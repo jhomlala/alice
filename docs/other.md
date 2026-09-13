@@ -1,4 +1,8 @@
-## Other usages
+---
+sidebar_label: 'Advanced Usage'
+---
+
+# Advanced Usage
 
 ## Show inspector manually
 

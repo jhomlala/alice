@@ -2,6 +2,7 @@
 const config = {
   title: 'Alice',
   tagline: 'HTTP Inspector tool for Flutter',
+  favicon: 'img/favicon.png',
   url: 'https://jhomlala.github.io',
   baseUrl: '/alice/',
   organizationName: 'jhomlala',
@@ -37,6 +38,10 @@ const config = {
     },
     navbar: {
       title: 'Alice',
+      logo: {
+        alt: 'Alice Logo',
+        src: 'img/logo.png',
+      },
       items: [
         {
           to: '/',

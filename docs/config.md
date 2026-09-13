@@ -1,75 +1,88 @@
-## Configuration
+---
+sidebar_label: 'Configuration'
+---
 
-1. Create Alice instance:
+# Configuration
+
+Alice is designed to be easy to set up while offering powerful customization options to fit your workflow.
+
+## Basic Setup
+
+To get started with Alice, you need to create an instance and attach its navigator key to your application. This is required so Alice can render its inspector UI over your app.
+
+### 1. Create the Instance
+First, create a global instance of Alice that you will use throughout your app:
 
 ```dart
-
 Alice alice = Alice();
 ```
 
-2. Add navigator key to your application:
+### 2. Attach the Navigator Key
+Pass Alice's navigator key to your root `MaterialApp` or `CupertinoApp`:
 
 ```dart
-MaterialApp(navigatorKey: alice.getNavigatorKey(), home: ...);
+MaterialApp(
+  navigatorKey: alice.getNavigatorKey(),
+  home: MyHomePage(),
+);
 ```
 
-You need to add this navigator key in order to show inspector UI.
-You can use also your navigator key in Alice:
+#### Using an Existing Navigator Key
+If your application already manages its own custom navigator key, you can provide it directly to Alice via the configuration object:
 
 ```dart
-
-Alice alice = Alice(configuration: AliceConfiguration(navigatorKey: yourNavigatorKeyHere));
+Alice alice = Alice(
+  configuration: AliceConfiguration(navigatorKey: yourNavigatorKeyHere)
+);
 ```
 
-If you need to pass navigatorKey lazily, you can use:
-
+*Alternatively, if you need to pass it lazily after initialization:*
 ```dart
 alice.setNavigatorKey(yourNavigatorKeyHere);
 ```
 
-This is minimal configuration required to run Alice. Can set optional settings in Alice constructor,
-which are presented below. If you don't want to change anything, you can move to Http clients
-configuration.
+---
 
-### Alice configuration
+## Advanced Configuration
 
-You can pass optional `AliceConfiguration` parameter to `Alice` instance.
+You can customize Alice's behavior by passing an `AliceConfiguration` object to the constructor. Below are all the available settings you can tweak.
 
-You can set `showNotification` in Alice constructor to show notification. Clicking on this
-notification will open inspector.
+### Notifications
+You can configure Alice to show a system notification whenever HTTP requests are made. Clicking this notification quickly opens the inspector.
 
 ```dart
-
-Alice alice = Alice(configuration: AliceConfiguration(showNotification: true));
+Alice alice = Alice(
+  configuration: AliceConfiguration(
+    showNotification: true,
+    // Optional: Provide a custom Android icon resource name (defaults to @mipmap/ic_launcher)
+    notificationIcon: "myNotificationIconResourceName",
+  )
+);
 ```
 
-You can set `showInspectorOnShake` in Alice constructor to open inspector by shaking your device (
-default disabled):
+### Shake to Open
+You can enable a physical "shake" gesture to quickly open the Alice inspector. This is disabled by default, but is very handy for physical device testing.
 
 ```dart
-
-Alice alice = Alice(configuration: AliceConfiguation(showInspectorOnShake: true));
+Alice alice = Alice(
+  configuration: AliceConfiguration(showInspectorOnShake: true)
+);
 ```
 
-If you want to pass another notification icon, you can use `notificationIcon` parameter. Default
-value is @mipmap/ic_launcher.
+### UI Directionality
+If you need to force a specific text direction (e.g., RTL or LTR) for the Alice UI, you can override the app's default directionality. If left empty, Alice inherits the directionality of your app.
 
 ```dart
-
-Alice alice = Alice(configuration: AliceConfiguration(notificationIcon: "myNotificationIconResourceName"));
+Alice alice = Alice(
+  configuration: AliceConfiguration(directionality: TextDirection.ltr)
+);
 ```
 
-If you want to change the Directionality of Alice, you can use the `directionality` parameter. If
-the parameter is set to null, the Directionality of the app will be used.
+### Share Button
+The inspector includes a share button by default, allowing you to easily export and share HTTP logs. If you want to hide this button, set `showShareButton` to `false`.
 
 ```dart
-
-Alice alice = Alice(configuration: AliceConfiguration(directionality: TextDirection.ltr));
-```
-
-If you want to hide share button, you can use `showShareButton` parameter.
-
-```dart
-
-Alice alice = Alice(configuration: AliceConfiguration(showShareButton: false));
+Alice alice = Alice(
+  configuration: AliceConfiguration(showShareButton: false)
+);
 ```

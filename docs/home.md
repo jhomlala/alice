@@ -1,84 +1,55 @@
 ---
 slug: /
 sidebar_position: 1
+sidebar_label: 'Introduction'
 ---
 
-<p align="center">
-<img src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/logo.png" width="250px" />
-</p>
+# Introduction
 
-# Alice
+Alice is a powerful HTTP Inspector tool for Flutter that helps you debug network requests effortlessly. It catches and stores HTTP requests and responses, allowing you to view them directly on your device via a simple, built-in UI.
 
-Alice is an HTTP Inspector tool for Flutter which helps debugging http requests. It catches and stores http requests and responses, which can be viewed via simple UI. It is inspired from Chuck and Chucker.
+:::info Inspiration
+Alice was heavily inspired by the popular Android networking tools **Chuck** and **Chucker**.
+:::
 
-## Installation
+## Core Capabilities
 
-Add this to your **pubspec.yaml** file:
+Alice goes beyond simple logging by providing a fully-featured UI inside your Flutter app:
+
+* **Detailed Request Logging:** Inspect headers, body, query parameters, and response times for every HTTP call.
+* **On-Device Inspector UI:** No need to connect your phone to a computer. Simply view all network traffic directly on the device screen.
+* **Shake to Open:** Easily trigger the inspector at any time by physically shaking your device.
+* **Search and Statistics:** Filter through hundreds of API calls and view basic network usage statistics.
+* **Save & Export:** Save HTTP call data to your device's file system or export the logs for deeper analysis.
+
+## Extensive Client Support
+
+Whether you use the default Dart libraries or third-party packages, Alice has you covered. Alice supports seamless interception for the most popular Dart HTTP clients:
+* `Dio`
+* `Chopper`
+* `http` (from the `http/http` package)
+* `HttpClient` (from `dart:io`)
+
+## Quick Start
+
+Add Alice to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
   alice: ^1.2.0
 ```
 
-<table>
-  <tr>
-    <td>
-		<img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/1.png" />
-    </td>
-    <td>
-       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/2.png" />
-    </td>
-    <td>
-       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/3.png" />
-    </td>
-    <td>
-       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/4.png" />
-    </td>
-     <td>
-       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/5.png" />
-    </td>
-    <td>
-       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/6.png" />
-    </td>
-  </tr>
-  <tr>
-    <td>
-	<img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/7.png" />
-    </td>
-    <td>
-       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/8.png" />
-    </td>
-    <td>
-       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/9.png" />
-    </td>
-    <td>
-       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/10.png" />
-    </td>
-    <td>
-       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/11.png" />
-    </td>
-     <td>
-       <img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/12.png" />
-    </td>
-  </tr>
-</table>
+Initialize Alice and attach it to your app's navigation:
 
-**Supported Dart http client plugins:**
+```dart
+// 1. Create Alice instance
+Alice alice = Alice();
 
-- Dio
-- HttpClient from dart:io package
-- Http from http/http package
-- Chopper
-- Generic HTTP client
+// 2. Pass its navigator key to your app
+MaterialApp(
+  navigatorKey: alice.getNavigatorKey(),
+  home: MyApp(),
+);
+```
 
-**Features:**  
-✔️ Detailed logs for each HTTP calls (HTTP Request, HTTP Response)  
-✔️ Inspector UI for viewing HTTP calls  
-✔️ Save HTTP calls to file  
-✔️ Statistics  
-✔️ Notification on HTTP call  
-✔️ Support for top used HTTP clients in Dart  
-✔️ Error handling  
-✔️ Shake to open inspector  
-✔️ HTTP calls search  
-✔️ Flutter/Android logs
+> **Next Steps:** Head over to the **HTTP Clients** section in the sidebar to see how to connect Alice to your specific networking library!
