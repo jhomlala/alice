@@ -23,7 +23,7 @@ dependencies:
   path_provider: ^2.1.5
   permission_handler: ^13.0.2
   package_info_plus: ^10.2.1
-  open_filex: ^4.6.0
+  open_file: ^4.0.0
   sensors_plus: ^7.1.0
   share_plus: ^13.3.0
   collection: ^1.19.1
