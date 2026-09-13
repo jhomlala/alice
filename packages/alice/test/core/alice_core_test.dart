@@ -18,7 +18,6 @@ void main() {
   late AliceLogger aliceLogger;
 
   setUp(() {
-    TestWidgetsFlutterBinding.ensureInitialized();
     registerFallbackValue(MockedData.getLoadingHttpCall());
     registerFallbackValue(AliceHttpError());
     registerFallbackValue(AliceHttpResponse());
