@@ -22,7 +22,6 @@ class _MyAppState extends State<MyApp> {
 
   final configuration = AliceConfiguration(
     showShareButton: true,
-    showShareCurlButton: true,
   );
   late final Alice _alice = Alice(configuration: configuration)
     ..addAdapter(_aliceDioAdapter);

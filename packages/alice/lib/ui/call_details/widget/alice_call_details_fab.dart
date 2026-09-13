@@ -27,22 +27,10 @@ class _AliceCallDetailsFabState extends State<AliceCallDetailsFab> {
   @override
   Widget build(BuildContext context) {
     final showShare = widget.core.configuration.showShareButton;
-    final showCurl = widget.core.configuration.showShareCurlButton;
+    final showCurl = showShare; // Always show curl if share is shown
 
-    if (!showShare && !showCurl) {
+    if (!showShare) {
       return Container();
-    }
-
-    // If only one is enabled, keep original behavior
-    if (showShare != showCurl) {
-      return FloatingActionButton(
-        backgroundColor: AliceTheme.lightRed,
-        onPressed: showShare ? () => _shareCall() : () => _shareCurlCall(),
-        child: Icon(
-          showShare ? Icons.share : Icons.terminal,
-          color: AliceTheme.white,
-        ),
-      );
     }
 
     // Both enabled: show expandable FAB
