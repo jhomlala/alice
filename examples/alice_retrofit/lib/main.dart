@@ -17,7 +17,10 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late final AliceDioAdapter _aliceDioAdapter = AliceDioAdapter();
 
-  final configuration = AliceConfiguration(showShareButton: true);
+  final configuration = AliceConfiguration(
+    showShareButton: true,
+    showNotification: false,
+  );
   late final Alice _alice = Alice(configuration: configuration)
     ..addAdapter(_aliceDioAdapter);
 
