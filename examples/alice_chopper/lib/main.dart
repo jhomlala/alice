@@ -22,7 +22,7 @@ import 'package:chopper/chopper.dart';
 import 'package:alice_chopper_example/services/photos_service.dart';
 import 'package:alice_chopper_example/services/todos_service.dart';
 import 'package:alice_chopper_example/services/users_service.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() => runApp(const MyApp());
 

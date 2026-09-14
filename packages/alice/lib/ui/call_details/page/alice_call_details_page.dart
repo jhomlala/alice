@@ -13,7 +13,7 @@ import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/ui/common/alice_page.dart';
 import 'package:alice/ui/common/alice_theme.dart';
 import 'package:collection/collection.dart' show IterableExtension;
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Call details page which displays 4 tabs: overview, request, response, error.
 class AliceCallDetailsPage extends StatefulWidget {

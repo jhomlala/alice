@@ -4,7 +4,7 @@ import 'package:alice_http/alice_http_adapter.dart';
 import 'package:alice_http/alice_http_extensions.dart';
 import 'package:alice_objectbox/alice_objectbox.dart';
 import 'package:alice_objectbox/alice_objectbox_store.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:http/http.dart' as http;
 
 Future<void> main() async {

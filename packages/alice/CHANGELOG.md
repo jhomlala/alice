@@ -1,6 +1,7 @@
 
 ## Unreleased
 
+* Migrated to `material_ui` package.
 * Migrated documentation to Docusaurus for better search and structure.
 
 ## 1.2.0

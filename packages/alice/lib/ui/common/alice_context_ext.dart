@@ -1,6 +1,6 @@
 import 'package:alice/model/alice_translation.dart';
 import 'package:alice/core/alice_translations.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Extension for [BuildContext].
 extension AliceContextExt on BuildContext {

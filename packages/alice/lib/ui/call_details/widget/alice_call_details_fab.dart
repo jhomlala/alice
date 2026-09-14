@@ -2,7 +2,7 @@ import 'package:alice/core/alice_core.dart';
 import 'package:alice/helper/alice_export_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/ui/common/alice_theme.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class AliceCallDetailsFab extends StatefulWidget {
   final AliceHttpCall call;

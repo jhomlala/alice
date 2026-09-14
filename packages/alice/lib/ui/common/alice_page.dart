@@ -1,6 +1,6 @@
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/ui/common/alice_theme.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Common page widget which is used across Alice pages.
 class AlicePage extends StatelessWidget {

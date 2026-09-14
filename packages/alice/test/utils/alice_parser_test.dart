@@ -1,6 +1,6 @@
 import 'package:alice/model/alice_translation.dart';
 import 'package:alice/utils/alice_parser.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 

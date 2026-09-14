@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Widget which displays expandable formatted row of text.
 class AliceCallExpandableListRow extends StatelessWidget {

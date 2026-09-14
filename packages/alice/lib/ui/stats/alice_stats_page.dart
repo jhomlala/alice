@@ -6,7 +6,7 @@ import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/ui/common/alice_page.dart';
 import 'package:alice/ui/widget/alice_stats_row.dart';
 import 'package:alice/utils/num_comparison.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// General stats page for currently caught HTTP calls.
 class AliceStatsPage extends StatelessWidget {
