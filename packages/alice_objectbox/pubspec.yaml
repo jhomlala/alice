@@ -16,7 +16,6 @@ environment:
   flutter: ">=3.29.0"
 
 dependencies:
-  material_ui: ^1.2.0
   flutter:
     sdk: flutter
   alice: ^1.2.0

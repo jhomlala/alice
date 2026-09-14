@@ -18,7 +18,6 @@ environment:
 dependencies:
   alice: ^1.2.0
   dio: ^5.8.0+1
-  material_ui: ^1.2.0
   flutter:
     sdk: flutter
 

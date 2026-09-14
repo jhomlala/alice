@@ -17,7 +17,6 @@ environment:
 dependencies:
   alice: ^1.2.0
   http: ^1.4.0
-  material_ui: ^1.2.0
 
 dev_dependencies:
   flutter_lints: ^6.0.0
