@@ -7,8 +7,8 @@ import 'package:alice/ui/call_details/widget/alice_call_list_row.dart';
 import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/utils/alice_parser.dart';
 import 'package:alice/ui/common/alice_scroll_behavior.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Screen which displays information about call request: content, transfer,
 /// headers.

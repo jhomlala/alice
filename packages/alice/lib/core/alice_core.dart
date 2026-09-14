@@ -13,7 +13,7 @@ import 'package:alice/model/alice_http_response.dart';
 import 'package:alice/model/alice_log.dart';
 import 'package:alice/ui/common/alice_navigation.dart';
 import 'package:alice/utils/shake_detector.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class AliceCore {
   /// Configuration of Alice

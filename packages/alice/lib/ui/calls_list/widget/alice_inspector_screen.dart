@@ -3,7 +3,7 @@ import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/ui/calls_list/model/alice_calls_list_sort_option.dart';
 import 'package:alice/ui/calls_list/widget/alice_calls_list_screen.dart';
 import 'package:alice/ui/calls_list/widget/alice_empty_logs_widget.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Screen which is hosted in calls list page. It displays HTTP calls. It allows
 /// to search call and sort items based on provided criteria.

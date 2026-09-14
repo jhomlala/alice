@@ -20,6 +20,7 @@ dependencies:
   chopper: ^8.2.0
   http: ^1.4.0
   uuid: ^4.5.1
+  material_ui: ^1.2.0
   flutter:
     sdk: flutter
 

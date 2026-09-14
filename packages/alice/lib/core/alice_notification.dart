@@ -3,7 +3,7 @@ import 'package:alice/core/alice_utils.dart';
 import 'package:alice/helper/operating_system.dart';
 import 'package:alice/model/alice_translation.dart';
 import 'package:alice/ui/common/alice_context_ext.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 /// Helper for displaying local notifications.

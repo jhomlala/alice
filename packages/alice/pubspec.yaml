@@ -16,6 +16,7 @@ environment:
   flutter: ">=3.29.0"
 
 dependencies:
+  material_ui: ^1.2.0
   flutter:
     sdk: flutter
   flutter_local_notifications: ^22.3.1
@@ -30,6 +31,7 @@ dependencies:
   url_launcher: ^6.3.2
   equatable: ^2.0.7
 
+  cupertino_ui: any
 dev_dependencies:
   flutter_lints: ^6.0.0
   flutter_test:

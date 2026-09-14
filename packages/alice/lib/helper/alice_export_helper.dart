@@ -12,7 +12,7 @@ import 'package:alice/model/alice_translation.dart';
 import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/utils/alice_parser.dart';
 import 'package:alice/utils/curl.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
