@@ -1,73 +1,78 @@
 import 'package:flutter/material.dart';
 import 'package:alice/alice.dart';
+import 'package:alice/model/alice_configuration.dart';
 import 'package:alice_dio/alice_dio_adapter.dart';
 import 'package:dio/dio.dart';
 import 'rest_client.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() => runApp(const MyApp());
+
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class _MyAppState extends State<MyApp> {
+  late final AliceDioAdapter _aliceDioAdapter = AliceDioAdapter();
+
+  final configuration = AliceConfiguration(showShareButton: true);
+  late final Alice _alice = Alice(configuration: configuration)
+    ..addAdapter(_aliceDioAdapter);
+
+  late final Dio _dio = Dio(BaseOptions(followRedirects: false))
+    ..interceptors.add(_aliceDioAdapter);
+
+  late final RestClient _client = RestClient(_dio);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      navigatorKey: alice.getNavigatorKey(),
-      home: const MyHomePage(),
-    );
-  }
-}
-
-final alice = Alice();
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  late RestClient client;
-
-  @override
-  void initState() {
-    super.initState();
-    final dio = Dio();
-    aliceDioAdapter = AliceDioAdapter();
-    alice.addAdapter(aliceDioAdapter);
-    dio.interceptors.add(aliceDioAdapter);
-    client = RestClient(dio);
-  }
-
-  late AliceDioAdapter aliceDioAdapter;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Alice Retrofit Example")),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () async {
-                await client.getPost(1);
-              },
-              child: const Text("Trigger Request"),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                alice.showInspector();
-              },
-              child: const Text("Open Alice Inspector"),
-            ),
-          ],
+      navigatorKey: _alice.getNavigatorKey(),
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(title: const Text('Alice + Retrofit - Example')),
+        body: Container(
+          padding: const EdgeInsets.all(16),
+          child: ListView(
+            children: [
+              const SizedBox(height: 8),
+              const Text(
+                style: TextStyle(fontSize: 14),
+                'Welcome to example of Alice + Retrofit Example. '
+                'Click buttons below to generate sample data.',
+              ),
+              ElevatedButton(
+                onPressed: _runRetrofitRequests,
+                child: const Text('Run Retrofit HTTP Requests'),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                style: TextStyle(fontSize: 14),
+                'After clicking on buttons above, you should receive notification.'
+                ' Click on it to show inspector. You can also shake your device or click button below.',
+              ),
+              ElevatedButton(
+                onPressed: _runHttpInspector,
+                child: const Text('Run HTTP Inspector'),
+              ),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  void _runRetrofitRequests() async {
+    try {
+      await _client.getPost(1);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  void _runHttpInspector() {
+    _alice.showInspector();
   }
 }
