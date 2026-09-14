@@ -16,5 +16,6 @@ workspace:
   - examples/alice_http
   - examples/alice_http_client
   - examples/alice_objectbox
+  - examples/alice_retrofit
 
 

@@ -1,0 +1,30 @@
+name: alice_retrofit
+description: A new Flutter project.
+publish_to: 'none'
+resolution: workspace
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.7.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  dio: any
+  retrofit: any
+  json_annotation: any
+  alice:
+    path: ../../packages/alice
+  alice_dio:
+    path: ../../packages/alice_dio
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  build_runner: any
+  retrofit_generator: any
+  json_serializable: any
+
+flutter:
+  uses-material-design: true
