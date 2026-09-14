@@ -21,18 +21,11 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    final httpLink = HttpLink('https://countries.trevorblades.com/');
-    final link = Link.from([
-      AliceGraphQLLink(_alice),
-      httpLink,
-    ]);
+    final url = 'https://countries.trevorblades.com/';
+    final httpLink = HttpLink(url);
+    final link = Link.from([AliceGraphQLLink(_alice, url: url), httpLink]);
 
-    _client = ValueNotifier(
-      GraphQLClient(
-        cache: GraphQLCache(),
-        link: link,
-      ),
-    );
+    _client = ValueNotifier(GraphQLClient(cache: GraphQLCache(), link: link));
   }
 
   @override
@@ -78,16 +71,18 @@ class _MyAppState extends State<MyApp> {
 
   void _runGraphQLRequests() async {
     final client = _client.value;
-    
+
     // Simple Query
-    await client.query(QueryOptions(
-      document: gql('query { countries { name } }'),
-    ));
+    await client.query(
+      QueryOptions(document: gql('query { countries { name } }')),
+    );
 
     // Another Query
-    await client.query(QueryOptions(
-      document: gql('query { country(code: "PL") { name native } }'),
-    ));
+    await client.query(
+      QueryOptions(
+        document: gql('query { country(code: "PL") { name native } }'),
+      ),
+    );
   }
 
   void _runHttpInspector() {

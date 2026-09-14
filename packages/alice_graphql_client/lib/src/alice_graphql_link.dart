@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+
 import 'package:alice/alice.dart';
 import 'package:alice/core/alice_adapter.dart';
 import 'package:alice/model/alice_http_call.dart';
@@ -6,22 +8,71 @@ import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:gql_link/gql_link.dart';
 import 'package:gql_exec/gql_exec.dart';
+import 'package:gql/language.dart';
+import 'package:gql/ast.dart';
 
 class AliceGraphQLLink extends Link with AliceAdapter {
-  AliceGraphQLLink(Alice alice) {
+  AliceGraphQLLink(Alice alice, {this.url}) {
     alice.addAdapter(this);
+  }
+
+  final String? url;
+
+  String _getOperationName(Request request) {
+    if (request.operation.operationName != null) {
+      return request.operation.operationName!;
+    }
+    try {
+      final definition = request.operation.document.definitions
+          .whereType<OperationDefinitionNode>()
+          .first;
+      if (definition.name != null) {
+        return definition.name!.value;
+      }
+      final selections = definition.selectionSet.selections
+          .whereType<FieldNode>();
+      final firstSelection = selections.firstWhere(
+        (sel) => sel.name.value != '__typename',
+        orElse: () => selections.first,
+      );
+      return firstSelection.name.value;
+    } catch (_) {
+      return 'UnknownOperation';
+    }
   }
 
   @override
   Stream<Response> request(Request request, [NextLink? forward]) {
-    final operationName = request.operation.operationName ?? 'UnknownOperation';
-    
+    final operationName = _getOperationName(request);
+
     final id = DateTime.now().millisecondsSinceEpoch;
     final call = AliceHttpCall(id);
     call.method = 'POST';
-    call.endpoint = 'GraphQL';
+    call.client = 'GraphQL';
+    if (url != null) {
+      final uri = Uri.tryParse(url!);
+      if (uri != null) {
+        call.server = uri.host;
+
+        final path = uri.path == '/' || uri.path.isEmpty ? '' : uri.path;
+        call.endpoint = path.isEmpty ? operationName : '$path / $operationName';
+
+        call.uri = url!;
+      } else {
+        call.server = url!;
+        call.endpoint = operationName;
+        call.uri = url!;
+      }
+    } else {
+      call.server = 'GraphQL';
+      call.endpoint = operationName;
+    }
     call.request = AliceHttpRequest();
-    call.request!.body = request.operation.document.toString();
+    final bodyStr = printNode(request.operation.document);
+    call.request!.body = bodyStr;
+    call.request!.size = utf8.encode(bodyStr).length;
+    call.request!.contentType = 'application/json';
+    call.request!.headers = {'content-type': 'application/json'};
     call.request!.queryParameters = {'op': operationName};
     call.request!.time = DateTime.now();
 
@@ -30,9 +81,13 @@ class AliceGraphQLLink extends Link with AliceAdapter {
     return forward!(request).map((response) {
       call.response = AliceHttpResponse();
       call.response!.body = response.data;
+      if (response.data != null) {
+        call.response!.size = utf8.encode(jsonEncode(response.data)).length;
+      }
+      call.response!.headers = {'content-type': 'application/json'};
       call.response!.status = 200;
       call.response!.time = DateTime.now();
-      
+
       aliceCore.addResponse(call.response!, id);
       return response;
     });
