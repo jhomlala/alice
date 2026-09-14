@@ -58,7 +58,9 @@ class AliceGraphQLLink extends Link with AliceAdapter {
           call.server = uri.host;
 
           final path = uri.path == '/' || uri.path.isEmpty ? '' : uri.path;
-          call.endpoint = path.isEmpty ? operationName : '$path / $operationName';
+          call.endpoint = path.isEmpty
+              ? operationName
+              : '$path / $operationName';
 
           call.uri = url!;
         } else {
@@ -90,37 +92,50 @@ class AliceGraphQLLink extends Link with AliceAdapter {
       // ignore
     }
 
-    return forward!(request).map((response) {
-      try {
-        call.response = AliceHttpResponse();
-        call.response!.body = response.data;
-        if (response.data != null) {
-          call.response!.size = utf8.encode(jsonEncode(response.data)).length;
-        }
-        call.response!.headers = {'content-type': 'application/json'};
-        call.response!.status = 200;
-        call.response!.time = DateTime.now();
+    return forward!(request)
+        .map((response) {
+          try {
+            call.response = AliceHttpResponse();
 
-        aliceCore.addResponse(call.response!, id);
-      } catch (e) {
-        // ignore
-      }
-      return response;
-    }).handleError((Object error, StackTrace stackTrace) {
-      try {
-        final aliceError = AliceHttpError();
-        aliceError.error = error;
-        aliceError.stackTrace = stackTrace;
-        aliceCore.addError(aliceError, id);
+            final Map<String, dynamic> responseBody = {};
+            if (response.data != null) responseBody['data'] = response.data;
+            if (response.errors != null && response.errors!.isNotEmpty) {
+              responseBody['errors'] = response.errors!
+                  .map((e) => e.message)
+                  .toList(); // Or e.toJson() if available, but message is safe
+            }
 
-        final httpResponse = AliceHttpResponse()
-          ..time = DateTime.now()
-          ..status = -1;
-        aliceCore.addResponse(httpResponse, id);
-      } catch (e) {
-        // ignore
-      }
-      throw error;
-    });
+            call.response!.body = responseBody;
+            call.response!.size = utf8.encode(jsonEncode(responseBody)).length;
+
+            call.response!.headers = {'content-type': 'application/json'};
+            call.response!.status =
+                response.errors != null && response.errors!.isNotEmpty
+                ? 400
+                : 200; // Optionally indicate error in status
+            call.response!.time = DateTime.now();
+
+            aliceCore.addResponse(call.response!, id);
+          } catch (e) {
+            // ignore
+          }
+          return response;
+        })
+        .handleError((Object error, StackTrace stackTrace) {
+          try {
+            final aliceError = AliceHttpError();
+            aliceError.error = error;
+            aliceError.stackTrace = stackTrace;
+            aliceCore.addError(aliceError, id);
+
+            final httpResponse = AliceHttpResponse()
+              ..time = DateTime.now()
+              ..status = -1;
+            aliceCore.addResponse(httpResponse, id);
+          } catch (e) {
+            // ignore
+          }
+          throw error;
+        });
   }
 }
