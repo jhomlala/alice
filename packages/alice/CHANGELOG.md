@@ -1,6 +1,7 @@
 
 ## Unreleased
 
+* Added Retrofit support and example project.
 * Migrated to `material_ui` package.
 * Migrated documentation to Docusaurus for better search and structure.
 
