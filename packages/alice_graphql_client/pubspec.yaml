@@ -1,0 +1,21 @@
+name: alice_graphql_client
+description: A GraphQL adapter for Alice.
+version: 0.1.0
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: ^3.13.0
+
+dependencies:
+  alice:
+    workspace: true
+  graphql: ^5.1.0
+  gql: ^1.0.0
+  gql_link: ^1.0.0
+  gql_exec: ^1.0.0
+  meta: ^1.10.0
+
+dev_dependencies:
+  test: ^1.24.0

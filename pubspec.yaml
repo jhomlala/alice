@@ -10,12 +10,12 @@ workspace:
   - packages/alice_http_client
   - packages/alice_objectbox
   - packages/alice_test
+  - packages/alice_graphql_client
   - examples/alice
   - examples/alice_chopper
   - examples/alice_dio
+  - examples/alice_graphql_client
   - examples/alice_http
   - examples/alice_http_client
   - examples/alice_objectbox
   - examples/alice_retrofit
-
-
