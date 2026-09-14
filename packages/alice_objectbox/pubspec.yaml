@@ -1,5 +1,6 @@
 name: alice_objectbox
 description: "Alice + ObjectBox integration. It contains a plugin for Alice which stores http requests and responses in an ObjectBox NoSQL database."
+documentation: https://jhomlala.github.io/alice/
 version: 1.2.0
 repository: https://github.com/jhomlala/alice
 homepage: https://github.com/jhomlala/alice
