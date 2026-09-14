@@ -10,7 +10,6 @@ import 'package:alice_graphql_client/alice_graphql_client.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gql/language.dart' as lang;
 import 'package:gql_exec/gql_exec.dart';
-import 'package:gql_link/gql_link.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockAlice extends Mock implements Alice {}
@@ -27,7 +26,13 @@ void main() {
     registerFallbackValue(AliceHttpCall(0));
     registerFallbackValue(AliceHttpResponse());
     registerFallbackValue(AliceHttpError());
-    registerFallbackValue(Request(operation: Operation(document: lang.parseString('query { __typename }'))));
+    registerFallbackValue(
+      Request(
+        operation: Operation(
+          document: lang.parseString('query { __typename }'),
+        ),
+      ),
+    );
     registerFallbackValue(AliceAdapterFake());
   });
 
@@ -44,20 +49,31 @@ void main() {
 
   group('AliceGraphQLLink', () {
     test('logs request and response correctly with URL', () async {
-      final link = AliceGraphQLLink(alice: mockAlice, url: 'https://api.example.com/graphql/v1');
+      final link = AliceGraphQLLink(
+        alice: mockAlice,
+        url: 'https://api.example.com/graphql/v1',
+      );
       final query = lang.parseString('query GetUser { user { id name } }');
-      final request = Request(operation: Operation(document: query, operationName: 'GetUser'));
-      
-      final responseData = {'user': {'id': '1', 'name': 'John'}};
-      final response = Response(data: responseData, response: {});
-      final forward = (Request req) => Stream.fromIterable([response]);
+      final request = Request(
+        operation: Operation(document: query, operationName: 'GetUser'),
+      );
 
-      when(() => mockAliceCore.addCall(any())).thenAnswer((_) => Future.value());
-      when(() => mockAliceCore.addResponse(any(), any())).thenAnswer((_) => Future.value());
+      final responseData = {
+        'user': {'id': '1', 'name': 'John'},
+      };
+      final response = Response(data: responseData, response: {});
+      Stream<Response> forward(Request req) => Stream.fromIterable([response]);
+
+      when(() => mockAliceCore.addCall(any()))
+          .thenAnswer((_) => Future.value());
+      when(() => mockAliceCore.addResponse(any(), any()))
+          .thenAnswer((_) => Future.value());
 
       await link.request(request, forward).toList();
 
-      final call = verify(() => mockAliceCore.addCall(captureAny())).captured.first as AliceHttpCall;
+      final call =
+          verify(() => mockAliceCore.addCall(captureAny())).captured.first
+              as AliceHttpCall;
       expect(call.method, 'POST');
       expect(call.server, 'api.example.com');
       expect(call.endpoint, '/graphql/v1 / GetUser');
@@ -68,52 +84,76 @@ void main() {
       expect(body, contains('variables'));
       expect(body, contains('GetUser'));
 
-      final resp = verify(() => mockAliceCore.addResponse(captureAny(), any())).captured.first as AliceHttpResponse;
+      final resp =
+          verify(() => mockAliceCore.addResponse(captureAny(), any()))
+                  .captured
+                  .first
+              as AliceHttpResponse;
       expect(resp.status, 200);
-      expect(resp.body, responseData);
+      expect(resp.body, {'data': responseData});
     });
 
     test('logs correctly without URL', () async {
       final link = AliceGraphQLLink(alice: mockAlice);
       final query = lang.parseString('query { countries { name } }');
       final request = Request(operation: Operation(document: query));
-      
-      final forward = (Request req) => Stream.fromIterable([Response(data: {}, response: {})]);
 
-      when(() => mockAliceCore.addCall(any())).thenAnswer((_) => Future.value());
-      when(() => mockAliceCore.addResponse(any(), any())).thenAnswer((_) => Future.value());
+      Stream<Response> forward(Request req) =>
+          Stream.fromIterable([Response(data: {}, response: {})]);
+
+      when(() => mockAliceCore.addCall(any()))
+          .thenAnswer((_) => Future.value());
+      when(() => mockAliceCore.addResponse(any(), any()))
+          .thenAnswer((_) => Future.value());
 
       await link.request(request, forward).toList();
 
-      final call = verify(() => mockAliceCore.addCall(captureAny())).captured.first as AliceHttpCall;
+      final call =
+          verify(() => mockAliceCore.addCall(captureAny())).captured.first
+              as AliceHttpCall;
       expect(call.server, 'GraphQL');
       expect(call.endpoint, 'countries');
     });
 
     test('logs response with null data', () async {
       final link = AliceGraphQLLink(alice: mockAlice);
-      final request = Request(operation: Operation(document: lang.parseString('query { test }')));
-      final forward = (Request req) => Stream.fromIterable([Response(data: null, response: {})]);
+      final request = Request(
+        operation: Operation(document: lang.parseString('query { test }')),
+      );
+      Stream<Response> forward(Request req) =>
+          Stream.fromIterable([Response(data: null, response: {})]);
 
-      when(() => mockAliceCore.addCall(any())).thenAnswer((_) => Future.value());
-      when(() => mockAliceCore.addResponse(any(), any())).thenAnswer((_) => Future.value());
+      when(() => mockAliceCore.addCall(any()))
+          .thenAnswer((_) => Future.value());
+      when(() => mockAliceCore.addResponse(any(), any()))
+          .thenAnswer((_) => Future.value());
 
       await link.request(request, forward).toList();
 
-      final resp = verify(() => mockAliceCore.addResponse(captureAny(), any())).captured.first as AliceHttpResponse;
-      expect(resp.body, isNull);
-      expect(resp.size, 0);
+      final resp =
+          verify(() => mockAliceCore.addResponse(captureAny(), any()))
+                  .captured
+                  .first
+              as AliceHttpResponse;
+      expect(resp.body, {});
+      expect(resp.size, 2); // {} is 2 bytes
     });
 
     test('handles stream errors correctly', () async {
       final link = AliceGraphQLLink(alice: mockAlice);
-      final request = Request(operation: Operation(document: lang.parseString('query { test }')));
+      final request = Request(
+        operation: Operation(document: lang.parseString('query { test }')),
+      );
       final exception = Exception('Network error');
-      final forward = (Request req) => Stream<Response>.error(exception);
+      Stream<Response> forward(Request req) =>
+          Stream<Response>.error(exception);
 
-      when(() => mockAliceCore.addCall(any())).thenAnswer((_) => Future.value());
-      when(() => mockAliceCore.addError(any(), any())).thenAnswer((_) => Future.value());
-      when(() => mockAliceCore.addResponse(any(), any())).thenAnswer((_) => Future.value());
+      when(() => mockAliceCore.addCall(any()))
+          .thenAnswer((_) => Future.value());
+      when(() => mockAliceCore.addError(any(), any()))
+          .thenAnswer((_) => Future.value());
+      when(() => mockAliceCore.addResponse(any(), any()))
+          .thenAnswer((_) => Future.value());
 
       try {
         await link.request(request, forward).toList();
@@ -122,18 +162,27 @@ void main() {
       }
 
       verify(() => mockAliceCore.addError(any(), any())).called(1);
-      final resp = verify(() => mockAliceCore.addResponse(captureAny(), any())).captured.first as AliceHttpResponse;
+      final resp =
+          verify(() => mockAliceCore.addResponse(captureAny(), any()))
+                  .captured
+                  .first
+              as AliceHttpResponse;
       expect(resp.status, -1);
     });
 
     test('is robust against AliceCore exceptions', () async {
       final link = AliceGraphQLLink(alice: mockAlice);
-      final request = Request(operation: Operation(document: lang.parseString('query { test }')));
-      final forward = (Request req) => Stream.fromIterable([Response(data: {}, response: {})]);
+      final request = Request(
+        operation: Operation(document: lang.parseString('query { test }')),
+      );
+      Stream<Response> forward(Request req) =>
+          Stream.fromIterable([Response(data: {}, response: {})]);
 
       // Make AliceCore throw an exception
-      when(() => mockAliceCore.addCall(any())).thenThrow(Exception('Alice crashed'));
-      when(() => mockAliceCore.addResponse(any(), any())).thenThrow(Exception('Alice crashed again'));
+      when(() => mockAliceCore.addCall(any()))
+          .thenThrow(Exception('Alice crashed'));
+      when(() => mockAliceCore.addResponse(any(), any()))
+          .thenThrow(Exception('Alice crashed again'));
 
       // The stream should still finish successfully despite Alice crashing
       final results = await link.request(request, forward).toList();
@@ -145,14 +194,19 @@ void main() {
       // Query without explicit operation name
       final query = lang.parseString('query { user(id: 1) { name } }');
       final request = Request(operation: Operation(document: query));
-      
-      final forward = (Request req) => Stream.fromIterable([Response(data: {}, response: {})]);
-      when(() => mockAliceCore.addCall(any())).thenAnswer((_) => Future.value());
-      when(() => mockAliceCore.addResponse(any(), any())).thenAnswer((_) => Future.value());
+
+      Stream<Response> forward(Request req) =>
+          Stream.fromIterable([Response(data: {}, response: {})]);
+      when(() => mockAliceCore.addCall(any()))
+          .thenAnswer((_) => Future.value());
+      when(() => mockAliceCore.addResponse(any(), any()))
+          .thenAnswer((_) => Future.value());
 
       await link.request(request, forward).toList();
 
-      final call = verify(() => mockAliceCore.addCall(captureAny())).captured.first as AliceHttpCall;
+      final call =
+          verify(() => mockAliceCore.addCall(captureAny())).captured.first
+              as AliceHttpCall;
       expect(call.endpoint, 'user');
     });
   });

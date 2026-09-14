@@ -23,7 +23,10 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     final url = 'https://countries.trevorblades.com/';
     final httpLink = HttpLink(url);
-    final link = Link.from([AliceGraphQLLink(alice: _alice, url: url), httpLink]);
+    final link = Link.from([
+      AliceGraphQLLink(alice: _alice, url: url),
+      httpLink,
+    ]);
 
     _client = ValueNotifier(GraphQLClient(cache: GraphQLCache(), link: link));
   }

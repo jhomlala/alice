@@ -13,7 +13,11 @@ class AlicePage extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget content = Theme(data: AliceTheme.getTheme(), child: child);
 
-    if (Localizations.of<MaterialLocalizations>(context, MaterialLocalizations) == null) {
+    if (Localizations.of<MaterialLocalizations>(
+          context,
+          MaterialLocalizations,
+        ) ==
+        null) {
       content = Localizations(
         locale: const Locale('en', 'US'),
         delegates: const [
@@ -25,7 +29,8 @@ class AlicePage extends StatelessWidget {
     }
 
     return Directionality(
-      textDirection: core.configuration.directionality ??
+      textDirection:
+          core.configuration.directionality ??
           Directionality.maybeOf(context) ??
           TextDirection.ltr,
       child: content,
