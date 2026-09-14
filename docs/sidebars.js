@@ -9,7 +9,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'HTTP Clients',
-      items: ['dio', 'chopper', 'http', 'http_client'],
+      items: ['dio', 'retrofit', 'chopper', 'http', 'http_client'],
     },
     {
       type: 'category',
