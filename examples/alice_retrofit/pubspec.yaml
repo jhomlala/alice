@@ -15,9 +15,9 @@ dependencies:
   retrofit: any
   json_annotation: any
   alice:
-    path: ../../packages/alice
+    workspace: true
   alice_dio:
-    path: ../../packages/alice_dio
+    workspace: true
 
 dev_dependencies:
   flutter_test:

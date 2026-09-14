@@ -13,7 +13,9 @@ dependencies:
   flutter:
     sdk: flutter
   alice:
+    workspace: true
   alice_http_client:
+    workspace: true
 
 dev_dependencies:
   flutter_lints: ^6.0.0

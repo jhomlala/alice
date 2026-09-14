@@ -11,10 +11,24 @@ class AlicePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget content = Theme(data: AliceTheme.getTheme(), child: child);
+
+    if (Localizations.of<MaterialLocalizations>(context, MaterialLocalizations) == null) {
+      content = Localizations(
+        locale: const Locale('en', 'US'),
+        delegates: const [
+          DefaultMaterialLocalizations.delegate,
+          DefaultWidgetsLocalizations.delegate,
+        ],
+        child: content,
+      );
+    }
+
     return Directionality(
-      textDirection:
-          core.configuration.directionality ?? Directionality.of(context),
-      child: Theme(data: AliceTheme.getTheme(), child: child),
+      textDirection: core.configuration.directionality ??
+          Directionality.maybeOf(context) ??
+          TextDirection.ltr,
+      child: content,
     );
   }
 }

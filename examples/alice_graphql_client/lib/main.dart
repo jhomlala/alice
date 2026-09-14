@@ -4,58 +4,93 @@ import 'package:alice_graphql_client/alice_graphql_client.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  final alice = Alice(configuration: AliceConfiguration(showNotification: true));
-  
-  final httpLink = HttpLink('https://countries.trevorblades.com/');
-  final link = Link.from([
-    AliceGraphQLLink(alice),
-    httpLink,
-  ]);
+void main() => runApp(const MyApp());
 
-  final client = ValueNotifier(
-    GraphQLClient(
-      cache: GraphQLCache(),
-      link: link,
-    ),
-  );
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
 
-  runApp(MyApp(client: client, alice: alice));
+  @override
+  State<MyApp> createState() => _MyAppState();
 }
 
-class MyApp extends StatelessWidget {
-  final ValueNotifier<GraphQLClient> client;
-  final Alice alice;
+class _MyAppState extends State<MyApp> {
+  final configuration = AliceConfiguration(showShareButton: true);
+  late final Alice _alice = Alice(configuration: configuration);
+  late final ValueNotifier<GraphQLClient> _client;
 
-  const MyApp({super.key, required this.client, required this.alice});
+  @override
+  void initState() {
+    super.initState();
+    final httpLink = HttpLink('https://countries.trevorblades.com/');
+    final link = Link.from([
+      AliceGraphQLLink(_alice),
+      httpLink,
+    ]);
+
+    _client = ValueNotifier(
+      GraphQLClient(
+        cache: GraphQLCache(),
+        link: link,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return GraphQLProvider(
-      client: client,
+      client: _client,
       child: MaterialApp(
-        navigatorKey: alice.getNavigatorKey(),
+        navigatorKey: _alice.getNavigatorKey(),
+        debugShowCheckedModeBanner: false,
         home: Scaffold(
-          appBar: AppBar(title: const Text('Alice GraphQL Example')),
-          body: Query(
-            options: QueryOptions(document: gql('query { countries { name } }')),
-            builder: (result, {fetchMore, refetch}) {
-              if (result.isLoading) return const Center(child: CircularProgressIndicator());
-              if (result.hasException) return Text(result.exception.toString());
-              final countries = result.data!['countries'] as List;
-              return ListView.builder(
-                itemCount: countries.length,
-                itemBuilder: (context, index) => ListTile(title: Text(countries[index]['name'])),
-              );
-            },
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () => alice.showInspector(),
-            child: const Icon(Icons.bug_report),
+          appBar: AppBar(title: const Text('Alice + GraphQL - Example')),
+          body: Container(
+            padding: const EdgeInsets.all(16),
+            child: ListView(
+              children: [
+                const SizedBox(height: 8),
+                const Text(
+                  style: TextStyle(fontSize: 14),
+                  'Welcome to example of Alice + GraphQL Example. '
+                  'Click buttons below to generate sample data.',
+                ),
+                ElevatedButton(
+                  onPressed: _runGraphQLRequests,
+                  child: const Text('Run GraphQL Requests'),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  style: TextStyle(fontSize: 14),
+                  'After clicking on buttons above, you should receive notification.'
+                  ' Click on it to show inspector. You can also shake your device or click button below.',
+                ),
+                ElevatedButton(
+                  onPressed: _runHttpInspector,
+                  child: const Text('Run HTTP Inspector'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  void _runGraphQLRequests() async {
+    final client = _client.value;
+    
+    // Simple Query
+    await client.query(QueryOptions(
+      document: gql('query { countries { name } }'),
+    ));
+
+    // Another Query
+    await client.query(QueryOptions(
+      document: gql('query { country(code: "PL") { name native } }'),
+    ));
+  }
+
+  void _runHttpInspector() {
+    _alice.showInspector();
   }
 }
