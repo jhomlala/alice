@@ -77,10 +77,9 @@ class AliceCallRequestScreen extends StatelessWidget {
     }
 
     final Map<String, dynamic>? headers = call.request?.headers;
-    final String headersContent =
-        headers?.isEmpty ?? true
-            ? context.i18n(AliceTranslationKey.callRequestHeadersEmpty)
-            : '';
+    final String headersContent = headers?.isEmpty ?? true
+        ? context.i18n(AliceTranslationKey.callRequestHeadersEmpty)
+        : '';
     rows.add(
       AliceCallListRow(
         name: context.i18n(AliceTranslationKey.callRequestHeaders),
@@ -96,10 +95,9 @@ class AliceCallRequestScreen extends StatelessWidget {
     ]);
 
     final Map<String, dynamic>? queryParameters = call.request?.queryParameters;
-    final String queryParametersContent =
-        queryParameters?.isEmpty ?? true
-            ? context.i18n(AliceTranslationKey.callRequestQueryParametersEmpty)
-            : '';
+    final String queryParametersContent = queryParameters?.isEmpty ?? true
+        ? context.i18n(AliceTranslationKey.callRequestQueryParametersEmpty)
+        : '';
     rows.add(
       AliceCallListRow(
         name: context.i18n(AliceTranslationKey.callRequestQueryParameters),
@@ -119,7 +117,7 @@ class AliceCallRequestScreen extends StatelessWidget {
       padding: const EdgeInsets.all(6),
       child: ScrollConfiguration(
         behavior: AliceScrollBehavior(),
-        child: ListView(children: rows),
+        child: SelectionArea(child: ListView(children: rows)),
       ),
     );
   }
@@ -129,13 +127,13 @@ class AliceCallRequestScreen extends StatelessWidget {
     final dynamic body = call.request?.body;
     return body != null
         ? AliceParser.formatBody(
-          context: context,
-          body: body,
-          contentType: AliceParser.getContentType(
             context: context,
-            headers: call.request?.headers,
-          ),
-        )
+            body: body,
+            contentType: AliceParser.getContentType(
+              context: context,
+              headers: call.request?.headers,
+            ),
+          )
         : context.i18n(AliceTranslationKey.callRequestBodyEmpty);
   }
 }
