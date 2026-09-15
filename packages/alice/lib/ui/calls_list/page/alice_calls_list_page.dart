@@ -4,6 +4,7 @@ import 'package:alice/core/alice_core.dart';
 import 'package:alice/helper/alice_har_exporter.dart';
 import 'package:alice/helper/alice_text_exporter.dart';
 import 'package:alice/helper/operating_system.dart';
+import 'package:alice/model/alice_export_format.dart';
 import 'package:alice/model/alice_export_result.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_translation.dart';
@@ -256,10 +257,11 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
     if (format == null) return;
 
     final result = await aliceCore.exportCalls(
-      context,
-      format == AliceExportFormat.txt
-          ? AliceTextExporter()
-          : AliceHarExporter(),
+      context: context,
+      exporter:
+          format == AliceExportFormat.txt
+              ? AliceTextExporter()
+              : AliceHarExporter(),
     );
 
     if (result.success && result.path != null) {

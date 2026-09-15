@@ -85,7 +85,10 @@ class AliceExportHelper {
       }
     }
 
-    final String content = await exporter.generate(context, calls);
+    final String content = await exporter.generate(
+      context: context,
+      calls: calls,
+    );
     final String fileName =
         '${_fileName}_${DateTime.now().millisecondsSinceEpoch}.${exporter.fileExtension}';
 

@@ -20,10 +20,10 @@ class AliceTextExporter implements AliceExporter {
   String get fileExtension => 'txt';
 
   @override
-  Future<String> generate(
-    BuildContext? context,
-    List<AliceHttpCall> calls,
-  ) async {
+  Future<String> generate({
+    required BuildContext? context,
+    required List<AliceHttpCall> calls,
+  }) async {
     final StringBuffer stringBuffer = StringBuffer();
     if (context != null) {
       stringBuffer.write(await _buildAliceLog(context: context));

@@ -1,0 +1,1 @@
+enum AliceExportFormat { txt, har }

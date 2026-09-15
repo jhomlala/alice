@@ -6,5 +6,8 @@ abstract interface class AliceExporter {
   String get fileExtension;
 
   /// Generates the full export content as a string.
-  Future<String> generate(BuildContext? context, List<AliceHttpCall> calls);
+  Future<String> generate({
+    required BuildContext? context,
+    required List<AliceHttpCall> calls,
+  });
 }

@@ -11,10 +11,10 @@ class AliceHarExporter implements AliceExporter {
   String get fileExtension => 'har';
 
   @override
-  Future<String> generate(
-    BuildContext? context,
-    List<AliceHttpCall> calls,
-  ) async {
+  Future<String> generate({
+    required BuildContext? context,
+    required List<AliceHttpCall> calls,
+  }) async {
     final PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
     final Map<String, dynamic> har = {

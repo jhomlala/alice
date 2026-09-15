@@ -1,9 +1,8 @@
+import 'package:alice/model/alice_export_format.dart';
 import 'package:alice/model/alice_translation.dart';
 import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/ui/common/alice_theme.dart';
 import 'package:material_ui/material_ui.dart';
-
-enum AliceExportFormat { txt, har }
 
 class AliceExportFormatDialog extends StatelessWidget {
   const AliceExportFormatDialog({super.key});
@@ -41,7 +40,10 @@ class AliceExportFormatDialog extends StatelessWidget {
   static Future<AliceExportFormat?> show(BuildContext context) {
     return showDialog<AliceExportFormat>(
       context: context,
-      builder: (_) => const AliceExportFormatDialog(),
+      builder: (_) => Theme(
+        data: AliceTheme.getTheme(),
+        child: const AliceExportFormatDialog(),
+      ),
     );
   }
 }

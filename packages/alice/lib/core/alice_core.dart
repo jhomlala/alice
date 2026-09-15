@@ -133,10 +133,10 @@ class AliceCore {
   List<AliceHttpCall> getCalls() => _configuration.aliceStorage.getCalls();
 
   /// Export all calls using [exporter].
-  Future<AliceExportResult> exportCalls(
-    BuildContext context,
-    AliceExporter exporter,
-  ) => AliceExportHelper.exportCalls(
+  Future<AliceExportResult> exportCalls({
+    required BuildContext context,
+    required AliceExporter exporter,
+  }) => AliceExportHelper.exportCalls(
     context: context,
     calls: getCalls(),
     exporter: exporter,
