@@ -1,7 +1,7 @@
 
 ## Unreleased
 
-* Added `notificationLargeIcon` support to `AliceConfiguration`.
+* Added `notificationLargeIcon` support to `AliceConfiguration` (by @husainazkas).
 * Added SelectionArea to Alice screens (by @JanArlukiewicz).
 * Hardcoded `presentBanner: false` for iOS notifications to prevent intrusive banners on every HTTP request.
 
