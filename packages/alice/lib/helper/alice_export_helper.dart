@@ -17,6 +17,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AliceExportHelper {
   static const JsonEncoder _encoder = JsonEncoder.withIndent('  ');
@@ -25,6 +26,7 @@ class AliceExportHelper {
   static Future<AliceExportResult> shareCall({
     required BuildContext context,
     required AliceHttpCall call,
+    String? defaultShareEmail,
     Rect? sharePositionOrigin,
   }) async {
     final callLog = await AliceExportHelper.buildFullCallLog(
@@ -39,13 +41,38 @@ class AliceExportHelper {
       );
     }
 
-    await SharePlus.instance.share(
-      ShareParams(
-        text: callLog,
-        subject: context.i18n(AliceTranslationKey.emailSubject),
-        sharePositionOrigin: sharePositionOrigin,
-      ),
-    );
+    final subject = context.i18n(AliceTranslationKey.emailSubject);
+
+    if (defaultShareEmail != null && defaultShareEmail.isNotEmpty) {
+      try {
+        final Uri emailLaunchUri = Uri(
+          scheme: 'mailto',
+          path: defaultShareEmail,
+          queryParameters: {'subject': subject, 'body': callLog},
+        );
+        if (await launchUrl(emailLaunchUri)) {
+          return AliceExportResult(success: true);
+        }
+      } catch (e) {
+        AliceUtils.log('Failed to launch mailto url: $e');
+      }
+    }
+
+    try {
+      await SharePlus.instance.share(
+        ShareParams(
+          text: callLog,
+          subject: subject,
+          sharePositionOrigin: sharePositionOrigin,
+        ),
+      );
+    } catch (e) {
+      AliceUtils.log('Failed to share call log: $e');
+      return AliceExportResult(
+        success: false,
+        error: AliceExportResultError.file,
+      );
+    }
 
     return AliceExportResult(success: true);
   }
@@ -53,16 +80,42 @@ class AliceExportHelper {
   static Future<AliceExportResult> shareCurlCommand({
     required BuildContext context,
     required AliceHttpCall call,
+    String? defaultShareEmail,
     Rect? sharePositionOrigin,
   }) async {
     final curl = Curl.getCurlCommand(call);
-    await SharePlus.instance.share(
-      ShareParams(
-        text: curl,
-        subject: context.i18n(AliceTranslationKey.emailSubject),
-        sharePositionOrigin: sharePositionOrigin,
-      ),
-    );
+    final subject = context.i18n(AliceTranslationKey.emailSubject);
+
+    if (defaultShareEmail != null && defaultShareEmail.isNotEmpty) {
+      try {
+        final Uri emailLaunchUri = Uri(
+          scheme: 'mailto',
+          path: defaultShareEmail,
+          queryParameters: {'subject': subject, 'body': curl},
+        );
+        if (await launchUrl(emailLaunchUri)) {
+          return AliceExportResult(success: true);
+        }
+      } catch (e) {
+        AliceUtils.log('Failed to launch mailto url: $e');
+      }
+    }
+
+    try {
+      await SharePlus.instance.share(
+        ShareParams(
+          text: curl,
+          subject: subject,
+          sharePositionOrigin: sharePositionOrigin,
+        ),
+      );
+    } catch (e) {
+      AliceUtils.log('Failed to share curl: $e');
+      return AliceExportResult(
+        success: false,
+        error: AliceExportResultError.file,
+      );
+    }
 
     return AliceExportResult(success: true);
   }

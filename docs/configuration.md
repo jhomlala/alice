@@ -122,3 +122,12 @@ Alice alice = Alice(
   configuration: AliceConfiguration(showShareButton: false)
 );
 ```
+
+### Share Default Email
+You can specify a default email address that Alice will use when you click the share button. If provided, Alice will attempt to launch your device's default mail client with a `mailto:` link populated with the logs. If this fails or is not provided, it falls back to the system's default share dialog.
+
+```dart
+Alice alice = Alice(
+  configuration: AliceConfiguration(defaultShareEmail: 'support@my-awesome-app.com')
+);
+```
