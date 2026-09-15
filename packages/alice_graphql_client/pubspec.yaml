@@ -8,7 +8,7 @@ topics:
   - inspector
   - graphql
   - alice
-version: 1.0.0
+version: 1.0.1
 
 resolution: workspace
 
@@ -16,7 +16,7 @@ environment:
   sdk: ^3.13.0
 
 dependencies:
-  alice: ^1.3.0
+  alice: ^1.4.0
   graphql: ^5.1.0
   gql: ^1.0.0
   gql_link: ^1.0.0

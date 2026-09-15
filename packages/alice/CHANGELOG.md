@@ -1,5 +1,5 @@
 
-## Unreleased
+## 1.4.0
 
 * Fixed destructive mutation of HTTP calls list when searching in inspector UI (by @tiwariritesh1700).
 * Added `notificationLargeIcon` support to `AliceConfiguration` (by @husainazkas).
