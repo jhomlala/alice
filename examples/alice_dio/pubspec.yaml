@@ -13,9 +13,9 @@ dependencies:
   flutter:
     sdk: flutter
   alice:
-    path: ../../packages/alice
+    workspace: true
   alice_dio:
-    path: ../../packages/alice_dio
+    workspace: true
   path_provider:
   path:
   dio: ^5.8.0+1

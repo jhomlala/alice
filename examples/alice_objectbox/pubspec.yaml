@@ -12,8 +12,11 @@ dependencies:
   flutter:
     sdk: flutter
   alice:
+    workspace: true
   alice_http:
+    workspace: true
   alice_objectbox:
+    workspace: true
   cupertino_icons: ^1.0.8
   http: ^1.4.0
 
