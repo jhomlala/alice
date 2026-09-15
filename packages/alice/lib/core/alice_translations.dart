@@ -185,6 +185,10 @@ class AliceTranslations {
         AliceTranslationKey.jsonViewerArray: "Array",
         AliceTranslationKey.jsonViewerShowMore:
             "Show more ([remaining] remaining)",
+        AliceTranslationKey.exportFormatDialogTitle: "Select export format",
+        AliceTranslationKey.exportFormatTxt: "Export as TXT",
+        AliceTranslationKey.exportFormatHar: "Export as HAR",
+        AliceTranslationKey.exportFormatCancel: "Cancel",
       },
     );
   }
@@ -363,6 +367,10 @@ class AliceTranslations {
         AliceTranslationKey.jsonViewerArray: "Tablica",
         AliceTranslationKey.jsonViewerShowMore:
             "Pokaż więcej (zostało [remaining])",
+        AliceTranslationKey.exportFormatDialogTitle: "Wybierz format eksportu",
+        AliceTranslationKey.exportFormatTxt: "Eksportuj jako TXT",
+        AliceTranslationKey.exportFormatHar: "Eksportuj jako HAR",
+        AliceTranslationKey.exportFormatCancel: "Anuluj",
       },
     );
   }

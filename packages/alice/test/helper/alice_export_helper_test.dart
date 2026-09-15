@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:alice/helper/alice_export_helper.dart';
+import 'package:alice/helper/alice_text_exporter.dart';
 import 'package:alice/model/alice_export_result.dart';
 import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
@@ -18,25 +19,27 @@ void main() {
   });
 
   group("AliceExportHelper", () {
-    test("should build correct call log", () async {
+    test("should build correct call log using AliceTextExporter", () async {
       _setPackageInfo();
 
-      final result = await AliceExportHelper.buildFullCallLog(
+      final result = await AliceTextExporter().buildFullCallLog(
         context: context,
         call: MockedData.getFilledHttpCall(),
       );
       _verifyLogLines(result!);
     });
 
-    test("should save call log to file", () async {
+    test("should save call log to file using exportCalls", () async {
       TestWidgetsFlutterBinding.ensureInitialized();
       _setPackageInfo();
       _setPathProvider();
       _setDefaultTargetPlatform();
 
-      final result = await AliceExportHelper.saveCallsToFile(context, [
-        MockedData.getFilledHttpCall(),
-      ]);
+      final result = await AliceExportHelper.exportCalls(
+        context: context,
+        calls: [MockedData.getFilledHttpCall()],
+        exporter: AliceTextExporter(),
+      );
       expect(result.success, true);
       expect(result.path != null, true);
       expect(result.error, null);
@@ -55,7 +58,11 @@ void main() {
     _setPathProvider();
     _setDefaultTargetPlatform();
 
-    final result = await AliceExportHelper.saveCallsToFile(context, []);
+    final result = await AliceExportHelper.exportCalls(
+      context: context,
+      calls: [],
+      exporter: AliceTextExporter(),
+    );
 
     expect(result.success, false);
     expect(result.path, null);
@@ -68,9 +75,11 @@ void main() {
     _setPathProvider(isFailing: true);
     _setDefaultTargetPlatform();
 
-    final result = await AliceExportHelper.saveCallsToFile(context, [
-      MockedData.getFilledHttpCall(),
-    ]);
+    final result = await AliceExportHelper.exportCalls(
+      context: context,
+      calls: [MockedData.getFilledHttpCall()],
+      exporter: AliceTextExporter(),
+    );
 
     expect(result.success, false);
     expect(result.path, null);
