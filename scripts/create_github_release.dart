@@ -36,7 +36,11 @@ void main(List<String> args) async {
       _die('Could not read version from $localPath/pubspec.yaml');
     }
 
-    final alreadyPublished = await _isVersionOnPubDev(client, pubName, localVersion);
+    final alreadyPublished = await _isVersionOnPubDev(
+      client,
+      pubName,
+      localVersion,
+    );
 
     if (alreadyPublished) {
       // Version is already live on pub.dev — this package doesn't need to be released.
@@ -45,7 +49,9 @@ void main(List<String> args) async {
     }
 
     // Version is NOT on pub.dev yet — include it in release notes.
-    print('  [$pubName $localVersion] NOT on pub.dev — INCLUDED in release notes.');
+    print(
+      '  [$pubName $localVersion] NOT on pub.dev — INCLUDED in release notes.',
+    );
 
     final changelog = _readLatestChangelog(localPath, localVersion);
     if (changelog != null) {
@@ -76,7 +82,10 @@ void main(List<String> args) async {
     exit(0);
   }
 
-  final tagExistsResult = await Process.run('git', ['rev-parse', releaseVersion]);
+  final tagExistsResult = await Process.run('git', [
+    'rev-parse',
+    releaseVersion,
+  ]);
   if (tagExistsResult.exitCode == 0) {
     print('Git tag $releaseVersion already exists. Skipping tag creation.');
   } else {
@@ -85,16 +94,24 @@ void main(List<String> args) async {
     print('Git tag $releaseVersion created and pushed.');
   }
 
-  final request = await client.postUrl(Uri.parse('https://api.github.com/repos/$_repo/releases'))
-    ..headers.add(HttpHeaders.authorizationHeader, 'Bearer $token')
-    ..headers.add(HttpHeaders.acceptHeader, 'application/vnd.github.v3+json')
-    ..headers.add('User-Agent', 'Dart/3.0')
-    ..headers.contentType = ContentType.json
-    ..write(jsonEncode({
-      'tag_name': releaseVersion,
-      'name': releaseVersion,
-      'body': releaseBody,
-    }));
+  final request =
+      await client.postUrl(
+          Uri.parse('https://api.github.com/repos/$_repo/releases'),
+        )
+        ..headers.add(HttpHeaders.authorizationHeader, 'Bearer $token')
+        ..headers.add(
+          HttpHeaders.acceptHeader,
+          'application/vnd.github.v3+json',
+        )
+        ..headers.add('User-Agent', 'Dart/3.0')
+        ..headers.contentType = ContentType.json
+        ..write(
+          jsonEncode({
+            'tag_name': releaseVersion,
+            'name': releaseVersion,
+            'body': releaseBody,
+          }),
+        );
 
   final response = await request.close();
   final responseBody = await response.transform(utf8.decoder).join();
@@ -129,11 +146,18 @@ String? _readLocalVersion(String packagePath) {
 
 /// Returns true if [version] of [packageName] already exists on pub.dev.
 /// This is the authoritative, deterministic check for "does this need publishing".
-Future<bool> _isVersionOnPubDev(HttpClient client, String packageName, String version) async {
+Future<bool> _isVersionOnPubDev(
+  HttpClient client,
+  String packageName,
+  String version,
+) async {
   try {
     final request = await client.getUrl(
-      Uri.parse('https://pub.dev/api/packages/$packageName/versions/$version'),
-    )..headers.add('User-Agent', 'Dart/3.0');
+        Uri.parse(
+          'https://pub.dev/api/packages/$packageName/versions/$version',
+        ),
+      )
+      ..headers.add('User-Agent', 'Dart/3.0');
     final response = await request.close();
     await response.drain<void>(); // discard body
     return response.statusCode == 200;
