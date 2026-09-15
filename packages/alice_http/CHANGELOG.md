@@ -1,3 +1,7 @@
+## 1.3.1
+
+* Updated `alice` dependency to `^1.5.0`.
+
 ## 1.3.0
 
 * Fixed request duration calculation for `interceptWithAlice` extension.

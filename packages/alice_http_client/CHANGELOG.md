@@ -1,6 +1,6 @@
-## Unreleased
+## 1.2.3
 
-* Updated `alice` dependency.
+* Updated `alice` dependency to `^1.5.0`.
 
 ## 1.2.2
 
