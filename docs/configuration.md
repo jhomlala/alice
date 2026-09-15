@@ -86,14 +86,25 @@ import flutter_local_notifications // Add this import
 ```
 :::
 
+If you want to pass custom notification icons, you can use the `notificationIcon` parameter for the small icon (typically a monochrome silhouette) or `notificationLargeIcon` for the large icon.
+
+<div align="center">
+<img src="https://developer.android.com/static/images/ui/notifications/notification-callouts_2x.png" height="120px"/>
+
+*Source: [Android Developers - Notification Templates](https://developer.android.com/develop/ui/views/notifications#Templates)*
+</div>
+
 ```dart
 Alice alice = Alice(
   configuration: AliceConfiguration(
     showNotification: true,
-    // Optional: Provide a custom Android icon resource name (defaults to @mipmap/ic_launcher)
-    notificationIcon: "myNotificationIconResourceName",
+    // Optional: Provide a custom Android small icon resource name (defaults to @mipmap/ic_launcher)
+    notificationIcon: "myNotificationSmallIconResourceName",
+    // Optional: Provide a custom Android large icon resource name
+    notificationLargeIcon: "myNotificationLargeIconResourceName",
   )
 );
+```
 ```
 
 ### Shake to Open
