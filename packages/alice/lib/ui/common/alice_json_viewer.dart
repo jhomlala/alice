@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/model/alice_translation.dart';
+import 'package:alice/utils/alice_parser.dart';
 
 class AliceJsonViewer extends StatefulWidget {
   final dynamic jsonObject;
@@ -45,7 +46,7 @@ class _AliceJsonViewerState extends State<AliceJsonViewer> {
           _isParsing = true;
           _parseError = null;
         });
-        compute(_decodeJson, str)
+        compute(AliceParser.tryDecodeJson, str)
             .then((value) {
               setState(() {
                 _parsedJson = value;
@@ -62,22 +63,15 @@ class _AliceJsonViewerState extends State<AliceJsonViewer> {
               });
             });
       } else {
-        try {
-          _parsedJson = jsonDecode(str);
-        } catch (e) {
-          _parseError = e.toString();
+        final decoded = AliceParser.tryDecodeJson(str);
+        if (decoded == null) {
+          _parseError = 'Failed to parse JSON';
+        } else {
+          _parsedJson = decoded;
         }
       }
     } else {
       _parsedJson = widget.jsonObject;
-    }
-  }
-
-  static dynamic _decodeJson(String jsonStr) {
-    try {
-      return jsonDecode(jsonStr);
-    } catch (_) {
-      return null;
     }
   }
 
