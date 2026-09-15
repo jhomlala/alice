@@ -51,14 +51,17 @@ class AliceHttpAdapter with AliceAdapter {
       } else {
         httpRequest.body = {
           'fields': multipartRequest.fields,
-          'files': multipartRequest.files
-              .map((file) => {
-                    'field': file.field,
-                    'filename': file.filename,
-                    'length': file.length,
-                    'contentType': file.contentType.toString(),
-                  })
-              .toList(),
+          'files':
+              multipartRequest.files
+                  .map(
+                    (file) => {
+                      'field': file.field,
+                      'filename': file.filename,
+                      'length': file.length,
+                      'contentType': file.contentType.toString(),
+                    },
+                  )
+                  .toList(),
         };
       }
       httpRequest.size = utf8.encode(httpRequest.body.toString()).length;
