@@ -1,4 +1,8 @@
 
+## Unreleased
+
+* Hardcoded `presentBanner: false` for iOS notifications to prevent intrusive banners on every HTTP request.
+
 ## 1.3.0
 
 * Added Retrofit support and example project.
