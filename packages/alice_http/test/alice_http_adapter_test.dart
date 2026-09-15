@@ -84,5 +84,32 @@ void main() {
       expect(call.request?.body, '{"data":"test"}');
       expect(call.duration, 0); // No duration provided manually
     });
+
+    test('manual onResponse records call correctly with MultipartRequest', () async {
+      final request = http.MultipartRequest('POST', Uri.parse('https://test.com/upload'));
+      request.fields['test'] = 'value';
+      request.files.add(http.MultipartFile.fromString('file', 'test content', filename: 'test.txt'));
+
+      final response = http.Response(
+        '{"result": "ok"}',
+        201,
+        request: request,
+        headers: {'content-type': 'application/json'},
+      );
+
+      aliceHttpAdapter.onResponse(response);
+
+      final captured = verify(() => aliceCore.addCall(captureAny())).captured;
+      expect(captured.length, 1);
+      final call = captured.first as AliceHttpCall;
+
+      expect(call.client, 'HttpClient (http package)');
+      expect(call.method, 'POST');
+      expect(call.endpoint, '/upload');
+      expect(call.response?.status, 201);
+      final body = call.request?.body as Map<String, dynamic>;
+      expect(body['fields'], {'test': 'value'});
+      expect(body['files'][0]['filename'], 'test.txt');
+    });
   });
 }
