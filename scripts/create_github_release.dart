@@ -39,21 +39,31 @@ void main(List<String> args) async {
     final pubInfo = await _fetchPubVersion(client, pubName, localVersion);
 
     if (pubInfo == null) {
-      print('  [$pubName $localVersion] NOT found on pub.dev (publish failed or syncing) — SKIP.');
+      print(
+        '  [$pubName $localVersion] NOT found on pub.dev (publish failed or syncing) — SKIP.',
+      );
       continue;
     }
 
-    final publishedAt = DateTime.tryParse(pubInfo['published'] as String? ?? '');
-    final isNew = publishedAt != null && DateTime.now().toUtc().difference(publishedAt.toUtc()).inHours < 2;
+    final publishedAt = DateTime.tryParse(
+      pubInfo['published'] as String? ?? '',
+    );
+    final isNew =
+        publishedAt != null &&
+        DateTime.now().toUtc().difference(publishedAt.toUtc()).inHours < 2;
 
     if (!isNew) {
       // Version was published a long time ago.
-      print('  [$pubName $localVersion] already on pub.dev (old release) — SKIPPING.');
+      print(
+        '  [$pubName $localVersion] already on pub.dev (old release) — SKIPPING.',
+      );
       continue;
     }
 
     // Version was published just now.
-    print('  [$pubName $localVersion] newly published — INCLUDED in release notes.');
+    print(
+      '  [$pubName $localVersion] newly published — INCLUDED in release notes.',
+    );
 
     final changelog = _readLatestChangelog(localPath, localVersion);
     if (changelog != null) {
@@ -84,7 +94,10 @@ void main(List<String> args) async {
     exit(0);
   }
 
-  final tagExistsResult = await Process.run('git', ['rev-parse', releaseVersion]);
+  final tagExistsResult = await Process.run('git', [
+    'rev-parse',
+    releaseVersion,
+  ]);
   if (tagExistsResult.exitCode == 0) {
     print('Git tag $releaseVersion already exists. Skipping tag creation.');
   } else {
@@ -93,16 +106,24 @@ void main(List<String> args) async {
     print('Git tag $releaseVersion created and pushed.');
   }
 
-  final request = await client.postUrl(Uri.parse('https://api.github.com/repos/$_repo/releases'))
-    ..headers.add(HttpHeaders.authorizationHeader, 'Bearer $token')
-    ..headers.add(HttpHeaders.acceptHeader, 'application/vnd.github.v3+json')
-    ..headers.add('User-Agent', 'Dart/3.0')
-    ..headers.contentType = ContentType.json
-    ..write(jsonEncode({
-      'tag_name': releaseVersion,
-      'name': releaseVersion,
-      'body': releaseBody,
-    }));
+  final request =
+      await client.postUrl(
+          Uri.parse('https://api.github.com/repos/$_repo/releases'),
+        )
+        ..headers.add(HttpHeaders.authorizationHeader, 'Bearer $token')
+        ..headers.add(
+          HttpHeaders.acceptHeader,
+          'application/vnd.github.v3+json',
+        )
+        ..headers.add('User-Agent', 'Dart/3.0')
+        ..headers.contentType = ContentType.json
+        ..write(
+          jsonEncode({
+            'tag_name': releaseVersion,
+            'name': releaseVersion,
+            'body': releaseBody,
+          }),
+        );
 
   final response = await request.close();
   final responseBody = await response.transform(utf8.decoder).join();
@@ -135,11 +156,18 @@ String? _readLocalVersion(String packagePath) {
   return null;
 }
 
-Future<Map<String, dynamic>?> _fetchPubVersion(HttpClient client, String packageName, String version) async {
+Future<Map<String, dynamic>?> _fetchPubVersion(
+  HttpClient client,
+  String packageName,
+  String version,
+) async {
   try {
     final request = await client.getUrl(
-      Uri.parse('https://pub.dev/api/packages/$packageName/versions/$version'),
-    )..headers.add('User-Agent', 'Dart/3.0');
+        Uri.parse(
+          'https://pub.dev/api/packages/$packageName/versions/$version',
+        ),
+      )
+      ..headers.add('User-Agent', 'Dart/3.0');
     final response = await request.close();
     final body = await response.transform(utf8.decoder).join();
     if (response.statusCode == 200) {

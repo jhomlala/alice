@@ -43,7 +43,11 @@ class AliceNotification {
         playSound: false,
         largeIcon: DrawableResourceAndroidBitmap(notificationIcon),
       ),
-      iOS: const DarwinNotificationDetails(presentSound: false),
+      iOS: const DarwinNotificationDetails(
+        presentSound: false,
+        presentBanner: false,
+        presentList: true,
+      ),
     );
 
     _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
