@@ -1,6 +1,7 @@
 ## Unreleased
 
 * Fixed request duration calculation for `interceptWithAlice` extension.
+* Added support for intercepting `http.MultipartRequest`.
 * Added unit tests.
 
 ## 1.2.1

@@ -43,14 +43,38 @@ class AliceHttpAdapter with AliceAdapter {
         ..body = body ?? (response.request! as http.Request).body ?? ''
         ..size = utf8.encode(httpRequest.body.toString()).length
         ..headers = Map<String, String>.from(response.request!.headers);
+    } else if (response.request is http.MultipartRequest) {
+      final multipartRequest = response.request! as http.MultipartRequest;
+      httpRequest.headers = Map<String, String>.from(multipartRequest.headers);
+      if (body != null) {
+        httpRequest.body = body;
+      } else {
+        httpRequest.body = {
+          'fields': multipartRequest.fields,
+          'files':
+              multipartRequest.files
+                  .map(
+                    (file) => {
+                      'field': file.field,
+                      'filename': file.filename,
+                      'length': file.length,
+                      'contentType': file.contentType.toString(),
+                    },
+                  )
+                  .toList(),
+        };
+      }
+      httpRequest.size = utf8.encode(httpRequest.body.toString()).length;
     } else if (body == null) {
       httpRequest
         ..size = 0
-        ..body = '';
+        ..body = ''
+        ..headers = Map<String, String>.from(response.request!.headers);
     } else {
       httpRequest
         ..size = utf8.encode(body.toString()).length
-        ..body = body;
+        ..body = body
+        ..headers = Map<String, String>.from(response.request!.headers);
     }
 
     httpRequest.time = DateTime.now();
