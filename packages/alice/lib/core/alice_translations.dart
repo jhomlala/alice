@@ -183,7 +183,8 @@ class AliceTranslations {
         AliceTranslationKey.jsonViewerInvalid: "Invalid JSON: ",
         AliceTranslationKey.jsonViewerObject: "Object",
         AliceTranslationKey.jsonViewerArray: "Array",
-        AliceTranslationKey.jsonViewerShowMore: "Show more ([remaining] remaining)",
+        AliceTranslationKey.jsonViewerShowMore:
+            "Show more ([remaining] remaining)",
       },
     );
   }
@@ -360,7 +361,8 @@ class AliceTranslations {
         AliceTranslationKey.jsonViewerInvalid: "Nieprawidłowy JSON: ",
         AliceTranslationKey.jsonViewerObject: "Obiekt",
         AliceTranslationKey.jsonViewerArray: "Tablica",
-        AliceTranslationKey.jsonViewerShowMore: "Pokaż więcej (zostało [remaining])",
+        AliceTranslationKey.jsonViewerShowMore:
+            "Pokaż więcej (zostało [remaining])",
       },
     );
   }

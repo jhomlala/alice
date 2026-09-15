@@ -157,10 +157,7 @@ class _JsonObjectViewerState extends State<_JsonObjectViewer> {
         onShowMore: () => setState(() => _listLimit += 50),
       );
     } else {
-      return _KeyValueViewer(
-        nodeKey: widget.nodeKey,
-        value: widget.jsonObject,
-      );
+      return _KeyValueViewer(nodeKey: widget.nodeKey, value: widget.jsonObject);
     }
   }
 }
@@ -183,7 +180,9 @@ class _MapViewer extends StatelessWidget {
     if (map.isEmpty) {
       return _KeyValueViewer(nodeKey: nodeKey, value: '{}');
     }
-    final objectTranslation = context.i18n(AliceTranslationKey.jsonViewerObject);
+    final objectTranslation = context.i18n(
+      AliceTranslationKey.jsonViewerObject,
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -267,8 +266,12 @@ class _ListViewer extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
                       child: Text(
-                        context.i18n(AliceTranslationKey.jsonViewerShowMore)
-                            .replaceAll('[remaining]', '${list.length - listLimit}'),
+                        context
+                            .i18n(AliceTranslationKey.jsonViewerShowMore)
+                            .replaceAll(
+                              '[remaining]',
+                              '${list.length - listLimit}',
+                            ),
                         style: const TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.bold,
@@ -321,10 +324,7 @@ class _KeyValueViewer extends StatelessWidget {
   final String? nodeKey;
   final dynamic value;
 
-  const _KeyValueViewer({
-    required this.nodeKey,
-    required this.value,
-  });
+  const _KeyValueViewer({required this.nodeKey, required this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -359,10 +359,7 @@ class _KeyValueViewer extends StatelessWidget {
             ),
           ],
           Flexible(
-            child: Text(
-              displayValue,
-              style: TextStyle(color: valueColor),
-            ),
+            child: Text(displayValue, style: TextStyle(color: valueColor)),
           ),
         ],
       ),
