@@ -1,4 +1,8 @@
 
+## 1.4.1
+
+* Added interactive tree-based JSON viewer for request and response bodies.
+
 ## 1.4.0
 
 * Fixed destructive mutation of HTTP calls list when searching in inspector UI (by @tiwariritesh1700).

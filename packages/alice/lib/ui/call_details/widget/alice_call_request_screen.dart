@@ -7,6 +7,7 @@ import 'package:alice/ui/call_details/widget/alice_call_list_row.dart';
 import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/utils/alice_parser.dart';
 import 'package:alice/ui/common/alice_scroll_behavior.dart';
+import 'package:alice/ui/common/alice_json_viewer.dart';
 import 'package:material_ui/material_ui.dart';
 
 /// Screen which displays information about call request: content, transfer,
@@ -36,12 +37,25 @@ class AliceCallRequestScreen extends StatelessWidget {
       ),
     ];
 
-    rows.add(
-      AliceCallListRow(
-        name: context.i18n(AliceTranslationKey.callRequestBody),
-        value: _getBodyContent(context: context),
-      ),
-    );
+    final dynamic requestBody = call.request?.body;
+    final dynamic decodedJson = AliceParser.tryDecodeJson(requestBody);
+
+    if (decodedJson != null) {
+      rows.add(
+        AliceCallListRow(
+          name: context.i18n(AliceTranslationKey.callRequestBody),
+          value: '',
+        ),
+      );
+      rows.add(AliceJsonViewer(json: decodedJson));
+    } else {
+      rows.add(
+        AliceCallListRow(
+          name: context.i18n(AliceTranslationKey.callRequestBody),
+          value: _getBodyContent(context: context),
+        ),
+      );
+    }
 
     final List<AliceFormDataField>? formDataFields =
         call.request?.formDataFields;

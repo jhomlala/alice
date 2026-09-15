@@ -71,9 +71,23 @@ class _MyAppState extends State<MyApp> {
       'body': 'bar',
       'userId': '1',
     };
-    _dio.get<void>(
-      'https://httpbin.org/redirect-to?url=https%3A%2F%2Fhttpbin.org',
-    );
+
+    final Map<String, dynamic> complexJsonBody = {
+      'title': 'Alice JSON Viewer Example',
+      'active': true,
+      'id': 42,
+      'tags': ['flutter', 'dio', 'inspector', 'json'],
+      'user': {
+        'name': 'John Doe',
+        'email': 'john.doe@example.com',
+        'roles': ['admin', 'user'],
+      },
+      'metadata': null,
+    };
+
+    _dio.post<void>('https://jsonplaceholder.typicode.com/posts', data: complexJsonBody);
+    _dio.get<void>('https://jsonplaceholder.typicode.com/users/1');
+    _dio.get<void>('https://jsonplaceholder.typicode.com/todos/1');
     _dio.delete<void>('https://httpbin.org/status/500');
     _dio.delete<void>('https://httpbin.org/status/400');
     _dio.delete<void>('https://httpbin.org/status/300');

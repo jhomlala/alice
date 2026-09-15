@@ -5,6 +5,7 @@ import 'package:alice/ui/call_details/widget/alice_call_list_row.dart';
 import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/utils/alice_parser.dart';
 import 'package:alice/ui/common/alice_scroll_behavior.dart';
+import 'package:alice/ui/common/alice_json_viewer.dart';
 import 'package:alice/utils/num_comparison.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -314,9 +315,26 @@ class _TextBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<String, String>? headers = call.response?.headers;
+    final dynamic body = call.response?.body;
+    final dynamic decodedJson = AliceParser.tryDecodeJson(body);
+
+    if (decodedJson != null) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AliceCallListRow(
+            name: context.i18n(AliceTranslationKey.callResponseBody),
+            value: '',
+          ),
+          AliceJsonViewer(json: decodedJson),
+          const SizedBox(height: 8),
+        ],
+      );
+    }
+
     final String bodyContent = AliceParser.formatBody(
       context: context,
-      body: call.response?.body,
+      body: body,
       contentType: AliceParser.getContentType(
         context: context,
         headers: headers,
