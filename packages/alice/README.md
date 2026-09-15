@@ -75,10 +75,8 @@ Create an instance of Alice. You should generally keep it as a singleton or prov
 import 'package:alice/alice.dart';
 
 Alice alice = Alice(
-  configuration: AliceConfiguration(
-    showNotification: true,
-    showInspectorOnShake: true,
-  ),
+  showNotification: true,
+  showInspectorOnShake: true,
 );
 ```
 

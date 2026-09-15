@@ -1,7 +1,6 @@
 
 ## Unreleased
 
-* Added SelectionArea to Alice screens (by @JanArlukiewicz).
 * Hardcoded `presentBanner: false` for iOS notifications to prevent intrusive banners on every HTTP request.
 
 ## 1.3.0
