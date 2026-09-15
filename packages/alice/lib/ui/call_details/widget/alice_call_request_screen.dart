@@ -139,7 +139,8 @@ class AliceCallRequestScreen extends StatelessWidget {
           value: queryParam.value.toString(),
         ),
     ]);
-
+    rows.add(const SizedBox(height: 64));
+    
     return Container(
       padding: const EdgeInsets.all(6),
       child: ScrollConfiguration(

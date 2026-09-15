@@ -29,6 +29,7 @@ class AliceCallResponseScreen extends StatelessWidget {
                 _GeneralDataColumn(call: call),
                 _HeaderDataColumn(call: call),
                 _BodyDataColumn(call: call),
+                const SizedBox(height: 64),
               ],
             ),
           ),
@@ -190,8 +191,21 @@ class _BodyDataColumnState extends State<_BodyDataColumn> {
   }
 
   /// Checks whether response body is large (more than [_largeOutputSize].
-  bool _isLargeResponseBody() =>
-      call.response?.body.toString().length.gt(_largeOutputSize) ?? false;
+  bool _isLargeResponseBody() {
+    if (_getContentTypeOfResponse()?.toLowerCase().contains('json') ?? false) {
+      return false; // AliceJsonViewer handles large payloads efficiently
+    }
+    
+    final dynamic body = call.response?.body;
+    if (body is String) {
+      return body.length > _largeOutputSize;
+    }
+    if (body is List || body is Map) {
+      return false; // Lists/Maps are usually JSON, but if not, avoid expensive .toString()
+    }
+    
+    return body?.toString().length.gt(_largeOutputSize) ?? false;
+  }
 
   /// Called when show large body has been pressed.
   void onShowLargeBodyPressed() {
