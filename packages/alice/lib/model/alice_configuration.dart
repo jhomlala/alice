@@ -22,6 +22,9 @@ class AliceConfiguration extends Equatable {
   /// Icon url for notification. Default value is '@mipmap/ic_launcher'.
   final String notificationIcon;
 
+  /// Large icon url for notification.
+  final String? notificationLargeIcon;
+
   /// Directionality of app. Directionality of the app will be used if set to
   /// null. Default value is null.
   final TextDirection? directionality;
@@ -42,6 +45,7 @@ class AliceConfiguration extends Equatable {
     this.showNotification = true,
     this.showInspectorOnShake = true,
     this.notificationIcon = '@mipmap/ic_launcher',
+    this.notificationLargeIcon,
     this.directionality,
     this.showShareButton = true,
     GlobalKey<NavigatorState>? navigatorKey,
@@ -57,6 +61,7 @@ class AliceConfiguration extends Equatable {
     bool? showNotification,
     bool? showInspectorOnShake,
     String? notificationIcon,
+    String? notificationLargeIcon,
     TextDirection? directionality,
     bool? showShareButton,
     AliceStorage? aliceStorage,
@@ -65,6 +70,7 @@ class AliceConfiguration extends Equatable {
     showNotification: showNotification ?? this.showNotification,
     showInspectorOnShake: showInspectorOnShake ?? this.showInspectorOnShake,
     notificationIcon: notificationIcon ?? this.notificationIcon,
+    notificationLargeIcon: notificationLargeIcon ?? this.notificationLargeIcon,
     directionality: directionality ?? this.directionality,
     showShareButton: showShareButton ?? this.showShareButton,
     navigatorKey: navigatorKey ?? this.navigatorKey,
@@ -77,6 +83,7 @@ class AliceConfiguration extends Equatable {
     showNotification,
     showInspectorOnShake,
     notificationIcon,
+    notificationLargeIcon,
     directionality,
     showShareButton,
     navigatorKey,

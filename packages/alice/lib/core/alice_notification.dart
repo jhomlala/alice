@@ -29,8 +29,18 @@ class AliceNotification {
 
   /// Configures local notifications with [notificationIcon] and
   /// [openInspectorCallback].
+  ///
+  /// [notificationIcon] is typically a **monochrome silhouette icon**
+  /// on a **transparent background**, used for small icon.
+  ///
+  /// [notificationLargeIcon] is optional, used for large icon.
+  /// Android official docs doesn't recommend to use app icon.
+  ///
+  /// See more for notificationIcon and notificationLargeIcon information:
+  /// https://developer.android.com/develop/ui/views/notifications#Templates
   void configure({
     required String notificationIcon,
+    String? notificationLargeIcon,
     required void Function() openInspectorCallback,
   }) {
     _openInspectorCallback = openInspectorCallback;
@@ -41,7 +51,10 @@ class AliceNotification {
         channelDescription: _channel,
         enableVibration: false,
         playSound: false,
-        largeIcon: DrawableResourceAndroidBitmap(notificationIcon),
+        largeIcon:
+            notificationLargeIcon != null
+                ? DrawableResourceAndroidBitmap(notificationLargeIcon)
+                : null,
       ),
       iOS: const DarwinNotificationDetails(
         presentSound: false,

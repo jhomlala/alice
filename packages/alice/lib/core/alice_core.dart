@@ -39,6 +39,7 @@ class AliceCore {
       _notification = AliceNotification();
       _notification?.configure(
         notificationIcon: _configuration.notificationIcon,
+        notificationLargeIcon: _configuration.notificationLargeIcon,
         openInspectorCallback: navigateToCallListScreen,
       );
     }
