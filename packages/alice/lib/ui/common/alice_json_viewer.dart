@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:alice/ui/common/alice_context_ext.dart';
+import 'package:alice/model/alice_translation.dart';
 
 class AliceJsonViewer extends StatefulWidget {
   final dynamic jsonObject;
@@ -82,17 +84,17 @@ class _AliceJsonViewerState extends State<AliceJsonViewer> {
   @override
   Widget build(BuildContext context) {
     if (_isParsing) {
-      return const Padding(
-        padding: EdgeInsets.all(8.0),
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
         child: Row(
           children: [
-            SizedBox(
+            const SizedBox(
               width: 16,
               height: 16,
               child: CircularProgressIndicator(strokeWidth: 2),
             ),
-            SizedBox(width: 8),
-            Text('Parsing JSON...'),
+            const SizedBox(width: 8),
+            Text(context.i18n(AliceTranslationKey.jsonViewerParsing)),
           ],
         ),
       );
@@ -100,7 +102,7 @@ class _AliceJsonViewerState extends State<AliceJsonViewer> {
 
     if (_parseError != null) {
       return SelectableText(
-        'Invalid JSON: $_parseError\n\n${widget.jsonObject}',
+        '${context.i18n(AliceTranslationKey.jsonViewerInvalid)}$_parseError\n\n${widget.jsonObject}',
       );
     }
 
@@ -155,7 +157,10 @@ class _JsonObjectViewerState extends State<_JsonObjectViewer> {
         onShowMore: () => setState(() => _listLimit += 50),
       );
     } else {
-      return _KeyValueViewer(nodeKey: widget.nodeKey, value: widget.jsonObject);
+      return _KeyValueViewer(
+        nodeKey: widget.nodeKey,
+        value: widget.jsonObject,
+      );
     }
   }
 }
@@ -178,13 +183,14 @@ class _MapViewer extends StatelessWidget {
     if (map.isEmpty) {
       return _KeyValueViewer(nodeKey: nodeKey, value: '{}');
     }
+    final objectTranslation = context.i18n(AliceTranslationKey.jsonViewerObject);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _ExpandableHeader(
           text:
               nodeKey == null
-                  ? 'Object {${map.length}}'
+                  ? '$objectTranslation {${map.length}}'
                   : '$nodeKey: {${map.length}}',
           isExpanded: isExpanded,
           onTap: onToggle,
@@ -230,13 +236,14 @@ class _ListViewer extends StatelessWidget {
     if (list.isEmpty) {
       return _KeyValueViewer(nodeKey: nodeKey, value: '[]');
     }
+    final arrayTranslation = context.i18n(AliceTranslationKey.jsonViewerArray);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _ExpandableHeader(
           text:
               nodeKey == null
-                  ? 'Array [${list.length}]'
+                  ? '$arrayTranslation [${list.length}]'
                   : '$nodeKey: [${list.length}]',
           isExpanded: isExpanded,
           onTap: onToggle,
@@ -260,7 +267,8 @@ class _ListViewer extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
                       child: Text(
-                        'Show more (${list.length - listLimit} remaining)',
+                        context.i18n(AliceTranslationKey.jsonViewerShowMore)
+                            .replaceAll('[remaining]', '${list.length - listLimit}'),
                         style: const TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.bold,
@@ -313,7 +321,10 @@ class _KeyValueViewer extends StatelessWidget {
   final String? nodeKey;
   final dynamic value;
 
-  const _KeyValueViewer({required this.nodeKey, required this.value});
+  const _KeyValueViewer({
+    required this.nodeKey,
+    required this.value,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -348,7 +359,10 @@ class _KeyValueViewer extends StatelessWidget {
             ),
           ],
           Flexible(
-            child: Text(displayValue, style: TextStyle(color: valueColor)),
+            child: Text(
+              displayValue,
+              style: TextStyle(color: valueColor),
+            ),
           ),
         ],
       ),

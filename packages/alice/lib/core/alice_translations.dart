@@ -179,6 +179,11 @@ class AliceTranslations {
         AliceTranslationKey.accept: "Accept",
         AliceTranslationKey.parserFailed: "Failed to parse: ",
         AliceTranslationKey.unknown: "Unknown",
+        AliceTranslationKey.jsonViewerParsing: "Parsing JSON...",
+        AliceTranslationKey.jsonViewerInvalid: "Invalid JSON: ",
+        AliceTranslationKey.jsonViewerObject: "Object",
+        AliceTranslationKey.jsonViewerArray: "Array",
+        AliceTranslationKey.jsonViewerShowMore: "Show more ([remaining] remaining)",
       },
     );
   }
@@ -351,6 +356,11 @@ class AliceTranslations {
         AliceTranslationKey.accept: "Akceptuj",
         AliceTranslationKey.parserFailed: "Problem z parsowaniem: ",
         AliceTranslationKey.unknown: "Nieznane",
+        AliceTranslationKey.jsonViewerParsing: "Parsowanie JSON...",
+        AliceTranslationKey.jsonViewerInvalid: "Nieprawidłowy JSON: ",
+        AliceTranslationKey.jsonViewerObject: "Obiekt",
+        AliceTranslationKey.jsonViewerArray: "Tablica",
+        AliceTranslationKey.jsonViewerShowMore: "Pokaż więcej (zostało [remaining])",
       },
     );
   }

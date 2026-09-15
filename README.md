@@ -45,6 +45,7 @@ Whether you are hunting down a broken API payload, checking headers, or monitori
 
 **🔍 Deep Inspection**
 * Detailed logs for every HTTP call (Headers, Body, Query Parameters, Timestamps)
+* Interactive tree-based JSON viewer for request and response bodies
 * Powerful HTTP calls search and filtering
 * Statistics overview (bandwidth, success rate, call counts)
 * Flutter & Android native log integration
