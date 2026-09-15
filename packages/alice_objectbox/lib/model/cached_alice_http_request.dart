@@ -82,18 +82,16 @@ class CachedAliceHttpRequest implements AliceHttpRequest {
   /// Custom data type converter of [cookies].
   set dbCookies(List<String> value) =>
       cookies =
-          value
-              .map((String cookie) {
-                final index = cookie.indexOf('=');
-                if (index == -1) {
-                  return AliceCookie(cookie, '');
-                }
-                return AliceCookie(
-                  cookie.substring(0, index),
-                  cookie.substring(index + 1),
-                );
-              })
-              .toList();
+          value.map((String cookie) {
+            final index = cookie.indexOf('=');
+            if (index == -1) {
+              return AliceCookie(cookie, '');
+            }
+            return AliceCookie(
+              cookie.substring(0, index),
+              cookie.substring(index + 1),
+            );
+          }).toList();
 
   @override
   @Transient()

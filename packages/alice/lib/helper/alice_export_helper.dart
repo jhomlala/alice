@@ -103,7 +103,9 @@ class AliceExportHelper {
     return FileSaveHelper.saveCallsToFileIo(
       fileName: fileName,
       buildAliceLog: () => _buildAliceLog(context: context),
-      buildCallLogs: () => calls.map((call) => _buildCallLog(context: context, call: call)),
+      buildCallLogs:
+          () =>
+              calls.map((call) => _buildCallLog(context: context, call: call)),
     );
   }
 

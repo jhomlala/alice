@@ -19,27 +19,31 @@ void main() {
       expect(cookie.toString(), 'lang=en');
     });
 
-    test('should handle cookie parsing logic identical to CachedAliceHttpRequest', () {
-      final dbCookiesList = ['foo=bar', 'baz=', 'invalid_cookie'];
-      
-      final cookies = dbCookiesList.map((String cookie) {
-        final index = cookie.indexOf('=');
-        if (index == -1) {
-          return AliceCookie(cookie, '');
-        }
-        return AliceCookie(
-          cookie.substring(0, index),
-          cookie.substring(index + 1),
-        );
-      }).toList();
+    test(
+      'should handle cookie parsing logic identical to CachedAliceHttpRequest',
+      () {
+        final dbCookiesList = ['foo=bar', 'baz=', 'invalid_cookie'];
 
-      expect(cookies.length, 3);
-      expect(cookies[0].name, 'foo');
-      expect(cookies[0].value, 'bar');
-      expect(cookies[1].name, 'baz');
-      expect(cookies[1].value, '');
-      expect(cookies[2].name, 'invalid_cookie');
-      expect(cookies[2].value, '');
-    });
+        final cookies =
+            dbCookiesList.map((String cookie) {
+              final index = cookie.indexOf('=');
+              if (index == -1) {
+                return AliceCookie(cookie, '');
+              }
+              return AliceCookie(
+                cookie.substring(0, index),
+                cookie.substring(index + 1),
+              );
+            }).toList();
+
+        expect(cookies.length, 3);
+        expect(cookies[0].name, 'foo');
+        expect(cookies[0].value, 'bar');
+        expect(cookies[1].name, 'baz');
+        expect(cookies[1].value, '');
+        expect(cookies[2].name, 'invalid_cookie');
+        expect(cookies[2].value, '');
+      },
+    );
   });
 }

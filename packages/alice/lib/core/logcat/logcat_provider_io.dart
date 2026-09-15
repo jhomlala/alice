@@ -2,7 +2,11 @@ import 'dart:io';
 
 class LogcatProvider {
   static Future<String> getAndroidRawLogs() async {
-    final ProcessResult process = await Process.run('logcat', ['-v', 'raw', '-d']);
+    final ProcessResult process = await Process.run('logcat', [
+      '-v',
+      'raw',
+      '-d',
+    ]);
     return process.stdout as String;
   }
 

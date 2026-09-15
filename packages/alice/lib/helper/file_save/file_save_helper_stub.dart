@@ -6,6 +6,9 @@ class FileSaveHelper {
     required Future<String> Function() buildAliceLog,
     required Iterable<String> Function() buildCallLogs,
   }) async {
-    return AliceExportResult(success: false, error: AliceExportResultError.file);
+    return AliceExportResult(
+      success: false,
+      error: AliceExportResultError.file,
+    );
   }
 }

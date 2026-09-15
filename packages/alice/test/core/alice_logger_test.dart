@@ -38,17 +38,23 @@ void main() {
       expect(aliceLogger.logs.isEmpty, true);
     });
 
-    test("should return empty android raw logs on non-android platforms", () async {
-      debugDefaultTargetPlatformOverride = TargetPlatform.windows;
-      final logs = await aliceLogger.getAndroidRawLogs();
-      expect(logs, '');
-      debugDefaultTargetPlatformOverride = null;
-    });
+    test(
+      "should return empty android raw logs on non-android platforms",
+      () async {
+        debugDefaultTargetPlatformOverride = TargetPlatform.windows;
+        final logs = await aliceLogger.getAndroidRawLogs();
+        expect(logs, '');
+        debugDefaultTargetPlatformOverride = null;
+      },
+    );
 
-    test("clearAndroidRawLogs should complete without throwing on non-android platforms", () async {
-      debugDefaultTargetPlatformOverride = TargetPlatform.windows;
-      expect(aliceLogger.clearAndroidRawLogs(), completes);
-      debugDefaultTargetPlatformOverride = null;
-    });
+    test(
+      "clearAndroidRawLogs should complete without throwing on non-android platforms",
+      () async {
+        debugDefaultTargetPlatformOverride = TargetPlatform.windows;
+        expect(aliceLogger.clearAndroidRawLogs(), completes);
+        debugDefaultTargetPlatformOverride = null;
+      },
+    );
   });
 }
