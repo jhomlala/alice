@@ -1,5 +1,6 @@
 ## Unreleased
 
+* Added comprehensive unit tests for `AliceCookie` and platform-specific logger behavior.
 * Removed dart:io dependencies to support Flutter Web.
 * Added interactive tree-based JSON viewer for request and response bodies.
 
