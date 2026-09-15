@@ -48,6 +48,8 @@ Whether you use the default Dart libraries or third-party packages, Alice has yo
 * `Chopper`
 * `http` (from the `http/http` package)
 * `HttpClient` (from `dart:io`)
+* `Retrofit`
+* `GraphQL`
 
 ## Quick Start
 

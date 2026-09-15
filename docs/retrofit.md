@@ -1,4 +1,4 @@
-# Retrofit Support
+# Retrofit
 
 Alice supports [Retrofit](https://pub.dev/packages/retrofit) out of the box because it is built on top of [Dio](https://pub.dev/packages/dio).
 

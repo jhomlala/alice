@@ -1,4 +1,4 @@
-# GraphQL Integration
+# GraphQL
 
 To use Alice with `graphql_flutter`, add `AliceGraphQLLink` to your link chain. You can optionally pass the `url` to properly format the endpoint and server in the Alice inspector.
 
