@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:sensors_plus/sensors_plus.dart';
@@ -47,9 +48,11 @@ class ShakeDetector {
 
   /// Starts listening to accelerometer events
   void startListening() {
-    streamSubscription = accelerometerEventStream().listen(
-      _onAccelerometerEvent,
-    );
+    if (Platform.isAndroid || Platform.isIOS) {
+      streamSubscription = accelerometerEventStream().listen(
+        _onAccelerometerEvent,
+      );
+    }
   }
 
   void _onAccelerometerEvent(AccelerometerEvent event) {
