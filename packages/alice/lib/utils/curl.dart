@@ -1,5 +1,3 @@
-import 'dart:io' show HttpHeaders;
-
 import 'package:alice/model/alice_http_call.dart';
 
 class Curl {
@@ -12,7 +10,7 @@ class Curl {
 
     for (final MapEntry<String, String> header
         in call.request?.headers.entries ?? []) {
-      if (header.key.toLowerCase() == HttpHeaders.acceptEncodingHeader &&
+      if (header.key.toLowerCase() == 'accept-encoding' &&
           header.value.toString().toLowerCase() == 'gzip') {
         compressed = true;
       }

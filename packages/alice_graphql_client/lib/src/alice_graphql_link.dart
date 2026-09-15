@@ -3,10 +3,7 @@ import 'dart:convert';
 
 import 'package:alice/alice.dart';
 import 'package:alice/core/alice_adapter.dart';
-import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
-import 'package:alice/model/alice_http_request.dart';
-import 'package:alice/model/alice_http_response.dart';
 import 'package:gql_link/gql_link.dart';
 import 'package:gql_exec/gql_exec.dart';
 import 'package:gql/language.dart';

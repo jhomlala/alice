@@ -1,4 +1,4 @@
-import 'dart:io' show Process, ProcessResult;
+import 'package:alice/core/logcat/logcat_provider.dart';
 
 import 'package:alice/helper/operating_system.dart';
 import 'package:alice/model/alice_log.dart';
@@ -48,12 +48,7 @@ class AliceLogger {
   /// Returns raw logs from Android via ADB.
   Future<String> getAndroidRawLogs() async {
     if (OperatingSystem.isAndroid) {
-      final ProcessResult process = await Process.run('logcat', [
-        '-v',
-        'raw',
-        '-d',
-      ]);
-      return process.stdout as String;
+      return await LogcatProvider.getAndroidRawLogs();
     }
     return '';
   }
@@ -61,7 +56,7 @@ class AliceLogger {
   /// Clears all raw logs.
   Future<void> clearAndroidRawLogs() async {
     if (OperatingSystem.isAndroid) {
-      await Process.run('logcat', ['-c']);
+      await LogcatProvider.clearAndroidRawLogs();
     }
   }
 }

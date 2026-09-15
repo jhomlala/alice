@@ -3,7 +3,6 @@ import 'package:alice/core/alice_adapter.dart';
 import 'package:alice/core/alice_logger.dart';
 import 'package:alice/core/alice_storage.dart';
 import 'package:alice/model/alice_configuration.dart';
-import 'package:alice/model/alice_http_call.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 

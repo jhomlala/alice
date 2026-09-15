@@ -1,7 +1,7 @@
 import 'package:alice/core/alice_logger.dart';
 import 'package:alice/model/alice_log.dart';
-import 'package:test/expect.dart';
-import 'package:test/scaffolding.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   late AliceLogger aliceLogger;
@@ -37,5 +37,24 @@ void main() {
 
       expect(aliceLogger.logs.isEmpty, true);
     });
+
+    test(
+      "should return empty android raw logs on non-android platforms",
+      () async {
+        debugDefaultTargetPlatformOverride = TargetPlatform.windows;
+        final logs = await aliceLogger.getAndroidRawLogs();
+        expect(logs, '');
+        debugDefaultTargetPlatformOverride = null;
+      },
+    );
+
+    test(
+      "clearAndroidRawLogs should complete without throwing on non-android platforms",
+      () async {
+        debugDefaultTargetPlatformOverride = TargetPlatform.windows;
+        expect(aliceLogger.clearAndroidRawLogs(), completes);
+        debugDefaultTargetPlatformOverride = null;
+      },
+    );
   });
 }
