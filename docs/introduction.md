@@ -12,6 +12,25 @@ Alice is a powerful HTTP Inspector tool for Flutter that helps you debug network
 Alice was heavily inspired by the popular Android networking tools **Chuck** and **Chucker**.
 :::
 
+## Why Alice instead of Dart DevTools?
+
+Flutter already provides a Network tab in Dart DevTools. So why use Alice? 
+
+While Dart DevTools is excellent for developers actively writing code with a computer connected, Alice provides **runtime, on-device HTTP inspection** that unlocks entirely different workflows:
+
+* **QA Testing:** QA engineers and beta testers can view network traffic and debug API errors directly on physical test devices without needing a computer, IDE, or debugger attached.
+* **"On-the-go" Debugging:** Test your app in real-world conditions (e.g., walking outside to test cellular network drops) and instantly inspect failing requests.
+* **Shareable Logs:** Encounter a backend error? Alice lets you instantly save and export the exact HTTP logs from the device to share with your backend team.
+* **Persistent History:** Dart DevTools clears network logs upon app restart. Alice (when paired with the `alice_objectbox` plugin) persists logs across app restarts, allowing you to catch API calls leading up to a crash.
+
+| Feature | Alice | Dart DevTools |
+| :--- | :--- | :--- |
+| **Requires IDE / Computer** | ❌ No (Runs natively on-device) | ✅ Yes |
+| **Usable by QA / Testers** | ✅ Yes | ❌ No |
+| **Export/Share from Device**| ✅ Yes | ❌ No |
+| **Survives App Restarts** | ✅ Yes (with ObjectBox) | ❌ No |
+| **Shake to Open** | ✅ Yes | ❌ No |
+
 ## Core Capabilities
 
 Alice goes beyond simple logging by providing a fully-featured UI inside your Flutter app:
