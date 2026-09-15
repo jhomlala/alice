@@ -1,7 +1,8 @@
-## Unreleased
+## 1.0.2
 
 * Added example README.
 * Updated package description to improve pub.dev score.
+* Updated `alice` dependency to `^1.5.0`.
 
 ## 1.0.1
 

@@ -1,4 +1,4 @@
-## Unreleased
+## 1.5.0
 
 * Added comprehensive unit tests for `AliceCookie` and platform-specific logger behavior.
 * Removed dart:io dependencies to support Flutter Web.

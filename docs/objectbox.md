@@ -9,7 +9,7 @@ Add this to your **pubspec.yaml** file:
 ```yaml
 dependencies:
   objectbox: any
-  alice_objectbox: ^1.2.0
+  alice_objectbox: ^1.2.3
 ```
 
 ## Usage
