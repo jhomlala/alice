@@ -1,6 +1,7 @@
 
 ## Unreleased
 
+* Fixed destructive mutation of HTTP calls list when searching in inspector UI (by @tiwariritesh1700).
 * Added `notificationLargeIcon` support to `AliceConfiguration` (by @husainazkas).
 * Added SelectionArea to Alice screens (by @JanArlukiewicz).
 * Hardcoded `presentBanner: false` for iOS notifications to prevent intrusive banners on every HTTP request.
