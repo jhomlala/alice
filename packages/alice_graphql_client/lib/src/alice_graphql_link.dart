@@ -24,14 +24,15 @@ class AliceGraphQLLink extends Link with AliceAdapter {
       return request.operation.operationName!;
     }
     try {
-      final definition = request.operation.document.definitions
-          .whereType<OperationDefinitionNode>()
-          .first;
+      final definition =
+          request.operation.document.definitions
+              .whereType<OperationDefinitionNode>()
+              .first;
       if (definition.name != null) {
         return definition.name!.value;
       }
-      final selections = definition.selectionSet.selections
-          .whereType<FieldNode>();
+      final selections =
+          definition.selectionSet.selections.whereType<FieldNode>();
       final firstSelection = selections.firstWhere(
         (sel) => sel.name.value != '__typename',
         orElse: () => selections.first,
@@ -58,9 +59,8 @@ class AliceGraphQLLink extends Link with AliceAdapter {
           call.server = uri.host;
 
           final path = uri.path == '/' || uri.path.isEmpty ? '' : uri.path;
-          call.endpoint = path.isEmpty
-              ? operationName
-              : '$path / $operationName';
+          call.endpoint =
+              path.isEmpty ? operationName : '$path / $operationName';
 
           call.uri = url!;
         } else {
@@ -100,9 +100,10 @@ class AliceGraphQLLink extends Link with AliceAdapter {
             final Map<String, dynamic> responseBody = {};
             if (response.data != null) responseBody['data'] = response.data;
             if (response.errors != null && response.errors!.isNotEmpty) {
-              responseBody['errors'] = response.errors!
-                  .map((e) => e.message)
-                  .toList(); // Or e.toJson() if available, but message is safe
+              responseBody['errors'] =
+                  response.errors!
+                      .map((e) => e.message)
+                      .toList(); // Or e.toJson() if available, but message is safe
             }
 
             call.response!.body = responseBody;
@@ -111,8 +112,8 @@ class AliceGraphQLLink extends Link with AliceAdapter {
             call.response!.headers = {'content-type': 'application/json'};
             call.response!.status =
                 response.errors != null && response.errors!.isNotEmpty
-                ? 400
-                : 200; // Optionally indicate error in status
+                    ? 400
+                    : 200; // Optionally indicate error in status
             call.response!.time = DateTime.now();
 
             aliceCore.addResponse(call.response!, id);
@@ -128,9 +129,10 @@ class AliceGraphQLLink extends Link with AliceAdapter {
             aliceError.stackTrace = stackTrace;
             aliceCore.addError(aliceError, id);
 
-            final httpResponse = AliceHttpResponse()
-              ..time = DateTime.now()
-              ..status = -1;
+            final httpResponse =
+                AliceHttpResponse()
+                  ..time = DateTime.now()
+                  ..status = -1;
             aliceCore.addResponse(httpResponse, id);
           } catch (e) {
             // ignore

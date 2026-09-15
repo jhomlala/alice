@@ -5,7 +5,7 @@ import 'dart:io' show Directory, File, FileMode, IOSink;
 
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/helper/alice_conversion_helper.dart';
-import 'package:alice/helper/operating_system.dart';
+import 'package:alice/helper/alice_permission_helper.dart';
 import 'package:alice/model/alice_export_result.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_translation.dart';
@@ -15,7 +15,6 @@ import 'package:alice/utils/curl.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 
 class AliceExportHelper {
@@ -72,9 +71,10 @@ class AliceExportHelper {
     BuildContext context,
     List<AliceHttpCall> calls,
   ) async {
-    final bool permissionStatus = await _getPermissionStatus();
+    final bool permissionStatus =
+        await AlicePermissionHelper.getPermissionStatus();
     if (!permissionStatus) {
-      final bool status = await _requestPermission();
+      final bool status = await AlicePermissionHelper.requestPermission();
       if (!status) {
         return AliceExportResult(
           success: false,
@@ -84,26 +84,6 @@ class AliceExportHelper {
     }
 
     return await _saveToFile(context, calls);
-  }
-
-  /// Returns current storage permission status. Checks permission for iOS
-  /// For other platforms it returns true.
-  static Future<bool> _getPermissionStatus() async {
-    if (OperatingSystem.isIOS) {
-      return Permission.storage.status.isGranted;
-    } else {
-      return true;
-    }
-  }
-
-  /// Requests permissions for storage for iOS. For other platforms it doesn't
-  /// make any action and returns true.
-  static Future<bool> _requestPermission() async {
-    if (OperatingSystem.isIOS) {
-      return Permission.storage.request().isGranted;
-    } else {
-      return true;
-    }
   }
 
   /// Saves [calls] to file. For android it uses external storage directory and

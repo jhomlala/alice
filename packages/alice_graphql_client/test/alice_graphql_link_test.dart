@@ -64,10 +64,12 @@ void main() {
       final response = Response(data: responseData, response: {});
       Stream<Response> forward(Request req) => Stream.fromIterable([response]);
 
-      when(() => mockAliceCore.addCall(any()))
-          .thenAnswer((_) => Future.value());
-      when(() => mockAliceCore.addResponse(any(), any()))
-          .thenAnswer((_) => Future.value());
+      when(
+        () => mockAliceCore.addCall(any()),
+      ).thenAnswer((_) => Future.value());
+      when(
+        () => mockAliceCore.addResponse(any(), any()),
+      ).thenAnswer((_) => Future.value());
 
       await link.request(request, forward).toList();
 
@@ -85,9 +87,9 @@ void main() {
       expect(body, contains('GetUser'));
 
       final resp =
-          verify(() => mockAliceCore.addResponse(captureAny(), any()))
-                  .captured
-                  .first
+          verify(
+                () => mockAliceCore.addResponse(captureAny(), any()),
+              ).captured.first
               as AliceHttpResponse;
       expect(resp.status, 200);
       expect(resp.body, {'data': responseData});
@@ -101,10 +103,12 @@ void main() {
       Stream<Response> forward(Request req) =>
           Stream.fromIterable([Response(data: {}, response: {})]);
 
-      when(() => mockAliceCore.addCall(any()))
-          .thenAnswer((_) => Future.value());
-      when(() => mockAliceCore.addResponse(any(), any()))
-          .thenAnswer((_) => Future.value());
+      when(
+        () => mockAliceCore.addCall(any()),
+      ).thenAnswer((_) => Future.value());
+      when(
+        () => mockAliceCore.addResponse(any(), any()),
+      ).thenAnswer((_) => Future.value());
 
       await link.request(request, forward).toList();
 
@@ -123,17 +127,19 @@ void main() {
       Stream<Response> forward(Request req) =>
           Stream.fromIterable([Response(data: null, response: {})]);
 
-      when(() => mockAliceCore.addCall(any()))
-          .thenAnswer((_) => Future.value());
-      when(() => mockAliceCore.addResponse(any(), any()))
-          .thenAnswer((_) => Future.value());
+      when(
+        () => mockAliceCore.addCall(any()),
+      ).thenAnswer((_) => Future.value());
+      when(
+        () => mockAliceCore.addResponse(any(), any()),
+      ).thenAnswer((_) => Future.value());
 
       await link.request(request, forward).toList();
 
       final resp =
-          verify(() => mockAliceCore.addResponse(captureAny(), any()))
-                  .captured
-                  .first
+          verify(
+                () => mockAliceCore.addResponse(captureAny(), any()),
+              ).captured.first
               as AliceHttpResponse;
       expect(resp.body, {});
       expect(resp.size, 2); // {} is 2 bytes
@@ -148,12 +154,15 @@ void main() {
       Stream<Response> forward(Request req) =>
           Stream<Response>.error(exception);
 
-      when(() => mockAliceCore.addCall(any()))
-          .thenAnswer((_) => Future.value());
-      when(() => mockAliceCore.addError(any(), any()))
-          .thenAnswer((_) => Future.value());
-      when(() => mockAliceCore.addResponse(any(), any()))
-          .thenAnswer((_) => Future.value());
+      when(
+        () => mockAliceCore.addCall(any()),
+      ).thenAnswer((_) => Future.value());
+      when(
+        () => mockAliceCore.addError(any(), any()),
+      ).thenAnswer((_) => Future.value());
+      when(
+        () => mockAliceCore.addResponse(any(), any()),
+      ).thenAnswer((_) => Future.value());
 
       try {
         await link.request(request, forward).toList();
@@ -163,9 +172,9 @@ void main() {
 
       verify(() => mockAliceCore.addError(any(), any())).called(1);
       final resp =
-          verify(() => mockAliceCore.addResponse(captureAny(), any()))
-                  .captured
-                  .first
+          verify(
+                () => mockAliceCore.addResponse(captureAny(), any()),
+              ).captured.first
               as AliceHttpResponse;
       expect(resp.status, -1);
     });
@@ -179,10 +188,12 @@ void main() {
           Stream.fromIterable([Response(data: {}, response: {})]);
 
       // Make AliceCore throw an exception
-      when(() => mockAliceCore.addCall(any()))
-          .thenThrow(Exception('Alice crashed'));
-      when(() => mockAliceCore.addResponse(any(), any()))
-          .thenThrow(Exception('Alice crashed again'));
+      when(
+        () => mockAliceCore.addCall(any()),
+      ).thenThrow(Exception('Alice crashed'));
+      when(
+        () => mockAliceCore.addResponse(any(), any()),
+      ).thenThrow(Exception('Alice crashed again'));
 
       // The stream should still finish successfully despite Alice crashing
       final results = await link.request(request, forward).toList();
@@ -197,10 +208,12 @@ void main() {
 
       Stream<Response> forward(Request req) =>
           Stream.fromIterable([Response(data: {}, response: {})]);
-      when(() => mockAliceCore.addCall(any()))
-          .thenAnswer((_) => Future.value());
-      when(() => mockAliceCore.addResponse(any(), any()))
-          .thenAnswer((_) => Future.value());
+      when(
+        () => mockAliceCore.addCall(any()),
+      ).thenAnswer((_) => Future.value());
+      when(
+        () => mockAliceCore.addResponse(any(), any()),
+      ).thenAnswer((_) => Future.value());
 
       await link.request(request, forward).toList();
 

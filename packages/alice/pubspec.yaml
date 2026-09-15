@@ -12,6 +12,14 @@ topics:
   - chopper
   - interceptor
 
+platforms:
+  android:
+  ios:
+  linux:
+  macos:
+  web:
+  windows:
+
 environment:
   sdk: ">=3.7.0 <4.0.0"
   flutter: ">=3.29.0"
