@@ -1,3 +1,7 @@
+## 1.2.2
+
+* Updated `alice` dependency to `^1.4.0`.
+
 ## 1.2.1
 
 * Updated `alice` dependency to `^1.3.0`.

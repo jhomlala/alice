@@ -1,3 +1,7 @@
+## 1.0.1
+
+* Updated `alice` dependency to `^1.4.0`.
+
 ## 1.0.0
 
 * Initial release of the `alice_graphql_client` package.
