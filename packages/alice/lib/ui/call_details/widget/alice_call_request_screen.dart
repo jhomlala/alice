@@ -7,6 +7,7 @@ import 'package:alice/ui/call_details/widget/alice_call_list_row.dart';
 import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/utils/alice_parser.dart';
 import 'package:alice/ui/common/alice_scroll_behavior.dart';
+import 'package:alice/ui/common/alice_json_viewer.dart';
 import 'package:material_ui/material_ui.dart';
 
 /// Screen which displays information about call request: content, transfer,
@@ -36,12 +37,38 @@ class AliceCallRequestScreen extends StatelessWidget {
       ),
     ];
 
-    rows.add(
-      AliceCallListRow(
-        name: context.i18n(AliceTranslationKey.callRequestBody),
-        value: _getBodyContent(context: context),
-      ),
+    final String? contentType = AliceParser.getContentType(
+      context: context,
+      headers: call.request?.headers,
     );
+    final bool isJson =
+        contentType != null && contentType.toLowerCase().contains('json');
+
+    if (isJson && call.request?.body != null && call.request?.body is! Stream) {
+      rows.add(
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                context.i18n(AliceTranslationKey.callRequestBody),
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              AliceJsonViewer(call.request?.body),
+            ],
+          ),
+        ),
+      );
+    } else {
+      rows.add(
+        AliceCallListRow(
+          name: context.i18n(AliceTranslationKey.callRequestBody),
+          value: _getBodyContent(context: context),
+        ),
+      );
+    }
 
     final List<AliceFormDataField>? formDataFields =
         call.request?.formDataFields;
@@ -113,6 +140,7 @@ class AliceCallRequestScreen extends StatelessWidget {
           value: queryParam.value.toString(),
         ),
     ]);
+    rows.add(const SizedBox(height: 64));
 
     return Container(
       padding: const EdgeInsets.all(6),

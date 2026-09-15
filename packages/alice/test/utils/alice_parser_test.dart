@@ -18,11 +18,19 @@ void main() {
       expect(
         AliceParser.formatBody(
           context: context,
-          body: '{"id": 1, "name": "test}',
+          body: '{"id":1,"name":"test"}',
           contentType: "application/json",
         ),
-        '"{\\"id\\": 1, \\"name\\": \\"test}"',
+        '{\n  "id": 1,\n  "name": "test"\n}',
       );
+    });
+
+    test("should tryDecodeJson correctly", () {
+      expect(AliceParser.tryDecodeJson(null), isNull);
+      expect(AliceParser.tryDecodeJson(''), isNull);
+      expect(AliceParser.tryDecodeJson('{"a":1}'), {'a': 1});
+      expect(AliceParser.tryDecodeJson({'a': 1}), {'a': 1});
+      expect(AliceParser.tryDecodeJson('invalid json'), isNull);
     });
 
     test("should parse unknown body", () {

@@ -156,4 +156,9 @@ enum AliceTranslationKey {
   accept,
   parserFailed,
   unknown,
+  jsonViewerParsing,
+  jsonViewerInvalid,
+  jsonViewerObject,
+  jsonViewerArray,
+  jsonViewerShowMore,
 }

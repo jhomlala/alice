@@ -24,9 +24,32 @@ class AliceParser {
   /// Tries to parse json. If it fails, it will return the json itself.
   static dynamic _decodeJson(dynamic body) {
     try {
-      return json.decode(body as String);
+      if (body is String) {
+        return json.decode(body);
+      }
+      return body;
     } catch (_) {
       return body;
+    }
+  }
+
+  /// Tries to decode json. If it fails, it will return null.
+  static dynamic tryDecodeJson(dynamic body) {
+    if (body == null || body is Stream) {
+      return null;
+    }
+
+    try {
+      if (body is String) {
+        if (body.isEmpty) return null;
+        return json.decode(body);
+      }
+      if (body is Map || body is List) {
+        return body;
+      }
+      return null;
+    } catch (_) {
+      return null;
     }
   }
 

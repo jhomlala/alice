@@ -1,3 +1,6 @@
+## Unreleased
+
+* Added interactive tree-based JSON viewer for request and response bodies.
 
 ## 1.4.0
 

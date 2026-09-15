@@ -5,6 +5,7 @@ import 'package:alice/ui/call_details/widget/alice_call_list_row.dart';
 import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/utils/alice_parser.dart';
 import 'package:alice/ui/common/alice_scroll_behavior.dart';
+import 'package:alice/ui/common/alice_json_viewer.dart';
 import 'package:alice/utils/num_comparison.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -28,6 +29,7 @@ class AliceCallResponseScreen extends StatelessWidget {
                 _GeneralDataColumn(call: call),
                 _HeaderDataColumn(call: call),
                 _BodyDataColumn(call: call),
+                const SizedBox(height: 64),
               ],
             ),
           ),
@@ -189,8 +191,21 @@ class _BodyDataColumnState extends State<_BodyDataColumn> {
   }
 
   /// Checks whether response body is large (more than [_largeOutputSize].
-  bool _isLargeResponseBody() =>
-      call.response?.body.toString().length.gt(_largeOutputSize) ?? false;
+  bool _isLargeResponseBody() {
+    if (_getContentTypeOfResponse()?.toLowerCase().contains('json') ?? false) {
+      return false; // AliceJsonViewer handles large payloads efficiently
+    }
+
+    final dynamic body = call.response?.body;
+    if (body is String) {
+      return body.length > _largeOutputSize;
+    }
+    if (body is List || body is Map) {
+      return false; // Lists/Maps are usually JSON, but if not, avoid expensive .toString()
+    }
+
+    return body?.toString().length.gt(_largeOutputSize) ?? false;
+  }
 
   /// Called when show large body has been pressed.
   void onShowLargeBodyPressed() {
@@ -314,6 +329,27 @@ class _TextBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<String, String>? headers = call.response?.headers;
+    final String? contentType = AliceParser.getContentType(
+      context: context,
+      headers: headers,
+    );
+    final bool isJson =
+        contentType != null && contentType.toLowerCase().contains('json');
+
+    if (isJson && call.response?.body != null) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            context.i18n(AliceTranslationKey.callResponseBody),
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          AliceJsonViewer(call.response?.body),
+        ],
+      );
+    }
+
     final String bodyContent = AliceParser.formatBody(
       context: context,
       body: call.response?.body,
