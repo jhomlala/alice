@@ -1,3 +1,7 @@
+## 1.2.1
+
+* Updated `alice` dependency to `^1.3.0`.
+
 ## 1.2.0
 
 * Fixed copying of HTTP request headers (by @FirentisTFW).
