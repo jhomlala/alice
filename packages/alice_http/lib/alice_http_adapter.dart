@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 
 class AliceHttpAdapter with AliceAdapter {
   /// Handles http response. It creates both request and response from http call
-  void onResponse(http.Response response, {dynamic body}) {
+  void onResponse(http.Response response, {dynamic body, Duration? duration}) {
     if (response.request == null) {
       return;
     }
@@ -82,8 +82,9 @@ class AliceHttpAdapter with AliceAdapter {
       ..response = httpResponse
       ..loading = false
       ..duration =
-          httpResponse.time.millisecondsSinceEpoch -
-          httpRequest.time.millisecondsSinceEpoch;
+          duration?.inMilliseconds ??
+          (httpResponse.time.millisecondsSinceEpoch -
+              httpRequest.time.millisecondsSinceEpoch);
     aliceCore.addCall(call);
   }
 }

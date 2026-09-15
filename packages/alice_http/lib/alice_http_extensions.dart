@@ -8,8 +8,14 @@ extension AliceHttpExtensions on Future<Response> {
     AliceHttpAdapter adapter, {
     dynamic body,
   }) async {
+    final startTime = DateTime.now();
     final response = await this;
-    adapter.onResponse(response, body: body);
+    final endTime = DateTime.now();
+    adapter.onResponse(
+      response,
+      body: body,
+      duration: endTime.difference(startTime),
+    );
     return response;
   }
 }
