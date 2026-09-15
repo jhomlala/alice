@@ -1,3 +1,8 @@
+## Unreleased
+
+* Fixed request duration calculation for `interceptWithAlice` extension.
+* Added unit tests.
+
 ## 1.2.1
 
 * Updated `alice` dependency to `^1.3.0`.
