@@ -71,7 +71,8 @@ class AliceExportHelper {
     BuildContext context,
     List<AliceHttpCall> calls,
   ) async {
-    final bool permissionStatus = await AlicePermissionHelper.getPermissionStatus();
+    final bool permissionStatus =
+        await AlicePermissionHelper.getPermissionStatus();
     if (!permissionStatus) {
       final bool status = await AlicePermissionHelper.requestPermission();
       if (!status) {
