@@ -195,7 +195,7 @@ class _BodyDataColumnState extends State<_BodyDataColumn> {
     if (_getContentTypeOfResponse()?.toLowerCase().contains('json') ?? false) {
       return false; // AliceJsonViewer handles large payloads efficiently
     }
-    
+
     final dynamic body = call.response?.body;
     if (body is String) {
       return body.length > _largeOutputSize;
@@ -203,7 +203,7 @@ class _BodyDataColumnState extends State<_BodyDataColumn> {
     if (body is List || body is Map) {
       return false; // Lists/Maps are usually JSON, but if not, avoid expensive .toString()
     }
-    
+
     return body?.toString().length.gt(_largeOutputSize) ?? false;
   }
 
@@ -333,7 +333,8 @@ class _TextBody extends StatelessWidget {
       context: context,
       headers: headers,
     );
-    final bool isJson = contentType != null && contentType.toLowerCase().contains('json');
+    final bool isJson =
+        contentType != null && contentType.toLowerCase().contains('json');
 
     if (isJson && call.response?.body != null) {
       return Column(

@@ -41,7 +41,8 @@ class AliceCallRequestScreen extends StatelessWidget {
       context: context,
       headers: call.request?.headers,
     );
-    final bool isJson = contentType != null && contentType.toLowerCase().contains('json');
+    final bool isJson =
+        contentType != null && contentType.toLowerCase().contains('json');
 
     if (isJson && call.request?.body != null && call.request?.body is! Stream) {
       rows.add(
@@ -140,7 +141,7 @@ class AliceCallRequestScreen extends StatelessWidget {
         ),
     ]);
     rows.add(const SizedBox(height: 64));
-    
+
     return Container(
       padding: const EdgeInsets.all(6),
       child: ScrollConfiguration(

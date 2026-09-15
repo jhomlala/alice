@@ -6,7 +6,11 @@ class AliceJsonViewer extends StatefulWidget {
   final dynamic jsonObject;
   final bool initiallyExpanded;
 
-  const AliceJsonViewer(this.jsonObject, {super.key, this.initiallyExpanded = false});
+  const AliceJsonViewer(
+    this.jsonObject, {
+    super.key,
+    this.initiallyExpanded = false,
+  });
 
   @override
   State<AliceJsonViewer> createState() => _AliceJsonViewerState();
@@ -39,20 +43,22 @@ class _AliceJsonViewerState extends State<AliceJsonViewer> {
           _isParsing = true;
           _parseError = null;
         });
-        compute(_decodeJson, str).then((value) {
-          setState(() {
-            _parsedJson = value;
-            _isParsing = false;
-            if (value == null) {
-              _parseError = 'Failed to parse JSON';
-            }
-          });
-        }).catchError((e) {
-          setState(() {
-            _parseError = e.toString();
-            _isParsing = false;
-          });
-        });
+        compute(_decodeJson, str)
+            .then((value) {
+              setState(() {
+                _parsedJson = value;
+                _isParsing = false;
+                if (value == null) {
+                  _parseError = 'Failed to parse JSON';
+                }
+              });
+            })
+            .catchError((e) {
+              setState(() {
+                _parseError = e.toString();
+                _isParsing = false;
+              });
+            });
       } else {
         try {
           _parsedJson = jsonDecode(str);
@@ -80,7 +86,11 @@ class _AliceJsonViewerState extends State<AliceJsonViewer> {
         padding: EdgeInsets.all(8.0),
         child: Row(
           children: [
-            SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2)),
+            SizedBox(
+              width: 16,
+              height: 16,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            ),
             SizedBox(width: 8),
             Text('Parsing JSON...'),
           ],
@@ -89,7 +99,9 @@ class _AliceJsonViewerState extends State<AliceJsonViewer> {
     }
 
     if (_parseError != null) {
-      return SelectableText('Invalid JSON: $_parseError\n\n${widget.jsonObject}');
+      return SelectableText(
+        'Invalid JSON: $_parseError\n\n${widget.jsonObject}',
+      );
     }
 
     return _JsonObjectViewer(
@@ -143,10 +155,7 @@ class _JsonObjectViewerState extends State<_JsonObjectViewer> {
         onShowMore: () => setState(() => _listLimit += 50),
       );
     } else {
-      return _KeyValueViewer(
-        nodeKey: widget.nodeKey,
-        value: widget.jsonObject,
-      );
+      return _KeyValueViewer(nodeKey: widget.nodeKey, value: widget.jsonObject);
     }
   }
 }
@@ -173,7 +182,10 @@ class _MapViewer extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _ExpandableHeader(
-          text: nodeKey == null ? 'Object {${map.length}}' : '$nodeKey: {${map.length}}',
+          text:
+              nodeKey == null
+                  ? 'Object {${map.length}}'
+                  : '$nodeKey: {${map.length}}',
           isExpanded: isExpanded,
           onTap: onToggle,
         ),
@@ -182,12 +194,13 @@ class _MapViewer extends StatelessWidget {
             padding: const EdgeInsets.only(left: 16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: map.entries.map((e) {
-                return _JsonObjectViewer(
-                  nodeKey: e.key.toString(),
-                  jsonObject: e.value,
-                );
-              }).toList(),
+              children:
+                  map.entries.map((e) {
+                    return _JsonObjectViewer(
+                      nodeKey: e.key.toString(),
+                      jsonObject: e.value,
+                    );
+                  }).toList(),
             ),
           ),
       ],
@@ -221,7 +234,10 @@ class _ListViewer extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _ExpandableHeader(
-          text: nodeKey == null ? 'Array [${list.length}]' : '$nodeKey: [${list.length}]',
+          text:
+              nodeKey == null
+                  ? 'Array [${list.length}]'
+                  : '$nodeKey: [${list.length}]',
           isExpanded: isExpanded,
           onTap: onToggle,
         ),
@@ -245,7 +261,10 @@ class _ListViewer extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
                       child: Text(
                         'Show more (${list.length - listLimit} remaining)',
-                        style: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
@@ -294,10 +313,7 @@ class _KeyValueViewer extends StatelessWidget {
   final String? nodeKey;
   final dynamic value;
 
-  const _KeyValueViewer({
-    required this.nodeKey,
-    required this.value,
-  });
+  const _KeyValueViewer({required this.nodeKey, required this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -326,17 +342,16 @@ class _KeyValueViewer extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (nodeKey != null) ...[
-            Text('$nodeKey: ', style: const TextStyle(fontWeight: FontWeight.bold)),
+            Text(
+              '$nodeKey: ',
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
           ],
           Flexible(
-            child: Text(
-              displayValue,
-              style: TextStyle(color: valueColor),
-            ),
+            child: Text(displayValue, style: TextStyle(color: valueColor)),
           ),
         ],
       ),
     );
   }
 }
-

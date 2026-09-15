@@ -85,7 +85,10 @@ class _MyAppState extends State<MyApp> {
       'metadata': null,
     };
 
-    _dio.post<void>('https://jsonplaceholder.typicode.com/posts', data: complexJsonBody);
+    _dio.post<void>(
+      'https://jsonplaceholder.typicode.com/posts',
+      data: complexJsonBody,
+    );
     _dio.get<void>('https://jsonplaceholder.typicode.com/users/1');
     _dio.get<void>('https://jsonplaceholder.typicode.com/todos/1');
     _dio.delete<void>('https://httpbin.org/status/500');
