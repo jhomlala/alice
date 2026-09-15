@@ -1,3 +1,7 @@
+## Unreleased
+
+* Updated `alice` dependency.
+
 ## 1.1.3
 
 * Updated `alice` dependency to `^1.4.0`.

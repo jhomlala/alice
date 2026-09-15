@@ -1,11 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert' show JsonEncoder;
-import 'dart:io' show Directory, File, FileMode, IOSink;
 
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/helper/alice_conversion_helper.dart';
 import 'package:alice/helper/alice_permission_helper.dart';
+import 'package:alice/helper/file_save/file_save_helper.dart';
 import 'package:alice/model/alice_export_result.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_translation.dart';
@@ -14,7 +14,6 @@ import 'package:alice/utils/alice_parser.dart';
 import 'package:alice/utils/curl.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 class AliceExportHelper {
@@ -92,34 +91,20 @@ class AliceExportHelper {
     BuildContext context,
     List<AliceHttpCall> calls,
   ) async {
-    try {
-      if (calls.isEmpty) {
-        return AliceExportResult(
-          success: false,
-          error: AliceExportResultError.empty,
-        );
-      }
-
-      final Directory externalDir = await getApplicationCacheDirectory();
-      final String fileName =
-          '${_fileName}_${DateTime.now().millisecondsSinceEpoch}.txt';
-      final File file = File('${externalDir.path}/$fileName')..createSync();
-      final IOSink sink = file.openWrite(mode: FileMode.append)
-        ..write(await _buildAliceLog(context: context));
-      for (final AliceHttpCall call in calls) {
-        sink.write(_buildCallLog(context: context, call: call));
-      }
-      await sink.flush();
-      await sink.close();
-
-      return AliceExportResult(success: true, path: file.path);
-    } catch (exception) {
-      AliceUtils.log(exception.toString());
+    if (calls.isEmpty) {
       return AliceExportResult(
         success: false,
-        error: AliceExportResultError.file,
+        error: AliceExportResultError.empty,
       );
     }
+
+    final String fileName =
+        '${_fileName}_${DateTime.now().millisecondsSinceEpoch}.txt';
+    return FileSaveHelper.saveCallsToFileIo(
+      fileName: fileName,
+      buildAliceLog: () => _buildAliceLog(context: context),
+      buildCallLogs: () => calls.map((call) => _buildCallLog(context: context, call: call)),
+    );
   }
 
   /// Builds log string based on data collected from package info.

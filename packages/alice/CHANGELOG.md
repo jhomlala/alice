@@ -1,5 +1,6 @@
 ## Unreleased
 
+* Removed dart:io dependencies to support Flutter Web.
 * Added interactive tree-based JSON viewer for request and response bodies.
 
 ## 1.4.0

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:alice/core/alice_adapter.dart';
+import 'package:alice/model/alice_cookie.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
@@ -53,7 +54,10 @@ class AliceHttpClientAdapter with AliceAdapter {
 
     httpRequest
       ..contentType = contentType
-      ..cookies = request.cookies;
+      ..cookies =
+          request.cookies
+              .map((cookie) => AliceCookie(cookie.name, cookie.value))
+              .toList();
 
     call
       ..request = httpRequest

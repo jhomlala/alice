@@ -1,5 +1,5 @@
 import 'dart:convert' show jsonDecode, jsonEncode;
-import 'dart:io' show Cookie;
+import 'package:alice/model/alice_cookie.dart';
 
 import 'package:alice/model/alice_form_data_file.dart';
 import 'package:alice/model/alice_from_data_field.dart';
@@ -73,17 +73,26 @@ class CachedAliceHttpRequest implements AliceHttpRequest {
 
   @override
   @Transient()
-  List<Cookie> cookies;
+  List<AliceCookie> cookies;
 
   /// Custom data type converter of [cookies].
   List<String> get dbCookies =>
-      cookies.map((Cookie cookie) => cookie.toString()).toList();
+      cookies.map((AliceCookie cookie) => cookie.toString()).toList();
 
   /// Custom data type converter of [cookies].
   set dbCookies(List<String> value) =>
       cookies =
           value
-              .map((String cookie) => Cookie.fromSetCookieValue(cookie))
+              .map((String cookie) {
+                final index = cookie.indexOf('=');
+                if (index == -1) {
+                  return AliceCookie(cookie, '');
+                }
+                return AliceCookie(
+                  cookie.substring(0, index),
+                  cookie.substring(index + 1),
+                );
+              })
               .toList();
 
   @override
