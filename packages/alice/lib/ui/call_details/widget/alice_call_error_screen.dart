@@ -17,10 +17,9 @@ class AliceCallErrorScreen extends StatelessWidget {
     if (call.error != null) {
       final dynamic error = call.error?.error;
       final StackTrace? stackTrace = call.error?.stackTrace;
-      final String errorText =
-          error != null
-              ? error.toString()
-              : context.i18n(AliceTranslationKey.callErrorScreenErrorEmpty);
+      final String errorText = error != null
+          ? error.toString()
+          : context.i18n(AliceTranslationKey.callErrorScreenErrorEmpty);
 
       return Container(
         padding: const EdgeInsets.all(6),

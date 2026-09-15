@@ -29,9 +29,6 @@ class AliceConfiguration extends Equatable {
   /// Flag used to show/hide share button
   final bool showShareButton;
 
-  /// Default email address for share via mailto. Default value is null.
-  final String? defaultShareEmail;
-
   /// Navigator key used to open inspector. Default value is null.
   final GlobalKey<NavigatorState>? navigatorKey;
 
@@ -47,7 +44,6 @@ class AliceConfiguration extends Equatable {
     this.notificationIcon = '@mipmap/ic_launcher',
     this.directionality,
     this.showShareButton = true,
-    this.defaultShareEmail,
     GlobalKey<NavigatorState>? navigatorKey,
     AliceStorage? storage,
     AliceLogger? logger,
@@ -63,7 +59,6 @@ class AliceConfiguration extends Equatable {
     String? notificationIcon,
     TextDirection? directionality,
     bool? showShareButton,
-    String? defaultShareEmail,
     AliceStorage? aliceStorage,
     AliceLogger? aliceLogger,
   }) => AliceConfiguration(
@@ -72,7 +67,6 @@ class AliceConfiguration extends Equatable {
     notificationIcon: notificationIcon ?? this.notificationIcon,
     directionality: directionality ?? this.directionality,
     showShareButton: showShareButton ?? this.showShareButton,
-    defaultShareEmail: defaultShareEmail ?? this.defaultShareEmail,
     navigatorKey: navigatorKey ?? this.navigatorKey,
     storage: aliceStorage ?? this.aliceStorage,
     logger: aliceLogger ?? this.aliceLogger,
@@ -85,7 +79,6 @@ class AliceConfiguration extends Equatable {
     notificationIcon,
     directionality,
     showShareButton,
-    defaultShareEmail,
     navigatorKey,
     aliceStorage,
     aliceLogger,

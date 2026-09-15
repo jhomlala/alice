@@ -74,7 +74,6 @@ class _AliceCallDetailsFabState extends State<AliceCallDetailsFab> {
     await AliceExportHelper.shareCall(
       context: context,
       call: widget.call,
-      defaultShareEmail: widget.core.configuration.defaultShareEmail,
       sharePositionOrigin: sharePositionOrigin,
     );
     setState(() => _isExpanded = false);
@@ -88,7 +87,6 @@ class _AliceCallDetailsFabState extends State<AliceCallDetailsFab> {
     await AliceExportHelper.shareCurlCommand(
       context: context,
       call: widget.call,
-      defaultShareEmail: widget.core.configuration.defaultShareEmail,
       sharePositionOrigin: sharePositionOrigin,
     );
     setState(() => _isExpanded = false);
