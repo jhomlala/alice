@@ -12,6 +12,73 @@ You may need that if you won't use shake or notification:
 alice.showInspector();
 ```
 
+### Desktop and Web Usage (Floating Action Button)
+
+Since features like "shake to open" and system notifications are heavily mobile-centric, Web and Desktop users need a different way to access the inspector. A common approach is to add a Floating Action Button (FAB) that triggers `alice.showInspector()`. 
+
+Below is a lightweight, copy-pasteable wrapper widget that adds a FAB over your application. It automatically ensures the button only shows up in `debug` mode and on Desktop/Web platforms.
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:alice/alice.dart';
+import 'package:flutter/foundation.dart';
+
+class AliceWebWrapper extends StatelessWidget {
+  final Alice alice;
+  final Widget child;
+
+  const AliceWebWrapper({
+    super.key,
+    required this.alice,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final isDesktopOrWeb = kIsWeb || 
+        defaultTargetPlatform == TargetPlatform.windows || 
+        defaultTargetPlatform == TargetPlatform.macOS || 
+        defaultTargetPlatform == TargetPlatform.linux;
+
+    if (!kDebugMode || !isDesktopOrWeb) {
+      return child;
+    }
+
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: Stack(
+        children: [
+          child,
+          Positioned(
+            bottom: 16,
+            right: 16,
+            child: Material(
+              color: Colors.transparent,
+              child: FloatingActionButton(
+                heroTag: 'alice_web_fab',
+                onPressed: () => alice.showInspector(),
+                child: const Icon(Icons.bug_report),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+```
+
+**Usage:** Just wrap your root widget with it.
+
+```dart
+runApp(
+  AliceWebWrapper(
+    alice: alice,
+    child: const MyApp(),
+  ),
+);
+```
+
 ## Flutter logs
 
 If you want to log Flutter logs in Alice, you may use these methods:
