@@ -37,17 +37,29 @@ class AliceCallRequestScreen extends StatelessWidget {
       ),
     ];
 
-    final dynamic requestBody = call.request?.body;
-    final dynamic decodedJson = AliceParser.tryDecodeJson(requestBody);
+    final String? contentType = AliceParser.getContentType(
+      context: context,
+      headers: call.request?.headers,
+    );
+    final bool isJson = contentType != null && contentType.toLowerCase().contains('json');
 
-    if (decodedJson != null) {
+    if (isJson && call.request?.body != null && call.request?.body is! Stream) {
       rows.add(
-        AliceCallListRow(
-          name: context.i18n(AliceTranslationKey.callRequestBody),
-          value: '',
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                context.i18n(AliceTranslationKey.callRequestBody),
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              AliceJsonViewer(call.request?.body),
+            ],
+          ),
         ),
       );
-      rows.add(AliceJsonViewer(json: decodedJson));
     } else {
       rows.add(
         AliceCallListRow(

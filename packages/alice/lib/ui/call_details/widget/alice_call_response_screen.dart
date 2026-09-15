@@ -315,26 +315,29 @@ class _TextBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<String, String>? headers = call.response?.headers;
-    final dynamic body = call.response?.body;
-    final dynamic decodedJson = AliceParser.tryDecodeJson(body);
+    final String? contentType = AliceParser.getContentType(
+      context: context,
+      headers: headers,
+    );
+    final bool isJson = contentType != null && contentType.toLowerCase().contains('json');
 
-    if (decodedJson != null) {
+    if (isJson && call.response?.body != null) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AliceCallListRow(
-            name: context.i18n(AliceTranslationKey.callResponseBody),
-            value: '',
+          Text(
+            context.i18n(AliceTranslationKey.callResponseBody),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          AliceJsonViewer(json: decodedJson),
           const SizedBox(height: 8),
+          AliceJsonViewer(call.response?.body),
         ],
       );
     }
 
     final String bodyContent = AliceParser.formatBody(
       context: context,
-      body: body,
+      body: call.response?.body,
       contentType: AliceParser.getContentType(
         context: context,
         headers: headers,
