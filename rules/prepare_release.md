@@ -32,6 +32,7 @@ For each package being updated, make the following modifications:
 ### C. Dependency Sync
 - After bumping a package, check if any *other* packages in `packages/` depend on it.
 - For each dependent package, always update the dependency's lower bound to the new version — even if the old constraint technically still satisfies semver. For example, if `alice` bumps from `1.2.0` to `1.3.0`, update dependents from `alice: ^1.2.0` to `alice: ^1.3.0`. This ensures the workspace always tracks the latest release as the minimum.
+- **CRITICAL**: If you modify a dependent package's `pubspec.yaml` to sync dependencies, you MUST also bump that dependent package's version (usually a **PATCH** bump) and add an entry to its `CHANGELOG.md` (e.g., `* Updated alice dependency to ^1.3.0.`). Create a new `## [New Version]` section for it.
 - Do **NOT** update version pins in `examples/` — those use workspace path resolution, not pub.dev version pins.
 
 ### D. Documentation Updates

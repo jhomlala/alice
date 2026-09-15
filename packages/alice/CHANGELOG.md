@@ -1,5 +1,5 @@
 
-## Unreleased
+## 1.3.0
 
 * Added Retrofit support and example project.
 * Added GraphQL support and example project.
