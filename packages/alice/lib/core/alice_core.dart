@@ -147,7 +147,10 @@ class AliceCore {
   );
 
   /// Replays given [originalCall].
-  Future<void> replayCall(AliceHttpCall originalCall, BuildContext context) async {
+  Future<void> replayCall({
+    required AliceHttpCall originalCall,
+    required BuildContext context,
+  }) async {
     if (originalCall.request?.formDataFiles != null &&
         originalCall.request!.formDataFiles!.isNotEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(

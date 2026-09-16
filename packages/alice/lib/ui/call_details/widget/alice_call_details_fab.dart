@@ -102,7 +102,10 @@ class _AliceCallDetailsFabState extends State<AliceCallDetailsFab> {
   }
 
   Future<void> _replayCall() async {
-    await widget.core.replayCall(widget.call, context);
+    await widget.core.replayCall(
+      originalCall: widget.call,
+      context: context,
+    );
     setState(() => _isExpanded = false);
   }
 }
