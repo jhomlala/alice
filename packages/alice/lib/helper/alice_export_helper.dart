@@ -8,6 +8,7 @@ import 'package:alice/model/alice_export_result.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_translation.dart';
 import 'package:alice/ui/common/alice_context_ext.dart';
+import 'package:alice/ui/common/alice_loading_dialog.dart';
 import 'package:alice/utils/curl.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:share_plus/share_plus.dart';
@@ -20,27 +21,33 @@ class AliceExportHelper {
     required AliceHttpCall call,
     Rect? sharePositionOrigin,
   }) async {
-    final callLog = await AliceTextExporter().buildFullCallLog(
-      call: call,
-      context: context,
-    );
-
-    if (callLog == null) {
-      return AliceExportResult(
-        success: false,
-        error: AliceExportResultError.logGenerate,
+    AliceLoadingDialog.show(context);
+    await Future.delayed(Duration.zero);
+    try {
+      final callLog = await AliceTextExporter().buildFullCallLog(
+        call: call,
+        context: context,
       );
+
+      if (callLog == null) {
+        return AliceExportResult(
+          success: false,
+          error: AliceExportResultError.logGenerate,
+        );
+      }
+
+      await SharePlus.instance.share(
+        ShareParams(
+          text: callLog,
+          subject: context.i18n(AliceTranslationKey.emailSubject),
+          sharePositionOrigin: sharePositionOrigin,
+        ),
+      );
+
+      return AliceExportResult(success: true);
+    } finally {
+      AliceLoadingDialog.hide(context);
     }
-
-    await SharePlus.instance.share(
-      ShareParams(
-        text: callLog,
-        subject: context.i18n(AliceTranslationKey.emailSubject),
-        sharePositionOrigin: sharePositionOrigin,
-      ),
-    );
-
-    return AliceExportResult(success: true);
   }
 
   static Future<AliceExportResult> shareCurlCommand({
@@ -85,16 +92,22 @@ class AliceExportHelper {
       }
     }
 
-    final String content = await exporter.generate(
-      context: context,
-      calls: calls,
-    );
-    final String fileName =
-        '${_fileName}_${DateTime.now().millisecondsSinceEpoch}.${exporter.fileExtension}';
+    AliceLoadingDialog.show(context);
+    await Future.delayed(Duration.zero);
+    try {
+      final String content = await exporter.generate(
+        context: context,
+        calls: calls,
+      );
+      final String fileName =
+          '${_fileName}_${DateTime.now().millisecondsSinceEpoch}.${exporter.fileExtension}';
 
-    return FileSaveHelper.saveContentToFile(
-      fileName: fileName,
-      content: content,
-    );
+      return await FileSaveHelper.saveContentToFile(
+        fileName: fileName,
+        content: content,
+      );
+    } finally {
+      AliceLoadingDialog.hide(context);
+    }
   }
 }

@@ -40,10 +40,11 @@ class AliceExportFormatDialog extends StatelessWidget {
   static Future<AliceExportFormat?> show(BuildContext context) {
     return showDialog<AliceExportFormat>(
       context: context,
-      builder: (_) => Theme(
-        data: AliceTheme.getTheme(),
-        child: const AliceExportFormatDialog(),
-      ),
+      builder:
+          (_) => Theme(
+            data: AliceTheme.getTheme(),
+            child: const AliceExportFormatDialog(),
+          ),
     );
   }
 }

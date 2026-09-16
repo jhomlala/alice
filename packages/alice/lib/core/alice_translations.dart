@@ -189,6 +189,7 @@ class AliceTranslations {
         AliceTranslationKey.exportFormatTxt: "Export as TXT",
         AliceTranslationKey.exportFormatHar: "Export as HAR",
         AliceTranslationKey.exportFormatCancel: "Cancel",
+        AliceTranslationKey.saveLoading: "Saving logs...",
       },
     );
   }
@@ -371,6 +372,7 @@ class AliceTranslations {
         AliceTranslationKey.exportFormatTxt: "Eksportuj jako TXT",
         AliceTranslationKey.exportFormatHar: "Eksportuj jako HAR",
         AliceTranslationKey.exportFormatCancel: "Anuluj",
+        AliceTranslationKey.saveLoading: "Zapisywanie logów...",
       },
     );
   }
