@@ -38,7 +38,7 @@ class AliceTextExporter implements AliceExporter {
 
   /// Builds log string based on data collected from package info.
   Future<String> _buildAliceLog({required BuildContext context}) async {
-    final packageInfo = await getPackageInfo();
+    final packageInfo = await PackageInfoProvider.getPackageInfo();
 
     return '${context.i18n(AliceTranslationKey.saveHeaderTitle)}\n'
         '${context.i18n(AliceTranslationKey.saveHeaderAppName)}  ${packageInfo.appName}\n'

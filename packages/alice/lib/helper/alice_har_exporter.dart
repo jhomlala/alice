@@ -15,7 +15,7 @@ class AliceHarExporter implements AliceExporter {
     required BuildContext? context,
     required List<AliceHttpCall> calls,
   }) async {
-    final packageInfo = await getPackageInfo();
+    final packageInfo = await PackageInfoProvider.getPackageInfo();
 
     final Map<String, dynamic> har = {
       'log': {
