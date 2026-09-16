@@ -18,7 +18,8 @@ import 'package:alice/ui/common/alice_dialog.dart';
 import 'package:alice/ui/common/alice_navigation.dart';
 import 'package:alice/utils/shake_detector.dart';
 import 'package:material_ui/material_ui.dart';
-import 'dart:io' show HttpClient, HttpClientRequest, HttpClientResponse, HttpHeaders;
+import 'dart:io'
+    show HttpClient, HttpClientRequest, HttpClientResponse, HttpHeaders;
 import 'dart:convert' show utf8;
 
 class AliceCore {
@@ -163,21 +164,27 @@ class AliceCore {
     }
 
     final int newId = DateTime.now().millisecondsSinceEpoch;
-    final AliceHttpCall newCall = AliceHttpCall(newId)
-      ..client = originalCall.client
-      ..method = originalCall.method
-      ..endpoint = originalCall.endpoint
-      ..server = originalCall.server
-      ..uri = originalCall.uri
-      ..secure = originalCall.secure
-      ..isReplay = true;
+    final AliceHttpCall newCall =
+        AliceHttpCall(newId)
+          ..client = originalCall.client
+          ..method = originalCall.method
+          ..endpoint = originalCall.endpoint
+          ..server = originalCall.server
+          ..uri = originalCall.uri
+          ..secure = originalCall.secure
+          ..isReplay = true;
 
-    final AliceHttpRequest newRequest = AliceHttpRequest()
-      ..time = DateTime.now()
-      ..contentType = originalCall.request?.contentType
-      ..headers = Map<String, String>.from(originalCall.request?.headers ?? {})
-      ..queryParameters = Map<String, dynamic>.from(originalCall.request?.queryParameters ?? {})
-      ..body = originalCall.request?.body;
+    final AliceHttpRequest newRequest =
+        AliceHttpRequest()
+          ..time = DateTime.now()
+          ..contentType = originalCall.request?.contentType
+          ..headers = Map<String, String>.from(
+            originalCall.request?.headers ?? {},
+          )
+          ..queryParameters = Map<String, dynamic>.from(
+            originalCall.request?.queryParameters ?? {},
+          )
+          ..body = originalCall.request?.body;
 
     newCall.request = newRequest;
     await addCall(newCall);
@@ -189,7 +196,7 @@ class AliceCore {
       final HttpClient httpClient = HttpClient();
       final Uri parsedUri = Uri.parse(originalCall.uri);
       HttpClientRequest request;
-      
+
       switch (originalCall.method.toUpperCase()) {
         case 'GET':
           request = await httpClient.getUrl(parsedUri);
@@ -222,7 +229,12 @@ class AliceCore {
 
       if (newRequest.body != null &&
           newRequest.body.toString().isNotEmpty &&
-          ['POST', 'PUT', 'PATCH', 'DELETE'].contains(originalCall.method.toUpperCase())) {
+          [
+            'POST',
+            'PUT',
+            'PATCH',
+            'DELETE',
+          ].contains(originalCall.method.toUpperCase())) {
         if (newRequest.body is String) {
           request.write(newRequest.body);
         } else if (newRequest.body is List<int>) {
@@ -235,7 +247,10 @@ class AliceCore {
       final HttpClientResponse response = await request.close();
       stopwatch.stop();
 
-      final List<int> responseBytes = await response.fold<List<int>>([], (buffer, chunk) => buffer..addAll(chunk));
+      final List<int> responseBytes = await response.fold<List<int>>(
+        [],
+        (buffer, chunk) => buffer..addAll(chunk),
+      );
       String responseBody = '';
       try {
         responseBody = utf8.decode(responseBytes);
@@ -248,12 +263,13 @@ class AliceCore {
         responseHeaders[name] = values.join(', ');
       });
 
-      final AliceHttpResponse aliceResponse = AliceHttpResponse()
-        ..status = response.statusCode
-        ..time = DateTime.now()
-        ..size = responseBytes.length
-        ..headers = responseHeaders
-        ..body = responseBody;
+      final AliceHttpResponse aliceResponse =
+          AliceHttpResponse()
+            ..status = response.statusCode
+            ..time = DateTime.now()
+            ..size = responseBytes.length
+            ..headers = responseHeaders
+            ..body = responseBody;
 
       newCall.duration = stopwatch.elapsedMilliseconds;
       newCall.loading = false;
@@ -271,10 +287,11 @@ class AliceCore {
       stopwatch.stop();
       newCall.duration = stopwatch.elapsedMilliseconds;
       newCall.loading = false;
-      
-      final AliceHttpError aliceError = AliceHttpError()
-        ..error = error
-        ..stackTrace = stackTrace;
+
+      final AliceHttpError aliceError =
+          AliceHttpError()
+            ..error = error
+            ..stackTrace = stackTrace;
 
       await addError(aliceError, newId);
       AliceLoadingDialog.hide(context);

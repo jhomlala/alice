@@ -12,15 +12,17 @@ void main() {
     expect(call.isReplay, true);
   });
 
-  test('AliceCore replayCall blocks multipart requests and shows snackbar', () async {
-    final configuration = AliceConfiguration(showNotification: false);
-    final core = AliceCore(configuration: configuration);
+  test(
+    'AliceCore replayCall blocks multipart requests and shows snackbar',
+    () async {
+      final configuration = AliceConfiguration(showNotification: false);
+      final core = AliceCore(configuration: configuration);
 
-    final call = AliceHttpCall(1);
-    call.request = AliceHttpRequest()
-      ..formDataFiles = [];
+      final call = AliceHttpCall(1);
+      call.request = AliceHttpRequest()..formDataFiles = [];
 
-    // Verify properties and initial state
-    expect(call.isReplay, false);
-  });
+      // Verify properties and initial state
+      expect(call.isReplay, false);
+    },
+  );
 }
