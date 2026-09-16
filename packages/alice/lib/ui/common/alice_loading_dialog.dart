@@ -25,6 +25,10 @@ class AliceLoadingDialog extends StatelessWidget {
   }
 
   static void show(BuildContext context) {
+    final navigator = Navigator.maybeOf(context);
+    if (navigator == null) {
+      return;
+    }
     showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -33,6 +37,10 @@ class AliceLoadingDialog extends StatelessWidget {
   }
 
   static void hide(BuildContext context) {
-    Navigator.of(context).pop();
+    final navigator = Navigator.maybeOf(context);
+    if (navigator == null) {
+      return;
+    }
+    navigator.pop();
   }
 }
