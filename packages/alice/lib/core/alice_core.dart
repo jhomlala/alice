@@ -14,6 +14,7 @@ import 'package:alice/model/alice_http_response.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_log.dart';
 import 'package:alice/ui/common/alice_loading_dialog.dart';
+import 'package:alice/ui/common/alice_dialog.dart';
 import 'package:alice/ui/common/alice_navigation.dart';
 import 'package:alice/utils/shake_detector.dart';
 import 'package:material_ui/material_ui.dart';
@@ -153,10 +154,10 @@ class AliceCore {
   }) async {
     if (originalCall.request?.formDataFiles != null &&
         originalCall.request!.formDataFiles!.isNotEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Multipart/FormData replays are not yet supported.'),
-        ),
+      AliceGeneralDialog.show(
+        context: context,
+        title: 'Error',
+        description: 'Multipart/FormData replays are not yet supported.',
       );
       return;
     }
@@ -260,8 +261,10 @@ class AliceCore {
       AliceLoadingDialog.hide(context);
 
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Request replayed successfully')),
+        AliceGeneralDialog.show(
+          context: context,
+          title: 'Success',
+          description: 'Request replayed successfully',
         );
       }
     } catch (error, stackTrace) {
@@ -277,8 +280,10 @@ class AliceCore {
       AliceLoadingDialog.hide(context);
 
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Replay failed: $error')),
+        AliceGeneralDialog.show(
+          context: context,
+          title: 'Error',
+          description: 'Replay failed: $error',
         );
       }
     }
