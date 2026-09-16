@@ -283,17 +283,23 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Exported successfully to ${result.path}'),
-            duration: const Duration(seconds: 5),
-            action: OperatingSystem.isAndroid
-                ? SnackBarAction(
-                    label: context.i18n(AliceTranslationKey.saveSuccessView),
-                    textColor: AliceTheme.white,
-                    onPressed: () => OpenFile.open(result.path!),
-                  )
-                : null,
           ),
         );
       }
+      AliceGeneralDialog.show(
+        context: context,
+        title: context.i18n(AliceTranslationKey.saveSuccessTitle),
+        description: context
+            .i18n(AliceTranslationKey.saveSuccessDescription)
+            .replaceAll("[path]", result.path!),
+        secondButtonTitle:
+            OperatingSystem.isAndroid
+                ? context.i18n(AliceTranslationKey.saveSuccessView)
+                : null,
+        secondButtonAction:
+            () =>
+                OperatingSystem.isAndroid ? OpenFile.open(result.path!) : null,
+      );
     } else {
       final [String title, String description] = switch (result.error) {
         AliceExportResultError.logGenerate => [
