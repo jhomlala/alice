@@ -19,7 +19,7 @@ import 'package:alice/ui/common/alice_navigation.dart';
 import 'package:alice/utils/shake_detector.dart';
 import 'package:material_ui/material_ui.dart';
 import 'dart:io'
-    show HttpClient, HttpClientRequest, HttpClientResponse, HttpHeaders;
+    show HttpClient, HttpClientRequest, HttpClientResponse;
 import 'dart:convert' show utf8;
 
 class AliceCore {
@@ -189,6 +189,8 @@ class AliceCore {
     newCall.request = newRequest;
     await addCall(newCall);
 
+    if (!context.mounted) return;
+
     final Stopwatch stopwatch = Stopwatch()..start();
     AliceLoadingDialog.show(context);
 
@@ -274,6 +276,7 @@ class AliceCore {
       newCall.duration = stopwatch.elapsedMilliseconds;
       newCall.loading = false;
       await addResponse(aliceResponse, newId);
+      if (!context.mounted) return;
       AliceLoadingDialog.hide(context);
 
       if (context.mounted) {
@@ -294,6 +297,7 @@ class AliceCore {
             ..stackTrace = stackTrace;
 
       await addError(aliceError, newId);
+      if (!context.mounted) return;
       AliceLoadingDialog.hide(context);
 
       if (context.mounted) {

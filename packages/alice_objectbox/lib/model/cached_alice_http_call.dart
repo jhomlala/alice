@@ -69,6 +69,9 @@ class CachedAliceHttpCall implements AliceHttpCall {
   int duration;
 
   @override
+  bool isReplay = false;
+
+  @override
   @Transient()
   AliceHttpRequest? get request => requestRel.target;
 
