@@ -2,6 +2,7 @@ import 'dart:async' show FutureOr, StreamSubscription;
 
 import 'package:alice/core/alice_storage.dart';
 import 'package:alice/core/alice_utils.dart';
+import 'package:alice/helper/alice_exporter.dart';
 import 'package:alice/helper/alice_export_helper.dart';
 import 'package:alice/core/alice_notification.dart';
 import 'package:alice/helper/operating_system.dart';
@@ -131,12 +132,15 @@ class AliceCore {
   /// Returns all stored HTTP calls.
   List<AliceHttpCall> getCalls() => _configuration.aliceStorage.getCalls();
 
-  /// Save all calls to file.
-  Future<AliceExportResult> saveCallsToFile(BuildContext context) =>
-      AliceExportHelper.saveCallsToFile(
-        context,
-        _configuration.aliceStorage.getCalls(),
-      );
+  /// Export all calls using [exporter].
+  Future<AliceExportResult> exportCalls({
+    required BuildContext context,
+    required AliceExporter exporter,
+  }) => AliceExportHelper.exportCalls(
+    context: context,
+    calls: getCalls(),
+    exporter: exporter,
+  );
 
   /// Adds new log to Alice logger.
   void addLog(AliceLog log) => _configuration.aliceLogger.add(log);

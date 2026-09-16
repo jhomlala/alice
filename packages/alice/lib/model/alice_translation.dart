@@ -161,4 +161,9 @@ enum AliceTranslationKey {
   jsonViewerObject,
   jsonViewerArray,
   jsonViewerShowMore,
+  exportFormatDialogTitle,
+  exportFormatTxt,
+  exportFormatHar,
+  exportFormatCancel,
+  saveLoading,
 }

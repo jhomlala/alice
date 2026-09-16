@@ -1,7 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:alice/core/alice_core.dart';
+import 'package:alice/helper/alice_har_exporter.dart';
+import 'package:alice/helper/alice_text_exporter.dart';
 import 'package:alice/helper/operating_system.dart';
+import 'package:alice/model/alice_export_format.dart';
 import 'package:alice/model/alice_export_result.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_translation.dart';
@@ -12,6 +15,7 @@ import 'package:alice/ui/calls_list/widget/alice_inspector_screen.dart';
 import 'package:alice/ui/calls_list/widget/alice_sort_dialog.dart';
 import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/ui/common/alice_dialog.dart';
+import 'package:alice/ui/common/alice_export_format_dialog.dart';
 import 'package:alice/ui/common/alice_navigation.dart';
 import 'package:alice/ui/common/alice_page.dart';
 import 'package:alice/ui/calls_list/widget/alice_logs_screen.dart';
@@ -216,7 +220,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
       case AliceCallDetailsMenuItemType.stats:
         _onStatsPressed();
       case AliceCallDetailsMenuItemType.save:
-        _saveToFile();
+        _onExportPressed();
     }
   }
 
@@ -246,9 +250,19 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
   }
 
   /// Called when save to file has been pressed. It saves data to file.
-  void _saveToFile() async {
+  void _onExportPressed() async {
     if (!mounted) return;
-    final result = await aliceCore.saveCallsToFile(context);
+
+    final format = await AliceExportFormatDialog.show(context);
+    if (format == null) return;
+
+    final result = await aliceCore.exportCalls(
+      context: context,
+      exporter:
+          format == AliceExportFormat.txt
+              ? AliceTextExporter()
+              : AliceHarExporter(),
+    );
 
     if (result.success && result.path != null) {
       AliceGeneralDialog.show(

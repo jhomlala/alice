@@ -1,10 +1,9 @@
 import 'package:alice/model/alice_export_result.dart';
 
 class FileSaveHelper {
-  static Future<AliceExportResult> saveCallsToFileIo({
+  static Future<AliceExportResult> saveContentToFile({
     required String fileName,
-    required Future<String> Function() buildAliceLog,
-    required Iterable<String> Function() buildCallLogs,
+    required String content,
   }) async {
     return AliceExportResult(
       success: false,

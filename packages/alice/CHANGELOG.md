@@ -1,3 +1,10 @@
+## Unreleased
+
+* Added HAR (HTTP Archive 1.2) export support.
+* Refactored `AliceExportHelper` to support multiple export formats via `AliceExporter` interface.
+* Added `AliceExportFormatDialog` to allow users to choose between TXT and HAR export formats.
+* Added `AliceLoadingDialog` to show progress during export and share operations.
+
 ## 1.5.0
 
 * Added comprehensive unit tests for `AliceCookie` and platform-specific logger behavior.
