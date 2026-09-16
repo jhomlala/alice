@@ -1,5 +1,8 @@
 ## Unreleased
 
+* Added advanced search filters in inspector UI (e.g. `status:200`, `method:GET`, `host:google.com`, `client:dio`, `duration:100`).
+* Added unit tests for advanced search filters.
+* Refactored search filter logic into a separate `AliceSearchFilter` class.
 * Added HAR (HTTP Archive 1.2) export support.
 * Refactored `AliceExportHelper` to support multiple export formats via `AliceExporter` interface.
 * Added `AliceExportFormatDialog` to allow users to choose between TXT and HAR export formats.

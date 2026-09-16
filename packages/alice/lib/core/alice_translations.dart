@@ -87,7 +87,7 @@ class AliceTranslations {
         AliceTranslationKey.callsListDeleteCallsDialogTitle: "Delete calls",
         AliceTranslationKey.callsListDeleteCallsDialogDescription:
             "Do you want to delete HTTP calls?",
-        AliceTranslationKey.callsListSearchHint: "Search HTTP call...",
+        AliceTranslationKey.callsListSearchHint: "Search (e.g. status:200 method:GET)",
         AliceTranslationKey.callsListSort: "Sort",
         AliceTranslationKey.callsListDelete: "Delete",
         AliceTranslationKey.callsListStats: "Stats",
@@ -268,7 +268,7 @@ class AliceTranslations {
         AliceTranslationKey.callsListDeleteCallsDialogTitle: "Usuń połączenia",
         AliceTranslationKey.callsListDeleteCallsDialogDescription:
             "Czy chcesz usunąć zapisane połaczenia HTTP?",
-        AliceTranslationKey.callsListSearchHint: "Szukaj połączenia HTTP...",
+        AliceTranslationKey.callsListSearchHint: "Szukaj (np. status:200 method:GET)",
         AliceTranslationKey.callsListSort: "Sortuj",
         AliceTranslationKey.callsListDelete: "Usuń",
         AliceTranslationKey.callsListStats: "Statystyki",

@@ -46,7 +46,7 @@ Whether you are hunting down a broken API payload, checking headers, or monitori
 **🔍 Deep Inspection**
 * Detailed logs for every HTTP call (Headers, Body, Query Parameters, Timestamps)
 * Interactive tree-based JSON viewer for request and response bodies
-* Powerful HTTP calls search and filtering
+* Powerful HTTP calls search (with advanced syntax filters) and filtering
 * Statistics overview (bandwidth, success rate, call counts)
 * Flutter & Android native log integration
 
@@ -56,7 +56,7 @@ Whether you are hunting down a broken API payload, checking headers, or monitori
 **📱 UX & Workflow**
 * Shake the device to open the inspector instantly
 * System notifications on HTTP calls
-* Export and save HTTP calls to file for easy sharing
+* Export and save HTTP calls to file (TXT or HAR) for easy sharing
 * Persistent storage support (via ObjectBox)
 
 ## Quick Start
