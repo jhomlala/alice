@@ -1,4 +1,3 @@
-
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:flutter_test/flutter_test.dart';

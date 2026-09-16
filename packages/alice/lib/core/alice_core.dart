@@ -35,7 +35,7 @@ class AliceCore {
 
   /// Flag used to determine whether is inspector opened
   bool _isInspectorOpened = false;
-  
+
   late final AliceReplayHelper _replayHelper;
 
   /// Creates alice core instance
