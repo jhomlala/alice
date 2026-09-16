@@ -18,6 +18,7 @@ class AliceHttpCall extends Equatable {
   String server = '';
   String uri = '';
   int duration = 0;
+  bool isReplay = false;
 
   AliceHttpRequest? request;
   AliceHttpResponse? response;
@@ -35,6 +36,7 @@ class AliceHttpCall extends Equatable {
     server,
     uri,
     duration,
+    isReplay,
     request,
     response,
     error,

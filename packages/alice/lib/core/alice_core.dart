@@ -6,6 +6,7 @@ import 'package:alice/helper/alice_exporter.dart';
 import 'package:alice/helper/alice_export_helper.dart';
 import 'package:alice/core/alice_notification.dart';
 import 'package:alice/helper/operating_system.dart';
+import 'package:alice/helper/alice_replay_helper.dart';
 import 'package:alice/model/alice_configuration.dart';
 import 'package:alice/model/alice_export_result.dart';
 import 'package:alice/model/alice_http_call.dart';
@@ -32,9 +33,12 @@ class AliceCore {
   /// Flag used to determine whether is inspector opened
   bool _isInspectorOpened = false;
 
+  late final AliceReplayHelper _replayHelper;
+
   /// Creates alice core instance
   AliceCore({required AliceConfiguration configuration}) {
     _configuration = configuration;
+    _replayHelper = AliceReplayHelper(this);
     _subscribeToCallChanges();
     if (_configuration.showNotification) {
       _notification = AliceNotification();
@@ -141,6 +145,12 @@ class AliceCore {
     calls: getCalls(),
     exporter: exporter,
   );
+
+  /// Replays given [originalCall].
+  Future<void> replayCall({
+    required AliceHttpCall originalCall,
+    required BuildContext context,
+  }) => _replayHelper.replayCall(originalCall: originalCall, context: context);
 
   /// Adds new log to Alice logger.
   void addLog(AliceLog log) => _configuration.aliceLogger.add(log);

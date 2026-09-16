@@ -199,7 +199,16 @@ class AliceTranslations {
         AliceTranslationKey.exportFormatTxt: "Export as TXT",
         AliceTranslationKey.exportFormatHar: "Export as HAR",
         AliceTranslationKey.exportFormatCancel: "Cancel",
-        AliceTranslationKey.saveLoading: "Saving logs...",
+        AliceTranslationKey.saveLoading: "Loading...",
+        AliceTranslationKey.replay: "♻️ Replay",
+        AliceTranslationKey.replayMultipartNotSupported:
+            "Multipart/FormData replays are not yet supported.",
+        AliceTranslationKey.replaySuccess: "Success",
+        AliceTranslationKey.replaySuccessMessage:
+            "Request replayed successfully",
+        AliceTranslationKey.replayError: "Replay failed",
+        AliceTranslationKey.replayNotSupportedOnPlatform:
+            "Replay is not supported on this platform.",
       },
     );
   }
@@ -392,7 +401,16 @@ class AliceTranslations {
         AliceTranslationKey.exportFormatTxt: "Eksportuj jako TXT",
         AliceTranslationKey.exportFormatHar: "Eksportuj jako HAR",
         AliceTranslationKey.exportFormatCancel: "Anuluj",
-        AliceTranslationKey.saveLoading: "Zapisywanie logów...",
+        AliceTranslationKey.saveLoading: "Ładowanie...",
+        AliceTranslationKey.replay: "♻️ Ponowne",
+        AliceTranslationKey.replayMultipartNotSupported:
+            "Powtórzenie żądań z Multipart/FormData nie jest jeszcze wspierane.",
+        AliceTranslationKey.replaySuccess: "Sukces",
+        AliceTranslationKey.replaySuccessMessage:
+            "Żądanie zostało pomyślnie powtórzone",
+        AliceTranslationKey.replayError: "Powtórzenie nie powiodło się",
+        AliceTranslationKey.replayNotSupportedOnPlatform:
+            "Ponowne wykonanie żądania nie jest wspierane na tej platformie.",
       },
     );
   }

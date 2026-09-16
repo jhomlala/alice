@@ -278,6 +278,7 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
               : AliceHarExporter(),
     );
 
+    if (!mounted) return;
     if (result.success && result.path != null) {
       AliceGeneralDialog.show(
         context: context,
