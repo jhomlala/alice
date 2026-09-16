@@ -167,7 +167,8 @@ class AliceReplayHelperImpl implements AliceReplayHelper {
         AliceGeneralDialog.show(
           context: context,
           title: context.i18n(AliceTranslationKey.callDetailsError),
-          description: '${context.i18n(AliceTranslationKey.replayError)}: $error',
+          description:
+              '${context.i18n(AliceTranslationKey.replayError)}: $error',
         );
       }
     }

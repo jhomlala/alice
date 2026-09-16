@@ -204,7 +204,8 @@ class AliceTranslations {
         AliceTranslationKey.replayMultipartNotSupported:
             "Multipart/FormData replays are not yet supported.",
         AliceTranslationKey.replaySuccess: "Success",
-        AliceTranslationKey.replaySuccessMessage: "Request replayed successfully",
+        AliceTranslationKey.replaySuccessMessage:
+            "Request replayed successfully",
         AliceTranslationKey.replayError: "Replay failed",
         AliceTranslationKey.replayNotSupportedOnPlatform:
             "Replay is not supported on this platform.",
@@ -405,7 +406,8 @@ class AliceTranslations {
         AliceTranslationKey.replayMultipartNotSupported:
             "Powtórzenie żądań z Multipart/FormData nie jest jeszcze wspierane.",
         AliceTranslationKey.replaySuccess: "Sukces",
-        AliceTranslationKey.replaySuccessMessage: "Żądanie zostało pomyślnie powtórzone",
+        AliceTranslationKey.replaySuccessMessage:
+            "Żądanie zostało pomyślnie powtórzone",
         AliceTranslationKey.replayError: "Powtórzenie nie powiodło się",
         AliceTranslationKey.replayNotSupportedOnPlatform:
             "Ponowne wykonanie żądania nie jest wspierane na tej platformie.",
