@@ -1,10 +1,10 @@
 import 'dart:io';
-import 'package:alice/model/alice_export_result.dart';
-import 'package:alice/utils/alice_utils.dart';
+import 'package:alice/model/export_result.dart';
+import 'package:alice/utils/utils.dart';
 import 'package:path_provider/path_provider.dart';
 
 class FileSaveService {
-  static Future<AliceExportResult> saveContentToFile({
+  static Future<ExportResult> saveContentToFile({
     required String fileName,
     required String content,
   }) async {
@@ -12,12 +12,12 @@ class FileSaveService {
       final Directory externalDir = await getApplicationCacheDirectory();
       final File file = File('${externalDir.path}/$fileName')..createSync();
       await file.writeAsString(content);
-      return AliceExportResult(success: true, path: file.path);
+      return ExportResult(success: true, path: file.path);
     } catch (exception) {
-      AliceUtils.log(exception.toString());
-      return AliceExportResult(
+      Utils.log(exception.toString());
+      return ExportResult(
         success: false,
-        error: AliceExportResultError.file,
+        error: ExportResultError.file,
       );
     }
   }

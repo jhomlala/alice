@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:alice/model/alice_translation.dart';
-import 'package:alice/ui/common/alice_context_ext.dart';
+import 'package:alice/model/translation.dart';
+import 'package:alice/ui/common/context_ext.dart';
 import 'package:material_ui/material_ui.dart';
 
 /// Body parser utility used to parsing body data.
@@ -63,11 +63,11 @@ class AliceParser {
   }) {
     try {
       if (body == null) {
-        return context.i18n(AliceTranslationKey.callRequestBodyEmpty);
+        return context.i18n(TranslationKey.callRequestBodyEmpty);
       }
 
       String bodyContent = context.i18n(
-        AliceTranslationKey.callRequestBodyEmpty,
+        TranslationKey.callRequestBodyEmpty,
       );
 
       if (contentType == null ||
@@ -97,7 +97,7 @@ class AliceParser {
 
       return bodyContent;
     } catch (_) {
-      return context.i18n(AliceTranslationKey.parserFailed) + body.toString();
+      return context.i18n(TranslationKey.parserFailed) + body.toString();
     }
   }
 
@@ -115,7 +115,7 @@ class AliceParser {
         return headers[_jsonContentTypeBig];
       }
     }
-    return context.i18n(AliceTranslationKey.unknown);
+    return context.i18n(TranslationKey.unknown);
   }
 
   /// Parses headers from [dynamic] to [Map<String,String>], if possible.

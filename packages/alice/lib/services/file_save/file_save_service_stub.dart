@@ -1,13 +1,13 @@
-import 'package:alice/model/alice_export_result.dart';
+import 'package:alice/model/export_result.dart';
 
 class FileSaveService {
-  static Future<AliceExportResult> saveContentToFile({
+  static Future<ExportResult> saveContentToFile({
     required String fileName,
     required String content,
   }) async {
-    return AliceExportResult(
+    return ExportResult(
       success: false,
-      error: AliceExportResultError.file,
+      error: ExportResultError.file,
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:alice/model/alice_translation.dart';
+import 'package:alice/model/translation.dart';
 import 'package:alice/utils/alice_parser.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mocktail/mocktail.dart';
@@ -9,7 +9,7 @@ import '../mock/build_context_mock.dart';
 void main() {
   late BuildContext context;
   setUp(() {
-    registerFallbackValue(AliceTranslationKey.accept);
+    registerFallbackValue(TranslationKey.accept);
     context = BuildContextMock();
   });
 
@@ -40,7 +40,7 @@ void main() {
     test("should parse empty body", () {
       expect(
         AliceParser.formatBody(context: context, body: ''),
-        AliceTranslationKey.callRequestBodyEmpty.toString(),
+        TranslationKey.callRequestBodyEmpty.toString(),
       );
     });
 
@@ -65,7 +65,7 @@ void main() {
     test("should parse unknown content type", () {
       expect(
         AliceParser.getContentType(context: context, headers: {}),
-        AliceTranslationKey.unknown.toString(),
+        TranslationKey.unknown.toString(),
       );
     });
 

@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:alice/export/alice_export_service.dart';
-import 'package:alice/export/alice_text_exporter.dart';
-import 'package:alice/model/alice_export_result.dart';
+import 'package:alice/export/export_service.dart';
+import 'package:alice/export/text_exporter.dart';
+import 'package:alice/model/export_result.dart';
 import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
@@ -18,11 +18,11 @@ void main() {
     context = BuildContextMock();
   });
 
-  group("AliceExportService", () {
-    test("should build correct call log using AliceTextExporter", () async {
+  group("ExportService", () {
+    test("should build correct call log using TextExporter", () async {
       _setPackageInfo();
 
-      final result = await AliceTextExporter().buildFullCallLog(
+      final result = await TextExporter().buildFullCallLog(
         context: context,
         call: MockedData.getFilledHttpCall(),
       );
@@ -35,10 +35,10 @@ void main() {
       _setPathProvider();
       _setDefaultTargetPlatform();
 
-      final result = await AliceExportService.exportCalls(
+      final result = await ExportService.exportCalls(
         context: context,
         calls: [MockedData.getFilledHttpCall()],
-        exporter: AliceTextExporter(),
+        exporter: TextExporter(),
       );
       expect(result.success, true);
       expect(result.path != null, true);
@@ -58,15 +58,15 @@ void main() {
     _setPathProvider();
     _setDefaultTargetPlatform();
 
-    final result = await AliceExportService.exportCalls(
+    final result = await ExportService.exportCalls(
       context: context,
       calls: [],
-      exporter: AliceTextExporter(),
+      exporter: TextExporter(),
     );
 
     expect(result.success, false);
     expect(result.path, null);
-    expect(result.error, AliceExportResultError.empty);
+    expect(result.error, ExportResultError.empty);
   });
 
   test("should not save call log to file if file problem occurs", () async {
@@ -75,15 +75,15 @@ void main() {
     _setPathProvider(isFailing: true);
     _setDefaultTargetPlatform();
 
-    final result = await AliceExportService.exportCalls(
+    final result = await ExportService.exportCalls(
       context: context,
       calls: [MockedData.getFilledHttpCall()],
-      exporter: AliceTextExporter(),
+      exporter: TextExporter(),
     );
 
     expect(result.success, false);
     expect(result.path, null);
-    expect(result.error, AliceExportResultError.file);
+    expect(result.error, ExportResultError.file);
   });
 
   test("should share call log", () async {
@@ -91,7 +91,7 @@ void main() {
     _setPackageInfo();
     _setShare();
 
-    final result = await AliceExportService.shareCall(
+    final result = await ExportService.shareCall(
       context: context,
       call: MockedData.getFilledHttpCall(),
     );
@@ -102,47 +102,47 @@ void main() {
 
 void _verifyLogLines(String result) {
   var lines = [
-    'AliceTranslationKey.saveHeaderTitle',
-    'AliceTranslationKey.saveHeaderAppName  Alice',
-    'AliceTranslationKey.saveHeaderPackage pl.hasoft.alice',
-    'AliceTranslationKey.saveHeaderTitle 1.0',
-    'AliceTranslationKey.saveHeaderBuildNumber 1',
-    'AliceTranslationKey.saveHeaderGenerated',
+    'TranslationKey.saveHeaderTitle',
+    'TranslationKey.saveHeaderAppName  Alice',
+    'TranslationKey.saveHeaderPackage pl.hasoft.alice',
+    'TranslationKey.saveHeaderTitle 1.0',
+    'TranslationKey.saveHeaderBuildNumber 1',
+    'TranslationKey.saveHeaderGenerated',
     '',
     '===========================================',
-    'AliceTranslationKey.saveLogId',
+    'TranslationKey.saveLogId',
     '============================================',
     '--------------------------------------------',
-    'AliceTranslationKey.saveLogGeneralData',
+    'TranslationKey.saveLogGeneralData',
     '--------------------------------------------',
-    'AliceTranslationKey.saveLogServer https://test.com ',
-    'AliceTranslationKey.saveLogMethod POST ',
-    'AliceTranslationKey.saveLogEndpoint /test ',
-    'AliceTranslationKey.saveLogClient  ',
-    'AliceTranslationKey.saveLogDuration 0 ms',
-    'AliceTranslationKey.saveLogSecured true',
-    'AliceTranslationKey.saveLogCompleted: true ',
+    'TranslationKey.saveLogServer https://test.com ',
+    'TranslationKey.saveLogMethod POST ',
+    'TranslationKey.saveLogEndpoint /test ',
+    'TranslationKey.saveLogClient  ',
+    'TranslationKey.saveLogDuration 0 ms',
+    'TranslationKey.saveLogSecured true',
+    'TranslationKey.saveLogCompleted: true ',
     '--------------------------------------------',
-    'AliceTranslationKey.saveLogRequest',
+    'TranslationKey.saveLogRequest',
     '--------------------------------------------',
-    'AliceTranslationKey.saveLogRequestTime',
-    'AliceTranslationKey.saveLogRequestContentType: application/json',
-    'AliceTranslationKey.saveLogRequestCookies []',
-    'AliceTranslationKey.saveLogRequestHeaders {}',
-    'AliceTranslationKey.saveLogRequestSize 0 B',
-    'AliceTranslationKey.saveLogRequestBody {',
+    'TranslationKey.saveLogRequestTime',
+    'TranslationKey.saveLogRequestContentType: application/json',
+    'TranslationKey.saveLogRequestCookies []',
+    'TranslationKey.saveLogRequestHeaders {}',
+    'TranslationKey.saveLogRequestSize 0 B',
+    'TranslationKey.saveLogRequestBody {',
     '  "id": 0',
     '}',
     '--------------------------------------------',
-    'AliceTranslationKey.saveLogResponse',
+    'TranslationKey.saveLogResponse',
     '--------------------------------------------',
-    'AliceTranslationKey.saveLogResponseTime',
-    'AliceTranslationKey.saveLogResponseStatus 0',
-    'AliceTranslationKey.saveLogResponseSize 0 B',
-    'AliceTranslationKey.saveLogResponseHeaders {}',
-    'AliceTranslationKey.saveLogResponseBody {"id": 0}',
+    'TranslationKey.saveLogResponseTime',
+    'TranslationKey.saveLogResponseStatus 0',
+    'TranslationKey.saveLogResponseSize 0 B',
+    'TranslationKey.saveLogResponseHeaders {}',
+    'TranslationKey.saveLogResponseBody {"id": 0}',
     '--------------------------------------------',
-    'AliceTranslationKey.saveLogCurl',
+    'TranslationKey.saveLogCurl',
     '--------------------------------------------',
     'curl -X POST ',
     '==============================================',

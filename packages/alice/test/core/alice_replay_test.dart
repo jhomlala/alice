@@ -1,5 +1,5 @@
 import 'package:alice/core/alice_core.dart';
-import 'package:alice/services/replay/alice_replay_service.dart';
+import 'package:alice/services/replay/replay_service.dart';
 import 'package:alice/model/alice_configuration.dart';
 import 'package:alice/model/alice_form_data_file.dart';
 import 'package:alice/model/alice_http_call.dart';
@@ -15,13 +15,13 @@ void main() {
     expect(call.isReplay, true);
   });
 
-  testWidgets('AliceReplayService blocks multipart requests and shows dialog', (
+  testWidgets('ReplayService blocks multipart requests and shows dialog', (
     WidgetTester tester,
   ) async {
     final core = AliceCore(
       configuration: AliceConfiguration(showNotification: false),
     );
-    final service = AliceReplayService(core);
+    final service = ReplayService(core);
 
     final call = AliceHttpCall(1);
     call.request =

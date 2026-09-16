@@ -1,19 +1,19 @@
 import 'dart:async' show FutureOr, StreamSubscription;
 
 import 'package:alice/services/storage/alice_storage.dart';
-import 'package:alice/utils/alice_utils.dart';
-import 'package:alice/export/alice_exporter.dart';
-import 'package:alice/export/alice_export_service.dart';
-import 'package:alice/services/notification/alice_notification.dart';
+import 'package:alice/utils/utils.dart';
+import 'package:alice/export/exporter.dart';
+import 'package:alice/export/export_service.dart';
+import 'package:alice/services/notification/notification.dart';
 import 'package:alice/utils/operating_system.dart';
-import 'package:alice/services/replay/alice_replay_service.dart';
+import 'package:alice/services/replay/replay_service.dart';
 import 'package:alice/model/alice_configuration.dart';
-import 'package:alice/model/alice_export_result.dart';
+import 'package:alice/model/export_result.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice/model/alice_log.dart';
-import 'package:alice/ui/common/alice_navigation.dart';
+import 'package:alice/ui/common/navigation.dart';
 import 'package:alice/services/shake_detector/shake_detector.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -33,12 +33,12 @@ class AliceCore {
   /// Flag used to determine whether is inspector opened
   bool _isInspectorOpened = false;
 
-  late final AliceReplayService _replayService;
+  late final ReplayService _replayService;
 
   /// Creates alice core instance
   AliceCore({required AliceConfiguration configuration}) {
     _configuration = configuration;
-    _replayService = AliceReplayService(this);
+    _replayService = ReplayService(this);
     _subscribeToCallChanges();
     if (_configuration.showNotification) {
       _notification = AliceNotificationService();
@@ -92,7 +92,7 @@ class AliceCore {
   Future<void> navigateToCallListScreen() async {
     final BuildContext? context = getContext();
     if (context == null) {
-      AliceUtils.log(
+      Utils.log(
         'Cant start Alice HTTP Inspector. Please add NavigatorKey to your '
         'application',
       );
@@ -100,7 +100,7 @@ class AliceCore {
     }
     if (!_isInspectorOpened) {
       _isInspectorOpened = true;
-      await AliceNavigation.navigateToCallsList(core: this);
+      await Navigation.navigateToCallsList(core: this);
       _isInspectorOpened = false;
     }
   }
@@ -137,10 +137,10 @@ class AliceCore {
   List<AliceHttpCall> getCalls() => _configuration.aliceStorage.getCalls();
 
   /// Export all calls using [exporter].
-  Future<AliceExportResult> exportCalls({
+  Future<ExportResult> exportCalls({
     required BuildContext context,
-    required AliceExporter exporter,
-  }) => AliceExportService.exportCalls(
+    required Exporter exporter,
+  }) => ExportService.exportCalls(
     context: context,
     calls: getCalls(),
     exporter: exporter,

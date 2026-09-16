@@ -1,9 +1,9 @@
-import 'package:alice/ui/common/alice_json_viewer.dart';
+import 'package:alice/ui/common/json_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('AliceJsonViewer renders Map correctly', (
+  testWidgets('JsonViewer renders Map correctly', (
     WidgetTester tester,
   ) async {
     final Map<String, dynamic> testJson = {
@@ -15,7 +15,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
-          body: AliceJsonViewer(testJson, initiallyExpanded: true),
+          body: JsonViewer(testJson, initiallyExpanded: true),
         ),
       ),
     );
@@ -29,7 +29,7 @@ void main() {
     expect(find.text('123'), findsOneWidget);
   });
 
-  testWidgets('AliceJsonViewer renders List correctly', (
+  testWidgets('JsonViewer renders List correctly', (
     WidgetTester tester,
   ) async {
     final List<dynamic> testList = ['item1', 42, false];
@@ -37,7 +37,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
-          body: AliceJsonViewer(testList, initiallyExpanded: true),
+          body: JsonViewer(testList, initiallyExpanded: true),
         ),
       ),
     );
@@ -51,7 +51,7 @@ void main() {
     expect(find.text('false'), findsOneWidget);
   });
 
-  testWidgets('AliceJsonViewer parses JSON string correctly', (
+  testWidgets('JsonViewer parses JSON string correctly', (
     WidgetTester tester,
   ) async {
     const String jsonString = '{"name": "test", "value": 99}';
@@ -59,7 +59,7 @@ void main() {
     await tester.pumpWidget(
       const MaterialApp(
         home: Scaffold(
-          body: AliceJsonViewer(jsonString, initiallyExpanded: true),
+          body: JsonViewer(jsonString, initiallyExpanded: true),
         ),
       ),
     );
@@ -71,13 +71,13 @@ void main() {
     expect(find.text('99'), findsOneWidget);
   });
 
-  testWidgets('AliceJsonViewer handles invalid JSON string gracefully', (
+  testWidgets('JsonViewer handles invalid JSON string gracefully', (
     WidgetTester tester,
   ) async {
     const String invalidJson = 'invalid json string';
 
     await tester.pumpWidget(
-      const MaterialApp(home: Scaffold(body: AliceJsonViewer(invalidJson))),
+      const MaterialApp(home: Scaffold(body: JsonViewer(invalidJson))),
     );
 
     expect(find.textContaining('Invalid JSON'), findsOneWidget);

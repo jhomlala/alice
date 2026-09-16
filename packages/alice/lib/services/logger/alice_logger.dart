@@ -1,4 +1,4 @@
-import 'package:alice/services/logcat/logcat_provider.dart';
+import 'package:alice/services/logcat/logcat_service.dart';
 
 import 'package:alice/utils/operating_system.dart';
 import 'package:alice/model/alice_log.dart';
@@ -48,7 +48,7 @@ class AliceLogger {
   /// Returns raw logs from Android via ADB.
   Future<String> getAndroidRawLogs() async {
     if (OperatingSystem.isAndroid) {
-      return await LogcatProvider.getAndroidRawLogs();
+      return await LogcatService.getAndroidRawLogs();
     }
     return '';
   }
@@ -56,7 +56,7 @@ class AliceLogger {
   /// Clears all raw logs.
   Future<void> clearAndroidRawLogs() async {
     if (OperatingSystem.isAndroid) {
-      await LogcatProvider.clearAndroidRawLogs();
+      await LogcatService.clearAndroidRawLogs();
     }
   }
 }
