@@ -6,10 +6,10 @@ import 'package:alice/model/alice_http_call.dart';
 import 'package:flutter/material.dart';
 
 abstract class AliceReplayHelper {
+  factory AliceReplayHelper(AliceCore core) => AliceReplayHelperImpl(core);
+
   Future<void> replayCall({
     required AliceHttpCall originalCall,
     required BuildContext context,
   });
-
-  factory AliceReplayHelper(AliceCore core) => getReplayHelper(core);
 }

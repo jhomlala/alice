@@ -76,5 +76,22 @@ void main() {
         "Zaawansowane wyszukiwanie",
       );
     });
+
+    test("should return translated value for replay key", () {
+      expect(
+        AliceTranslations.get(
+          languageCode: "en",
+          key: AliceTranslationKey.replay,
+        ),
+        "♻️ Replay",
+      );
+      expect(
+        AliceTranslations.get(
+          languageCode: "pl",
+          key: AliceTranslationKey.replay,
+        ),
+        "♻️ Ponowne",
+      );
+    });
   });
 }

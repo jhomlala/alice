@@ -200,6 +200,7 @@ class AliceTranslations {
         AliceTranslationKey.exportFormatHar: "Export as HAR",
         AliceTranslationKey.exportFormatCancel: "Cancel",
         AliceTranslationKey.saveLoading: "Loading...",
+        AliceTranslationKey.replay: "♻️ Replay",
       },
     );
   }
@@ -393,6 +394,7 @@ class AliceTranslations {
         AliceTranslationKey.exportFormatHar: "Eksportuj jako HAR",
         AliceTranslationKey.exportFormatCancel: "Anuluj",
         AliceTranslationKey.saveLoading: "Ładowanie...",
+        AliceTranslationKey.replay: "♻️ Ponowne",
       },
     );
   }

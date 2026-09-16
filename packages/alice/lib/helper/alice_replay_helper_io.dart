@@ -9,9 +9,6 @@ import 'package:alice/model/alice_http_response.dart';
 import 'package:alice/ui/common/alice_dialog.dart';
 import 'package:flutter/material.dart';
 
-AliceReplayHelper getReplayHelper(AliceCore core) =>
-    AliceReplayHelperImpl(core);
-
 class AliceReplayHelperImpl implements AliceReplayHelper {
   final AliceCore core;
 

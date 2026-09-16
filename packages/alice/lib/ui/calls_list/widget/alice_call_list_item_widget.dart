@@ -1,6 +1,8 @@
 import 'package:alice/helper/alice_conversion_helper.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_response.dart';
+import 'package:alice/model/alice_translation.dart';
+import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/ui/common/alice_theme.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -36,11 +38,11 @@ class AliceCallListItemWidget extends StatelessWidget {
                       _EndpointAndMethod(call: call, color: requestColor),
                       const SizedBox(height: 4),
                       if (call.isReplay) ...[
-                        const Row(
+                        Row(
                           children: [
                             Text(
-                              '♻️ Replay',
-                              style: TextStyle(
+                              context.i18n(AliceTranslationKey.replay),
+                              style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
                                 color: AliceTheme.orange,

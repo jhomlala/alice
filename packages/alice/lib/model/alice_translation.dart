@@ -168,4 +168,5 @@ enum AliceTranslationKey {
   exportFormatHar,
   exportFormatCancel,
   saveLoading,
+  replay,
 }
