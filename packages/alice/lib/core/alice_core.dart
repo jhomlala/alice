@@ -1,12 +1,12 @@
 import 'dart:async' show FutureOr, StreamSubscription;
 
-import 'package:alice/core/alice_storage.dart';
-import 'package:alice/core/alice_utils.dart';
-import 'package:alice/helper/alice_exporter.dart';
-import 'package:alice/helper/alice_export_helper.dart';
-import 'package:alice/core/alice_notification.dart';
-import 'package:alice/helper/operating_system.dart';
-import 'package:alice/helper/alice_replay_helper.dart';
+import 'package:alice/services/storage/alice_storage.dart';
+import 'package:alice/utils/alice_utils.dart';
+import 'package:alice/export/alice_exporter.dart';
+import 'package:alice/export/alice_export_service.dart';
+import 'package:alice/services/notification/alice_notification.dart';
+import 'package:alice/utils/operating_system.dart';
+import 'package:alice/services/replay/alice_replay_service.dart';
 import 'package:alice/model/alice_configuration.dart';
 import 'package:alice/model/alice_export_result.dart';
 import 'package:alice/model/alice_http_call.dart';
@@ -14,7 +14,7 @@ import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice/model/alice_log.dart';
 import 'package:alice/ui/common/alice_navigation.dart';
-import 'package:alice/utils/shake_detector.dart';
+import 'package:alice/services/shake_detector/shake_detector.dart';
 import 'package:material_ui/material_ui.dart';
 
 class AliceCore {
@@ -33,12 +33,12 @@ class AliceCore {
   /// Flag used to determine whether is inspector opened
   bool _isInspectorOpened = false;
 
-  late final AliceReplayHelper _replayHelper;
+  late final AliceReplayService _replayService;
 
   /// Creates alice core instance
   AliceCore({required AliceConfiguration configuration}) {
     _configuration = configuration;
-    _replayHelper = AliceReplayHelper(this);
+    _replayService = AliceReplayService(this);
     _subscribeToCallChanges();
     if (_configuration.showNotification) {
       _notification = AliceNotification();
@@ -140,7 +140,7 @@ class AliceCore {
   Future<AliceExportResult> exportCalls({
     required BuildContext context,
     required AliceExporter exporter,
-  }) => AliceExportHelper.exportCalls(
+  }) => AliceExportService.exportCalls(
     context: context,
     calls: getCalls(),
     exporter: exporter,
@@ -150,7 +150,7 @@ class AliceCore {
   Future<void> replayCall({
     required AliceHttpCall originalCall,
     required BuildContext context,
-  }) => _replayHelper.replayCall(originalCall: originalCall, context: context);
+  }) => _replayService.replayCall(originalCall: originalCall, context: context);
 
   /// Adds new log to Alice logger.
   void addLog(AliceLog log) => _configuration.aliceLogger.add(log);

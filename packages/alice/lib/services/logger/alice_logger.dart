@@ -1,6 +1,6 @@
-import 'package:alice/core/logcat/logcat_provider.dart';
+import 'package:alice/services/logcat/logcat_provider.dart';
 
-import 'package:alice/helper/operating_system.dart';
+import 'package:alice/utils/operating_system.dart';
 import 'package:alice/model/alice_log.dart';
 import 'package:rxdart/rxdart.dart';
 

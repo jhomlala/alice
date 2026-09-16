@@ -1,5 +1,5 @@
 import 'package:alice/core/alice_core.dart';
-import 'package:alice/helper/alice_export_helper.dart';
+import 'package:alice/export/alice_export_service.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/ui/common/alice_theme.dart';
 import 'package:material_ui/material_ui.dart';
@@ -80,7 +80,7 @@ class _AliceCallDetailsFabState extends State<AliceCallDetailsFab> {
         _shareButtonKey.currentContext?.findRenderObject() as RenderBox?;
     final sharePositionOrigin =
         box != null ? box.localToGlobal(Offset.zero) & box.size : null;
-    await AliceExportHelper.shareCall(
+    await AliceExportService.shareCall(
       context: context,
       call: widget.call,
       sharePositionOrigin: sharePositionOrigin,
@@ -93,7 +93,7 @@ class _AliceCallDetailsFabState extends State<AliceCallDetailsFab> {
         _shareCurlButtonKey.currentContext?.findRenderObject() as RenderBox?;
     final sharePositionOrigin =
         box != null ? box.localToGlobal(Offset.zero) & box.size : null;
-    await AliceExportHelper.shareCurlCommand(
+    await AliceExportService.shareCurlCommand(
       context: context,
       call: widget.call,
       sharePositionOrigin: sharePositionOrigin,

@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:alice/model/alice_export_result.dart';
-import 'package:alice/core/alice_utils.dart';
+import 'package:alice/utils/alice_utils.dart';
 import 'package:path_provider/path_provider.dart';
 
 class FileSaveHelper {

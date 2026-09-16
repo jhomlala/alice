@@ -1,7 +1,7 @@
 import 'dart:convert' show utf8;
 import 'dart:io' show HttpClient, HttpClientRequest, HttpClientResponse;
 import 'package:alice/core/alice_core.dart';
-import 'package:alice/helper/alice_replay_helper.dart';
+import 'package:alice/services/replay/alice_replay_service.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_request.dart';
@@ -11,10 +11,10 @@ import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/ui/common/alice_dialog.dart';
 import 'package:flutter/material.dart';
 
-class AliceReplayHelperImpl implements AliceReplayHelper {
+class AliceReplayServiceImpl implements AliceReplayService {
   final AliceCore core;
 
-  AliceReplayHelperImpl(this.core);
+  AliceReplayServiceImpl(this.core);
 
   @override
   Future<void> replayCall({

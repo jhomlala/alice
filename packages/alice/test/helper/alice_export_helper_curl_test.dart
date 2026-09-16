@@ -1,4 +1,4 @@
-import 'package:alice/helper/alice_export_helper.dart';
+import 'package:alice/export/alice_export_service.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -18,7 +18,7 @@ void main() {
     _setPackageInfo();
     _setShare();
 
-    final result = await AliceExportHelper.shareCurlCommand(
+    final result = await AliceExportService.shareCurlCommand(
       context: context,
       call: MockedData.getFilledHttpCall(),
     );

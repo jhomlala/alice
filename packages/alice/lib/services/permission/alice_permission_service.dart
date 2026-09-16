@@ -1,7 +1,7 @@
-import 'package:alice/helper/operating_system.dart';
+import 'package:alice/utils/operating_system.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class AlicePermissionHelper {
+class AlicePermissionService {
   /// Returns current storage permission status. Checks permission for iOS
   /// For other platforms it returns true.
   static Future<bool> getPermissionStatus() async {

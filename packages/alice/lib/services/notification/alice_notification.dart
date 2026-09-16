@@ -1,6 +1,6 @@
-import 'package:alice/core/alice_storage.dart';
-import 'package:alice/core/alice_utils.dart';
-import 'package:alice/helper/operating_system.dart';
+import 'package:alice/services/storage/alice_storage.dart';
+import 'package:alice/utils/alice_utils.dart';
+import 'package:alice/utils/operating_system.dart';
 import 'package:alice/model/alice_translation.dart';
 import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:cupertino_ui/cupertino_ui.dart';

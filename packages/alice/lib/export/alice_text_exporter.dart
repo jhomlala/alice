@@ -2,16 +2,16 @@
 
 import 'dart:convert';
 
-import 'package:alice/core/alice_utils.dart';
-import 'package:alice/helper/alice_conversion_helper.dart';
-import 'package:alice/helper/alice_exporter.dart';
+import 'package:alice/utils/alice_utils.dart';
+import 'package:alice/utils/alice_conversion_utils.dart';
+import 'package:alice/export/alice_exporter.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_translation.dart';
 import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/utils/alice_parser.dart';
 import 'package:alice/utils/curl.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:alice/utils/package_info/package_info_provider.dart';
+import 'package:alice/services/package_info/package_info_provider.dart';
 
 class AliceTextExporter implements AliceExporter {
   static const JsonEncoder _encoder = JsonEncoder.withIndent('  ');
@@ -68,7 +68,7 @@ class AliceTextExporter implements AliceExporter {
         '${context.i18n(AliceTranslationKey.saveLogMethod)} ${call.method} \n',
         '${context.i18n(AliceTranslationKey.saveLogEndpoint)} ${call.endpoint} \n',
         '${context.i18n(AliceTranslationKey.saveLogClient)} ${call.client} \n',
-        '${context.i18n(AliceTranslationKey.saveLogDuration)} ${AliceConversionHelper.formatTime(call.duration)}\n',
+        '${context.i18n(AliceTranslationKey.saveLogDuration)} ${AliceConversionUtils.formatTime(call.duration)}\n',
         '${context.i18n(AliceTranslationKey.saveLogSecured)} ${call.secure}\n',
         '${context.i18n(AliceTranslationKey.saveLogCompleted)}: ${!call.loading} \n',
         '--------------------------------------------\n',
@@ -87,14 +87,14 @@ class AliceTextExporter implements AliceExporter {
       }
 
       stringBuffer.writeAll([
-        '${context.i18n(AliceTranslationKey.saveLogRequestSize)} ${AliceConversionHelper.formatBytes(call.request?.size ?? 0)}\n',
+        '${context.i18n(AliceTranslationKey.saveLogRequestSize)} ${AliceConversionUtils.formatBytes(call.request?.size ?? 0)}\n',
         '${context.i18n(AliceTranslationKey.saveLogRequestBody)} ${AliceParser.formatBody(context: context, body: call.request?.body, contentType: call.request?.contentType)}\n',
         '--------------------------------------------\n',
         '${context.i18n(AliceTranslationKey.saveLogResponse)}\n',
         '--------------------------------------------\n',
         '${context.i18n(AliceTranslationKey.saveLogResponseTime)} ${call.response?.time}\n',
         '${context.i18n(AliceTranslationKey.saveLogResponseStatus)} ${call.response?.status}\n',
-        '${context.i18n(AliceTranslationKey.saveLogResponseSize)} ${AliceConversionHelper.formatBytes(call.response?.size ?? 0)}\n',
+        '${context.i18n(AliceTranslationKey.saveLogResponseSize)} ${AliceConversionUtils.formatBytes(call.response?.size ?? 0)}\n',
         '${context.i18n(AliceTranslationKey.saveLogResponseHeaders)} ${_encoder.convert(call.response?.headers)}\n',
         '${context.i18n(AliceTranslationKey.saveLogResponseBody)} ${AliceParser.formatBody(context: context, body: call.response?.body, contentType: AliceParser.getContentType(context: context, headers: call.response?.headers))}\n',
       ]);
@@ -130,7 +130,7 @@ class AliceTextExporter implements AliceExporter {
         'Server: ${call.server}\n',
         'Method: ${call.method}\n',
         'Endpoint: ${call.endpoint}\n',
-        'Duration: ${AliceConversionHelper.formatTime(call.duration)}\n',
+        'Duration: ${AliceConversionUtils.formatTime(call.duration)}\n',
         '\n',
       ]);
     }

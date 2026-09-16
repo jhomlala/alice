@@ -1,4 +1,4 @@
-import 'package:alice/helper/alice_conversion_helper.dart';
+import 'package:alice/utils/alice_conversion_utils.dart';
 import 'package:alice/model/alice_form_data_file.dart';
 import 'package:alice/model/alice_from_data_field.dart';
 import 'package:alice/model/alice_http_call.dart';
@@ -26,7 +26,7 @@ class AliceCallRequestScreen extends StatelessWidget {
       ),
       AliceCallListRow(
         name: context.i18n(AliceTranslationKey.callRequestBytesSent),
-        value: AliceConversionHelper.formatBytes(call.request?.size ?? 0),
+        value: AliceConversionUtils.formatBytes(call.request?.size ?? 0),
       ),
       AliceCallListRow(
         name: context.i18n(AliceTranslationKey.callRequestContentType),

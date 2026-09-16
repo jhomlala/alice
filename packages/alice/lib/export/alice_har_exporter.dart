@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:alice/helper/alice_exporter.dart';
+import 'package:alice/export/alice_exporter.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:alice/utils/package_info/package_info_provider.dart';
+import 'package:alice/services/package_info/package_info_provider.dart';
 
 class AliceHarExporter implements AliceExporter {
   @override

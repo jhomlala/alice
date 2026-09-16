@@ -1,4 +1,4 @@
-import 'package:alice/helper/alice_conversion_helper.dart';
+import 'package:alice/utils/alice_conversion_utils.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice/model/alice_translation.dart';
@@ -208,14 +208,14 @@ class _ConnectionStats extends StatelessWidget {
         ),
         Flexible(
           child: Text(
-            AliceConversionHelper.formatTime(call.duration),
+            AliceConversionUtils.formatTime(call.duration),
             style: const TextStyle(fontSize: 12),
           ),
         ),
         Flexible(
           child: Text(
-            '${AliceConversionHelper.formatBytes(call.request?.size ?? 0)} / '
-            '${AliceConversionHelper.formatBytes(call.response?.size ?? 0)}',
+            '${AliceConversionUtils.formatBytes(call.request?.size ?? 0)} / '
+            '${AliceConversionUtils.formatBytes(call.response?.size ?? 0)}',
             style: const TextStyle(fontSize: 12),
           ),
         ),

@@ -1,4 +1,4 @@
-import 'package:alice/helper/alice_share_helper.dart';
+import 'package:alice/services/share/alice_share_service.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
@@ -21,10 +21,10 @@ void main() {
         });
   });
 
-  group('AliceShareHelper', () {
+  group('AliceShareService', () {
     test('share should call share_plus on IO platforms', () async {
       // Note: In test environment dart.library.io is usually true.
-      await AliceShareHelper.share(
+      await AliceShareService.share(
         context: context,
         text: 'test text',
         subject: 'test subject',

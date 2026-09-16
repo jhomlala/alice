@@ -1,6 +1,6 @@
 // ignore_for_file: require_trailing_commas
 
-import 'package:alice/core/alice_memory_storage.dart';
+import 'package:alice/services/storage/alice_memory_storage.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_request.dart';

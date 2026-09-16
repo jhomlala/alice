@@ -1,9 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:alice/core/alice_core.dart';
-import 'package:alice/helper/alice_har_exporter.dart';
-import 'package:alice/helper/alice_text_exporter.dart';
-import 'package:alice/helper/operating_system.dart';
+import 'package:alice/export/alice_har_exporter.dart';
+import 'package:alice/export/alice_text_exporter.dart';
+import 'package:alice/utils/operating_system.dart';
 import 'package:alice/model/alice_export_format.dart';
 import 'package:alice/model/alice_export_result.dart';
 import 'package:alice/model/alice_http_call.dart';

@@ -1,5 +1,5 @@
 import 'package:alice/core/alice_core.dart';
-import 'package:alice/helper/alice_conversion_helper.dart';
+import 'package:alice/utils/alice_conversion_utils.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_translation.dart';
 import 'package:alice/ui/common/alice_context_ext.dart';
@@ -51,23 +51,23 @@ class AliceStatsPage extends StatelessWidget {
               ),
               AliceStatsRow(
                 context.i18n(AliceTranslationKey.statsBytesSent),
-                AliceConversionHelper.formatBytes(_getBytesSent()),
+                AliceConversionUtils.formatBytes(_getBytesSent()),
               ),
               AliceStatsRow(
                 context.i18n(AliceTranslationKey.statsBytesReceived),
-                AliceConversionHelper.formatBytes(_getBytesReceived()),
+                AliceConversionUtils.formatBytes(_getBytesReceived()),
               ),
               AliceStatsRow(
                 context.i18n(AliceTranslationKey.statsAverageRequestTime),
-                AliceConversionHelper.formatTime(_getAverageRequestTime()),
+                AliceConversionUtils.formatTime(_getAverageRequestTime()),
               ),
               AliceStatsRow(
                 context.i18n(AliceTranslationKey.statsMaxRequestTime),
-                AliceConversionHelper.formatTime(_getMaxRequestTime()),
+                AliceConversionUtils.formatTime(_getMaxRequestTime()),
               ),
               AliceStatsRow(
                 context.i18n(AliceTranslationKey.statsMinRequestTime),
-                AliceConversionHelper.formatTime(_getMinRequestTime()),
+                AliceConversionUtils.formatTime(_getMinRequestTime()),
               ),
               AliceStatsRow(
                 context.i18n(AliceTranslationKey.statsGetRequests),

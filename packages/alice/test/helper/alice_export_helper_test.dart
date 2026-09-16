@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:alice/helper/alice_export_helper.dart';
-import 'package:alice/helper/alice_text_exporter.dart';
+import 'package:alice/export/alice_export_service.dart';
+import 'package:alice/export/alice_text_exporter.dart';
 import 'package:alice/model/alice_export_result.dart';
 import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
@@ -18,7 +18,7 @@ void main() {
     context = BuildContextMock();
   });
 
-  group("AliceExportHelper", () {
+  group("AliceExportService", () {
     test("should build correct call log using AliceTextExporter", () async {
       _setPackageInfo();
 
@@ -35,7 +35,7 @@ void main() {
       _setPathProvider();
       _setDefaultTargetPlatform();
 
-      final result = await AliceExportHelper.exportCalls(
+      final result = await AliceExportService.exportCalls(
         context: context,
         calls: [MockedData.getFilledHttpCall()],
         exporter: AliceTextExporter(),
@@ -58,7 +58,7 @@ void main() {
     _setPathProvider();
     _setDefaultTargetPlatform();
 
-    final result = await AliceExportHelper.exportCalls(
+    final result = await AliceExportService.exportCalls(
       context: context,
       calls: [],
       exporter: AliceTextExporter(),
@@ -75,7 +75,7 @@ void main() {
     _setPathProvider(isFailing: true);
     _setDefaultTargetPlatform();
 
-    final result = await AliceExportHelper.exportCalls(
+    final result = await AliceExportService.exportCalls(
       context: context,
       calls: [MockedData.getFilledHttpCall()],
       exporter: AliceTextExporter(),
@@ -91,7 +91,7 @@ void main() {
     _setPackageInfo();
     _setShare();
 
-    final result = await AliceExportHelper.shareCall(
+    final result = await AliceExportService.shareCall(
       context: context,
       call: MockedData.getFilledHttpCall(),
     );

@@ -1,4 +1,4 @@
-import 'package:alice/helper/alice_conversion_helper.dart';
+import 'package:alice/utils/alice_conversion_utils.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_translation.dart';
 import 'package:alice/ui/call_details/widget/alice_call_list_row.dart';
@@ -69,7 +69,7 @@ class _GeneralDataColumn extends StatelessWidget {
         ),
         AliceCallListRow(
           name: context.i18n(AliceTranslationKey.callResponseBytesReceived),
-          value: AliceConversionHelper.formatBytes(call.response?.size ?? 0),
+          value: AliceConversionUtils.formatBytes(call.response?.size ?? 0),
         ),
         AliceCallListRow(
           name: context.i18n(AliceTranslationKey.callResponseStatus),
