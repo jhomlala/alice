@@ -35,6 +35,21 @@ class AliceCallListItemWidget extends StatelessWidget {
                     children: [
                       _EndpointAndMethod(call: call, color: requestColor),
                       const SizedBox(height: 4),
+                      if (call.isReplay) ...[
+                        const Row(
+                          children: [
+                            Text(
+                              '♻️ Replay',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: AliceTheme.orange,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 4),
+                      ],
                       _ServerAddress(call: call),
                       const SizedBox(height: 4),
                       _ConnectionStats(call: call),

@@ -1,3 +1,7 @@
+## [Unreleased]
+
+* Added Request Replay feature allowing developers to resend logged HTTP calls directly from the Alice call details view, with replay indication badges and interceptor bypass.
+
 ## 1.6.0
 
 * Fixed Flutter Web WASM compatibility by isolating `share_plus` behind conditional imports.

@@ -23,6 +23,7 @@ class _AliceCallDetailsFabState extends State<AliceCallDetailsFab> {
 
   static final GlobalKey _shareButtonKey = GlobalKey();
   static final GlobalKey _shareCurlButtonKey = GlobalKey();
+  static final GlobalKey _replayButtonKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +38,14 @@ class _AliceCallDetailsFabState extends State<AliceCallDetailsFab> {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (_isExpanded) ...[
+          FloatingActionButton(
+            key: _replayButtonKey,
+            mini: true,
+            backgroundColor: AliceTheme.lightRed,
+            onPressed: () => _replayCall(),
+            child: const Icon(Icons.replay, color: AliceTheme.white),
+          ),
+          const SizedBox(height: 8),
           FloatingActionButton(
             key: _shareCurlButtonKey,
             mini: true,
@@ -58,7 +67,7 @@ class _AliceCallDetailsFabState extends State<AliceCallDetailsFab> {
           backgroundColor: AliceTheme.lightRed,
           onPressed: () => setState(() => _isExpanded = !_isExpanded),
           child: Icon(
-            _isExpanded ? Icons.close : Icons.share,
+            _isExpanded ? Icons.close : Icons.menu,
             color: AliceTheme.white,
           ),
         ),
@@ -89,6 +98,11 @@ class _AliceCallDetailsFabState extends State<AliceCallDetailsFab> {
       call: widget.call,
       sharePositionOrigin: sharePositionOrigin,
     );
+    setState(() => _isExpanded = false);
+  }
+
+  Future<void> _replayCall() async {
+    await widget.core.replayCall(widget.call, context);
     setState(() => _isExpanded = false);
   }
 }
