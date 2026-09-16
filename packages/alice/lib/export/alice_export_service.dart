@@ -4,7 +4,7 @@ import 'package:alice/export/alice_exporter.dart';
 import 'package:alice/services/permission/alice_permission_service.dart';
 import 'package:alice/services/share/alice_share_service.dart';
 import 'package:alice/export/alice_text_exporter.dart';
-import 'package:alice/services/file_save/file_save_helper.dart';
+import 'package:alice/services/file_save/file_save_service.dart';
 import 'package:alice/model/alice_export_result.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_translation.dart';
@@ -100,7 +100,7 @@ class AliceExportService {
       final String fileName =
           '${_fileName}_${DateTime.now().millisecondsSinceEpoch}.${exporter.fileExtension}';
 
-      return await FileSaveHelper.saveContentToFile(
+      return await FileSaveService.saveContentToFile(
         fileName: fileName,
         content: content,
       );

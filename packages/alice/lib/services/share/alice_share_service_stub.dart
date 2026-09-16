@@ -8,7 +8,7 @@ class AliceShareProvider {
     Rect? sharePositionOrigin,
   }) {
     throw UnimplementedError(
-      'AliceShareHelper is not implemented for this platform.',
+      'AliceShareService is not implemented for this platform.',
     );
   }
 }

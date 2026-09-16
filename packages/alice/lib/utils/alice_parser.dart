@@ -4,7 +4,7 @@ import 'package:alice/model/alice_translation.dart';
 import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:material_ui/material_ui.dart';
 
-/// Body parser helper used to parsing body data.
+/// Body parser utility used to parsing body data.
 class AliceParser {
   static const String _jsonContentTypeSmall = 'content-type';
   static const String _jsonContentTypeBig = 'Content-Type';

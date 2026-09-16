@@ -21,7 +21,7 @@ void main() {
     final core = AliceCore(
       configuration: AliceConfiguration(showNotification: false),
     );
-    final helper = AliceReplayService(core);
+    final service = AliceReplayService(core);
 
     final call = AliceHttpCall(1);
     call.request =
@@ -34,7 +34,7 @@ void main() {
           builder: (context) {
             return ElevatedButton(
               onPressed: () {
-                helper.replayCall(originalCall: call, context: context);
+                service.replayCall(originalCall: call, context: context);
               },
               child: const Text('Replay'),
             );

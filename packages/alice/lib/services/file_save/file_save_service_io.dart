@@ -3,7 +3,7 @@ import 'package:alice/model/alice_export_result.dart';
 import 'package:alice/utils/alice_utils.dart';
 import 'package:path_provider/path_provider.dart';
 
-class FileSaveHelper {
+class FileSaveService {
   static Future<AliceExportResult> saveContentToFile({
     required String fileName,
     required String content,

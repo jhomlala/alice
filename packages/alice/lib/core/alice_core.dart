@@ -24,8 +24,8 @@ class AliceCore {
   /// Detector used to detect device shakes
   ShakeDetector? _shakeDetector;
 
-  /// Helper used for notification management
-  AliceNotification? _notification;
+  /// Service used for notification management
+  AliceNotificationService? _notification;
 
   /// Subscription for call changes
   StreamSubscription<List<AliceHttpCall>>? _callsSubscription;
@@ -41,7 +41,7 @@ class AliceCore {
     _replayService = AliceReplayService(this);
     _subscribeToCallChanges();
     if (_configuration.showNotification) {
-      _notification = AliceNotification();
+      _notification = AliceNotificationService();
       _notification?.configure(
         notificationIcon: _configuration.notificationIcon,
         notificationLargeIcon: _configuration.notificationLargeIcon,

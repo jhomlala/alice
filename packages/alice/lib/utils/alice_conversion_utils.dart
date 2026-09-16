@@ -1,4 +1,4 @@
-/// Helper used in unit conversion.
+/// Utility used in unit conversion.
 class AliceConversionUtils {
   static const int _kilobyteAsByte = 1000;
   static const int _megabyteAsByte = 1000000;

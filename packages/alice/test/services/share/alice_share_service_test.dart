@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 
-import '../mock/build_context_mock.dart';
+import '../../mock/build_context_mock.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

@@ -6,8 +6,8 @@ import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-/// Helper for displaying local notifications.
-class AliceNotification {
+/// Service for displaying local notifications.
+class AliceNotificationService {
   static const String _payload = 'Alice';
   static const String _channel = 'Alice';
   static const String _callCount = '[callCount]';
