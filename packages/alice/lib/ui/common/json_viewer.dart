@@ -173,9 +173,7 @@ class _MapViewer extends StatelessWidget {
     if (map.isEmpty) {
       return _KeyValueViewer(nodeKey: nodeKey, value: '{}');
     }
-    final objectTranslation = context.i18n(
-      TranslationKey.jsonViewerObject,
-    );
+    final objectTranslation = context.i18n(TranslationKey.jsonViewerObject);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

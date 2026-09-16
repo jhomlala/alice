@@ -26,9 +26,7 @@ class ReplayServiceImpl implements ReplayService {
       AliceGeneralDialog.show(
         context: context,
         title: context.i18n(TranslationKey.callDetailsError),
-        description: context.i18n(
-          TranslationKey.replayMultipartNotSupported,
-        ),
+        description: context.i18n(TranslationKey.replayMultipartNotSupported),
       );
       return;
     }
@@ -167,8 +165,7 @@ class ReplayServiceImpl implements ReplayService {
         AliceGeneralDialog.show(
           context: context,
           title: context.i18n(TranslationKey.callDetailsError),
-          description:
-              '${context.i18n(TranslationKey.replayError)}: $error',
+          description: '${context.i18n(TranslationKey.replayError)}: $error',
         );
       }
     }

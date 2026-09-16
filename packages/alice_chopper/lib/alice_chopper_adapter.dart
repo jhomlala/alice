@@ -62,9 +62,7 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
               ..body = chain.request.body ?? ''
               ..time = DateTime.now()
               ..headers = chain.request.headers
-              ..contentType =
-                  chain.request.headers['content-type'] ??
-                  'unknown'
+              ..contentType = chain.request.headers['content-type'] ?? 'unknown'
               ..formDataFields =
                   chain.request.parts
                       .whereType<PartValue>()

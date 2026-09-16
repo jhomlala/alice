@@ -164,7 +164,9 @@ class _ResponseStatus extends StatelessWidget {
               width: 20,
               height: 20,
               child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(AliceAppTheme.lightRed),
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  AliceAppTheme.lightRed,
+                ),
               ),
             ),
             const SizedBox(height: 4),

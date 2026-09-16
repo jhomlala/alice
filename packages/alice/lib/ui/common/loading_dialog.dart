@@ -15,9 +15,7 @@ class LoadingDialog extends StatelessWidget {
           children: [
             const CircularProgressIndicator(color: AliceAppTheme.lightRed),
             const SizedBox(width: 16),
-            Expanded(
-              child: Text(context.i18n(TranslationKey.saveLoading)),
-            ),
+            Expanded(child: Text(context.i18n(TranslationKey.saveLoading))),
           ],
         ),
       ),

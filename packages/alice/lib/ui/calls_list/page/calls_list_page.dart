@@ -272,10 +272,7 @@ class _AliceCallsListPageState extends State<CallsListPage>
 
     final result = await aliceCore.exportCalls(
       context: context,
-      exporter:
-          format == ExportFormat.txt
-              ? TextExporter()
-              : HarExporter(),
+      exporter: format == ExportFormat.txt ? TextExporter() : HarExporter(),
     );
 
     if (!mounted) return;
@@ -298,9 +295,7 @@ class _AliceCallsListPageState extends State<CallsListPage>
       final [String title, String description] = switch (result.error) {
         ExportResultError.logGenerate => [
           context.i18n(TranslationKey.saveDialogPermissionErrorTitle),
-          context.i18n(
-            TranslationKey.saveDialogPermissionErrorDescription,
-          ),
+          context.i18n(TranslationKey.saveDialogPermissionErrorDescription),
         ],
         ExportResultError.empty => [
           context.i18n(TranslationKey.saveDialogEmptyErrorTitle),
@@ -308,9 +303,7 @@ class _AliceCallsListPageState extends State<CallsListPage>
         ],
         ExportResultError.permission => [
           context.i18n(TranslationKey.saveDialogPermissionErrorTitle),
-          context.i18n(
-            TranslationKey.saveDialogPermissionErrorDescription,
-          ),
+          context.i18n(TranslationKey.saveDialogPermissionErrorDescription),
         ],
         ExportResultError.file => [
           context.i18n(TranslationKey.saveDialogFileSaveErrorTitle),
@@ -420,7 +413,10 @@ class _ContextMenuButton extends StatelessWidget {
                 value: item,
                 child: Row(
                   children: [
-                    Icon(_getIcon(itemType: item), color: AliceAppTheme.lightRed),
+                    Icon(
+                      _getIcon(itemType: item),
+                      color: AliceAppTheme.lightRed,
+                    ),
                     const Padding(padding: EdgeInsets.only(left: 10)),
                     Text(_getTitle(context: context, itemType: item)),
                   ],

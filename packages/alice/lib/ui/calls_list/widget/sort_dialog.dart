@@ -41,14 +41,16 @@ class SortDialog extends StatelessWidget {
                       children:
                           CallsListSortOption.values
                               .map(
-                                (option) => RadioListTile<
-                                  CallsListSortOption
-                                >.adaptive(
-                                  title: Text(
-                                    _getName(context: context, option: option),
-                                  ),
-                                  value: option,
-                                ),
+                                (option) =>
+                                    RadioListTile<CallsListSortOption>.adaptive(
+                                      title: Text(
+                                        _getName(
+                                          context: context,
+                                          option: option,
+                                        ),
+                                      ),
+                                      value: option,
+                                    ),
                               )
                               .toList(),
                     ),
@@ -57,9 +59,7 @@ class SortDialog extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        context.i18n(TranslationKey.sortDialogDescending),
-                      ),
+                      Text(context.i18n(TranslationKey.sortDialogDescending)),
                       Switch(
                         value: currentSortAscending,
                         onChanged: (value) {
@@ -69,9 +69,7 @@ class SortDialog extends StatelessWidget {
                         },
                         activeThumbColor: Colors.white,
                       ),
-                      Text(
-                        context.i18n(TranslationKey.sortDialogAscending),
-                      ),
+                      Text(context.i18n(TranslationKey.sortDialogAscending)),
                     ],
                   ),
                 ],
@@ -106,9 +104,7 @@ class SortDialog extends StatelessWidget {
     required CallsListSortOption option,
   }) {
     return switch (option) {
-      CallsListSortOption.time => context.i18n(
-        TranslationKey.sortDialogTime,
-      ),
+      CallsListSortOption.time => context.i18n(TranslationKey.sortDialogTime),
       CallsListSortOption.responseTime => context.i18n(
         TranslationKey.sortDialogResponseTime,
       ),

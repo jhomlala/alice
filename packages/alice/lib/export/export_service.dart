@@ -72,14 +72,10 @@ class ExportService {
     required Exporter exporter,
   }) async {
     if (calls.isEmpty) {
-      return ExportResult(
-        success: false,
-        error: ExportResultError.empty,
-      );
+      return ExportResult(success: false, error: ExportResultError.empty);
     }
 
-    final bool permissionStatus =
-        await PermissionService.getPermissionStatus();
+    final bool permissionStatus = await PermissionService.getPermissionStatus();
     if (!permissionStatus) {
       final bool status = await PermissionService.requestPermission();
       if (!status) {

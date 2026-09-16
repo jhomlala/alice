@@ -8,11 +8,7 @@ class CallDetailsFab extends StatefulWidget {
   final AliceHttpCall call;
   final AliceCore core;
 
-  const CallDetailsFab({
-    required this.call,
-    required this.core,
-    super.key,
-  });
+  const CallDetailsFab({required this.call, required this.core, super.key});
 
   @override
   State<CallDetailsFab> createState() => _AliceCallDetailsFabState();

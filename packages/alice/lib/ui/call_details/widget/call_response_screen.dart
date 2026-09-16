@@ -311,9 +311,7 @@ class _LargeTextBody extends StatelessWidget {
             onPressed: onShowLargeBodyPressed,
             child: Text(context.i18n(TranslationKey.callResponseBodyShow)),
           ),
-          Text(
-            context.i18n(TranslationKey.callResponseLargeBodyShowWarning),
-          ),
+          Text(context.i18n(TranslationKey.callResponseLargeBodyShowWarning)),
         ],
       );
     }

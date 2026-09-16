@@ -15,10 +15,7 @@ class FileSaveService {
       return ExportResult(success: true, path: file.path);
     } catch (exception) {
       Utils.log(exception.toString());
-      return ExportResult(
-        success: false,
-        error: ExportResultError.file,
-      );
+      return ExportResult(success: false, error: ExportResultError.file);
     }
   }
 }

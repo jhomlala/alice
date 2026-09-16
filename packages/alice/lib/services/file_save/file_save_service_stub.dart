@@ -5,9 +5,6 @@ class FileSaveService {
     required String fileName,
     required String content,
   }) async {
-    return ExportResult(
-      success: false,
-      error: ExportResultError.file,
-    );
+    return ExportResult(success: false, error: ExportResultError.file);
   }
 }

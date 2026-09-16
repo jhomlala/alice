@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('JsonViewer renders Map correctly', (
-    WidgetTester tester,
-  ) async {
+  testWidgets('JsonViewer renders Map correctly', (WidgetTester tester) async {
     final Map<String, dynamic> testJson = {
       'title': 'Alice',
       'active': true,
@@ -14,9 +12,7 @@ void main() {
 
     await tester.pumpWidget(
       MaterialApp(
-        home: Scaffold(
-          body: JsonViewer(testJson, initiallyExpanded: true),
-        ),
+        home: Scaffold(body: JsonViewer(testJson, initiallyExpanded: true)),
       ),
     );
 
@@ -29,16 +25,12 @@ void main() {
     expect(find.text('123'), findsOneWidget);
   });
 
-  testWidgets('JsonViewer renders List correctly', (
-    WidgetTester tester,
-  ) async {
+  testWidgets('JsonViewer renders List correctly', (WidgetTester tester) async {
     final List<dynamic> testList = ['item1', 42, false];
 
     await tester.pumpWidget(
       MaterialApp(
-        home: Scaffold(
-          body: JsonViewer(testList, initiallyExpanded: true),
-        ),
+        home: Scaffold(body: JsonViewer(testList, initiallyExpanded: true)),
       ),
     );
 
@@ -58,9 +50,7 @@ void main() {
 
     await tester.pumpWidget(
       const MaterialApp(
-        home: Scaffold(
-          body: JsonViewer(jsonString, initiallyExpanded: true),
-        ),
+        home: Scaffold(body: JsonViewer(jsonString, initiallyExpanded: true)),
       ),
     );
 

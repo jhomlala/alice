@@ -47,17 +47,11 @@ class CallOverviewScreen extends StatelessWidget {
               ),
               CallListRow(
                 name: context.i18n(TranslationKey.callOverviewBytesSent),
-                value: ConversionUtils.formatBytes(
-                  call.request?.size ?? 0,
-                ),
+                value: ConversionUtils.formatBytes(call.request?.size ?? 0),
               ),
               CallListRow(
-                name: context.i18n(
-                  TranslationKey.callOverviewBytesReceived,
-                ),
-                value: ConversionUtils.formatBytes(
-                  call.response?.size ?? 0,
-                ),
+                name: context.i18n(TranslationKey.callOverviewBytesReceived),
+                value: ConversionUtils.formatBytes(call.response?.size ?? 0),
               ),
               CallListRow(
                 name: context.i18n(TranslationKey.callOverviewClient),

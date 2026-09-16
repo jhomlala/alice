@@ -52,8 +52,7 @@ class Translations {
         TranslationKey.callRequestQueryParameters: "Query parameters",
         TranslationKey.callRequestQueryParametersEmpty:
             "Query parameters are empty",
-        TranslationKey.callResponseWaitingForResponse:
-            "Awaiting response...",
+        TranslationKey.callResponseWaitingForResponse: "Awaiting response...",
         TranslationKey.callResponseError: "Error",
         TranslationKey.callResponseReceived: "Received:",
         TranslationKey.callResponseBytesReceived: "Bytes received:",
@@ -75,8 +74,7 @@ class Translations {
             ' can render video/image/text body. Response has Content-Type: '
             "[contentType] which can't be handled. If you're feeling lucky you "
             "can try button below to try render body as text, but it may fail.",
-        TranslationKey.callResponseBodyUnknownShow:
-            "Show unsupported body",
+        TranslationKey.callResponseBodyUnknownShow: "Show unsupported body",
         TranslationKey.callsListInspector: "Inspector",
         TranslationKey.callsListLogger: "Logger",
         TranslationKey.callsListDeleteLogsDialogTitle: "Delete logs",
@@ -193,8 +191,7 @@ class Translations {
         TranslationKey.jsonViewerInvalid: "Invalid JSON: ",
         TranslationKey.jsonViewerObject: "Object",
         TranslationKey.jsonViewerArray: "Array",
-        TranslationKey.jsonViewerShowMore:
-            "Show more ([remaining] remaining)",
+        TranslationKey.jsonViewerShowMore: "Show more ([remaining] remaining)",
         TranslationKey.exportFormatDialogTitle: "Select export format",
         TranslationKey.exportFormatTxt: "Export as TXT",
         TranslationKey.exportFormatHar: "Export as HAR",
@@ -204,8 +201,7 @@ class Translations {
         TranslationKey.replayMultipartNotSupported:
             "Multipart/FormData replays are not yet supported.",
         TranslationKey.replaySuccess: "Success",
-        TranslationKey.replaySuccessMessage:
-            "Request replayed successfully",
+        TranslationKey.replaySuccessMessage: "Request replayed successfully",
         TranslationKey.replayError: "Replay failed",
         TranslationKey.replayNotSupportedOnPlatform:
             "Replay is not supported on this platform.",
@@ -275,8 +271,7 @@ class Translations {
             ' może renderować video/image/text. Odpowiedź ma typ zawartości:'
             "[contentType], który nie może być obsłużony.Jeżeli chcesz, możesz "
             "spróbować wyrenderować body jako tekst, ale może to się nie udać.",
-        TranslationKey.callResponseBodyUnknownShow:
-            "Pokaż nieobsługiwane body",
+        TranslationKey.callResponseBodyUnknownShow: "Pokaż nieobsługiwane body",
         TranslationKey.callsListInspector: "Inspektor",
         TranslationKey.callsListLogger: "Logger",
         TranslationKey.callsListDeleteLogsDialogTitle: "Usuń logi",
@@ -344,8 +339,7 @@ class Translations {
         TranslationKey.saveDialogPermissionErrorTitle: "Błąd pozwolenia",
         TranslationKey.saveDialogPermissionErrorDescription:
             "Pozwolenie nieprzyznane. Nie można zapisać logów.",
-        TranslationKey.saveDialogEmptyErrorTitle:
-            "Pusta historia połaczeń",
+        TranslationKey.saveDialogEmptyErrorTitle: "Pusta historia połaczeń",
         TranslationKey.saveDialogEmptyErrorDescription:
             "Nie ma połączeń do zapisania.",
         TranslationKey.saveDialogFileSaveErrorTitle: "Błąd zapisu",
@@ -371,12 +365,10 @@ class Translations {
         TranslationKey.saveLogCompleted: "Zakończono:",
         TranslationKey.saveLogRequest: "Żądanie",
         TranslationKey.saveLogRequestTime: "Czas żądania:",
-        TranslationKey.saveLogRequestContentType:
-            "Typ zawartości żądania:",
+        TranslationKey.saveLogRequestContentType: "Typ zawartości żądania:",
         TranslationKey.saveLogRequestCookies: "Ciasteczka żądania:",
         TranslationKey.saveLogRequestHeaders: "Heady żądania",
-        TranslationKey.saveLogRequestQueryParams:
-            "Parametry query żądania",
+        TranslationKey.saveLogRequestQueryParams: "Parametry query żądania",
         TranslationKey.saveLogRequestSize: "Rozmiar żądania:",
         TranslationKey.saveLogRequestBody: "Body żądania:",
         TranslationKey.saveLogResponse: "Odpowiedź",
@@ -395,8 +387,7 @@ class Translations {
         TranslationKey.jsonViewerInvalid: "Nieprawidłowy JSON: ",
         TranslationKey.jsonViewerObject: "Obiekt",
         TranslationKey.jsonViewerArray: "Tablica",
-        TranslationKey.jsonViewerShowMore:
-            "Pokaż więcej (zostało [remaining])",
+        TranslationKey.jsonViewerShowMore: "Pokaż więcej (zostało [remaining])",
         TranslationKey.exportFormatDialogTitle: "Wybierz format eksportu",
         TranslationKey.exportFormatTxt: "Eksportuj jako TXT",
         TranslationKey.exportFormatHar: "Eksportuj jako HAR",

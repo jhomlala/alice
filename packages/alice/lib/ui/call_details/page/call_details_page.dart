@@ -20,11 +20,7 @@ class CallDetailsPage extends StatefulWidget {
   final AliceHttpCall call;
   final AliceCore core;
 
-  const CallDetailsPage({
-    required this.call,
-    required this.core,
-    super.key,
-  });
+  const CallDetailsPage({required this.call, required this.core, super.key});
 
   @override
   State<StatefulWidget> createState() => _AliceCallDetailsPageState();

@@ -66,9 +66,7 @@ class AliceParser {
         return context.i18n(TranslationKey.callRequestBodyEmpty);
       }
 
-      String bodyContent = context.i18n(
-        TranslationKey.callRequestBodyEmpty,
-      );
+      String bodyContent = context.i18n(TranslationKey.callRequestBodyEmpty);
 
       if (contentType == null ||
           !contentType.toLowerCase().contains(_applicationJson)) {

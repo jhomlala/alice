@@ -6,18 +6,12 @@ void main() {
   group("Translations", () {
     test("should return translated value", () {
       expect(
-        Translations.get(
-          languageCode: "en",
-          key: TranslationKey.saveLogId,
-        ),
+        Translations.get(languageCode: "en", key: TranslationKey.saveLogId),
         "Id:",
       );
 
       expect(
-        Translations.get(
-          languageCode: "en",
-          key: TranslationKey.logsEmpty,
-        ),
+        Translations.get(languageCode: "en", key: TranslationKey.logsEmpty),
         "There are no logs to show",
       );
     });
@@ -26,18 +20,12 @@ void main() {
       "should return english translation when there's no translation found",
       () {
         expect(
-          Translations.get(
-            languageCode: "xx",
-            key: TranslationKey.saveLogId,
-          ),
+          Translations.get(languageCode: "xx", key: TranslationKey.saveLogId),
           "Id:",
         );
 
         expect(
-          Translations.get(
-            languageCode: "xx",
-            key: TranslationKey.logsEmpty,
-          ),
+          Translations.get(languageCode: "xx", key: TranslationKey.logsEmpty),
           "There are no logs to show",
         );
       },
@@ -45,10 +33,7 @@ void main() {
 
     test("should return translated key for other languages", () {
       expect(
-        Translations.get(
-          languageCode: "pl",
-          key: TranslationKey.logsEmpty,
-        ),
+        Translations.get(languageCode: "pl", key: TranslationKey.logsEmpty),
         "Brak rezultatów",
       );
 
@@ -79,17 +64,11 @@ void main() {
 
     test("should return translated value for replay key", () {
       expect(
-        Translations.get(
-          languageCode: "en",
-          key: TranslationKey.replay,
-        ),
+        Translations.get(languageCode: "en", key: TranslationKey.replay),
         "♻️ Replay",
       );
       expect(
-        Translations.get(
-          languageCode: "pl",
-          key: TranslationKey.replay,
-        ),
+        Translations.get(languageCode: "pl", key: TranslationKey.replay),
         "♻️ Ponowne",
       );
     });

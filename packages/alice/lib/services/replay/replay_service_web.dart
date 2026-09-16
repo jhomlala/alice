@@ -19,9 +19,7 @@ class ReplayServiceImpl implements ReplayService {
     AliceGeneralDialog.show(
       context: context,
       title: context.i18n(TranslationKey.callDetailsError),
-      description: context.i18n(
-        TranslationKey.replayNotSupportedOnPlatform,
-      ),
+      description: context.i18n(TranslationKey.replayNotSupportedOnPlatform),
     );
   }
 }
