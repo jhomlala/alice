@@ -1,5 +1,7 @@
 ## Unreleased
 
+* Fixed Flutter Web WASM compatibility by isolating `share_plus` behind conditional imports.
+* Added clipboard fallback for sharing logs on Web platforms.
 * Added advanced search filters in inspector UI (e.g. `status:200`, `method:GET`, `host:google.com`, `client:dio`, `duration:100`).
 * Added search help dialog explaining advanced filter syntax.
 * Added unit tests for advanced search filters and translations.
