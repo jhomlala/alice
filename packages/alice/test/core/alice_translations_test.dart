@@ -60,5 +60,21 @@ void main() {
         "Żądanie",
       );
     });
+    test("should return translated value for new search help keys", () {
+      expect(
+        AliceTranslations.get(
+          languageCode: "en",
+          key: AliceTranslationKey.searchHelpTitle,
+        ),
+        "Advanced Search",
+      );
+      expect(
+        AliceTranslations.get(
+          languageCode: "pl",
+          key: AliceTranslationKey.searchHelpTitle,
+        ),
+        "Zaawansowane wyszukiwanie",
+      );
+    });
   });
 }

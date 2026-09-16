@@ -1,6 +1,7 @@
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/ui/calls_list/model/alice_calls_list_sort_option.dart';
+import 'package:alice/ui/calls_list/model/alice_search_filter.dart';
 import 'package:alice/ui/calls_list/widget/alice_calls_list_screen.dart';
 import 'package:alice/ui/calls_list/widget/alice_empty_logs_widget.dart';
 import 'package:material_ui/material_ui.dart';
@@ -42,10 +43,8 @@ class _AliceInspectorScreenState extends State<AliceInspectorScreen>
         final List<AliceHttpCall> calls = [...?snapshot.data];
         final String query = widget.queryTextEditingController.text.trim();
         if (query.isNotEmpty) {
-          calls.removeWhere(
-            (AliceHttpCall call) =>
-                !call.endpoint.toLowerCase().contains(query.toLowerCase()),
-          );
+          final filter = AliceSearchFilter.parse(query);
+          calls.removeWhere((call) => !filter.apply(call));
         }
         if (calls.isNotEmpty) {
           return AliceCallsListScreen(

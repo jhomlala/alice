@@ -87,7 +87,17 @@ class AliceTranslations {
         AliceTranslationKey.callsListDeleteCallsDialogTitle: "Delete calls",
         AliceTranslationKey.callsListDeleteCallsDialogDescription:
             "Do you want to delete HTTP calls?",
-        AliceTranslationKey.callsListSearchHint: "Search HTTP call...",
+        AliceTranslationKey.callsListSearchHint:
+            "Search (e.g. status:200 method:GET)",
+        AliceTranslationKey.searchHelpTitle: "Advanced Search",
+        AliceTranslationKey.searchHelpDescription:
+            "You can use advanced syntax to filter calls:\n\n"
+            "• status:200 (Filter by HTTP status)\n"
+            "• method:GET (Filter by HTTP method)\n"
+            "• duration:>1000 (Filter by duration in ms. Supports <, >, =)\n"
+            "• host:google.com (Filter by server host)\n"
+            "• client:dio (Filter by HTTP client)\n\n"
+            "Example: \"status:500 method:POST api/users\"",
         AliceTranslationKey.callsListSort: "Sort",
         AliceTranslationKey.callsListDelete: "Delete",
         AliceTranslationKey.callsListStats: "Stats",
@@ -268,7 +278,17 @@ class AliceTranslations {
         AliceTranslationKey.callsListDeleteCallsDialogTitle: "Usuń połączenia",
         AliceTranslationKey.callsListDeleteCallsDialogDescription:
             "Czy chcesz usunąć zapisane połaczenia HTTP?",
-        AliceTranslationKey.callsListSearchHint: "Szukaj połączenia HTTP...",
+        AliceTranslationKey.callsListSearchHint:
+            "Szukaj (np. status:200 method:GET)",
+        AliceTranslationKey.searchHelpTitle: "Zaawansowane wyszukiwanie",
+        AliceTranslationKey.searchHelpDescription:
+            "Możesz użyć zaawansowanej składni do filtrowania połączeń:\n\n"
+            "• status:200 (Filtruj po statusie HTTP)\n"
+            "• method:GET (Filtruj po metodzie HTTP)\n"
+            "• duration:>1000 (Filtruj po czasie w ms. Wspiera <, >, =)\n"
+            "• host:google.com (Filtruj po hoście serwera)\n"
+            "• client:dio (Filtruj po kliencie HTTP)\n\n"
+            "Przykład: \"status:500 method:POST api/users\"",
         AliceTranslationKey.callsListSort: "Sortuj",
         AliceTranslationKey.callsListDelete: "Usuń",
         AliceTranslationKey.callsListStats: "Statystyki",

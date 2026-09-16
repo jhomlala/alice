@@ -110,6 +110,11 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
                     ),
                   ]
                   : <Widget>[
+                    if (_searchEnabled)
+                      IconButton(
+                        icon: const Icon(Icons.help_outline),
+                        onPressed: _showSearchHelpDialog,
+                      ),
                     IconButton(
                       icon: const Icon(Icons.search),
                       onPressed: _onSearchPressed,
@@ -200,6 +205,15 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
       _queryTextEditingController.text = '';
     }
   });
+
+  /// Displays dialog with search help.
+  void _showSearchHelpDialog() {
+    AliceGeneralDialog.show(
+      context: context,
+      title: context.i18n(AliceTranslationKey.searchHelpTitle),
+      description: context.i18n(AliceTranslationKey.searchHelpDescription),
+    );
+  }
 
   /// Called on tab has been changed.
   void _onTabChanged(int index) => setState(() {
