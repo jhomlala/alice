@@ -17,8 +17,8 @@ void main() {
     context = BuildContextMock();
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(channel, (MethodCall methodCall) async {
-      return null;
-    });
+          return null;
+        });
   });
 
   group('AliceShareHelper', () {

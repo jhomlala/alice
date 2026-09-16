@@ -13,11 +13,7 @@ class AliceShareProvider {
     await Clipboard.setData(ClipboardData(text: text));
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            context.i18n(AliceTranslationKey.logsCopied),
-          ),
-        ),
+        SnackBar(content: Text(context.i18n(AliceTranslationKey.logsCopied))),
       );
     }
   }
