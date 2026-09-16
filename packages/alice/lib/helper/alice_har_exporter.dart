@@ -4,7 +4,7 @@ import 'package:alice/helper/alice_exporter.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:package_info_plus/package_info_plus.dart';
+import 'package:alice/utils/package_info/package_info_provider.dart';
 
 class AliceHarExporter implements AliceExporter {
   @override
@@ -15,7 +15,7 @@ class AliceHarExporter implements AliceExporter {
     required BuildContext? context,
     required List<AliceHttpCall> calls,
   }) async {
-    final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    final packageInfo = await getPackageInfo();
 
     final Map<String, dynamic> har = {
       'log': {

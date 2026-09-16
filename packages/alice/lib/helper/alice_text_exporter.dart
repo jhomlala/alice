@@ -11,7 +11,7 @@ import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/utils/alice_parser.dart';
 import 'package:alice/utils/curl.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:package_info_plus/package_info_plus.dart';
+import 'package:alice/utils/package_info/package_info_provider.dart';
 
 class AliceTextExporter implements AliceExporter {
   static const JsonEncoder _encoder = JsonEncoder.withIndent('  ');
@@ -38,7 +38,7 @@ class AliceTextExporter implements AliceExporter {
 
   /// Builds log string based on data collected from package info.
   Future<String> _buildAliceLog({required BuildContext context}) async {
-    final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    final packageInfo = await getPackageInfo();
 
     return '${context.i18n(AliceTranslationKey.saveHeaderTitle)}\n'
         '${context.i18n(AliceTranslationKey.saveHeaderAppName)}  ${packageInfo.appName}\n'

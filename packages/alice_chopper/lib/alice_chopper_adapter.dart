@@ -1,6 +1,5 @@
 import 'dart:async' show FutureOr;
 import 'dart:convert' show utf8;
-import 'dart:io' show HttpHeaders;
 
 import 'package:alice/model/alice_form_data_file.dart';
 import 'package:alice/model/alice_from_data_field.dart';
@@ -64,7 +63,7 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
               ..time = DateTime.now()
               ..headers = chain.request.headers
               ..contentType =
-                  chain.request.headers[HttpHeaders.contentTypeHeader] ??
+                  chain.request.headers['content-type'] ??
                   'unknown'
               ..formDataFields =
                   chain.request.parts
