@@ -2,6 +2,7 @@
 
 import 'package:alice/helper/alice_exporter.dart';
 import 'package:alice/helper/alice_permission_helper.dart';
+import 'package:alice/helper/alice_share_helper.dart';
 import 'package:alice/helper/alice_text_exporter.dart';
 import 'package:alice/helper/file_save/file_save_helper.dart';
 import 'package:alice/model/alice_export_result.dart';
@@ -11,7 +12,6 @@ import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/ui/common/alice_loading_dialog.dart';
 import 'package:alice/utils/curl.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:share_plus/share_plus.dart';
 
 class AliceExportHelper {
   static const String _fileName = "alice_log";
@@ -36,12 +36,11 @@ class AliceExportHelper {
         );
       }
 
-      await SharePlus.instance.share(
-        ShareParams(
-          text: callLog,
-          subject: context.i18n(AliceTranslationKey.emailSubject),
-          sharePositionOrigin: sharePositionOrigin,
-        ),
+      await AliceShareHelper.share(
+        context: context,
+        text: callLog,
+        subject: context.i18n(AliceTranslationKey.emailSubject),
+        sharePositionOrigin: sharePositionOrigin,
       );
 
       return AliceExportResult(success: true);
@@ -56,12 +55,11 @@ class AliceExportHelper {
     Rect? sharePositionOrigin,
   }) async {
     final curl = Curl.getCurlCommand(call);
-    await SharePlus.instance.share(
-      ShareParams(
-        text: curl,
-        subject: context.i18n(AliceTranslationKey.emailSubject),
-        sharePositionOrigin: sharePositionOrigin,
-      ),
+    await AliceShareHelper.share(
+      context: context,
+      text: curl,
+      subject: context.i18n(AliceTranslationKey.emailSubject),
+      sharePositionOrigin: sharePositionOrigin,
     );
 
     return AliceExportResult(success: true);
