@@ -9,12 +9,13 @@ void main() {
     late AliceHttpCall call;
 
     setUp(() {
-      call = MockedData.getFilledHttpCall()
-        ..method = "GET"
-        ..endpoint = "/api/users"
-        ..server = "https://google.com"
-        ..client = "Dio"
-        ..duration = 150;
+      call =
+          MockedData.getFilledHttpCall()
+            ..method = "GET"
+            ..endpoint = "/api/users"
+            ..server = "https://google.com"
+            ..client = "Dio"
+            ..duration = 150;
       call.response?.status = 200;
     });
 
@@ -67,13 +68,13 @@ void main() {
 
       final filter2 = AliceSearchFilter.parse("duration:200");
       expect(filter2.apply(call), false);
-      
+
       final filter3 = AliceSearchFilter.parse("duration:>100");
       expect(filter3.apply(call), true);
-      
+
       final filter4 = AliceSearchFilter.parse("duration:<100");
       expect(filter4.apply(call), false);
-      
+
       final filter5 = AliceSearchFilter.parse("duration:=150");
       expect(filter5.apply(call), true);
     });
@@ -108,6 +109,62 @@ void main() {
     test("should handle empty query", () {
       final filter = AliceSearchFilter.parse("");
       expect(filter.apply(call), true);
+    });
+
+    group("Edge Cases and Complex Scenarios", () {
+      test(
+        "should use the last filter if multiple of the same type are provided",
+        () {
+          final filter = AliceSearchFilter.parse("method:POST method:GET");
+          expect(filter.method, "get");
+          expect(filter.apply(call), true);
+
+          final filter2 = AliceSearchFilter.parse("status:404 status:200");
+          expect(filter2.status, "200");
+          expect(filter2.apply(call), true);
+        },
+      );
+
+      test("should handle invalid duration gracefully", () {
+        final filter = AliceSearchFilter.parse("duration:abc");
+        expect(
+          filter.apply(call),
+          true,
+        ); // Invalid duration should not filter out
+
+        final filter2 = AliceSearchFilter.parse("duration:>xyz");
+        expect(filter2.apply(call), true);
+      });
+
+      test("should handle multiple text terms", () {
+        final filter = AliceSearchFilter.parse("api users");
+        expect(filter.text, "api users");
+        expect(filter.apply(call), true);
+
+        final filter2 = AliceSearchFilter.parse("method:GET api users");
+        expect(filter2.method, "get");
+        expect(filter2.text, "api users");
+        expect(filter2.apply(call), true);
+      });
+
+      test("should handle values with special characters in text search", () {
+        final filter = AliceSearchFilter.parse("/api/users?id=1");
+        expect(filter.text, "/api/users?id=1");
+        // endpoint is /api/users, so this won't match unless the endpoint includes query params
+        // MockedData.getFilledHttpCall sets endpoint to /test
+        call.endpoint = "/api/users?id=1";
+        expect(filter.apply(call), true);
+      });
+
+      test("should handle keys without values or malformed filters", () {
+        final filter = AliceSearchFilter.parse("method: status: host:");
+        // The regex (method|status|host|server|client|duration):([^\s]+)
+        // will not match "method: " because ([^\s]+) requires at least one non-space char.
+        expect(filter.method, isNull);
+        expect(filter.text, "method: status: host:");
+        // It won't match /api/users because it contains "method:" etc.
+        expect(filter.apply(call), false);
+      });
     });
   });
 }

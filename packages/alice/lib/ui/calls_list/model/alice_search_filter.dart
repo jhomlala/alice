@@ -88,7 +88,12 @@ class AliceSearchFilter {
       }
     }
     if (text != null && text!.isNotEmpty) {
-      return call.endpoint.toLowerCase().contains(text!);
+      final terms = text!.split(' ').where((term) => term.isNotEmpty);
+      for (final term in terms) {
+        if (!call.endpoint.toLowerCase().contains(term)) {
+          return false;
+        }
+      }
     }
     return true;
   }

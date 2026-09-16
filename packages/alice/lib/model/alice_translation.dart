@@ -70,6 +70,8 @@ enum AliceTranslationKey {
   callsListDeleteCallsDialogTitle,
   callsListDeleteCallsDialogDescription,
   callsListSearchHint,
+  searchHelpTitle,
+  searchHelpDescription,
   callsListSort,
   callsListDelete,
   callsListStats,
