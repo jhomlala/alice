@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/model/alice_form_data_file.dart';
-import 'package:alice/model/alice_from_data_field.dart';
+import 'package:alice/model/alice_form_data_field.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';

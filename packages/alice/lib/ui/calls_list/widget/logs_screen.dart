@@ -1,7 +1,7 @@
 import 'package:alice/services/logger/alice_logger.dart';
 import 'package:alice/ui/calls_list/widget/empty_logs_widget.dart';
 import 'package:alice/ui/calls_list/widget/log_list_widget.dart';
-import 'package:alice/ui/calls_list/widget/raw_log_list_widger.dart';
+import 'package:alice/ui/calls_list/widget/raw_log_list_widget.dart';
 import 'package:material_ui/material_ui.dart';
 
 /// Screen hosted in calls list which displays logs list.

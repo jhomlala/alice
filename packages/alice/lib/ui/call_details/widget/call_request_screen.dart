@@ -1,6 +1,6 @@
 import 'package:alice/utils/conversion_utils.dart';
 import 'package:alice/model/alice_form_data_file.dart';
-import 'package:alice/model/alice_from_data_field.dart';
+import 'package:alice/model/alice_form_data_field.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/translation.dart';
 import 'package:alice/ui/call_details/widget/call_list_row.dart';
