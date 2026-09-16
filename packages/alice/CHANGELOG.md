@@ -1,4 +1,4 @@
-## Unreleased
+## 1.6.0
 
 * Fixed Flutter Web WASM compatibility by isolating `share_plus` behind conditional imports.
 * Added clipboard fallback for sharing logs on Web platforms.

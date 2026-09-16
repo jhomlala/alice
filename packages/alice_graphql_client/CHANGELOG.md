@@ -1,3 +1,7 @@
+## 1.0.3
+
+* Updated `alice` dependency to `^1.6.0`.
+
 ## 1.0.2
 
 * Added example README.
