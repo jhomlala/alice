@@ -169,4 +169,9 @@ enum AliceTranslationKey {
   exportFormatCancel,
   saveLoading,
   replay,
+  replayMultipartNotSupported,
+  replaySuccess,
+  replaySuccessMessage,
+  replayError,
+  replayNotSupportedOnPlatform,
 }

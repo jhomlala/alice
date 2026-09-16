@@ -6,6 +6,8 @@ import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_request.dart';
 import 'package:alice/model/alice_http_response.dart';
+import 'package:alice/model/alice_translation.dart';
+import 'package:alice/ui/common/alice_context_ext.dart';
 import 'package:alice/ui/common/alice_dialog.dart';
 import 'package:flutter/material.dart';
 
@@ -23,8 +25,10 @@ class AliceReplayHelperImpl implements AliceReplayHelper {
         originalCall.request!.formDataFiles!.isNotEmpty) {
       AliceGeneralDialog.show(
         context: context,
-        title: 'Error',
-        description: 'Multipart/FormData replays are not yet supported.',
+        title: context.i18n(AliceTranslationKey.callDetailsError),
+        description: context.i18n(
+          AliceTranslationKey.replayMultipartNotSupported,
+        ),
       );
       return;
     }
@@ -143,8 +147,8 @@ class AliceReplayHelperImpl implements AliceReplayHelper {
       if (context.mounted) {
         AliceGeneralDialog.show(
           context: context,
-          title: 'Success',
-          description: 'Request replayed successfully',
+          title: context.i18n(AliceTranslationKey.replaySuccess),
+          description: context.i18n(AliceTranslationKey.replaySuccessMessage),
         );
       }
     } catch (error, stackTrace) {
@@ -162,8 +166,8 @@ class AliceReplayHelperImpl implements AliceReplayHelper {
       if (context.mounted) {
         AliceGeneralDialog.show(
           context: context,
-          title: 'Error',
-          description: 'Replay failed: $error',
+          title: context.i18n(AliceTranslationKey.callDetailsError),
+          description: '${context.i18n(AliceTranslationKey.replayError)}: $error',
         );
       }
     }
