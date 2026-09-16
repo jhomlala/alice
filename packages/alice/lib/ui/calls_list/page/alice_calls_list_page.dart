@@ -279,6 +279,13 @@ class _AliceCallsListPageState extends State<AliceCallsListPage>
     );
 
     if (result.success && result.path != null) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Exported successfully to ${result.path}'),
+          ),
+        );
+      }
       AliceGeneralDialog.show(
         context: context,
         title: context.i18n(AliceTranslationKey.saveSuccessTitle),
