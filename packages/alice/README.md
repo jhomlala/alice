@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/logo.png" width="250px">
+<img src="https://raw.githubusercontent.com/jhomlala/alice/master/assets/media/logo.png" width="250px">
 </p>
 
 # Alice - HTTP Inspector for Flutter
@@ -28,16 +28,28 @@ Whether you are hunting down a broken API payload, checking headers, or monitori
 
 <table>
   <tr>
-    <td><img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/1.png" alt="Calls List"></td>
-    <td><img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/2.png" alt="Request Details"></td>
-    <td><img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/3.png" alt="Response Details"></td>
-    <td><img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/4.png" alt="Error Details"></td>
+    <td><img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/assets/media/01_calls_list.png" alt="Calls List"></td>
+    <td><img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/assets/media/02_request_details.png" alt="Request Details"></td>
+    <td><img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/assets/media/03_json_viewer.png" alt="JSON Viewer"></td>
+    <td><img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/assets/media/04_timeline.png" alt="Timeline"></td>
   </tr>
   <tr>
-    <td><img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/5.png" alt="Stats"></td>
-    <td><img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/7.png" alt="Search"></td>
-    <td><img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/8.png" alt="Dark Mode"></td>
-    <td><img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/packages/alice/media/10.png" alt="Export"></td>
+    <td align="center"><b>Calls List</b></td>
+    <td align="center"><b>Request Details</b></td>
+    <td align="center"><b>JSON Viewer</b></td>
+    <td align="center"><b>Timeline</b></td>
+  </tr>
+  <tr>
+    <td><img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/assets/media/05_stats_dashboard.png" alt="Stats Dashboard"></td>
+    <td><img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/assets/media/06_advanced_search.png" alt="Advanced Search"></td>
+    <td><img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/assets/media/07_request_replay.png" alt="Request Replay"></td>
+    <td><img width="250px" src="https://raw.githubusercontent.com/jhomlala/alice/master/assets/media/08_dark_mode.png" alt="Dark Mode"></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Stats Dashboard</b></td>
+    <td align="center"><b>Advanced Search</b></td>
+    <td align="center"><b>Request Replay</b></td>
+    <td align="center"><b>Dark Mode</b></td>
   </tr>
 </table>
 
@@ -46,17 +58,19 @@ Whether you are hunting down a broken API payload, checking headers, or monitori
 **🔍 Deep Inspection**
 * Detailed logs for every HTTP call (Headers, Body, Query Parameters, Timestamps)
 * Interactive tree-based JSON viewer for request and response bodies
+* Gantt chart Timeline to visually inspect staggered HTTP calls
 * Powerful HTTP calls search (with advanced syntax filters) and filtering
-* Statistics overview (bandwidth, success rate, call counts)
+* Statistics dashboard (bandwidth, success rate, call counts, ratio bars)
 * Flutter & Android native log integration
 
 **🛠️ Broad Compatibility**
 * Supports all major Dart HTTP clients: **Dio**, **Retrofit**, **http**, **HttpClient (dart:io)**, **Chopper**, and **GraphQL**
 
 **📱 UX & Workflow**
+* Request Replay - resend HTTP calls directly from the inspector
 * Shake the device to open the inspector instantly
 * System notifications on HTTP calls
-* Export and save HTTP calls to file (TXT or HAR) for easy sharing
+* Export and save HTTP calls to file (TXT or **HAR**) for easy sharing
 * Persistent storage support (via ObjectBox)
 
 ## Quick Start
@@ -67,7 +81,7 @@ Add the main Alice package (and any specific client plugins you need) to your `p
 dependencies:
   alice: ^1.6.0
   # Add plugins as needed, e.g.:
-  # alice_dio: ^1.3.0
+  # alice_dio: ^1.2.4
 ```
 
 ### 2. Initialize Alice
