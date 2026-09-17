@@ -101,9 +101,20 @@ class _OverviewSection extends StatelessWidget {
       }
     }
     return [
-      if (success > 0) _RatioData(label: 'Success', value: success, color: AliceAppTheme.green),
-      if (redirect > 0) _RatioData(label: 'Redirect', value: redirect, color: AliceAppTheme.orange),
-      if (error > 0) _RatioData(label: 'Error', value: error, color: AliceAppTheme.red),
+      if (success > 0)
+        _RatioData(
+          label: 'Success',
+          value: success,
+          color: AliceAppTheme.green,
+        ),
+      if (redirect > 0)
+        _RatioData(
+          label: 'Redirect',
+          value: redirect,
+          color: AliceAppTheme.orange,
+        ),
+      if (error > 0)
+        _RatioData(label: 'Error', value: error, color: AliceAppTheme.red),
     ];
   }
 
@@ -114,7 +125,13 @@ class _OverviewSection extends StatelessWidget {
       counts[call.method] = (counts[call.method] ?? 0) + 1;
     }
     return counts.entries
-        .map((e) => _RatioData(label: e.key, value: e.value, color: AliceAppTheme.grey))
+        .map(
+          (e) => _RatioData(
+            label: e.key,
+            value: e.value,
+            color: AliceAppTheme.grey,
+          ),
+        )
         .toList();
   }
 }
@@ -135,9 +152,17 @@ class _MetricsGrid extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _MetricText(title: context.i18n(TranslationKey.statsTotalRequests), value: '${calls.length}'),
+                _MetricText(
+                  title: context.i18n(TranslationKey.statsTotalRequests),
+                  value: '${calls.length}',
+                ),
                 const SizedBox(height: 16),
-                _MetricText(title: 'Total Data', value: ConversionUtils.formatBytes(_getBytesSent(calls) + _getBytesReceived(calls))),
+                _MetricText(
+                  title: 'Total Data',
+                  value: ConversionUtils.formatBytes(
+                    _getBytesSent(calls) + _getBytesReceived(calls),
+                  ),
+                ),
               ],
             ),
           ),
@@ -145,9 +170,17 @@ class _MetricsGrid extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _MetricText(title: context.i18n(TranslationKey.statsAverageRequestTime), value: ConversionUtils.formatTime(_getAverageRequestTime(calls))),
+                _MetricText(
+                  title: context.i18n(TranslationKey.statsAverageRequestTime),
+                  value: ConversionUtils.formatTime(
+                    _getAverageRequestTime(calls),
+                  ),
+                ),
                 const SizedBox(height: 16),
-                _MetricText(title: context.i18n(TranslationKey.statsPendingRequests), value: '${_getPendingRequests(calls)}'),
+                _MetricText(
+                  title: context.i18n(TranslationKey.statsPendingRequests),
+                  value: '${_getPendingRequests(calls)}',
+                ),
               ],
             ),
           ),
@@ -156,11 +189,14 @@ class _MetricsGrid extends StatelessWidget {
     );
   }
 
-  int _getPendingRequests(List<AliceHttpCall> calls) => calls.where((c) => c.loading).length;
+  int _getPendingRequests(List<AliceHttpCall> calls) =>
+      calls.where((c) => c.loading).length;
 
-  int _getBytesSent(List<AliceHttpCall> calls) => calls.fold(0, (sum, c) => sum + (c.request?.size ?? 0));
+  int _getBytesSent(List<AliceHttpCall> calls) =>
+      calls.fold(0, (sum, c) => sum + (c.request?.size ?? 0));
 
-  int _getBytesReceived(List<AliceHttpCall> calls) => calls.fold(0, (sum, c) => sum + (c.response?.size ?? 0));
+  int _getBytesReceived(List<AliceHttpCall> calls) =>
+      calls.fold(0, (sum, c) => sum + (c.response?.size ?? 0));
 
   int _getAverageRequestTime(List<AliceHttpCall> calls) {
     int timeSum = 0;
@@ -192,23 +228,37 @@ class _RatioSection extends StatelessWidget {
           Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
           if (total == 0)
-            const Text('No data available', style: TextStyle(color: AliceAppTheme.grey))
+            const Text(
+              'No data available',
+              style: TextStyle(color: AliceAppTheme.grey),
+            )
           else
             Wrap(
               spacing: 16,
               runSpacing: 4,
-              children: data.map((item) {
-                final percentage = (item.value / total * 100).toStringAsFixed(1);
-                return RichText(
-                  text: TextSpan(
-                    style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color, fontSize: 13),
-                    children: [
-                      TextSpan(text: '${item.label}: ', style: TextStyle(color: item.color, fontWeight: FontWeight.bold)),
-                      TextSpan(text: '$percentage% (${item.value})'),
-                    ],
-                  ),
-                );
-              }).toList(),
+              children:
+                  data.map((item) {
+                    final percentage = (item.value / total * 100)
+                        .toStringAsFixed(1);
+                    return RichText(
+                      text: TextSpan(
+                        style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyLarge?.color,
+                          fontSize: 13,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: '${item.label}: ',
+                            style: TextStyle(
+                              color: item.color,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextSpan(text: '$percentage% (${item.value})'),
+                        ],
+                      ),
+                    );
+                  }).toList(),
             ),
         ],
       ),
@@ -252,14 +302,28 @@ class _InsightsSection extends StatelessWidget {
   }
 
   List<AliceHttpCall> _getTopErrors(List<AliceHttpCall> calls, int count) {
-    final list = calls.where((c) => (c.response?.status.gte(400) ?? false) || c.error != null || c.response?.status == 0 || c.response?.status == -1).toList();
+    final list =
+        calls
+            .where(
+              (c) =>
+                  (c.response?.status.gte(400) ?? false) ||
+                  c.error != null ||
+                  c.response?.status == 0 ||
+                  c.response?.status == -1,
+            )
+            .toList();
     list.sort((a, b) => b.createdTime.compareTo(a.createdTime));
     return list.take(count).toList();
   }
 
-  List<AliceHttpCall> _getLargestPayloads(List<AliceHttpCall> calls, int count) {
+  List<AliceHttpCall> _getLargestPayloads(
+    List<AliceHttpCall> calls,
+    int count,
+  ) {
     final list = calls.where((c) => c.response != null).toList();
-    list.sort((a, b) => (b.response?.size ?? 0).compareTo(a.response?.size ?? 0));
+    list.sort(
+      (a, b) => (b.response?.size ?? 0).compareTo(a.response?.size ?? 0),
+    );
     return list.take(count).toList();
   }
 }
@@ -269,7 +333,11 @@ class _InsightList extends StatelessWidget {
   final List<AliceHttpCall> calls;
   final AliceCore aliceCore;
 
-  const _InsightList({required this.title, required this.calls, required this.aliceCore});
+  const _InsightList({
+    required this.title,
+    required this.calls,
+    required this.aliceCore,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -279,15 +347,28 @@ class _InsightList extends StatelessWidget {
       children: [
         Container(
           width: double.infinity,
-          color: Theme.of(context).brightness == Brightness.dark ? Colors.grey[900] : Colors.grey[200],
+          color:
+              Theme.of(context).brightness == Brightness.dark
+                  ? Colors.grey[900]
+                  : Colors.grey[200],
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: AliceAppTheme.grey)),
+          child: Text(
+            title,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 13,
+              color: AliceAppTheme.grey,
+            ),
+          ),
         ),
         const Divider(height: 1, color: AliceAppTheme.grey),
-        ...calls.map((call) => CallListItemWidget(
-              call,
-              (call) => Navigation.navigateToCallDetails(call: call, core: aliceCore),
-            )),
+        ...calls.map(
+          (call) => CallListItemWidget(
+            call,
+            (call) =>
+                Navigation.navigateToCallDetails(call: call, core: aliceCore),
+          ),
+        ),
       ],
     );
   }
@@ -296,17 +377,23 @@ class _InsightList extends StatelessWidget {
 class _MetricText extends StatelessWidget {
   final String title;
   final String value;
-  
+
   const _MetricText({required this.title, required this.value});
-  
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: const TextStyle(color: AliceAppTheme.grey, fontSize: 12)),
+        Text(
+          title,
+          style: const TextStyle(color: AliceAppTheme.grey, fontSize: 12),
+        ),
         const SizedBox(height: 2),
-        Text(value, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        Text(
+          value,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        ),
       ],
     );
   }

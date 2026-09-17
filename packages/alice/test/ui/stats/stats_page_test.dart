@@ -10,6 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockAliceCore extends Mock implements AliceCore {}
+
 class MockAliceConfiguration extends Mock implements AliceConfiguration {}
 
 void main() {
@@ -19,17 +20,19 @@ void main() {
   setUp(() {
     mockAliceCore = MockAliceCore();
     mockAliceConfiguration = MockAliceConfiguration();
-    when(() => mockAliceConfiguration.directionality).thenReturn(TextDirection.ltr);
+    when(
+      () => mockAliceConfiguration.directionality,
+    ).thenReturn(TextDirection.ltr);
     when(() => mockAliceCore.configuration).thenReturn(mockAliceConfiguration);
   });
 
-  Widget _createTestWidget(Widget child) {
-    return MaterialApp(
-      home: child,
-    );
+  Widget createTestWidget(Widget child) {
+    return MaterialApp(home: child);
   }
 
-  testWidgets('StatsPage renders overview and insights tabs correctly', (WidgetTester tester) async {
+  testWidgets('StatsPage renders overview and insights tabs correctly', (
+    WidgetTester tester,
+  ) async {
     tester.view.physicalSize = const Size(1000, 4000);
     tester.view.devicePixelRatio = 1.0;
     addTearDown(() {
@@ -45,7 +48,10 @@ void main() {
         ..duration = 1500
         ..loading = false
         ..request = (AliceHttpRequest()..size = 200)
-        ..response = (AliceHttpResponse()..status = 200..size = 1000),
+        ..response =
+            (AliceHttpResponse()
+              ..status = 200
+              ..size = 1000),
       AliceHttpCall(2)
         ..method = 'POST'
         ..server = 'api.example.com'
@@ -54,13 +60,18 @@ void main() {
         ..loading = false
         ..error = (AliceHttpError()..error = 'Timeout')
         ..request = (AliceHttpRequest()..size = 5000)
-        ..response = (AliceHttpResponse()..status = 500..size = 50),
+        ..response =
+            (AliceHttpResponse()
+              ..status = 500
+              ..size = 50),
     ];
 
-    when(() => mockAliceCore.callsStream).thenAnswer((_) => Stream.value(calls));
+    when(
+      () => mockAliceCore.callsStream,
+    ).thenAnswer((_) => Stream.value(calls));
     when(() => mockAliceCore.getCalls()).thenReturn(calls);
 
-    await tester.pumpWidget(_createTestWidget(StatsPage(mockAliceCore)));
+    await tester.pumpWidget(createTestWidget(StatsPage(mockAliceCore)));
     await tester.pumpAndSettle();
 
     // Verify tabs
@@ -80,7 +91,7 @@ void main() {
     expect(find.text('Top 3 Slowest', skipOffstage: false), findsOneWidget);
     expect(find.text('Recent Errors', skipOffstage: false), findsOneWidget);
     expect(find.text('Largest Payloads', skipOffstage: false), findsOneWidget);
-    
+
     // Verify some insight data is rendered
     expect(find.text('/api/v1/users', skipOffstage: false), findsWidgets);
     expect(find.text('/api/v1/upload', skipOffstage: false), findsWidgets);
