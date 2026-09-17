@@ -52,21 +52,21 @@ dev_dependencies:
   mocktail: ^1.0.4
 
 screenshots:
-  - description: 'Alice Logo'
+  - description: 'Alice Network Inspector Logo'
     path: assets/pub/logo.png
-  - description: 'Calls List'
+  - description: 'Main screen showing HTTP calls list'
     path: assets/pub/01_calls_list.png
-  - description: 'Request Details'
+  - description: 'Detailed view of a single HTTP request'
     path: assets/pub/02_request_details.png
-  - description: 'JSON Viewer'
+  - description: 'Interactive JSON tree viewer for request bodies'
     path: assets/pub/03_json_viewer.png
-  - description: 'Timeline'
+  - description: 'Staggered timeline view of HTTP calls'
     path: assets/pub/04_timeline.png
-  - description: 'Stats Dashboard'
+  - description: 'Actionable statistics dashboard for network calls'
     path: assets/pub/05_stats_dashboard.png
-  - description: 'Advanced Search'
+  - description: 'Advanced search filters with syntax support'
     path: assets/pub/06_advanced_search.png
-  - description: 'Request Replay'
+  - description: 'Replaying HTTP requests directly from the inspector'
     path: assets/pub/07_request_replay.png
-  - description: 'Dark Mode'
+  - description: 'Dark mode support for the inspector UI'
     path: assets/pub/08_dark_mode.png
