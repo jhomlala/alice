@@ -1,6 +1,4 @@
-# Migration
-
-## Migration to 1.8.0
+# Migration to 1.8.0
 
 In recent versions, Alice underwent a significant architectural cleanup to improve maintainability and enforce a strict public API:
 
