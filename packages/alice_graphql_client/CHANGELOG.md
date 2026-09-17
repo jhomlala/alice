@@ -1,4 +1,9 @@
-﻿## 1.0.4
+## 1.1.0
+
+* Updated "alice" dependency to ^1.8.0.
+* Migrated to the new strict public API.
+
+## 1.0.4
 
 * Updated alice dependency to ^1.7.0.
 

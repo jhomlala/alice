@@ -1,3 +1,8 @@
+## 1.8.0
+
+* Enforced strict public API by moving internal logic to lib/src.
+* Renamed Utils to AliceUtils.
+* package:alice/alice.dart is now a pure barrel file.
 ## 1.7.1
 
 * Updated README with new screenshots and structure.
