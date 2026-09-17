@@ -1,4 +1,4 @@
-﻿<p align="center">
+<p align="center">
 <img src="https://raw.githubusercontent.com/jhomlala/alice/master/assets/media/logo.png" width="250px">
 </p>
 
@@ -55,7 +55,7 @@ Whether you are hunting down a broken API payload, checking headers, or monitori
 
 ## Key Features
 
-**đź”Ť Deep Inspection**
+**🔍 Deep Inspection**
 * Detailed logs for every HTTP call (Headers, Body, Query Parameters, Timestamps)
 * Interactive tree-based JSON viewer for request and response bodies
 * Gantt chart Timeline to visually inspect staggered HTTP calls
@@ -63,10 +63,10 @@ Whether you are hunting down a broken API payload, checking headers, or monitori
 * Statistics dashboard (bandwidth, success rate, call counts, ratio bars)
 * Flutter & Android native log integration
 
-**đź› ď¸Ź Broad Compatibility**
+**🛠️ Broad Compatibility**
 * Supports all major Dart HTTP clients: **Dio**, **Retrofit**, **http**, **HttpClient (dart:io)**, **Chopper**, and **GraphQL**
 
-**đź“± UX & Workflow**
+**📱 UX & Workflow**
 * Request Replay - resend HTTP calls directly from the inspector
 * Shake the device to open the inspector instantly
 * System notifications on HTTP calls
