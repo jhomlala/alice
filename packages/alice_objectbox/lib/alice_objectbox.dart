@@ -1,18 +1,15 @@
 import 'dart:math' show max;
 
 import 'package:alice/alice.dart';
-import 'package:alice_objectbox/alice_objectboxstore.dart';
+import 'package:alice_objectbox/alice_objectbox_store.dart';
 import 'package:alice_objectbox/extensions/alice_http_call_extension.dart';
 import 'package:alice_objectbox/model/cached_alice_http_call.dart';
 import 'package:alice_objectbox/objectbox.g.dart';
 
 /// Implementation of [AliceStorage] using ObjectBox.
 class AliceObjectBox implements AliceStorage {
-  const AliceObjectBox({
-    required this.store,
-    required this.maxCallsCount,
-  }) : ,
-       assert(maxCallsCount > 0, 'Max calls count should be greater than 0');
+  const AliceObjectBox({required this.store, required this.maxCallsCount})
+    : assert(maxCallsCount > 0, 'Max calls count should be greater than 0');
 
   final AliceObjectBoxStore store;
 
