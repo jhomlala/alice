@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+* Added an interactive Gantt chart Timeline tab to visually inspect staggered HTTP calls over time.
+* Added unit tests for the Timeline screen.
 * Restructured the project to adopt a cleaner architecture:
     * Moved side-effect driven operations (logger, storage, notification, logcat) to `lib/services`.
     * Moved platform abstractions (shake detector, package info) to `lib/services`.

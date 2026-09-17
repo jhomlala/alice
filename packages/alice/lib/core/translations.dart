@@ -77,6 +77,7 @@ class Translations {
         TranslationKey.callResponseBodyUnknownShow: "Show unsupported body",
         TranslationKey.callsListInspector: "Inspector",
         TranslationKey.callsListLogger: "Logger",
+        TranslationKey.callsListTimeline: "Timeline",
         TranslationKey.callsListDeleteLogsDialogTitle: "Delete logs",
         TranslationKey.callsListDeleteLogsDialogDescription:
             "Do you want to clear logs?",
@@ -283,6 +284,7 @@ class Translations {
         TranslationKey.callResponseBodyUnknownShow: "Pokaż nieobsługiwane body",
         TranslationKey.callsListInspector: "Inspektor",
         TranslationKey.callsListLogger: "Logger",
+        TranslationKey.callsListTimeline: "Oś czasu",
         TranslationKey.callsListDeleteLogsDialogTitle: "Usuń logi",
         TranslationKey.callsListDeleteLogsDialogDescription:
             "Czy chcesz usunąc logi?",

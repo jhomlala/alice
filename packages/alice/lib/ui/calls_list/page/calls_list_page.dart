@@ -19,6 +19,7 @@ import 'package:alice/ui/common/export_format_dialog.dart';
 import 'package:alice/ui/common/navigation.dart';
 import 'package:alice/ui/common/page.dart';
 import 'package:alice/ui/calls_list/widget/logs_screen.dart';
+import 'package:alice/ui/calls_list/widget/timeline_screen.dart';
 import 'package:alice/ui/common/theme.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:open_file/open_file.dart';
@@ -132,6 +133,7 @@ class _AliceCallsListPageState extends State<CallsListPage>
         ),
         body: TabBarView(
           controller: _tabController,
+          physics: const NeverScrollableScrollPhysics(),
           children: [
             InspectorScreen(
               aliceCore: aliceCore,
@@ -144,6 +146,10 @@ class _AliceCallsListPageState extends State<CallsListPage>
               scrollController: _scrollController,
               aliceLogger: widget.core.configuration.aliceLogger,
               isAndroidRawLogsEnabled: isAndroidRawLogsEnabled,
+            ),
+            TimelineScreen(
+              aliceCore: aliceCore,
+              onListItemPressed: _onListItemPressed,
             ),
           ],
         ),
@@ -162,6 +168,8 @@ class _AliceCallsListPageState extends State<CallsListPage>
         return context.i18n(TranslationKey.callsListInspector);
       case CallsListTabItem.logger:
         return context.i18n(TranslationKey.callsListLogger);
+      case CallsListTabItem.timeline:
+        return context.i18n(TranslationKey.callsListTimeline);
     }
   }
 
