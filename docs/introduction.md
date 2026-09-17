@@ -35,11 +35,13 @@ While Dart DevTools is excellent for developers actively writing code with a com
 
 Alice goes beyond simple logging by providing a fully-featured UI inside your Flutter app:
 
-* **Detailed Request Logging:** Inspect headers, body, query parameters, and response times for every HTTP call.
+* **Detailed Request Logging:** Inspect headers, body, query parameters, and response times for every HTTP call. Includes an interactive tree-based JSON viewer for payloads.
 * **On-Device Inspector UI:** No need to connect your phone to a computer. Simply view all network traffic directly on the device screen.
 * **Shake to Open:** Easily trigger the inspector at any time by physically shaking your device.
-* **Search and Statistics:** Filter through hundreds of API calls and view basic network usage statistics.
-* **Save & Export:** Save HTTP call data to your device's file system or export the logs for deeper analysis.
+* **Advanced Search & Filtering:** Filter through hundreds of API calls using powerful syntax (e.g., `status:500 method:POST`).
+* **Stats & Timeline:** View a high-level metrics dashboard and a Gantt chart Timeline to visually inspect staggered HTTP calls.
+* **Request Replay:** Resend logged HTTP calls directly from the Alice UI to instantly verify fixes without navigating through your app.
+* **Save & Export:** Export HTTP call data to TXT or HAR (HTTP Archive) formats for deeper analysis in external tools.
 
 ## Extensive Client Support
 

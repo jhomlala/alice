@@ -97,21 +97,3 @@ Check current inspector state (opened/closed) with:
 ```dart
 alice.isInspectorOpened();
 ```
-
-## Search & Filtering
-
-Alice features a powerful search bar in the Inspector UI to help you quickly find specific HTTP calls. You can use plain text to search through request endpoints, or use the advanced syntax filters for pinpoint precision:
-
-- `method:GET` (or POST, PUT, DELETE, etc.)
-- `status:200` (or 404, 500, etc.)
-- `host:google.com` (matches the server/host name)
-- `client:dio` (matches the HTTP client used)
-- `duration:>1000` (finds requests that took longer than 1000ms. Supports `<`, `>`, and `=`)
-
-You can combine multiple filters. For example, typing `status:500 method:POST api/users` will filter for all failed POST requests to the `api/users` endpoint.
-
-## Exporting Calls (HAR & TXT)
-
-Alice allows you to export your captured HTTP calls for offline sharing or analysis. You can trigger this from the overflow menu in the Calls List. Alice supports two formats:
-- **TXT**: A simple, human-readable text file containing the headers, bodies, and metadata of your calls.
-- **HAR (HTTP Archive 1.2)**: An industry-standard JSON-based format. HAR files can be imported into tools like Google Chrome DevTools, Postman, or Charles Proxy for deep analysis.

@@ -4,7 +4,23 @@ const sidebars = {
     {
       type: 'category',
       label: 'Getting Started',
-      items: ['introduction', 'configuration', 'environments', 'advanced-usage', 'platforms'],
+      items: ['introduction', 'configuration', 'environments', 'platforms'],
+    },
+    {
+      type: 'category',
+      label: 'Features',
+      items: [
+        'features/inspector-ui',
+        'features/search-and-filtering',
+        'features/stats-and-timeline',
+        'features/exporting-and-sharing',
+        'features/request-replay',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Advanced Usage',
+      items: ['advanced-usage'],
     },
     {
       type: 'category',
