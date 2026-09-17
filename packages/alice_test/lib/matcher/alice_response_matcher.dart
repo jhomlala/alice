@@ -1,4 +1,4 @@
-import 'package:alice/model/alice_http_response.dart';
+import 'package:alice/alice.dart';
 import 'package:alice_test/matcher/header_matcher.dart';
 import 'package:test/test.dart';
 

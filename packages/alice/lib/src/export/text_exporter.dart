@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 
-import 'package:alice/src/utils/utils.dart';
+import 'package:alice/src/utils/AliceUtils.dart';
 import 'package:alice/src/utils/conversion_utils.dart';
 import 'package:alice/src/export/exporter.dart';
 import 'package:alice/src/model/alice_http_call.dart';
@@ -147,7 +147,7 @@ class TextExporter implements Exporter {
       return await _buildAliceLog(context: context) +
           _buildCallLog(call: call, context: context);
     } catch (exception) {
-      Utils.log("Failed to generate call log: $exception");
+      AliceUtils.log("Failed to generate call log: $exception");
       return null;
     }
   }

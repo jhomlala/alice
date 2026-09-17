@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:alice/alice.dart';
-import 'package:alice/model/alice_configuration.dart';
 import 'package:alice_http_client/alice_http_client_adapter.dart';
 import 'package:alice_http_client/alice_http_client_extensions.dart';
 import 'package:material_ui/material_ui.dart';

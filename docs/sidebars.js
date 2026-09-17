@@ -4,7 +4,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Getting Started',
-      items: ['introduction', 'configuration', 'environments', 'platforms'],
+      items: ['introduction', 'configuration', 'environments', 'platforms', 'migration'],
     },
     {
       type: 'category',

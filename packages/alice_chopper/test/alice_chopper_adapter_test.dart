@@ -1,12 +1,6 @@
 import 'dart:io';
 
-import 'package:alice/core/alice_core.dart';
-import 'package:alice/model/alice_form_data_file.dart';
-import 'package:alice/model/alice_form_data_field.dart';
-import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/model/alice_http_error.dart';
-import 'package:alice/model/alice_http_response.dart';
-import 'package:alice/model/alice_log.dart';
+import 'package:alice/alice.dart';
 import 'package:alice_chopper/alice_chopper_adapter.dart';
 import 'package:alice_test/alice_test.dart';
 import 'package:chopper/chopper.dart';

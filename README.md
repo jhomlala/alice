@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/jhomlala/alice/master/assets/media/logo.png" width="250px">
+<img src="packages/alice/assets/pub/logo.png" width="250px">
 </p>
 
 # Alice - HTTP Inspector for Flutter

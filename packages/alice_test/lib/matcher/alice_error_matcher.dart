@@ -1,4 +1,4 @@
-import 'package:alice/model/alice_http_error.dart';
+import 'package:alice/alice.dart';
 import 'package:test/test.dart';
 
 TypeMatcher<AliceHttpError> buildErrorMatcher({

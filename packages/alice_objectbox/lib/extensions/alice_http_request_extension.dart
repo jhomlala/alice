@@ -1,4 +1,4 @@
-import 'package:alice/model/alice_http_request.dart';
+import 'package:alice/alice.dart';
 import 'package:alice_objectbox/model/cached_alice_http_request.dart';
 
 /// Extension methods for [AliceHttpRequest].

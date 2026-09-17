@@ -1,4 +1,4 @@
-import 'package:alice/model/alice_form_data_file.dart';
+import 'package:alice/alice.dart';
 import 'package:test/test.dart';
 
 class FormDataFileMatcher extends Matcher {

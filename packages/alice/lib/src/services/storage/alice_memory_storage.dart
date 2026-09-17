@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:alice/src/services/storage/alice_storage.dart';
-import 'package:alice/src/utils/utils.dart';
+import 'package:alice/src/utils/AliceUtils.dart';
 import 'package:alice/src/model/alice_http_call.dart';
 import 'package:alice/src/model/alice_http_error.dart';
 import 'package:alice/src/model/alice_http_response.dart';
@@ -86,7 +86,7 @@ class AliceMemoryStorage implements AliceStorage {
     final AliceHttpCall? selectedCall = selectCall(requestId);
 
     if (selectedCall == null) {
-      return Utils.log('Selected call is null');
+      return AliceUtils.log('Selected call is null');
     }
 
     selectedCall.error = error;
@@ -99,7 +99,7 @@ class AliceMemoryStorage implements AliceStorage {
     final AliceHttpCall? selectedCall = selectCall(requestId);
 
     if (selectedCall == null) {
-      return Utils.log('Selected call is null');
+      return AliceUtils.log('Selected call is null');
     }
 
     selectedCall

@@ -1,9 +1,6 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/model/alice_http_error.dart';
-import 'package:alice/model/alice_http_request.dart';
-import 'package:alice/model/alice_http_response.dart';
+import 'package:alice/alice.dart';
 import 'package:alice_objectbox/extensions/alice_http_error_extension.dart';
 import 'package:alice_objectbox/extensions/alice_http_request_extension.dart';
 import 'package:alice_objectbox/extensions/alice_http_response_extension.dart';

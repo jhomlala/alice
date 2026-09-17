@@ -1,10 +1,10 @@
 import 'dart:math' show max;
 
-import 'package:alice/services/storage/alice_storage.dart';
-import 'package:alice/utils/utils.dart';
-import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/model/alice_http_error.dart';
-import 'package:alice/model/alice_http_response.dart';
+import 'package:alice/alice.dart';
+import 'package:alice/alice.dart';
+import 'package:alice/alice.dart';
+import 'package:alice/alice.dart';
+import 'package:alice/alice.dart';
 import 'package:alice_objectbox/alice_objectbox_store.dart';
 import 'package:alice_objectbox/extensions/alice_http_call_extension.dart';
 import 'package:alice_objectbox/model/cached_alice_http_call.dart';
@@ -78,7 +78,7 @@ class AliceObjectBox implements AliceStorage {
 
       _store.httpCalls.put(selectedCall);
     } else {
-      Utils.log('Selected call is null');
+      AliceUtils.log('Selected call is null');
     }
   }
 
@@ -96,7 +96,7 @@ class AliceObjectBox implements AliceStorage {
 
       _store.httpCalls.put(selectedCall);
     } else {
-      Utils.log('Selected call is null');
+      AliceUtils.log('Selected call is null');
     }
   }
 

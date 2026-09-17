@@ -66,3 +66,5 @@ class Alice {
   /// Adds new adapter to Alice.
   void addAdapter(AliceAdapter adapter) => adapter.injectCore(_aliceCore);
 }
+
+export 'package:alice/src/utils/utils.dart';

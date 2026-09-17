@@ -1,8 +1,4 @@
-import 'package:alice/core/alice_core.dart';
-import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/model/alice_http_error.dart';
-import 'package:alice/model/alice_http_response.dart';
-import 'package:alice/model/alice_log.dart';
+import 'package:alice/alice.dart';
 import 'package:alice_http/alice_http_adapter.dart';
 import 'package:alice_http/alice_http_extensions.dart';
 import 'package:alice_test/alice_test.dart';

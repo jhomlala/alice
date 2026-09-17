@@ -1,9 +1,6 @@
 import 'dart:async';
 
 import 'package:alice/alice.dart';
-import 'package:alice/core/alice_adapter.dart';
-import 'package:alice/core/alice_core.dart';
-import 'package:alice/model/alice_http_error.dart';
 import 'package:alice_graphql_client/alice_graphql_client.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gql/language.dart' as lang;

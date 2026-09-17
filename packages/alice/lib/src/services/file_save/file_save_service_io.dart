@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:alice/src/model/export_result.dart';
-import 'package:alice/src/utils/utils.dart';
+import 'package:alice/src/utils/AliceUtils.dart';
 import 'package:path_provider/path_provider.dart';
 
 class FileSaveService {
@@ -14,7 +14,7 @@ class FileSaveService {
       await file.writeAsString(content);
       return ExportResult(success: true, path: file.path);
     } catch (exception) {
-      Utils.log(exception.toString());
+      AliceUtils.log(exception.toString());
       return ExportResult(success: false, error: ExportResultError.file);
     }
   }
