@@ -71,12 +71,12 @@ class _OverviewSection extends StatelessWidget {
         _MetricsGrid(calls: calls),
         const Divider(height: 1, color: AliceAppTheme.grey),
         _RatioSection(
-          title: 'Status Distribution',
+          title: context.i18n(TranslationKey.statsStatusDistribution),
           data: _getStatusDistribution(calls),
         ),
         const Divider(height: 1, color: AliceAppTheme.grey),
         _RatioSection(
-          title: 'HTTP Methods',
+          title: context.i18n(TranslationKey.statsHttpMethods),
           data: _getMethodDistribution(calls),
         ),
       ],
@@ -226,9 +226,21 @@ class _InsightsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        _InsightList(title: 'Top 3 Slowest', calls: _getTopSlowest(calls, 3), aliceCore: aliceCore),
-        _InsightList(title: 'Recent Errors', calls: _getTopErrors(calls, 3), aliceCore: aliceCore),
-        _InsightList(title: 'Largest Payloads', calls: _getLargestPayloads(calls, 3), aliceCore: aliceCore),
+        _InsightList(
+          title: context.i18n(TranslationKey.statsTopSlowest),
+          calls: _getTopSlowest(calls, 3),
+          aliceCore: aliceCore,
+        ),
+        _InsightList(
+          title: context.i18n(TranslationKey.statsRecentErrors),
+          calls: _getTopErrors(calls, 3),
+          aliceCore: aliceCore,
+        ),
+        _InsightList(
+          title: context.i18n(TranslationKey.statsLargestPayloads),
+          calls: _getLargestPayloads(calls, 3),
+          aliceCore: aliceCore,
+        ),
       ],
     );
   }
