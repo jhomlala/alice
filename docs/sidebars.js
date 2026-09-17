@@ -4,7 +4,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Getting Started',
-      items: ['introduction', 'configuration', 'environments', 'platforms', 'migration'],
+      items: ['introduction', 'configuration', 'environments', 'platforms'],
     },
     {
       type: 'category',
@@ -31,6 +31,11 @@ const sidebars = {
       type: 'category',
       label: 'Storage',
       items: ['objectbox'],
+    },
+    {
+      type: 'category',
+      label: 'Migrations',
+      items: ['migration'],
     },
   ],
 };
