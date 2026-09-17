@@ -1,5 +1,13 @@
 ## [Unreleased]
 
+* Restructured the project to adopt a cleaner architecture:
+    * Moved side-effect driven operations (logger, storage, notification, logcat) to `lib/services`.
+    * Moved platform abstractions (shake detector, package info) to `lib/services`.
+    * Extracted export-related logic (Text, HAR, Export Manager) to a dedicated `lib/export` directory.
+    * Moved pure functions and utilities to `lib/utils`.
+    * Cleaned up `lib/core` to strictly contain central orchestration and core configuration.
+    * Renamed all `Helper` classes (Permission, Replay, Share, Export, FileSave, Notification) to `Service` (or `Utils` where appropriate) for consistency.
+    * Migrated unit tests to match the new project structure.
 * Added Request Replay feature allowing developers to resend logged HTTP calls directly from the Alice call details view, with replay indication badges and interceptor bypass.
 
 ## 1.6.0

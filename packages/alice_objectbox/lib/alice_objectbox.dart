@@ -1,7 +1,7 @@
 import 'dart:math' show max;
 
-import 'package:alice/core/alice_storage.dart';
-import 'package:alice/core/alice_utils.dart';
+import 'package:alice/services/storage/alice_storage.dart';
+import 'package:alice/utils/utils.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
@@ -78,7 +78,7 @@ class AliceObjectBox implements AliceStorage {
 
       _store.httpCalls.put(selectedCall);
     } else {
-      AliceUtils.log('Selected call is null');
+      Utils.log('Selected call is null');
     }
   }
 
@@ -96,7 +96,7 @@ class AliceObjectBox implements AliceStorage {
 
       _store.httpCalls.put(selectedCall);
     } else {
-      AliceUtils.log('Selected call is null');
+      Utils.log('Selected call is null');
     }
   }
 

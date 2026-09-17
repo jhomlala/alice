@@ -1,20 +1,20 @@
 import 'dart:async' show FutureOr, StreamSubscription;
 
-import 'package:alice/core/alice_storage.dart';
-import 'package:alice/core/alice_utils.dart';
-import 'package:alice/helper/alice_exporter.dart';
-import 'package:alice/helper/alice_export_helper.dart';
-import 'package:alice/core/alice_notification.dart';
-import 'package:alice/helper/operating_system.dart';
-import 'package:alice/helper/alice_replay_helper.dart';
+import 'package:alice/services/storage/alice_storage.dart';
+import 'package:alice/utils/utils.dart';
+import 'package:alice/export/exporter.dart';
+import 'package:alice/export/export_service.dart';
+import 'package:alice/services/notification/notification.dart';
+import 'package:alice/utils/operating_system.dart';
+import 'package:alice/services/replay/replay_service.dart';
 import 'package:alice/model/alice_configuration.dart';
-import 'package:alice/model/alice_export_result.dart';
+import 'package:alice/model/export_result.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice/model/alice_log.dart';
-import 'package:alice/ui/common/alice_navigation.dart';
-import 'package:alice/utils/shake_detector.dart';
+import 'package:alice/ui/common/navigation.dart';
+import 'package:alice/services/shake_detector/shake_detector.dart';
 import 'package:material_ui/material_ui.dart';
 
 class AliceCore {
@@ -24,8 +24,8 @@ class AliceCore {
   /// Detector used to detect device shakes
   ShakeDetector? _shakeDetector;
 
-  /// Helper used for notification management
-  AliceNotification? _notification;
+  /// Service used for notification management
+  AliceNotificationService? _notification;
 
   /// Subscription for call changes
   StreamSubscription<List<AliceHttpCall>>? _callsSubscription;
@@ -33,15 +33,15 @@ class AliceCore {
   /// Flag used to determine whether is inspector opened
   bool _isInspectorOpened = false;
 
-  late final AliceReplayHelper _replayHelper;
+  late final ReplayService _replayService;
 
   /// Creates alice core instance
   AliceCore({required AliceConfiguration configuration}) {
     _configuration = configuration;
-    _replayHelper = AliceReplayHelper(this);
+    _replayService = ReplayService(this);
     _subscribeToCallChanges();
     if (_configuration.showNotification) {
-      _notification = AliceNotification();
+      _notification = AliceNotificationService();
       _notification?.configure(
         notificationIcon: _configuration.notificationIcon,
         notificationLargeIcon: _configuration.notificationLargeIcon,
@@ -92,7 +92,7 @@ class AliceCore {
   Future<void> navigateToCallListScreen() async {
     final BuildContext? context = getContext();
     if (context == null) {
-      AliceUtils.log(
+      Utils.log(
         'Cant start Alice HTTP Inspector. Please add NavigatorKey to your '
         'application',
       );
@@ -100,7 +100,7 @@ class AliceCore {
     }
     if (!_isInspectorOpened) {
       _isInspectorOpened = true;
-      await AliceNavigation.navigateToCallsList(core: this);
+      await Navigation.navigateToCallsList(core: this);
       _isInspectorOpened = false;
     }
   }
@@ -137,10 +137,10 @@ class AliceCore {
   List<AliceHttpCall> getCalls() => _configuration.aliceStorage.getCalls();
 
   /// Export all calls using [exporter].
-  Future<AliceExportResult> exportCalls({
+  Future<ExportResult> exportCalls({
     required BuildContext context,
-    required AliceExporter exporter,
-  }) => AliceExportHelper.exportCalls(
+    required Exporter exporter,
+  }) => ExportService.exportCalls(
     context: context,
     calls: getCalls(),
     exporter: exporter,
@@ -150,7 +150,7 @@ class AliceCore {
   Future<void> replayCall({
     required AliceHttpCall originalCall,
     required BuildContext context,
-  }) => _replayHelper.replayCall(originalCall: originalCall, context: context);
+  }) => _replayService.replayCall(originalCall: originalCall, context: context);
 
   /// Adds new log to Alice logger.
   void addLog(AliceLog log) => _configuration.aliceLogger.add(log);

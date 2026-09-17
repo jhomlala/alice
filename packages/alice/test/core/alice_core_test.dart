@@ -1,7 +1,7 @@
 import 'package:alice/alice.dart';
 import 'package:alice/core/alice_core.dart';
-import 'package:alice/core/alice_logger.dart';
-import 'package:alice/core/alice_storage.dart';
+import 'package:alice/services/logger/alice_logger.dart';
+import 'package:alice/services/storage/alice_storage.dart';
 import 'package:alice/model/alice_configuration.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:flutter_test/flutter_test.dart';

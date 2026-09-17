@@ -1,23 +1,17 @@
-import 'package:alice/core/alice_translations.dart';
-import 'package:alice/model/alice_translation.dart';
+import 'package:alice/core/translations.dart';
+import 'package:alice/model/translation.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group("AliceTranslations", () {
+  group("Translations", () {
     test("should return translated value", () {
       expect(
-        AliceTranslations.get(
-          languageCode: "en",
-          key: AliceTranslationKey.saveLogId,
-        ),
+        Translations.get(languageCode: "en", key: TranslationKey.saveLogId),
         "Id:",
       );
 
       expect(
-        AliceTranslations.get(
-          languageCode: "en",
-          key: AliceTranslationKey.logsEmpty,
-        ),
+        Translations.get(languageCode: "en", key: TranslationKey.logsEmpty),
         "There are no logs to show",
       );
     });
@@ -26,18 +20,12 @@ void main() {
       "should return english translation when there's no translation found",
       () {
         expect(
-          AliceTranslations.get(
-            languageCode: "xx",
-            key: AliceTranslationKey.saveLogId,
-          ),
+          Translations.get(languageCode: "xx", key: TranslationKey.saveLogId),
           "Id:",
         );
 
         expect(
-          AliceTranslations.get(
-            languageCode: "xx",
-            key: AliceTranslationKey.logsEmpty,
-          ),
+          Translations.get(languageCode: "xx", key: TranslationKey.logsEmpty),
           "There are no logs to show",
         );
       },
@@ -45,33 +33,30 @@ void main() {
 
     test("should return translated key for other languages", () {
       expect(
-        AliceTranslations.get(
-          languageCode: "pl",
-          key: AliceTranslationKey.logsEmpty,
-        ),
+        Translations.get(languageCode: "pl", key: TranslationKey.logsEmpty),
         "Brak rezultatów",
       );
 
       expect(
-        AliceTranslations.get(
+        Translations.get(
           languageCode: "pl",
-          key: AliceTranslationKey.saveLogRequest,
+          key: TranslationKey.saveLogRequest,
         ),
         "Żądanie",
       );
     });
     test("should return translated value for new search help keys", () {
       expect(
-        AliceTranslations.get(
+        Translations.get(
           languageCode: "en",
-          key: AliceTranslationKey.searchHelpTitle,
+          key: TranslationKey.searchHelpTitle,
         ),
         "Advanced Search",
       );
       expect(
-        AliceTranslations.get(
+        Translations.get(
           languageCode: "pl",
-          key: AliceTranslationKey.searchHelpTitle,
+          key: TranslationKey.searchHelpTitle,
         ),
         "Zaawansowane wyszukiwanie",
       );
@@ -79,17 +64,11 @@ void main() {
 
     test("should return translated value for replay key", () {
       expect(
-        AliceTranslations.get(
-          languageCode: "en",
-          key: AliceTranslationKey.replay,
-        ),
+        Translations.get(languageCode: "en", key: TranslationKey.replay),
         "♻️ Replay",
       );
       expect(
-        AliceTranslations.get(
-          languageCode: "pl",
-          key: AliceTranslationKey.replay,
-        ),
+        Translations.get(languageCode: "pl", key: TranslationKey.replay),
         "♻️ Ponowne",
       );
     });

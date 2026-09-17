@@ -1,12 +1,11 @@
 import 'dart:async' show FutureOr;
 import 'dart:convert' show utf8;
-import 'dart:io' show HttpHeaders;
 
 import 'package:alice/model/alice_form_data_file.dart';
-import 'package:alice/model/alice_from_data_field.dart';
+import 'package:alice/model/alice_form_data_field.dart';
 import 'package:flutter/foundation.dart';
 import 'package:alice/core/alice_adapter.dart';
-import 'package:alice/core/alice_utils.dart';
+import 'package:alice/utils/utils.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/model/alice_http_request.dart';
@@ -63,9 +62,7 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
               ..body = chain.request.body ?? ''
               ..time = DateTime.now()
               ..headers = chain.request.headers
-              ..contentType =
-                  chain.request.headers[HttpHeaders.contentTypeHeader] ??
-                  'unknown'
+              ..contentType = chain.request.headers['content-type'] ?? 'unknown'
               ..formDataFields =
                   chain.request.parts
                       .whereType<PartValue>()
@@ -111,7 +108,7 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
       return response;
     } catch (error, stackTrace) {
       /// Log error to Alice log
-      AliceUtils.log(error.toString());
+      Utils.log(error.toString());
 
       aliceCore.addLog(
         AliceLog(
