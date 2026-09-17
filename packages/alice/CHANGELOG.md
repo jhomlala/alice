@@ -9,6 +9,11 @@
     * Renamed all `Helper` classes (Permission, Replay, Share, Export, FileSave, Notification) to `Service` (or `Utils` where appropriate) for consistency.
     * Migrated unit tests to match the new project structure.
 * Added Request Replay feature allowing developers to resend logged HTTP calls directly from the Alice call details view, with replay indication badges and interceptor bypass.
+* Revamped the Stats screen into a modern, actionable dashboard:
+    * Replaced the text-heavy list with a grid of high-level metrics (Total Calls, Avg Time, Data Transferred, Pending).
+    * Introduced visual Ratio Bars for Status Codes and HTTP Methods distribution.
+    * Added actionable insight lists for "Top 3 Slowest", "Recent Errors", and "Largest Payloads" with direct navigation to call details.
+    * Removed non-actionable metrics (Min Time, Secured vs Unsecured).
 
 ## 1.6.0
 
