@@ -1,5 +1,4 @@
 import 'package:alice/src/services/notification/notification_stub.dart';
-import 'package:alice/src/services/storage/alice_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:cupertino_ui/cupertino_ui.dart';
