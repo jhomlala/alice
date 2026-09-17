@@ -48,60 +48,66 @@ void main() {
     expect(find.text('No calls'), findsOneWidget);
   });
 
-  testWidgets('TimelineScreen renders grid lines and staggered call bars correctly', (
-    WidgetTester tester,
-  ) async {
-    final baseTime = DateTime(2026, 9, 17, 10, 0, 0);
+  testWidgets(
+    'TimelineScreen renders grid lines and staggered call bars correctly',
+    (WidgetTester tester) async {
+      final baseTime = DateTime(2026, 9, 17, 10, 0, 0);
 
-    final call1 = TestAliceHttpCall(1, baseTime)
-      ..endpoint = '/api/v1/users'
-      ..loading = false
-      ..response =
-          (AliceHttpResponse()
-            ..status = 200
-            ..time = baseTime.add(const Duration(milliseconds: 200)));
+      final call1 =
+          TestAliceHttpCall(1, baseTime)
+            ..endpoint = '/api/v1/users'
+            ..loading = false
+            ..response =
+                (AliceHttpResponse()
+                  ..status = 200
+                  ..time = baseTime.add(const Duration(milliseconds: 200)));
 
-    final call2 = TestAliceHttpCall(2, baseTime.add(const Duration(milliseconds: 100)))
-      ..endpoint = '/api/v1/posts'
-      ..loading = false
-      ..response =
-          (AliceHttpResponse()
-            ..status = 500
-            ..time = baseTime.add(const Duration(milliseconds: 500)));
+      final call2 =
+          TestAliceHttpCall(2, baseTime.add(const Duration(milliseconds: 100)))
+            ..endpoint = '/api/v1/posts'
+            ..loading = false
+            ..response =
+                (AliceHttpResponse()
+                  ..status = 500
+                  ..time = baseTime.add(const Duration(milliseconds: 500)));
 
-    final call3 = TestAliceHttpCall(3, baseTime.add(const Duration(milliseconds: 300)))
-      ..endpoint = '/api/v1/pending'
-      ..loading = true;
+      final call3 =
+          TestAliceHttpCall(3, baseTime.add(const Duration(milliseconds: 300)))
+            ..endpoint = '/api/v1/pending'
+            ..loading = true;
 
-    final calls = [call1, call2, call3];
+      final calls = [call1, call2, call3];
 
-    when(() => mockAliceCore.callsStream).thenAnswer((_) => Stream.value(calls));
+      when(
+        () => mockAliceCore.callsStream,
+      ).thenAnswer((_) => Stream.value(calls));
 
-    await tester.pumpWidget(
-      createTestWidget(
-        TimelineScreen(
-          aliceCore: mockAliceCore,
-          onListItemPressed: (call) => pressedCalls.add(call),
+      await tester.pumpWidget(
+        createTestWidget(
+          TimelineScreen(
+            aliceCore: mockAliceCore,
+            onListItemPressed: (call) => pressedCalls.add(call),
+          ),
         ),
-      ),
-    );
-    await tester.pumpAndSettle();
+      );
+      await tester.pumpAndSettle();
 
-    // Verify endpoint texts along with their durations are rendered
-    expect(find.textContaining('/api/v1/users'), findsOneWidget);
-    expect(find.textContaining('/api/v1/posts'), findsOneWidget);
-    expect(find.textContaining('/api/v1/pending'), findsOneWidget);
+      // Verify endpoint texts along with their durations are rendered
+      expect(find.textContaining('/api/v1/users'), findsOneWidget);
+      expect(find.textContaining('/api/v1/posts'), findsOneWidget);
+      expect(find.textContaining('/api/v1/pending'), findsOneWidget);
 
-    // Verify grid labels are present
-    expect(find.text('0ms'), findsOneWidget);
-    expect(find.text('250ms'), findsOneWidget);
-    expect(find.text('500ms'), findsOneWidget);
+      // Verify grid labels are present
+      expect(find.text('0ms'), findsOneWidget);
+      expect(find.text('250ms'), findsOneWidget);
+      expect(find.text('500ms'), findsOneWidget);
 
-    // Tap on the first call bar to test interaction
-    await tester.tap(find.textContaining('/api/v1/users'));
-    await tester.pumpAndSettle();
+      // Tap on the first call bar to test interaction
+      await tester.tap(find.textContaining('/api/v1/users'));
+      await tester.pumpAndSettle();
 
-    expect(pressedCalls.length, 1);
-    expect(pressedCalls.first.id, 1);
-  });
+      expect(pressedCalls.length, 1);
+      expect(pressedCalls.first.id, 1);
+    },
+  );
 }
