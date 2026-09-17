@@ -72,7 +72,7 @@ class _OverviewSection extends StatelessWidget {
         const Divider(height: 1, color: AliceAppTheme.grey),
         _RatioSection(
           title: context.i18n(TranslationKey.statsStatusDistribution),
-          data: _getStatusDistribution(calls),
+          data: _getStatusDistribution(context, calls),
         ),
         const Divider(height: 1, color: AliceAppTheme.grey),
         _RatioSection(
@@ -83,7 +83,10 @@ class _OverviewSection extends StatelessWidget {
     );
   }
 
-  List<_RatioData> _getStatusDistribution(List<AliceHttpCall> calls) {
+  List<_RatioData> _getStatusDistribution(
+    BuildContext context,
+    List<AliceHttpCall> calls,
+  ) {
     if (calls.isEmpty) return [];
     int success = 0;
     int redirect = 0;
@@ -103,18 +106,22 @@ class _OverviewSection extends StatelessWidget {
     return [
       if (success > 0)
         _RatioData(
-          label: 'Success',
+          label: context.i18n(TranslationKey.statsStatusSuccess),
           value: success,
           color: AliceAppTheme.green,
         ),
       if (redirect > 0)
         _RatioData(
-          label: 'Redirect',
+          label: context.i18n(TranslationKey.statsStatusRedirect),
           value: redirect,
           color: AliceAppTheme.orange,
         ),
       if (error > 0)
-        _RatioData(label: 'Error', value: error, color: AliceAppTheme.red),
+        _RatioData(
+          label: context.i18n(TranslationKey.statsStatusError),
+          value: error,
+          color: AliceAppTheme.red,
+        ),
     ];
   }
 
@@ -158,7 +165,7 @@ class _MetricsGrid extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 _MetricText(
-                  title: 'Total Data',
+                  title: context.i18n(TranslationKey.statsTotalData),
                   value: ConversionUtils.formatBytes(
                     _getBytesSent(calls) + _getBytesReceived(calls),
                   ),
