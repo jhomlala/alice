@@ -43,6 +43,15 @@ Alice goes beyond simple logging by providing a fully-featured UI inside your Fl
 * **Request Replay:** Resend logged HTTP calls directly from the Alice UI to instantly verify fixes without navigating through your app.
 * **Save & Export:** Export HTTP call data to TXT or HAR (HTTP Archive) formats for deeper analysis in external tools.
 
+
+## Architecture: Why Multiple Packages?
+
+You may notice that Alice uses a multi-package architecture (e.g., `alice_dio`, `alice_http`, `alice_chopper`). This is a deliberate design choice!
+
+Many similar inspector packages force you to pull in a massive dependency tree (Dio, HTTP, Chopper, GraphQL, etc.) all at once, even if your app only uses one of them. This is a **bad pattern** that bloats your app size, slows down build times, and causes version conflicts. 
+
+With Alice, you only install the core `alice` package and the specific adapter you need (e.g., `alice_dio`). We strictly avoid enforcing unnecessary dependencies on your project.
+
 ## Extensive Client Support
 
 Whether you use the default Dart libraries or third-party packages, Alice has you covered. Alice supports seamless interception for the most popular Dart HTTP clients:

@@ -119,5 +119,14 @@ dio.get("https://jsonplaceholder.typicode.com/posts");
 ```
 *For instructions on how to attach Alice to Chopper, standard http, or GraphQL, see the full documentation.*
 
+
+## Architecture: Why Multiple Packages?
+
+You may notice that Alice uses a multi-package architecture (e.g., `alice_dio`, `alice_http`, `alice_chopper`). This is a deliberate design choice!
+
+Many similar inspector packages force you to pull in a massive dependency tree (Dio, HTTP, Chopper, GraphQL, etc.) all at once, even if your app only uses one of them. This is a **bad pattern** that bloats your app size, slows down build times, and causes version conflicts. 
+
+With Alice, you only install the core `alice` package and the specific adapter you need (e.g., `alice_dio`). We strictly avoid enforcing unnecessary dependencies on your project.
+
 ## Documentation
 For complete setup instructions, advanced configuration, and plugin details, please check the [Full Documentation](https://jhomlala.github.io/alice/).
