@@ -1,18 +1,26 @@
-import 'package:alice/core/alice_adapter.dart';
-import 'package:alice/core/alice_core.dart';
-import 'package:alice/model/alice_configuration.dart';
-import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/model/alice_log.dart';
+import 'package:alice/src/core/alice_adapter.dart';
+import 'package:alice/src/core/alice_core.dart';
+import 'package:alice/src/model/alice_configuration.dart';
+import 'package:alice/src/model/alice_http_call.dart';
+import 'package:alice/src/model/alice_log.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/widgets.dart';
 
-export 'package:alice/model/alice_log.dart';
-export 'package:alice/services/storage/alice_memory_storage.dart';
-export 'package:alice/utils/alice_parser.dart';
-export 'package:alice/model/alice_cookie.dart';
-export 'package:alice/model/alice_http_request.dart';
-export 'package:alice/model/alice_http_response.dart';
-export 'package:alice/model/alice_http_call.dart';
+export 'package:alice/src/model/alice_log.dart';
+export 'package:alice/src/core/alice_adapter.dart';
+export 'package:alice/src/core/alice_core.dart';
+export 'package:alice/src/model/alice_configuration.dart';
+export 'package:alice/src/model/alice_form_data_field.dart';
+export 'package:alice/src/model/alice_form_data_file.dart';
+export 'package:alice/src/model/alice_http_error.dart';
+export 'package:alice/src/services/logger/alice_logger.dart';
+export 'package:alice/src/services/storage/alice_storage.dart';
+export 'package:alice/src/services/storage/alice_memory_storage.dart';
+export 'package:alice/src/utils/alice_parser.dart';
+export 'package:alice/src/model/alice_cookie.dart';
+export 'package:alice/src/model/alice_http_request.dart';
+export 'package:alice/src/model/alice_http_response.dart';
+export 'package:alice/src/model/alice_http_call.dart';
 
 class Alice {
   /// Alice core instance

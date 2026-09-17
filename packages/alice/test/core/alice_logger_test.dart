@@ -1,5 +1,5 @@
-import 'package:alice/services/logger/alice_logger.dart';
-import 'package:alice/model/alice_log.dart';
+import 'package:alice/src/services/logger/alice_logger.dart';
+import 'package:alice/src/model/alice_log.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 

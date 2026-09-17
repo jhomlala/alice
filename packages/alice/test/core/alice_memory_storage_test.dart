@@ -1,10 +1,10 @@
 // ignore_for_file: require_trailing_commas
 
-import 'package:alice/services/storage/alice_memory_storage.dart';
-import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/model/alice_http_error.dart';
-import 'package:alice/model/alice_http_request.dart';
-import 'package:alice/model/alice_http_response.dart';
+import 'package:alice/src/services/storage/alice_memory_storage.dart';
+import 'package:alice/src/model/alice_http_call.dart';
+import 'package:alice/src/model/alice_http_error.dart';
+import 'package:alice/src/model/alice_http_request.dart';
+import 'package:alice/src/model/alice_http_response.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 

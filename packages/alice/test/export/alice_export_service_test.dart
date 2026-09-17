@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:alice/export/export_service.dart';
-import 'package:alice/export/text_exporter.dart';
-import 'package:alice/model/export_result.dart';
+import 'package:alice/src/export/export_service.dart';
+import 'package:alice/src/export/text_exporter.dart';
+import 'package:alice/src/model/export_result.dart';
 import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';

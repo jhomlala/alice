@@ -1,5 +1,5 @@
-import 'package:alice/model/translation.dart';
-import 'package:alice/utils/alice_parser.dart';
+import 'package:alice/src/model/translation.dart';
+import 'package:alice/src/utils/alice_parser.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
