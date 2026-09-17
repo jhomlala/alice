@@ -1,3 +1,7 @@
+## 1.7.1
+
+* Updated README with new screenshots and structure.
+
 ## 1.7.0
 
 * Added an interactive Gantt chart Timeline tab to visually inspect staggered HTTP calls over time.
