@@ -1,4 +1,4 @@
-## [Unreleased]
+## 1.7.0
 
 * Added an interactive Gantt chart Timeline tab to visually inspect staggered HTTP calls over time.
 * Added unit tests for the Timeline screen.

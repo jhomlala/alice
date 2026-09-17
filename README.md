@@ -1,4 +1,4 @@
-<p align="center">
+﻿<p align="center">
 <img src="https://raw.githubusercontent.com/jhomlala/alice/master/assets/media/logo.png" width="250px">
 </p>
 
@@ -55,7 +55,7 @@ Whether you are hunting down a broken API payload, checking headers, or monitori
 
 ## Key Features
 
-**🔍 Deep Inspection**
+**đź”Ť Deep Inspection**
 * Detailed logs for every HTTP call (Headers, Body, Query Parameters, Timestamps)
 * Interactive tree-based JSON viewer for request and response bodies
 * Gantt chart Timeline to visually inspect staggered HTTP calls
@@ -63,10 +63,10 @@ Whether you are hunting down a broken API payload, checking headers, or monitori
 * Statistics dashboard (bandwidth, success rate, call counts, ratio bars)
 * Flutter & Android native log integration
 
-**🛠️ Broad Compatibility**
+**đź› ď¸Ź Broad Compatibility**
 * Supports all major Dart HTTP clients: **Dio**, **Retrofit**, **http**, **HttpClient (dart:io)**, **Chopper**, and **GraphQL**
 
-**📱 UX & Workflow**
+**đź“± UX & Workflow**
 * Request Replay - resend HTTP calls directly from the inspector
 * Shake the device to open the inspector instantly
 * System notifications on HTTP calls
@@ -79,9 +79,9 @@ Whether you are hunting down a broken API payload, checking headers, or monitori
 Add the main Alice package (and any specific client plugins you need) to your `pubspec.yaml`:
 ```yaml
 dependencies:
-  alice: ^1.6.0
+  alice: ^1.7.0
   # Add plugins as needed, e.g.:
-  # alice_dio: ^1.2.4
+  # alice_dio: ^1.2.5
 ```
 
 ### 2. Initialize Alice

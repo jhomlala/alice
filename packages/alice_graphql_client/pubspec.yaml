@@ -1,4 +1,4 @@
-name: alice_graphql_client
+﻿name: alice_graphql_client
 description: A GraphQL adapter for Alice HTTP Inspector. This package provides a GraphQL Link to capture and log GraphQL operations, allowing easy debugging within the Alice UI.
 documentation: https://jhomlala.github.io/alice/
 repository: https://github.com/jhomlala/alice
@@ -8,7 +8,7 @@ topics:
   - inspector
   - graphql
   - alice
-version: 1.0.3
+version: 1.0.4
 
 resolution: workspace
 
@@ -16,7 +16,7 @@ environment:
   sdk: ^3.13.0
 
 dependencies:
-  alice: ^1.6.0
+  alice: ^1.7.0
   graphql: ^5.1.0
   gql: ^1.0.0
   gql_link: ^1.0.0
