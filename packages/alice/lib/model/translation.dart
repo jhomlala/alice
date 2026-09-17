@@ -63,6 +63,7 @@ enum TranslationKey {
   callResponseBodyUnknownShow,
   callsListInspector,
   callsListLogger,
+  callsListTimeline,
   callsListDeleteLogsDialogTitle,
   callsListDeleteLogsDialogDescription,
   callsListYes,
