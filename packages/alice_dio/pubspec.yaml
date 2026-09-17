@@ -1,16 +1,17 @@
 name: alice_dio
-description: "Alice + Dio integration. It contains plugin for Alice which allows to use Dio package."
+description: "Dio interceptor and network logger for Alice. Inspect, log, and debug Dio HTTP requests and responses in a native Flutter UI."
 documentation: https://jhomlala.github.io/alice/
 version: 1.3.0
 repository: https://github.com/jhomlala/alice
+issue_tracker: https://github.com/jhomlala/alice/issues
 homepage: https://github.com/jhomlala/alice
 resolution: workspace
 topics:
-  - http
-  - inspector
   - dio
   - interceptor
-  - alice
+  - logger
+  - network
+  - http
 
 environment:
   sdk: ">=3.13.0 <4.0.0"
