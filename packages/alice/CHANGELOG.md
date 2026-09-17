@@ -1,4 +1,4 @@
-## Unreleased
+## 1.9.0
 
 * Fixed Flutter Web Wasm compatibility by isolating `flutter_local_notifications` behind conditional imports.
 * Added unit tests for `AliceNotificationService` stub implementation.
