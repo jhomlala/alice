@@ -33,49 +33,99 @@ class _StatsPageState extends State<StatsPage> {
               '${context.i18n(TranslationKey.alice)} - '
               '${context.i18n(TranslationKey.statsTitle)}',
             ),
-            bottom: const TabBar(
+            bottom: TabBar(
               indicatorColor: AliceAppTheme.lightRed,
               tabs: [
-                Tab(text: 'Overview'),
-                Tab(text: 'Insights'),
+                Tab(text: context.i18n(TranslationKey.callDetailsOverview)),
+                Tab(text: context.i18n(TranslationKey.callsListStats)),
               ],
             ),
           ),
-        body: StreamBuilder<List<AliceHttpCall>>(
-          stream: widget.aliceCore.callsStream,
-          builder: (context, snapshot) {
-            final calls = snapshot.data ?? widget.aliceCore.getCalls();
-            return TabBarView(
-              children: [
-                ListView(
-                  children: [
-                    _buildMetricsTable(context, calls),
-                    const Divider(height: 1, color: AliceAppTheme.grey),
-                    _buildRatios(context, 'Status Distribution', _getStatusDistribution(calls)),
-                    const Divider(height: 1, color: AliceAppTheme.grey),
-                    _buildRatios(context, 'HTTP Methods', _getMethodDistribution(calls)),
-                    const Divider(height: 1, color: AliceAppTheme.grey),
-                    _buildRatios(context, 'Host Distribution (Top 5)', _getHostDistribution(calls)),
-                  ],
-                ),
-                ListView(
-                  children: [
-                    _buildInsightSection(context, 'Top 3 Slowest', _getTopSlowest(calls, 3)),
-                    _buildInsightSection(context, 'Recent Errors', _getTopErrors(calls, 3)),
-                    _buildInsightSection(context, 'Largest Payloads (Responses)', _getLargestPayloads(calls, 3)),
-                    _buildInsightSection(context, 'Largest Requests (Uploads)', _getLargestRequests(calls, 3)),
-                  ],
-                ),
-              ],
-            );
-          },
-        ),
+          body: StreamBuilder<List<AliceHttpCall>>(
+            stream: widget.aliceCore.callsStream,
+            builder: (context, snapshot) {
+              final calls = snapshot.data ?? widget.aliceCore.getCalls();
+              return TabBarView(
+                children: [
+                  _OverviewSection(calls: calls),
+                  _InsightsSection(calls: calls, aliceCore: widget.aliceCore),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
   }
+}
 
-  Widget _buildMetricsTable(BuildContext context, List<AliceHttpCall> calls) {
+class _OverviewSection extends StatelessWidget {
+  final List<AliceHttpCall> calls;
+
+  const _OverviewSection({required this.calls});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: [
+        _MetricsGrid(calls: calls),
+        const Divider(height: 1, color: AliceAppTheme.grey),
+        _RatioSection(
+          title: 'Status Distribution',
+          data: _getStatusDistribution(calls),
+        ),
+        const Divider(height: 1, color: AliceAppTheme.grey),
+        _RatioSection(
+          title: 'HTTP Methods',
+          data: _getMethodDistribution(calls),
+        ),
+      ],
+    );
+  }
+
+  List<_RatioData> _getStatusDistribution(List<AliceHttpCall> calls) {
+    if (calls.isEmpty) return [];
+    int success = 0;
+    int redirect = 0;
+    int error = 0;
+
+    for (final call in calls) {
+      if (call.loading) continue;
+      final status = call.response?.status;
+      if (status.gte(200) && status.lt(300)) {
+        success++;
+      } else if (status.gte(300) && status.lt(400)) {
+        redirect++;
+      } else if (status.gte(400) || status == 0 || status == -1) {
+        error++;
+      }
+    }
+    return [
+      if (success > 0) _RatioData(label: 'Success', value: success, color: AliceAppTheme.green),
+      if (redirect > 0) _RatioData(label: 'Redirect', value: redirect, color: AliceAppTheme.orange),
+      if (error > 0) _RatioData(label: 'Error', value: error, color: AliceAppTheme.red),
+    ];
+  }
+
+  List<_RatioData> _getMethodDistribution(List<AliceHttpCall> calls) {
+    if (calls.isEmpty) return [];
+    final counts = <String, int>{};
+    for (final call in calls) {
+      counts[call.method] = (counts[call.method] ?? 0) + 1;
+    }
+    return counts.entries
+        .map((e) => _RatioData(label: e.key, value: e.value, color: AliceAppTheme.grey))
+        .toList();
+  }
+}
+
+class _MetricsGrid extends StatelessWidget {
+  final List<AliceHttpCall> calls;
+
+  const _MetricsGrid({required this.calls});
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Row(
@@ -106,9 +156,34 @@ class _StatsPageState extends State<StatsPage> {
     );
   }
 
-  Widget _buildRatios(BuildContext context, String title, List<_RatioData> data) {
+  int _getPendingRequests(List<AliceHttpCall> calls) => calls.where((c) => c.loading).length;
+
+  int _getBytesSent(List<AliceHttpCall> calls) => calls.fold(0, (sum, c) => sum + (c.request?.size ?? 0));
+
+  int _getBytesReceived(List<AliceHttpCall> calls) => calls.fold(0, (sum, c) => sum + (c.response?.size ?? 0));
+
+  int _getAverageRequestTime(List<AliceHttpCall> calls) {
+    int timeSum = 0;
+    int count = 0;
+    for (final c in calls) {
+      if (c.duration != 0) {
+        timeSum += c.duration;
+        count++;
+      }
+    }
+    return count == 0 ? 0 : timeSum ~/ count;
+  }
+}
+
+class _RatioSection extends StatelessWidget {
+  final String title;
+  final List<_RatioData> data;
+
+  const _RatioSection({required this.title, required this.data});
+
+  @override
+  Widget build(BuildContext context) {
     final total = data.fold(0, (sum, item) => sum + item.value);
-    
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -139,10 +214,54 @@ class _StatsPageState extends State<StatsPage> {
       ),
     );
   }
+}
 
-  Widget _buildInsightSection(BuildContext context, String title, List<AliceHttpCall> calls) {
+class _InsightsSection extends StatelessWidget {
+  final List<AliceHttpCall> calls;
+  final AliceCore aliceCore;
+
+  const _InsightsSection({required this.calls, required this.aliceCore});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: [
+        _InsightList(title: 'Top 3 Slowest', calls: _getTopSlowest(calls, 3), aliceCore: aliceCore),
+        _InsightList(title: 'Recent Errors', calls: _getTopErrors(calls, 3), aliceCore: aliceCore),
+        _InsightList(title: 'Largest Payloads', calls: _getLargestPayloads(calls, 3), aliceCore: aliceCore),
+      ],
+    );
+  }
+
+  List<AliceHttpCall> _getTopSlowest(List<AliceHttpCall> calls, int count) {
+    final list = calls.where((c) => !c.loading).toList();
+    list.sort((a, b) => b.duration.compareTo(a.duration));
+    return list.take(count).toList();
+  }
+
+  List<AliceHttpCall> _getTopErrors(List<AliceHttpCall> calls, int count) {
+    final list = calls.where((c) => (c.response?.status.gte(400) ?? false) || c.error != null || c.response?.status == 0 || c.response?.status == -1).toList();
+    list.sort((a, b) => b.createdTime.compareTo(a.createdTime));
+    return list.take(count).toList();
+  }
+
+  List<AliceHttpCall> _getLargestPayloads(List<AliceHttpCall> calls, int count) {
+    final list = calls.where((c) => c.response != null).toList();
+    list.sort((a, b) => (b.response?.size ?? 0).compareTo(a.response?.size ?? 0));
+    return list.take(count).toList();
+  }
+}
+
+class _InsightList extends StatelessWidget {
+  final String title;
+  final List<AliceHttpCall> calls;
+  final AliceCore aliceCore;
+
+  const _InsightList({required this.title, required this.calls, required this.aliceCore});
+
+  @override
+  Widget build(BuildContext context) {
     if (calls.isEmpty) return const SizedBox.shrink();
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -155,114 +274,10 @@ class _StatsPageState extends State<StatsPage> {
         const Divider(height: 1, color: AliceAppTheme.grey),
         ...calls.map((call) => CallListItemWidget(
               call,
-              (call) => Navigation.navigateToCallDetails(call: call, core: widget.aliceCore),
+              (call) => Navigation.navigateToCallDetails(call: call, core: aliceCore),
             )),
       ],
     );
-  }
-
-  int _getPendingRequests(List<AliceHttpCall> calls) =>
-      calls.where((call) => call.loading).length;
-
-  int _getBytesSent(List<AliceHttpCall> calls) => calls.fold(
-        0,
-        (sum, call) => sum + (call.request?.size ?? 0),
-      );
-
-  int _getBytesReceived(List<AliceHttpCall> calls) => calls.fold(
-        0,
-        (sum, call) => sum + (call.response?.size ?? 0),
-      );
-
-  int _getAverageRequestTime(List<AliceHttpCall> calls) {
-    int requestTimeSum = 0;
-    int requestsWithDurationCount = 0;
-    for (final call in calls) {
-      if (call.duration != 0) {
-        requestTimeSum += call.duration;
-        requestsWithDurationCount++;
-      }
-    }
-    return requestsWithDurationCount == 0 ? 0 : requestTimeSum ~/ requestsWithDurationCount;
-  }
-
-  List<_RatioData> _getStatusDistribution(List<AliceHttpCall> calls) {
-    if (calls.isEmpty) return [];
-    int success = 0;
-    int redirect = 0;
-    int error = 0;
-
-    for (final call in calls) {
-      if (call.loading) continue;
-      final status = call.response?.status;
-      if (status.gte(200) && status.lt(300)) {
-        success++;
-      } else if (status.gte(300) && status.lt(400)) {
-        redirect++;
-      } else if (status.gte(400) || status == 0 || status == -1) {
-        error++;
-      }
-    }
-
-    final total = success + redirect + error;
-    if (total == 0) return [];
-
-    return [
-      if (success > 0) _RatioData('Success', success, AliceAppTheme.green),
-      if (redirect > 0) _RatioData('Redirect', redirect, AliceAppTheme.orange),
-      if (error > 0) _RatioData('Error', error, AliceAppTheme.red),
-    ];
-  }
-
-  List<_RatioData> _getMethodDistribution(List<AliceHttpCall> calls) {
-    if (calls.isEmpty) return [];
-    final counts = <String, int>{};
-    for (final call in calls) {
-      counts[call.method] = (counts[call.method] ?? 0) + 1;
-    }
-
-    return counts.entries
-        .map((e) => _RatioData(e.key, e.value, AliceAppTheme.grey))
-        .toList();
-  }
-
-  List<AliceHttpCall> _getTopSlowest(List<AliceHttpCall> calls, int count) {
-    final list = calls.where((c) => !c.loading).toList();
-    list.sort((a, b) => b.duration.compareTo(a.duration));
-    return list.take(count).toList();
-  }
-
-  List<AliceHttpCall> _getTopErrors(List<AliceHttpCall> calls, int count) {
-    final list = calls
-        .where((c) => (c.response?.status.gte(400) ?? false) || c.error != null || c.response?.status == 0 || c.response?.status == -1)
-        .toList();
-    // Sort by createdTime descending for "Recent"
-    list.sort((a, b) => b.createdTime.compareTo(a.createdTime));
-    return list.take(count).toList();
-  }
-
-  List<AliceHttpCall> _getLargestPayloads(List<AliceHttpCall> calls, int count) {
-    final list = calls.where((c) => c.response != null).toList();
-    list.sort((a, b) => (b.response?.size ?? 0).compareTo(a.response?.size ?? 0));
-    return list.take(count).toList();
-  }
-
-  List<_RatioData> _getHostDistribution(List<AliceHttpCall> calls) {
-    if (calls.isEmpty) return [];
-    final counts = <String, int>{};
-    for (final call in calls) {
-      if (call.server.isNotEmpty) {
-        counts[call.server] = (counts[call.server] ?? 0) + 1;
-      }
-    }
-    final sorted = counts.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
-    return sorted.take(5).map((e) => _RatioData(e.key, e.value, AliceAppTheme.grey)).toList();
-  }
-
-  List<AliceHttpCall> _getLargestRequests(List<AliceHttpCall> calls, int count) {
-    final list = calls.where((c) => c.request != null).toList();
-    list.sort((a, b) => (b.request?.size ?? 0).compareTo(a.request?.size ?? 0));
-    return list.take(count).toList();
   }
 }
 
@@ -290,5 +305,5 @@ class _RatioData {
   final int value;
   final Color color;
 
-  _RatioData(this.label, this.value, this.color);
+  _RatioData({required this.label, required this.value, required this.color});
 }
