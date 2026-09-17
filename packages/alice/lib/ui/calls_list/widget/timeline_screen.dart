@@ -37,7 +37,8 @@ class _TimelineScreenState extends State<TimelineScreen>
         }
 
         DateTime minTime = calls.first.createdTime;
-        DateTime maxTime = calls.first.response?.time ?? calls.first.createdTime;
+        DateTime maxTime =
+            calls.first.response?.time ?? calls.first.createdTime;
 
         for (final call in calls) {
           if (call.createdTime.isBefore(minTime)) {
@@ -71,7 +72,7 @@ class _TimelineScreenState extends State<TimelineScreen>
             child: Stack(
               children: () {
                 final List<Widget> children = [];
-                
+
                 // Determine grid interval based on total duration
                 int gridIntervalMs = 1000;
                 if (totalDurationMs < 500) {
@@ -81,7 +82,7 @@ class _TimelineScreenState extends State<TimelineScreen>
                 } else if (totalDurationMs > 10000) {
                   gridIntervalMs = 5000;
                 }
-                
+
                 // Add vertical grid lines
                 for (int i = 0; i <= totalDurationMs; i += gridIntervalMs) {
                   final double left = i * pixelsPerMs + 16.0;
@@ -114,15 +115,18 @@ class _TimelineScreenState extends State<TimelineScreen>
                 // Add call bars
                 for (int index = 0; index < calls.length; index++) {
                   final call = calls[index];
-                  final left = call.createdTime.difference(minTime).inMilliseconds * pixelsPerMs;
+                  final left =
+                      call.createdTime.difference(minTime).inMilliseconds *
+                      pixelsPerMs;
                   final callEndTime = call.response?.time ?? DateTime.now();
-                  final int durationMs = callEndTime.difference(call.createdTime).inMilliseconds;
+                  final int durationMs =
+                      callEndTime.difference(call.createdTime).inMilliseconds;
                   double width = durationMs * pixelsPerMs;
                   if (width < 5.0) {
                     width = 5.0;
                   }
                   final top = index * 40.0 + 20.0;
-  
+
                   Color barColor = AliceAppTheme.orange; // pending
                   if (!call.loading) {
                     final status = call.response?.status;
@@ -132,7 +136,7 @@ class _TimelineScreenState extends State<TimelineScreen>
                       barColor = AliceAppTheme.lightRed;
                     }
                   }
-  
+
                   children.add(
                     Positioned(
                       left: left + 16.0,
@@ -162,7 +166,7 @@ class _TimelineScreenState extends State<TimelineScreen>
                     ),
                   );
                 }
-                
+
                 return children;
               }(),
             ),
