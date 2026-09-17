@@ -1,5 +1,5 @@
 import 'package:alice/src/services/storage/alice_storage.dart';
-import 'package:alice/src/utils/AliceUtils.dart';
+import 'package:alice/src/utils/utils.dart';
 import 'package:alice/src/utils/operating_system.dart';
 import 'package:alice/src/model/translation.dart';
 import 'package:alice/src/ui/common/context_ext.dart';

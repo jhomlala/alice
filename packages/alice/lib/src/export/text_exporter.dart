@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 
-import 'package:alice/src/utils/AliceUtils.dart';
+import 'package:alice/src/utils/utils.dart';
 import 'package:alice/src/utils/conversion_utils.dart';
 import 'package:alice/src/export/exporter.dart';
 import 'package:alice/src/model/alice_http_call.dart';

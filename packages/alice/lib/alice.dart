@@ -21,6 +21,7 @@ export 'package:alice/src/model/alice_cookie.dart';
 export 'package:alice/src/model/alice_http_request.dart';
 export 'package:alice/src/model/alice_http_response.dart';
 export 'package:alice/src/model/alice_http_call.dart';
+export 'package:alice/src/utils/utils.dart';
 
 class Alice {
   /// Alice core instance
@@ -67,4 +68,3 @@ class Alice {
   void addAdapter(AliceAdapter adapter) => adapter.injectCore(_aliceCore);
 }
 
-export 'package:alice/src/utils/utils.dart';

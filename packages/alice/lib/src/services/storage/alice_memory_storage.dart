@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:alice/src/services/storage/alice_storage.dart';
-import 'package:alice/src/utils/AliceUtils.dart';
+import 'package:alice/src/utils/utils.dart';
 import 'package:alice/src/model/alice_http_call.dart';
 import 'package:alice/src/model/alice_http_error.dart';
 import 'package:alice/src/model/alice_http_response.dart';

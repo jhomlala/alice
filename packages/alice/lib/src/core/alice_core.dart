@@ -1,7 +1,7 @@
 import 'dart:async' show FutureOr, StreamSubscription;
 
 import 'package:alice/src/services/storage/alice_storage.dart';
-import 'package:alice/src/utils/AliceUtils.dart';
+import 'package:alice/src/utils/utils.dart';
 import 'package:alice/src/export/exporter.dart';
 import 'package:alice/src/export/export_service.dart';
 import 'package:alice/src/services/notification/notification.dart';
