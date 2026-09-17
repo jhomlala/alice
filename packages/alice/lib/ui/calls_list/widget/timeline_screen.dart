@@ -93,7 +93,7 @@ class _TimelineScreenState extends State<TimelineScreen>
                       bottom: 0,
                       child: Container(
                         width: 1,
-                        color: AliceAppTheme.grey.withOpacity(0.3),
+                        color: AliceAppTheme.grey.withValues(alpha: 0.3),
                       ),
                     ),
                   );

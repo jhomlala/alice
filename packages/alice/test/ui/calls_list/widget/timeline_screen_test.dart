@@ -8,6 +8,7 @@ import 'package:mocktail/mocktail.dart';
 
 class MockAliceCore extends Mock implements AliceCore {}
 
+// ignore: must_be_immutable
 class TestAliceHttpCall extends AliceHttpCall {
   final DateTime _customCreatedTime;
 
