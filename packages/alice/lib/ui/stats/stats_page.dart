@@ -54,13 +54,16 @@ class _StatsPageState extends State<StatsPage> {
                     _buildRatios(context, 'Status Distribution', _getStatusDistribution(calls)),
                     const Divider(height: 1, color: AliceAppTheme.grey),
                     _buildRatios(context, 'HTTP Methods', _getMethodDistribution(calls)),
+                    const Divider(height: 1, color: AliceAppTheme.grey),
+                    _buildRatios(context, 'Host Distribution (Top 5)', _getHostDistribution(calls)),
                   ],
                 ),
                 ListView(
                   children: [
                     _buildInsightSection(context, 'Top 3 Slowest', _getTopSlowest(calls, 3)),
                     _buildInsightSection(context, 'Recent Errors', _getTopErrors(calls, 3)),
-                    _buildInsightSection(context, 'Largest Payloads', _getLargestPayloads(calls, 3)),
+                    _buildInsightSection(context, 'Largest Payloads (Responses)', _getLargestPayloads(calls, 3)),
+                    _buildInsightSection(context, 'Largest Requests (Uploads)', _getLargestRequests(calls, 3)),
                   ],
                 ),
               ],
@@ -218,16 +221,8 @@ class _StatsPageState extends State<StatsPage> {
       counts[call.method] = (counts[call.method] ?? 0) + 1;
     }
 
-    final colors = {
-      'GET': AliceAppTheme.green,
-      'POST': Colors.blue,
-      'PUT': AliceAppTheme.orange,
-      'DELETE': AliceAppTheme.red,
-      'PATCH': Colors.purple,
-    };
-
     return counts.entries
-        .map((e) => _RatioData(e.key, e.value, colors[e.key] ?? AliceAppTheme.grey))
+        .map((e) => _RatioData(e.key, e.value, AliceAppTheme.grey))
         .toList();
   }
 
@@ -249,6 +244,24 @@ class _StatsPageState extends State<StatsPage> {
   List<AliceHttpCall> _getLargestPayloads(List<AliceHttpCall> calls, int count) {
     final list = calls.where((c) => c.response != null).toList();
     list.sort((a, b) => (b.response?.size ?? 0).compareTo(a.response?.size ?? 0));
+    return list.take(count).toList();
+  }
+
+  List<_RatioData> _getHostDistribution(List<AliceHttpCall> calls) {
+    if (calls.isEmpty) return [];
+    final counts = <String, int>{};
+    for (final call in calls) {
+      if (call.server.isNotEmpty) {
+        counts[call.server] = (counts[call.server] ?? 0) + 1;
+      }
+    }
+    final sorted = counts.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
+    return sorted.take(5).map((e) => _RatioData(e.key, e.value, AliceAppTheme.grey)).toList();
+  }
+
+  List<AliceHttpCall> _getLargestRequests(List<AliceHttpCall> calls, int count) {
+    final list = calls.where((c) => c.request != null).toList();
+    list.sort((a, b) => (b.request?.size ?? 0).compareTo(a.request?.size ?? 0));
     return list.take(count).toList();
   }
 }
