@@ -1,5 +1,3 @@
-library alice;
-
 export 'package:alice/src/core/alice.dart';
 export 'package:alice/src/core/alice_adapter.dart';
 export 'package:alice/src/core/alice_core.dart';
