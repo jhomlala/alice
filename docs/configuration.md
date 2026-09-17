@@ -105,7 +105,6 @@ Alice alice = Alice(
   )
 );
 ```
-```
 
 ### Shake to Open
 You can enable a physical "shake" gesture to quickly open the Alice inspector. This is disabled by default, but is very handy for physical device testing.
