@@ -1,7 +1,8 @@
 name: alice
 description: An advanced HTTP inspector for Flutter that logs network requests and responses, providing a rich native UI for seamless API debugging.
+icon: assets/pub/logo.png
 documentation: https://jhomlala.github.io/alice/
-version: 1.7.0
+version: 1.7.1
 homepage: https://github.com/jhomlala/alice
 repository: https://github.com/jhomlala/alice
 resolution: workspace

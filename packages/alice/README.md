@@ -6,9 +6,7 @@
 
 [![pub package](https://img.shields.io/pub/v/alice.svg)](https://pub.dartlang.org/packages/alice)
 [![platform](https://img.shields.io/badge/platform-flutter-blue.svg)](https://github.com/jhomlala/alice)
-[![melos](https://img.shields.io/badge/maintained%20with-melos-f700ff.svg?style=flat-square)](https://github.com/invertase/melos)
 
-**Plugins:**
 [![alice_dio](https://img.shields.io/pub/v/alice_dio.svg?label=alice_dio)](https://pub.dartlang.org/packages/alice_dio)
 [![alice_chopper](https://img.shields.io/pub/v/alice_chopper.svg?label=alice_chopper)](https://pub.dartlang.org/packages/alice_chopper)
 [![alice_http](https://img.shields.io/pub/v/alice_http.svg?label=alice_http)](https://pub.dartlang.org/packages/alice_http)
