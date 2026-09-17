@@ -1,5 +1,5 @@
-import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/ui/calls_list/model/search_filter.dart';
+import 'package:alice/src/model/alice_http_call.dart';
+import 'package:alice/src/ui/calls_list/model/search_filter.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../mock/mocked_data.dart';

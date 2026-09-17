@@ -1,5 +1,4 @@
 import 'package:alice/alice.dart';
-import 'package:alice/model/alice_configuration.dart';
 import 'package:alice_http/alice_http_adapter.dart';
 import 'package:alice_http/alice_http_extensions.dart';
 import 'package:material_ui/material_ui.dart';

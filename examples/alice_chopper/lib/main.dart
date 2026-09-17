@@ -1,5 +1,4 @@
 import 'package:alice/alice.dart';
-import 'package:alice/model/alice_configuration.dart';
 import 'package:alice_chopper/alice_chopper_adapter.dart';
 import 'package:alice_chopper_example/interceptors/json_content_type_inerceptor.dart';
 import 'package:alice_chopper_example/interceptors/json_headers_interceptor.dart';

@@ -1,22 +1,24 @@
-﻿name: alice_http_client
-description: "Alice + HTTP Client integration. It contains plugin for Alice which allows to use Http Client."
+name: alice_http_client
+description: "HttpClient interceptor and network logger for Alice. Inspect, log, and debug Dart HttpClient requests and responses in a native Flutter UI."
 documentation: https://jhomlala.github.io/alice/
-version: 1.2.5
+version: 1.3.0
 repository: https://github.com/jhomlala/alice
+issue_tracker: https://github.com/jhomlala/alice/issues
 homepage: https://github.com/jhomlala/alice
 resolution: workspace
 topics:
-  - http
-  - inspector
-  - alice
+  - httpclient
   - interceptor
+  - logger
+  - network
+  - http
 
 environment:
-  sdk: ">=3.7.0 <4.0.0"
+  sdk: ">=3.13.0 <4.0.0"
   flutter: ">=3.29.0"
 
 dependencies:
-  alice: ^1.7.0
+  alice: ^1.8.0
 
 dev_dependencies:
   flutter_lints: ^6.0.0

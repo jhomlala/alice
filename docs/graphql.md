@@ -16,3 +16,7 @@ final client = GraphQLClient(
   link: link,
 );
 ```
+
+## Example
+
+[View the full Alice Graphql Client Example on GitHub](https://github.com/jhomlala/alice/tree/master/examples/alice_graphql_client)

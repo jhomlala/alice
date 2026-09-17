@@ -1,4 +1,4 @@
-import 'package:alice/model/alice_http_response.dart';
+import 'package:alice/alice.dart';
 import 'package:alice_objectbox/model/cached_alice_http_response.dart';
 
 /// Extension methods for [AliceHttpResponse].

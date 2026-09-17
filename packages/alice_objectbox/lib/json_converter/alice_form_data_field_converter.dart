@@ -1,4 +1,4 @@
-import 'package:alice/model/alice_form_data_field.dart';
+import 'package:alice/alice.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 /// Convert [AliceFormDataField] to and from JSON.

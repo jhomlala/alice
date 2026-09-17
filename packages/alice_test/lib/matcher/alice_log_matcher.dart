@@ -1,4 +1,4 @@
-import 'package:alice/model/alice_log.dart';
+import 'package:alice/alice.dart';
 import 'package:test/test.dart';
 
 TypeMatcher<AliceLog> buildLogMatcher({

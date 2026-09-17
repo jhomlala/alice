@@ -1,3 +1,8 @@
+## 1.8.0
+
+* Enforced strict public API by moving internal logic to lib/src.
+* Renamed Utils to AliceUtils.
+
 ## 1.7.1
 
 * Updated README with new screenshots and structure.
@@ -64,6 +69,7 @@
 * Added support for Linux, macOS, Windows, and Web.
 
 ## 1.1.2
+
 * Updated dependencies.
 
 ## 1.1.1

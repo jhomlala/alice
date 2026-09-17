@@ -1,4 +1,4 @@
-import 'package:alice/utils/conversion_utils.dart';
+import 'package:alice/src/utils/conversion_utils.dart';
 import 'package:test/test.dart';
 
 void main() {

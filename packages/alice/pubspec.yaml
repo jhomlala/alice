@@ -1,17 +1,18 @@
 name: alice
-description: An advanced HTTP inspector for Flutter that logs network requests and responses, providing a rich native UI for seamless API debugging.
+description: "Advanced HTTP network inspector and logger for Flutter. Intercepts REST API requests and responses with a native UI for seamless debugging."
 icon: assets/pub/logo.png
 documentation: https://jhomlala.github.io/alice/
-version: 1.7.1
+version: 1.8.0
 homepage: https://github.com/jhomlala/alice
 repository: https://github.com/jhomlala/alice
+issue_tracker: https://github.com/jhomlala/alice/issues
 resolution: workspace
 topics:
-  - http
+  - network
+  - logger
   - inspector
-  - dio
-  - chopper
   - interceptor
+  - http
 
 platforms:
   android:
@@ -22,7 +23,7 @@ platforms:
   windows:
 
 environment:
-  sdk: ">=3.7.0 <4.0.0"
+  sdk: ">=3.13.0 <4.0.0"
   flutter: ">=3.29.0"
 
 dependencies:
@@ -49,3 +50,23 @@ dev_dependencies:
   lints: ^6.1.0
   test: ^1.25.15
   mocktail: ^1.0.4
+
+screenshots:
+  - description: 'Alice Logo'
+    path: assets/pub/logo.png
+  - description: 'Calls List'
+    path: assets/pub/01_calls_list.png
+  - description: 'Request Details'
+    path: assets/pub/02_request_details.png
+  - description: 'JSON Viewer'
+    path: assets/pub/03_json_viewer.png
+  - description: 'Timeline'
+    path: assets/pub/04_timeline.png
+  - description: 'Stats Dashboard'
+    path: assets/pub/05_stats_dashboard.png
+  - description: 'Advanced Search'
+    path: assets/pub/06_advanced_search.png
+  - description: 'Request Replay'
+    path: assets/pub/07_request_replay.png
+  - description: 'Dark Mode'
+    path: assets/pub/08_dark_mode.png

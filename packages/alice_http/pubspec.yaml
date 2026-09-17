@@ -1,22 +1,24 @@
-﻿name: alice_http
-description: "Alice + HTTP integration. It contains plugin for Alice which allows to use http package."
+name: alice_http
+description: "HTTP interceptor and network logger for Alice. Inspect, log, and debug http package requests and responses in a native Flutter UI."
 documentation: https://jhomlala.github.io/alice/
-version: 1.3.3
+version: 1.4.0
 repository: https://github.com/jhomlala/alice
+issue_tracker: https://github.com/jhomlala/alice/issues
 homepage: https://github.com/jhomlala/alice
 resolution: workspace
 topics:
   - http
-  - inspector
-  - alice
   - interceptor
+  - logger
+  - network
+  - rest
 
 environment:
-  sdk: ">=3.7.0 <4.0.0"
+  sdk: ">=3.13.0 <4.0.0"
   flutter: ">=3.29.0"
 
 dependencies:
-  alice: ^1.7.0
+  alice: ^1.8.0
   http: ^1.4.0
 
 dev_dependencies:

@@ -27,3 +27,7 @@ final client = RestClient(dio);
 ```
 
 Now, all network requests performed by your `RestClient` will be captured and displayed in the Alice inspector.
+
+## Example
+
+[View the full Alice Retrofit Example on GitHub](https://github.com/jhomlala/alice/tree/master/examples/alice_retrofit)

@@ -8,7 +8,6 @@ Alice + ObjectBox integration. It contains a plugin for Alice which stores HTTP 
 
 ```dart
 import 'package:alice/alice.dart';
-import 'package:alice/model/alice_configuration.dart';
 import 'package:alice_objectbox/alice_objectbox.dart';
 import 'package:alice_objectbox/alice_objectbox_store.dart';
 

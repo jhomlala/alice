@@ -1,6 +1,4 @@
-import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/model/alice_http_request.dart';
-import 'package:alice/model/alice_http_response.dart';
+import 'package:alice/alice.dart';
 import 'package:test/test.dart';
 
 TypeMatcher<AliceHttpCall> buildCallMatcher({

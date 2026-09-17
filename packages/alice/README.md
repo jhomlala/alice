@@ -4,6 +4,9 @@
 
 # Alice - HTTP Inspector for Flutter
 
+
+
+
 [![pub package](https://img.shields.io/pub/v/alice.svg)](https://pub.dartlang.org/packages/alice)
 [![platform](https://img.shields.io/badge/platform-flutter-blue.svg)](https://github.com/jhomlala/alice)
 
@@ -77,9 +80,9 @@ Whether you are hunting down a broken API payload, checking headers, or monitori
 Add the main Alice package (and any specific client plugins you need) to your `pubspec.yaml`:
 ```yaml
 dependencies:
-  alice: ^1.7.0
+  alice: ^1.8.0
   # Add plugins as needed, e.g.:
-  # alice_dio: ^1.2.5
+  # alice_dio: ^1.3.0
 ```
 
 ### 2. Initialize Alice

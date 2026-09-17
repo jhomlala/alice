@@ -1,6 +1,6 @@
 name: alice_workspace
 environment:
-  sdk: ">=3.7.0 <4.0.0"
+  sdk: ">=3.13.0 <4.0.0"
 
 workspace:
   - packages/alice

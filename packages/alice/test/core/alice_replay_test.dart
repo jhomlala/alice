@@ -1,9 +1,9 @@
-import 'package:alice/core/alice_core.dart';
-import 'package:alice/services/replay/replay_service.dart';
-import 'package:alice/model/alice_configuration.dart';
-import 'package:alice/model/alice_form_data_file.dart';
-import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/model/alice_http_request.dart';
+import 'package:alice/src/core/alice_core.dart';
+import 'package:alice/src/services/replay/replay_service.dart';
+import 'package:alice/src/model/alice_configuration.dart';
+import 'package:alice/src/model/alice_form_data_file.dart';
+import 'package:alice/src/model/alice_http_call.dart';
+import 'package:alice/src/model/alice_http_request.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 

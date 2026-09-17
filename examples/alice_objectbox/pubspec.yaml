@@ -5,7 +5,7 @@ resolution: workspace
 version: 1.0.0+2
 
 environment:
-  sdk: ">=3.7.0 <4.0.0"
+  sdk: ">=3.13.0 <4.0.0"
 
 dependencies:
   material_ui: ^1.2.0

@@ -1,5 +1,5 @@
-import 'package:alice/core/translations.dart';
-import 'package:alice/model/translation.dart';
+import 'package:alice/src/core/translations.dart';
+import 'package:alice/src/model/translation.dart';
 import 'package:test/test.dart';
 
 void main() {

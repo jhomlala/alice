@@ -1,10 +1,6 @@
 import 'dart:math' show max;
 
-import 'package:alice/services/storage/alice_storage.dart';
-import 'package:alice/utils/utils.dart';
-import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/model/alice_http_error.dart';
-import 'package:alice/model/alice_http_response.dart';
+import 'package:alice/alice.dart';
 import 'package:alice_objectbox/alice_objectbox_store.dart';
 import 'package:alice_objectbox/extensions/alice_http_call_extension.dart';
 import 'package:alice_objectbox/model/cached_alice_http_call.dart';
@@ -12,20 +8,17 @@ import 'package:alice_objectbox/objectbox.g.dart';
 
 /// Implementation of [AliceStorage] using ObjectBox.
 class AliceObjectBox implements AliceStorage {
-  const AliceObjectBox({
-    required AliceObjectBoxStore store,
-    required this.maxCallsCount,
-  }) : _store = store,
-       assert(maxCallsCount > 0, 'Max calls count should be greater than 0');
+  const AliceObjectBox({required this.store, required this.maxCallsCount})
+    : assert(maxCallsCount > 0, 'Max calls count should be greater than 0');
 
-  final AliceObjectBoxStore _store;
+  final AliceObjectBoxStore store;
 
   @override
   final int maxCallsCount;
 
   @override
   Stream<List<AliceHttpCall>> get callsStream =>
-      _store.httpCalls
+      store.httpCalls
           .query()
           .order<int>(CachedAliceHttpCall_.createdTime, flags: Order.descending)
           .watch(triggerImmediately: true)
@@ -33,19 +26,19 @@ class AliceObjectBox implements AliceStorage {
           .asBroadcastStream();
 
   @override
-  List<AliceHttpCall> getCalls() => _store.httpCalls.getAll();
+  List<AliceHttpCall> getCalls() => store.httpCalls.getAll();
 
   @override
   CachedAliceHttpCall? selectCall(int requestId) =>
-      _store.httpCalls
+      store.httpCalls
           .query(CachedAliceHttpCall_.id.equals(requestId))
           .build()
           .findFirst();
 
   Future<void> _removeOverQuota() async {
-    if (maxCallsCount > 0 && _store.httpCalls.count() >= maxCallsCount) {
+    if (maxCallsCount > 0 && store.httpCalls.count() >= maxCallsCount) {
       final Query<CachedAliceHttpCall> overQuota =
-          _store.httpCalls
+          store.httpCalls
               .query()
               .order<int>(
                 CachedAliceHttpCall_.createdTime,
@@ -57,7 +50,7 @@ class AliceObjectBox implements AliceStorage {
       final List<int> overQuotaIds = await overQuota.findIdsAsync();
 
       if (overQuotaIds.isNotEmpty) {
-        _store.httpCalls.removeManyAsync(overQuotaIds);
+        store.httpCalls.removeManyAsync(overQuotaIds);
       }
     }
   }
@@ -66,7 +59,7 @@ class AliceObjectBox implements AliceStorage {
   void addCall(AliceHttpCall call) {
     _removeOverQuota();
 
-    _store.httpCalls.put(call.toCached());
+    store.httpCalls.put(call.toCached());
   }
 
   @override
@@ -76,9 +69,9 @@ class AliceObjectBox implements AliceStorage {
     if (selectedCall != null) {
       selectedCall.error = error;
 
-      _store.httpCalls.put(selectedCall);
+      store.httpCalls.put(selectedCall);
     } else {
-      Utils.log('Selected call is null');
+      AliceUtils.log('Selected call is null');
     }
   }
 
@@ -94,20 +87,20 @@ class AliceObjectBox implements AliceStorage {
             response.time.millisecondsSinceEpoch -
             (selectedCall.request?.time.millisecondsSinceEpoch ?? 0);
 
-      _store.httpCalls.put(selectedCall);
+      store.httpCalls.put(selectedCall);
     } else {
-      Utils.log('Selected call is null');
+      AliceUtils.log('Selected call is null');
     }
   }
 
   @override
-  Future<void> removeCalls() => _store.httpCalls.removeAllAsync();
+  Future<void> removeCalls() => store.httpCalls.removeAllAsync();
 
   @override
   AliceStats getStats() => (
-    total: _store.httpCalls.count(),
+    total: store.httpCalls.count(),
     successes:
-        (_store.httpCalls.query()..link(
+        (store.httpCalls.query()..link(
               CachedAliceHttpCall_.responseRel,
               CachedAliceHttpResponse_.status
                   .greaterOrEqual(200)
@@ -116,7 +109,7 @@ class AliceObjectBox implements AliceStorage {
             .build()
             .count(),
     redirects:
-        (_store.httpCalls.query()..link(
+        (store.httpCalls.query()..link(
               CachedAliceHttpCall_.responseRel,
               CachedAliceHttpResponse_.status
                   .greaterOrEqual(300)
@@ -125,7 +118,7 @@ class AliceObjectBox implements AliceStorage {
             .build()
             .count(),
     errors:
-        (_store.httpCalls.query()..link(
+        (store.httpCalls.query()..link(
               CachedAliceHttpCall_.responseRel,
               CachedAliceHttpResponse_.status
                   .greaterOrEqual(400)
@@ -136,7 +129,7 @@ class AliceObjectBox implements AliceStorage {
             .build()
             .count(),
     loading:
-        _store.httpCalls
+        store.httpCalls
             .query(CachedAliceHttpCall_.loading.equals(true))
             .build()
             .count(),

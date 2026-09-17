@@ -1,4 +1,4 @@
-﻿# ObjectBox
+# ObjectBox
 
 Setting up ObjectBox with Alice is simple, however, there are a few crucial steps which need to be followed.
 
@@ -9,7 +9,7 @@ Add this to your **pubspec.yaml** file:
 ```yaml
 dependencies:
   objectbox: any
-  alice_objectbox: ^1.2.5
+  alice_objectbox: ^1.3.0
 ```
 
 ## Usage
@@ -55,3 +55,7 @@ class _MyAppState extends State<MyApp> {
   // your custom stuff...
 }
 ```
+
+## Example
+
+[View the full Alice Objectbox Example on GitHub](https://github.com/jhomlala/alice/tree/master/examples/alice_objectbox)

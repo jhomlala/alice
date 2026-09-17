@@ -1,10 +1,6 @@
 import 'dart:convert' show jsonDecode, jsonEncode;
-import 'package:alice/model/alice_cookie.dart';
+import 'package:alice/alice.dart';
 
-import 'package:alice/model/alice_form_data_file.dart';
-import 'package:alice/model/alice_form_data_field.dart';
-import 'package:alice/model/alice_http_request.dart';
-import 'package:alice/utils/alice_parser.dart';
 import 'package:alice_objectbox/json_converter/alice_form_data_field_converter.dart';
 import 'package:alice_objectbox/json_converter/alice_form_data_file_converter.dart';
 import 'package:meta/meta.dart';

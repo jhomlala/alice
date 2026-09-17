@@ -1,4 +1,4 @@
-import 'package:alice/model/alice_cookie.dart';
+import 'package:alice/src/model/alice_cookie.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

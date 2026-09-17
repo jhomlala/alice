@@ -1,10 +1,10 @@
-import 'package:alice/model/alice_configuration.dart';
-import 'package:alice/core/alice_core.dart';
-import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/model/alice_http_response.dart';
-import 'package:alice/model/alice_http_request.dart';
-import 'package:alice/model/alice_http_error.dart';
-import 'package:alice/ui/stats/stats_page.dart';
+import 'package:alice/src/model/alice_configuration.dart';
+import 'package:alice/src/core/alice_core.dart';
+import 'package:alice/src/model/alice_http_call.dart';
+import 'package:alice/src/model/alice_http_response.dart';
+import 'package:alice/src/model/alice_http_request.dart';
+import 'package:alice/src/model/alice_http_error.dart';
+import 'package:alice/src/ui/stats/stats_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';

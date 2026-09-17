@@ -1,4 +1,4 @@
-﻿# Http
+# Http
 
 To use Alice with the `http` package, add the adapter to your project.
 
@@ -8,7 +8,7 @@ Add this to your **pubspec.yaml** file:
 
 ```yaml
 dependencies:
-  alice_http: ^1.3.3
+  alice_http: ^1.4.0
 ```
 
 ## Usage
@@ -39,3 +39,7 @@ http
       aliceHttpAdapter.onResponse(response, body: body);
     });
 ```
+
+## Example
+
+[View the full Alice Http Example on GitHub](https://github.com/jhomlala/alice/tree/master/examples/alice_http)

@@ -1,6 +1,6 @@
 import 'dart:convert' show jsonDecode, jsonEncode;
 
-import 'package:alice/model/alice_http_error.dart';
+import 'package:alice/alice.dart';
 import 'package:meta/meta.dart';
 import 'package:objectbox/objectbox.dart';
 

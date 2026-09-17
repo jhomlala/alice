@@ -1,22 +1,24 @@
-﻿name: alice_graphql_client
-description: A GraphQL adapter for Alice HTTP Inspector. This package provides a GraphQL Link to capture and log GraphQL operations, allowing easy debugging within the Alice UI.
+name: alice_graphql_client
+description: "GraphQL link interceptor and network logger for Alice. Inspect, log, and debug GraphQL operations and responses in a native Flutter UI."
 documentation: https://jhomlala.github.io/alice/
 repository: https://github.com/jhomlala/alice
+issue_tracker: https://github.com/jhomlala/alice/issues
 homepage: https://github.com/jhomlala/alice
 topics:
-  - http
-  - inspector
   - graphql
-  - alice
-version: 1.0.4
+  - interceptor
+  - logger
+  - network
+  - link
+version: 1.1.0
 
 resolution: workspace
 
 environment:
-  sdk: ^3.13.0
+  sdk: ">=3.13.0 <4.0.0"
 
 dependencies:
-  alice: ^1.7.0
+  alice: ^1.8.0
   graphql: ^5.1.0
   gql: ^1.0.0
   gql_link: ^1.0.0

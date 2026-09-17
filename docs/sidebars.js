@@ -32,6 +32,11 @@ const sidebars = {
       label: 'Storage',
       items: ['objectbox'],
     },
+    {
+      type: 'category',
+      label: 'Migrations',
+      items: ['migration'],
+    },
   ],
 };
 module.exports = sidebars;

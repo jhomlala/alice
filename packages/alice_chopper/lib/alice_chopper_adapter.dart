@@ -1,16 +1,8 @@
 import 'dart:async' show FutureOr;
 import 'dart:convert' show utf8;
 
-import 'package:alice/model/alice_form_data_file.dart';
-import 'package:alice/model/alice_form_data_field.dart';
+import 'package:alice/alice.dart';
 import 'package:flutter/foundation.dart';
-import 'package:alice/core/alice_adapter.dart';
-import 'package:alice/utils/utils.dart';
-import 'package:alice/model/alice_http_call.dart';
-import 'package:alice/model/alice_http_error.dart';
-import 'package:alice/model/alice_http_request.dart';
-import 'package:alice/model/alice_http_response.dart';
-import 'package:alice/model/alice_log.dart';
 import 'package:chopper/chopper.dart';
 import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
@@ -108,7 +100,7 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
       return response;
     } catch (error, stackTrace) {
       /// Log error to Alice log
-      Utils.log(error.toString());
+      AliceUtils.log(error.toString());
 
       aliceCore.addLog(
         AliceLog(
