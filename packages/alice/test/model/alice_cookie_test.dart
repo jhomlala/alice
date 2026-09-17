@@ -24,17 +24,16 @@ void main() {
       () {
         final dbCookiesList = ['foo=bar', 'baz=', 'invalid_cookie'];
 
-        final cookies =
-            dbCookiesList.map((String cookie) {
-              final index = cookie.indexOf('=');
-              if (index == -1) {
-                return AliceCookie(cookie, '');
-              }
-              return AliceCookie(
-                cookie.substring(0, index),
-                cookie.substring(index + 1),
-              );
-            }).toList();
+        final cookies = dbCookiesList.map((String cookie) {
+          final index = cookie.indexOf('=');
+          if (index == -1) {
+            return AliceCookie(cookie, '');
+          }
+          return AliceCookie(
+            cookie.substring(0, index),
+            cookie.substring(index + 1),
+          );
+        }).toList();
 
         expect(cookies.length, 3);
         expect(cookies[0].name, 'foo');

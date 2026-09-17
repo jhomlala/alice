@@ -103,10 +103,9 @@ class CallRequestScreen extends StatelessWidget {
     }
 
     final Map<String, dynamic>? headers = call.request?.headers;
-    final String headersContent =
-        headers?.isEmpty ?? true
-            ? context.i18n(TranslationKey.callRequestHeadersEmpty)
-            : '';
+    final String headersContent = headers?.isEmpty ?? true
+        ? context.i18n(TranslationKey.callRequestHeadersEmpty)
+        : '';
     rows.add(
       CallListRow(
         name: context.i18n(TranslationKey.callRequestHeaders),
@@ -122,10 +121,9 @@ class CallRequestScreen extends StatelessWidget {
     ]);
 
     final Map<String, dynamic>? queryParameters = call.request?.queryParameters;
-    final String queryParametersContent =
-        queryParameters?.isEmpty ?? true
-            ? context.i18n(TranslationKey.callRequestQueryParametersEmpty)
-            : '';
+    final String queryParametersContent = queryParameters?.isEmpty ?? true
+        ? context.i18n(TranslationKey.callRequestQueryParametersEmpty)
+        : '';
     rows.add(
       CallListRow(
         name: context.i18n(TranslationKey.callRequestQueryParameters),
@@ -156,13 +154,13 @@ class CallRequestScreen extends StatelessWidget {
     final dynamic body = call.request?.body;
     return body != null
         ? AliceParser.formatBody(
-          context: context,
-          body: body,
-          contentType: AliceParser.getContentType(
             context: context,
-            headers: call.request?.headers,
-          ),
-        )
+            body: body,
+            contentType: AliceParser.getContentType(
+              context: context,
+              headers: call.request?.headers,
+            ),
+          )
         : context.i18n(TranslationKey.callRequestBodyEmpty);
   }
 }

@@ -24,9 +24,8 @@ void main() {
     final service = ReplayService(core);
 
     final call = AliceHttpCall(1);
-    call.request =
-        AliceHttpRequest()
-          ..formDataFiles = [AliceFormDataFile('file.txt', 'text/plain', 10)];
+    call.request = AliceHttpRequest()
+      ..formDataFiles = [AliceFormDataFile('file.txt', 'text/plain', 10)];
 
     await tester.pumpWidget(
       MaterialApp(

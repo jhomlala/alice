@@ -9,13 +9,12 @@ void main() {
     late AliceHttpCall call;
 
     setUp(() {
-      call =
-          MockedData.getFilledHttpCall()
-            ..method = "GET"
-            ..endpoint = "/api/users"
-            ..server = "https://google.com"
-            ..client = "Dio"
-            ..duration = 150;
+      call = MockedData.getFilledHttpCall()
+        ..method = "GET"
+        ..endpoint = "/api/users"
+        ..server = "https://google.com"
+        ..client = "Dio"
+        ..duration = 150;
       call.response?.status = 200;
     });
 

@@ -38,21 +38,17 @@ class SortDialog extends StatelessWidget {
                     },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
-                      children:
-                          CallsListSortOption.values
-                              .map(
-                                (option) =>
-                                    RadioListTile<CallsListSortOption>.adaptive(
-                                      title: Text(
-                                        _getName(
-                                          context: context,
-                                          option: option,
-                                        ),
-                                      ),
-                                      value: option,
-                                    ),
-                              )
-                              .toList(),
+                      children: CallsListSortOption.values
+                          .map(
+                            (option) =>
+                                RadioListTile<CallsListSortOption>.adaptive(
+                                  title: Text(
+                                    _getName(context: context, option: option),
+                                  ),
+                                  value: option,
+                                ),
+                          )
+                          .toList(),
                     ),
                   ),
                   const Divider(),

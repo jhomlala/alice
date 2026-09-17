@@ -24,57 +24,57 @@ class CallsListScreen extends StatelessWidget {
     CallsListSortOption.time =>
       sortAscending
           ? (calls..sort(
-            (AliceHttpCall call1, AliceHttpCall call2) =>
-                call1.createdTime.compareTo(call2.createdTime),
-          ))
+              (AliceHttpCall call1, AliceHttpCall call2) =>
+                  call1.createdTime.compareTo(call2.createdTime),
+            ))
           : (calls..sort(
-            (AliceHttpCall call1, AliceHttpCall call2) =>
-                call2.createdTime.compareTo(call1.createdTime),
-          )),
+              (AliceHttpCall call1, AliceHttpCall call2) =>
+                  call2.createdTime.compareTo(call1.createdTime),
+            )),
     CallsListSortOption.responseTime =>
       sortAscending
           ? (calls
-            ..sort()
-            ..sort(
-              (AliceHttpCall call1, AliceHttpCall call2) =>
-                  call1.response?.time.compareTo(call2.response!.time) ?? -1,
-            ))
+              ..sort()
+              ..sort(
+                (AliceHttpCall call1, AliceHttpCall call2) =>
+                    call1.response?.time.compareTo(call2.response!.time) ?? -1,
+              ))
           : (calls..sort(
-            (AliceHttpCall call1, AliceHttpCall call2) =>
-                call2.response?.time.compareTo(call1.response!.time) ?? -1,
-          )),
+              (AliceHttpCall call1, AliceHttpCall call2) =>
+                  call2.response?.time.compareTo(call1.response!.time) ?? -1,
+            )),
     CallsListSortOption.responseCode =>
       sortAscending
           ? (calls..sort(
-            (AliceHttpCall call1, AliceHttpCall call2) =>
-                call1.response?.status?.compareTo(call2.response!.status!) ??
-                -1,
-          ))
+              (AliceHttpCall call1, AliceHttpCall call2) =>
+                  call1.response?.status?.compareTo(call2.response!.status!) ??
+                  -1,
+            ))
           : (calls..sort(
-            (AliceHttpCall call1, AliceHttpCall call2) =>
-                call2.response?.status?.compareTo(call1.response!.status!) ??
-                -1,
-          )),
+              (AliceHttpCall call1, AliceHttpCall call2) =>
+                  call2.response?.status?.compareTo(call1.response!.status!) ??
+                  -1,
+            )),
     CallsListSortOption.responseSize =>
       sortAscending
           ? (calls..sort(
-            (AliceHttpCall call1, AliceHttpCall call2) =>
-                call1.response?.size.compareTo(call2.response!.size) ?? -1,
-          ))
+              (AliceHttpCall call1, AliceHttpCall call2) =>
+                  call1.response?.size.compareTo(call2.response!.size) ?? -1,
+            ))
           : (calls..sort(
-            (AliceHttpCall call1, AliceHttpCall call2) =>
-                call2.response?.size.compareTo(call1.response!.size) ?? -1,
-          )),
+              (AliceHttpCall call1, AliceHttpCall call2) =>
+                  call2.response?.size.compareTo(call1.response!.size) ?? -1,
+            )),
     CallsListSortOption.endpoint =>
       sortAscending
           ? (calls..sort(
-            (AliceHttpCall call1, AliceHttpCall call2) =>
-                call1.endpoint.compareTo(call2.endpoint),
-          ))
+              (AliceHttpCall call1, AliceHttpCall call2) =>
+                  call1.endpoint.compareTo(call2.endpoint),
+            ))
           : (calls..sort(
-            (AliceHttpCall call1, AliceHttpCall call2) =>
-                call2.endpoint.compareTo(call1.endpoint),
-          )),
+              (AliceHttpCall call1, AliceHttpCall call2) =>
+                  call2.endpoint.compareTo(call1.endpoint),
+            )),
     _ => calls,
   };
 
@@ -84,9 +84,8 @@ class CallsListScreen extends StatelessWidget {
       behavior: CustomScrollBehavior(),
       child: ListView.builder(
         itemCount: calls.length,
-        itemBuilder:
-            (_, int index) =>
-                CallListItemWidget(_sortedCalls[index], onListItemClicked),
+        itemBuilder: (_, int index) =>
+            CallListItemWidget(_sortedCalls[index], onListItemClicked),
       ),
     );
   }

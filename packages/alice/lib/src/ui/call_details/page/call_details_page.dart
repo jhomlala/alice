@@ -50,13 +50,12 @@ class _AliceCallDetailsPageState extends State<CallDetailsPage>
                   appBar: AppBar(
                     bottom: TabBar(
                       indicatorColor: AliceAppTheme.lightRed,
-                      tabs:
-                          AliceCallDetailsTabItem.values.map((item) {
-                            return Tab(
-                              icon: _getTabIcon(item: item),
-                              text: _getTabName(item: item),
-                            );
-                          }).toList(),
+                      tabs: AliceCallDetailsTabItem.values.map((item) {
+                        return Tab(
+                          icon: _getTabIcon(item: item),
+                          text: _getTabName(item: item),
+                        );
+                      }).toList(),
                     ),
                     title: Text(
                       '${context.i18n(TranslationKey.alice)} -'

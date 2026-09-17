@@ -243,29 +243,29 @@ class _RatioSection extends StatelessWidget {
             Wrap(
               spacing: 16,
               runSpacing: 4,
-              children:
-                  data.map((item) {
-                    final percentage = (item.value / total * 100)
-                        .toStringAsFixed(1);
-                    return RichText(
-                      text: TextSpan(
+              children: data.map((item) {
+                final percentage = (item.value / total * 100).toStringAsFixed(
+                  1,
+                );
+                return RichText(
+                  text: TextSpan(
+                    style: TextStyle(
+                      color: Theme.of(context).textTheme.bodyLarge?.color,
+                      fontSize: 13,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: '${item.label}: ',
                         style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyLarge?.color,
-                          fontSize: 13,
+                          color: item.color,
+                          fontWeight: FontWeight.bold,
                         ),
-                        children: [
-                          TextSpan(
-                            text: '${item.label}: ',
-                            style: TextStyle(
-                              color: item.color,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          TextSpan(text: '$percentage% (${item.value})'),
-                        ],
                       ),
-                    );
-                  }).toList(),
+                      TextSpan(text: '$percentage% (${item.value})'),
+                    ],
+                  ),
+                );
+              }).toList(),
             ),
         ],
       ),
@@ -309,16 +309,15 @@ class _InsightsSection extends StatelessWidget {
   }
 
   List<AliceHttpCall> _getTopErrors(List<AliceHttpCall> calls, int count) {
-    final list =
-        calls
-            .where(
-              (c) =>
-                  (c.response?.status.gte(400) ?? false) ||
-                  c.error != null ||
-                  c.response?.status == 0 ||
-                  c.response?.status == -1,
-            )
-            .toList();
+    final list = calls
+        .where(
+          (c) =>
+              (c.response?.status.gte(400) ?? false) ||
+              c.error != null ||
+              c.response?.status == 0 ||
+              c.response?.status == -1,
+        )
+        .toList();
     list.sort((a, b) => b.createdTime.compareTo(a.createdTime));
     return list.take(count).toList();
   }
@@ -354,10 +353,9 @@ class _InsightList extends StatelessWidget {
       children: [
         Container(
           width: double.infinity,
-          color:
-              Theme.of(context).brightness == Brightness.dark
-                  ? Colors.grey[900]
-                  : Colors.grey[200],
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Colors.grey[900]
+              : Colors.grey[200],
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Text(
             title,

@@ -178,10 +178,9 @@ class _MapViewer extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _ExpandableHeader(
-          text:
-              nodeKey == null
-                  ? '$objectTranslation {${map.length}}'
-                  : '$nodeKey: {${map.length}}',
+          text: nodeKey == null
+              ? '$objectTranslation {${map.length}}'
+              : '$nodeKey: {${map.length}}',
           isExpanded: isExpanded,
           onTap: onToggle,
         ),
@@ -190,13 +189,12 @@ class _MapViewer extends StatelessWidget {
             padding: const EdgeInsets.only(left: 16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children:
-                  map.entries.map((e) {
-                    return _JsonObjectViewer(
-                      nodeKey: e.key.toString(),
-                      jsonObject: e.value,
-                    );
-                  }).toList(),
+              children: map.entries.map((e) {
+                return _JsonObjectViewer(
+                  nodeKey: e.key.toString(),
+                  jsonObject: e.value,
+                );
+              }).toList(),
             ),
           ),
       ],
@@ -231,10 +229,9 @@ class _ListViewer extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _ExpandableHeader(
-          text:
-              nodeKey == null
-                  ? '$arrayTranslation [${list.length}]'
-                  : '$nodeKey: [${list.length}]',
+          text: nodeKey == null
+              ? '$arrayTranslation [${list.length}]'
+              : '$nodeKey: [${list.length}]',
           isExpanded: isExpanded,
           onTap: onToggle,
         ),

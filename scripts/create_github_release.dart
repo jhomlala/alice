@@ -162,12 +162,13 @@ Future<Map<String, dynamic>?> _fetchPubVersion(
   String version,
 ) async {
   try {
-    final request = await client.getUrl(
-        Uri.parse(
-          'https://pub.dev/api/packages/$packageName/versions/$version',
-        ),
-      )
-      ..headers.add('User-Agent', 'Dart/3.0');
+    final request =
+        await client.getUrl(
+            Uri.parse(
+              'https://pub.dev/api/packages/$packageName/versions/$version',
+            ),
+          )
+          ..headers.add('User-Agent', 'Dart/3.0');
     final response = await request.close();
     final body = await response.transform(utf8.decoder).join();
     if (response.statusCode == 200) {

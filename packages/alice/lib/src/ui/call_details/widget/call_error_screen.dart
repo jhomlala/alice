@@ -17,10 +17,9 @@ class CallErrorScreen extends StatelessWidget {
     if (call.error != null) {
       final dynamic error = call.error?.error;
       final StackTrace? stackTrace = call.error?.stackTrace;
-      final String errorText =
-          error != null
-              ? error.toString()
-              : context.i18n(TranslationKey.callErrorScreenErrorEmpty);
+      final String errorText = error != null
+          ? error.toString()
+          : context.i18n(TranslationKey.callErrorScreenErrorEmpty);
 
       return Container(
         padding: const EdgeInsets.all(6),

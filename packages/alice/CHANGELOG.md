@@ -1,3 +1,7 @@
+## Unreleased
+
+* Fixed Flutter Web Wasm compatibility by isolating `flutter_local_notifications` behind conditional imports.
+
 ## 1.8.0
 
 * Enforced strict public API by moving internal logic to lib/src.

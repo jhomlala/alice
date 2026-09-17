@@ -1,4 +1,5 @@
 import 'dart:math';
+
 import 'package:alice/src/core/alice_core.dart';
 import 'package:alice/src/model/alice_http_call.dart';
 import 'package:alice/src/ui/common/theme.dart';
@@ -119,8 +120,9 @@ class _TimelineScreenState extends State<TimelineScreen>
                       call.createdTime.difference(minTime).inMilliseconds *
                       pixelsPerMs;
                   final callEndTime = call.response?.time ?? DateTime.now();
-                  final int durationMs =
-                      callEndTime.difference(call.createdTime).inMilliseconds;
+                  final int durationMs = callEndTime
+                      .difference(call.createdTime)
+                      .inMilliseconds;
                   double width = durationMs * pixelsPerMs;
                   if (width < 5.0) {
                     width = 5.0;

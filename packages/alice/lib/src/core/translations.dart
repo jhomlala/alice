@@ -270,8 +270,7 @@ class Translations {
         TranslationKey.callResponseBody: "Body:",
         TranslationKey.callResponseTooLargeToShow: "Za duże aby pokazać",
         TranslationKey.callResponseBodyShow: "Pokaż body",
-        TranslationKey.callResponseLargeBodyShowWarning:
-            'Uwaga! Może zająć trochę czasu, zanim uda się wyrenderować output.',
+        TranslationKey.callResponseLargeBodyShowWarning: 'Uwaga! Może zająć trochę czasu, zanim uda się wyrenderować output.',
         TranslationKey.callResponseBodyVideo: 'Body: Video',
         TranslationKey.callResponseBodyVideoWebBrowser:
             'Otwórz video w przeglądarce',
@@ -414,8 +413,7 @@ class Translations {
         TranslationKey.exportFormatCancel: "Anuluj",
         TranslationKey.saveLoading: "Ładowanie...",
         TranslationKey.replay: "♻️ Ponowne",
-        TranslationKey.replayMultipartNotSupported:
-            "Powtórzenie żądań z Multipart/FormData nie jest jeszcze wspierane.",
+        TranslationKey.replayMultipartNotSupported: "Powtórzenie żądań z Multipart/FormData nie jest jeszcze wspierane.",
         TranslationKey.replaySuccess: "Sukces",
         TranslationKey.replaySuccessMessage:
             "Żądanie zostało pomyślnie powtórzone",

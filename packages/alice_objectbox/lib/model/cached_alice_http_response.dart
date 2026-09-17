@@ -59,13 +59,11 @@ class CachedAliceHttpResponse implements AliceHttpResponse {
   String? get dbHeaders => headers != null ? jsonEncode(headers) : null;
 
   /// Custom data type converter of [headers].
-  set dbHeaders(String? value) =>
-      headers =
-          value != null
-              ? (jsonDecode(value) as Map<String, dynamic>?)?.map(
-                (key, value) => MapEntry(key, value.toString()),
-              )
-              : null;
+  set dbHeaders(String? value) => headers = value != null
+      ? (jsonDecode(value) as Map<String, dynamic>?)?.map(
+          (key, value) => MapEntry(key, value.toString()),
+        )
+      : null;
 
   @override
   List<Object?> get props => [status, size, time, body, headers];

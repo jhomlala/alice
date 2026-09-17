@@ -20,9 +20,8 @@ void main() {
   setUp(() {
     mockAliceCore = MockAliceCore();
     mockAliceConfiguration = MockAliceConfiguration();
-    when(
-      () => mockAliceConfiguration.directionality,
-    ).thenReturn(TextDirection.ltr);
+    when(() => mockAliceConfiguration.directionality)
+        .thenReturn(TextDirection.ltr);
     when(() => mockAliceCore.configuration).thenReturn(mockAliceConfiguration);
   });
 
@@ -48,10 +47,9 @@ void main() {
         ..duration = 1500
         ..loading = false
         ..request = (AliceHttpRequest()..size = 200)
-        ..response =
-            (AliceHttpResponse()
-              ..status = 200
-              ..size = 1000),
+        ..response = (AliceHttpResponse()
+          ..status = 200
+          ..size = 1000),
       AliceHttpCall(2)
         ..method = 'POST'
         ..server = 'api.example.com'
@@ -60,15 +58,13 @@ void main() {
         ..loading = false
         ..error = (AliceHttpError()..error = 'Timeout')
         ..request = (AliceHttpRequest()..size = 5000)
-        ..response =
-            (AliceHttpResponse()
-              ..status = 500
-              ..size = 50),
+        ..response = (AliceHttpResponse()
+          ..status = 500
+          ..size = 50),
     ];
 
-    when(
-      () => mockAliceCore.callsStream,
-    ).thenAnswer((_) => Stream.value(calls));
+    when(() => mockAliceCore.callsStream)
+        .thenAnswer((_) => Stream.value(calls));
     when(() => mockAliceCore.getCalls()).thenReturn(calls);
 
     await tester.pumpWidget(createTestWidget(StatsPage(mockAliceCore)));

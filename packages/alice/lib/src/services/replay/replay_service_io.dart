@@ -1,5 +1,6 @@
 import 'dart:convert' show utf8;
 import 'dart:io' show HttpClient, HttpClientRequest, HttpClientResponse;
+
 import 'package:alice/src/core/alice_core.dart';
 import 'package:alice/src/services/replay/replay_service.dart';
 import 'package:alice/src/model/alice_http_call.dart';
@@ -32,27 +33,23 @@ class ReplayServiceImpl implements ReplayService {
     }
 
     final int newId = DateTime.now().millisecondsSinceEpoch;
-    final AliceHttpCall newCall =
-        AliceHttpCall(newId)
-          ..client = originalCall.client
-          ..method = originalCall.method
-          ..endpoint = originalCall.endpoint
-          ..server = originalCall.server
-          ..uri = originalCall.uri
-          ..secure = originalCall.secure
-          ..isReplay = true;
+    final AliceHttpCall newCall = AliceHttpCall(newId)
+      ..client = originalCall.client
+      ..method = originalCall.method
+      ..endpoint = originalCall.endpoint
+      ..server = originalCall.server
+      ..uri = originalCall.uri
+      ..secure = originalCall.secure
+      ..isReplay = true;
 
-    final AliceHttpRequest newRequest =
-        AliceHttpRequest()
-          ..time = DateTime.now()
-          ..contentType = originalCall.request?.contentType
-          ..headers = Map<String, String>.from(
-            originalCall.request?.headers ?? {},
-          )
-          ..queryParameters = Map<String, dynamic>.from(
-            originalCall.request?.queryParameters ?? {},
-          )
-          ..body = originalCall.request?.body;
+    final AliceHttpRequest newRequest = AliceHttpRequest()
+      ..time = DateTime.now()
+      ..contentType = originalCall.request?.contentType
+      ..headers = Map<String, String>.from(originalCall.request?.headers ?? {})
+      ..queryParameters = Map<String, dynamic>.from(
+        originalCall.request?.queryParameters ?? {},
+      )
+      ..body = originalCall.request?.body;
 
     newCall.request = newRequest;
     await core.addCall(newCall);
@@ -130,13 +127,12 @@ class ReplayServiceImpl implements ReplayService {
         responseHeaders[name] = values.join(', ');
       });
 
-      final AliceHttpResponse aliceResponse =
-          AliceHttpResponse()
-            ..status = response.statusCode
-            ..time = DateTime.now()
-            ..size = responseBytes.length
-            ..headers = responseHeaders
-            ..body = responseBody;
+      final AliceHttpResponse aliceResponse = AliceHttpResponse()
+        ..status = response.statusCode
+        ..time = DateTime.now()
+        ..size = responseBytes.length
+        ..headers = responseHeaders
+        ..body = responseBody;
 
       newCall.duration = stopwatch.elapsedMilliseconds;
       newCall.loading = false;
@@ -154,10 +150,9 @@ class ReplayServiceImpl implements ReplayService {
       newCall.duration = stopwatch.elapsedMilliseconds;
       newCall.loading = false;
 
-      final AliceHttpError aliceError =
-          AliceHttpError()
-            ..error = error
-            ..stackTrace = stackTrace;
+      final AliceHttpError aliceError = AliceHttpError()
+        ..error = error
+        ..stackTrace = stackTrace;
 
       await core.addError(aliceError, newId);
 
