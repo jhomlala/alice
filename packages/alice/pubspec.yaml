@@ -49,3 +49,23 @@ dev_dependencies:
   lints: ^6.1.0
   test: ^1.25.15
   mocktail: ^1.0.4
+
+screenshots:
+  - description: 'Alice Logo'
+    path: assets/pub/logo.png
+  - description: 'Calls List'
+    path: assets/pub/01_calls_list.png
+  - description: 'Request Details'
+    path: assets/pub/02_request_details.png
+  - description: 'JSON Viewer'
+    path: assets/pub/03_json_viewer.png
+  - description: 'Timeline'
+    path: assets/pub/04_timeline.png
+  - description: 'Stats Dashboard'
+    path: assets/pub/05_stats_dashboard.png
+  - description: 'Advanced Search'
+    path: assets/pub/06_advanced_search.png
+  - description: 'Request Replay'
+    path: assets/pub/07_request_replay.png
+  - description: 'Dark Mode'
+    path: assets/pub/08_dark_mode.png
