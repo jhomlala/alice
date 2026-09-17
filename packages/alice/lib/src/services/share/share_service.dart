@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+
 import 'share_service_stub.dart'
     if (dart.library.io) 'share_service_io.dart'
     if (dart.library.js_interop) 'share_service_web.dart';

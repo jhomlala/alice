@@ -96,7 +96,11 @@ class TextExporter implements Exporter {
         '${context.i18n(TranslationKey.saveLogResponseStatus)} ${call.response?.status}\n',
         '${context.i18n(TranslationKey.saveLogResponseSize)} ${ConversionUtils.formatBytes(call.response?.size ?? 0)}\n',
         '${context.i18n(TranslationKey.saveLogResponseHeaders)} ${_encoder.convert(call.response?.headers)}\n',
-        '${context.i18n(TranslationKey.saveLogResponseBody)} ${AliceParser.formatBody(context: context, body: call.response?.body, contentType: AliceParser.getContentType(context: context, headers: call.response?.headers))}\n',
+        '${context.i18n(TranslationKey.saveLogResponseBody)} ${AliceParser.formatBody(
+          context: context,
+          body: call.response?.body,
+          contentType: AliceParser.getContentType(context: context, headers: call.response?.headers),
+        )}\n',
       ]);
 
       if (call.error != null) {

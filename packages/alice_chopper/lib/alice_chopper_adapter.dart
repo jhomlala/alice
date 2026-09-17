@@ -37,37 +37,33 @@ class AliceChopperAdapter with AliceAdapter implements Interceptor {
     aliceCore.addCall(
       AliceHttpCall(requestId)
         ..method = chain.request.method
-        ..endpoint =
-            chain.request.url.path.isEmpty ? '/' : chain.request.url.path
+        ..endpoint = chain.request.url.path.isEmpty
+            ? '/'
+            : chain.request.url.path
         ..server = chain.request.url.host
         ..secure = chain.request.url.scheme == 'https'
         ..uri = chain.request.url.toString()
         ..client = 'Chopper'
-        ..request =
-            (AliceHttpRequest()
-              ..size = switch (chain.request.body) {
-                dynamic body when body is String => utf8.encode(body).length,
-                dynamic body when body is List<int> => body.length,
-                dynamic body when body == null => 0,
-                _ => utf8.encode(body.toString()).length,
-              }
-              ..body = chain.request.body ?? ''
-              ..time = DateTime.now()
-              ..headers = chain.request.headers
-              ..contentType = chain.request.headers['content-type'] ?? 'unknown'
-              ..formDataFields =
-                  chain.request.parts
-                      .whereType<PartValue>()
-                      .map(
-                        (field) => AliceFormDataField(field.name, field.value),
-                      )
-                      .toList()
-              ..formDataFiles =
-                  chain.request.parts
-                      .whereType<PartValueFile>()
-                      .map((file) => AliceFormDataFile(file.value, "", 0))
-                      .toList()
-              ..queryParameters = chain.request.parameters)
+        ..request = (AliceHttpRequest()
+          ..size = switch (chain.request.body) {
+            dynamic body when body is String => utf8.encode(body).length,
+            dynamic body when body is List<int> => body.length,
+            dynamic body when body == null => 0,
+            _ => utf8.encode(body.toString()).length,
+          }
+          ..body = chain.request.body ?? ''
+          ..time = DateTime.now()
+          ..headers = chain.request.headers
+          ..contentType = chain.request.headers['content-type'] ?? 'unknown'
+          ..formDataFields = chain.request.parts
+              .whereType<PartValue>()
+              .map((field) => AliceFormDataField(field.name, field.value))
+              .toList()
+          ..formDataFiles = chain.request.parts
+              .whereType<PartValueFile>()
+              .map((file) => AliceFormDataFile(file.value, "", 0))
+              .toList()
+          ..queryParameters = chain.request.parameters)
         ..response = AliceHttpResponse(),
     );
 

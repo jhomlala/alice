@@ -54,23 +54,20 @@ void main() {
     (WidgetTester tester) async {
       final baseTime = DateTime(2026, 9, 17, 10, 0, 0);
 
-      final call1 =
-          TestAliceHttpCall(1, baseTime)
-            ..endpoint = '/api/v1/users'
-            ..loading = false
-            ..response =
-                (AliceHttpResponse()
-                  ..status = 200
-                  ..time = baseTime.add(const Duration(milliseconds: 200)));
+      final call1 = TestAliceHttpCall(1, baseTime)
+        ..endpoint = '/api/v1/users'
+        ..loading = false
+        ..response = (AliceHttpResponse()
+          ..status = 200
+          ..time = baseTime.add(const Duration(milliseconds: 200)));
 
       final call2 =
           TestAliceHttpCall(2, baseTime.add(const Duration(milliseconds: 100)))
             ..endpoint = '/api/v1/posts'
             ..loading = false
-            ..response =
-                (AliceHttpResponse()
-                  ..status = 500
-                  ..time = baseTime.add(const Duration(milliseconds: 500)));
+            ..response = (AliceHttpResponse()
+              ..status = 500
+              ..time = baseTime.add(const Duration(milliseconds: 500)));
 
       final call3 =
           TestAliceHttpCall(3, baseTime.add(const Duration(milliseconds: 300)))
@@ -79,9 +76,8 @@ void main() {
 
       final calls = [call1, call2, call3];
 
-      when(
-        () => mockAliceCore.callsStream,
-      ).thenAnswer((_) => Stream.value(calls));
+      when(() => mockAliceCore.callsStream)
+          .thenAnswer((_) => Stream.value(calls));
 
       await tester.pumpWidget(
         createTestWidget(

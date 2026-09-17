@@ -48,13 +48,10 @@ void main() {
       },
     );
 
-    test(
-      "clearAndroidRawLogs should complete without throwing on non-android platforms",
-      () async {
-        debugDefaultTargetPlatformOverride = TargetPlatform.windows;
-        expect(aliceLogger.clearAndroidRawLogs(), completes);
-        debugDefaultTargetPlatformOverride = null;
-      },
-    );
+    test("clearAndroidRawLogs should complete without throwing on non-android platforms", () async {
+      debugDefaultTargetPlatformOverride = TargetPlatform.windows;
+      expect(aliceLogger.clearAndroidRawLogs(), completes);
+      debugDefaultTargetPlatformOverride = null;
+    });
   });
 }

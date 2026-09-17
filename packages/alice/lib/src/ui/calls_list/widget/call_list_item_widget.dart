@@ -69,17 +69,16 @@ class CallListItemWidget extends StatelessWidget {
   }
 
   /// Get response status text color based on response status.
-  Color _getStatusTextColor(BuildContext context) => switch (call
-      .response
-      ?.status) {
-    -1 => AliceAppTheme.red,
-    int status when status < 200 =>
-      Theme.of(context).textTheme.bodyLarge?.color ?? AliceAppTheme.grey,
-    int status when status >= 200 && status < 300 => AliceAppTheme.green,
-    int status when status >= 300 && status < 400 => AliceAppTheme.orange,
-    int status when status >= 400 && status < 600 => AliceAppTheme.red,
-    _ => Theme.of(context).textTheme.bodyLarge!.color ?? AliceAppTheme.grey,
-  };
+  Color _getStatusTextColor(BuildContext context) =>
+      switch (call.response?.status) {
+        -1 => AliceAppTheme.red,
+        int status when status < 200 =>
+          Theme.of(context).textTheme.bodyLarge?.color ?? AliceAppTheme.grey,
+        int status when status >= 200 && status < 300 => AliceAppTheme.green,
+        int status when status >= 300 && status < 400 => AliceAppTheme.orange,
+        int status when status >= 400 && status < 600 => AliceAppTheme.red,
+        _ => Theme.of(context).textTheme.bodyLarge!.color ?? AliceAppTheme.grey,
+      };
 
   /// Returns endpoint text color based on call state.
   Color _getEndpointTextColor(BuildContext context) =>

@@ -1,7 +1,7 @@
 name: alice_http
 description: "HTTP interceptor and network logger for Alice. Inspect, log, and debug http package requests and responses in a native Flutter UI."
 documentation: https://jhomlala.github.io/alice/
-version: 1.4.0
+version: 1.4.1
 repository: https://github.com/jhomlala/alice
 issue_tracker: https://github.com/jhomlala/alice/issues
 homepage: https://github.com/jhomlala/alice
@@ -18,7 +18,7 @@ environment:
   flutter: ">=3.29.0"
 
 dependencies:
-  alice: ^1.8.0
+  alice: ^1.9.0
   http: ^1.4.0
 
 dev_dependencies:

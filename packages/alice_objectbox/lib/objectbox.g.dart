@@ -331,12 +331,11 @@ obx_int.ModelDefinition getObjectBoxModel() {
   final bindings = <Type, obx_int.EntityDefinition>{
     CachedAliceHttpCall: obx_int.EntityDefinition<CachedAliceHttpCall>(
       model: _entities[0],
-      toOneRelations:
-          (CachedAliceHttpCall object) => [
-            object.requestRel,
-            object.responseRel,
-            object.errorRel,
-          ],
+      toOneRelations: (CachedAliceHttpCall object) => [
+        object.requestRel,
+        object.responseRel,
+        object.errorRel,
+      ],
       toManyRelations: (CachedAliceHttpCall object) => {},
       getId: (CachedAliceHttpCall object) => object.objectId,
       setId: (CachedAliceHttpCall object, int id) {
@@ -385,9 +384,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
           (const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0) / 1000)
               .round(),
         );
-        final clientParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 10, '');
+        final clientParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGet(buffer, rootOffset, 10, '');
         final loadingParam = const fb.BoolReader().vTableGet(
           buffer,
           rootOffset,
@@ -400,18 +398,14 @@ obx_int.ModelDefinition getObjectBoxModel() {
           14,
           false,
         );
-        final methodParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 16, '');
-        final endpointParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 18, '');
-        final serverParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 20, '');
-        final uriParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 22, '');
+        final methodParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGet(buffer, rootOffset, 16, '');
+        final endpointParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGet(buffer, rootOffset, 18, '');
+        final serverParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGet(buffer, rootOffset, 20, '');
+        final uriParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGet(buffer, rootOffset, 22, '');
         final durationParam = const fb.Int64Reader().vTableGet(
           buffer,
           rootOffset,
@@ -464,12 +458,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
         object.objectId = id;
       },
       objectToFB: (CachedAliceHttpError object, fb.Builder fbb) {
-        final dbErrorOffset =
-            object.dbError == null ? null : fbb.writeString(object.dbError!);
-        final dbStackTraceOffset =
-            object.dbStackTrace == null
-                ? null
-                : fbb.writeString(object.dbStackTrace!);
+        final dbErrorOffset = object.dbError == null
+            ? null
+            : fbb.writeString(object.dbError!);
+        final dbStackTraceOffset = object.dbStackTrace == null
+            ? null
+            : fbb.writeString(object.dbStackTrace!);
         fbb.startTable(4);
         fbb.addInt64(0, object.objectId);
         fbb.addOffset(1, dbErrorOffset);
@@ -486,14 +480,11 @@ obx_int.ModelDefinition getObjectBoxModel() {
           4,
           0,
         );
-        final object =
-            CachedAliceHttpError(objectId: objectIdParam)
-              ..dbError = const fb.StringReader(
-                asciiOptimization: true,
-              ).vTableGetNullable(buffer, rootOffset, 6)
-              ..dbStackTrace = const fb.StringReader(
-                asciiOptimization: true,
-              ).vTableGetNullable(buffer, rootOffset, 8);
+        final object = CachedAliceHttpError(objectId: objectIdParam)
+          ..dbError = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 6)
+          ..dbStackTrace = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 8);
 
         return object;
       },
@@ -507,35 +498,33 @@ obx_int.ModelDefinition getObjectBoxModel() {
         object.objectId = id;
       },
       objectToFB: (CachedAliceHttpRequest object, fb.Builder fbb) {
-        final contentTypeOffset =
-            object.contentType == null
-                ? null
-                : fbb.writeString(object.contentType!);
+        final contentTypeOffset = object.contentType == null
+            ? null
+            : fbb.writeString(object.contentType!);
         final dbHeadersOffset = fbb.writeString(object.dbHeaders);
-        final dbBodyOffset =
-            object.dbBody == null ? null : fbb.writeString(object.dbBody!);
+        final dbBodyOffset = object.dbBody == null
+            ? null
+            : fbb.writeString(object.dbBody!);
         final dbCookiesOffset = fbb.writeList(
           object.dbCookies.map(fbb.writeString).toList(growable: false),
         );
         final dbQueryParametersOffset = fbb.writeString(
           object.dbQueryParameters,
         );
-        final dbFormDataFilesOffset =
-            object.dbFormDataFiles == null
-                ? null
-                : fbb.writeList(
-                  object.dbFormDataFiles!
-                      .map(fbb.writeString)
-                      .toList(growable: false),
-                );
-        final dbFormDataFieldsOffset =
-            object.dbFormDataFields == null
-                ? null
-                : fbb.writeList(
-                  object.dbFormDataFields!
-                      .map(fbb.writeString)
-                      .toList(growable: false),
-                );
+        final dbFormDataFilesOffset = object.dbFormDataFiles == null
+            ? null
+            : fbb.writeList(
+                object.dbFormDataFiles!
+                    .map(fbb.writeString)
+                    .toList(growable: false),
+              );
+        final dbFormDataFieldsOffset = object.dbFormDataFields == null
+            ? null
+            : fbb.writeList(
+                object.dbFormDataFields!
+                    .map(fbb.writeString)
+                    .toList(growable: false),
+              );
         fbb.startTable(11);
         fbb.addInt64(0, object.objectId);
         fbb.addInt64(1, object.size);
@@ -569,9 +558,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
           (const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0) / 1000)
               .round(),
         );
-        final contentTypeParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 10);
+        final contentTypeParam = const fb.StringReader(asciiOptimization: true)
+            .vTableGetNullable(buffer, rootOffset, 10);
         final object =
             CachedAliceHttpRequest(
                 objectId: objectIdParam,
@@ -579,12 +567,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
                 time: timeParam,
                 contentType: contentTypeParam,
               )
-              ..dbHeaders = const fb.StringReader(
-                asciiOptimization: true,
-              ).vTableGet(buffer, rootOffset, 12, '')
-              ..dbBody = const fb.StringReader(
-                asciiOptimization: true,
-              ).vTableGetNullable(buffer, rootOffset, 14)
+              ..dbHeaders = const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 12, '')
+              ..dbBody = const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 14)
               ..dbCookies = const fb.ListReader<String>(
                 fb.StringReader(asciiOptimization: true),
                 lazy: false,
@@ -613,12 +599,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
         object.objectId = id;
       },
       objectToFB: (CachedAliceHttpResponse object, fb.Builder fbb) {
-        final dbBodyOffset =
-            object.dbBody == null ? null : fbb.writeString(object.dbBody!);
-        final dbHeadersOffset =
-            object.dbHeaders == null
-                ? null
-                : fbb.writeString(object.dbHeaders!);
+        final dbBodyOffset = object.dbBody == null
+            ? null
+            : fbb.writeString(object.dbBody!);
+        final dbHeadersOffset = object.dbHeaders == null
+            ? null
+            : fbb.writeString(object.dbHeaders!);
         fbb.startTable(7);
         fbb.addInt64(0, object.objectId);
         fbb.addInt64(1, object.status);
@@ -660,12 +646,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
                 size: sizeParam,
                 time: timeParam,
               )
-              ..dbBody = const fb.StringReader(
-                asciiOptimization: true,
-              ).vTableGetNullable(buffer, rootOffset, 12)
-              ..dbHeaders = const fb.StringReader(
-                asciiOptimization: true,
-              ).vTableGetNullable(buffer, rootOffset, 14);
+              ..dbBody = const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 12)
+              ..dbHeaders = const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 14);
 
         return object;
       },

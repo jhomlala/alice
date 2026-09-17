@@ -17,23 +17,21 @@ class AliceObjectBox implements AliceStorage {
   final int maxCallsCount;
 
   @override
-  Stream<List<AliceHttpCall>> get callsStream =>
-      store.httpCalls
-          .query()
-          .order<int>(CachedAliceHttpCall_.createdTime, flags: Order.descending)
-          .watch(triggerImmediately: true)
-          .map((Query<CachedAliceHttpCall> query) => query.find())
-          .asBroadcastStream();
+  Stream<List<AliceHttpCall>> get callsStream => store.httpCalls
+      .query()
+      .order<int>(CachedAliceHttpCall_.createdTime, flags: Order.descending)
+      .watch(triggerImmediately: true)
+      .map((Query<CachedAliceHttpCall> query) => query.find())
+      .asBroadcastStream();
 
   @override
   List<AliceHttpCall> getCalls() => store.httpCalls.getAll();
 
   @override
-  CachedAliceHttpCall? selectCall(int requestId) =>
-      store.httpCalls
-          .query(CachedAliceHttpCall_.id.equals(requestId))
-          .build()
-          .findFirst();
+  CachedAliceHttpCall? selectCall(int requestId) => store.httpCalls
+      .query(CachedAliceHttpCall_.id.equals(requestId))
+      .build()
+      .findFirst();
 
   Future<void> _removeOverQuota() async {
     if (maxCallsCount > 0 && store.httpCalls.count() >= maxCallsCount) {
@@ -128,10 +126,9 @@ class AliceObjectBox implements AliceStorage {
             ))
             .build()
             .count(),
-    loading:
-        store.httpCalls
-            .query(CachedAliceHttpCall_.loading.equals(true))
-            .build()
-            .count(),
+    loading: store.httpCalls
+        .query(CachedAliceHttpCall_.loading.equals(true))
+        .build()
+        .count(),
   );
 }

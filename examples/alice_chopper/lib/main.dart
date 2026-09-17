@@ -67,15 +67,15 @@ class _MyAppState extends State<MyApp> {
   );
 
   late final AlbumsService albumsService = _chopper.getService<AlbumsService>();
-  late final ArticlesService articlesService =
-      _chopper.getService<ArticlesService>();
-  late final CommentsService commentsService =
-      _chopper.getService<CommentsService>();
+  late final ArticlesService articlesService = _chopper
+      .getService<ArticlesService>();
+  late final CommentsService commentsService = _chopper
+      .getService<CommentsService>();
   late final PhotosService photosService = _chopper.getService<PhotosService>();
   late final TodosService todosService = _chopper.getService<TodosService>();
   late final UsersService usersService = _chopper.getService<UsersService>();
-  late final BrokenArticlesService brokenArticlesService =
-      _chopper.getService<BrokenArticlesService>();
+  late final BrokenArticlesService brokenArticlesService = _chopper
+      .getService<BrokenArticlesService>();
 
   /// Albums HTTP requests
   Future<void> _albumsRequests() async {

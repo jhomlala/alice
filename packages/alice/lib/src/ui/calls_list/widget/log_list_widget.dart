@@ -168,14 +168,14 @@ class _AliceLogEntryWidget extends StatelessWidget {
   Future<void> _copyToClipboard(BuildContext context) async {
     final String? error = _stringify(log.error);
     final String? stackTrace = _stringify(log.stackTrace);
-    final StringBuffer text =
-        StringBuffer()..writeAll([
-          '${log.timestamp}: ${log.message}\n',
-          if (error != null)
-            '${context.i18n(TranslationKey.logsItemError)} $error\n',
-          if (stackTrace != null)
-            '${context.i18n(TranslationKey.logsItemStackTrace)}: $stackTrace\n',
-        ]);
+    final StringBuffer text = StringBuffer()
+      ..writeAll([
+        '${log.timestamp}: ${log.message}\n',
+        if (error != null)
+          '${context.i18n(TranslationKey.logsItemError)} $error\n',
+        if (stackTrace != null)
+          '${context.i18n(TranslationKey.logsItemStackTrace)}: $stackTrace\n',
+      ]);
 
     await Clipboard.setData(ClipboardData(text: text.toString()));
 

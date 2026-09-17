@@ -74,8 +74,9 @@ class _AliceCallDetailsFabState extends State<CallDetailsFab> {
   Future<void> _shareCall() async {
     final box =
         _shareButtonKey.currentContext?.findRenderObject() as RenderBox?;
-    final sharePositionOrigin =
-        box != null ? box.localToGlobal(Offset.zero) & box.size : null;
+    final sharePositionOrigin = box != null
+        ? box.localToGlobal(Offset.zero) & box.size
+        : null;
     await ExportService.shareCall(
       context: context,
       call: widget.call,
@@ -87,8 +88,9 @@ class _AliceCallDetailsFabState extends State<CallDetailsFab> {
   Future<void> _shareCurlCall() async {
     final box =
         _shareCurlButtonKey.currentContext?.findRenderObject() as RenderBox?;
-    final sharePositionOrigin =
-        box != null ? box.localToGlobal(Offset.zero) & box.size : null;
+    final sharePositionOrigin = box != null
+        ? box.localToGlobal(Offset.zero) & box.size
+        : null;
     await ExportService.shareCurlCommand(
       context: context,
       call: widget.call,

@@ -32,10 +32,9 @@ class AliceObjectBoxStore {
       await storeDirectory.create(recursive: true);
     }
 
-    store ??=
-        Store.isOpen(storeDirectoryPath)
-            ? Store.attach(getObjectBoxModel(), storeDirectoryPath)
-            : await openStore(directory: storeDirectoryPath);
+    store ??= Store.isOpen(storeDirectoryPath)
+        ? Store.attach(getObjectBoxModel(), storeDirectoryPath)
+        : await openStore(directory: storeDirectoryPath);
 
     return AliceObjectBoxStore._create(store, persistent: persistent);
   }

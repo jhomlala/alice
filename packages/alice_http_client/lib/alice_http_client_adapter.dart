@@ -6,12 +6,11 @@ import 'package:alice/alice.dart';
 class AliceHttpClientAdapter with AliceAdapter {
   /// Handles httpClientRequest and creates http alice call from it
   void onRequest(HttpClientRequest request, {dynamic body}) {
-    final call =
-        AliceHttpCall(request.hashCode)
-          ..loading = true
-          ..client = 'HttpClient (io package)'
-          ..method = request.method
-          ..uri = request.uri.toString();
+    final call = AliceHttpCall(request.hashCode)
+      ..loading = true
+      ..client = 'HttpClient (io package)'
+      ..method = request.method
+      ..uri = request.uri.toString();
 
     var path = request.uri.path;
     if (path.isEmpty) {
@@ -49,10 +48,9 @@ class AliceHttpClientAdapter with AliceAdapter {
 
     httpRequest
       ..contentType = contentType
-      ..cookies =
-          request.cookies
-              .map((cookie) => AliceCookie(cookie.name, cookie.value))
-              .toList();
+      ..cookies = request.cookies
+          .map((cookie) => AliceCookie(cookie.name, cookie.value))
+          .toList();
 
     call
       ..request = httpRequest

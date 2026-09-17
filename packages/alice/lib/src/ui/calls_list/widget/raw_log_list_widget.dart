@@ -43,11 +43,10 @@ class RawLogListWidget extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8),
               child: InkWell(
-                onLongPress:
-                    () => _copyToClipboard(
-                      context: context,
-                      text: snapshot.data ?? '',
-                    ),
+                onLongPress: () => _copyToClipboard(
+                  context: context,
+                  text: snapshot.data ?? '',
+                ),
                 child: Text(
                   snapshot.data ?? '',
                   style: const TextStyle(fontSize: 10),
