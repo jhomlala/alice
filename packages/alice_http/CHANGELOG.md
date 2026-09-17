@@ -1,23 +1,38 @@
 ## 1.4.0
+
 * Updated "alice" dependency to ^1.8.0.
 * Migrated to the new strict public API.
+
 ## 1.3.3
+
 * Updated alice dependency to ^1.7.0.
+
 ## 1.3.2
+
 * Updated `alice` dependency to `^1.6.0`.
+
 ## 1.3.1
+
 * Updated `alice` dependency to `^1.5.0`.
+
 ## 1.3.0
+
 * Fixed request duration calculation for `interceptWithAlice` extension.
 * Added support for intercepting `http.MultipartRequest`.
 * Added unit tests.
 * Updated `alice` dependency to `^1.4.0`.
+
 ## 1.2.1
+
 * Updated `alice` dependency to `^1.3.0`.
+
 ## 1.2.0
+
 * Updated package README with setup instructions and badges.
 * Updated dependencies.
+
 ## 1.1.1
+
 * Updated dependencies.
 
 # 1.1.0
@@ -56,7 +71,7 @@
 # 1.0.1
 
 * Updated metadata.
+
 ## 1.0.0
+
 * Created package.
-
-
