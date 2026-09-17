@@ -1,4 +1,4 @@
-# Chopper
+﻿# Chopper
 
 To use Alice with Chopper, add the adapter to your project.
 
@@ -8,7 +8,7 @@ Add this to your **pubspec.yaml** file:
 
 ```yaml
 dependencies:
-  alice_chopper: ^1.2.3
+  alice_chopper: ^1.2.5
 ```
 
 ## Usage

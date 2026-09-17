@@ -1,4 +1,4 @@
-# ObjectBox
+﻿# ObjectBox
 
 Setting up ObjectBox with Alice is simple, however, there are a few crucial steps which need to be followed.
 
@@ -9,7 +9,7 @@ Add this to your **pubspec.yaml** file:
 ```yaml
 dependencies:
   objectbox: any
-  alice_objectbox: ^1.2.3
+  alice_objectbox: ^1.2.5
 ```
 
 ## Usage

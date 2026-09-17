@@ -1,3 +1,7 @@
+﻿## 1.3.3
+
+* Updated alice dependency to ^1.7.0.
+
 ## 1.3.2
 
 * Updated `alice` dependency to `^1.6.0`.
@@ -65,3 +69,4 @@
 ## 1.0.0
 
 * Created package.
+

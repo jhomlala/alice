@@ -1,3 +1,7 @@
+﻿## 1.0.4
+
+* Updated alice dependency to ^1.7.0.
+
 ## 1.0.3
 
 * Updated `alice` dependency to `^1.6.0`.
@@ -19,3 +23,4 @@
 * Safely extracts operation names from GraphQL AST for accurate logging, even for anonymous queries.
 * Included request size and response size calculation.
 * Logs GraphQL execution errors properly inside the response body payload.
+

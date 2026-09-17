@@ -1,4 +1,4 @@
-# Http Client
+﻿# Http Client
 
 To use Alice with `HttpClient` from `dart:io`, add the adapter to your project.
 
@@ -8,7 +8,7 @@ Add this to your **pubspec.yaml** file:
 
 ```yaml
 dependencies:
-  alice_http_client: ^1.2.3
+  alice_http_client: ^1.2.5
 ```
 
 ## Usage

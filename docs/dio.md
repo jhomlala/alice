@@ -1,4 +1,4 @@
-# Dio
+﻿# Dio
 
 To use Alice with Dio, add the adapter to your project.
 
@@ -8,7 +8,7 @@ Add this to your **pubspec.yaml** file:
 
 ```yaml
 dependencies:
-  alice_dio: ^1.2.3
+  alice_dio: ^1.2.5
 ```
 
 ## Usage
