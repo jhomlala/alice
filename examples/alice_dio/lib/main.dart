@@ -90,7 +90,7 @@ class _MyAppState extends State<MyApp> {
       data: complexJsonBody,
     );
     _dio.get<void>('https://jsonplaceholder.typicode.com/users/1');
-    
+
     // Test duplicate detection by calling the same endpoint twice in a row
     _dio.get<void>('https://jsonplaceholder.typicode.com/todos/1');
     _dio.get<void>('https://jsonplaceholder.typicode.com/todos/1');
