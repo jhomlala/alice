@@ -2,6 +2,7 @@
 
 * Fixed Flutter Web Wasm compatibility by isolating `flutter_local_notifications` behind conditional imports.
 * Added unit tests for `AliceNotificationService` stub implementation.
+* Fixed timeline issue.
 
 ## 1.8.0
 

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:alice/src/core/alice_core.dart';
@@ -21,8 +22,28 @@ class TimelineScreen extends StatefulWidget {
 
 class _TimelineScreenState extends State<TimelineScreen>
     with AutomaticKeepAliveClientMixin {
+  Timer? _timer;
+
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void _updateTimer(List<AliceHttpCall> calls) {
+    final bool hasLoading = calls.any((call) => call.loading);
+    if (hasLoading && _timer == null) {
+      _timer = Timer.periodic(const Duration(milliseconds: 50), (_) {
+        if (mounted) setState(() {});
+      });
+    } else if (!hasLoading && _timer != null) {
+      _timer?.cancel();
+      _timer = null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,20 +53,24 @@ class _TimelineScreenState extends State<TimelineScreen>
       stream: widget.aliceCore.callsStream,
       builder: (context, AsyncSnapshot<List<AliceHttpCall>> snapshot) {
         final List<AliceHttpCall> calls = [...?snapshot.data];
+        _updateTimer(calls);
 
         if (calls.isEmpty) {
           return const Center(child: Text("No calls"));
         }
 
         DateTime minTime = calls.first.createdTime;
-        DateTime maxTime =
-            calls.first.response?.time ?? calls.first.createdTime;
+        DateTime maxTime = calls.first.loading
+            ? DateTime.now()
+            : (calls.first.response?.time ?? calls.first.createdTime);
 
         for (final call in calls) {
           if (call.createdTime.isBefore(minTime)) {
             minTime = call.createdTime;
           }
-          final callEndTime = call.response?.time ?? call.createdTime;
+          final callEndTime = call.loading
+              ? DateTime.now()
+              : (call.response?.time ?? call.createdTime);
           if (callEndTime.isAfter(maxTime)) {
             maxTime = callEndTime;
           }
@@ -119,7 +144,9 @@ class _TimelineScreenState extends State<TimelineScreen>
                   final left =
                       call.createdTime.difference(minTime).inMilliseconds *
                       pixelsPerMs;
-                  final callEndTime = call.response?.time ?? DateTime.now();
+                  final callEndTime = call.loading
+                      ? DateTime.now()
+                      : (call.response?.time ?? call.createdTime);
                   final int durationMs = callEndTime
                       .difference(call.createdTime)
                       .inMilliseconds;

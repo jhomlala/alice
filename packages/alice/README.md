@@ -80,9 +80,9 @@ Whether you are hunting down a broken API payload, checking headers, or monitori
 Add the main Alice package (and any specific client plugins you need) to your `pubspec.yaml`:
 ```yaml
 dependencies:
-  alice: ^1.8.0
+  alice: ^1.9.0
   # Add plugins as needed, e.g.:
-  # alice_dio: ^1.3.0
+  # alice_dio: ^1.3.1
 ```
 
 ### 2. Initialize Alice
