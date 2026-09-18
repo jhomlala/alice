@@ -2,7 +2,9 @@ name: alice_graphql_client_example
 description: An example application demonstrating the Alice GraphQL adapter.
 version: 0.1.0
 publish_to: none
-
+homepage: https://github.com/jhomlala/alice
+repository: https://github.com/jhomlala/alice
+issue_tracker: https://github.com/jhomlala/alice/issues
 resolution: workspace
 
 environment:
