@@ -25,7 +25,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(1, 9112051699732156539),
     name: 'CachedAliceHttpCall',
-    lastPropertyId: const obx_int.IdUid(14, 4354662762236974529),
+    lastPropertyId: const obx_int.IdUid(17, 5034369761040448797),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -121,6 +121,24 @@ final _entities = <obx_int.ModelEntity>[
         indexId: const obx_int.IdUid(4, 6876753875053649510),
         relationField: 'errorRel',
         relationTarget: 'CachedAliceHttpError',
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(15, 6710509216016066219),
+        name: 'isReplay',
+        type: 1,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(16, 4638353194877432430),
+        name: 'isDuplicate',
+        type: 1,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(17, 5034369761040448797),
+        name: 'tag',
+        type: 9,
+        flags: 0,
       ),
     ],
     relations: <obx_int.ModelRelation>[],
@@ -347,7 +365,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final endpointOffset = fbb.writeString(object.endpoint);
         final serverOffset = fbb.writeString(object.server);
         final uriOffset = fbb.writeString(object.uri);
-        fbb.startTable(15);
+        final tagOffset = object.tag == null
+            ? null
+            : fbb.writeString(object.tag!);
+        fbb.startTable(18);
         fbb.addInt64(0, object.objectId);
         fbb.addInt64(1, object.id);
         fbb.addInt64(2, object.createdTime.microsecondsSinceEpoch * 1000);
@@ -362,6 +383,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addInt64(11, object.requestRel.targetId);
         fbb.addInt64(12, object.responseRel.targetId);
         fbb.addInt64(13, object.errorRel.targetId);
+        fbb.addBool(14, object.isReplay);
+        fbb.addBool(15, object.isDuplicate);
+        fbb.addOffset(16, tagOffset);
         fbb.finish(fbb.endTable());
         return object.objectId;
       },
@@ -412,19 +436,34 @@ obx_int.ModelDefinition getObjectBoxModel() {
           24,
           0,
         );
-        final object = CachedAliceHttpCall(
-          idParam,
-          objectId: objectIdParam,
-          createdTime: createdTimeParam,
-          client: clientParam,
-          loading: loadingParam,
-          secure: secureParam,
-          method: methodParam,
-          endpoint: endpointParam,
-          server: serverParam,
-          uri: uriParam,
-          duration: durationParam,
-        );
+        final object =
+            CachedAliceHttpCall(
+                idParam,
+                objectId: objectIdParam,
+                createdTime: createdTimeParam,
+                client: clientParam,
+                loading: loadingParam,
+                secure: secureParam,
+                method: methodParam,
+                endpoint: endpointParam,
+                server: serverParam,
+                uri: uriParam,
+                duration: durationParam,
+              )
+              ..isReplay = const fb.BoolReader().vTableGet(
+                buffer,
+                rootOffset,
+                32,
+                false,
+              )
+              ..isDuplicate = const fb.BoolReader().vTableGet(
+                buffer,
+                rootOffset,
+                34,
+                false,
+              )
+              ..tag = const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 36);
         object.requestRel.targetId = const fb.Int64Reader().vTableGet(
           buffer,
           rootOffset,
@@ -733,6 +772,21 @@ class CachedAliceHttpCall_ {
       obx.QueryRelationToOne<CachedAliceHttpCall, CachedAliceHttpError>(
         _entities[0].properties[13],
       );
+
+  /// See [CachedAliceHttpCall.isReplay].
+  static final isReplay = obx.QueryBooleanProperty<CachedAliceHttpCall>(
+    _entities[0].properties[14],
+  );
+
+  /// See [CachedAliceHttpCall.isDuplicate].
+  static final isDuplicate = obx.QueryBooleanProperty<CachedAliceHttpCall>(
+    _entities[0].properties[15],
+  );
+
+  /// See [CachedAliceHttpCall.tag].
+  static final tag = obx.QueryStringProperty<CachedAliceHttpCall>(
+    _entities[0].properties[16],
+  );
 }
 
 /// [CachedAliceHttpError] entity fields to define ObjectBox queries.

@@ -144,3 +144,14 @@ Alice alice = Alice(
   )
 );
 ```
+### Duplicate Request Detection
+Alice can automatically detect and highlight N+1 duplicate requests (identical HTTP requests made within a short time window). This helps identify inefficient network patterns like missing caching or duplicated API calls in UI rebuilds.
+
+```dart
+Alice alice = Alice(
+  configuration: AliceConfiguration(
+    detectDuplicates: true, // Enabled by default
+    duplicateDetectionWindow: Duration(seconds: 1), // Default time window
+  )
+);
+```

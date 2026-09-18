@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:9112051699732156539",
-      "lastPropertyId": "14:4354662762236974529",
+      "lastPropertyId": "17:5034369761040448797",
       "name": "CachedAliceHttpCall",
       "properties": [
         {
@@ -89,6 +89,21 @@
           "type": 11,
           "flags": 520,
           "relationTarget": "CachedAliceHttpError"
+        },
+        {
+          "id": "15:6710509216016066219",
+          "name": "isReplay",
+          "type": 1
+        },
+        {
+          "id": "16:4638353194877432430",
+          "name": "isDuplicate",
+          "type": 1
+        },
+        {
+          "id": "17:5034369761040448797",
+          "name": "tag",
+          "type": 9
         }
       ],
       "relations": []

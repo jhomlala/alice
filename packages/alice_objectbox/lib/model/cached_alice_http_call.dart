@@ -69,6 +69,12 @@ class CachedAliceHttpCall implements AliceHttpCall {
   bool isReplay = false;
 
   @override
+  bool isDuplicate = false;
+
+  @override
+  String? tag;
+
+  @override
   @Transient()
   AliceHttpRequest? get request => requestRel.target;
 
@@ -119,6 +125,9 @@ class CachedAliceHttpCall implements AliceHttpCall {
     server,
     uri,
     duration,
+    isReplay,
+    isDuplicate,
+    tag,
     request,
     response,
     error,
