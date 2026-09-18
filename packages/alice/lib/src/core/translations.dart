@@ -215,6 +215,10 @@ class Translations {
         TranslationKey.replayError: "Replay failed",
         TranslationKey.replayNotSupportedOnPlatform:
             "Replay is not supported on this platform.",
+        TranslationKey.duplicate: "⚠ DUPLICATE",
+        TranslationKey.tag: "🏷️ TAG: ",
+        TranslationKey.callOverviewTag: "Tag:",
+        TranslationKey.callOverviewDuplicate: "Duplicate:",
       },
     );
   }
@@ -420,6 +424,10 @@ class Translations {
         TranslationKey.replayError: "Powtórzenie nie powiodło się",
         TranslationKey.replayNotSupportedOnPlatform:
             "Ponowne wykonanie żądania nie jest wspierane na tej platformie.",
+        TranslationKey.duplicate: "⚠ DUPLIKAT",
+        TranslationKey.tag: "🏷️ TAG: ",
+        TranslationKey.callOverviewTag: "Tag:",
+        TranslationKey.callOverviewDuplicate: "Duplikat:",
       },
     );
   }

@@ -69,6 +69,7 @@ class _MyAppState extends State<MyApp> {
 
   void _runRetrofitRequests() async {
     try {
+      _alice.tag('retrofit-flow', maxCalls: 1);
       await _client.getPost(1);
     } catch (e) {
       debugPrint(e.toString());

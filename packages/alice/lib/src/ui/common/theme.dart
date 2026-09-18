@@ -9,6 +9,8 @@ class AliceAppTheme {
   static const Color grey = Color(0xff808e9b);
   static const Color orange = Color(0xffffa801);
   static const Color white = Color(0xffffffff);
+  static const Color yellow = Color(0xfffeca57);
+  static const Color blue = Color(0xff54a0ff);
 
   /// Returns general theme data.
   static ThemeData getTheme() {

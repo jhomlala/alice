@@ -41,6 +41,12 @@ class AliceConfiguration extends Equatable {
   /// Logger instance.
   final AliceLogger aliceLogger;
 
+  /// Whether duplicate requests (same method & endpoint) should be detected.
+  final bool detectDuplicates;
+
+  /// Time window to consider requests as duplicates. Default is 500 ms.
+  final Duration duplicateDetectionWindow;
+
   AliceConfiguration({
     this.showNotification = true,
     this.showInspectorOnShake = true,
@@ -48,6 +54,8 @@ class AliceConfiguration extends Equatable {
     this.notificationLargeIcon,
     this.directionality,
     this.showShareButton = true,
+    this.detectDuplicates = true,
+    this.duplicateDetectionWindow = const Duration(milliseconds: 500),
     GlobalKey<NavigatorState>? navigatorKey,
     AliceStorage? storage,
     AliceLogger? logger,
@@ -64,6 +72,8 @@ class AliceConfiguration extends Equatable {
     String? notificationLargeIcon,
     TextDirection? directionality,
     bool? showShareButton,
+    bool? detectDuplicates,
+    Duration? duplicateDetectionWindow,
     AliceStorage? aliceStorage,
     AliceLogger? aliceLogger,
   }) => AliceConfiguration(
@@ -73,6 +83,8 @@ class AliceConfiguration extends Equatable {
     notificationLargeIcon: notificationLargeIcon ?? this.notificationLargeIcon,
     directionality: directionality ?? this.directionality,
     showShareButton: showShareButton ?? this.showShareButton,
+    detectDuplicates: detectDuplicates ?? this.detectDuplicates,
+    duplicateDetectionWindow: duplicateDetectionWindow ?? this.duplicateDetectionWindow,
     navigatorKey: navigatorKey ?? this.navigatorKey,
     storage: aliceStorage ?? this.aliceStorage,
     logger: aliceLogger ?? this.aliceLogger,
@@ -86,6 +98,8 @@ class AliceConfiguration extends Equatable {
     notificationLargeIcon,
     directionality,
     showShareButton,
+    detectDuplicates,
+    duplicateDetectionWindow,
     navigatorKey,
     aliceStorage,
     aliceLogger,

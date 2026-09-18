@@ -184,4 +184,8 @@ enum TranslationKey {
   replaySuccessMessage,
   replayError,
   replayNotSupportedOnPlatform,
+  duplicate,
+  tag,
+  callOverviewTag,
+  callOverviewDuplicate,
 }

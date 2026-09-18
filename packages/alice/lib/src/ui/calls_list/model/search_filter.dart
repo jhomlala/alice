@@ -6,6 +6,8 @@ class SearchFilter {
   final String? host;
   final String? client;
   final String? duration;
+  final String? tag;
+  final bool duplicate;
   final String? text;
 
   SearchFilter({
@@ -14,12 +16,14 @@ class SearchFilter {
     this.host,
     this.client,
     this.duration,
+    this.tag,
+    this.duplicate = false,
     this.text,
   });
 
   factory SearchFilter.parse(String query) {
     final regex = RegExp(
-      r'(method|status|host|server|client|duration):([^\s]+)',
+      r'(method|status|host|server|client|duration|tag|duplicate):([^\s]+)',
       caseSensitive: false,
     );
     final matches = regex.allMatches(query);
@@ -29,6 +33,8 @@ class SearchFilter {
     String? host;
     String? client;
     String? duration;
+    String? tag;
+    bool duplicate = false;
 
     var remainingText = query;
     for (final match in matches) {
@@ -47,6 +53,10 @@ class SearchFilter {
           client = value;
         case 'duration':
           duration = value;
+        case 'tag':
+          tag = value;
+        case 'duplicate':
+          duplicate = value?.toLowerCase() == 'true';
       }
       remainingText = remainingText.replaceFirst(match.group(0)!, '');
     }
@@ -57,6 +67,8 @@ class SearchFilter {
       host: host?.toLowerCase(),
       client: client?.toLowerCase(),
       duration: duration,
+      tag: tag?.toLowerCase(),
+      duplicate: duplicate,
       text: remainingText.trim().toLowerCase(),
     );
   }
@@ -72,6 +84,12 @@ class SearchFilter {
       return false;
     }
     if (client != null && !call.client.toLowerCase().contains(client!)) {
+      return false;
+    }
+    if (tag != null && !(call.tag?.toLowerCase().contains(tag!) ?? false)) {
+      return false;
+    }
+    if (duplicate && !call.isDuplicate) {
       return false;
     }
     if (duration != null) {

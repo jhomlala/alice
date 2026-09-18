@@ -7,6 +7,8 @@ import 'package:alice/src/export/export_service.dart';
 import 'package:alice/src/services/notification/notification.dart';
 import 'package:alice/src/utils/operating_system.dart';
 import 'package:alice/src/services/replay/replay_service.dart';
+import 'package:alice/src/services/tag/alice_tag_service.dart';
+import 'package:alice/src/services/duplicate/alice_duplicate_detector.dart';
 import 'package:alice/src/model/alice_configuration.dart';
 import 'package:alice/src/model/export_result.dart';
 import 'package:alice/src/model/alice_http_call.dart';
@@ -35,10 +37,13 @@ class AliceCore {
 
   late final ReplayService _replayService;
 
+  late final AliceTagService tagService;
+
   /// Creates alice core instance
   AliceCore({required AliceConfiguration configuration}) {
     _configuration = configuration;
     _replayService = ReplayService(this);
+    tagService = AliceTagService();
     _subscribeToCallChanges();
     if (_configuration.showNotification) {
       _notification = AliceNotificationService();
@@ -110,8 +115,17 @@ class AliceCore {
       _configuration.navigatorKey?.currentState?.overlay?.context;
 
   /// Add alice http call to calls subject
-  FutureOr<void> addCall(AliceHttpCall call) =>
-      _configuration.aliceStorage.addCall(call);
+  FutureOr<void> addCall(AliceHttpCall call) {
+    call.tag = tagService.consumeTag();
+    if (_configuration.detectDuplicates) {
+      AliceDuplicateDetector.inspect(
+        call,
+        getCalls(),
+        _configuration.duplicateDetectionWindow,
+      );
+    }
+    return _configuration.aliceStorage.addCall(call);
+  }
 
   /// Add error to existing alice http call
   FutureOr<void> addError(AliceHttpError error, int requestId) =>
