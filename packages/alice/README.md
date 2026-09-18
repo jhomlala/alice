@@ -61,7 +61,7 @@ Whether you are hunting down a broken API payload, checking headers, or monitori
 * Interactive tree-based JSON viewer for request and response bodies
 * Gantt chart Timeline to visually inspect staggered HTTP calls
 * Powerful HTTP calls search (with advanced syntax filters) and filtering
-* Programmatic Call Tagging (e.g., `alice.tag('login-flow')`)
+* Programmatic Call Tagging (e.g., `alice.tag(tag: 'login-flow')`)
 * Automatic N+1 duplicate request detection
 * Statistics dashboard (bandwidth, success rate, call counts, ratio bars)
 * Flutter & Android native log integration

@@ -49,9 +49,9 @@ class Alice {
   /// Adds new adapter to Alice.
   void addAdapter(AliceAdapter adapter) => adapter.injectCore(_aliceCore);
 
-  /// Tag the next [maxCalls] HTTP requests with [label].
+  /// Tag the next [maxCalls] HTTP requests with [tag].
   /// If [maxCalls] is not provided, tags all subsequent calls until [clearTag] is called.
-  void tag(String label, {int? maxCalls}) => _aliceCore.tagService.tag(label, maxCalls: maxCalls);
+  void tag({required String tag, int? maxCalls}) => _aliceCore.tagService.tag(tag: tag, maxCalls: maxCalls);
 
   /// Clear the active tag.
   void clearTag() => _aliceCore.tagService.clearTag();

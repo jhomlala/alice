@@ -84,7 +84,7 @@ class _MyAppState extends State<MyApp> {
       'metadata': null,
     };
 
-    _alice.tag('test-flow', maxCalls: 2);
+    _alice.tag(tag: 'test-flow', maxCalls: 2);
     _dio.post<void>(
       'https://jsonplaceholder.typicode.com/posts',
       data: complexJsonBody,

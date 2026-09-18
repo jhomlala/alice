@@ -69,7 +69,7 @@ class _MyAppState extends State<MyApp> {
       'userId': '1',
     };
 
-    _alice.tag('test-flow');
+    _alice.tag(tag: 'test-flow');
     _httpClient
         .getUrl(Uri.https('jsonplaceholder.typicode.com', '/posts'))
         .interceptWithAlice(_httpClientAdapter);

@@ -1,6 +1,6 @@
 ## 1.10.0
 
-* Added programmatic call tagging (e.g. `alice.tag('login-flow')`) and UI tag indicators.
+* Added programmatic call tagging (e.g. `alice.tag(tag: 'login-flow')`) and UI tag indicators.
 * Added automatic N+1 duplicate request detection and UI duplicate badges.
 
 ## 1.9.0

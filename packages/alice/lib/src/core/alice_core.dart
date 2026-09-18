@@ -119,9 +119,9 @@ class AliceCore {
     call.tag = tagService.consumeTag();
     if (_configuration.detectDuplicates) {
       AliceDuplicateDetector.inspect(
-        call,
-        getCalls(),
-        _configuration.duplicateDetectionWindow,
+        newCall: call,
+        existingCalls: getCalls(),
+        window: _configuration.duplicateDetectionWindow,
       );
     }
     return _configuration.aliceStorage.addCall(call);
