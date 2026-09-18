@@ -74,6 +74,7 @@ class _MyAppState extends State<MyApp> {
   void _runGraphQLRequests() async {
     final client = _client.value;
 
+    _alice.tag(tag: 'graphql-flow');
     // Simple Query
     await client.query(
       QueryOptions(document: gql('query { countries { name } }')),
@@ -85,6 +86,7 @@ class _MyAppState extends State<MyApp> {
         document: gql('query { country(code: "PL") { name native } }'),
       ),
     );
+    _alice.clearTag();
   }
 
   void _runHttpInspector() {

@@ -66,9 +66,12 @@ class _MyAppState extends State<MyApp> {
       'userId': '1',
     };
 
+    _alice.tag(tag: 'test-flow');
     http
         .post(Uri.https('jsonplaceholder.typicode.com', '/posts'), body: body)
         .interceptWithAlice(_aliceHttpAdapter, body: body);
+
+    _alice.clearTag();
 
     http
         .get(Uri.https('jsonplaceholder.typicode.com', '/posts'))

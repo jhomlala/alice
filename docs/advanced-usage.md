@@ -97,3 +97,34 @@ Check current inspector state (opened/closed) with:
 ```dart
 alice.isInspectorOpened();
 ```
+
+## Programmatic Call Tagging
+
+If you want to track which business logic or UI flow triggered a network call, you can programmatically tag upcoming requests. The tag will be attached to the next intercepted HTTP calls and displayed as a colored badge in the Alice UI. You can also search for tags using the `tag:my-tag` filter in the inspector.
+
+```dart
+// Tags the next HTTP call with 'login-flow'
+alice.tag(tag: 'login-flow');
+await authService.login(user, pass);
+
+// Optionally specify how many upcoming calls this tag should apply to
+alice.tag(tag: 'init-flow', maxCalls: 3);
+
+// Manually clear the active tag if needed
+alice.clearTag();
+```
+## Programmatic Call Tagging
+
+If you want to track which business logic or UI flow triggered a network call, you can programmatically tag upcoming requests. The tag will be attached to the next intercepted HTTP calls and displayed as a colored badge in the Alice UI. You can also search for tags using the `tag:my-tag` filter in the inspector.
+
+```dart
+// Tags the next HTTP call with 'login-flow'
+alice.tag(tag: 'login-flow');
+await authService.login(user, pass);
+
+// Optionally specify how many upcoming calls this tag should apply to
+alice.tag(tag: 'init-flow', maxCalls: 3);
+
+// Manually clear the active tag if needed
+alice.clearTag();
+```

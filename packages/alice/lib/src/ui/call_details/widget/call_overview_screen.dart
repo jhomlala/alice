@@ -61,6 +61,16 @@ class CallOverviewScreen extends StatelessWidget {
                 name: context.i18n(TranslationKey.callOverviewSecure),
                 value: call.secure.toString(),
               ),
+              if (call.tag != null)
+                CallListRow(
+                  name: context.i18n(TranslationKey.callOverviewTag),
+                  value: call.tag!,
+                ),
+              if (call.isDuplicate)
+                CallListRow(
+                  name: context.i18n(TranslationKey.callOverviewDuplicate),
+                  value: context.i18n(TranslationKey.callsListYes),
+                ),
             ],
           ),
         ),

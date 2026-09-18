@@ -21,6 +21,7 @@ void main() {
 
     when(() => aliceStorage.callsStream)
         .thenAnswer((_) => const Stream.empty());
+    when(() => aliceStorage.getCalls()).thenAnswer((_) => <AliceHttpCall>[]);
     aliceCore = AliceCore(
       configuration: AliceConfiguration(
         showNotification: false,

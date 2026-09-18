@@ -61,6 +61,8 @@ Whether you are hunting down a broken API payload, checking headers, or monitori
 * Interactive tree-based JSON viewer for request and response bodies
 * Gantt chart Timeline to visually inspect staggered HTTP calls
 * Powerful HTTP calls search (with advanced syntax filters) and filtering
+* Programmatic Call Tagging (e.g., `alice.tag(tag: 'login-flow')`)
+* Automatic N+1 duplicate request detection
 * Statistics dashboard (bandwidth, success rate, call counts, ratio bars)
 * Flutter & Android native log integration
 
@@ -80,7 +82,7 @@ Whether you are hunting down a broken API payload, checking headers, or monitori
 Add the main Alice package (and any specific client plugins you need) to your `pubspec.yaml`:
 ```yaml
 dependencies:
-  alice: ^1.9.0
+  alice: ^1.10.0
   # Add plugins as needed, e.g.:
   # alice_dio: ^1.3.1
 ```

@@ -37,17 +37,40 @@ class CallListItemWidget extends StatelessWidget {
                     children: [
                       _EndpointAndMethod(call: call, color: requestColor),
                       const SizedBox(height: 4),
-                      if (call.isReplay) ...[
-                        Row(
+                      if (call.isReplay ||
+                          call.isDuplicate ||
+                          call.tag != null) ...[
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 4,
                           children: [
-                            Text(
-                              context.i18n(TranslationKey.replay),
-                              style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: AliceAppTheme.orange,
+                            if (call.isReplay)
+                              Text(
+                                context.i18n(TranslationKey.replay),
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: AliceAppTheme.orange,
+                                ),
                               ),
-                            ),
+                            if (call.isDuplicate)
+                              Text(
+                                context.i18n(TranslationKey.duplicate),
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: AliceAppTheme.yellow,
+                                ),
+                              ),
+                            if (call.tag != null)
+                              Text(
+                                '${context.i18n(TranslationKey.tag)}${call.tag!}',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: AliceAppTheme.blue,
+                                ),
+                              ),
                           ],
                         ),
                         const SizedBox(height: 4),

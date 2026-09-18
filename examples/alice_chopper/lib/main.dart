@@ -339,6 +339,7 @@ class _MyAppState extends State<MyApp> {
 
   /// Run all Chopper HTTP requests
   Future<void> _runChopperHttpRequests() async {
+    _alice.tag(tag: 'chopper-flow');
     await Future.wait([
       _albumsRequests(),
       _articlesRequests(),
@@ -349,6 +350,7 @@ class _MyAppState extends State<MyApp> {
     ]);
 
     _brokenArticlesRequests();
+    _alice.clearTag();
   }
 
   void _runHttpInspector() {
