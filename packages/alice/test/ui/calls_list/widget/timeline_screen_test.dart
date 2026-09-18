@@ -52,7 +52,7 @@ void main() {
   testWidgets(
     'TimelineScreen renders grid lines and staggered call bars correctly',
     (WidgetTester tester) async {
-      final baseTime = DateTime(2026, 9, 17, 10, 0, 0);
+      final baseTime = DateTime.now().subtract(const Duration(seconds: 1));
 
       final call1 = TestAliceHttpCall(1, baseTime)
         ..endpoint = '/api/v1/users'
@@ -87,7 +87,7 @@ void main() {
           ),
         ),
       );
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       // Verify endpoint texts along with their durations are rendered
       expect(find.textContaining('/api/v1/users'), findsOneWidget);
@@ -101,7 +101,7 @@ void main() {
 
       // Tap on the first call bar to test interaction
       await tester.tap(find.textContaining('/api/v1/users'));
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       expect(pressedCalls.length, 1);
       expect(pressedCalls.first.id, 1);
