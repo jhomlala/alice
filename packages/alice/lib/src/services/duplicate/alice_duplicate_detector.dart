@@ -19,8 +19,8 @@ class AliceDuplicateDetector {
 
     if (duplicates.isNotEmpty) {
       newCall.isDuplicate = true;
-      for (final d in duplicates) {
-        d.isDuplicate = true;
+      for (final duplicate in duplicates) {
+        duplicate.isDuplicate = true;
       }
     }
   }
