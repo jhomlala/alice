@@ -7,13 +7,16 @@ class AliceDuplicateDetector {
     required Duration window,
   }) {
     final cutoff = newCall.createdTime.subtract(window);
-    final duplicates = existingCalls.where((call) =>
-      call.id != newCall.id &&
-      call.method == newCall.method &&
-      call.endpoint == newCall.endpoint &&
-      call.createdTime.isAfter(cutoff),
-    ).toList();
-    
+    final duplicates = existingCalls
+        .where(
+          (call) =>
+              call.id != newCall.id &&
+              call.method == newCall.method &&
+              call.endpoint == newCall.endpoint &&
+              call.createdTime.isAfter(cutoff),
+        )
+        .toList();
+
     if (duplicates.isNotEmpty) {
       newCall.isDuplicate = true;
       for (final d in duplicates) {

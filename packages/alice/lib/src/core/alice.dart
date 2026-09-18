@@ -51,7 +51,8 @@ class Alice {
 
   /// Tag the next [maxCalls] HTTP requests with [tag].
   /// If [maxCalls] is not provided, tags all subsequent calls until [clearTag] is called.
-  void tag({required String tag, int? maxCalls}) => _aliceCore.tagService.tag(tag: tag, maxCalls: maxCalls);
+  void tag({required String tag, int? maxCalls}) =>
+      _aliceCore.tagService.tag(tag: tag, maxCalls: maxCalls);
 
   /// Clear the active tag.
   void clearTag() => _aliceCore.tagService.clearTag();

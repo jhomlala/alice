@@ -37,7 +37,9 @@ class CallListItemWidget extends StatelessWidget {
                     children: [
                       _EndpointAndMethod(call: call, color: requestColor),
                       const SizedBox(height: 4),
-                      if (call.isReplay || call.isDuplicate || call.tag != null) ...[
+                      if (call.isReplay ||
+                          call.isDuplicate ||
+                          call.tag != null) ...[
                         Wrap(
                           spacing: 8,
                           runSpacing: 4,

@@ -11,11 +11,11 @@ void main() {
         ..endpoint = '/api/data';
 
       // Ensure some small time has passed just in case, though they are sequential.
-      
+
       final existingCall2 = AliceHttpCall(2)
         ..method = 'POST'
         ..endpoint = '/api/data';
-        
+
       final newCall = AliceHttpCall(3)
         ..method = 'GET'
         ..endpoint = '/api/data';
@@ -36,9 +36,9 @@ void main() {
       final existingCall = AliceHttpCall(1)
         ..method = 'GET'
         ..endpoint = '/api/data';
-      
+
       await Future.delayed(const Duration(milliseconds: 150));
-      
+
       final newCall = AliceHttpCall(2)
         ..method = 'GET'
         ..endpoint = '/api/data';
@@ -53,29 +53,32 @@ void main() {
       expect(existingCall.isDuplicate, isFalse);
     });
 
-    test('should not flag duplicate calls with different endpoints or methods', () {
-      final window = const Duration(milliseconds: 500);
-      final existingCall1 = AliceHttpCall(1)
-        ..method = 'GET'
-        ..endpoint = '/api/data1';
+    test(
+      'should not flag duplicate calls with different endpoints or methods',
+      () {
+        final window = const Duration(milliseconds: 500);
+        final existingCall1 = AliceHttpCall(1)
+          ..method = 'GET'
+          ..endpoint = '/api/data1';
 
-      final existingCall2 = AliceHttpCall(2)
-        ..method = 'POST'
-        ..endpoint = '/api/data2';
-        
-      final newCall = AliceHttpCall(3)
-        ..method = 'GET'
-        ..endpoint = '/api/data2';
+        final existingCall2 = AliceHttpCall(2)
+          ..method = 'POST'
+          ..endpoint = '/api/data2';
 
-      AliceDuplicateDetector.inspect(
-        newCall: newCall,
-        existingCalls: [existingCall1, existingCall2],
-        window: window,
-      );
+        final newCall = AliceHttpCall(3)
+          ..method = 'GET'
+          ..endpoint = '/api/data2';
 
-      expect(newCall.isDuplicate, isFalse);
-      expect(existingCall1.isDuplicate, isFalse);
-      expect(existingCall2.isDuplicate, isFalse);
-    });
+        AliceDuplicateDetector.inspect(
+          newCall: newCall,
+          existingCalls: [existingCall1, existingCall2],
+          window: window,
+        );
+
+        expect(newCall.isDuplicate, isFalse);
+        expect(existingCall1.isDuplicate, isFalse);
+        expect(existingCall2.isDuplicate, isFalse);
+      },
+    );
   });
 }

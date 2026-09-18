@@ -84,7 +84,8 @@ class AliceConfiguration extends Equatable {
     directionality: directionality ?? this.directionality,
     showShareButton: showShareButton ?? this.showShareButton,
     detectDuplicates: detectDuplicates ?? this.detectDuplicates,
-    duplicateDetectionWindow: duplicateDetectionWindow ?? this.duplicateDetectionWindow,
+    duplicateDetectionWindow:
+        duplicateDetectionWindow ?? this.duplicateDetectionWindow,
     navigatorKey: navigatorKey ?? this.navigatorKey,
     storage: aliceStorage ?? this.aliceStorage,
     logger: aliceLogger ?? this.aliceLogger,
