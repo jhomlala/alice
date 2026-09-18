@@ -127,3 +127,9 @@ With Alice, you only install the core `alice` package and the specific adapter y
 
 ## Documentation
 For complete setup instructions, advanced configuration, and plugin details, please check the [Full Documentation](https://jhomlala.github.io/alice/).
+
+## Custom Integrations & Enterprise Support
+
+Alice has been the go-to Flutter HTTP inspector since its first release, and the ecosystem keeps growing. If your team needs something beyond what's here — a custom adapter for an internal HTTP client, a bespoke export format, enterprise storage backend, or anything else — I'm available for consulting.
+
+[Let's talk on LinkedIn →](https://pl.linkedin.com/in/jhomlala)
