@@ -6,9 +6,7 @@ import 'package:alice/src/ui/common/xml_viewer.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 
-Widget _wrap(Widget child) {
-  return MaterialApp(home: Scaffold(body: child));
-}
+import '../../../utils/test_helper.dart';
 
 AliceHttpCall _callWithContentType(String contentType, {dynamic body}) {
   return AliceHttpCall(DateTime.now().millisecondsSinceEpoch)
@@ -38,7 +36,9 @@ void main() {
             '<svg xmlns="http://www.w3.org/2000/svg"><circle/></svg>';
         final call = _callWithContentType('image/svg+xml', body: svgBody);
 
-        await tester.pumpWidget(_wrap(CallResponseScreen(call: call)));
+        await tester.pumpWidget(
+          TestHelper.wrapWithMaterialApp(CallResponseScreen(call: call)),
+        );
         await tester.pump();
 
         expect(find.byType(Image), findsNothing);
@@ -50,7 +50,9 @@ void main() {
           '<svg xmlns="http://www.w3.org/2000/svg"><circle r="10"/></svg>';
       final call = _callWithContentType('image/svg+xml', body: svgBody);
 
-      await tester.pumpWidget(_wrap(CallResponseScreen(call: call)));
+      await tester.pumpWidget(
+        TestHelper.wrapWithMaterialApp(CallResponseScreen(call: call)),
+      );
       await tester.pump();
 
       expect(find.byType(XmlViewer), findsOneWidget);
@@ -60,7 +62,9 @@ void main() {
       const xmlBody = '<feed><entry><title>Test</title></entry></feed>';
       final call = _callWithContentType('application/xml', body: xmlBody);
 
-      await tester.pumpWidget(_wrap(CallResponseScreen(call: call)));
+      await tester.pumpWidget(
+        TestHelper.wrapWithMaterialApp(CallResponseScreen(call: call)),
+      );
       await tester.pump();
 
       expect(find.byType(XmlViewer), findsOneWidget);
@@ -70,7 +74,9 @@ void main() {
       const xmlBody = '<root><item>hello</item></root>';
       final call = _callWithContentType('text/xml', body: xmlBody);
 
-      await tester.pumpWidget(_wrap(CallResponseScreen(call: call)));
+      await tester.pumpWidget(
+        TestHelper.wrapWithMaterialApp(CallResponseScreen(call: call)),
+      );
       await tester.pump();
 
       expect(find.byType(XmlViewer), findsOneWidget);
@@ -79,7 +85,9 @@ void main() {
     testWidgets('image/png does NOT route to XmlViewer', (tester) async {
       final call = _callWithContentType('image/png', body: '');
 
-      await tester.pumpWidget(_wrap(CallResponseScreen(call: call)));
+      await tester.pumpWidget(
+        TestHelper.wrapWithMaterialApp(CallResponseScreen(call: call)),
+      );
       await tester.pump();
       tester.takeException(); // Consume NetworkImageLoadException from Image.network
 
@@ -90,7 +98,9 @@ void main() {
     testWidgets('image/jpeg does NOT route to XmlViewer', (tester) async {
       final call = _callWithContentType('image/jpeg', body: '');
 
-      await tester.pumpWidget(_wrap(CallResponseScreen(call: call)));
+      await tester.pumpWidget(
+        TestHelper.wrapWithMaterialApp(CallResponseScreen(call: call)),
+      );
       await tester.pump();
       tester.takeException(); // Consume NetworkImageLoadException from Image.network
 

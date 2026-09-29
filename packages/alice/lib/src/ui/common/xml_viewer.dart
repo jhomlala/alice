@@ -114,10 +114,6 @@ class _XmlViewerState extends State<XmlViewer> {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Internal widgets
-// ---------------------------------------------------------------------------
-
 class _XmlElementNode extends StatefulWidget {
   final XmlElement element;
   final bool initiallyExpanded;

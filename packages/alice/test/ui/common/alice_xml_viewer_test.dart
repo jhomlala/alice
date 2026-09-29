@@ -1,17 +1,16 @@
 import 'package:alice/src/ui/common/xml_viewer.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-Widget _wrap(Widget child) => MaterialApp(
-  home: Scaffold(body: SingleChildScrollView(child: child)),
-);
+import '../../utils/test_helper.dart';
 
 void main() {
   group('XmlViewer', () {
     testWidgets('renders a simple element with text content', (tester) async {
       const xml = '<root><name>Alice</name></root>';
 
-      await tester.pumpWidget(_wrap(const XmlViewer(xml)));
+      await tester.pumpWidget(
+        TestHelper.wrapWithMaterialApp(const XmlViewer(xml)),
+      );
       await tester.pump();
 
       // Root with 1 child is rendered as an expandable header.
@@ -25,7 +24,9 @@ void main() {
     ) async {
       const xml = '<root><name>Alice</name><version>1</version></root>';
 
-      await tester.pumpWidget(_wrap(const XmlViewer(xml)));
+      await tester.pumpWidget(
+        TestHelper.wrapWithMaterialApp(const XmlViewer(xml)),
+      );
       await tester.pump();
 
       // Root is initially expanded, children are visible.
@@ -52,7 +53,9 @@ void main() {
     testWidgets('expands nested non-root elements on tap', (tester) async {
       const xml = '<root><parent><child>Nested text</child></parent></root>';
 
-      await tester.pumpWidget(_wrap(const XmlViewer(xml)));
+      await tester.pumpWidget(
+        TestHelper.wrapWithMaterialApp(const XmlViewer(xml)),
+      );
       await tester.pump();
 
       // Root is initially expanded, but nested <parent> is collapsed.
@@ -71,7 +74,9 @@ void main() {
     testWidgets('renders attributes for elements', (tester) async {
       const xml = '<root><item id="42" type="test">value</item></root>';
 
-      await tester.pumpWidget(_wrap(const XmlViewer(xml)));
+      await tester.pumpWidget(
+        TestHelper.wrapWithMaterialApp(const XmlViewer(xml)),
+      );
       await tester.pump();
 
       // Root is initially expanded; _AttributesRow renders `@attr: ` prefix.
@@ -86,7 +91,9 @@ void main() {
     ) async {
       const xml = '<root><child/></root>';
 
-      await tester.pumpWidget(_wrap(const XmlViewer(xml)));
+      await tester.pumpWidget(
+        TestHelper.wrapWithMaterialApp(const XmlViewer(xml)),
+      );
       await tester.pump();
 
       expect(find.text('(empty)'), findsOneWidget);
@@ -95,7 +102,9 @@ void main() {
     testWidgets('handles invalid XML gracefully', (tester) async {
       const invalidXml = 'this is not xml at all';
 
-      await tester.pumpWidget(_wrap(const XmlViewer(invalidXml)));
+      await tester.pumpWidget(
+        TestHelper.wrapWithMaterialApp(const XmlViewer(invalidXml)),
+      );
       await tester.pump();
 
       expect(find.textContaining('Invalid XML'), findsOneWidget);
@@ -110,7 +119,9 @@ void main() {
           '<circle cx="50" cy="50" r="40"/>'
           '</svg>';
 
-      await tester.pumpWidget(_wrap(const XmlViewer(svgXml)));
+      await tester.pumpWidget(
+        TestHelper.wrapWithMaterialApp(const XmlViewer(svgXml)),
+      );
       await tester.pump();
 
       expect(find.textContaining('<svg>'), findsOneWidget);
@@ -118,7 +129,9 @@ void main() {
     });
 
     testWidgets('handles null body without crashing', (tester) async {
-      await tester.pumpWidget(_wrap(const XmlViewer(null)));
+      await tester.pumpWidget(
+        TestHelper.wrapWithMaterialApp(const XmlViewer(null)),
+      );
       await tester.pump();
     });
   });
