@@ -41,6 +41,7 @@ dependencies:
   collection: ^1.19.1
   url_launcher: ^6.3.2
   equatable: ^2.0.7
+  xml: ^7.0.0
 
   cupertino_ui: ^1.0.2
 dev_dependencies:
