@@ -48,14 +48,9 @@ class _MyAppState extends State<MyApp> {
                 child: const Text('Run Dio HTTP Requests'),
               ),
               const SizedBox(height: 8),
-              ElevatedButton(
-                onPressed: _runXmlRequests,
-                child: const Text('Run XML & SVG HTTP Requests'),
-              ),
-              const SizedBox(height: 8),
               const Text(
                 style: TextStyle(fontSize: 14),
-                'After clicking on buttons above, you should receive notification.'
+                'After clicking on button above, you should receive notification.'
                 ' Click on it to show inspector. You can also shake your device or click button below.',
               ),
               ElevatedButton(
