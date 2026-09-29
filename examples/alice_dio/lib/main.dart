@@ -155,11 +155,9 @@ class _MyAppState extends State<MyApp> {
     _dio.get<void>('https://www.w3schools.com/xml/plant_catalog.xml');
 
     // image/svg+xml response
+    _dio.get<void>('https://www.w3.org/Graphics/SVG/1998/10/W3CFS.svg');
     _dio.get<void>(
-      'https://raw.githubusercontent.com/dnfield/flutter_svg/master/example/assets/dart.svg',
-    );
-    _dio.get<void>(
-      'https://upload.wikimedia.org/wikipedia/commons/d/db/Android_robot_2014.svg',
+      'https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/tiger.svg',
     );
   }
 
