@@ -48,6 +48,11 @@ class _MyAppState extends State<MyApp> {
                 child: const Text('Run Dio HTTP Requests'),
               ),
               const SizedBox(height: 8),
+              ElevatedButton(
+                onPressed: _runXmlRequests,
+                child: const Text('Run XML & SVG HTTP Requests'),
+              ),
+              const SizedBox(height: 8),
               const Text(
                 style: TextStyle(fontSize: 14),
                 'After clicking on buttons above, you should receive notification.'
@@ -143,6 +148,24 @@ class _MyAppState extends State<MyApp> {
     );
 
     _dio.get<void>('http://dummy.restapiexample.com/api/v1/employees');
+
+    _runXmlRequests();
+  }
+
+  void _runXmlRequests() {
+    // Standard application/xml
+    _dio.get<void>('https://httpbin.org/xml');
+
+    // Standard text/xml
+    _dio.get<void>('https://www.w3schools.com/xml/plant_catalog.xml');
+
+    // image/svg+xml response
+    _dio.get<void>(
+      'https://raw.githubusercontent.com/dnfield/flutter_svg/master/example/assets/dart.svg',
+    );
+    _dio.get<void>(
+      'https://upload.wikimedia.org/wikipedia/commons/d/db/Android_robot_2014.svg',
+    );
   }
 
   void _runHttpInspector() {
