@@ -1,3 +1,9 @@
+## 1.11.0
+
+* Fixed `image/svg+xml` responses being routed to `Image.network()`, causing an `Invalid image data` crash in the inspector. SVGs are now displayed as a collapsible XML tree instead ([@PiotrRogulski](https://github.com/PiotrRogulski), [#329](https://github.com/jhomlala/alice/issues/329)).
+* Added `XmlViewer` widget: a collapsible tree viewer for XML response bodies (elements, attributes, text nodes), mirroring the existing `JsonViewer`.
+* Added `xml` package as a direct dependency (was already transitively included at 7.0.1).
+
 ## 1.10.0
 
 * Added programmatic call tagging (e.g. `alice.tag(tag: 'login-flow')`) and UI tag indicators.

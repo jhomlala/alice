@@ -1,6 +1,8 @@
-## 1.1.2
+## 1.1.3
 
-* Updated alice dependency to ^1.10.0.
+* Updated alice dependency to ^1.11.0.
+
+## 1.1.2
 
 ## 1.1.1
 

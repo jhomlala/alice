@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
               const SizedBox(height: 8),
               const Text(
                 style: TextStyle(fontSize: 14),
-                'After clicking on buttons above, you should receive notification.'
+                'After clicking on button above, you should receive notification.'
                 ' Click on it to show inspector. You can also shake your device or click button below.',
               ),
               ElevatedButton(
@@ -143,6 +143,22 @@ class _MyAppState extends State<MyApp> {
     );
 
     _dio.get<void>('http://dummy.restapiexample.com/api/v1/employees');
+
+    _runXmlRequests();
+  }
+
+  void _runXmlRequests() {
+    // Standard application/xml
+    _dio.get<void>('https://httpbin.org/xml');
+
+    // Standard text/xml
+    _dio.get<void>('https://www.w3schools.com/xml/plant_catalog.xml');
+
+    // image/svg+xml response
+    _dio.get<void>('https://www.w3.org/Graphics/SVG/1998/10/W3CFS.svg');
+    _dio.get<void>(
+      'https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/tiger.svg',
+    );
   }
 
   void _runHttpInspector() {

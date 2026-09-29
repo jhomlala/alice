@@ -6,6 +6,7 @@ import 'package:alice/src/ui/common/context_ext.dart';
 import 'package:alice/src/utils/alice_parser.dart';
 import 'package:alice/src/ui/common/scroll_behavior.dart';
 import 'package:alice/src/ui/common/json_viewer.dart';
+import 'package:alice/src/ui/common/xml_viewer.dart';
 import 'package:alice/src/utils/num_comparison.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -157,10 +158,13 @@ class _BodyDataColumnState extends State<_BodyDataColumn> {
   }
 
   /// Checks whether content type of response is image.
+  ///
+  /// SVG is deliberately excluded: `image/svg+xml` contains the word "image"
+  /// but its payload is XML text. Flutter's image codecs can't decode it, so
+  /// we let it fall through to the XML tree viewer instead.
   bool _isImageResponse() {
-    return _getContentTypeOfResponse()!.toLowerCase().contains(
-      _imageContentType,
-    );
+    final ct = _getContentTypeOfResponse()!.toLowerCase();
+    return ct.contains(_imageContentType) && !ct.contains('svg');
   }
 
   /// Checks whether content type of response is video
@@ -329,8 +333,9 @@ class _TextBody extends StatelessWidget {
       context: context,
       headers: headers,
     );
-    final bool isJson =
-        contentType != null && contentType.toLowerCase().contains('json');
+    final String ct = contentType?.toLowerCase() ?? '';
+    final bool isJson = ct.contains('json');
+    final bool isXml = ct.contains('xml');
 
     if (isJson && call.response?.body != null) {
       return Column(
@@ -342,6 +347,20 @@ class _TextBody extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           JsonViewer(call.response?.body),
+        ],
+      );
+    }
+
+    if (isXml && call.response?.body != null) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            context.i18n(TranslationKey.callResponseBody),
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          XmlViewer(call.response?.body),
         ],
       );
     }
