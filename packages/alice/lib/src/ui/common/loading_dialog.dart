@@ -28,7 +28,7 @@ class LoadingDialog extends StatelessWidget {
     if (navigator == null) {
       return;
     }
-    showAliceDialog<void>(
+    AliceGeneralDialog.showAliceDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (_) => const LoadingDialog(),

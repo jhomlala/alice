@@ -329,7 +329,7 @@ class _AliceCallsListPageState extends State<CallsListPage>
   /// can be picked.
   Future<void> _onSortPressed() async {
     AliceSortDialogResult? result =
-        await showAliceDialog<AliceSortDialogResult>(
+        await AliceGeneralDialog.showAliceDialog<AliceSortDialogResult>(
           context: context,
           builder: (_) => SortDialog(
             sortOption: _sortOption,

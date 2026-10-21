@@ -169,7 +169,7 @@ void main() {
               builder: (context) {
                 return ElevatedButton(
                   onPressed: () {
-                    showAliceDialog<AliceSortDialogResult>(
+                    AliceGeneralDialog.showAliceDialog<AliceSortDialogResult>(
                       context: context,
                       builder: (_) => const SortDialog(
                         sortOption: CallsListSortOption.time,

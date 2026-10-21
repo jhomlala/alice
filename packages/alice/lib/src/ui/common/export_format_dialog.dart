@@ -39,7 +39,7 @@ class ExportFormatDialog extends StatelessWidget {
   }
 
   static Future<ExportFormat?> show(BuildContext context) {
-    return showAliceDialog<ExportFormat>(
+    return AliceGeneralDialog.showAliceDialog<ExportFormat>(
       context: context,
       builder: (_) => const ExportFormatDialog(),
     );
