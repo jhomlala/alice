@@ -72,5 +72,16 @@ void main() {
         "♻️ Ponowne",
       );
     });
+
+    test("should return translated value for dismiss key", () {
+      expect(
+        Translations.get(languageCode: "en", key: TranslationKey.dismiss),
+        "Dismiss",
+      );
+      expect(
+        Translations.get(languageCode: "pl", key: TranslationKey.dismiss),
+        "Zamknij",
+      );
+    });
   });
 }

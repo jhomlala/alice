@@ -224,6 +224,7 @@ class Translations {
         TranslationKey.tag: "🏷️ TAG: ",
         TranslationKey.callOverviewTag: "Tag:",
         TranslationKey.callOverviewDuplicate: "Duplicate:",
+        TranslationKey.dismiss: "Dismiss",
       },
     );
   }
@@ -438,6 +439,7 @@ class Translations {
         TranslationKey.tag: "🏷️ TAG: ",
         TranslationKey.callOverviewTag: "Tag:",
         TranslationKey.callOverviewDuplicate: "Duplikat:",
+        TranslationKey.dismiss: "Zamknij",
       },
     );
   }

@@ -193,4 +193,5 @@ enum TranslationKey {
   tag,
   callOverviewTag,
   callOverviewDuplicate,
+  dismiss,
 }

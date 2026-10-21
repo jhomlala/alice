@@ -9,7 +9,7 @@ import 'package:alice/src/model/alice_http_request.dart';
 import 'package:alice/src/model/alice_http_response.dart';
 import 'package:alice/src/model/translation.dart';
 import 'package:alice/src/ui/common/context_ext.dart';
-import 'package:alice/src/ui/common/dialog.dart';
+import 'package:alice/src/ui/common/alice_general_dialog.dart';
 import 'package:flutter/material.dart';
 
 class ReplayServiceImpl implements ReplayService {

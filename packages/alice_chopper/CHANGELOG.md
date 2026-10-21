@@ -1,3 +1,7 @@
+## Unreleased
+
+* Bumped `equatable` dev dependency to `^3.0.0`.
+
 ## 1.3.3
 
 * Updated alice dependency to ^1.11.0.

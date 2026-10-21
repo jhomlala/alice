@@ -1,5 +1,6 @@
 import 'package:alice/src/model/translation.dart';
 import 'package:alice/src/ui/common/context_ext.dart';
+import 'package:alice/src/ui/common/alice_general_dialog.dart';
 import 'package:alice/src/ui/common/theme.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -27,7 +28,7 @@ class LoadingDialog extends StatelessWidget {
     if (navigator == null) {
       return;
     }
-    showDialog<void>(
+    AliceGeneralDialog.showAliceDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (_) => const LoadingDialog(),

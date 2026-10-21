@@ -14,7 +14,7 @@ import 'package:alice/src/ui/calls_list/model/calls_list_tab_item.dart';
 import 'package:alice/src/ui/calls_list/widget/inspector_screen.dart';
 import 'package:alice/src/ui/calls_list/widget/sort_dialog.dart';
 import 'package:alice/src/ui/common/context_ext.dart';
-import 'package:alice/src/ui/common/dialog.dart';
+import 'package:alice/src/ui/common/alice_general_dialog.dart';
 import 'package:alice/src/ui/common/export_format_dialog.dart';
 import 'package:alice/src/ui/common/navigation.dart';
 import 'package:alice/src/ui/common/page.dart';
@@ -328,11 +328,14 @@ class _AliceCallsListPageState extends State<CallsListPage>
   /// Called when sort button has been pressed. It opens dialog where filters
   /// can be picked.
   Future<void> _onSortPressed() async {
-    AliceSortDialogResult? result = await showDialog<AliceSortDialogResult>(
-      context: context,
-      builder: (_) =>
-          SortDialog(sortOption: _sortOption, sortAscending: _sortAscending),
-    );
+    AliceSortDialogResult? result =
+        await AliceGeneralDialog.showAliceDialog<AliceSortDialogResult>(
+          context: context,
+          builder: (_) => SortDialog(
+            sortOption: _sortOption,
+            sortAscending: _sortAscending,
+          ),
+        );
     if (result != null) {
       setState(() {
         _sortOption = result.sortOption;
