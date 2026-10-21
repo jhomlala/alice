@@ -1,7 +1,8 @@
-## Unreleased
+## 1.3.4
 
 * Added screenshots and icon configuration.
 * Bumped `equatable` dev dependency to `^3.0.0`.
+* Updated alice dependency to ^1.11.1.
 
 ## 1.3.3
 

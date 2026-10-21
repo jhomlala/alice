@@ -1,6 +1,7 @@
-## Unreleased
+## 1.3.4
 
 * Added screenshots and icon configuration.
+* Updated alice dependency to ^1.11.1.
 
 ## 1.3.3
 
