@@ -10,6 +10,54 @@ import 'package:alice/src/ui/common/page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+AliceCore _createTestCore() =>
+    AliceCore(configuration: AliceConfiguration(showNotification: false));
+
+Future<void> _pumpDialogTrigger(
+  WidgetTester tester, {
+  required void Function(BuildContext context) onTrigger,
+  String buttonText = 'Trigger',
+  GlobalKey<NavigatorState>? navigatorKey,
+}) async {
+  await tester.pumpWidget(
+    MaterialApp(
+      navigatorKey: navigatorKey,
+      home: Scaffold(
+        body: Builder(
+          builder: (context) {
+            return ElevatedButton(
+              onPressed: () => onTrigger(context),
+              child: Text(buttonText),
+            );
+          },
+        ),
+      ),
+    ),
+  );
+}
+
+Future<void> _pumpCallsListPage(
+  WidgetTester tester, {
+  required AliceCore core,
+}) async {
+  await tester.pumpWidget(
+    MaterialApp(
+      navigatorKey: core.configuration.navigatorKey,
+      home: CallsListPage(core: core),
+    ),
+  );
+  await tester.pumpAndSettle();
+}
+
+Future<void> _openCallsListContextMenu(WidgetTester tester) async {
+  await tester.tap(
+    find.byWidgetPredicate(
+      (w) => w.runtimeType.toString().contains('PopupMenuButton'),
+    ),
+  );
+  await tester.pumpAndSettle();
+}
+
 void main() {
   testWidgets(
     'AliceGeneralDialog renders without MaterialLocalizations error in Flutter app',
@@ -18,26 +66,17 @@ void main() {
         configuration: AliceConfiguration(showNotification: false),
       );
 
-      await tester.pumpWidget(
-        MaterialApp(
-          navigatorKey: alice.getNavigatorKey(),
-          home: Scaffold(
-            body: Builder(
-              builder: (context) {
-                return ElevatedButton(
-                  onPressed: () {
-                    AliceGeneralDialog.show(
-                      context: context,
-                      title: 'Test Title',
-                      description: 'Test Description',
-                    );
-                  },
-                  child: const Text('Show Dialog'),
-                );
-              },
-            ),
-          ),
-        ),
+      await _pumpDialogTrigger(
+        tester,
+        navigatorKey: alice.getNavigatorKey(),
+        buttonText: 'Show Dialog',
+        onTrigger: (context) {
+          AliceGeneralDialog.show(
+            context: context,
+            title: 'Test Title',
+            description: 'Test Description',
+          );
+        },
       );
 
       await tester.tap(find.text('Show Dialog'));
@@ -51,9 +90,7 @@ void main() {
   testWidgets(
     'AliceGeneralDialog inside BasePage renders without MaterialLocalizations error in Flutter app',
     (WidgetTester tester) async {
-      final core = AliceCore(
-        configuration: AliceConfiguration(showNotification: false),
-      );
+      final core = _createTestCore();
 
       await tester.pumpWidget(
         MaterialApp(
@@ -95,22 +132,11 @@ void main() {
         configuration: AliceConfiguration(showNotification: false),
       );
 
-      await tester.pumpWidget(
-        MaterialApp(
-          navigatorKey: alice.getNavigatorKey(),
-          home: Scaffold(
-            body: Builder(
-              builder: (context) {
-                return ElevatedButton(
-                  onPressed: () {
-                    ExportFormatDialog.show(context);
-                  },
-                  child: const Text('Export'),
-                );
-              },
-            ),
-          ),
-        ),
+      await _pumpDialogTrigger(
+        tester,
+        navigatorKey: alice.getNavigatorKey(),
+        buttonText: 'Export',
+        onTrigger: (context) => ExportFormatDialog.show(context),
       );
 
       await tester.tap(find.text('Export'));
@@ -127,22 +153,11 @@ void main() {
         configuration: AliceConfiguration(showNotification: false),
       );
 
-      await tester.pumpWidget(
-        MaterialApp(
-          navigatorKey: alice.getNavigatorKey(),
-          home: Scaffold(
-            body: Builder(
-              builder: (context) {
-                return ElevatedButton(
-                  onPressed: () {
-                    LoadingDialog.show(context);
-                  },
-                  child: const Text('Load'),
-                );
-              },
-            ),
-          ),
-        ),
+      await _pumpDialogTrigger(
+        tester,
+        navigatorKey: alice.getNavigatorKey(),
+        buttonText: 'Load',
+        onTrigger: (context) => LoadingDialog.show(context),
       );
 
       await tester.tap(find.text('Load'));
@@ -161,28 +176,19 @@ void main() {
         configuration: AliceConfiguration(showNotification: false),
       );
 
-      await tester.pumpWidget(
-        MaterialApp(
-          navigatorKey: alice.getNavigatorKey(),
-          home: Scaffold(
-            body: Builder(
-              builder: (context) {
-                return ElevatedButton(
-                  onPressed: () {
-                    AliceGeneralDialog.showAliceDialog<AliceSortDialogResult>(
-                      context: context,
-                      builder: (_) => const SortDialog(
-                        sortOption: CallsListSortOption.time,
-                        sortAscending: false,
-                      ),
-                    );
-                  },
-                  child: const Text('Sort'),
-                );
-              },
+      await _pumpDialogTrigger(
+        tester,
+        navigatorKey: alice.getNavigatorKey(),
+        buttonText: 'Sort',
+        onTrigger: (context) {
+          AliceGeneralDialog.showAliceDialog<AliceSortDialogResult>(
+            context: context,
+            builder: (_) => const SortDialog(
+              sortOption: CallsListSortOption.time,
+              sortAscending: false,
             ),
-          ),
-        ),
+          );
+        },
       );
 
       await tester.tap(find.text('Sort'));
@@ -195,9 +201,7 @@ void main() {
   testWidgets(
     'CallDetailsPage retry FAB on multipart call displays error dialog',
     (WidgetTester tester) async {
-      final core = AliceCore(
-        configuration: AliceConfiguration(showNotification: false),
-      );
+      final core = _createTestCore();
 
       final call = AliceHttpCall(1)
         ..method = 'POST'
@@ -259,25 +263,10 @@ void main() {
   testWidgets('CallsListPage overflow menu Sort displays SortDialog', (
     WidgetTester tester,
   ) async {
-    final core = AliceCore(
-      configuration: AliceConfiguration(showNotification: false),
-    );
+    final core = _createTestCore();
+    await _pumpCallsListPage(tester, core: core);
 
-    await tester.pumpWidget(
-      MaterialApp(
-        navigatorKey: core.configuration.navigatorKey,
-        home: CallsListPage(core: core),
-      ),
-    );
-    await tester.pumpAndSettle();
-
-    // Open context menu
-    await tester.tap(
-      find.byWidgetPredicate(
-        (w) => w.runtimeType.toString().contains('PopupMenuButton'),
-      ),
-    );
-    await tester.pumpAndSettle();
+    await _openCallsListContextMenu(tester);
 
     // Tap Sort item
     await tester.tap(find.text('Sort'));
@@ -291,9 +280,7 @@ void main() {
   testWidgets(
     'CallsListPage overflow menu Delete displays confirmation dialog and deletes calls on confirm',
     (WidgetTester tester) async {
-      final core = AliceCore(
-        configuration: AliceConfiguration(showNotification: false),
-      );
+      final core = _createTestCore();
 
       final call = AliceHttpCall(1)
         ..method = 'GET'
@@ -305,21 +292,9 @@ void main() {
         ..response = AliceHttpResponse();
       core.addCall(call);
 
-      await tester.pumpWidget(
-        MaterialApp(
-          navigatorKey: core.configuration.navigatorKey,
-          home: CallsListPage(core: core),
-        ),
-      );
-      await tester.pumpAndSettle();
+      await _pumpCallsListPage(tester, core: core);
 
-      // Open context menu
-      await tester.tap(
-        find.byWidgetPredicate(
-          (w) => w.runtimeType.toString().contains('PopupMenuButton'),
-        ),
-      );
-      await tester.pumpAndSettle();
+      await _openCallsListContextMenu(tester);
 
       // Tap Delete
       await tester.tap(find.text('Delete'));
@@ -339,12 +314,7 @@ void main() {
       expect(core.getCalls().length, 1);
 
       // Open context menu again
-      await tester.tap(
-        find.byWidgetPredicate(
-          (w) => w.runtimeType.toString().contains('PopupMenuButton'),
-        ),
-      );
-      await tester.pumpAndSettle();
+      await _openCallsListContextMenu(tester);
 
       // Tap Delete
       await tester.tap(find.text('Delete'));
@@ -362,25 +332,10 @@ void main() {
   testWidgets('CallsListPage overflow menu Save displays ExportFormatDialog', (
     WidgetTester tester,
   ) async {
-    final core = AliceCore(
-      configuration: AliceConfiguration(showNotification: false),
-    );
+    final core = _createTestCore();
+    await _pumpCallsListPage(tester, core: core);
 
-    await tester.pumpWidget(
-      MaterialApp(
-        navigatorKey: core.configuration.navigatorKey,
-        home: CallsListPage(core: core),
-      ),
-    );
-    await tester.pumpAndSettle();
-
-    // Open context menu
-    await tester.tap(
-      find.byWidgetPredicate(
-        (w) => w.runtimeType.toString().contains('PopupMenuButton'),
-      ),
-    );
-    await tester.pumpAndSettle();
+    await _openCallsListContextMenu(tester);
 
     // Tap Save
     await tester.tap(find.text('Save'));
@@ -394,19 +349,10 @@ void main() {
   testWidgets(
     'CallsListPage Logger tab delete action displays confirmation dialog and clears logs on confirm',
     (WidgetTester tester) async {
-      final core = AliceCore(
-        configuration: AliceConfiguration(showNotification: false),
-      );
-
+      final core = _createTestCore();
       core.addLog(AliceLog(message: 'Test log', timestamp: DateTime.now()));
 
-      await tester.pumpWidget(
-        MaterialApp(
-          navigatorKey: core.configuration.navigatorKey,
-          home: CallsListPage(core: core),
-        ),
-      );
-      await tester.pumpAndSettle();
+      await _pumpCallsListPage(tester, core: core);
 
       // Switch to Logger tab
       await tester.tap(find.text('Logger'));
@@ -445,17 +391,8 @@ void main() {
   testWidgets(
     'CallsListPage search help button displays help dialog and dismisses on tap',
     (WidgetTester tester) async {
-      final core = AliceCore(
-        configuration: AliceConfiguration(showNotification: false),
-      );
-
-      await tester.pumpWidget(
-        MaterialApp(
-          navigatorKey: core.configuration.navigatorKey,
-          home: CallsListPage(core: core),
-        ),
-      );
-      await tester.pumpAndSettle();
+      final core = _createTestCore();
+      await _pumpCallsListPage(tester, core: core);
 
       // Tap Search icon to enable search mode
       await tester.tap(find.byIcon(Icons.search));
