@@ -328,11 +328,14 @@ class _AliceCallsListPageState extends State<CallsListPage>
   /// Called when sort button has been pressed. It opens dialog where filters
   /// can be picked.
   Future<void> _onSortPressed() async {
-    AliceSortDialogResult? result = await showDialog<AliceSortDialogResult>(
-      context: context,
-      builder: (_) =>
-          SortDialog(sortOption: _sortOption, sortAscending: _sortAscending),
-    );
+    AliceSortDialogResult? result =
+        await showAliceDialog<AliceSortDialogResult>(
+          context: context,
+          builder: (_) => SortDialog(
+            sortOption: _sortOption,
+            sortAscending: _sortAscending,
+          ),
+        );
     if (result != null) {
       setState(() {
         _sortOption = result.sortOption;

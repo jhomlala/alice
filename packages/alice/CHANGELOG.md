@@ -1,3 +1,7 @@
+## Unreleased
+
+* Fixed `No MaterialLocalizations found` crash when opening dialogs (request replay, sort, clear logs, export) in apps using standard Flutter `MaterialApp` ([@AHAHACUK](https://github.com/AHAHACUK), [#331](https://github.com/jhomlala/alice/issues/331)).
+
 ## 1.11.0
 
 * Fixed `image/svg+xml` responses being routed to `Image.network()`, causing an `Invalid image data` crash in the inspector. SVGs are now displayed as a collapsible XML tree instead ([@PiotrRogulski](https://github.com/PiotrRogulski), [#329](https://github.com/jhomlala/alice/issues/329)).

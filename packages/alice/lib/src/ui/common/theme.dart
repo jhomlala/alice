@@ -18,6 +18,7 @@ class AliceAppTheme {
       useMaterial3: true,
       colorScheme: AliceAppTheme._getColorScheme(),
       dividerColor: Colors.transparent,
+      splashFactory: InkRipple.splashFactory,
       buttonTheme: const ButtonThemeData(
         buttonColor: lightRed,
         textTheme: ButtonTextTheme.primary,

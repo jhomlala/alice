@@ -1,6 +1,7 @@
 import 'package:alice/src/model/export_format.dart';
 import 'package:alice/src/model/translation.dart';
 import 'package:alice/src/ui/common/context_ext.dart';
+import 'package:alice/src/ui/common/dialog.dart';
 import 'package:alice/src/ui/common/theme.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -38,12 +39,9 @@ class ExportFormatDialog extends StatelessWidget {
   }
 
   static Future<ExportFormat?> show(BuildContext context) {
-    return showDialog<ExportFormat>(
+    return showAliceDialog<ExportFormat>(
       context: context,
-      builder: (_) => Theme(
-        data: AliceAppTheme.getTheme(),
-        child: const ExportFormatDialog(),
-      ),
+      builder: (_) => const ExportFormatDialog(),
     );
   }
 }

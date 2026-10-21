@@ -4,9 +4,9 @@ import 'package:material_ui/material_ui.dart';
 
 /// Common page widget which is used across Alice pages.
 class BasePage extends StatelessWidget {
-  const BasePage({super.key, required this.core, required this.child});
+  const BasePage({super.key, this.core, required this.child});
 
-  final AliceCore core;
+  final AliceCore? core;
   final Widget child;
 
   @override
@@ -30,7 +30,7 @@ class BasePage extends StatelessWidget {
 
     return Directionality(
       textDirection:
-          core.configuration.directionality ??
+          core?.configuration.directionality ??
           Directionality.maybeOf(context) ??
           TextDirection.ltr,
       child: content,
