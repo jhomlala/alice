@@ -1,5 +1,6 @@
 name: alice_dio
 description: "Dio interceptor and network logger for Alice. Inspect, log, and debug Dio HTTP requests and responses in a native Flutter UI."
+icon: assets/pub/logo.png
 documentation: https://jhomlala.github.io/alice/
 version: 1.3.3
 homepage: https://github.com/jhomlala/alice
@@ -29,3 +30,7 @@ dev_dependencies:
   mocktail: ^1.0.4
   http_mock_adapter: ^0.6.1
   alice_test: ^1.1.1
+
+screenshots:
+  - description: 'Alice Network Inspector Logo'
+    path: assets/pub/logo.png

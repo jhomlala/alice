@@ -1,5 +1,6 @@
 name: alice_chopper
 description: "Chopper interceptor and network logger for Alice. Inspect, log, and debug Chopper HTTP requests and responses in a native Flutter UI."
+icon: assets/pub/logo.png
 documentation: https://jhomlala.github.io/alice/
 version: 1.3.3
 repository: https://github.com/jhomlala/alice
@@ -35,3 +36,7 @@ dev_dependencies:
   json_serializable: ^6.9.5
   json_annotation: ^4.9.0
   equatable: ^3.0.0
+
+screenshots:
+  - description: 'Alice Network Inspector Logo'
+    path: assets/pub/logo.png
