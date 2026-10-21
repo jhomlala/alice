@@ -1,5 +1,6 @@
 ## Unreleased
 
+* Added screenshots and icon configuration.
 * Bumped `equatable` dev dependency to `^3.0.0`.
 
 ## 1.3.3

@@ -35,3 +35,7 @@ dev_dependencies:
   json_serializable: ^6.9.5
   json_annotation: ^4.9.0
   equatable: ^3.0.0
+
+screenshots:
+  - description: 'Alice Network Inspector Logo'
+    path: assets/pub/logo.png

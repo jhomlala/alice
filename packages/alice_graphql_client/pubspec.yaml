@@ -30,3 +30,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   mocktail: ^1.0.0
+
+screenshots:
+  - description: 'Alice Network Inspector Logo'
+    path: assets/pub/logo.png

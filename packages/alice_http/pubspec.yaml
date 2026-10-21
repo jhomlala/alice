@@ -26,3 +26,7 @@ dev_dependencies:
   test: ^1.25.15
   alice_test: ^1.1.1
   mocktail: ^1.0.4
+
+screenshots:
+  - description: 'Alice Network Inspector Logo'
+    path: assets/pub/logo.png
