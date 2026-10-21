@@ -1,6 +1,7 @@
 ## Unreleased
 
 * Fixed `No MaterialLocalizations found` crash when opening dialogs (request replay, sort, clear logs, export) in apps using standard Flutter `MaterialApp` ([@AHAHACUK](https://github.com/AHAHACUK), [#331](https://github.com/jhomlala/alice/issues/331)).
+* Bumped `equatable` dependency to `^3.0.0`.
 
 ## 1.11.0
 
