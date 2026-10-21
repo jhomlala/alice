@@ -1,7 +1,7 @@
 import 'package:alice/src/model/export_format.dart';
 import 'package:alice/src/model/translation.dart';
 import 'package:alice/src/ui/common/context_ext.dart';
-import 'package:alice/src/ui/common/dialog.dart';
+import 'package:alice/src/ui/common/alice_general_dialog.dart';
 import 'package:alice/src/ui/common/theme.dart';
 import 'package:material_ui/material_ui.dart';
 

@@ -14,7 +14,7 @@ import 'package:alice/src/ui/calls_list/model/calls_list_tab_item.dart';
 import 'package:alice/src/ui/calls_list/widget/inspector_screen.dart';
 import 'package:alice/src/ui/calls_list/widget/sort_dialog.dart';
 import 'package:alice/src/ui/common/context_ext.dart';
-import 'package:alice/src/ui/common/dialog.dart';
+import 'package:alice/src/ui/common/alice_general_dialog.dart';
 import 'package:alice/src/ui/common/export_format_dialog.dart';
 import 'package:alice/src/ui/common/navigation.dart';
 import 'package:alice/src/ui/common/page.dart';

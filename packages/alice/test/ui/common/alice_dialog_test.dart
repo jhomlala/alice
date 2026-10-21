@@ -3,7 +3,7 @@ import 'package:alice/src/ui/call_details/page/call_details_page.dart';
 import 'package:alice/src/ui/calls_list/model/calls_list_sort_option.dart';
 import 'package:alice/src/ui/calls_list/page/calls_list_page.dart';
 import 'package:alice/src/ui/calls_list/widget/sort_dialog.dart';
-import 'package:alice/src/ui/common/dialog.dart';
+import 'package:alice/src/ui/common/alice_general_dialog.dart';
 import 'package:alice/src/ui/common/export_format_dialog.dart';
 import 'package:alice/src/ui/common/loading_dialog.dart';
 import 'package:alice/src/ui/common/page.dart';
