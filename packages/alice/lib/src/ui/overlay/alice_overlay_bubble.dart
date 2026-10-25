@@ -35,18 +35,18 @@ class _AliceOverlayBubbleState extends State<AliceOverlayBubble> {
 
     // Constrain position within screen safe area bounds.
     if (!_isInitialized) {
-      _offset = Offset(screenSize.width - 150, padding.top + 50);
+      _offset = Offset(screenSize.width - 160, padding.top + 60);
       _isInitialized = true;
     } else {
       final double minX = padding.left + 8;
       final double maxX = math.max(
         minX,
-        screenSize.width - padding.right - 140,
+        screenSize.width - padding.right - 160,
       );
       final double minY = padding.top + 8;
       final double maxY = math.max(
         minY,
-        screenSize.height - padding.bottom - 48,
+        screenSize.height - padding.bottom - 56,
       );
 
       _offset = Offset(
@@ -77,64 +77,75 @@ class _AliceOverlayBubbleState extends State<AliceOverlayBubble> {
 
             return Material(
               color: Colors.transparent,
-              elevation: 6,
+              elevation: 8,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(24),
                 side: BorderSide(
                   color: hasErrors ? Colors.red.shade400 : Colors.white24,
                   width: 1.5,
                 ),
               ),
               child: InkWell(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(24),
                 onTap: widget.onTap,
                 child: Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 6,
+                    horizontal: 14,
+                    vertical: 8,
                   ),
                   decoration: BoxDecoration(
                     color: Colors.black87,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(24),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        width: 10,
-                        height: 10,
+                        width: 12,
+                        height: 12,
                         decoration: BoxDecoration(
                           color: statusColor,
                           shape: BoxShape.circle,
                         ),
                       ),
-                      const SizedBox(width: 6),
+                      const SizedBox(width: 8),
                       Text(
                         '${stats.total}',
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 12,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       if (hasErrors) ...[
-                        const SizedBox(width: 4),
+                        const SizedBox(width: 8),
                         Container(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 4,
-                            vertical: 1,
+                            horizontal: 6,
+                            vertical: 2,
                           ),
                           decoration: BoxDecoration(
                             color: Colors.red.shade700,
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          child: Text(
-                            '${stats.errors}',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(
+                                Icons.warning_amber_rounded,
+                                size: 12,
+                                color: Colors.white,
+                              ),
+                              const SizedBox(width: 3),
+                              Text(
+                                '${stats.errors}',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
