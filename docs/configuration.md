@@ -50,6 +50,10 @@ Customize Alice's behavior by passing an `AliceConfiguration` object to the cons
 ### Notifications
 Configure Alice to show a system notification whenever HTTP requests are made. Tapping this notification opens the inspector.
 
+:::info Android 13+ Notification Permissions
+On Android 13 (API level 33) and above, Alice automatically requests the required runtime notification permission on startup when `showNotification` is `true`.
+:::
+
 :::warning iOS Notification Configuration
 For notification taps to work correctly on iOS, configure your `ios/Runner/AppDelegate.swift` file.
 

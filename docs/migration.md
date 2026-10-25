@@ -1,11 +1,68 @@
-# Migration to 1.8.0
+---
+sidebar_label: 'Migrations'
+---
 
-In recent versions, Alice underwent a significant architectural cleanup to improve maintainability and enforce a strict public API:
+# Migration Guide
 
-1. **Hidden Internal Implementation:** All internal files have been moved to the `lib/src/` directory. You should no longer use "deep imports" (e.g., `import 'package:alice/core/alice_logger.dart';`). 
-2. **Strict Public API:** Only core classes prefixed with `Alice` (e.g., `AliceConfiguration`, `AliceLogger`, `AliceHttpCall`) are exposed in the public API. You can access all of them simply via:
+## Migrating from 0.x to 1.x
+
+Version 1.0 extracted HTTP client interceptors from the core package into standalone packages to eliminate heavy transitive dependencies.
+
+### 1. Standalone Adapters
+Interceptors are no longer bundled into `package:alice`. Install only the adapters your app needs:
+
+```yaml
+dependencies:
+  alice: ^1.11.1
+  alice_dio: ^1.3.4       # For Dio
+  alice_http: ^1.4.4      # For package:http
+  alice_chopper: ^1.3.4   # For Chopper
+```
+
+### 2. Adapter Registration
+Methods like `alice.getDioInterceptor()`, `alice.getChopperInterceptor()`, and `alice.onHttpResponse()` were removed from `Alice`.
+
+Instead, create the adapter, register it with `alice.addAdapter()`, and attach it to your client:
+
+```dart
+// Before (0.x):
+dio.interceptors.add(alice.getDioInterceptor());
+
+// After (1.x):
+final adapter = AliceDioAdapter();
+alice.addAdapter(adapter);
+dio.interceptors.add(adapter);
+```
+
+### 3. AliceConfiguration
+Constructor parameters for storage, notifications, and gestures moved to `AliceConfiguration`:
+
+```dart
+// Before (0.x):
+Alice alice = Alice(
+  showNotification: true,
+  showInspectorOnShake: false,
+);
+
+// After (1.x):
+Alice alice = Alice(
+  configuration: AliceConfiguration(
+    showNotification: true,
+    showInspectorOnShake: false,
+  ),
+);
+```
+
+---
+
+## Migrating to 1.8.0
+
+Version 1.8.0 reorganized Alice's internals to enforce a strict public API:
+
+1. **Hidden Internal Implementation:** All internal files moved under `lib/src/`. Replace deep imports with the main package export:
 ```dart
 import 'package:alice/alice.dart';
 ```
-3. **Service Renames:** If you previously extended or used any internal `Helper` classes (like `ExportHelper` or `ReplayHelper`), note that they have been renamed to `Service` (e.g., `ExportService`) and are now considered private internal implementation details.
-4. **Utils Renamed:** If you previously relied on the global `Utils` class for logging, it has been renamed to `AliceUtils` to comply with the prefixing rules. You can now use `AliceUtils.log()`.
+2. **Strict Public API:** Only core classes prefixed with `Alice` (`AliceConfiguration`, `AliceLogger`, `AliceHttpCall`, etc.) are exported.
+3. **Service Renames:** Internal `Helper` classes (`ExportHelper`, `ReplayHelper`) were renamed to `Service` (`ExportService`, `ReplayService`).
+4. **Utils Renamed:** Global `Utils` was renamed to `AliceUtils`.

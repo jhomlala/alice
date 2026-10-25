@@ -112,3 +112,50 @@ alice.tag(tag: 'init-flow', maxCalls: 3);
 // Clear the active tag manually
 alice.clearTag();
 ```
+
+## Custom & Generic HTTP Clients
+
+If you use an in-house networking client or a library without an official adapter, log calls directly with `alice.addHttpCall()`:
+
+```dart
+import 'package:alice/alice.dart';
+
+final call = AliceHttpCall(DateTime.now().millisecondsSinceEpoch)
+  ..method = 'POST'
+  ..endpoint = '/api/v1/auth'
+  ..server = 'api.example.com'
+  ..client = 'CustomClient'
+  ..uri = 'https://api.example.com/api/v1/auth';
+
+final request = AliceHttpRequest()
+  ..size = 24
+  ..body = '{"user": "alice"}'
+  ..headers = {'content-type': 'application/json'};
+
+final response = AliceHttpResponse()
+  ..status = 200
+  ..size = 18
+  ..body = '{"token": "xyz"}';
+
+call.request = request;
+call.response = response;
+
+alice.addHttpCall(call);
+```
+
+### Writing a Custom Adapter
+Create reusable adapters by applying the `AliceAdapter` mixin:
+
+```dart
+import 'package:alice/alice.dart';
+
+class CustomClientAdapter with AliceAdapter {
+  void onCallFinished(AliceHttpCall call) {
+    aliceCore.addCall(call);
+  }
+}
+
+// Register with Alice:
+final adapter = CustomClientAdapter();
+alice.addAdapter(adapter);
+```
