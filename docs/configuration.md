@@ -4,14 +4,14 @@ sidebar_label: 'Configuration'
 
 # Configuration
 
-Alice is designed to be easy to set up while offering powerful customization options to fit your workflow.
+Alice is designed to be quick to set up with sane defaults, plus full control when you need custom behavior.
 
 ## Basic Setup
 
-To get started with Alice, you need to create an instance and attach its navigator key to your application. This is required so Alice can render its inspector UI over your app.
+Create an instance and attach its navigator key to your application so Alice can render its inspector UI over your app.
 
 ### 1. Create the Instance
-First, create a global instance of Alice that you will use throughout your app:
+Create a global instance of Alice:
 
 ```dart
 Alice alice = Alice();
@@ -28,15 +28,15 @@ MaterialApp(
 ```
 
 #### Using an Existing Navigator Key
-If your application already manages its own custom navigator key, you can provide it directly to Alice via the configuration object:
+If your application already manages its own custom navigator key, pass it directly via `AliceConfiguration`:
 
 ```dart
 Alice alice = Alice(
-  configuration: AliceConfiguration(navigatorKey: yourNavigatorKeyHere)
+  configuration: AliceConfiguration(navigatorKey: yourNavigatorKeyHere),
 );
 ```
 
-*Alternatively, if you need to pass it lazily after initialization:*
+Or set it after initialization:
 ```dart
 alice.setNavigatorKey(yourNavigatorKeyHere);
 ```
@@ -45,17 +45,15 @@ alice.setNavigatorKey(yourNavigatorKeyHere);
 
 ## Advanced Configuration
 
-You can customize Alice's behavior by passing an `AliceConfiguration` object to the constructor. Below are all the available settings you can tweak.
+Customize Alice's behavior by passing an `AliceConfiguration` object to the constructor.
 
 ### Notifications
-You can configure Alice to show a system notification whenever HTTP requests are made. Clicking this notification quickly opens the inspector.
+Configure Alice to show a system notification whenever HTTP requests are made. Tapping this notification opens the inspector.
 
 :::warning iOS Notification Configuration
-For notification taps to work correctly on iOS, you must configure your `ios/Runner/AppDelegate.swift` file.
+For notification taps to work correctly on iOS, configure your `ios/Runner/AppDelegate.swift` file.
 
-First, add the `flutter_local_notifications` import at the top. Then, inside `didFinishLaunchingWithOptions`, register the plugin callback and set the `UNUserNotificationCenter` delegate.
-
-Your `AppDelegate.swift` should look similar to this:
+Add the `flutter_local_notifications` import at the top, then register the plugin callback and set the `UNUserNotificationCenter` delegate inside `didFinishLaunchingWithOptions`:
 
 ```swift
 import UIKit
@@ -86,7 +84,7 @@ import flutter_local_notifications // Add this import
 ```
 :::
 
-If you want to pass custom notification icons, you can use the `notificationIcon` parameter for the small icon (typically a monochrome silhouette) or `notificationLargeIcon` for the large icon.
+To customize notification icons on Android, use `notificationIcon` for the small icon (defaults to `@mipmap/ic_launcher`) or `notificationLargeIcon` for the large icon.
 
 <div align="center">
 <img src="https://developer.android.com/static/images/ui/notifications/notification-callouts_2x.png" height="120px"/>
@@ -98,60 +96,59 @@ If you want to pass custom notification icons, you can use the `notificationIcon
 Alice alice = Alice(
   configuration: AliceConfiguration(
     showNotification: true,
-    // Optional: Provide a custom Android small icon resource name (defaults to @mipmap/ic_launcher)
     notificationIcon: "myNotificationSmallIconResourceName",
-    // Optional: Provide a custom Android large icon resource name
     notificationLargeIcon: "myNotificationLargeIconResourceName",
-  )
+  ),
 );
 ```
 
 ### Shake to Open
-You can enable a physical "shake" gesture to quickly open the Alice inspector. This is disabled by default, but is very handy for physical device testing.
+Opening the inspector by shaking the device is enabled by default on physical mobile devices. To disable it:
 
 ```dart
 Alice alice = Alice(
-  configuration: AliceConfiguration(showInspectorOnShake: true)
+  configuration: AliceConfiguration(showInspectorOnShake: false),
 );
 ```
 
 ### UI Directionality
-If you need to force a specific text direction (e.g., RTL or LTR) for the Alice UI, you can override the app's default directionality. If left empty, Alice inherits the directionality of your app.
+Override the default text direction (e.g., RTL or LTR) for the Alice UI. If omitted, Alice inherits your app's directionality.
 
 ```dart
 Alice alice = Alice(
-  configuration: AliceConfiguration(directionality: TextDirection.ltr)
+  configuration: AliceConfiguration(directionality: TextDirection.ltr),
 );
 ```
 
 ### Share Button
-The inspector includes a share button by default, allowing you to easily export and share HTTP logs. If you want to hide this button, set `showShareButton` to `false`.
+The inspector includes a share button by default. To hide it:
 
 ```dart
 Alice alice = Alice(
-  configuration: AliceConfiguration(showShareButton: false)
+  configuration: AliceConfiguration(showShareButton: false),
 );
 ```
 
 ### Duplicate Request Detection
-Alice can automatically detect and highlight N+1 duplicate requests (identical HTTP requests made within a short time window). This helps identify inefficient network patterns like missing caching or duplicated API calls in UI rebuilds.
+Alice automatically detects and highlights N+1 duplicate requests (identical HTTP requests made within a short time window). This helps catch duplicate API calls in UI rebuilds or missing caching layers.
 
 ```dart
 Alice alice = Alice(
   configuration: AliceConfiguration(
     detectDuplicates: true, // Enabled by default
-    duplicateDetectionWindow: Duration(seconds: 1), // Default time window
-  )
+    duplicateDetectionWindow: Duration(milliseconds: 500), // Default: 500ms
+  ),
 );
 ```
-### Duplicate Request Detection
-Alice can automatically detect and highlight N+1 duplicate requests (identical HTTP requests made within a short time window). This helps identify inefficient network patterns like missing caching or duplicated API calls in UI rebuilds.
+
+### Custom Storage & Logger
+Alice uses in-memory storage (`AliceMemoryStorage`, max 1000 calls) and an internal logger (`AliceLogger`, max 1000 logs) by default. You can supply custom instances, such as persistent storage with ObjectBox:
 
 ```dart
 Alice alice = Alice(
   configuration: AliceConfiguration(
-    detectDuplicates: true, // Enabled by default
-    duplicateDetectionWindow: Duration(seconds: 1), // Default time window
-  )
+    storage: AliceObjectBox(store: store, maxCallsCount: 1000), // Custom storage
+    logger: AliceLogger(maximumSize: 500),                      // Custom logger
+  ),
 );
 ```

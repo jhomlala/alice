@@ -4,37 +4,43 @@ To use Alice with the `http` package, add the adapter to your project.
 
 ## Installation
 
-Add this to your **pubspec.yaml** file:
+Add this to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  alice_http: ^1.4.0
+  alice: ^1.11.1
+  alice_http: ^1.4.4
 ```
 
 ## Usage
 
 ```dart
-/// Create Alice instance
+import 'package:alice/alice.dart';
+import 'package:alice_http/alice_http_adapter.dart';
+import 'package:alice_http/alice_http_extensions.dart';
+import 'package:http/http.dart' as http;
+
+// Create Alice instance
 Alice alice = Alice();
 
-/// Create Alice Http Adapter
+// Create Alice Http Adapter
 AliceHttpAdapter aliceHttpAdapter = AliceHttpAdapter();
 
-///Add adapter to Alice
+// Add adapter to Alice
 alice.addAdapter(aliceHttpAdapter);
 ```
 
-Use extension to intercept HTTP call:
+Intercept calls using the extension:
 ```dart
 http
-    .post(Uri.tryParse('https://api.com')!, body: body)
+    .post(Uri.parse('https://api.com/posts'), body: body)
     .interceptWithAlice(aliceHttpAdapter, body: body);
 ```
 
-Use adapter to handle HTTP call:
+Or handle manually with the adapter:
 ```dart
 http
-    .put(Uri.tryParse('https://api.com')!, body: body)
+    .put(Uri.parse('https://api.com/posts/1'), body: body)
     .then((response) {
       aliceHttpAdapter.onResponse(response, body: body);
     });

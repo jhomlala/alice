@@ -1,3 +1,7 @@
+## Unreleased
+
+* Fixed code snippets, constructor examples, broken APIs, and duplicate sections across documentation and README files.
+
 ## 1.11.1
 
 * Added logo and screenshot configuration to adapter and storage packages.

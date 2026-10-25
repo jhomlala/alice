@@ -6,7 +6,7 @@ sidebar_label: 'Advanced Usage'
 
 ## Show inspector manually
 
-You may need that if you won't use shake or notification:
+If you don't use shake or notifications, open the inspector manually:
 
 ```dart
 alice.showInspector();
@@ -14,9 +14,9 @@ alice.showInspector();
 
 ### Desktop and Web Usage (Floating Action Button)
 
-Since features like "shake to open" and system notifications are heavily mobile-centric, Web and Desktop users need a different way to access the inspector. A common approach is to add a Floating Action Button (FAB) that triggers `alice.showInspector()`. 
+Since "shake to open" and system notifications are mobile-centric, Web and Desktop apps need a different way to access the inspector. A common approach is a Floating Action Button (FAB) that calls `alice.showInspector()`. 
 
-Below is a lightweight, copy-pasteable wrapper widget that adds a FAB over your application. It automatically ensures the button only shows up in `debug` mode and on Desktop/Web platforms.
+Below is a lightweight wrapper widget that adds a FAB over your app in debug mode on Desktop and Web:
 
 ```dart
 import 'package:flutter/material.dart';
@@ -68,7 +68,7 @@ class AliceWebWrapper extends StatelessWidget {
 }
 ```
 
-**Usage:** Just wrap your root widget with it.
+Wrap your root widget with it:
 
 ```dart
 runApp(
@@ -81,7 +81,7 @@ runApp(
 
 ## Flutter logs
 
-If you want to log Flutter logs in Alice, you may use these methods:
+Log Flutter messages in Alice alongside your network traffic:
 
 ```dart
 alice.addLog(log);
@@ -89,18 +89,17 @@ alice.addLog(log);
 alice.addLogs(logList);
 ```
 
-
 ## Inspector state
 
-Check current inspector state (opened/closed) with:
+Check whether the inspector is currently open:
 
 ```dart
-alice.isInspectorOpened();
+final isOpened = alice.isInspectorOpened;
 ```
 
 ## Programmatic Call Tagging
 
-If you want to track which business logic or UI flow triggered a network call, you can programmatically tag upcoming requests. The tag will be attached to the next intercepted HTTP calls and displayed as a colored badge in the Alice UI. You can also search for tags using the `tag:my-tag` filter in the inspector.
+To track which business logic or UI flow triggered a network call, tag upcoming requests programmatically. The tag attaches to intercepted calls and shows up as a badge in the Alice UI. You can also filter by tag using `tag:my-tag`.
 
 ```dart
 // Tags the next HTTP call with 'login-flow'
@@ -110,21 +109,6 @@ await authService.login(user, pass);
 // Optionally specify how many upcoming calls this tag should apply to
 alice.tag(tag: 'init-flow', maxCalls: 3);
 
-// Manually clear the active tag if needed
-alice.clearTag();
-```
-## Programmatic Call Tagging
-
-If you want to track which business logic or UI flow triggered a network call, you can programmatically tag upcoming requests. The tag will be attached to the next intercepted HTTP calls and displayed as a colored badge in the Alice UI. You can also search for tags using the `tag:my-tag` filter in the inspector.
-
-```dart
-// Tags the next HTTP call with 'login-flow'
-alice.tag(tag: 'login-flow');
-await authService.login(user, pass);
-
-// Optionally specify how many upcoming calls this tag should apply to
-alice.tag(tag: 'init-flow', maxCalls: 3);
-
-// Manually clear the active tag if needed
+// Clear the active tag manually
 alice.clearTag();
 ```
