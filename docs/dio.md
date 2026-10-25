@@ -4,30 +4,32 @@ To use Alice with Dio, add the adapter to your project.
 
 ## Installation
 
-Add this to your **pubspec.yaml** file:
+Add this to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  alice_dio: ^1.3.0
+  alice: ^1.11.1
+  alice_dio: ^1.3.4
 ```
 
 ## Usage
 
 ```dart
-/// Create Alice instance
+import 'package:alice/alice.dart';
+import 'package:alice_dio/alice_dio_adapter.dart';
+import 'package:dio/dio.dart';
+
+// Create Alice instance
 Alice alice = Alice();
 
-/// Create Alice Dio Adapter
+// Create Alice Dio Adapter
 AliceDioAdapter aliceDioAdapter = AliceDioAdapter();
 
-/// Add adapter to Alice
+// Add adapter to Alice
 alice.addAdapter(aliceDioAdapter);
 
-/// Create Dio instance
-Dio dio = Dio();
-
-/// Add interceptor to Dio
-dio.interceptors.add(aliceDioAdapter);
+// Create Dio instance and add interceptor
+Dio dio = Dio()..interceptors.add(aliceDioAdapter);
 ```
 
 ## Example

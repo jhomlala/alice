@@ -1,7 +1,7 @@
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Alice',
-  tagline: 'HTTP Inspector tool for Flutter',
+  tagline: 'HTTP Inspector for Flutter',
   favicon: 'img/favicon.png',
   url: 'https://jhomlala.github.io',
   baseUrl: '/alice/',
@@ -25,7 +25,7 @@ const config = {
           routeBasePath: '/',
           path: '.',
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl: 'https://github.com/jhomlala/alice/tree/master/',
+          editUrl: 'https://github.com/jhomlala/alice/tree/master/docs/',
         },
         blog: false,
         theme: {

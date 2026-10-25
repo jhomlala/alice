@@ -33,4 +33,12 @@ The Call Details screen provides an in-depth look at a specific HTTP request and
 
 When a request or response body contains JSON data, Alice automatically provides an **interactive tree-based JSON viewer**. 
 
-Instead of reading through a massive, unformatted text string, you can collapse and expand JSON nodes, making it incredibly easy to navigate deeply nested API responses directly on your mobile device. If the payload is too large, you still have the option to view the raw text or copy it to your clipboard.
+Instead of reading through a massive, unformatted text string, you can collapse and expand JSON nodes, making it easy to navigate deeply nested API responses directly on your device. If the payload is too large, you still have the option to view the raw text or copy it to your clipboard.
+
+### Interactive XML & SVG Viewer
+
+*Added in Alice 1.11.0*
+
+When a response body contains XML or SVG (`image/svg+xml`) payloads, Alice provides an **interactive tree-based XML viewer** mirroring the JSON viewer. 
+
+You can collapse and expand XML elements, attributes, and text nodes cleanly without getting lost in raw XML strings.

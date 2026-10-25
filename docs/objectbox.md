@@ -1,30 +1,34 @@
 # ObjectBox
 
-Setting up ObjectBox with Alice is simple, however, there are a few crucial steps which need to be followed.
+Store HTTP requests and responses in an ObjectBox database so logs survive app restarts.
 
 ## Installation
 
-Add this to your **pubspec.yaml** file:
+Add this to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  objectbox: any
-  alice_objectbox: ^1.3.0
+  alice: ^1.11.1
+  alice_objectbox: ^1.3.4
+  objectbox: ^4.0.3
 ```
 
 ## Usage
 
 ```dart
+import 'package:flutter/material.dart';
+import 'package:alice/alice.dart';
+import 'package:alice_objectbox/alice_objectbox.dart';
+import 'package:alice_objectbox/alice_objectbox_store.dart';
+
 Future<void> main() async {
-  /// This is required so ObjectBox can get the application directory
-  /// to store the database in.
+  // Required so ObjectBox can access the application directory
   WidgetsFlutterBinding.ensureInitialized();
 
-  /// Initialize [AliceObjectBoxStore] before running the app.
+  // Initialize AliceObjectBoxStore before running the app
   final AliceObjectBoxStore store =
       await AliceObjectBoxStore.create(persistent: false);
 
-  /// Pass [AliceObjectBoxStore] to the app
   runApp(MyApp(store: store));
 }
 
@@ -41,18 +45,22 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late final Alice _alice = Alice(
-    showNotification: true,
-    showInspectorOnShake: true,
-    maxCallsCount: 1000,
-    /// Pass [AliceObjectBox] to the [Alice] constructor
-    aliceStorage: AliceObjectBox(
+  late final configuration = AliceConfiguration(
+    storage: AliceObjectBox(
       store: widget.store,
       maxCallsCount: 1000,
     ),
   );
 
-  // your custom stuff...
+  late final Alice _alice = Alice(configuration: configuration);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      navigatorKey: _alice.getNavigatorKey(),
+      home: const Scaffold(),
+    );
+  }
 }
 ```
 

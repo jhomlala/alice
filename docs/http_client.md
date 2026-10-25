@@ -4,46 +4,53 @@ To use Alice with `HttpClient` from `dart:io`, add the adapter to your project.
 
 ## Installation
 
-Add this to your **pubspec.yaml** file:
+Add this to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  alice_http_client: ^1.3.0
+  alice: ^1.11.1
+  alice_http_client: ^1.3.4
 ```
 
 ## Usage
 
 ```dart
-/// Create Alice instance
+import 'dart:convert';
+import 'dart:io';
+import 'package:alice/alice.dart';
+import 'package:alice_http_client/alice_http_client_adapter.dart';
+import 'package:alice_http_client/alice_http_client_extensions.dart';
+
+// Create Alice instance
 Alice alice = Alice();
 
-/// Create Alice Http Adapter
+// Create Alice Http Client Adapter
 AliceHttpClientAdapter aliceHttpClientAdapter = AliceHttpClientAdapter();
 
-///Add adapter to Alice
+// Add adapter to Alice
 alice.addAdapter(aliceHttpClientAdapter);
 
-/// Http Client instance
+// Http Client instance
 HttpClient httpClient = HttpClient();
 ```
 
-Use extension to intercept HTTP call:
+Intercept calls using the extension:
 ```dart
 httpClient
-    .getUrl(Uri.parse('https://api.com'))
+    .getUrl(Uri.parse('https://api.com/posts'))
     .interceptWithAlice(aliceHttpClientAdapter);
 ```
 
-Use adapter to handle HTTP call:
+Or handle manually with the adapter:
 ```dart
 httpClient
-    .getUrl(Uri.parse('https://api.com'))
+    .getUrl(Uri.parse('https://api.com/posts'))
     .then((request) async {
       aliceHttpClientAdapter.onRequest(request);
-      var httpResponse = await request.close();
-      var responseBody = await utf8.decoder.bind(httpResponse).join();
+      final httpResponse = await request.close();
+      final responseBody = await utf8.decoder.bind(httpResponse).join();
       aliceHttpClientAdapter.onResponse(httpResponse, request, body: responseBody);
-});
+    });
 ```
 
 ## Example

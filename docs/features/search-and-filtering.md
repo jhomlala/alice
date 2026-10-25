@@ -4,34 +4,34 @@ sidebar_label: 'Search & Filtering'
 
 # Search & Filtering
 
-Alice features a powerful search bar in the Inspector UI to help you quickly find specific HTTP calls, especially useful when your app makes dozens of requests during a single session.
+Alice includes a search bar in the Inspector UI to quickly find specific HTTP calls among dozens of requests.
 
 ## Basic Search
 
-By default, typing into the search bar will perform a plain text search against the request URLs and endpoints.
+Typing into the search bar performs a plain text search across request URLs and endpoints.
 
 ## Advanced Search Filters
 
-*Added in Alice 1.6.0*
-
-For pinpoint precision, you can use Alice's advanced syntax filters. These allow you to filter based on specific attributes of the HTTP call:
+Filter calls using dedicated syntax keys:
 
 - `method:GET` (or `POST`, `PUT`, `DELETE`, etc.)
 - `status:200` (or `404`, `500`, etc.)
-- `host:google.com` (matches the server/host name)
-- `client:dio` (matches the HTTP client used, e.g., `dio`, `chopper`, `http`)
-- `duration:>1000` (finds requests that took longer than 1000ms. Supports `<`, `>`, and `=`)
+- `host:google.com` or `server:google.com` (matches the server/host name)
+- `client:dio` (matches the HTTP client: `dio`, `chopper`, `http`, `HttpClient`)
+- `duration:>1000` (finds requests longer than 1000ms; supports `<`, `>`, and `=`)
+- `tag:login-flow` (matches requests tagged with `alice.tag(tag: ...)`)
+- `duplicate:true` (shows duplicate N+1 requests detected within the duplicate window)
 
 ### Combining Filters
 
-You can combine multiple filters in a single search query separated by spaces. 
+Combine multiple filters separated by spaces. 
 
-For example, typing:
+For example:
 ```text
 status:500 method:POST api/users
 ```
-Will filter the list to show **only failed POST requests** to the `api/users` endpoint.
+Shows only failed POST requests to the `api/users` endpoint.
 
 ### Search Help
 
-If you forget the syntax, you can always tap the Help (?) icon next to the search bar in the app to view a quick reference dialog explaining the advanced filter syntax.
+Tap the Help (?) icon next to the search bar in the app for a quick filter syntax reference.

@@ -1,32 +1,39 @@
 # Retrofit
 
-Alice supports [Retrofit](https://pub.dev/packages/retrofit) out of the box because it is built on top of [Dio](https://pub.dev/packages/dio).
+Alice supports [Retrofit](https://pub.dev/packages/retrofit) out of the box because Retrofit runs on top of [Dio](https://pub.dev/packages/dio).
 
-To integrate Alice with Retrofit, you simply need to add the `alice_dio` interceptor to the `Dio` instance that is passed to your Retrofit `RestClient` constructor.
+Add the `alice_dio` adapter to the `Dio` instance passed to your Retrofit `RestClient`.
+
+## Installation
+
+Add dependencies to your `pubspec.yaml`:
+
+```yaml
+dependencies:
+  alice: ^1.11.1
+  alice_dio: ^1.3.4
+  retrofit: ^4.4.2
+```
 
 ## Setup
 
-1. Add `alice` and `alice_dio` to your `pubspec.yaml` dependencies.
-2. Initialize `Alice`:
-
 ```dart
-Alice alice = Alice(navigatorKey: navigatorKey);
-```
+import 'package:alice/alice.dart';
+import 'package:alice_dio/alice_dio_adapter.dart';
+import 'package:dio/dio.dart';
 
-3. Configure your `Dio` instance:
+// 1. Create Alice and adapter
+final aliceDioAdapter = AliceDioAdapter();
+final alice = Alice()..addAdapter(aliceDioAdapter);
 
-```dart
-final dio = Dio();
-dio.interceptors.add(alice.getDioInterceptor());
-```
+// 2. Add adapter to Dio
+final dio = Dio()..interceptors.add(aliceDioAdapter);
 
-4. Pass the `dio` instance to your `RestClient`:
-
-```dart
+// 3. Pass Dio to your Retrofit RestClient
 final client = RestClient(dio);
 ```
 
-Now, all network requests performed by your `RestClient` will be captured and displayed in the Alice inspector.
+All network requests made by `RestClient` will appear in the Alice inspector.
 
 ## Example
 

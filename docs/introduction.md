@@ -6,7 +6,7 @@ sidebar_label: 'Introduction'
 
 # Introduction
 
-Alice is a powerful HTTP Inspector tool for Flutter that helps you debug network requests effortlessly. It catches and stores HTTP requests and responses, allowing you to view them directly on your device via a simple, built-in UI.
+Alice catches your app's HTTP traffic so you can debug API issues without a proxy: headers, body, response times, the works. View calls on-device via a built-in UI.
 
 :::info Inspiration
 Alice was heavily inspired by the popular Android networking tools **Chuck** and **Chucker**.
@@ -36,7 +36,7 @@ While Dart DevTools is excellent for developers actively writing code with a com
 Alice goes beyond simple logging by providing a fully-featured UI inside your Flutter app:
 
 * **Detailed Request Logging:** Inspect headers, body, query parameters, and response times for every HTTP call. Includes an interactive tree-based JSON viewer for payloads.
-* **On-Device Inspector UI:** No need to connect your phone to a computer. Simply view all network traffic directly on the device screen.
+* **On-Device Inspector UI:** No need to connect your phone to a computer. View all network traffic directly on the device screen.
 * **Shake to Open:** Easily trigger the inspector at any time by physically shaking your device.
 * **Advanced Search & Filtering:** Filter through hundreds of API calls using powerful syntax (e.g., `status:500 method:POST`).
 * **Stats & Timeline:** View a high-level metrics dashboard and a Gantt chart Timeline to visually inspect staggered HTTP calls.
@@ -54,7 +54,7 @@ With Alice, you only install the core `alice` package and the specific adapter y
 
 ## Extensive Client Support
 
-Whether you use the default Dart libraries or third-party packages, Alice has you covered. Alice supports seamless interception for the most popular Dart HTTP clients:
+Whether you use default Dart libraries or third-party packages, Alice has you covered. Alice supports interception for the most popular Dart HTTP clients:
 * `Dio`
 * `Chopper`
 * `http` (from the `http/http` package)

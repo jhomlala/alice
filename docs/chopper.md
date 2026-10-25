@@ -4,28 +4,33 @@ To use Alice with Chopper, add the adapter to your project.
 
 ## Installation
 
-Add this to your **pubspec.yaml** file:
+Add this to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  alice_chopper: ^1.3.0
+  alice: ^1.11.1
+  alice_chopper: ^1.3.4
 ```
 
 ## Usage
 
 ```dart
-/// Create Alice instance
+import 'package:alice/alice.dart';
+import 'package:alice_chopper/alice_chopper_adapter.dart';
+import 'package:chopper/chopper.dart';
+
+// Create Alice instance
 Alice alice = Alice();
 
-/// Create Alice Chopper Adapter
+// Create Alice Chopper Adapter
 AliceChopperAdapter aliceChopperAdapter = AliceChopperAdapter();
 
-///Add adapter to Alice
+// Add adapter to Alice
 alice.addAdapter(aliceChopperAdapter);
 
-/// Create chopper client
+// Create chopper client
 ChopperClient chopperClient = ChopperClient(
-    interceptors: [_aliceChopperAdapter],
+  interceptors: [aliceChopperAdapter],
 );
 ```
 

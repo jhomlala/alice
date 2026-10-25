@@ -4,9 +4,6 @@
 
 # Alice - HTTP Inspector for Flutter
 
-
-
-
 [![pub package](https://img.shields.io/pub/v/alice.svg)](https://pub.dartlang.org/packages/alice)
 [![platform](https://img.shields.io/badge/platform-flutter-blue.svg)](https://github.com/jhomlala/alice)
 
@@ -21,9 +18,9 @@
 
 ## Why Alice?
 
-Alice is an advanced HTTP Inspector tool for Flutter that helps you debug network requests effortlessly. It catches and stores HTTP requests and responses, allowing you to view detailed network logs directly within your app via a simple and intuitive UI. 
+Alice catches your app's HTTP traffic so you can debug API issues without a proxy: headers, body, response times, the works. All viewable on-device via a built-in UI.
 
-Whether you are hunting down a broken API payload, checking headers, or monitoring performance, Alice provides all the details you need without requiring a proxy or external desktop tools. It's inspired by [Chuck](https://github.com/jgilfelt/chuck) and [Chucker](https://github.com/ChuckerTeam/chucker).
+Whether you are hunting down a broken payload, checking headers, or monitoring performance, Alice gives you what you need directly inside your app. Inspired by [Chuck](https://github.com/jgilfelt/chuck) and [Chucker](https://github.com/ChuckerTeam/chucker).
 
 ## Screenshots
 
@@ -70,8 +67,8 @@ Whether you are hunting down a broken API payload, checking headers, or monitori
 * Supports all major Dart HTTP clients: **Dio**, **Retrofit**, **http**, **HttpClient (dart:io)**, **Chopper**, and **GraphQL**
 
 **📱 UX & Workflow**
-* Request Replay - resend HTTP calls directly from the inspector
-* Shake the device to open the inspector instantly
+* Request Replay: resend HTTP calls directly from the inspector
+* Shake the device to open the inspector
 * System notifications on HTTP calls
 * Export and save HTTP calls to file (TXT or **HAR**) for easy sharing
 * Persistent storage support (via ObjectBox)
@@ -79,23 +76,20 @@ Whether you are hunting down a broken API payload, checking headers, or monitori
 ## Quick Start
 
 ### 1. Add dependency
-Add the main Alice package (and any specific client plugins you need) to your `pubspec.yaml`:
+Add the main Alice package (and whichever client adapters you need) to your `pubspec.yaml`:
 ```yaml
 dependencies:
   alice: ^1.11.1
-  # Add plugins as needed, e.g.:
+  # Add adapters as needed, e.g.:
   # alice_dio: ^1.3.4
 ```
 
 ### 2. Initialize Alice
-Create an instance of Alice. You should generally keep it as a singleton or provide it via dependency injection.
+Create an instance of Alice:
 ```dart
 import 'package:alice/alice.dart';
 
-Alice alice = Alice(
-  showNotification: true,
-  showInspectorOnShake: true,
-);
+Alice alice = Alice();
 ```
 
 ### 3. Register the Navigator Key
@@ -108,15 +102,17 @@ MaterialApp(
 ```
 
 ### 4. Attach to your HTTP Client
-Alice works by attaching an interceptor to your HTTP client. For example, using **Dio**:
+Alice works by attaching an adapter to your HTTP client. For example, using **Dio**:
 ```dart
 import 'package:dio/dio.dart';
 import 'package:alice_dio/alice_dio_adapter.dart';
 
-Dio dio = Dio();
-dio.interceptors.add(AliceDioAdapter().getInterceptor(alice));
+AliceDioAdapter aliceDioAdapter = AliceDioAdapter();
+alice.addAdapter(aliceDioAdapter);
 
-// Now make requests! Alice will automatically record them.
+Dio dio = Dio()..interceptors.add(aliceDioAdapter);
+
+// Now make requests! Alice records them automatically.
 dio.get("https://jsonplaceholder.typicode.com/posts");
 ```
 *For instructions on how to attach Alice to Chopper, standard http, or GraphQL, see the full documentation.*
@@ -124,9 +120,9 @@ dio.get("https://jsonplaceholder.typicode.com/posts");
 
 ## Architecture: Why Multiple Packages?
 
-You may notice that Alice uses a multi-package architecture (e.g., `alice_dio`, `alice_http`, `alice_chopper`). This is a deliberate design choice!
+You may notice that Alice uses a multi-package architecture (e.g., `alice_dio`, `alice_http`, `alice_chopper`). This is a deliberate design choice.
 
-Many similar inspector packages force you to pull in a massive dependency tree (Dio, HTTP, Chopper, GraphQL, etc.) all at once, even if your app only uses one of them. This is a **bad pattern** that bloats your app size, slows down build times, and causes version conflicts. 
+Many similar inspector packages force you to pull in a massive dependency tree (Dio, HTTP, Chopper, GraphQL, etc.) all at once, even if your app only uses one of them. This bloats your app size, slows down build times, and causes version conflicts. 
 
 With Alice, you only install the core `alice` package and the specific adapter you need (e.g., `alice_dio`). We strictly avoid enforcing unnecessary dependencies on your project.
 
@@ -135,6 +131,6 @@ For complete setup instructions, advanced configuration, and plugin details, ple
 
 ## Custom Integrations & Enterprise Support
 
-Alice has been the go-to Flutter HTTP inspector since its first release, and the ecosystem keeps growing. If your team needs something beyond what's here — a custom adapter for an internal HTTP client, a bespoke export format, enterprise storage backend, or anything else — I'm available for consulting.
+Alice has been the go-to Flutter HTTP inspector since its first release, and the ecosystem keeps growing. If your team needs something beyond what's here (a custom adapter for an internal HTTP client, a bespoke export format, enterprise storage backend, or anything else), I'm available for consulting.
 
 [Let's talk on LinkedIn →](https://pl.linkedin.com/in/jhomlala)
