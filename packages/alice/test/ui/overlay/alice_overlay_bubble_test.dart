@@ -102,7 +102,7 @@ void main() {
     );
 
     testWidgets(
-      'AliceOverlayBubble renders green status dot and success badge when traffic succeeds',
+      'AliceOverlayBubble renders Alice emblem and stats when traffic succeeds',
       (tester) async {
         final storage = AliceMemoryStorage(maxCallsCount: 10);
 
@@ -142,24 +142,28 @@ void main() {
 
         await tester.pump();
 
-        // Total 2, success badge 1, error badge 1
+        // Alice brand emblem and title
+        expect(find.text('Alice'), findsOneWidget);
+        expect(find.byIcon(Icons.search), findsOneWidget);
+
+        // Total 2, success 1, error 1
         expect(find.text('2'), findsOneWidget); // Total calls
-        expect(find.byIcon(Icons.check), findsOneWidget); // Success badge
+        expect(find.byIcon(Icons.check), findsOneWidget); // Success
         expect(
           find.byIcon(Icons.warning_amber_rounded),
           findsOneWidget,
-        ); // Error badge
+        ); // Error
 
-        // Status dot is green (traffic succeeded)
-        final dotFinder = find.byWidgetPredicate((widget) {
+        // Alice red circular emblem
+        final emblemFinder = find.byWidgetPredicate((widget) {
           if (widget is Container && widget.decoration is BoxDecoration) {
             final box = widget.decoration as BoxDecoration;
             return box.shape == BoxShape.circle &&
-                box.color == AliceAppTheme.green;
+                box.color == AliceAppTheme.lightRed;
           }
           return false;
         });
-        expect(dotFinder, findsOneWidget);
+        expect(emblemFinder, findsOneWidget);
       },
     );
 
@@ -196,10 +200,9 @@ void main() {
 
         await tester.pump();
 
-        // Total 1, loading badge 1, CircularProgressIndicator rendered
+        // Total 1, loading 1, CircularProgressIndicator rendered
         expect(find.byType(CircularProgressIndicator), findsOneWidget);
-        expect(find.byIcon(Icons.sync), findsOneWidget);
-        expect(find.text('1'), findsNWidgets(2)); // Total 1, Loading badge 1
+        expect(find.text('1'), findsNWidgets(2)); // Total 1, Loading 1
       },
     );
 
