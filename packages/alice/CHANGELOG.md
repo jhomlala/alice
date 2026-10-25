@@ -1,4 +1,4 @@
-## Unreleased
+## 2.0.0
 
 * Extracted local OS notifications into separate package `alice_notification` with `AliceNotificationAdapter` interface to eliminate native dependencies from core Alice.
 * Added built-in draggable floating overlay bubble (`showOverlayBubble: true`) with live call counts, Alice color coding (green for successes, orange for redirects and in-flight spinning loader, red for errors). The bubble automatically stays hidden until at least one HTTP call is recorded.
