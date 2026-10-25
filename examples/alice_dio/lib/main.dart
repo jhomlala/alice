@@ -2,10 +2,11 @@ import 'dart:io';
 
 import 'package:alice/alice.dart';
 import 'package:alice_dio/alice_dio_adapter.dart';
+import 'package:alice_notification/alice_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 
 void main() => runApp(const MyApp());
 
@@ -19,8 +20,15 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late final AliceDioAdapter _aliceDioAdapter = AliceDioAdapter();
 
-  final configuration = AliceConfiguration(showShareButton: true);
-  late final Alice _alice = Alice(configuration: configuration)
+  late final AliceConfiguration _configuration = AliceConfiguration(
+    showShareButton: true,
+    showOverlayBubble: true,
+    notificationAdapter: AliceLocalNotification(),
+    redactedHeaders: {'authorization', 'x-api-key', 'cookie'},
+    redactedBodyKeys: {'password', 'token', 'secret', 'client_secret'},
+  );
+
+  late final Alice _alice = Alice(configuration: _configuration)
     ..addAdapter(_aliceDioAdapter);
 
   late final Dio _dio = Dio(BaseOptions(followRedirects: false))
@@ -39,28 +47,68 @@ class _MyAppState extends State<MyApp> {
             children: [
               const SizedBox(height: 8),
               const Text(
+                'Welcome to the Alice + Dio Example.\n'
+                'Test new features: Overlay Bubble, Security Redaction, JSON Tools, & VM Extensions.',
                 style: TextStyle(fontSize: 14),
-                'Welcome to example of Alice + Dio Example. '
-                'Click buttons below to generate sample data.',
               ),
-              ElevatedButton(
+              const SizedBox(height: 12),
+              ElevatedButton.icon(
+                icon: const Icon(Icons.send),
                 onPressed: _runDioRequests,
-                child: const Text('Run Dio HTTP Requests'),
+                label: const Text('Run Standard HTTP Requests'),
               ),
               const SizedBox(height: 8),
-              const Text(
-                style: TextStyle(fontSize: 14),
-                'After clicking on button above, you should receive notification.'
-                ' Click on it to show inspector. You can also shake your device or click button below.',
+              ElevatedButton.icon(
+                icon: const Icon(Icons.security),
+                onPressed: _runRedactedRequests,
+                label: const Text('Run Sensitive / Redacted Requests'),
               ),
-              ElevatedButton(
+              const SizedBox(height: 8),
+              ElevatedButton.icon(
+                icon: const Icon(Icons.bubble_chart),
+                onPressed: () => _alice.showOverlayBubble(),
+                label: const Text('Ensure Floating Bubble Visible'),
+              ),
+              const SizedBox(height: 8),
+              ElevatedButton.icon(
+                icon: const Icon(Icons.remove_red_eye),
                 onPressed: _runHttpInspector,
-                child: const Text('Run HTTP Inspector'),
+                label: const Text('Open Inspector'),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  void _runRedactedRequests() async {
+    // 1. JSON POST with sensitive password and token fields
+    await _dio.post<void>(
+      'https://jsonplaceholder.typicode.com/posts',
+      options: Options(
+        headers: {
+          'Authorization': 'Bearer super_secret_jwt_token_12345',
+          'X-Api-Key': 'secret_key_99999',
+          'Cookie': 'session_id=secret_cookie_val',
+        },
+      ),
+      data: {
+        'username': 'alice_developer',
+        'password': 'very_secret_password',
+        'token': 'private_access_token',
+        'nested': {
+          'secret': 'nested_secret_value',
+          'public_info': 'hello world',
+        },
+      },
+    );
+
+    // 2. x-www-form-urlencoded body with sensitive fields
+    await _dio.post<void>(
+      'https://jsonplaceholder.typicode.com/posts',
+      options: Options(contentType: Headers.formUrlEncodedContentType),
+      data: 'grant_type=password&username=alice&password=secret_password&client_secret=top_secret',
     );
   }
 
@@ -148,13 +196,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _runXmlRequests() {
-    // Standard application/xml
     _dio.get<void>('https://httpbin.org/xml');
-
-    // Standard text/xml
     _dio.get<void>('https://www.w3schools.com/xml/plant_catalog.xml');
-
-    // image/svg+xml response
     _dio.get<void>('https://www.w3.org/Graphics/SVG/1998/10/W3CFS.svg');
     _dio.get<void>(
       'https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/tiger.svg',

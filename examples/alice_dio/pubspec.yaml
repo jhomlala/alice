@@ -19,6 +19,8 @@ dependencies:
     workspace: true
   alice_dio:
     workspace: true
+  alice_notification:
+    workspace: true
   path_provider:
   path:
   dio: ^5.8.0+1
