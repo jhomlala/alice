@@ -54,6 +54,64 @@ void main() {
     );
 
     testWidgets(
+      'AliceOverlayBubble renders green status dot when traffic is partially successful',
+      (tester) async {
+        final storage = AliceMemoryStorage(maxCallsCount: 10);
+
+        final successfulCall = AliceHttpCall(1)
+          ..method = 'GET'
+          ..endpoint = '/success'
+          ..request = AliceHttpRequest()
+          ..response = (AliceHttpResponse()..status = 200);
+
+        final failedCall = AliceHttpCall(2)
+          ..method = 'GET'
+          ..endpoint = '/fail'
+          ..request = AliceHttpRequest()
+          ..response = (AliceHttpResponse()..status = 500);
+
+        storage.addCall(successfulCall);
+        storage.addResponse(successfulCall.response!, 1);
+        storage.addCall(failedCall);
+        storage.addResponse(failedCall.response!, 2);
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Stack(
+                children: [
+                  AliceOverlayBubble(
+                    callsStream: storage.callsStream,
+                    storage: storage,
+                    onTap: () {},
+                    onDismiss: () {},
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+
+        await tester.pump();
+
+        // Total 2, error badge 1
+        expect(find.text('2'), findsOneWidget); // Total calls
+        expect(find.text('1'), findsOneWidget); // Errors badge
+        expect(find.byIcon(Icons.warning_amber_rounded), findsOneWidget);
+
+        // Status dot is green (traffic succeeded)
+        final dotFinder = find.byWidgetPredicate((widget) {
+          if (widget is Container && widget.decoration is BoxDecoration) {
+            final box = widget.decoration as BoxDecoration;
+            return box.shape == BoxShape.circle && box.color == Colors.green;
+          }
+          return false;
+        });
+        expect(dotFinder, findsOneWidget);
+      },
+    );
+
+    testWidgets(
       'AliceOverlayBubble renders loading indicator when calls are in-flight',
       (tester) async {
         final storage = AliceMemoryStorage(maxCallsCount: 10);

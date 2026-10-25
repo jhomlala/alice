@@ -70,19 +70,21 @@ class _AliceOverlayBubbleState extends State<AliceOverlayBubble> {
             final stats = widget.storage.getStats();
             final hasErrors = stats.errors > 0;
             final isLoading = stats.loading > 0;
+            final allFailed = stats.total > 0 && stats.errors == stats.total;
 
             final Color statusColor;
-            final Color borderColor;
-            if (isLoading) {
-              statusColor = Colors.amber;
-              borderColor = Colors.amber.shade400;
-            } else if (hasErrors) {
+            if (stats.total == 0) {
+              statusColor = Colors.grey;
+            } else if (allFailed) {
               statusColor = Colors.red;
-              borderColor = Colors.red.shade400;
             } else {
+              // Traffic is succeeding
               statusColor = Colors.green;
-              borderColor = stats.total > 0 ? Colors.green.shade400 : Colors.white24;
             }
+
+            final Color borderColor = allFailed
+                ? Colors.red.shade400
+                : (isLoading ? Colors.amber.shade400 : Colors.white24);
 
             return Material(
               color: Colors.transparent,
