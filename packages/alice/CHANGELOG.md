@@ -1,3 +1,7 @@
+## Unreleased
+
+* Refactored README documentation for clearer structure, scannability, and voice.
+
 ## 2.0.0
 
 * Extracted local OS notifications into separate package `alice_notification` with `AliceNotificationAdapter` interface to eliminate native dependencies from core Alice.
