@@ -225,6 +225,11 @@ class Translations {
         TranslationKey.callOverviewTag: "Tag:",
         TranslationKey.callOverviewDuplicate: "Duplicate:",
         TranslationKey.dismiss: "Dismiss",
+        TranslationKey.jsonViewerCopyValue: "Copy value",
+        TranslationKey.jsonViewerCopyPath: "Copy JSON path",
+        TranslationKey.jsonViewerCopySubtree: "Copy JSON subtree",
+        TranslationKey.jsonViewerCopyDartClass: "Copy as Dart class",
+        TranslationKey.jsonViewerCopied: "Copied to clipboard.",
       },
     );
   }
@@ -440,6 +445,11 @@ class Translations {
         TranslationKey.callOverviewTag: "Tag:",
         TranslationKey.callOverviewDuplicate: "Duplikat:",
         TranslationKey.dismiss: "Zamknij",
+        TranslationKey.jsonViewerCopyValue: "Kopiuj wartość",
+        TranslationKey.jsonViewerCopyPath: "Kopiuj ścieżkę JSON",
+        TranslationKey.jsonViewerCopySubtree: "Kopiuj poddrzewo JSON",
+        TranslationKey.jsonViewerCopyDartClass: "Kopiuj jako klasę Dart",
+        TranslationKey.jsonViewerCopied: "Skopiowano do schowka.",
       },
     );
   }

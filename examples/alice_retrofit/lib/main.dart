@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:alice/alice.dart';
 import 'package:alice_dio/alice_dio_adapter.dart';
 import 'package:dio/dio.dart';
@@ -19,7 +19,7 @@ class _MyAppState extends State<MyApp> {
 
   final configuration = AliceConfiguration(
     showShareButton: true,
-    showNotification: false,
+    
   );
   late final Alice _alice = Alice(configuration: configuration)
     ..addAdapter(_aliceDioAdapter);

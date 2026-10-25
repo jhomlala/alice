@@ -1,48 +1,39 @@
-import 'package:alice/src/services/storage/alice_storage.dart';
-import 'package:alice/src/utils/utils.dart';
-import 'package:alice/src/utils/operating_system.dart';
-import 'package:alice/src/model/translation.dart';
-import 'package:alice/src/ui/common/context_ext.dart';
-import 'package:cupertino_ui/cupertino_ui.dart';
+import 'dart:io' show Platform;
+
+import 'package:alice/alice.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-/// Service for displaying local notifications.
-class AliceNotificationService {
+/// Local OS notification adapter using `flutter_local_notifications`.
+class AliceLocalNotification implements AliceNotificationAdapter {
   static const String _payload = 'Alice';
   static const String _channel = 'Alice';
-  static const String _callCount = '[callCount]';
+
+  final String notificationIcon;
+  final String? notificationLargeIcon;
 
   /// Notification plugin instance
   FlutterLocalNotificationsPlugin? _flutterLocalNotificationsPlugin;
 
-  /// Notification configuration for Alice.
-  late final NotificationDetails _notificationDetails;
+  /// Notification configuration details.
+  NotificationDetails? _notificationDetails;
 
   /// Callback used to open inspector on notification click.
-  late final void Function() _openInspectorCallback;
+  VoidCallback? _openInspectorCallback;
 
   /// Currently displayed notification message
   String? _notificationMessageDisplayed;
 
-  /// Is current notification being processed
+  /// Flag indicating whether notification is processing
   bool _isNotificationProcessing = false;
 
-  /// Configures local notifications with [notificationIcon] and
-  /// [openInspectorCallback].
-  ///
-  /// [notificationIcon] is typically a **monochrome silhouette icon**
-  /// on a **transparent background**, used for small icon.
-  ///
-  /// [notificationLargeIcon] is optional, used for large icon.
-  /// Android official docs doesn't recommend to use app icon.
-  ///
-  /// See more for notificationIcon and notificationLargeIcon information:
-  /// https://developer.android.com/develop/ui/views/notifications#Templates
-  void configure({
-    required String notificationIcon,
-    String? notificationLargeIcon,
-    required void Function() openInspectorCallback,
-  }) {
+  AliceLocalNotification({
+    this.notificationIcon = '@mipmap/ic_launcher',
+    this.notificationLargeIcon,
+  });
+
+  @override
+  void configure({required VoidCallback openInspectorCallback}) {
     _openInspectorCallback = openInspectorCallback;
     _notificationDetails = NotificationDetails(
       android: AndroidNotificationDetails(
@@ -52,7 +43,7 @@ class AliceNotificationService {
         enableVibration: false,
         playSound: false,
         largeIcon: notificationLargeIcon != null
-            ? DrawableResourceAndroidBitmap(notificationLargeIcon)
+            ? DrawableResourceAndroidBitmap(notificationLargeIcon!)
             : null,
       ),
       iOS: const DarwinNotificationDetails(
@@ -82,9 +73,8 @@ class AliceNotificationService {
     _requestNotificationPermissions();
   }
 
-  /// Requests notification permissions to display stats notification.
   Future<void> _requestNotificationPermissions() async {
-    if (OperatingSystem.isIOS || OperatingSystem.isMacOS) {
+    if (Platform.isIOS || Platform.isMacOS) {
       await _flutterLocalNotificationsPlugin
           ?.resolvePlatformSpecificImplementation<
             IOSFlutterLocalNotificationsPlugin
@@ -95,7 +85,7 @@ class AliceNotificationService {
             MacOSFlutterLocalNotificationsPlugin
           >()
           ?.requestPermissions(alert: true, badge: true, sound: true);
-    } else if (OperatingSystem.isAndroid) {
+    } else if (Platform.isAndroid) {
       final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
           _flutterLocalNotificationsPlugin
               ?.resolvePlatformSpecificImplementation<
@@ -106,30 +96,22 @@ class AliceNotificationService {
     }
   }
 
-  /// Called when notification has been clicked. It navigates to calls screen.
   Future<void> _onDidReceiveNotificationResponse(
     NotificationResponse response,
   ) async {
-    _openInspectorCallback();
+    _openInspectorCallback?.call();
   }
 
-  /// Formats [stats] for notification message.
-  String _getNotificationMessage({
-    required BuildContext context,
-    required AliceStats stats,
-  }) => <String>[
-    if (stats.loading > 0)
-      '${context.i18n(TranslationKey.notificationLoading)} ${stats.loading}',
-    if (stats.successes > 0)
-      '${context.i18n(TranslationKey.notificationSuccess)} ${stats.successes}',
-    if (stats.redirects > 0)
-      '${context.i18n(TranslationKey.notificationRedirect)} ${stats.redirects}',
-    if (stats.errors > 0)
-      '${context.i18n(TranslationKey.notificationError)} ${stats.errors}',
-  ].join(' | ');
+  String _formatStats(AliceStats stats) {
+    return <String>[
+      if (stats.loading > 0) 'Loading: ${stats.loading}',
+      if (stats.successes > 0) 'Success: ${stats.successes}',
+      if (stats.redirects > 0) 'Redirect: ${stats.redirects}',
+      if (stats.errors > 0) 'Error: ${stats.errors}',
+    ].join(' | ');
+  }
 
-  /// Shows current stats notification. It formats [stats] into simple
-  /// notification which is displayed when stats has changed.
+  @override
   Future<void> showStatsNotification({
     required BuildContext context,
     required AliceStats stats,
@@ -138,7 +120,7 @@ class AliceNotificationService {
       if (_isNotificationProcessing) {
         return;
       }
-      final message = _getNotificationMessage(context: context, stats: stats);
+      final message = _formatStats(stats);
       if (message == _notificationMessageDisplayed) {
         return;
       }
@@ -147,19 +129,19 @@ class AliceNotificationService {
 
       await _flutterLocalNotificationsPlugin?.show(
         id: 0,
-        title: context
-            .i18n(TranslationKey.notificationTotalRequests)
-            .replaceAll(_callCount, stats.total.toString()),
+        title: 'Alice (total ${stats.total} HTTP calls)',
         body: message,
         notificationDetails: _notificationDetails,
         payload: _payload,
       );
 
       _notificationMessageDisplayed = message;
-    } catch (error) {
-      AliceUtils.log(error.toString());
+    } catch (_) {
     } finally {
       _isNotificationProcessing = false;
     }
   }
+
+  @override
+  void dispose() {}
 }

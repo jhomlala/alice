@@ -1,4 +1,4 @@
-import 'package:alice/src/core/alice_core.dart';
+﻿import 'package:alice/src/core/alice_core.dart';
 import 'package:alice/src/services/replay/replay_service.dart';
 import 'package:alice/src/model/alice_configuration.dart';
 import 'package:alice/src/model/alice_form_data_file.dart';
@@ -19,7 +19,7 @@ void main() {
     WidgetTester tester,
   ) async {
     final core = AliceCore(
-      configuration: AliceConfiguration(showNotification: false),
+      configuration: AliceConfiguration(),
     );
     final service = ReplayService(core);
 

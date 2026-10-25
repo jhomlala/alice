@@ -1,14 +1,16 @@
-import 'dart:async' show FutureOr, StreamSubscription;
+﻿import 'dart:async' show FutureOr, StreamSubscription;
 
 import 'package:alice/src/services/storage/alice_storage.dart';
 import 'package:alice/src/utils/utils.dart';
 import 'package:alice/src/export/exporter.dart';
 import 'package:alice/src/export/export_service.dart';
-import 'package:alice/src/services/notification/notification.dart';
 import 'package:alice/src/utils/operating_system.dart';
 import 'package:alice/src/services/replay/replay_service.dart';
 import 'package:alice/src/services/tag/alice_tag_service.dart';
 import 'package:alice/src/services/duplicate/alice_duplicate_detector.dart';
+import 'package:alice/src/services/overlay/alice_overlay_service.dart';
+import 'package:alice/src/services/redaction/alice_redaction_service.dart';
+import 'package:alice/src/services/vm/alice_vm_service.dart';
 import 'package:alice/src/model/alice_configuration.dart';
 import 'package:alice/src/model/export_result.dart';
 import 'package:alice/src/model/alice_http_call.dart';
@@ -26,9 +28,6 @@ class AliceCore {
   /// Detector used to detect device shakes
   ShakeDetector? _shakeDetector;
 
-  /// Service used for notification management
-  AliceNotificationService? _notification;
-
   /// Subscription for call changes
   StreamSubscription<List<AliceHttpCall>>? _callsSubscription;
 
@@ -39,20 +38,24 @@ class AliceCore {
 
   late final AliceTagService tagService;
 
+  late final AliceOverlayService _overlayService;
+
+  late final AliceRedactionService _redactionService;
+
   /// Creates alice core instance
   AliceCore({required AliceConfiguration configuration}) {
     _configuration = configuration;
     _replayService = ReplayService(this);
     tagService = AliceTagService();
+    _overlayService = AliceOverlayService();
+    _redactionService = AliceRedactionService(configuration: _configuration);
+
     _subscribeToCallChanges();
-    if (_configuration.showNotification) {
-      _notification = AliceNotificationService();
-      _notification?.configure(
-        notificationIcon: _configuration.notificationIcon,
-        notificationLargeIcon: _configuration.notificationLargeIcon,
-        openInspectorCallback: navigateToCallListScreen,
-      );
-    }
+
+    _configuration.notificationAdapter?.configure(
+      openInspectorCallback: navigateToCallListScreen,
+    );
+
     if (_configuration.showInspectorOnShake) {
       if (OperatingSystem.isAndroid || OperatingSystem.isIOS) {
         _shakeDetector = ShakeDetector.autoStart(
@@ -61,6 +64,8 @@ class AliceCore {
         );
       }
     }
+
+    AliceVmService.register(this);
   }
 
   /// Returns current configuration
@@ -74,20 +79,28 @@ class AliceCore {
   /// Dispose subjects and subscriptions
   void dispose() {
     _shakeDetector?.stopListening();
+    _overlayService.remove();
+    _configuration.notificationAdapter?.dispose();
     _unsubscribeFromCallChanges();
   }
 
   /// Called when calls has been updated
   Future<void> _onCallsChanged(List<AliceHttpCall>? calls) async {
-    if (!_configuration.showNotification || _notification == null) {
-      return;
+    if (_configuration.showOverlayBubble) {
+      final overlay = _configuration.navigatorKey?.currentState?.overlay;
+      _overlayService.ensureInserted(overlayState: overlay, core: this);
     }
 
-    if (calls != null && calls.isNotEmpty) {
+    if (_configuration.notificationAdapter != null &&
+        calls != null &&
+        calls.isNotEmpty) {
       final BuildContext? context = getContext();
       if (context != null) {
         final AliceStats stats = _configuration.aliceStorage.getStats();
-        _notification?.showStatsNotification(context: context, stats: stats);
+        await _configuration.notificationAdapter?.showStatsNotification(
+          context: context,
+          stats: stats,
+        );
       }
     }
   }
@@ -124,6 +137,7 @@ class AliceCore {
         window: _configuration.duplicateDetectionWindow,
       );
     }
+    _redactionService.redactCall(call);
     return _configuration.aliceStorage.addCall(call);
   }
 
@@ -132,8 +146,10 @@ class AliceCore {
       _configuration.aliceStorage.addError(error, requestId);
 
   /// Add response to existing alice http call
-  FutureOr<void> addResponse(AliceHttpResponse response, int requestId) =>
-      _configuration.aliceStorage.addResponse(response, requestId);
+  FutureOr<void> addResponse(AliceHttpResponse response, int requestId) {
+    _redactionService.redactResponse(response);
+    return _configuration.aliceStorage.addResponse(response, requestId);
+  }
 
   /// Remove all calls from calls subject
   FutureOr<void> removeCalls() => _configuration.aliceStorage.removeCalls();

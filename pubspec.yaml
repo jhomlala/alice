@@ -4,6 +4,7 @@ environment:
 
 workspace:
   - packages/alice
+  - packages/alice_notification
   - packages/alice_chopper
   - packages/alice_dio
   - packages/alice_http
