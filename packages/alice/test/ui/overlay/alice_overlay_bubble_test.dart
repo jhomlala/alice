@@ -53,6 +53,46 @@ void main() {
       },
     );
 
+    testWidgets(
+      'AliceOverlayBubble renders loading indicator when calls are in-flight',
+      (tester) async {
+        final storage = AliceMemoryStorage(maxCallsCount: 10);
+
+        // Active in-flight call (loading = true)
+        final call = AliceHttpCall(1)
+          ..method = 'GET'
+          ..endpoint = '/loading'
+          ..loading = true
+          ..request = AliceHttpRequest();
+
+        storage.addCall(call);
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Stack(
+                children: [
+                  AliceOverlayBubble(
+                    callsStream: storage.callsStream,
+                    storage: storage,
+                    onTap: () {},
+                    onDismiss: () {},
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+
+        await tester.pump();
+
+        // Total 1, loading badge 1, CircularProgressIndicator rendered
+        expect(find.byType(CircularProgressIndicator), findsOneWidget);
+        expect(find.byIcon(Icons.sync), findsOneWidget);
+        expect(find.text('1'), findsNWidgets(2)); // Total 1, Loading badge 1
+      },
+    );
+
     testWidgets('AliceOverlayService manages lifecycle', (tester) async {
       final service = AliceOverlayService();
       expect(service.isInserted, isFalse);
@@ -73,6 +113,20 @@ void main() {
       );
 
       // Trigger showOverlayBubble
+      alice.showOverlayBubble();
+      await tester.pump();
+
+      expect(find.byType(AliceOverlayBubble), findsOneWidget);
+      expect(alice.isOverlayBubbleVisible, isTrue);
+
+      // Hide bubble
+      alice.hideOverlayBubble();
+      await tester.pump();
+
+      expect(find.byType(AliceOverlayBubble), findsNothing);
+      expect(alice.isOverlayBubbleVisible, isFalse);
+
+      // Show again
       alice.showOverlayBubble();
       await tester.pump();
 

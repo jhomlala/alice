@@ -35,13 +35,13 @@ class _AliceOverlayBubbleState extends State<AliceOverlayBubble> {
 
     // Constrain position within screen safe area bounds.
     if (!_isInitialized) {
-      _offset = Offset(screenSize.width - 160, padding.top + 60);
+      _offset = Offset(screenSize.width - 180, padding.top + 60);
       _isInitialized = true;
     } else {
       final double minX = padding.left + 8;
       final double maxX = math.max(
         minX,
-        screenSize.width - padding.right - 160,
+        screenSize.width - padding.right - 180,
       );
       final double minY = padding.top + 8;
       final double maxY = math.max(
@@ -71,9 +71,18 @@ class _AliceOverlayBubbleState extends State<AliceOverlayBubble> {
             final hasErrors = stats.errors > 0;
             final isLoading = stats.loading > 0;
 
-            final statusColor = hasErrors
-                ? Colors.red
-                : (isLoading ? Colors.amber : Colors.green);
+            final Color statusColor;
+            final Color borderColor;
+            if (isLoading) {
+              statusColor = Colors.amber;
+              borderColor = Colors.amber.shade400;
+            } else if (hasErrors) {
+              statusColor = Colors.red;
+              borderColor = Colors.red.shade400;
+            } else {
+              statusColor = Colors.green;
+              borderColor = stats.total > 0 ? Colors.green.shade400 : Colors.white24;
+            }
 
             return Material(
               color: Colors.transparent,
@@ -81,7 +90,7 @@ class _AliceOverlayBubbleState extends State<AliceOverlayBubble> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24),
                 side: BorderSide(
-                  color: hasErrors ? Colors.red.shade400 : Colors.white24,
+                  color: borderColor,
                   width: 1.5,
                 ),
               ),
@@ -100,14 +109,24 @@ class _AliceOverlayBubbleState extends State<AliceOverlayBubble> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Container(
-                        width: 12,
-                        height: 12,
-                        decoration: BoxDecoration(
-                          color: statusColor,
-                          shape: BoxShape.circle,
+                      if (isLoading)
+                        const SizedBox(
+                          width: 12,
+                          height: 12,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.amber),
+                          ),
+                        )
+                      else
+                        Container(
+                          width: 12,
+                          height: 12,
+                          decoration: BoxDecoration(
+                            color: statusColor,
+                            shape: BoxShape.circle,
+                          ),
                         ),
-                      ),
                       const SizedBox(width: 8),
                       Text(
                         '${stats.total}',
@@ -117,6 +136,38 @@ class _AliceOverlayBubbleState extends State<AliceOverlayBubble> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      if (isLoading) ...[
+                        const SizedBox(width: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.amber.shade900,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(
+                                Icons.sync,
+                                size: 12,
+                                color: Colors.white,
+                              ),
+                              const SizedBox(width: 3),
+                              Text(
+                                '${stats.loading}',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                       if (hasErrors) ...[
                         const SizedBox(width: 8),
                         Container(

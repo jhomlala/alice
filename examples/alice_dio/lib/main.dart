@@ -36,6 +36,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    final isBubbleVisible = _alice.isOverlayBubbleVisible;
+
     return MaterialApp(
       navigatorKey: _alice.getNavigatorKey(),
       debugShowCheckedModeBanner: false,
@@ -59,6 +61,12 @@ class _MyAppState extends State<MyApp> {
               ),
               const SizedBox(height: 8),
               ElevatedButton.icon(
+                icon: const Icon(Icons.hourglass_top),
+                onPressed: _runSlowRequest,
+                label: const Text('Run Slow Request (Observe Loading State)'),
+              ),
+              const SizedBox(height: 8),
+              ElevatedButton.icon(
                 icon: const Icon(Icons.security),
                 onPressed: _runRedactedRequests,
                 label: const Text('Run Sensitive / Redacted Requests'),
@@ -66,8 +74,19 @@ class _MyAppState extends State<MyApp> {
               const SizedBox(height: 8),
               ElevatedButton.icon(
                 icon: const Icon(Icons.bubble_chart),
-                onPressed: () => _alice.showOverlayBubble(),
-                label: const Text('Ensure Floating Bubble Visible'),
+                onPressed: () {
+                  if (_alice.isOverlayBubbleVisible) {
+                    _alice.hideOverlayBubble();
+                  } else {
+                    _alice.showOverlayBubble();
+                  }
+                  setState(() {});
+                },
+                label: Text(
+                  isBubbleVisible
+                      ? 'Hide Floating Bubble'
+                      : 'Show Floating Bubble',
+                ),
               ),
               const SizedBox(height: 8),
               ElevatedButton.icon(
@@ -80,6 +99,11 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
     );
+  }
+
+  void _runSlowRequest() {
+    // 2-second delay to clearly see the spinning loading indicator and in-flight badge
+    _dio.get<void>('https://httpbin.org/delay/2');
   }
 
   void _runRedactedRequests() async {

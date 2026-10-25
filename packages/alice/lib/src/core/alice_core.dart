@@ -1,4 +1,4 @@
-﻿import 'dart:async' show FutureOr, StreamSubscription;
+import 'dart:async' show FutureOr, StreamSubscription;
 
 import 'package:alice/src/services/storage/alice_storage.dart';
 import 'package:alice/src/utils/utils.dart';
@@ -85,6 +85,14 @@ class AliceCore {
     final overlay = _configuration.navigatorKey?.currentState?.overlay;
     _overlayService.ensureInserted(overlayState: overlay, core: this);
   }
+
+  /// Removes or hides the floating overlay bubble.
+  void hideOverlayBubble() {
+    _overlayService.remove();
+  }
+
+  /// Returns true if the floating overlay bubble is currently mounted.
+  bool get isOverlayBubbleVisible => _overlayService.isInserted;
 
   /// Dispose subjects and subscriptions
   void dispose() {
