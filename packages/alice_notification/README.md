@@ -8,7 +8,7 @@ Add `alice_notification` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  alice: ^1.11.1
+  alice: ^2.0.0
   alice_notification: ^1.0.0
 ```
 

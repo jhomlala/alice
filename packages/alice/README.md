@@ -13,6 +13,7 @@
 [![alice_http_client](https://img.shields.io/pub/v/alice_http_client.svg?label=alice_http_client)](https://pub.dartlang.org/packages/alice_http_client)
 [![alice_graphql_client](https://img.shields.io/pub/v/alice_graphql_client.svg?label=alice_graphql_client)](https://pub.dartlang.org/packages/alice_graphql_client)
 [![alice_objectbox](https://img.shields.io/pub/v/alice_objectbox.svg?label=alice_objectbox)](https://pub.dartlang.org/packages/alice_objectbox)
+[![alice_notification](https://img.shields.io/pub/v/alice_notification.svg?label=alice_notification)](https://pub.dartlang.org/packages/alice_notification)
 
 ---
 
@@ -55,41 +56,56 @@ Whether you are hunting down a broken payload, checking headers, or monitoring p
 
 **🔍 Deep Inspection**
 * Detailed logs for every HTTP call (Headers, Body, Query Parameters, Timestamps)
-* Interactive tree-based JSON viewer for request and response bodies
+* Interactive tree-based JSON & XML viewer with node collapsing/expanding
+* Copy JSONPath, values, or subtree on long press, plus one-tap "Copy as Dart class" code generation
 * Gantt chart Timeline to visually inspect staggered HTTP calls
 * Powerful HTTP calls search (with advanced syntax filters) and filtering
 * Programmatic Call Tagging (e.g., `alice.tag(tag: 'login-flow')`)
 * Automatic N+1 duplicate request detection
+* Capture-time security redaction for sensitive headers, cookies, query params, and body keys
 * Statistics dashboard (bandwidth, success rate, call counts, ratio bars)
 * Flutter & Android native log integration
+* Dart VM Service extensions (`ext.alice.*`) in debug builds for IDE and AI coding agent querying
 
 **🛠️ Broad Compatibility**
 * Supports all major Dart HTTP clients: **Dio**, **Retrofit**, **http**, **HttpClient (dart:io)**, **Chopper**, and **GraphQL**
+* Standalone notification package (`alice_notification`) keeping core Alice free of native OS dependencies
 
 **📱 UX & Workflow**
+* Draggable in-app floating overlay bubble (`showOverlayBubble: true`) with live call stats, in-flight spinner, and color-coded badges
 * Request Replay: resend HTTP calls directly from the inspector
 * Shake the device to open the inspector
-* System notifications on HTTP calls
+* Optional system notifications on HTTP calls via `alice_notification`
 * Export and save HTTP calls to file (TXT or **HAR**) for easy sharing
 * Persistent storage support (via ObjectBox)
 
 ## Quick Start
 
 ### 1. Add dependency
-Add the main Alice package (and whichever client adapters you need) to your `pubspec.yaml`:
+Add the core Alice package (and whichever client adapters you need) to your `pubspec.yaml`:
 ```yaml
 dependencies:
-  alice: ^1.11.1
-  # Add adapters as needed, e.g.:
-  # alice_dio: ^1.3.4
+  alice: ^2.0.0
+  # Add client adapter(s) as needed, e.g.:
+  # alice_dio: ^2.0.0
+  # Add notifications if desired:
+  # alice_notification: ^2.0.0
 ```
 
 ### 2. Initialize Alice
-Create an instance of Alice:
+Create an instance of Alice with your preferred configuration:
 ```dart
 import 'package:alice/alice.dart';
+import 'package:alice_notification/alice_notification.dart'; // optional
 
-Alice alice = Alice();
+final configuration = AliceConfiguration(
+  showOverlayBubble: true, // Draggable in-app stats pill
+  notificationAdapter: AliceLocalNotification(), // Optional OS notifications
+  redactedHeaders: {'authorization', 'cookie', 'x-api-key'},
+  redactedBodyKeys: {'password', 'token', 'secret'},
+);
+
+final alice = Alice(configuration: configuration);
 ```
 
 ### 3. Register the Navigator Key
@@ -102,29 +118,59 @@ MaterialApp(
 ```
 
 ### 4. Attach to your HTTP Client
-Alice works by attaching an adapter to your HTTP client. For example, using **Dio**:
+Attach an adapter to your HTTP client. For example, using **Dio**:
 ```dart
 import 'package:dio/dio.dart';
 import 'package:alice_dio/alice_dio_adapter.dart';
 
-AliceDioAdapter aliceDioAdapter = AliceDioAdapter();
+final aliceDioAdapter = AliceDioAdapter();
 alice.addAdapter(aliceDioAdapter);
 
-Dio dio = Dio()..interceptors.add(aliceDioAdapter);
+final dio = Dio()..interceptors.add(aliceDioAdapter);
 
 // Now make requests! Alice records them automatically.
 dio.get("https://jsonplaceholder.typicode.com/posts");
 ```
-*For instructions on how to attach Alice to Chopper, standard http, or GraphQL, see the full documentation.*
 
+## Floating Overlay Bubble
+
+Set `showOverlayBubble: true` in `AliceConfiguration` to display a draggable floating pill counter over your application:
+* **Auto-revealed**: Stays hidden until the first HTTP call is recorded.
+* **Alice Color Scheme**: Green dot and badge for successful calls (`2xx`), orange spinner and badge for in-flight requests, and red badge for failed calls (`4xx`/`5xx`).
+* **Tap to open**: Tapping the bubble opens the full inspector; dragging repositions it anywhere on screen.
+* **Programmatic control**:
+  * `alice.showOverlayBubble()`: Manually mounts or restores the bubble.
+  * `alice.hideOverlayBubble()`: Manually hides the bubble.
+  * `alice.isOverlayBubbleVisible`: Checks if the bubble is currently mounted.
+
+## Security Redaction
+
+Prevent API keys, passwords, and tokens from leaking into logs, exports, or screenshots:
+```dart
+AliceConfiguration(
+  redactedHeaders: {'authorization', 'x-api-key', 'cookie'},
+  redactedBodyKeys: {'password', 'token', 'secret', 'client_secret'},
+  redactionReplacement: '***REDACTED***', // Defaults to '[REDACTED]'
+)
+```
+Redaction happens at capture time before storage, covering JSON/Map objects recursively, query parameters, form fields, and `x-www-form-urlencoded` bodies.
+
+## VM Service Extensions
+
+In debug mode (`kDebugMode`), Alice registers VM Service extensions that IDEs, DevTools, or AI agents can query without opening the UI:
+* `ext.alice.getCalls`: List intercepted calls with method, URI, duration, and status.
+* `ext.alice.getCallDetails`: Retrieve full request/response details for a call by ID.
+* `ext.alice.getStats`: Read live stats (total, loading, successes, redirects, errors).
+* `ext.alice.openInspector`: Trigger Alice UI navigation programmatically.
+* `ext.alice.clearCalls`: Flush in-memory calls.
 
 ## Architecture: Why Multiple Packages?
 
-You may notice that Alice uses a multi-package architecture (e.g., `alice_dio`, `alice_http`, `alice_chopper`). This is a deliberate design choice.
+Alice uses a modular multi-package architecture (e.g., `alice_dio`, `alice_http`, `alice_notification`).
 
-Many similar inspector packages force you to pull in a massive dependency tree (Dio, HTTP, Chopper, GraphQL, etc.) all at once, even if your app only uses one of them. This bloats your app size, slows down build times, and causes version conflicts. 
+Many similar inspector packages force you to pull in a massive dependency tree (Dio, HTTP, Chopper, GraphQL, local notifications) all at once, even if your app only uses one. This bloats app size, slows build times, and causes dependency conflicts.
 
-With Alice, you only install the core `alice` package and the specific adapter you need (e.g., `alice_dio`). We strictly avoid enforcing unnecessary dependencies on your project.
+With Alice, you only install the core `alice` package and the specific adapter you need.
 
 ## Documentation
 For complete setup instructions, advanced configuration, and plugin details, please check the [Full Documentation](https://jhomlala.github.io/alice/).

@@ -2,9 +2,11 @@ import 'dart:math' as math;
 
 import 'package:alice/src/model/alice_http_call.dart';
 import 'package:alice/src/services/storage/alice_storage.dart';
+import 'package:alice/src/ui/common/theme.dart';
 import 'package:flutter/material.dart';
 
 /// Draggable floating bubble displaying live Alice statistics.
+/// Automatically stays hidden until at least one HTTP call is recorded.
 class AliceOverlayBubble extends StatefulWidget {
   final Stream<List<AliceHttpCall>> callsStream;
   final AliceStorage storage;
@@ -35,13 +37,13 @@ class _AliceOverlayBubbleState extends State<AliceOverlayBubble> {
 
     // Constrain position within screen safe area bounds.
     if (!_isInitialized) {
-      _offset = Offset(screenSize.width - 180, padding.top + 60);
+      _offset = Offset(screenSize.width - 200, padding.top + 60);
       _isInitialized = true;
     } else {
       final double minX = padding.left + 8;
       final double maxX = math.max(
         minX,
-        screenSize.width - padding.right - 180,
+        screenSize.width - padding.right - 200,
       );
       final double minY = padding.top + 8;
       final double maxY = math.max(
@@ -68,33 +70,38 @@ class _AliceOverlayBubbleState extends State<AliceOverlayBubble> {
           stream: widget.callsStream,
           builder: (context, snapshot) {
             final stats = widget.storage.getStats();
+
+            // Only show the bubble when at least one call has been recorded.
+            if (stats.total == 0) {
+              return const SizedBox.shrink();
+            }
+
+            final hasSuccesses = stats.successes > 0;
             final hasErrors = stats.errors > 0;
             final isLoading = stats.loading > 0;
-            final allFailed = stats.total > 0 && stats.errors == stats.total;
+            final allFailed = stats.errors == stats.total;
 
             final Color statusColor;
-            if (stats.total == 0) {
-              statusColor = Colors.grey;
+            if (isLoading) {
+              statusColor = AliceAppTheme.orange;
             } else if (allFailed) {
-              statusColor = Colors.red;
+              statusColor = AliceAppTheme.red;
             } else {
-              // Traffic is succeeding
-              statusColor = Colors.green;
+              statusColor = AliceAppTheme.green;
             }
 
             final Color borderColor = allFailed
-                ? Colors.red.shade400
-                : (isLoading ? Colors.amber.shade400 : Colors.white24);
+                ? AliceAppTheme.red.withValues(alpha: 0.6)
+                : (isLoading
+                      ? AliceAppTheme.orange.withValues(alpha: 0.6)
+                      : AliceAppTheme.grey.withValues(alpha: 0.3));
 
             return Material(
               color: Colors.transparent,
               elevation: 8,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24),
-                side: BorderSide(
-                  color: borderColor,
-                  width: 1.5,
-                ),
+                side: BorderSide(color: borderColor, width: 1.5),
               ),
               child: InkWell(
                 borderRadius: BorderRadius.circular(24),
@@ -117,7 +124,9 @@ class _AliceOverlayBubbleState extends State<AliceOverlayBubble> {
                           height: 12,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation<Color>(Colors.amber),
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              AliceAppTheme.orange,
+                            ),
                           ),
                         )
                       else
@@ -133,20 +142,52 @@ class _AliceOverlayBubbleState extends State<AliceOverlayBubble> {
                       Text(
                         '${stats.total}',
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: AliceAppTheme.white,
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      if (isLoading) ...[
-                        const SizedBox(width: 8),
+                      if (hasSuccesses) ...[
+                        const SizedBox(width: 6),
                         Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 6,
                             vertical: 2,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.amber.shade900,
+                            color: AliceAppTheme.green,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(
+                                Icons.check,
+                                size: 12,
+                                color: AliceAppTheme.white,
+                              ),
+                              const SizedBox(width: 3),
+                              Text(
+                                '${stats.successes}',
+                                style: const TextStyle(
+                                  color: AliceAppTheme.white,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                      if (isLoading) ...[
+                        const SizedBox(width: 6),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AliceAppTheme.orange,
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Row(
@@ -155,13 +196,13 @@ class _AliceOverlayBubbleState extends State<AliceOverlayBubble> {
                               const Icon(
                                 Icons.sync,
                                 size: 12,
-                                color: Colors.white,
+                                color: AliceAppTheme.white,
                               ),
                               const SizedBox(width: 3),
                               Text(
                                 '${stats.loading}',
                                 style: const TextStyle(
-                                  color: Colors.white,
+                                  color: AliceAppTheme.white,
                                   fontSize: 11,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -171,14 +212,14 @@ class _AliceOverlayBubbleState extends State<AliceOverlayBubble> {
                         ),
                       ],
                       if (hasErrors) ...[
-                        const SizedBox(width: 8),
+                        const SizedBox(width: 6),
                         Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 6,
                             vertical: 2,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.red.shade700,
+                            color: AliceAppTheme.red,
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Row(
@@ -187,13 +228,13 @@ class _AliceOverlayBubbleState extends State<AliceOverlayBubble> {
                               const Icon(
                                 Icons.warning_amber_rounded,
                                 size: 12,
-                                color: Colors.white,
+                                color: AliceAppTheme.white,
                               ),
                               const SizedBox(width: 3),
                               Text(
                                 '${stats.errors}',
                                 style: const TextStyle(
-                                  color: Colors.white,
+                                  color: AliceAppTheme.white,
                                   fontSize: 11,
                                   fontWeight: FontWeight.bold,
                                 ),

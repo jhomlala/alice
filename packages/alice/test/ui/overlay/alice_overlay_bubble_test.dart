@@ -1,11 +1,59 @@
 import 'package:alice/alice.dart';
 import 'package:alice/src/services/overlay/alice_overlay_service.dart';
+import 'package:alice/src/ui/common/theme.dart';
 import 'package:alice/src/ui/overlay/alice_overlay_bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('AliceOverlayBubble & Service', () {
+    testWidgets(
+      'AliceOverlayBubble stays hidden when calls count is 0 and appears when call arrives',
+      (tester) async {
+        final storage = AliceMemoryStorage(maxCallsCount: 10);
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Stack(
+                children: [
+                  AliceOverlayBubble(
+                    callsStream: storage.callsStream,
+                    storage: storage,
+                    onTap: () {},
+                    onDismiss: () {},
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+
+        await tester.pump();
+
+        // 0 calls -> SizedBox.shrink(), no Material pill or text rendered
+        expect(find.byType(InkWell), findsNothing);
+        expect(find.text('0'), findsNothing);
+
+        // Add a successful call
+        final call = AliceHttpCall(1)
+          ..method = 'GET'
+          ..endpoint = '/test'
+          ..request = AliceHttpRequest()
+          ..response = (AliceHttpResponse()..status = 200);
+
+        storage.addCall(call);
+        storage.addResponse(call.response!, 1);
+        await tester.pump();
+        await tester.pump();
+
+        // Now the bubble is visible with total 1 and success badge 1
+        expect(find.byType(InkWell), findsOneWidget);
+        expect(find.byIcon(Icons.check), findsOneWidget);
+        expect(find.text('1'), findsNWidgets(2)); // Total 1, Success badge 1
+      },
+    );
+
     testWidgets(
       'AliceOverlayBubble renders live call stats and taps callback',
       (tester) async {
@@ -54,7 +102,7 @@ void main() {
     );
 
     testWidgets(
-      'AliceOverlayBubble renders green status dot when traffic is partially successful',
+      'AliceOverlayBubble renders green status dot and success badge when traffic succeeds',
       (tester) async {
         final storage = AliceMemoryStorage(maxCallsCount: 10);
 
@@ -94,16 +142,20 @@ void main() {
 
         await tester.pump();
 
-        // Total 2, error badge 1
+        // Total 2, success badge 1, error badge 1
         expect(find.text('2'), findsOneWidget); // Total calls
-        expect(find.text('1'), findsOneWidget); // Errors badge
-        expect(find.byIcon(Icons.warning_amber_rounded), findsOneWidget);
+        expect(find.byIcon(Icons.check), findsOneWidget); // Success badge
+        expect(
+          find.byIcon(Icons.warning_amber_rounded),
+          findsOneWidget,
+        ); // Error badge
 
         // Status dot is green (traffic succeeded)
         final dotFinder = find.byWidgetPredicate((widget) {
           if (widget is Container && widget.decoration is BoxDecoration) {
             final box = widget.decoration as BoxDecoration;
-            return box.shape == BoxShape.circle && box.color == Colors.green;
+            return box.shape == BoxShape.circle &&
+                box.color == AliceAppTheme.green;
           }
           return false;
         });

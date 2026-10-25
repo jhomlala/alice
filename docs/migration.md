@@ -4,6 +4,62 @@ sidebar_label: 'Migrations'
 
 # Migration Guide
 
+## Migrating from 1.x to 2.0.0
+
+Version 2.0.0 decouples OS notifications from core Alice, adds a built-in draggable overlay bubble, introduces capture-time security redaction, and adds Dart VM Service extensions.
+
+### 1. Notifications Extracted to `alice_notification`
+`showNotification`, `notificationIcon`, and `notificationLargeIcon` were removed from `AliceConfiguration` to decouple `flutter_local_notifications` from core Alice.
+
+If your app uses system notifications, add `alice_notification` and plug in `AliceLocalNotification`:
+
+```yaml
+dependencies:
+  alice: ^2.0.0
+  alice_notification: ^2.0.0
+```
+
+```dart
+// Before (1.x):
+AliceConfiguration(
+  showNotification: true,
+  notificationIcon: 'ic_notification',
+)
+
+// After (2.0.0):
+import 'package:alice_notification/alice_notification.dart';
+
+AliceConfiguration(
+  notificationAdapter: AliceLocalNotification(
+    notificationIcon: 'ic_notification',
+  ),
+)
+```
+
+If you don't use OS notifications, you no longer have to bundle `flutter_local_notifications` or configure platform notification permissions.
+
+### 2. Built-in Floating Overlay Bubble
+Instead of wrapping your root widget in a custom floating button, enable the built-in draggable overlay:
+
+```dart
+AliceConfiguration(
+  showOverlayBubble: true, // Appears automatically on first HTTP call
+)
+```
+
+### 3. Capture-Time Security Redaction
+Sensitive headers, cookies, query parameters, and JSON keys can now be sanitized at capture time before storage or display:
+
+```dart
+AliceConfiguration(
+  redactedHeaders: {'authorization', 'cookie', 'x-api-key'},
+  redactedBodyKeys: {'password', 'token', 'secret'},
+  redactionReplacement: '***REDACTED***',
+)
+```
+
+---
+
 ## Migrating from 0.x to 1.x
 
 Version 1.0 extracted HTTP client interceptors from the core package into standalone packages to eliminate heavy transitive dependencies.

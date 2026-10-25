@@ -11,7 +11,7 @@ Alice is designed to be quick to set up with sane defaults, plus full control wh
 Create an instance and attach its navigator key to your application so Alice can render its inspector UI over your app.
 
 ### 1. Create the Instance
-Create a global instance of Alice:
+Create an instance of Alice:
 
 ```dart
 Alice alice = Alice();
@@ -47,22 +47,86 @@ alice.setNavigatorKey(yourNavigatorKeyHere);
 
 Customize Alice's behavior by passing an `AliceConfiguration` object to the constructor.
 
-### Notifications
-Configure Alice to show a system notification whenever HTTP requests are made. Tapping this notification opens the inspector.
+### Floating Overlay Bubble
+
+*Added in Alice 2.0.0*
+
+Display an interactive, draggable floating pill counter over your application. It stays hidden until the first HTTP call is recorded, then appears with live statistics:
+
+```dart
+Alice alice = Alice(
+  configuration: AliceConfiguration(showOverlayBubble: true),
+);
+```
+
+* **Color Scheme**:
+  * **Green**: Successful calls (`2xx`).
+  * **Orange**: In-flight requests with spinning indicator (`↻`).
+  * **Red**: Failed requests (`4xx`/`5xx` or network errors, `⚠`).
+* **Programmatic Control**:
+  * `alice.showOverlayBubble()`: Manually mounts or reveals the bubble.
+  * `alice.hideOverlayBubble()`: Manually hides the bubble.
+  * `alice.isOverlayBubbleVisible`: Returns whether the bubble is currently mounted.
+
+### Security Redaction
+
+*Added in Alice 2.0.0*
+
+Redact sensitive credentials at capture time before calls are stored, displayed, or exported:
+
+```dart
+Alice alice = Alice(
+  configuration: AliceConfiguration(
+    redactedHeaders: {'authorization', 'x-api-key', 'cookie'},
+    redactedBodyKeys: {'password', 'token', 'secret', 'client_secret'},
+    redactionReplacement: '***REDACTED***', // Defaults to '[REDACTED]'
+  ),
+);
+```
+
+Redaction covers:
+* Request & response headers
+* Cookie values
+* Query parameters
+* JSON and Map bodies (applied recursively)
+* Form data fields and `x-www-form-urlencoded` payloads
+
+### Notifications (via `alice_notification`)
+
+In Alice 2.0.0, native OS notifications were extracted into the standalone `alice_notification` package to keep core Alice free of native platform dependencies:
+
+```yaml
+dependencies:
+  alice: ^2.0.0
+  alice_notification: ^2.0.0
+```
+
+Attach `AliceLocalNotification` to `AliceConfiguration`:
+
+```dart
+import 'package:alice/alice.dart';
+import 'package:alice_notification/alice_notification.dart';
+
+Alice alice = Alice(
+  configuration: AliceConfiguration(
+    notificationAdapter: AliceLocalNotification(
+      notificationIcon: '@mipmap/ic_launcher',
+    ),
+  ),
+);
+```
 
 :::info Android 13+ Notification Permissions
-On Android 13 (API level 33) and above, Alice automatically requests the required runtime notification permission on startup when `showNotification` is `true`.
+On Android 13 (API level 33) and above, `AliceLocalNotification` automatically requests the required runtime notification permission on startup.
 :::
 
 :::warning iOS Notification Configuration
-For notification taps to work correctly on iOS, configure your `ios/Runner/AppDelegate.swift` file.
-
-Add the `flutter_local_notifications` import at the top, then register the plugin callback and set the `UNUserNotificationCenter` delegate inside `didFinishLaunchingWithOptions`:
+For notification taps to work correctly on iOS, configure your `ios/Runner/AppDelegate.swift` file:
 
 ```swift
 import UIKit
 import Flutter
-import flutter_local_notifications // Add this import
+import flutter_local_notifications
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
@@ -70,8 +134,6 @@ import flutter_local_notifications // Add this import
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-    
-    // Add these lines for Alice/Local Notifications:
     FlutterLocalNotificationsPlugin.setPluginRegistrantCallback { (registry) in
         GeneratedPluginRegistrant.register(with: registry)
     }
@@ -79,7 +141,6 @@ import flutter_local_notifications // Add this import
     if #available(iOS 10.0, *) {
       UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
     }
-    // End of Alice configuration
 
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -87,24 +148,6 @@ import flutter_local_notifications // Add this import
 }
 ```
 :::
-
-To customize notification icons on Android, use `notificationIcon` for the small icon (defaults to `@mipmap/ic_launcher`) or `notificationLargeIcon` for the large icon.
-
-<div align="center">
-<img src="https://developer.android.com/static/images/ui/notifications/notification-callouts_2x.png" height="120px"/>
-
-*Source: [Android Developers - Notification Templates](https://developer.android.com/develop/ui/views/notifications#Templates)*
-</div>
-
-```dart
-Alice alice = Alice(
-  configuration: AliceConfiguration(
-    showNotification: true,
-    notificationIcon: "myNotificationSmallIconResourceName",
-    notificationLargeIcon: "myNotificationLargeIconResourceName",
-  ),
-);
-```
 
 ### Shake to Open
 Opening the inspector by shaking the device is enabled by default on physical mobile devices. To disable it:

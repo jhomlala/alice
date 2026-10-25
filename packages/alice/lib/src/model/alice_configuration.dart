@@ -17,6 +17,8 @@ class AliceConfiguration extends Equatable {
   final AliceNotificationAdapter? notificationAdapter;
 
   /// Whether to display a floating draggable in-app bubble with live call stats.
+  /// When enabled, the bubble automatically appears once the first HTTP call is recorded.
+  /// Styled with Alice colors: green for successes, orange for in-flight requests, and red for errors.
   final bool showOverlayBubble;
 
   /// Should inspector be opened on device shake (works only with physical
