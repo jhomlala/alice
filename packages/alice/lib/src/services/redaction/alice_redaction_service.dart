@@ -130,7 +130,7 @@ class AliceRedactionService {
     }
   }
 
-  /// Recursively walks and redacts maps/lists/json strings.
+  /// Recursively walks and redacts maps/lists/json strings or urlencoded query strings.
   dynamic _redactBody(dynamic body) {
     if (_bodyKeysLower.isEmpty || body == null) {
       return body;
@@ -163,6 +163,30 @@ class AliceRedactionService {
           return jsonEncode(redacted);
         } catch (_) {
           return body;
+        }
+      }
+
+      // Handle x-www-form-urlencoded strings (e.g. "user=alice&password=secret&token=123")
+      if (trimmed.contains('=') &&
+          !trimmed.contains('\n') &&
+          !trimmed.contains('{')) {
+        final pairs = trimmed.split('&');
+        var wasModified = false;
+        final sanitizedPairs = pairs.map((pair) {
+          final eqIndex = pair.indexOf('=');
+          if (eqIndex != -1) {
+            final key = pair.substring(0, eqIndex);
+            final keyDecoded = Uri.decodeQueryComponent(key);
+            if (_bodyKeysLower.contains(keyDecoded.toLowerCase())) {
+              wasModified = true;
+              return '$key=${Uri.encodeQueryComponent(_replacement)}';
+            }
+          }
+          return pair;
+        }).toList();
+
+        if (wasModified) {
+          return sanitizedPairs.join('&');
         }
       }
     }

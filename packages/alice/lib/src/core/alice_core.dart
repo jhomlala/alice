@@ -74,6 +74,16 @@ class AliceCore {
   /// Set custom navigation key. This will help if there's route library.
   void setNavigatorKey(GlobalKey<NavigatorState> navigatorKey) {
     _configuration = _configuration.copyWith(navigatorKey: navigatorKey);
+    if (_configuration.showOverlayBubble) {
+      final overlay = navigatorKey.currentState?.overlay;
+      _overlayService.ensureInserted(overlayState: overlay, core: this);
+    }
+  }
+
+  /// Manually shows or ensures the floating overlay bubble is displayed.
+  void showOverlayBubble() {
+    final overlay = _configuration.navigatorKey?.currentState?.overlay;
+    _overlayService.ensureInserted(overlayState: overlay, core: this);
   }
 
   /// Dispose subjects and subscriptions
@@ -118,8 +128,10 @@ class AliceCore {
     }
     if (!_isInspectorOpened) {
       _isInspectorOpened = true;
+      _overlayService.markNeedsBuild();
       await Navigation.navigateToCallsList(core: this);
       _isInspectorOpened = false;
+      _overlayService.markNeedsBuild();
     }
   }
 

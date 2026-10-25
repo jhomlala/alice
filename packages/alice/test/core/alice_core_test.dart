@@ -1,4 +1,4 @@
-﻿import 'package:alice/alice.dart';
+import 'package:alice/alice.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -24,7 +24,6 @@ void main() {
     when(() => aliceStorage.getCalls()).thenAnswer((_) => <AliceHttpCall>[]);
     aliceCore = AliceCore(
       configuration: AliceConfiguration(
-        
         showInspectorOnShake: false,
         storage: aliceStorage,
         logger: aliceLogger,

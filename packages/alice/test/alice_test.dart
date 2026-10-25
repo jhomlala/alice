@@ -1,4 +1,4 @@
-﻿import 'package:alice/alice.dart';
+import 'package:alice/alice.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -15,7 +15,7 @@ void main() {
       alice = Alice(
         configuration: AliceConfiguration(
           showInspectorOnShake: false,
-          
+
           logger: aliceLogger,
           storage: aliceStorage,
         ),

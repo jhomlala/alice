@@ -1,4 +1,4 @@
-﻿## Unreleased
+﻿## 2.0.0
 
 * Extracted local OS notifications into separate package `alice_notification` with `AliceNotificationAdapter` interface to eliminate native dependencies from core Alice.
 * Added built-in draggable floating overlay bubble (`showOverlayBubble: true`) with live call count, loading status, and error indicator.

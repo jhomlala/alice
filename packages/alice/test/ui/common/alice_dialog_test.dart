@@ -1,4 +1,4 @@
-﻿import 'package:alice/alice.dart';
+import 'package:alice/alice.dart';
 import 'package:alice/src/ui/call_details/page/call_details_page.dart';
 import 'package:alice/src/ui/calls_list/model/calls_list_sort_option.dart';
 import 'package:alice/src/ui/calls_list/page/calls_list_page.dart';
@@ -10,8 +10,7 @@ import 'package:alice/src/ui/common/page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-AliceCore _createTestCore() =>
-    AliceCore(configuration: AliceConfiguration());
+AliceCore _createTestCore() => AliceCore(configuration: AliceConfiguration());
 
 Future<void> _pumpDialogTrigger(
   WidgetTester tester, {
@@ -62,9 +61,7 @@ void main() {
   testWidgets(
     'AliceGeneralDialog renders without MaterialLocalizations error in Flutter app',
     (WidgetTester tester) async {
-      final alice = Alice(
-        configuration: AliceConfiguration(),
-      );
+      final alice = Alice(configuration: AliceConfiguration());
 
       await _pumpDialogTrigger(
         tester,
@@ -128,9 +125,7 @@ void main() {
   testWidgets(
     'ExportFormatDialog renders without MaterialLocalizations error in Flutter app',
     (WidgetTester tester) async {
-      final alice = Alice(
-        configuration: AliceConfiguration(),
-      );
+      final alice = Alice(configuration: AliceConfiguration());
 
       await _pumpDialogTrigger(
         tester,
@@ -149,9 +144,7 @@ void main() {
   testWidgets(
     'LoadingDialog renders without MaterialLocalizations error in Flutter app',
     (WidgetTester tester) async {
-      final alice = Alice(
-        configuration: AliceConfiguration(),
-      );
+      final alice = Alice(configuration: AliceConfiguration());
 
       await _pumpDialogTrigger(
         tester,
@@ -172,9 +165,7 @@ void main() {
   testWidgets(
     'SortDialog with showAliceDialog renders without MaterialLocalizations error in Flutter app',
     (WidgetTester tester) async {
-      final alice = Alice(
-        configuration: AliceConfiguration(),
-      );
+      final alice = Alice(configuration: AliceConfiguration());
 
       await _pumpDialogTrigger(
         tester,

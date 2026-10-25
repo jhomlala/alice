@@ -1,4 +1,4 @@
-name: alice_notification
+﻿name: alice_notification
 description: "Local OS notification adapter for Alice HTTP Inspector."
 version: 1.0.0
 homepage: https://github.com/jhomlala/alice
@@ -10,7 +10,7 @@ environment:
   flutter: ">=3.29.0"
 
 dependencies:
-  alice: ^1.11.1
+  alice: ^2.0.0
   flutter:
     sdk: flutter
   flutter_local_notifications: ^22.3.1

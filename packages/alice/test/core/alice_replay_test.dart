@@ -1,4 +1,4 @@
-﻿import 'package:alice/src/core/alice_core.dart';
+import 'package:alice/src/core/alice_core.dart';
 import 'package:alice/src/services/replay/replay_service.dart';
 import 'package:alice/src/model/alice_configuration.dart';
 import 'package:alice/src/model/alice_form_data_file.dart';
@@ -18,9 +18,7 @@ void main() {
   testWidgets('ReplayService blocks multipart requests and shows dialog', (
     WidgetTester tester,
   ) async {
-    final core = AliceCore(
-      configuration: AliceConfiguration(),
-    );
+    final core = AliceCore(configuration: AliceConfiguration());
     final service = ReplayService(core);
 
     final call = AliceHttpCall(1);

@@ -20,6 +20,9 @@ class AliceOverlayService {
 
     _overlayEntry = OverlayEntry(
       builder: (context) {
+        if (core.isInspectorOpened) {
+          return const SizedBox.shrink();
+        }
         return AliceOverlayBubble(
           callsStream: core.callsStream,
           storage: core.configuration.aliceStorage,
@@ -34,6 +37,11 @@ class AliceOverlayService {
     );
 
     overlayState.insert(_overlayEntry!);
+  }
+
+  /// Rebuilds the overlay entry if inserted (e.g. when inspector opens/closes).
+  void markNeedsBuild() {
+    _overlayEntry?.markNeedsBuild();
   }
 
   /// Removes the overlay entry from the overlay if attached.
