@@ -34,6 +34,10 @@ class AliceLocalNotification implements AliceNotificationAdapter {
 
   @override
   void configure({required VoidCallback openInspectorCallback}) {
+    if (!Platform.isAndroid && !Platform.isIOS && !Platform.isMacOS) {
+      return;
+    }
+
     _openInspectorCallback = openInspectorCallback;
     _notificationDetails = NotificationDetails(
       android: AndroidNotificationDetails(
@@ -116,6 +120,10 @@ class AliceLocalNotification implements AliceNotificationAdapter {
     required BuildContext context,
     required AliceStats stats,
   }) async {
+    if (!Platform.isAndroid && !Platform.isIOS && !Platform.isMacOS) {
+      return;
+    }
+
     try {
       if (_isNotificationProcessing) {
         return;
