@@ -20,7 +20,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late final AliceDioAdapter _aliceDioAdapter = AliceDioAdapter();
 
-  late final AliceConfiguration _configuration = AliceConfiguration(
+  final configuration = AliceConfiguration(
     showShareButton: true,
     showOverlayBubble: true,
     notificationAdapter: AliceLocalNotification(),
@@ -28,7 +28,7 @@ class _MyAppState extends State<MyApp> {
     redactedBodyKeys: {'password', 'token', 'secret', 'client_secret'},
   );
 
-  late final Alice _alice = Alice(configuration: _configuration)
+  late final Alice _alice = Alice(configuration: configuration)
     ..addAdapter(_aliceDioAdapter);
 
   late final Dio _dio = Dio(BaseOptions(followRedirects: false))
@@ -36,8 +36,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    final isBubbleVisible = _alice.isOverlayBubbleVisible;
-
     return MaterialApp(
       navigatorKey: _alice.getNavigatorKey(),
       debugShowCheckedModeBanner: false,
@@ -49,90 +47,28 @@ class _MyAppState extends State<MyApp> {
             children: [
               const SizedBox(height: 8),
               const Text(
-                'Welcome to the Alice + Dio Example.\n'
-                'Test new features: Overlay Bubble, Security Redaction, JSON Tools, & VM Extensions.',
                 style: TextStyle(fontSize: 14),
+                'Welcome to example of Alice + Dio Example. '
+                'Click buttons below to generate sample data.',
               ),
-              const SizedBox(height: 12),
-              ElevatedButton.icon(
-                icon: const Icon(Icons.send),
+              ElevatedButton(
                 onPressed: _runDioRequests,
-                label: const Text('Run Standard HTTP Requests'),
+                child: const Text('Run Dio HTTP Requests'),
               ),
               const SizedBox(height: 8),
-              ElevatedButton.icon(
-                icon: const Icon(Icons.hourglass_top),
-                onPressed: _runSlowRequest,
-                label: const Text('Run Slow Request (Observe Loading State)'),
+              const Text(
+                style: TextStyle(fontSize: 14),
+                'After clicking on button above, you should receive notification.'
+                ' Click on it to show inspector. You can also shake your device or click button below.',
               ),
-              const SizedBox(height: 8),
-              ElevatedButton.icon(
-                icon: const Icon(Icons.security),
-                onPressed: _runRedactedRequests,
-                label: const Text('Run Sensitive / Redacted Requests'),
-              ),
-              const SizedBox(height: 8),
-              ElevatedButton.icon(
-                icon: const Icon(Icons.bubble_chart),
-                onPressed: () {
-                  if (_alice.isOverlayBubbleVisible) {
-                    _alice.hideOverlayBubble();
-                  } else {
-                    _alice.showOverlayBubble();
-                  }
-                  setState(() {});
-                },
-                label: Text(
-                  isBubbleVisible
-                      ? 'Hide Floating Bubble'
-                      : 'Show Floating Bubble',
-                ),
-              ),
-              const SizedBox(height: 8),
-              ElevatedButton.icon(
-                icon: const Icon(Icons.remove_red_eye),
+              ElevatedButton(
                 onPressed: _runHttpInspector,
-                label: const Text('Open Inspector'),
+                child: const Text('Run HTTP Inspector'),
               ),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  void _runSlowRequest() {
-    // 2-second delay to clearly see the spinning loading indicator and in-flight badge
-    _dio.get<void>('https://httpbin.org/delay/2');
-  }
-
-  void _runRedactedRequests() async {
-    // 1. JSON POST with sensitive password and token fields
-    await _dio.post<void>(
-      'https://jsonplaceholder.typicode.com/posts',
-      options: Options(
-        headers: {
-          'Authorization': 'Bearer super_secret_jwt_token_12345',
-          'X-Api-Key': 'secret_key_99999',
-          'Cookie': 'session_id=secret_cookie_val',
-        },
-      ),
-      data: {
-        'username': 'alice_developer',
-        'password': 'very_secret_password',
-        'token': 'private_access_token',
-        'nested': {
-          'secret': 'nested_secret_value',
-          'public_info': 'hello world',
-        },
-      },
-    );
-
-    // 2. x-www-form-urlencoded body with sensitive fields
-    await _dio.post<void>(
-      'https://jsonplaceholder.typicode.com/posts',
-      options: Options(contentType: Headers.formUrlEncodedContentType),
-      data: 'grant_type=password&username=alice&password=secret_password&client_secret=top_secret',
     );
   }
 
@@ -171,7 +107,16 @@ class _MyAppState extends State<MyApp> {
     _dio.delete<void>('https://httpbin.org/status/300');
     _dio.delete<void>('https://httpbin.org/status/200');
     _dio.delete<void>('https://httpbin.org/status/100');
-    _dio.post<void>('https://jsonplaceholder.typicode.com/posts', data: body);
+    _dio.post<void>(
+      'https://jsonplaceholder.typicode.com/posts',
+      options: Options(
+        headers: {
+          'Authorization': 'Bearer test_jwt_token',
+          'X-Api-Key': 'secret_key_123',
+        },
+      ),
+      data: {'password': 'secret_password', 'token': 'private_token', ...body},
+    );
     _dio.get<void>(
       'https://jsonplaceholder.typicode.com/posts',
       queryParameters: {'test': 1},
@@ -220,8 +165,13 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _runXmlRequests() {
+    // Standard application/xml
     _dio.get<void>('https://httpbin.org/xml');
+
+    // Standard text/xml
     _dio.get<void>('https://www.w3schools.com/xml/plant_catalog.xml');
+
+    // image/svg+xml response
     _dio.get<void>('https://www.w3.org/Graphics/SVG/1998/10/W3CFS.svg');
     _dio.get<void>(
       'https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/tiger.svg',
