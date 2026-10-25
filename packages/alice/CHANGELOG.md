@@ -1,11 +1,11 @@
-## 2.0.0
+## Unreleased
 
 * Extracted local OS notifications into separate package `alice_notification` with `AliceNotificationAdapter` interface to eliminate native dependencies from core Alice.
 * Added built-in draggable floating overlay bubble (`showOverlayBubble: true`) with live call counts, Alice color coding (green for successes, orange for redirects and in-flight spinning loader, red for errors). The bubble automatically stays hidden until at least one HTTP call is recorded.
 * Added programmatic bubble controls: `alice.showOverlayBubble()`, `alice.hideOverlayBubble()`, and `alice.isOverlayBubbleVisible`.
 * Added capture-time security redaction for sensitive headers, cookies, query parameters, form fields, and JSON/Map bodies (`redactedHeaders`, `redactedBodyKeys`, `redactionReplacement`).
 * Added Dart VM Service extensions (`ext.alice.getCalls`, `ext.alice.getCallDetails`, `ext.alice.getStats`, `ext.alice.clearCalls`, `ext.alice.openInspector`) in debug mode for IDE and MCP agent querying.
-* Added developer power tools to JSON viewer: long-press on any node to copy JSONPath, value, or subtree, and one-tap "Copy as Dart class" code generator.
+* Added developer power tools to JSON viewer: long-press on any node to copy JSONPath, value, or subtree.
 * Fixed code snippets, constructor examples, broken APIs, and duplicate sections across documentation and README files.
 
 ## 1.11.1

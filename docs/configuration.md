@@ -98,7 +98,7 @@ In Alice 2.0.0, native OS notifications were extracted into the standalone `alic
 ```yaml
 dependencies:
   alice: ^2.0.0
-  alice_notification: ^2.0.0
+  alice_notification: ^1.0.0
 ```
 
 Attach `AliceLocalNotification` to `AliceConfiguration`:

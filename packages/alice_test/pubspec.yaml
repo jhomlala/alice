@@ -1,7 +1,7 @@
 name: alice_test
 description: "Test utils for Alice packages."
 documentation: https://jhomlala.github.io/alice/
-version: 1.1.5
+version: 1.1.6
 repository: https://github.com/jhomlala/alice
 issue_tracker: https://github.com/jhomlala/alice/issues
 homepage: https://github.com/jhomlala/alice

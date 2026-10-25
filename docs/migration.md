@@ -16,7 +16,7 @@ If your app uses system notifications, add `alice_notification` and plug in `Ali
 ```yaml
 dependencies:
   alice: ^2.0.0
-  alice_notification: ^2.0.0
+  alice_notification: ^1.0.0
 ```
 
 ```dart

@@ -38,7 +38,6 @@ When a request or response body contains JSON data, Alice automatically provides
   - **Copy Value**: Copies the node's primitive value (e.g. `'abc'`, `123`).
   - **Copy JSONPath**: Copies the exact selector path (e.g. `$.data.users[0].email`).
   - **Copy Subtree**: Copies the subtree starting from that node formatted as indented JSON.
-- **One-Tap "Copy as Dart class"**: Tap the code icon button at the top of the viewer to generate complete, ready-to-use Dart model classes with `fromJson` and `toJson` methods directly from the API response.
 
 ### Interactive XML & SVG Viewer
 

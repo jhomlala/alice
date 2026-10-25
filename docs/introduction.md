@@ -68,7 +68,7 @@ Add Alice to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  alice: ^1.11.1
+  alice: ^2.0.0
 ```
 
 Initialize Alice and attach it to your app's navigation:

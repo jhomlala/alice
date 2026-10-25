@@ -228,7 +228,7 @@ class Translations {
         TranslationKey.jsonViewerCopyValue: "Copy value",
         TranslationKey.jsonViewerCopyPath: "Copy JSON path",
         TranslationKey.jsonViewerCopySubtree: "Copy JSON subtree",
-        TranslationKey.jsonViewerCopyDartClass: "Copy as Dart class",
+
         TranslationKey.jsonViewerCopied: "Copied to clipboard.",
       },
     );
@@ -448,7 +448,7 @@ class Translations {
         TranslationKey.jsonViewerCopyValue: "Kopiuj wartość",
         TranslationKey.jsonViewerCopyPath: "Kopiuj ścieżkę JSON",
         TranslationKey.jsonViewerCopySubtree: "Kopiuj poddrzewo JSON",
-        TranslationKey.jsonViewerCopyDartClass: "Kopiuj jako klasę Dart",
+
         TranslationKey.jsonViewerCopied: "Skopiowano do schowka.",
       },
     );

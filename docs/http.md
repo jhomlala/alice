@@ -8,8 +8,8 @@ Add this to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  alice: ^1.11.1
-  alice_http: ^1.4.4
+  alice: ^2.0.0
+  alice_http: ^1.5.0
 ```
 
 ## Usage

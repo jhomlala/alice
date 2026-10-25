@@ -10,8 +10,8 @@ Add dependencies to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  alice: ^1.11.1
-  alice_dio: ^1.3.4
+  alice: ^2.0.0
+  alice_dio: ^1.4.0
   retrofit: ^4.4.2
 ```
 

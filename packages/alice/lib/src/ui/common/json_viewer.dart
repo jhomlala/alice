@@ -3,10 +3,9 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:alice/src/ui/common/context_ext.dart';
 import 'package:alice/src/model/translation.dart';
+import 'package:alice/src/ui/common/context_ext.dart';
 import 'package:alice/src/utils/alice_parser.dart';
-import 'package:alice/src/utils/json_to_dart_generator.dart';
 
 class JsonViewer extends StatefulWidget {
   final dynamic jsonObject;
@@ -80,18 +79,6 @@ class _AliceJsonViewerState extends State<JsonViewer> {
     }
   }
 
-  void _copyDartClass() {
-    if (_parsedJson == null) return;
-    final dartCode = JsonToDartGenerator.generate(_parsedJson);
-    Clipboard.setData(ClipboardData(text: dartCode));
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(context.i18n(TranslationKey.jsonViewerCopied)),
-        duration: const Duration(seconds: 2),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     if (_isParsing) {
@@ -117,37 +104,10 @@ class _AliceJsonViewerState extends State<JsonViewer> {
       );
     }
 
-    final isContainer = _parsedJson is Map || _parsedJson is List;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (isContainer)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
-            child: OutlinedButton.icon(
-              icon: const Icon(Icons.code, size: 16),
-              label: Text(
-                context.i18n(TranslationKey.jsonViewerCopyDartClass),
-                style: const TextStyle(fontSize: 12),
-              ),
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 6,
-                ),
-                minimumSize: Size.zero,
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-              onPressed: _copyDartClass,
-            ),
-          ),
-        _JsonObjectViewer(
-          jsonObject: _parsedJson,
-          initiallyExpanded: widget.initiallyExpanded,
-          jsonPath: r'$',
-        ),
-      ],
+    return _JsonObjectViewer(
+      jsonObject: _parsedJson,
+      initiallyExpanded: widget.initiallyExpanded,
+      jsonPath: r'$',
     );
   }
 }

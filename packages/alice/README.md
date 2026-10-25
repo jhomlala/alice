@@ -57,7 +57,7 @@ Whether you are hunting down a broken payload, checking headers, or monitoring p
 **🔍 Deep Inspection**
 * Detailed logs for every HTTP call (Headers, Body, Query Parameters, Timestamps)
 * Interactive tree-based JSON & XML viewer with node collapsing/expanding
-* Copy JSONPath, values, or subtree on long press, plus one-tap "Copy as Dart class" code generation
+* Copy JSONPath, values, or subtree on long press
 * Gantt chart Timeline to visually inspect staggered HTTP calls
 * Powerful HTTP calls search (with advanced syntax filters) and filtering
 * Programmatic Call Tagging (e.g., `alice.tag(tag: 'login-flow')`)
@@ -87,9 +87,9 @@ Add the core Alice package (and whichever client adapters you need) to your `pub
 dependencies:
   alice: ^2.0.0
   # Add client adapter(s) as needed, e.g.:
-  # alice_dio: ^2.0.0
+  # alice_dio: ^1.4.0
   # Add notifications if desired:
-  # alice_notification: ^2.0.0
+  # alice_notification: ^1.0.0
 ```
 
 ### 2. Initialize Alice

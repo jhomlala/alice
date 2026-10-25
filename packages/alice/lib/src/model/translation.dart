@@ -197,6 +197,6 @@ enum TranslationKey {
   jsonViewerCopyValue,
   jsonViewerCopyPath,
   jsonViewerCopySubtree,
-  jsonViewerCopyDartClass,
+
   jsonViewerCopied,
 }
