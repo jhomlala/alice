@@ -72,7 +72,12 @@ class AliceHttpAdapter with AliceAdapter {
         ..headers = Map<String, String>.from(response.request!.headers);
     }
 
-    httpRequest.time = DateTime.now();
+    final responseTime = DateTime.now();
+    final requestTime = duration != null
+        ? responseTime.subtract(duration)
+        : responseTime;
+
+    httpRequest.time = requestTime;
 
     String? contentType = 'unknown';
     if (httpRequest.headers.containsKey('Content-Type')) {
@@ -88,7 +93,7 @@ class AliceHttpAdapter with AliceAdapter {
       ..body = response.body
       // ignore: noop_primitive_operations
       ..size = utf8.encode(response.body.toString()).length
-      ..time = DateTime.now();
+      ..time = responseTime;
     final responseHeaders = <String, String>{};
     response.headers.forEach((header, values) {
       responseHeaders[header] = values;
@@ -99,10 +104,7 @@ class AliceHttpAdapter with AliceAdapter {
       ..request = httpRequest
       ..response = httpResponse
       ..loading = false
-      ..duration =
-          duration?.inMilliseconds ??
-          (httpResponse.time.millisecondsSinceEpoch -
-              httpRequest.time.millisecondsSinceEpoch);
+      ..duration = duration?.inMilliseconds ?? 0;
     aliceCore.addCall(call);
   }
 }

@@ -30,3 +30,5 @@ build/
 .env
 .env.local
 .env.*.local
+
+coverage/
