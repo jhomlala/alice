@@ -18,9 +18,7 @@ void main() {
   testWidgets('ReplayService blocks multipart requests and shows dialog', (
     WidgetTester tester,
   ) async {
-    final core = AliceCore(
-      configuration: AliceConfiguration(showNotification: false),
-    );
+    final core = AliceCore(configuration: AliceConfiguration());
     final service = ReplayService(core);
 
     final call = AliceHttpCall(1);

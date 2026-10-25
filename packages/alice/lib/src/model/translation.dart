@@ -194,4 +194,9 @@ enum TranslationKey {
   callOverviewTag,
   callOverviewDuplicate,
   dismiss,
+  jsonViewerCopyValue,
+  jsonViewerCopyPath,
+  jsonViewerCopySubtree,
+
+  jsonViewerCopied,
 }

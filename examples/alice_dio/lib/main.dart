@@ -2,10 +2,11 @@ import 'dart:io';
 
 import 'package:alice/alice.dart';
 import 'package:alice_dio/alice_dio_adapter.dart';
+import 'package:alice_notification/alice_notification.dart';
 import 'package:dio/dio.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 
 void main() => runApp(const MyApp());
 
@@ -19,7 +20,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late final AliceDioAdapter _aliceDioAdapter = AliceDioAdapter();
 
-  final configuration = AliceConfiguration(showShareButton: true);
+  final configuration = AliceConfiguration(
+    showShareButton: true,
+    showOverlayBubble: true,
+    notificationAdapter: AliceLocalNotification(),
+    redactedHeaders: {'authorization', 'x-api-key', 'cookie'},
+    redactedBodyKeys: {'password', 'token', 'secret', 'client_secret'},
+  );
+
   late final Alice _alice = Alice(configuration: configuration)
     ..addAdapter(_aliceDioAdapter);
 
@@ -99,7 +107,16 @@ class _MyAppState extends State<MyApp> {
     _dio.delete<void>('https://httpbin.org/status/300');
     _dio.delete<void>('https://httpbin.org/status/200');
     _dio.delete<void>('https://httpbin.org/status/100');
-    _dio.post<void>('https://jsonplaceholder.typicode.com/posts', data: body);
+    _dio.post<void>(
+      'https://jsonplaceholder.typicode.com/posts',
+      options: Options(
+        headers: {
+          'Authorization': 'Bearer test_jwt_token',
+          'X-Api-Key': 'secret_key_123',
+        },
+      ),
+      data: {'password': 'secret_password', 'token': 'private_token', ...body},
+    );
     _dio.get<void>(
       'https://jsonplaceholder.typicode.com/posts',
       queryParameters: {'test': 1},

@@ -82,6 +82,37 @@ void main() {
     });
 
     test(
+      'manual onResponse with explicit duration records duration correctly',
+      () async {
+        final request = http.Request(
+          'POST',
+          Uri.parse('https://test.com/post'),
+        );
+        final response = http.Response(
+          '{"result": "ok"}',
+          201,
+          request: request,
+          headers: {'content-type': 'application/json'},
+        );
+
+        aliceHttpAdapter.onResponse(
+          response,
+          duration: const Duration(milliseconds: 120),
+        );
+
+        final captured = verify(() => aliceCore.addCall(captureAny())).captured;
+        expect(captured.length, 1);
+        final call = captured.first as AliceHttpCall;
+
+        expect(call.duration, 120);
+        expect(
+          call.response!.time.difference(call.request!.time).inMilliseconds,
+          120,
+        );
+      },
+    );
+
+    test(
       'manual onResponse records call correctly with MultipartRequest',
       () async {
         final request = http.MultipartRequest(

@@ -4,6 +4,7 @@ environment:
 
 workspace:
   - packages/alice
+  - packages/alice_notification
   - packages/alice_chopper
   - packages/alice_dio
   - packages/alice_http
@@ -19,3 +20,6 @@ workspace:
   - examples/alice_http_client
   - examples/alice_objectbox
   - examples/alice_retrofit
+
+dependency_overrides:
+  test_api: 0.7.15

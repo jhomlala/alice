@@ -1,3 +1,7 @@
+## 1.5.0
+
+* Updated `alice` dependency to `^2.0.0`.
+
 ## 1.4.4
 
 * Added screenshots and icon configuration.

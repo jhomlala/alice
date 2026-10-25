@@ -29,6 +29,15 @@ class Alice {
   /// page where all listened http calls can be viewed.
   void showInspector() => _aliceCore.navigateToCallListScreen();
 
+  /// Manually shows or ensures the floating overlay bubble is displayed.
+  void showOverlayBubble() => _aliceCore.showOverlayBubble();
+
+  /// Removes or hides the floating overlay bubble.
+  void hideOverlayBubble() => _aliceCore.hideOverlayBubble();
+
+  /// Returns true if the floating overlay bubble is currently mounted.
+  bool get isOverlayBubbleVisible => _aliceCore.isOverlayBubbleVisible;
+
   /// Handle generic http call. Can be used to any http client.
   void addHttpCall(AliceHttpCall aliceHttpCall) {
     assert(aliceHttpCall.request != null, "Http call request can't be null");

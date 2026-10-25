@@ -1,4 +1,5 @@
 import 'package:alice/src/services/logger/alice_logger.dart';
+import 'package:alice/src/services/notification/alice_notification_adapter.dart';
 import 'package:alice/src/services/storage/alice_memory_storage.dart';
 import 'package:alice/src/services/storage/alice_storage.dart';
 import 'package:equatable/equatable.dart';
@@ -11,19 +12,18 @@ class AliceConfiguration extends Equatable {
   /// Default max logs count.
   static const _defaultMaxLogs = 1000;
 
-  /// Should user be notified with notification when there's new request caught
-  /// by Alice. Default value is true.
-  final bool showNotification;
+  /// External notification adapter to show OS notifications when calls arrive.
+  /// If null, OS notifications are disabled.
+  final AliceNotificationAdapter? notificationAdapter;
+
+  /// Whether to display a floating draggable in-app bubble with live call stats.
+  /// When enabled, the bubble automatically appears once the first HTTP call is recorded.
+  /// Styled with Alice colors: green for successes, orange for in-flight requests, and red for errors.
+  final bool showOverlayBubble;
 
   /// Should inspector be opened on device shake (works only with physical
   /// with sensors). Default value is true.
   final bool showInspectorOnShake;
-
-  /// Icon url for notification. Default value is '@mipmap/ic_launcher'.
-  final String notificationIcon;
-
-  /// Large icon url for notification.
-  final String? notificationLargeIcon;
 
   /// Directionality of app. Directionality of the app will be used if set to
   /// null. Default value is null.
@@ -47,15 +47,27 @@ class AliceConfiguration extends Equatable {
   /// Time window to consider requests as duplicates. Default is 500 ms.
   final Duration duplicateDetectionWindow;
 
+  /// Case-insensitive header names whose values will be replaced with [redactionReplacement] at capture time.
+  final Set<String> redactedHeaders;
+
+  /// Case-insensitive JSON/Map keys, query parameter keys, and form-data field names
+  /// whose values will be replaced with [redactionReplacement] at capture time.
+  final Set<String> redactedBodyKeys;
+
+  /// Replacement string used for redacted values. Defaults to `'[REDACTED]'`.
+  final String redactionReplacement;
+
   AliceConfiguration({
-    this.showNotification = true,
+    this.notificationAdapter,
+    this.showOverlayBubble = false,
     this.showInspectorOnShake = true,
-    this.notificationIcon = '@mipmap/ic_launcher',
-    this.notificationLargeIcon,
     this.directionality,
     this.showShareButton = true,
     this.detectDuplicates = true,
     this.duplicateDetectionWindow = const Duration(milliseconds: 500),
+    this.redactedHeaders = const {},
+    this.redactedBodyKeys = const {},
+    this.redactionReplacement = '[REDACTED]',
     GlobalKey<NavigatorState>? navigatorKey,
     AliceStorage? storage,
     AliceLogger? logger,
@@ -66,26 +78,30 @@ class AliceConfiguration extends Equatable {
 
   AliceConfiguration copyWith({
     GlobalKey<NavigatorState>? navigatorKey,
-    bool? showNotification,
+    AliceNotificationAdapter? notificationAdapter,
+    bool? showOverlayBubble,
     bool? showInspectorOnShake,
-    String? notificationIcon,
-    String? notificationLargeIcon,
     TextDirection? directionality,
     bool? showShareButton,
     bool? detectDuplicates,
     Duration? duplicateDetectionWindow,
+    Set<String>? redactedHeaders,
+    Set<String>? redactedBodyKeys,
+    String? redactionReplacement,
     AliceStorage? aliceStorage,
     AliceLogger? aliceLogger,
   }) => AliceConfiguration(
-    showNotification: showNotification ?? this.showNotification,
+    notificationAdapter: notificationAdapter ?? this.notificationAdapter,
+    showOverlayBubble: showOverlayBubble ?? this.showOverlayBubble,
     showInspectorOnShake: showInspectorOnShake ?? this.showInspectorOnShake,
-    notificationIcon: notificationIcon ?? this.notificationIcon,
-    notificationLargeIcon: notificationLargeIcon ?? this.notificationLargeIcon,
     directionality: directionality ?? this.directionality,
     showShareButton: showShareButton ?? this.showShareButton,
     detectDuplicates: detectDuplicates ?? this.detectDuplicates,
     duplicateDetectionWindow:
         duplicateDetectionWindow ?? this.duplicateDetectionWindow,
+    redactedHeaders: redactedHeaders ?? this.redactedHeaders,
+    redactedBodyKeys: redactedBodyKeys ?? this.redactedBodyKeys,
+    redactionReplacement: redactionReplacement ?? this.redactionReplacement,
     navigatorKey: navigatorKey ?? this.navigatorKey,
     storage: aliceStorage ?? this.aliceStorage,
     logger: aliceLogger ?? this.aliceLogger,
@@ -93,14 +109,16 @@ class AliceConfiguration extends Equatable {
 
   @override
   List<Object?> get props => [
-    showNotification,
+    notificationAdapter,
+    showOverlayBubble,
     showInspectorOnShake,
-    notificationIcon,
-    notificationLargeIcon,
     directionality,
     showShareButton,
     detectDuplicates,
     duplicateDetectionWindow,
+    redactedHeaders,
+    redactedBodyKeys,
+    redactionReplacement,
     navigatorKey,
     aliceStorage,
     aliceLogger,

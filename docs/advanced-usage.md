@@ -12,72 +12,34 @@ If you don't use shake or notifications, open the inspector manually:
 alice.showInspector();
 ```
 
-### Desktop and Web Usage (Floating Action Button)
+### Desktop and Web Usage (Floating Overlay Bubble)
 
-Since "shake to open" and system notifications are mobile-centric, Web and Desktop apps need a different way to access the inspector. A common approach is a Floating Action Button (FAB) that calls `alice.showInspector()`. 
-
-Below is a lightweight wrapper widget that adds a FAB over your app in debug mode on Desktop and Web:
+While "shake to open" is mobile-only, Alice 2.0.0 includes a built-in draggable floating overlay bubble (`showOverlayBubble: true`) that works seamlessly across Mobile, Desktop, and Web:
 
 ```dart
-import 'package:flutter/material.dart';
-import 'package:alice/alice.dart';
-import 'package:flutter/foundation.dart';
-
-class AliceWebWrapper extends StatelessWidget {
-  final Alice alice;
-  final Widget child;
-
-  const AliceWebWrapper({
-    super.key,
-    required this.alice,
-    required this.child,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final isDesktopOrWeb = kIsWeb || 
-        defaultTargetPlatform == TargetPlatform.windows || 
-        defaultTargetPlatform == TargetPlatform.macOS || 
-        defaultTargetPlatform == TargetPlatform.linux;
-
-    if (!kDebugMode || !isDesktopOrWeb) {
-      return child;
-    }
-
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: Stack(
-        children: [
-          child,
-          Positioned(
-            bottom: 16,
-            right: 16,
-            child: Material(
-              color: Colors.transparent,
-              child: FloatingActionButton(
-                heroTag: 'alice_web_fab',
-                onPressed: () => alice.showInspector(),
-                child: const Icon(Icons.bug_report),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-```
-
-Wrap your root widget with it:
-
-```dart
-runApp(
-  AliceWebWrapper(
-    alice: alice,
-    child: const MyApp(),
-  ),
+Alice alice = Alice(
+  configuration: AliceConfiguration(showOverlayBubble: true),
 );
 ```
+
+Or control it on demand:
+```dart
+alice.showOverlayBubble(); // Show bubble
+alice.hideOverlayBubble(); // Hide bubble
+final isVisible = alice.isOverlayBubbleVisible; // Check status
+```
+
+## Dart VM Service Extensions
+
+In debug mode (`kDebugMode`), Alice automatically registers standard Dart VM Service extensions. IDE extensions, DevTools, CI test runners, or AI pair programming agents can query network traffic without needing to open the UI:
+
+| Extension | Parameters | Description |
+|---|---|---|
+| `ext.alice.getCalls` | None | Returns summary of all captured calls (ID, method, endpoint, status, duration) |
+| `ext.alice.getCallDetails` | `id` | Returns full request/response details, headers, query params, and body for a call |
+| `ext.alice.getStats` | None | Returns aggregate statistics (total, successes, loading, redirects, errors) |
+| `ext.alice.openInspector` | None | Navigates the app to the Alice inspector UI programmatically |
+| `ext.alice.clearCalls` | None | Clears all captured calls from storage |
 
 ## Flutter logs
 

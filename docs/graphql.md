@@ -8,8 +8,8 @@ Add this to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  alice: ^1.11.1
-  alice_graphql_client: ^1.1.4
+  alice: ^2.0.0
+  alice_graphql_client: ^1.2.0
 ```
 
 ## Usage

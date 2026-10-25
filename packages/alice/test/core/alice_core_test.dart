@@ -24,7 +24,6 @@ void main() {
     when(() => aliceStorage.getCalls()).thenAnswer((_) => <AliceHttpCall>[]);
     aliceCore = AliceCore(
       configuration: AliceConfiguration(
-        showNotification: false,
         showInspectorOnShake: false,
         storage: aliceStorage,
         logger: aliceLogger,

@@ -10,8 +10,7 @@ import 'package:alice/src/ui/common/page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-AliceCore _createTestCore() =>
-    AliceCore(configuration: AliceConfiguration(showNotification: false));
+AliceCore _createTestCore() => AliceCore(configuration: AliceConfiguration());
 
 Future<void> _pumpDialogTrigger(
   WidgetTester tester, {
@@ -62,9 +61,7 @@ void main() {
   testWidgets(
     'AliceGeneralDialog renders without MaterialLocalizations error in Flutter app',
     (WidgetTester tester) async {
-      final alice = Alice(
-        configuration: AliceConfiguration(showNotification: false),
-      );
+      final alice = Alice(configuration: AliceConfiguration());
 
       await _pumpDialogTrigger(
         tester,
@@ -128,9 +125,7 @@ void main() {
   testWidgets(
     'ExportFormatDialog renders without MaterialLocalizations error in Flutter app',
     (WidgetTester tester) async {
-      final alice = Alice(
-        configuration: AliceConfiguration(showNotification: false),
-      );
+      final alice = Alice(configuration: AliceConfiguration());
 
       await _pumpDialogTrigger(
         tester,
@@ -149,9 +144,7 @@ void main() {
   testWidgets(
     'LoadingDialog renders without MaterialLocalizations error in Flutter app',
     (WidgetTester tester) async {
-      final alice = Alice(
-        configuration: AliceConfiguration(showNotification: false),
-      );
+      final alice = Alice(configuration: AliceConfiguration());
 
       await _pumpDialogTrigger(
         tester,
@@ -172,9 +165,7 @@ void main() {
   testWidgets(
     'SortDialog with showAliceDialog renders without MaterialLocalizations error in Flutter app',
     (WidgetTester tester) async {
-      final alice = Alice(
-        configuration: AliceConfiguration(showNotification: false),
-      );
+      final alice = Alice(configuration: AliceConfiguration());
 
       await _pumpDialogTrigger(
         tester,
