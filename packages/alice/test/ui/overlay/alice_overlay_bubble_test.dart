@@ -142,8 +142,7 @@ void main() {
 
         await tester.pump();
 
-        // Alice brand emblem and title
-        expect(find.text('Alice'), findsOneWidget);
+        // Alice brand emblem (without "Alice" text label)
         expect(find.byIcon(Icons.search), findsOneWidget);
 
         // Total 2, success 1, error 1
@@ -164,6 +163,45 @@ void main() {
           return false;
         });
         expect(emblemFinder, findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'AliceOverlayBubble renders redirect badge when HTTP 3xx occurs',
+      (tester) async {
+        final storage = AliceMemoryStorage(maxCallsCount: 10);
+
+        final redirectCall = AliceHttpCall(1)
+          ..method = 'GET'
+          ..endpoint = '/redirect'
+          ..request = AliceHttpRequest()
+          ..response = (AliceHttpResponse()..status = 302);
+
+        storage.addCall(redirectCall);
+        storage.addResponse(redirectCall.response!, 1);
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Stack(
+                children: [
+                  AliceOverlayBubble(
+                    callsStream: storage.callsStream,
+                    storage: storage,
+                    onTap: () {},
+                    onDismiss: () {},
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+
+        await tester.pump();
+
+        expect(find.byIcon(Icons.search), findsOneWidget);
+        expect(find.byIcon(Icons.alt_route), findsOneWidget);
+        expect(find.text('1'), findsNWidgets(2)); // Total 1, Redirect badge 1
       },
     );
 

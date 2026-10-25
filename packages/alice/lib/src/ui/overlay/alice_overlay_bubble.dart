@@ -38,14 +38,11 @@ class _AliceOverlayBubbleState extends State<AliceOverlayBubble> {
 
     // Constrain position within screen safe area bounds.
     if (!_isInitialized) {
-      _offset = Offset(screenSize.width - 200, padding.top + 60);
+      _offset = Offset(screenSize.width - 150, padding.top + 60);
       _isInitialized = true;
     } else {
       final double minX = padding.left + 8;
-      final double maxX = math.max(
-        minX,
-        screenSize.width - padding.right - 200,
-      );
+      final double maxX = math.max(minX, screenSize.width - padding.right - 90);
       final double minY = padding.top + 8;
       final double maxY = math.max(
         minY,
@@ -78,6 +75,7 @@ class _AliceOverlayBubbleState extends State<AliceOverlayBubble> {
             }
 
             final hasSuccesses = stats.successes > 0;
+            final hasRedirects = stats.redirects > 0;
             final hasErrors = stats.errors > 0;
             final isLoading = stats.loading > 0;
 
@@ -125,21 +123,6 @@ class _AliceOverlayBubbleState extends State<AliceOverlayBubble> {
                           ),
                         ),
                         const SizedBox(width: 6),
-                        const Text(
-                          'Alice',
-                          style: TextStyle(
-                            color: AliceAppTheme.white,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 0.2,
-                          ),
-                        ),
-                        Container(
-                          width: 1,
-                          height: 14,
-                          color: Colors.white24,
-                          margin: const EdgeInsets.symmetric(horizontal: 8),
-                        ),
                         Text(
                           '${stats.total}',
                           style: const TextStyle(
@@ -190,6 +173,28 @@ class _AliceOverlayBubbleState extends State<AliceOverlayBubble> {
                                 '${stats.successes}',
                                 style: const TextStyle(
                                   color: AliceAppTheme.green,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                        if (hasRedirects) ...[
+                          const SizedBox(width: 8),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(
+                                Icons.alt_route,
+                                size: 13,
+                                color: AliceAppTheme.orange,
+                              ),
+                              const SizedBox(width: 2),
+                              Text(
+                                '${stats.redirects}',
+                                style: const TextStyle(
+                                  color: AliceAppTheme.orange,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,
                                 ),
