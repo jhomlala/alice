@@ -1,4 +1,4 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +51,7 @@ class _AliceJsonViewerState extends State<JsonViewer> {
         });
         compute(AliceParser.tryDecodeJson, str)
             .then((value) {
+              if (!mounted) return;
               setState(() {
                 _parsedJson = value;
                 _isParsing = false;
@@ -60,6 +61,7 @@ class _AliceJsonViewerState extends State<JsonViewer> {
               });
             })
             .catchError((e) {
+              if (!mounted) return;
               setState(() {
                 _parseError = e.toString();
                 _isParsing = false;
@@ -224,7 +226,7 @@ class _MapViewer extends StatelessWidget {
 
   void _showContextMenu(BuildContext context, TapDownDetails details) async {
     final overlay =
-        Overlay.of(context).context.findRenderObject() as RenderBox?;
+        Overlay.maybeOf(context)?.context.findRenderObject() as RenderBox?;
     if (overlay == null) return;
 
     final messenger = ScaffoldMessenger.of(context);
@@ -326,7 +328,7 @@ class _ListViewer extends StatelessWidget {
 
   void _showContextMenu(BuildContext context, TapDownDetails details) async {
     final overlay =
-        Overlay.of(context).context.findRenderObject() as RenderBox?;
+        Overlay.maybeOf(context)?.context.findRenderObject() as RenderBox?;
     if (overlay == null) return;
 
     final messenger = ScaffoldMessenger.of(context);
@@ -485,7 +487,7 @@ class _KeyValueViewer extends StatelessWidget {
 
   void _showContextMenu(BuildContext context, TapDownDetails details) async {
     final overlay =
-        Overlay.of(context).context.findRenderObject() as RenderBox?;
+        Overlay.maybeOf(context)?.context.findRenderObject() as RenderBox?;
     if (overlay == null) return;
 
     final messenger = ScaffoldMessenger.of(context);

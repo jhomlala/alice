@@ -42,8 +42,18 @@ void main() {
 
       expect(code, contains('final bool defaultValue;'));
       expect(code, contains('final String classValue;'));
-      expect(code, contains('defaultValue: json[\'default\'] as bool?'));
-      expect(code, contains('classValue: json[\'class\'] as String?'));
+      expect(code, contains('defaultValue: json[\'default\'] as bool'));
+      expect(code, contains('classValue: json[\'class\'] as String'));
+    });
+
+    test('handles nullable fields correctly', () {
+      final json = {'id': 1, 'nickname': null};
+      final code = JsonToDartGenerator.generate(json, rootClassName: 'Profile');
+
+      expect(code, contains('final int id;'));
+      expect(code, contains('final dynamic nickname;'));
+      expect(code, contains('id: json[\'id\'] as int'));
+      expect(code, contains('nickname: json[\'nickname\']'));
     });
   });
 }

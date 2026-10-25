@@ -1,4 +1,4 @@
-﻿/// Generator that converts JSON maps/lists into clean Dart 3 data model classes.
+/// Generator that converts JSON maps/lists into clean Dart 3 data model classes.
 class JsonToDartGenerator {
   static const _reservedKeywords = {
     'abstract',
@@ -195,31 +195,42 @@ class JsonToDartGenerator {
     );
     for (final f in fields) {
       buffer.write('    ${f.fieldName}: ');
+      final opt = f.isNullable ? '?' : '';
       if (f.typeName == 'int') {
-        buffer.writeln('json[\'${f.jsonKey}\'] as int?,');
+        buffer.writeln('json[\'${f.jsonKey}\'] as int$opt,');
       } else if (f.typeName == 'double') {
-        buffer.writeln('(json[\'${f.jsonKey}\'] as num?)?.toDouble(),');
+        buffer.writeln(
+          f.isNullable
+              ? '(json[\'${f.jsonKey}\'] as num?)?.toDouble(),'
+              : '(json[\'${f.jsonKey}\'] as num).toDouble(),',
+        );
       } else if (f.typeName == 'num') {
-        buffer.writeln('json[\'${f.jsonKey}\'] as num?,');
+        buffer.writeln('json[\'${f.jsonKey}\'] as num$opt,');
       } else if (f.typeName == 'String') {
-        buffer.writeln('json[\'${f.jsonKey}\'] as String?,');
+        buffer.writeln('json[\'${f.jsonKey}\'] as String$opt,');
       } else if (f.typeName == 'bool') {
-        buffer.writeln('json[\'${f.jsonKey}\'] as bool?,');
+        buffer.writeln('json[\'${f.jsonKey}\'] as bool$opt,');
       } else if (f.typeName.startsWith('List<') &&
           f.typeName != 'List<dynamic>') {
         final innerType = f.typeName.substring(5, f.typeName.length - 1);
         if (['int', 'double', 'num', 'String', 'bool'].contains(innerType)) {
           buffer.writeln(
-            '(json[\'${f.jsonKey}\'] as List<dynamic>?)?.map((e) => e as $innerType).toList(),',
+            f.isNullable
+                ? '(json[\'${f.jsonKey}\'] as List<dynamic>?)?.map((e) => e as $innerType).toList(),'
+                : '(json[\'${f.jsonKey}\'] as List<dynamic>).map((e) => e as $innerType).toList(),',
           );
         } else {
           buffer.writeln(
-            '(json[\'${f.jsonKey}\'] as List<dynamic>?)?.map((e) => $innerType.fromJson(e as Map<String, dynamic>)).toList(),',
+            f.isNullable
+                ? '(json[\'${f.jsonKey}\'] as List<dynamic>?)?.map((e) => $innerType.fromJson(e as Map<String, dynamic>)).toList(),'
+                : '(json[\'${f.jsonKey}\'] as List<dynamic>).map((e) => $innerType.fromJson(e as Map<String, dynamic>)).toList(),',
           );
         }
       } else if (classes.containsKey(f.typeName)) {
         buffer.writeln(
-          'json[\'${f.jsonKey}\'] != null ? ${f.typeName}.fromJson(json[\'${f.jsonKey}\'] as Map<String, dynamic>) : null,',
+          f.isNullable
+              ? 'json[\'${f.jsonKey}\'] != null ? ${f.typeName}.fromJson(json[\'${f.jsonKey}\'] as Map<String, dynamic>) : null,'
+              : '${f.typeName}.fromJson(json[\'${f.jsonKey}\'] as Map<String, dynamic>),',
         );
       } else {
         buffer.writeln('json[\'${f.jsonKey}\'],');

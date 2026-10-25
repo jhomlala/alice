@@ -7,15 +7,22 @@ class AliceOverlayService {
   OverlayEntry? _overlayEntry;
 
   /// Returns true if the overlay is currently inserted into the tree.
-  bool get isInserted => _overlayEntry != null;
+  bool get isInserted => _overlayEntry != null && _overlayEntry!.mounted;
 
   /// Ensures the overlay entry is inserted into [overlayState].
   void ensureInserted({
     required OverlayState? overlayState,
     required AliceCore core,
   }) {
-    if (_overlayEntry != null || overlayState == null) {
+    if (overlayState == null) {
       return;
+    }
+
+    if (_overlayEntry != null) {
+      if (_overlayEntry!.mounted) {
+        return;
+      }
+      _overlayEntry = null;
     }
 
     _overlayEntry = OverlayEntry(

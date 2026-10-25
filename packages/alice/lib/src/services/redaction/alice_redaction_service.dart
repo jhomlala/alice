@@ -30,6 +30,12 @@ class AliceRedactionService {
     if (!isEnabled) {
       return;
     }
+    if (_bodyKeysLower.isNotEmpty && call.uri.isNotEmpty) {
+      call.uri = _redactUriString(call.uri);
+    }
+    if (_bodyKeysLower.isNotEmpty && call.endpoint.isNotEmpty) {
+      call.endpoint = _redactUriString(call.endpoint);
+    }
     if (call.request != null) {
       redactRequest(call.request!);
     }
@@ -128,6 +134,28 @@ class AliceRedactionService {
     if (_bodyKeysLower.isNotEmpty && response.body != null) {
       response.body = _redactBody(response.body);
     }
+  }
+
+  /// Redacts sensitive query parameters inside a URI string.
+  String _redactUriString(String uriStr) {
+    try {
+      final parsed = Uri.parse(uriStr);
+      if (!parsed.hasQuery) {
+        return uriStr;
+      }
+      final queryParams = Map<String, dynamic>.from(parsed.queryParameters);
+      var wasModified = false;
+      for (final key in queryParams.keys) {
+        if (_bodyKeysLower.contains(key.toLowerCase())) {
+          queryParams[key] = _replacement;
+          wasModified = true;
+        }
+      }
+      if (wasModified) {
+        return parsed.replace(queryParameters: queryParams).toString();
+      }
+    } catch (_) {}
+    return uriStr;
   }
 
   /// Recursively walks and redacts maps/lists/json strings or urlencoded query strings.

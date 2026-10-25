@@ -1,4 +1,4 @@
-﻿name: alice_notification
+name: alice_notification
 description: "Local OS notification adapter for Alice HTTP Inspector."
 version: 1.0.0
 homepage: https://github.com/jhomlala/alice

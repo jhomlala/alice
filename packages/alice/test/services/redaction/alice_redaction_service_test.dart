@@ -79,6 +79,21 @@ void main() {
       expect(call.request?.cookies[1].value, '[REDACTED]');
     });
 
+    test('redacts sensitive query parameters in uri and endpoint', () {
+      final config = AliceConfiguration(redactedBodyKeys: {'token', 'key'});
+      final call = AliceHttpCall(1)
+        ..uri = 'https://example.com/api?token=secret123&user=john'
+        ..endpoint = '/api?key=my_key&page=1';
+
+      final service = AliceRedactionService(configuration: config);
+      service.redactCall(call);
+
+      expect(call.uri, contains('token=%5BREDACTED%5D'));
+      expect(call.uri, contains('user=john'));
+      expect(call.endpoint, contains('key=%5BREDACTED%5D'));
+      expect(call.endpoint, contains('page=1'));
+    });
+
     test('redacts JSON string and Map bodies recursively', () {
       final config = AliceConfiguration(
         redactedBodyKeys: {'password', 'credit_card', 'secret'},

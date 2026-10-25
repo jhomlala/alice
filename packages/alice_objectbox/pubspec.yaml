@@ -1,4 +1,4 @@
-﻿name: alice_objectbox
+name: alice_objectbox
 description: "ObjectBox persistent storage plugin for Alice. Store HTTP requests and responses in a local NoSQL database for offline inspection and debugging."
 documentation: https://jhomlala.github.io/alice/
 version: 1.3.4

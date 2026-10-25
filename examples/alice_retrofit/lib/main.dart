@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:alice/alice.dart';
 import 'package:alice_dio/alice_dio_adapter.dart';
 import 'package:dio/dio.dart';
@@ -17,10 +17,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late final AliceDioAdapter _aliceDioAdapter = AliceDioAdapter();
 
-  final configuration = AliceConfiguration(
-    showShareButton: true,
-    
-  );
+  final configuration = AliceConfiguration(showShareButton: true);
   late final Alice _alice = Alice(configuration: configuration)
     ..addAdapter(_aliceDioAdapter);
 

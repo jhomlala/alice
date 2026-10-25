@@ -1,4 +1,4 @@
-﻿name: alice_http
+name: alice_http
 description: "HTTP interceptor and network logger for Alice. Inspect, log, and debug http package requests and responses in a native Flutter UI."
 documentation: https://jhomlala.github.io/alice/
 version: 1.4.4

@@ -81,7 +81,7 @@ class AliceVmService {
           .toList();
 
       return developer.ServiceExtensionResponse.result(
-        jsonEncode({'result': result}),
+        jsonEncode({'result': result}, toEncodable: (o) => o.toString()),
       );
     });
 
@@ -105,10 +105,7 @@ class AliceVmService {
         );
       }
 
-      final call = targetCore.getCalls().cast().firstWhere(
-        (c) => c.id == id,
-        orElse: () => null,
-      );
+      final call = targetCore.getCalls().where((c) => c.id == id).firstOrNull;
 
       if (call == null) {
         return developer.ServiceExtensionResponse.error(
@@ -159,7 +156,7 @@ class AliceVmService {
       };
 
       return developer.ServiceExtensionResponse.result(
-        jsonEncode({'result': result}),
+        jsonEncode({'result': result}, toEncodable: (o) => o.toString()),
       );
     });
 
